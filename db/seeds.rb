@@ -62,3 +62,37 @@ Option.create(product: store_monobloc, content: "Lambrequin droit ou à vagues")
 Option.create(product: store_monobloc, content: "Jusqu'a 4m d'avancée")
 Option.create(product: store_monobloc, content: "Largeur : jusqu'à 17,72m")
 Option.create(product: store_monobloc, content: "Auvent de protection")
+
+
+
+store_loggia = Product.create(category: store_exterieur,
+                              name: 'Stores Loggia',
+                              description: 'Pour une occultation presque totale de vos fenêtres',
+                              infos: "Le store Loggia est le plus petit de tous nos stores extérieurs , en plus de pouvoir être fixé de face ou de plafond , c'est le seul modèle qui peut aussi être fixé latéralement , entre deux murs.",
+                              warranty: '7'
+                              )
+
+Option.create(product: store_loggia, content: "Armature : 84 couleurs standards")
+Option.create(product: store_loggia, content: "inclinaison jusqu'a 85°")
+Option.create(product: store_loggia, content: "Manoeuvres : manuelle ou électrique")
+Option.create(product: store_loggia, content: "Toile : Acrylique teinté masse 270 couleurs (unis ou à rayures)")
+Option.create(product: store_loggia, content: "Lambrequin droit ou à vagues")
+Option.create(product: store_loggia, content: "Fixation face ou plafond")
+Option.create(product: store_loggia, content: "Avancée : de 1500 à 2500 mm")
+Option.create(product: store_loggia, content: "Largeur : de 1750 à 5550 mm")
+
+
+store_bannette = Product.create(category: store_exterieur,
+                              name: 'Stores Bannette / Stores Toile ou conducteur',
+                              description: 'Adaptés aux grandes surfaces vitrées',
+                              infos: "A projection ou verticale , le store bannette est spécialement adapté à la protection des baies de très grandes dimensions . Selon la toile que vous choisirez , vous maîtriserez en douceur la lumière pour un meilleur confort thermique et visuel .",
+                              warranty: '7'
+                              )
+
+Option.create(product: store_bannette, content: "Types: Projection ou conducteur vertical")
+Option.create(product: store_bannette, content: "Manoeuvres : manuelle ou électrique")
+Option.create(product: store_bannette, content: "Armature: + de 180 coloris ")
+Option.create(product: store_bannette, content: "Toile : Acrylique teinté masse 270 couleurs (unis ou à rayures)")
+Option.create(product: store_bannette, content: "Lambrequin droit ou à vagues")
+Option.create(product: store_bannette, content: "Largeur maxi: 5.85m")
+Option.create(product: store_bannette, content: "Auvent de protection")

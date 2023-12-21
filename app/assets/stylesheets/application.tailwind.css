@@ -35,5 +35,5 @@
  }
 
  .card {
-  @apply rounded bg-white;
+  @apply rounded-lg bg-white;
  }
