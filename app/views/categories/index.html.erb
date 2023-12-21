@@ -1,0 +1,88 @@
+<div class="bg-white">
+  <div class="py-10 sm:py-10 lg:mx-auto lg:max-w-7xl lg:px-10">
+    <div class="flex items-center justify-between px-4 sm:px-6 lg:px-0">
+      <h2 class="text-2xl font-bold tracking-tight text-gray-900">Catégories</h2>
+      <a href="#" class="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
+        See everything
+        <span aria-hidden="true"> &rarr;</span>
+      </a>
+    </div>
+
+    <section aria-labelledby="featured-heading" class="relative mt-10 overflow-hidden rounded-lg lg:h-96">
+      <div class="absolute inset-0">
+        <img src="https://tailwindui.com/img/ecommerce-images/category-page-01-featured-collection.jpg" alt="" class="h-full w-full object-cover object-center">
+      </div>
+      <div aria-hidden="true" class="relative h-96 w-full lg:hidden"></div>
+      <div aria-hidden="true" class="relative h-32 w-full lg:hidden"></div>
+      <div class="absolute inset-x-0 bottom-0 rounded-bl-lg rounded-br-lg bg-black bg-opacity-75 p-6 backdrop-blur backdrop-filter sm:flex sm:items-center sm:justify-between lg:inset-x-auto lg:inset-y-0 lg:w-96 lg:flex-col lg:items-start lg:rounded-br-none lg:rounded-tl-lg">
+        <div>
+          <h2 id="featured-heading" class="text-xl font-bold text-white"><%= @categories.first.name.capitalize %></h2>
+          <p class="mt-1 text-sm text-gray-300">Upgrade your desk with objects that keep you organized and clear-minded.</p>
+        </div>
+        <a href="/categories/1" class="mt-6 flex flex-shrink-0 items-center justify-center rounded-md border border-white border-opacity-25 bg-white bg-opacity-0 px-4 py-3 text-base font-medium text-white hover:bg-opacity-10 sm:ml-8 sm:mt-0 lg:ml-0 lg:w-full">View the collection</a>
+      </div>
+    </section>
+
+    <div class="relative mt-8">
+      <div class="relative -mb-6 w-full overflow-x-auto pb-6">
+        <ul role="list" class="mx-4 inline-flex space-x-8 sm:mx-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0">
+
+          <% @categories.each do |category| %>
+            <li class="inline-flex w-64 flex-col text-center lg:w-auto">
+              <div class="group relative">
+                <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200">
+                  <img src="https://tailwindui.com/img/ecommerce-images/home-page-02-product-01.jpg" alt="Black machined steel pen with hexagonal grip and small white logo at top." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                </div>
+                <div class="mt-6">
+                  <p class="text-sm text-gray-500">Black</p>
+                  <h3 class="mt-1 font-semibold text-gray-900">
+                    <a href="#">
+                      <span class="absolute inset-0"></span>
+                      <%= category.name %>
+                    </a>
+                  </h3>
+                  <p class="mt-1 text-gray-900">$35</p>
+                </div>
+              </div>
+            </li>
+          <% end %>
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 flex px-4 sm:hidden">
+      <a href="#" class="text-sm font-semibold text-indigo-600 hover:text-indigo-500">
+        See everything
+        <span aria-hidden="true"> &rarr;</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+ <section aria-labelledby="collections-heading" class="bg-gray-100">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
+      <h2 id="collections-heading" class="text-2xl font-bold text-gray-900">Collections</h2>
+
+      <div class="mt-6 space-y-10 gap-y-10 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
+
+        <% @categories.each do |category| %>
+          <div class="group relative">
+            <div class="relative h-40 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-40">
+              <img src="https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg" alt="Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug." class="h-full w-full object-cover object-center">
+            </div>
+            <h3 class="mt-3 text-sm text-gray-500">
+              <%= link_to category_path(category) do %>
+                <span class="absolute inset-0"></span>
+                <%= category.description %>
+              <% end %>
+            </h3>
+            <p class="text-base font-semibold text-gray-900"><%= category.name %></p>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</section>
