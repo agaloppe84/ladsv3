@@ -33,3 +33,7 @@
  nav.sidenav a.active span {
   @apply text-orange-500 border-orange-400;
  }
+
+ .card {
+  @apply rounded bg-white;
+ }
