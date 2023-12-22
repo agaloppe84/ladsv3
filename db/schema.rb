@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_21_200944) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_22_080410) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -34,6 +34,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_21_200944) do
     t.datetime "updated_at", null: false
     t.string "infos"
     t.string "warranty"
+    t.string "brand"
+    t.string "motorist"
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 

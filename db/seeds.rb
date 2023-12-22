@@ -35,7 +35,9 @@ store_coffre = Product.create(category: store_exterieur,
                               name: 'Stores Coffres',
                               description: 'Design , robuste , le store coffre peut couvrir une largeur de près de 12m',
                               infos: "Fiez-vous aux apparences ! Le store coffre est un store robuste fait pour durer. Il peut couvrir une surface de près de 50m2. Ses 3 types de pose possibles , les nombreux coloris d'armature et de toile disponibles signent son adaptabilité.",
-                              warranty: '7'
+                              warranty: '7',
+                              brand: 'coublanc',
+                              motorist: 'somfy'
                               )
 
 Option.create(product: store_coffre, content: "Profils en Aluminium extrudé blanc, ivoire et anthracite")
@@ -52,7 +54,9 @@ store_monobloc = Product.create(category: store_exterieur,
                               name: 'Stores Monoblocs',
                               description: 'Armature thermolaquée assurant à la fois résistance et discrétion',
                               infos: "Avec une avancée qui peut atteindre 4m , le store monobloc est idéal pour protéger tout types de terrasses , jusqu'a 17,72 m de largeur.",
-                              warranty: '7'
+                              warranty: '7',
+                              brand: 'matest',
+                              motorist: 'somfy'
                               )
 
 Option.create(product: store_monobloc, content: "Armature : 250 coloris")
@@ -69,7 +73,9 @@ store_loggia = Product.create(category: store_exterieur,
                               name: 'Stores Loggia',
                               description: 'Pour une occultation presque totale de vos fenêtres',
                               infos: "Le store Loggia est le plus petit de tous nos stores extérieurs , en plus de pouvoir être fixé de face ou de plafond , c'est le seul modèle qui peut aussi être fixé latéralement , entre deux murs.",
-                              warranty: '7'
+                              warranty: '7',
+                              brand: 'matest',
+                              motorist: 'somfy'
                               )
 
 Option.create(product: store_loggia, content: "Armature : 84 couleurs standards")
@@ -86,7 +92,9 @@ store_bannette = Product.create(category: store_exterieur,
                               name: 'Stores Bannette / Stores Toile ou conducteur',
                               description: 'Adaptés aux grandes surfaces vitrées',
                               infos: "A projection ou verticale , le store bannette est spécialement adapté à la protection des baies de très grandes dimensions . Selon la toile que vous choisirez , vous maîtriserez en douceur la lumière pour un meilleur confort thermique et visuel .",
-                              warranty: '7'
+                              warranty: '7',
+                              brand: 'matest',
+                              motorist: 'somfy'
                               )
 
 Option.create(product: store_bannette, content: "Types: Projection ou conducteur vertical")
@@ -96,3 +104,53 @@ Option.create(product: store_bannette, content: "Toile : Acrylique teinté masse
 Option.create(product: store_bannette, content: "Lambrequin droit ou à vagues")
 Option.create(product: store_bannette, content: "Largeur maxi: 5.85m")
 Option.create(product: store_bannette, content: "Auvent de protection")
+
+
+
+abris_pentes = Product.create(category: store_exterieur,
+                              name: 'Abris 2 pentes',
+                              description: "Profitez de votre jardin en été sans avoir à souffrir du soleil",
+                              infos: "L'abri 2 pentes est très apprécié pour sa simplicité d'utilisation et son confort déjà reconnu sur les terrasses des restaurants et bars . Il peut couvrir une grande surface et peut être fixé au sol grâce à ses platines de fixation.",
+                              warranty: '7',
+                              brand: 'matest',
+                              motorist: 'somfy'
+                              )
+
+
+Option.create(product: abris_pentes, content: "Manoeuvres : manuelle ou électrique")
+Option.create(product: abris_pentes, content: "Lambrequin pare-soleil")
+Option.create(product: abris_pentes, content: "Lambrequin droit ou à vagues")
+Option.create(product: abris_pentes, content: "Toile : Acrylique teinté masse 270 couleurs (unis ou à rayures)")
+Option.create(product: abris_pentes, content: "Largeur: 2840 à 12 000 mm")
+Option.create(product: abris_pentes, content: "Avancée: de 2m à 4m par côté")
+Option.create(product: abris_pentes, content: "Hauteur: 3m maximum")
+
+
+# Pergostores
+lacharme = Product.create(category: pergostore,
+                              name: 'PergoStore toiles Lacharme',
+                              description: "Profitez en tout quiétude de votre extérieur",
+                              infos: "Cette pergola vous protègera du soleil et de la pluie avec une toile Infinity Dickson enroulable zippée dans les rails de guidage. La technologie développée par Coublanc garantie un guidage de la barre de charge ainsi qu'une tension optimisée de la toile.",
+                              warranty: '5',
+                              brand: 'coublanc',
+                              motorist: 'somfy'
+                              )
+
+
+Option.create(product: lacharme, content: "Profils en Aluminium à haute résistance")
+Option.create(product: lacharme, content: "Armature: coloris Gris Anthracite RAL 7016 ou Blanc RAL 9016 texturé")
+Option.create(product: lacharme, content: "Fixation: Murale et 2 pieds à l'avant")
+Option.create(product: lacharme, content: "Fermeture: Repli contre la façade")
+Option.create(product: lacharme, content: "Largeur: jusqu'à 6m")
+Option.create(product: lacharme, content: "Avancée: jusqu'à 5m")
+Option.create(product: lacharme, content: "Option: Zip vertical et LED sur poteaux, rails et traverse")
+
+
+puts "----------------------------------------------------"
+puts "PRODUITS"
+puts "----------------------------------------------------"
+
+Product.all.each_with_index do |prod, index|
+  puts "** #{index + 1} ** - #{prod.name} -- ID: #{prod.id} -- Brand: #{prod.brand} -- Motorist: #{prod.motorist}"
+end
+puts "----------------------------------------------------"
