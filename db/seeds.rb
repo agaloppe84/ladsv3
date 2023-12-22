@@ -146,6 +146,24 @@ Option.create(product: lacharme, content: "Avancée: jusqu'à 5m")
 Option.create(product: lacharme, content: "Option: Zip vertical et LED sur poteaux, rails et traverse")
 
 
+
+espalis = Product.create(category: pergostore,
+                              name: 'Espalis - Zip',
+                              description: "Profitez en tout quiétude de votre extérieur. Le store coffre vertical zippé motorisé s'adapte sur nos pergolas,...",
+                              infos: "Choisissez une toile PVC micro-perforée pour vous protéger du soleil tout en favorisant la circulation de l'air. Le store coffre vertical Espalis vous préserve du soleil, du vent et du vis à vis.",
+                              warranty: '5',
+                              brand: 'coublanc',
+                              motorist: 'somfy'
+                              )
+
+
+Option.create(product: espalis, content: "Profils en Aluminium extrudé")
+Option.create(product: espalis, content: "Toile microperforée Soltis 88 ou Mermet 5500")
+Option.create(product: espalis, content: "Fixation: Murale ou Autoportante")
+Option.create(product: espalis, content: "Système à coulisses zippées")
+Option.create(product: espalis, content: "Largeur: jusqu'à 5.75m")
+
+
 puts "----------------------------------------------------"
 puts "PRODUITS"
 puts "----------------------------------------------------"
