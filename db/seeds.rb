@@ -8,14 +8,14 @@ puts "Création des catégories - START"
 
 # ------------------------- Création des types de stores ------------------------- #
 
-store_exterieur =   Category.create!(name: 'Stores extérieurs', description: 'Adoptez la détente en extérieur')
-pergostore =        Category.create!(name: 'Pergostores', description: 'Donnez vie à votre terrasse')
-pergola =           Category.create!(name: 'Pergolas', description: 'Donnez vie à votre terrasse')
-store_interieur =   Category.create!(name: 'Stores intérieurs', description: 'Jouez avec les couleurs et la lumière')
-volet_roulant =     Category.create!(name: 'Volets roulants', description: 'Confort thermique et sécurité')
-volet_battant =     Category.create!(name: 'Volets battants', description: 'Confort thermique et sécurité')
-moustiquaire =      Category.create!(name: 'Moustiquaires', description: 'Protégez vous des insectes')
-porte_de_garage =   Category.create!(name: 'Portes de garage', description: 'Les fermetures sur mesure')
+store_exterieur =   Category.create!(name: 'Stores extérieurs', description: 'Adoptez la détente en extérieur', color: 'green')
+pergostore =        Category.create!(name: 'Pergostores', description: 'Donnez vie à votre terrasse', color: 'green-blue')
+pergola =           Category.create!(name: 'Pergolas', description: 'Donnez vie à votre terrasse', color: 'blue')
+store_interieur =   Category.create!(name: 'Stores intérieurs', description: 'Jouez avec les couleurs et la lumière', color: 'pink')
+volet_roulant =     Category.create!(name: 'Volets roulants', description: 'Confort thermique et sécurité', color: 'red')
+volet_battant =     Category.create!(name: 'Volets battants', description: 'Confort thermique et sécurité', color: 'purple')
+moustiquaire =      Category.create!(name: 'Moustiquaires', description: 'Protégez vous des insectes', color: 'yellow')
+porte_de_garage =   Category.create!(name: 'Portes de garage', description: 'Les fermetures sur mesure', color: 'brown')
 
 # ------------------------- Création des types de stores ------------------------- #
 
@@ -162,6 +162,26 @@ Option.create(product: espalis, content: "Toile microperforée Soltis 88 ou Merm
 Option.create(product: espalis, content: "Fixation: Murale ou Autoportante")
 Option.create(product: espalis, content: "Système à coulisses zippées")
 Option.create(product: espalis, content: "Largeur: jusqu'à 5.75m")
+
+
+
+# Pergolas
+bioclim = Product.create(category: pergola,
+                              name: 'Pergolas Bioclimatiques',
+                              description: "Profitez d'un espace extérieur protégé",
+                              infos: "Investir dans une pergola bioclimatique , c'est profiter d'un espace extérieur protégé , où rayons du soleil et pluie battante n'auront aucune incidence sur vos réceptions.",
+                              warranty: '5',
+                              brand: 'coublanc',
+                              motorist: 'somfy'
+                              )
+
+
+Option.create(product: bioclim, content: "Profils en Aluminium à haute résistance")
+Option.create(product: bioclim, content: "Armature: Coloris gris Anthracite RAL 7016 ou Blanc RAL 9016 texturé")
+Option.create(product: bioclim, content: "Fixation: Murale ou Autoportante")
+Option.create(product: bioclim, content: "Fermetures: Latérales et frontales")
+Option.create(product: bioclim, content: "Protection Soleil/Pluie/Vent")
+
 
 
 puts "----------------------------------------------------"
