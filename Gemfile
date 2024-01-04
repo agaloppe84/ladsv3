@@ -46,6 +46,8 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 gem 'active_link_to'
 gem 'inline_svg'
+gem "view_component"
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
