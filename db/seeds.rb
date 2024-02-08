@@ -40,6 +40,9 @@ store_coffre = Product.create(category: store_exterieur,
                               motorist: 'somfy'
                               )
 
+store_coffre.images.attach(io: URI.open('https://res.cloudinary.com/dytbi4y5w/image/upload/v1704213937/LR_RS_0726_CUR_0089_rideau_1_b0enjq.jpg'), filename: "store_coffre")
+store_coffre.save
+
 Option.create(product: store_coffre, content: "Profils en Aluminium extrudé blanc, ivoire et anthracite")
 Option.create(product: store_coffre, content: "Manoeuvre electrique")
 Option.create(product: store_coffre, content: "Toile : Acrylique teinté masse 270 couleurs (unis ou à rayures)")

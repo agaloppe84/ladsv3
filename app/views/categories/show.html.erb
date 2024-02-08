@@ -60,6 +60,13 @@
 
     <div class="p-20">
     <% @category.products.each do |product| %>
+
+      <% if product.images.attached? %>
+        <% product.images.each do |image| %>
+          <%= cl_image_tag(image.key, width: 300, height: 200, crop: :scale) %>
+        <% end %>
+      <% end %>
+
       <div class="card w-full mb-8 border border-gray-100">
         <div class="flex items-stretch">
           <div class="w-2/3 p-8">
