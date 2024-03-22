@@ -1,0 +1,29 @@
+<div class="bg-white">
+  <div class="mx-auto max-w-7xl overflow-hidden px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8">
+
+      <% @products.each do |prod| %>
+        <%= link_to prod, class: "group text-sm" do %>
+          <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
+
+            <% if prod.images.attached? %>
+              <%= cl_image_tag(prod.images.first.key, crop: :scale, class: "h-full w-full object-cover object-center") %>
+            <% else %>
+              <img src="https://tailwindui.com/img/ecommerce-images/category-page-07-product-01.jpg" alt="White fabric pouch with white zipper, black zipper pull, and black elastic loop." class="h-full w-full object-cover object-center">
+            <% end %>
+
+          </div>
+          <h3 class="mt-4 font-semibold text-base text-gray-900"><%= prod.name %></h3>
+          <p class=" text-gray-500 mb-4 font-medium text-xs"><%= prod.description %></p>
+
+
+          <div class="flex space-x-2 items-center">
+            <%= inline_svg_tag('icons/shield-check.svg', class: 'text-gray-600') %>
+            <p class="font-medium text-gray-600 text-xs"><%= "Garantie #{prod.warranty} ans" %></p>
+          </div>
+        <% end %>
+      <% end %>
+
+    </div>
+  </div>
+</div>

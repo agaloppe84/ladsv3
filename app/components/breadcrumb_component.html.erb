@@ -1,0 +1,30 @@
+<nav class="flex p-4 bg-white border-b border-gray-100 pl-10" aria-label="Breadcrumb">
+  <ol role="list" class="flex items-center">
+
+    <% @breadcrumbs.each do |crumb| %>
+      <li class="flex items-center">
+        <% if crumb.link? %>
+          <%= link_to crumb.name, crumb.path, class: "font-medium text-slate-400 hover:text-gray-600 text-xs" %>
+        <% else %>
+          <div class="flex items-center">
+            <div class="text-xs font-medium text-slate-300 hover:text-slate-500 truncate text-ellipsis"><%= crumb.name %></div>
+          </div>
+        <% end %>
+
+        <% unless crumb == @breadcrumbs.last %>
+          <div class="flex items-center mx-2">
+            <svg class="h-5 w-5 flex-shrink-0 text-gray-300" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+            </svg>
+          </div>
+        <% end %>
+
+        <% if crumb.count? %>
+          <span class="inline-flex items-center rounded-full bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10 ml-4"><%= "#{crumb.count} produits" %></span>
+        <% end %>
+
+      </li>
+    <% end %>
+
+  </ol>
+</nav>
