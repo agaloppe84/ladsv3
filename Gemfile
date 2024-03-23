@@ -45,6 +45,7 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 # Reduces boot times through caching; required in config/boot.rb
 gem "administrate"
 gem "administrate-field-active_storage"
+gem "administrate-field-nested_has_many"
 gem "image_processing"
 gem "bootsnap", require: false
 gem 'active_link_to'

@@ -16,7 +16,7 @@ class ProductDashboard < Administrate::BaseDashboard
     infos: Field::String,
     motorist: Field::BelongsTo,
     name: Field::String,
-    options: Field::HasMany,
+    options: Field::NestedHasMany.with_options(skip: :product),
     warranty: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
