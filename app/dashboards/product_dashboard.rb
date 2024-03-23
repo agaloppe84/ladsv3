@@ -84,4 +84,8 @@ class ProductDashboard < Administrate::BaseDashboard
   def display_resource(product)
     product.name
   end
+
+  def permitted_attributes(params)
+    super + [images: []]
+  end
 end
