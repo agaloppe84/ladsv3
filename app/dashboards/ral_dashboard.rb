@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class ProductDashboard < Administrate::BaseDashboard
+class RalDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -9,16 +9,9 @@ class ProductDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
-    brand: Field::BelongsTo,
-    category: Field::BelongsTo,
-    description: Field::String,
-    images: Field::ActiveStorage,
-    infos: Field::String,
-    motorist: Field::BelongsTo,
+    ref: Field::String,
+    rgb: Field::String,
     name: Field::String,
-    options: Field::NestedHasMany.with_options(skip: :product),
-    rals: Field::HasMany,
-    warranty: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -30,25 +23,17 @@ class ProductDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
     id
-    brand
-    category
-    description
+    ref
+    rgb
+    created_at
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
     id
-    brand
-    category
-    description
-    images
-    infos
-    motorist
-    name
-    options
-    rals
-    warranty
+    ref
+    rgb
     created_at
     updated_at
   ].freeze
@@ -57,16 +42,9 @@ class ProductDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-    brand
-    category
-    description
-    images
-    infos
-    motorist
+    ref
+    rgb
     name
-    options
-    rals
-    warranty
   ].freeze
 
   # COLLECTION_FILTERS
@@ -81,14 +59,13 @@ class ProductDashboard < Administrate::BaseDashboard
   #   }.freeze
   COLLECTION_FILTERS = {}.freeze
 
-  # Overwrite this method to customize how products are displayed
+  # Overwrite this method to customize how options are displayed
   # across all pages of the admin dashboard.
   #
-  def display_resource(product)
-    product.name
-  end
-
-  def permitted_attributes(params)
-    super + [images: []]
+  # def display_resource(option)
+  #   "Option ##{option.id}"
+  # end
+  def display_resource(ral)
+    ral.ref
   end
 end

@@ -6,6 +6,7 @@ Product.destroy_all
 Option.destroy_all
 Brand.destroy_all
 Motorist.destroy_all
+Ral.destroy_all
 
 
 
@@ -16,6 +17,9 @@ matest_brand = Brand.create!(name: 'Matest', logo: 'matest')
 
 somfy_motorist = Motorist.create!(name: 'Somfy', logo: 'somfy')
 
+# ------ Create Rals -------
+rals = RalCsvParser.new("ral_refs")
+rals.process_file
 
 puts "Création des catégories - START"
 
@@ -63,6 +67,10 @@ Option.create(product: store_coffre, content: "Jusqu'a 4m d'avancée")
 Option.create(product: store_coffre, content: "Largeur : de 1760 à 11880 mm")
 Option.create(product: store_coffre, content: "Résistance au vent : selon dimension")
 Option.create(product: store_coffre, content: "Option : Led sur bras, paresoleil, coloris")
+# Add rals colors
+store_coffre.rals << Ral.all.first
+store_coffre.rals << Ral.all.last
+store_coffre.rals << Ral.find(5)
 
 
 store_monobloc = Product.create(category: store_exterieur,

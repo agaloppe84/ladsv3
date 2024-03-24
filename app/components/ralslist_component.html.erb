@@ -1,0 +1,10 @@
+<ul role="list" class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-3 xl:gap-x-8 mt-5">
+  <% @rals.each do |ral| %>
+    <li class="relative flex flex-col items-center">
+      <div class="w-8 h-8 rounded-full border" style="background-color: <%= ral.hex %>;">
+      </div>
+      <p class="pointer-events-none mt-2 block truncate text-xs font-semibold text-gray-900"><%= ral.ref %></p>
+      <p class="pointer-events-none block text-xs font-medium text-gray-400 truncate"><%= ral.name %></p>
+    </li>
+  <% end %>
+</ul>
