@@ -71,6 +71,8 @@ Option.create(product: store_coffre, content: "Option : Led sur bras, paresoleil
 store_coffre.rals << Ral.all.first
 store_coffre.rals << Ral.all.last
 store_coffre.rals << Ral.find(5)
+# Add service
+Service.create(product: store_coffre, warranty: store_coffre.warranty, free_quote: true, custom_dimensions: true, wind_resistance: true, anti_fire: true, anti_uv: true, rge: true, made_in_france: true)
 
 
 store_monobloc = Product.create(category: store_exterieur,

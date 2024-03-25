@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  product: one
+  custom_dimensions: false
+  warranty: MyString
+  free_quote: false
+  anti_fire: false
+  made_in_france: false
+  anti_uv: false
+  rge: false
+  wind_resistance: false
+
+two:
+  product: two
+  custom_dimensions: false
+  warranty: MyString
+  free_quote: false
+  anti_fire: false
+  made_in_france: false
+  anti_uv: false
+  rge: false
+  wind_resistance: false

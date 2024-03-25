@@ -1,0 +1,53 @@
+<div class="p-10 border-b border-gray-100">
+  <div class="flex space-x-3 items-center justify-start flex-wrap">
+    <% if @service.free_quote %>
+      <div class="flex flex-col space-y-2 items-center p-4 bg-lime-50 rounded-lg w-32 border border-lime-200">
+        <%= inline_svg_tag("icons/quote.svg", class: "w-6 h-6 stroke-lime-500") %>
+        <div class="text-xs font-bold text-lime-600">Devis gratuit</div>
+      </div>
+    <% end %>
+
+    <% if @service.warranty %>
+      <div class="flex flex-col space-y-2 items-center p-4 bg-yellow-50 rounded-lg w-32 border border-yellow-200">
+        <%= inline_svg_tag("icons/warranty.svg", class: "w-6 h-6 stroke-yellow-500") %>
+        <div class="text-xs font-bold text-yellow-600"><%= "Garantie #{@service.warranty} ans" %></div>
+      </div>
+    <% end %>
+
+    <% if @service.custom_dimensions %>
+      <div class="flex flex-col space-y-2 items-center p-4 bg-slate-50 rounded-lg w-32 border border-slate-200">
+        <%= inline_svg_tag("icons/ruler.svg", class: "w-6 h-6 stroke-slate-500") %>
+        <div class="text-xs font-bold text-slate-600">Sur mesure</div>
+      </div>
+    <% end %>
+
+    <% if @service.anti_fire %>
+      <div class="flex flex-col space-y-2 items-center p-4 bg-orange-50 rounded-lg w-32 border border-orange-200">
+        <%= inline_svg_tag("icons/fire.svg", class: "w-6 h-6 stroke-orange-500") %>
+        <div class="text-xs font-bold text-orange-600">Anti feu</div>
+      </div>
+    <% end %>
+
+    <% if @service.wind_resistance %>
+      <div class="flex flex-col space-y-2 items-center p-4 bg-cyan-50 rounded-lg w-32 border border-cyan-200">
+        <%= inline_svg_tag("icons/wind.svg", class: "w-6 h-6 stroke-cyan-500") %>
+        <div class="text-xs font-bold text-cyan-600">Résistance vent</div>
+      </div>
+    <% end %>
+
+    <% if @service.anti_uv %>
+      <div class="flex flex-col space-y-2 items-center p-4 bg-purple-50 rounded-lg w-32 border border-purple-200">
+        <%= inline_svg_tag("icons/anti-uv.svg", class: "w-6 h-6 stroke-cyan-500 fill-purple-500") %>
+        <div class="text-xs font-bold text-purple-600">Anti UV</div>
+      </div>
+    <% end %>
+
+    <% if @service.made_in_france %>
+      <div class="flex flex-col space-y-2 items-center p-4 rounded-lg w-32 border border-gray-200">
+        <%= inline_svg_tag("icons/french-flag.svg", class: "w-6 h-6") %>
+        <div class="text-xs font-bold text-gray-700">Made in France</div>
+      </div>
+    <% end %>
+
+  </div>
+</div>
