@@ -1,3 +1,5 @@
+<%= render EventFlashComponent.new(@event) %>
+
 <div class="bg-white">
   <main>
     <!-- Hero -->
@@ -19,7 +21,7 @@ Les artisans du store dans le Rhône, c'est plus de 35 ans d'expérience à votr
           </div>
         </div>
         <div class="h-48 w-full sm:h-64 lg:absolute lg:right-0 lg:top-0 lg:h-full lg:w-1/2">
-          <img src="https://tailwindui.com/img/ecommerce-images/home-page-02-hero-half-width.jpg" alt="" class="h-full w-full object-cover object-center">
+          <%= cl_image_tag(@photo.key, crop: :scale, class: "h-full w-full object-cover object-center") %>
         </div>
       </div>
     </div>

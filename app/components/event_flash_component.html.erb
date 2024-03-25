@@ -1,0 +1,12 @@
+<div class="w-full p-10 flex flex-col items-center justify-start px-10 bg-gray-900 relative">
+
+  <div class="flex items-center space-x-4">
+    <div>
+      <%= inline_svg_tag("icons/news.svg", class: "w-10 h-10 fill-orange-400") %>
+    </div>
+    <div>
+      <div class="text-xl font-bold text-orange-300"><%= @event.title %></div>
+      <div class="text-sm font-semibold text-gray-300"><%= @event.content %></div>
+    </div>
+  </div>
+</div>

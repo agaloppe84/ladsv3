@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_25_085808) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_25_133557) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -57,11 +57,27 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_25_085808) do
     t.string "color"
   end
 
+  create_table "events", force: :cascade do |t|
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string "title"
+    t.string "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "motorists", force: :cascade do |t|
     t.string "name"
     t.string "logo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "motorists_products", id: false, force: :cascade do |t|
+    t.bigint "motorist_id", null: false
+    t.bigint "product_id", null: false
+    t.index ["motorist_id"], name: "index_motorists_products_on_motorist_id"
+    t.index ["product_id"], name: "index_motorists_products_on_product_id"
   end
 
   create_table "options", force: :cascade do |t|
@@ -81,10 +97,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_25_085808) do
     t.string "infos"
     t.string "warranty"
     t.bigint "brand_id", null: false
-    t.bigint "motorist_id", null: false
     t.index ["brand_id"], name: "index_products_on_brand_id"
     t.index ["category_id"], name: "index_products_on_category_id"
-    t.index ["motorist_id"], name: "index_products_on_motorist_id"
   end
 
   create_table "products_rals", id: false, force: :cascade do |t|
@@ -136,6 +150,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_25_085808) do
   add_foreign_key "options", "products"
   add_foreign_key "products", "brands"
   add_foreign_key "products", "categories"
-  add_foreign_key "products", "motorists"
   add_foreign_key "services", "products"
 end

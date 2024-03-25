@@ -16,10 +16,15 @@ coublanc_brand = Brand.create!(name: 'Coublanc', logo: 'coublanc')
 matest_brand = Brand.create!(name: 'Matest', logo: 'matest')
 
 somfy_motorist = Motorist.create!(name: 'Somfy', logo: 'somfy')
+wellcom_motorist = Motorist.create!(name: "Well'Com", logo: 'wellcom')
 
 # ------ Create Rals -------
 rals = RalCsvParser.new("ral_refs")
 rals.process_file
+
+# ------------ Create Event -------------
+event = Event.create(title: "PORTES OUVERTES", content: "-20% sur tous les produits complets, posés par nos soins.
+le vendredi 22 et le samedi 23 mars 2024 de 9h00 à 18h30", start_date: DateTime.now, end_date: DateTime.now + 2.days)
 
 puts "Création des catégories - START"
 
@@ -53,8 +58,7 @@ store_coffre = Product.create(category: store_exterieur,
                               description: 'Design , robuste , le store coffre peut couvrir une largeur de près de 12m',
                               infos: "Fiez-vous aux apparences ! Le store coffre est un store robuste fait pour durer. Il peut couvrir une surface de près de 50m2. Ses 3 types de pose possibles , les nombreux coloris d'armature et de toile disponibles signent son adaptabilité.",
                               warranty: '7',
-                              brand: coublanc_brand,
-                              motorist: somfy_motorist
+                              brand: coublanc_brand
                               )
 
 store_coffre.images.attach(key: "#{store_exterieur.name}/#{store_coffre.name}/image-01", io: URI.open('https://res.cloudinary.com/dytbi4y5w/image/upload/v1704213937/LR_RS_0726_CUR_0089_rideau_1_b0enjq.jpg'), filename: "store coffre")
@@ -73,6 +77,10 @@ store_coffre.rals << Ral.all.last
 store_coffre.rals << Ral.find(5)
 # Add service
 Service.create(product: store_coffre, warranty: store_coffre.warranty, free_quote: true, custom_dimensions: true, wind_resistance: true, anti_fire: true, anti_uv: true, rge: true, made_in_france: true)
+# Add Motorist
+store_coffre.motorists << somfy_motorist
+store_coffre.motorists << wellcom_motorist
+
 
 
 store_monobloc = Product.create(category: store_exterieur,
@@ -80,8 +88,7 @@ store_monobloc = Product.create(category: store_exterieur,
                               description: 'Armature thermolaquée assurant à la fois résistance et discrétion',
                               infos: "Avec une avancée qui peut atteindre 4m , le store monobloc est idéal pour protéger tout types de terrasses , jusqu'a 17,72 m de largeur.",
                               warranty: '7',
-                              brand: coublanc_brand,
-                              motorist: somfy_motorist
+                              brand: coublanc_brand
                               )
 
 Option.create(product: store_monobloc, content: "Armature : 250 coloris")
@@ -99,8 +106,7 @@ store_loggia = Product.create(category: store_exterieur,
                               description: 'Pour une occultation presque totale de vos fenêtres',
                               infos: "Le store Loggia est le plus petit de tous nos stores extérieurs , en plus de pouvoir être fixé de face ou de plafond , c'est le seul modèle qui peut aussi être fixé latéralement , entre deux murs.",
                               warranty: '7',
-                              brand: coublanc_brand,
-                              motorist: somfy_motorist
+                              brand: coublanc_brand
                               )
 
 Option.create(product: store_loggia, content: "Armature : 84 couleurs standards")
@@ -118,8 +124,7 @@ store_bannette = Product.create(category: store_exterieur,
                               description: 'Adaptés aux grandes surfaces vitrées',
                               infos: "A projection ou verticale , le store bannette est spécialement adapté à la protection des baies de très grandes dimensions . Selon la toile que vous choisirez , vous maîtriserez en douceur la lumière pour un meilleur confort thermique et visuel .",
                               warranty: '7',
-                              brand: coublanc_brand,
-                              motorist: somfy_motorist
+                              brand: coublanc_brand
                               )
 
 Option.create(product: store_bannette, content: "Types: Projection ou conducteur vertical")
@@ -137,8 +142,7 @@ abris_pentes = Product.create(category: store_exterieur,
                               description: "Profitez de votre jardin en été sans avoir à souffrir du soleil",
                               infos: "L'abri 2 pentes est très apprécié pour sa simplicité d'utilisation et son confort déjà reconnu sur les terrasses des restaurants et bars . Il peut couvrir une grande surface et peut être fixé au sol grâce à ses platines de fixation.",
                               warranty: '7',
-                              brand: coublanc_brand,
-                              motorist: somfy_motorist
+                              brand: coublanc_brand
                               )
 
 
@@ -157,8 +161,7 @@ lacharme = Product.create(category: pergostore,
                               description: "Profitez en tout quiétude de votre extérieur",
                               infos: "Cette pergola vous protègera du soleil et de la pluie avec une toile Infinity Dickson enroulable zippée dans les rails de guidage. La technologie développée par Coublanc garantie un guidage de la barre de charge ainsi qu'une tension optimisée de la toile.",
                               warranty: '5',
-                              brand: coublanc_brand,
-                              motorist: somfy_motorist
+                              brand: coublanc_brand
                               )
 
 
@@ -177,8 +180,7 @@ espalis = Product.create(category: pergostore,
                               description: "Profitez en tout quiétude de votre extérieur. Le store coffre vertical zippé motorisé s'adapte sur nos pergolas,...",
                               infos: "Choisissez une toile PVC micro-perforée pour vous protéger du soleil tout en favorisant la circulation de l'air. Le store coffre vertical Espalis vous préserve du soleil, du vent et du vis à vis.",
                               warranty: '5',
-                              brand: coublanc_brand,
-                              motorist: somfy_motorist
+                              brand: coublanc_brand
                               )
 
 
@@ -196,8 +198,7 @@ bioclim = Product.create(category: pergola,
                               description: "Profitez d'un espace extérieur protégé",
                               infos: "Investir dans une pergola bioclimatique , c'est profiter d'un espace extérieur protégé , où rayons du soleil et pluie battante n'auront aucune incidence sur vos réceptions.",
                               warranty: '5',
-                              brand: coublanc_brand,
-                              motorist: somfy_motorist
+                              brand: coublanc_brand
                               )
 
 

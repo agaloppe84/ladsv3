@@ -14,7 +14,7 @@ class ProductDashboard < Administrate::BaseDashboard
     description: Field::String,
     images: Field::ActiveStorage,
     infos: Field::String,
-    motorist: Field::BelongsTo,
+    motorists: Field::HasMany,
     name: Field::String,
     options: Field::NestedHasMany.with_options(skip: :product),
     rals: Field::HasMany,
@@ -44,7 +44,7 @@ class ProductDashboard < Administrate::BaseDashboard
     description
     images
     infos
-    motorist
+    motorists
     name
     options
     rals
@@ -62,7 +62,7 @@ class ProductDashboard < Administrate::BaseDashboard
     description
     images
     infos
-    motorist
+    motorists
     name
     options
     rals
