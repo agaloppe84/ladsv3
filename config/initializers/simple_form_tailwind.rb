@@ -38,7 +38,7 @@ SimpleForm.setup do |config|
   # vertical forms
   #
   # vertical default_wrapper
-  config.wrappers :vertical_form, tag: 'div', class: 'mb-4' do |b|
+  config.wrappers :vertical_form, tag: 'div', class: 'mb-2' do |b|
     b.use :html5
     b.use :placeholder
     b.optional :maxlength
@@ -48,8 +48,8 @@ SimpleForm.setup do |config|
     b.optional :readonly
     b.use :label, class: 'block', error_class: 'text-red-500'
     b.use :input, class: 'mt-2 appearance-none border border-gray-300 rounded w-full py-2 px-3 bg-white focus:outline-none focus:ring-1 focus:border-blue-500 text-gray-700 text-sm font-medium transition-colors duration-200 ease-in-out', error_class: 'border-red-500', valid_class: 'border-green-400'
-    b.use :full_error, wrap_with: { tag: 'p', class: 'mt-2 text-red-500 text-xs italic' }
-    b.use :hint, wrap_with: { tag: 'p', class: 'mt-2 text-grey-700 text-xs italic' }
+    b.use :full_error, wrap_with: { tag: 'p', class: 'mt-2 text-red-400 text-xs font-medium' }
+    b.use :hint, wrap_with: { tag: 'p', class: 'mt-2 text-gray-400 font-semibold text-[10px]' }
   end
 
   # vertical input for boolean (aka checkboxes)

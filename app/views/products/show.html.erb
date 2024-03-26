@@ -14,6 +14,11 @@
   </div>
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <div class="mx-auto max-w-2xl lg:mx-0">
+      <div class="mb-2 inline-block">
+        <% if @product.brand.present? %>
+          <%= inline_svg_tag("logos/#{@product.brand.logo}.svg", class: "fill-white h-16 w-18 pb-5") %>
+        <% end %>
+      </div>
       <h2 class="text-4xl font-bold tracking-tight text-white sm:text-6xl"><%= @product.name %></h2>
       <p class="mt-2 text-lg leading-8 text-gray-100"><%= @product.description %></p>
     </div>

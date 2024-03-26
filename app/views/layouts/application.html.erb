@@ -14,7 +14,9 @@
   <body>
     <main>
       <%= render NavbarComponent.new %>
+      <%= render FlashesComponent.new(flash) %>
       <%= yield %>
+      <%= render FooterComponent.new %>
     </main>
   </body>
 </html>

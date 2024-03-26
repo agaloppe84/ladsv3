@@ -1,0 +1,19 @@
+<div data-controller="notification" class="transition-all ease-in-out duration-300 pointer-events-auto w-full overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+  <% @flashes.each do |type, msg| %>
+    <% if type == "alert" %>
+      <div class="fixed top-0 left-0 flex items-center justify-center p-4 w-full z-50">
+        <div class="px-4 py-2 bg-gray-700 text-gray-200 rounded-md text-xs shadow-lg font-semibold flex items-center space-x-2">
+          <%= inline_svg_tag("icons/exclamation-circle.svg", class: "h-6 w-6 text-red-500") %>
+          <div><%= msg %></div>
+        </div>
+      </div>
+    <% elsif type == "notice" %>
+      <div class="fixed top-0 left-0 flex items-center justify-center p-4 w-full z-50">
+        <div class="px-4 py-2 bg-gray-700 text-gray-200 rounded-md text-xs shadow-lg font-semibold flex items-center space-x-2">
+          <%= inline_svg_tag("icons/check-circle.svg", class: "h-6 w-6 text-lime-400") %>
+          <div><%= msg %></div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

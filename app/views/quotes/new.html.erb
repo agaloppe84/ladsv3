@@ -18,38 +18,38 @@
       <%= simple_form_for(@quote) do |f| %>
         <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>
-            <%= f.input :lastname, label: "Nom" %>
+            <%= f.input :lastname, label: "Nom", error: "Doit être rempli" %>
           </div>
 
           <div>
-            <%= f.input :email, label: "Email", input_html: { autocomplete: "email" } %>
+            <%= f.input :email, label: "Email", input_html: { autocomplete: "email" }, error: "Doit être rempli" %>
           </div>
 
           <div>
-            <%= f.input :city, label: "Ville" %>
+            <%= f.input :city, label: "Ville", error: "Doit être rempli" %>
           </div>
 
           <div>
-            <%= f.input :address, label: "Adresse" %>
+            <%= f.input :address, label: "Adresse", error: "Doit être rempli" %>
           </div>
 
           <div>
-            <%= f.input :phone, label: "Téléphone" %>
+            <%= f.input :phone, label: "Téléphone", error: "Doit être rempli" %>
           </div>
 
           <div>
-            <%= f.input :product, collection: Product.all, label: "Produit", label_method: :name, value_method: :name %>
+            <%= f.input :product, collection: Product.all, label: "Produit", label_method: :name, value_method: :name, error: "Doit être rempli" %>
           </div>
 
           <div class="sm:col-span-2">
-            <%= f.input :message, as: :text, label: "Message", input_html: {rows: 8} %>
+            <%= f.input :message, as: :text, label: "Message", input_html: {rows: 8}, error: "Doit être rempli" %>
           </div>
 
         </div>
         <div class="mt-2">
           <%= f.button :submit, "Envoyer", class: "w-full" %>
         </div>
-        <p class="mt-4 text-sm leading-6 text-gray-500">En soumettant ce formulaire, j'accepte la <a href="#" class="font-semibold text-indigo-600">politique de confidentialité</a>.</p>
+        <p class="mt-2 text-xs leading-6 font-medium text-gray-600 text-center">En soumettant ce formulaire, j'accepte la <a href="#" class="font-semibold text-indigo-600">politique de confidentialité</a>.</p>
       <% end %>
 
       <div class="lg:mt-6 lg:w-80 lg:flex-none">
