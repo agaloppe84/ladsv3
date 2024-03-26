@@ -15,4 +15,5 @@ Rails.application.routes.draw do
   get 'services', to: 'pages#services'
   resources :categories, only: [:index, :show]
   resources :products, only: [:show]
+  resources :quotes, only: [:new, :create]
 end
