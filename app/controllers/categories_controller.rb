@@ -1,6 +1,7 @@
 class CategoriesController < ApplicationController
   def index
     @categories = Category.all
+    @event = Event.where(':date BETWEEN start_date AND end_date', date: DateTime.now).last
     add_breadcrumb("Home", root_path)
     add_breadcrumb("Produits", categories_path)
   end
