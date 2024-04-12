@@ -1,7 +1,7 @@
 class Product < ApplicationRecord
   belongs_to :category
   belongs_to :brand
-  has_many :options
+  has_many :options, dependent: :destroy
   has_one :service
   has_and_belongs_to_many :rals
   has_and_belongs_to_many :motorists
