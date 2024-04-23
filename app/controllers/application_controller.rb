@@ -8,4 +8,5 @@ class ApplicationController < ActionController::Base
   def add_breadcrumb(name, path = nil, count = nil)
     breadcrumbs << Breadcrumb.new(name, path, count)
   end
+
 end

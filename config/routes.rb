@@ -1,14 +1,14 @@
 Rails.application.routes.draw do
   devise_for :users
   namespace :admin do
-      resources :categories
-      resources :options
-      resources :products
-      resources :brands
-      resources :motorists
+    resources :categories
+    resources :options
+    resources :products
+    resources :brands
+    resources :motorists
 
-      root to: "categories#index"
-    end
+    root to: "categories#index"
+  end
   root 'pages#home'
 
   get 'home', to: 'pages#home'

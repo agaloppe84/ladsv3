@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ladsv3</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <%= render FlashesComponent.new(flash) %>
+    <main class="h-dvh flex w-full">
+      <%= render Admin::NavbarComponent.new %>
+      <div class="w-full">
+        <%= yield %>
+      </div>
+    </main>
+  </body>
+</html>
