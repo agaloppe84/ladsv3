@@ -49,7 +49,7 @@
               <%= link_to "#", class: "text-blue-600 text-sm font-bold", data: { action: "upload#triggerFileInput" } do %>
                 <div class="p-6 w-full flex flex-col items-center">
                   <div class="relative w-full flex flex-col items-center rounded-lg border-2 border-dashed border-gray-200 p-12 text-center hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                    <%= inline_svg_tag("icons/cube-transparent.svg", class: "h-10 w-10 text-indigo-500")%>
+                    <%= inline_svg_tag("icons/cube-transparent.svg", class: "h-10 w-10 text-violet-300")%>
                     <span class="mt-2 block text-[11px] font-semibold text-slate-500">Ajoutez des photos</span>
                   </div>
                   <small class="text-[8px] font-semibold text-center text-slate-400 mt-1">Sauvegardez le produit pour enregister les photos</small>
@@ -113,84 +113,115 @@
   </div>
 
 
-  <div class="options">
-    <div class="flex items-center space-x-3 border-y px-4 py-3">
-      <div class="text-sm font-medium text-slate-700">Options</div>
-      <span class="inline-flex items-center rounded bg-purple-50 px-2.5 py-1.5 text-[9px] font-bold text-purple-700 ring-1 ring-inset ring-purple-700/10"><%= "#{@product.options.size} Options" %></span>
-      <%= link_to admin_product_options_path(@product), data: { turbo_method: :post, turbo_stream: true } do %>
-        <div class="flex space-x-2 items-center">
-          <div class="text-xs text-gray-500 font-medium px-2 py-1 rounded border border-gray-200 hover:bg-gray-100">+ Ajouter</div>
+  <div class="flex">
+
+    <div class="options w-3/4">
+      <div class="flex items-center space-x-3 border-y h-12 pl-4">
+        <div class="text-sm font-medium text-slate-700">Options</div>
+        <span class="inline-flex items-center rounded bg-purple-50 px-2.5 py-1.5 text-[9px] font-bold text-purple-700 ring-1 ring-inset ring-purple-700/10"><%= "#{@product.options.size} Options" %></span>
+        <%= link_to admin_product_options_path(@product), data: { turbo_method: :post, turbo_stream: true } do %>
+          <div class="flex space-x-2 items-center">
+            <div class="text-xs text-gray-500 font-medium px-2 py-1 rounded border border-gray-200 hover:bg-gray-100">+ Ajouter</div>
+          </div>
+        <% end %>
+      </div>
+
+
+      <% if @product.options.any? %>
+        <div class="draggable-options p-12 w-full">
+          <ul role="list" id="sortable-options" data-controller="sortable" class="divide-y divide-gray-100 overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
+            <% @product.options.each_with_index do |option, index| %>
+              <li class="relative flex px-3 py-4 sm:px-6 drag-handle cursor-move bg-white" data-id="<%= index + 1 %>">
+                <div class="flex w-full gap-x-3 items-center">
+
+                  <div class="py-1 px-2 flex items-center space-x-2 mr-2 rounded border border-violet-100">
+                    <div class="flex-none rounded-full bg-violet-500/20 p-1">
+                      <div class="size-1.5 rounded-full bg-violet-500"></div>
+                    </div>
+                    <div class="text-violet-600 text-xs font-bold">
+                      <%= "#{index + 1}" %>
+                    </div>
+                  </div>
+
+                  <%= f.fields_for :options, option do |option_fields| %>
+                    <%= option_fields.input :content, wrapper: :small_input, label: false %>
+                    <%= option_fields.input :order, as: :hidden, value: option.order %>
+                  <% end %>
+                </div>
+                <div class="flex shrink-0 items-center gap-x-4">
+                  <%= inline_svg_tag("icons/dragging.svg", class: "h-5 w-5 shrink-0 text-gray-600")%>
+
+                  <%= link_to admin_product_option_path(@product, option), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure ?', turbo_stream: true }, remote: true do %>
+                    <div class="flex space-x-3 items-center">
+                      <%= inline_svg_tag("icons/minus-circle.svg", class: "h-5 w-5 shrink-0 text-red-500") %>
+                    </div>
+                  <% end %>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% else %>
+
+        <div class="text-center flex flex-col items-center p-12 w-full  bg-gray-50">
+          <div class="rounded px-4 py-3 flex items-center border border-gray-100 bg-white">
+            <%= inline_svg_tag("icons/exclamation-circle.svg", class: "h-6 w-6 shrink-0 text-violet-500") %>
+            <div class="text-[12px] font-medium text-gray-800 ml-2">Pas d'options pour ce produit</div>
+          </div>
+        </div>
+
+      <% end %>
+
+    </div>
+
+    <div class="service w-1/4 min-h-full">
+      <div class="flex items-center space-x-3 border-y h-12 pl-4 border-l">
+        <div class="text-sm font-medium text-slate-700">Services</div>
+        <span class="inline-flex items-center rounded bg-purple-50 px-2.5 py-1.5 text-[9px] font-bold text-purple-700 ring-1 ring-inset ring-purple-700/10"><%= "1 service" %></span>
+      </div>
+
+
+      <%= f.fields_for :service, @product.service do |service_fields| %>
+        <div class="flex items-start flex-col gap-y-4 p-12 border-l border-gray-100 h-full">
+
+          <div class="relative">
+            <%= service_fields.check_box :warranty,
+              class: "peer hidden",
+              id: "warranty" %>
+            <label for="warranty"
+              class="flex items-center cursor-pointer px-3 py-2 text-xs font-medium border rounded-lg text-gray-500 bg-gray-50 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600">
+              <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2") %>
+              Garantie
+            </label>
+          </div>
+
+          <div class="relative">
+            <%= service_fields.check_box :custom_dimensions,
+              class: "peer hidden",
+              id: "custom_dimensions" %>
+            <label for="custom_dimensions"
+              class="flex items-center cursor-pointer px-3 py-2 text-xs font-medium border rounded-lg text-gray-500 bg-gray-50 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600">
+              <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2") %>
+              Sur mesure
+            </label>
+          </div>
+
+          <div class="relative">
+            <%= service_fields.check_box :made_in_france,
+              class: "peer hidden",
+              id: "made_in_france" %>
+            <label for="made_in_france"
+              class="flex items-center cursor-pointer px-3 py-2 text-xs font-medium border rounded-lg text-gray-500 bg-gray-50 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600">
+              <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2") %>
+              Made in France
+            </label>
+          </div>
+
         </div>
       <% end %>
     </div>
 
-
-    <% if @product.options.any? %>
-      <div class="draggable-options p-12 w-1/2">
-        <ul role="list" id="sortable-options" data-controller="sortable" class="divide-y divide-gray-100 overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
-          <% @product.options.each_with_index do |option, index| %>
-            <li class="relative flex px-3 py-4 sm:px-6 drag-handle cursor-move bg-white" data-id="<%= index + 1 %>">
-              <div class="flex w-full gap-x-3 items-center">
-
-                <div class="py-1 px-2 flex items-center space-x-2 mr-2 rounded border border-violet-100">
-                  <div class="flex-none rounded-full bg-violet-500/20 p-1">
-                    <div class="size-1.5 rounded-full bg-violet-500"></div>
-                  </div>
-                  <div class="text-violet-600 text-xs font-bold">
-                    <%= "#{index + 1}" %>
-                  </div>
-                </div>
-
-                <%= f.fields_for :options, option do |option_fields| %>
-                  <%= option_fields.input :content, wrapper: :small_input, label: false %>
-                  <%= option_fields.input :order, as: :hidden, value: option.order %>
-                <% end %>
-              </div>
-              <div class="flex shrink-0 items-center gap-x-4">
-                <%= inline_svg_tag("icons/dragging.svg", class: "h-5 w-5 shrink-0 text-gray-600")%>
-
-                <%= link_to admin_product_option_path(@product, option), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure ?', turbo_stream: true }, remote: true do %>
-                  <div class="flex space-x-3 items-center">
-                    <%= inline_svg_tag("icons/minus-circle.svg", class: "h-5 w-5 shrink-0 text-red-500") %>
-                  </div>
-                <% end %>
-              </div>
-            </li>
-          <% end %>
-        </ul>
-      </div>
-    <% else %>
-
-      <div class="text-center flex flex-col items-center p-12 w-1/2  bg-gray-50">
-        <div class="rounded px-4 py-3 flex items-center border border-gray-100 bg-white">
-          <%= inline_svg_tag("icons/exclamation-circle.svg", class: "h-6 w-6 shrink-0 text-violet-500") %>
-          <div class="text-[12px] font-medium text-gray-800 ml-2">Pas d'options pour ce produit</div>
-        </div>
-      </div>
-
-    <% end %>
-
-
-
-
   </div>
-
-
-  <div class="service">
-    <div>Services</div>
-    <%= f.fields_for :service, @product.service do |service_fields| %>
-      <div class="flex flex-col p-4">
-        <%= service_fields.input :custom_dimensions, as: :boolean %>
-        <%= service_fields.input :warranty, as: :boolean %>
-        <%= service_fields.input :made_in_france, as: :boolean %>
-      </div>
-    <% end %>
-  </div>
-
-
-
-
-
 
   <% if @product.errors.any? %>
     <% @product.errors.each do |error| %>

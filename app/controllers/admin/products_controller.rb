@@ -14,6 +14,10 @@ class Admin::ProductsController < AdminController
 
   def edit
     @product = Product.find(params[:id])
+    if !@product.service
+      puts "SERVICE NON PRESENT !!!!!!!!!!!!!!"
+      @service = @product.build_service
+    end
   end
 
   def create
