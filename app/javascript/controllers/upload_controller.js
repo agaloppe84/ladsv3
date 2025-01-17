@@ -1,90 +1,99 @@
 import { Controller } from "@hotwired/stimulus";
 import { DirectUpload } from "@rails/activestorage";
 
-
 export default class extends Controller {
-  static targets = ["input", "progress", "preview"];
+  static targets = ["input", "preview"];
 
   connect() {
-    console.log("Upload controller connected")
-    console.log(this.inputTarget)
-    console.log(this.progressTarget)
+    console.log("Upload controller connected");
   }
 
-  uploadFile() {
-    Array.from(this.inputTarget.files).forEach((file) => {
-      const newupload = this.createDirectUpload(file, this);
-    });
+  triggerFileInput() {
+    this.inputTarget.click(); // Simule un clic sur le champ caché
   }
 
-  createDirectUpload(file, context) {
-    const upload = new DirectUpload(
-      file,
-      context.inputTarget.dataset.directUploadUrl,
-      context,
-      { directUploadWillStoreFileWithXHR: this.directUploadWillStoreFileWithXHR.bind(this) }
-    );
-    upload.create((error, blob) => {
-      if (error) {
-        console.log(error);
-      } else {
-        context.createHiddenBlobInput(blob);
-        context.createPreview(blob);
-      }
-    });
+  uploadFile(event) {
+    const files = event.target.files;
+    const inputElement = event.target;
+
+    if (files.length > 0) {
+      // Afficher la prévisualisation pour chaque fichier
+      this.createPreview(files);
+
+      // Créer un upload direct pour chaque fichier
+      Array.from(files).forEach((file) => {
+        const upload = new DirectUpload(file, '/rails/active_storage/direct_uploads', this);
+
+        // Lier la méthode onSuccess au bon contexte avec bind
+        const onSuccess = this.onSuccess.bind(this);
+
+        // Démarrer l'upload pour chaque fichier
+        upload.create((error, blob) => {
+          if (error) {
+            console.error("Erreur lors de l'upload", error);
+          } else {
+            // Appeler la méthode onSuccess avec l'ID signé du blob
+            onSuccess(blob.signed_id);
+            // Vider le champ de fichier après l'upload réussi
+            inputElement.value = "";
+          }
+        });
+      });
+    }
   }
 
-
-  // add blob id to be submitted with the form
-  createHiddenBlobInput(blob) {
+  // La méthode onSuccess qui traite l'ID signé après l'upload réussi
+  onSuccess(signedId) {
+    console.log("Upload réussi, ID signé :", signedId);
+    // Exemple d'action à effectuer après l'upload réussi
+    // Par exemple, ajouter un champ caché avec l'ID signé dans le formulaire
     const hiddenField = document.createElement("input");
     hiddenField.setAttribute("type", "hidden");
-    hiddenField.setAttribute("value", blob.signed_id);
-    hiddenField.name = this.inputTarget.name;
+    hiddenField.setAttribute("value", signedId);
+    hiddenField.name = "product[images][]"; // Assure-toi que ce nom correspond au nom de ton champ de formulaire
     this.element.appendChild(hiddenField);
+
+    // Tu peux aussi ajouter une autre logique ici, comme afficher un message de succès ou mettre à jour l'interface.
   }
 
+  // Créer une prévisualisation immédiate de l'image sélectionnée
+  createPreview(files) {
+    Array.from(files).forEach((file) => {
+      const fileContainer = document.createElement("div");
+      fileContainer.style.marginBottom = "20px";
 
+      const fileUrl = URL.createObjectURL(file);
+      const imageElement = document.createElement("img");
+      imageElement.src = fileUrl;
+      imageElement.alt = file.name;
+      imageElement.style.maxWidth = "200px";
+      imageElement.style.margin = "10px 0";
+      imageElement.classList.add("rounded");
 
-  directUploadWillStoreFileWithXHR(request) {
-    request.upload.addEventListener("progress", (event) => {
-      this.progressUpdate(event);
+      const fileNameElement = document.createElement("div");
+      fileNameElement.textContent = `${file.name}`;
+      fileNameElement.classList.add("text-xs", "font-medium", "text-gray-700");
+
+      const fileSizeElement = document.createElement("div");
+      fileSizeElement.textContent = `${this.formatSize(file.size)}`;
+      fileSizeElement.classList.add("text-[9px]", "font-bold", "text-indigo-700");
+
+      fileContainer.appendChild(imageElement);
+      fileContainer.appendChild(fileNameElement);
+      fileContainer.appendChild(fileSizeElement);
+
+      this.previewTarget.appendChild(fileContainer);
     });
   }
 
-  progressUpdate(event) {
-    const progress = (event.loaded / event.total) * 100;
-    this.progressTarget.innerHTML = `${progress} %`;
-    if (progress == 100) {
-      this.progressTarget.innerHTML = '';
+  // Formater la taille du fichier (en Ko / Mo)
+  formatSize(size) {
+    if (size < 1024) {
+      return `${size} B`;
+    } else if (size < 1024 * 1024) {
+      return `${(size / 1024).toFixed(2)} KB`;
+    } else {
+      return `${(size / (1024 * 1024)).toFixed(2)} MB`;
     }
-    console.log(progress);
   }
-
-  // createPreview(blob) {
-  //   const image = document.createElement("div");
-  //   image.classList.add("p-4");
-  //   image.classList.add("rounded");
-  //   image.classList.add("border");
-  //   image.classList.add("text-xs");
-  //   image.classList.add("font-medium");
-  //   image.innerHTML = `${blob.filename} - ${(blob.byte_size / 1000000).toFixed(2)} MB`;
-  //   this.previewTarget.appendChild(image);
-  // }
-
-  createPreview(blob) {
-    // Supprime les previews existants
-    this.previewTarget.innerHTML = "";
-
-    const fileUrl = URL.createObjectURL(this.inputTarget.files[0]);
-    const imageElement = document.createElement("img");
-    imageElement.src = fileUrl;
-    imageElement.alt = blob.filename;
-    imageElement.style.maxWidth = "200px";
-    imageElement.style.margin = "10px 0";
-
-    this.previewTarget.appendChild(imageElement);
-  }
-
-
 }
