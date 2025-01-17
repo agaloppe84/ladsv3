@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :categories
     resources :options
-    resources :products
+    resources :products do
+      resources :options, only: [:create, :destroy]
+    end
     resources :brands
     resources :motorists
 

@@ -1,0 +1,88 @@
+<%= render Admin::HeaderComponent.new(title: "Modifier #{@product.name}") %>
+
+<%= simple_form_for([:admin, @product], data: {turbo: true}) do |f| %>
+  <div class="space-y-6">
+    <%= f.input :name %>
+    <%= f.input :description %>
+    <% if @product.images.attached? %>
+      <div class="flex space-x-4">
+        <% @product.images.each do |image| %>
+          <%= cl_image_tag(image.key, crop: :scale, class: "w-20 h-20 rounded") %>
+          <%= f.hidden_field :images, multiple: true, value: image.signed_id %>
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
+
+
+  <div class="options">
+    <div>Options</div>
+
+    <div class="flex p-6 flex-wrap">
+      <% @product.options.each_with_index do |option, index| %>
+        <div class="w-1/5 p-4" id="option_<%= option.id %>">
+          <div class="flex items-center space-x-3 justify-between">
+            <div class="flex items-center">
+               <%= inline_svg_tag("icons/queue-list.svg", class: "h-4 w-4 shrink-0 text-gray-600")%>
+               <div class="ml-1 text-xs font-bold"><%= index + 1 %></div>
+            </div>
+            <% if option.persisted? %>
+              <%= link_to admin_product_option_path(@product, option), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?', turbo_stream: true }, remote: true do %>
+                <div class="flex space-x-3 items-center">
+                  <%= inline_svg_tag("icons/minus-circle.svg", class: "h-4 w-4 shrink-0 text-red-600")%>
+                </div>
+              <% end %>
+            <% end %>
+
+            <%= link_to admin_product_options_path(@product), data: { turbo_method: :post, turbo_stream: true }, remote: true do %>
+              <div class="flex space-x-3 items-center">
+                <%= inline_svg_tag("icons/fire.svg", class: "h-4 w-4 shrink-0 text-lime-600")%>
+              </div>
+            <% end %>
+
+          </div>
+
+          <%= f.fields_for :options, option do |option_fields| %>
+            <%= option_fields.input :content, wrapper: :small_input, label: false %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+
+  <div class="service">
+    <div>Services</div>
+    <%= f.fields_for :service, @product.service do |service_fields| %>
+      <div class="flex flex-col p-4">
+        <%= service_fields.input :custom_dimensions, as: :boolean %>
+        <%= service_fields.input :warranty, as: :boolean %>
+        <%= service_fields.input :made_in_france, as: :boolean %>
+      </div>
+    <% end %>
+  </div>
+
+
+
+  <div>
+    <%= f.file_field :images, direct_upload: false, multiple: true %>
+    <div data-upload-target="progress" class="bordered p-3"></div>
+    <div data-upload-target="preview" class="flex space-x-3 w-full"></div>
+  </div>
+
+  <% if @product.errors.any? %>
+    <% @product.errors.each do |error| %>
+      <div class="flex flex-col items-start">
+         <div class="px-4 py-2 bg-red-100 text-red-700 rounded-md text-xs font-semibold flex items-center space-x-2 mb-4">
+            <div><%= error.type %></div>
+          </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div>
+    <%= f.button :submit, "Enregistrer" %>
+  </div>
+
+<% end %>
