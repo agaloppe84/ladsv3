@@ -121,14 +121,14 @@ SimpleForm.setup do |config|
     b.use :hint, wrap_with: { tag: 'p', class: 'mt-2 text-grey-700 text-xs italic' }
   end
 
-  config.wrappers :small_input, tag: 'div', class: 'my-4', error_class: 'text-red-500', valid_class: 'text-green-400' do |b|
+  config.wrappers :small_input, tag: 'div', class: 'w-full', error_class: 'text-red-500', valid_class: 'text-green-400' do |b|
     b.use :html5
     b.use :placeholder
     b.optional :readonly
     b.optional :step
     b.use :label, class: 'text-sm font-medium text-gray-600 block', error_class: 'text-red-500'
     b.wrapper tag: 'div', class: 'flex items-center h-5' do |ba|
-      ba.use :input, class: 'mt-2 appearance-none border border-gray-300 rounded w-full py-2 px-2 bg-white focus:outline-none focus:ring-1 focus:border-blue-500 text-gray-700 text-xs font-semibold transition-colors duration-200 ease-in-out', error_class: 'border-red-500', valid_class: 'border-gray-300'
+      ba.use :input, class: 'appearance-none border-white w-full px-2 bg-white focus:border focus:outline-none focus:ring-0 focus-ring-white focus:border-white text-gray-700 text-xs font-semibold transition-colors duration-200 ease-in-out', error_class: 'border-red-500', valid_class: 'border-gray-300'
     end
     b.use :full_error, wrap_with: { tag: 'p', class: 'mt-2 text-red-500 text-xs italic' }
     b.use :hint, wrap_with: { tag: 'p', class: 'mt-2 text-grey-700 text-xs italic' }

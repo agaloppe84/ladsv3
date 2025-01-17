@@ -61,6 +61,7 @@ export default class extends Controller {
     Array.from(files).forEach((file) => {
       const fileContainer = document.createElement("div");
       fileContainer.style.marginBottom = "20px";
+      fileContainer.classList.add("p-6");
 
       const fileUrl = URL.createObjectURL(file);
       const imageElement = document.createElement("img");
