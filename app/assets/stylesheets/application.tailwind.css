@@ -60,3 +60,23 @@ nav.admin-navbar a.active svg {
 nav.admin-navbar a:hover svg {
   @apply text-indigo-600;
 }
+
+
+.scrollbar::-webkit-scrollbar {
+  width: 7px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  border-radius: 0;
+  background: rgba(233, 234, 236, 0.9);
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 100vh;
+  border: none;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #c0a0b9;
+}

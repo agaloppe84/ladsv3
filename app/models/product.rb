@@ -10,7 +10,6 @@ class Product < ApplicationRecord
 
   accepts_nested_attributes_for(
     :options,
-    :rals,
     :service,
     reject_if: :all_blank,
     allow_destroy: true

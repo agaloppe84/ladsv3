@@ -1,0 +1,6 @@
+<div id="product-notification" data-controller="formsuccess">
+  <% if notice %>
+    <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2 text-violet-400" , data: { formsuccess_target: "success" }) %>
+    <div class="text-[10px] font-medium text-violet-500 hidden"><%= notice %></div>
+  <% end %>
+</div>

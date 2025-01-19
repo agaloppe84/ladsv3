@@ -1,9 +1,42 @@
 <%= render Admin::HeaderComponent.new(title: "Modifier #{@product.name}") %>
 
 <%= simple_form_for([:admin, @product], data: {turbo: true}) do |f| %>
-  <div class="space-y-6">
-    <%= f.input :name %>
-    <%= f.input :description %>
+  <div class="main">
+
+    <div class="flex">
+      <div class="w-1/2">
+        <div class="flex items-center space-x-3 border-b h-12 pl-4">
+          <div class="text-sm font-medium text-slate-700">Infos</div>
+        </div>
+
+        <div class="p-8">
+          <%= f.input :name %>
+          <%= f.input :description %>
+        </div>
+
+      </div>
+
+      <div class="w-1/2">
+        <div class="flex items-center space-x-3 border-b h-12 pl-4 border-l">
+          <div class="text-sm font-medium text-slate-700">Ral</div>
+          <span class="inline-flex items-center rounded bg-purple-50 px-2.5 py-1.5 text-[9px] font-bold text-purple-700 ring-1 ring-inset ring-purple-700/10"><%= @product.rals.size %></span>
+        </div>
+
+        <div class="p-8 h-80 overflow-y-scroll scrollbar border-l">
+          <div class="flex flex-wrap gap-4">
+            <%= f.collection_check_boxes :ral_ids, Ral.all, :id, :ref do |b| %>
+              <div class="checkbox-wrapper w-16">
+                <%= b.check_box(class: "peer hidden") %>
+                <%= b.label(class: 'cursor-pointer text-[10px] flex items-center justify-center space-x-2 border p-1 rounded font-bold text-gray-700 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600') do %>
+                  <div class="ral-color rounded-full w-2 h-2" style="background-color: <%= b.object.rgb %>;"></div>
+                  <div><%= b.text.remove("RAL") %></div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <% if @product.images.attached? %>
 
@@ -116,7 +149,7 @@
   <div class="flex">
 
     <div class="options w-3/4">
-      <div class="flex items-center space-x-3 border-y h-12 pl-4">
+      <div class="flex items-center space-x-3 border-y h-12 pl-4 border-r">
         <div class="text-sm font-medium text-slate-700">Options</div>
         <span class="inline-flex items-center rounded bg-purple-50 px-2.5 py-1.5 text-[9px] font-bold text-purple-700 ring-1 ring-inset ring-purple-700/10"><%= "#{@product.options.size} Options" %></span>
         <%= link_to admin_product_options_path(@product), data: { turbo_method: :post, turbo_stream: true } do %>
@@ -128,7 +161,7 @@
 
 
       <% if @product.options.any? %>
-        <div class="draggable-options p-12 w-full">
+        <div class="draggable-options p-12 w-full border-r">
           <ul role="list" id="sortable-options" data-controller="sortable" class="divide-y divide-gray-100 overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
             <% @product.options.each_with_index do |option, index| %>
               <li class="relative flex px-3 py-4 sm:px-6 drag-handle cursor-move bg-white" data-id="<%= index + 1 %>">
@@ -174,15 +207,15 @@
 
     </div>
 
-    <div class="service w-1/4 min-h-full">
-      <div class="flex items-center space-x-3 border-y h-12 pl-4 border-l">
+    <div class="service w-1/4">
+      <div class="flex items-center space-x-3 border-y h-12 pl-4">
         <div class="text-sm font-medium text-slate-700">Services</div>
         <span class="inline-flex items-center rounded bg-purple-50 px-2.5 py-1.5 text-[9px] font-bold text-purple-700 ring-1 ring-inset ring-purple-700/10"><%= "1 service" %></span>
       </div>
 
 
       <%= f.fields_for :service, @product.service do |service_fields| %>
-        <div class="flex items-start flex-col gap-y-4 p-12 border-l border-gray-100 h-full">
+        <div class="flex items-start flex-col gap-y-4 p-12 border-gray-100">
 
           <div class="relative">
             <%= service_fields.check_box :warranty,
@@ -233,8 +266,12 @@
     <% end %>
   <% end %>
 
-  <div>
-    <%= f.button :submit, "Enregistrer" %>
+  <div class="fixed bottom-5 right-0 w-10/12 flex items-center justify-end pr-8">
+    <div class="px-5 py-3 border border-gray-100 rounded bg-white shadow-lg flex space-x-5 items-center shadow-violet-200/50">
+      <div class="text-[10px] font-medium text-violet-400">Retour</div>
+      <%= f.button :submit, "Enregistrer" %>
+      <%= render 'admin/products/notification', notice: nil %>
+    </div>
   </div>
 
 <% end %>
