@@ -1,0 +1,34 @@
+<div data-controller="carousel" class="relative overflow-hidden h-full">
+  <!-- Conteneur des éléments du carousel -->
+
+  <div data-carousel-target="container" class="flex transform transition-transform duration-300 h-full">
+    <% @products.each_with_index do |product, index| %>
+      <div class="w-full flex-shrink-0 h-full relative">
+        <% if product.images.attached? %>
+          <%= cl_image_tag(product.images.first.key, crop: :scale, class: "w-full object-cover object-center") %>
+        <% else %>
+          <%= image_tag('placeholder.jpg', class: "w-full object-cover object-center") %>
+        <% end %>
+        <div class="absolute bottom-0 left-0 flex items-center w-full">
+          <%= inline_svg_tag("icons/camera.svg", class: "h-4 w-4 shrink-0 text-white ml-4") %>
+          <div class="p-2 flex items-start flex-col w-full">
+            <div class="text-xs font-medium text-white"><%= product.name %></div>
+            <div class="text-[10px] font-medium text-white hidden"><%= product.category.name %></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+
+  <!-- Boutons pour navigation -->
+  <%= link_to "#", data: { action: "click->carousel#previous" }, class: "absolute left-4 top-1/2 transform -translate-y-1/2 p-2" do %>
+    <%= inline_svg_tag("icons/arrow-left-circle.svg", class: "h-6 w-6 shrink-0 text-white") %>
+  <% end %>
+
+  <%= link_to "#", data: { action: "click->carousel#next" }, class: "absolute right-4 top-1/2 transform -translate-y-1/2 p-2" do %>
+    <%= inline_svg_tag("icons/arrow-right-circle.svg", class: "h-6 w-6 shrink-0 text-white") %>
+  <% end %>
+
+
+</div>

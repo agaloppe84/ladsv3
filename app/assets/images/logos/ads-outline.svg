@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 250.02 263.79" style="enable-background:new 0 0 250.02 263.79;" xml:space="preserve">
+	<g>
+		<!-- Simplified outline for the polygon -->
+		<polyline points="139.27,143.36 69.34,143.36 103.75,28.92 103.66,28.59 110.08,9.71 113.39,0 77.06,0 0,243.57 38.73,243.57 54.98,191.7 154.13,191.7" fill="none" stroke="black" stroke-width="1"/>
+	</g>
+	<g>
+		<!-- Simplified outline for the path -->
+		<path d="M145.01,242.3l89.44-0.02c3.37,0.02,5.22,0.02,7.57,0l0,0c0,0,13.9-3.6,5.05-35.82c-0.17-1.22-0.3-1.93-0.3-1.93l-15.64-43.97c-0.08-0.23-0.15-0.44-0.23-0.66l-0.47-1.33c-3.5-9.83-4.55-12.79-4.55-12.79L174.05,0H77.06l53.24,149.73l4.69,13.17h0.11c2.21,6.05,5.45,15.08,8.51,24.26l-8.63-24.26 M150.6,210.52c0.02,0.05,0.02,0.11,0.04,0.16c0,0.14,0.02,0.27,0.03,0.41C150.64,210.89,150.62,210.71,150.6,210.52" fill="none" stroke="black" stroke-width="1"/>
+	</g>
+</svg>

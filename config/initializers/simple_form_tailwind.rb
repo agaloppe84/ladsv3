@@ -32,7 +32,7 @@ SimpleForm.setup do |config|
   # add validation classes to `input_field`
   config.input_field_error_class = 'border-red-500'
   config.input_field_valid_class = 'border-green-400'
-  config.label_class = 'text-sm font-semibold leading-6 text-gray-900'
+  config.label_class = 'flex'
 
 
   # vertical forms
@@ -46,7 +46,7 @@ SimpleForm.setup do |config|
     b.optional :pattern
     b.optional :min_max
     b.optional :readonly
-    b.use :label, class: 'block', error_class: 'text-red-500'
+    b.use :label, class: 'block text-xs text-gray-700', error_class: 'text-red-500'
     b.use :input, class: 'mt-2 appearance-none border border-gray-300 rounded w-full py-2 px-3 bg-white focus:outline-none focus:ring-1 focus:border-blue-500 text-gray-700 text-sm font-medium transition-colors duration-200 ease-in-out', error_class: 'border-red-500', valid_class: 'border-green-400'
     b.use :full_error, wrap_with: { tag: 'p', class: 'mt-2 text-red-400 text-xs font-medium' }
     b.use :hint, wrap_with: { tag: 'p', class: 'mt-2 text-gray-400 font-semibold text-[10px]' }
@@ -132,6 +132,20 @@ SimpleForm.setup do |config|
     end
     b.use :full_error, wrap_with: { tag: 'p', class: 'mt-2 text-red-500 text-xs italic' }
     b.use :hint, wrap_with: { tag: 'p', class: 'mt-2 text-grey-700 text-xs italic' }
+  end
+
+  config.wrappers :admin_form, tag: 'div', class: 'mb-2' do |b|
+    b.use :html5
+    b.use :placeholder
+    b.optional :maxlength
+    b.optional :minlength
+    b.optional :pattern
+    b.optional :min_max
+    b.optional :readonly
+    b.use :label, class: 'text-gray-400 text-[10px] font-semibold', error_class: 'text-red-500'
+    b.use :input, class: 'mt-2 appearance-none border border-gray-300 rounded w-full py-2 px-3 bg-white focus:outline-none focus:ring-1 focus:border-blue-500 text-gray-700 text-xs font-medium transition-colors duration-200 ease-in-out', error_class: 'border-red-500', valid_class: 'border-violet-400'
+    b.use :full_error, wrap_with: { tag: 'p', class: 'mt-2 text-red-400 text-xs font-medium' }
+    b.use :hint, wrap_with: { tag: 'p', class: 'mt-2 text-gray-400 font-semibold text-[10px]' }
   end
 
   # The default wrapper to be used by the FormBuilder.

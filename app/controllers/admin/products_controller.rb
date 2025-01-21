@@ -46,6 +46,6 @@ class Admin::ProductsController < AdminController
   private
 
   def product_params
-    params.require(:product).permit(:name, :description, service_attributes: [:id, :warranty, :custom_dimensions, :made_in_france], options_attributes: [:id, :order, :content, :_destroy], ral_ids: [], images: [])
+    params.require(:product).permit(:name, :description, service_attributes: [:id, :warranty, :custom_dimensions, :made_in_france], options_attributes: [:id, :order, :content, :_destroy], motorist_ids: [], ral_ids: [], images: [])
   end
 end
