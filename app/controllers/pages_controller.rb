@@ -1,7 +1,8 @@
 class PagesController < ApplicationController
   def home
     @event = Event.where(':date BETWEEN start_date AND end_date', date: DateTime.now).last
-    @photo = Product.all.first.images.first
+    @photos = Product.all.first.images
+    @carousel_products = Product.all.first(6)
     add_breadcrumb("Home", root_path)
   end
 

@@ -34,6 +34,49 @@
   @apply text-orange-500 border-orange-400;
  }
 
- .card {
+.card {
   @apply rounded-lg bg-white;
- }
+}
+
+.button {
+  @apply block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600;
+}
+.button-light {
+  @apply rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block;
+}
+
+nav.admin-navbar a.active {
+  @apply bg-gray-50 text-indigo-600 flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold;
+}
+
+nav.admin-navbar a {
+  @apply text-gray-700 hover:text-indigo-600 hover:bg-gray-50 flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold;
+}
+
+nav.admin-navbar a.active svg {
+  @apply text-indigo-600;
+}
+
+nav.admin-navbar a:hover svg {
+  @apply text-indigo-600;
+}
+
+
+.scrollbar::-webkit-scrollbar {
+  width: 7px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  border-radius: 0;
+  background: rgba(233, 234, 236, 0.9);
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 100vh;
+  border: none;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #c0a0b9;
+}

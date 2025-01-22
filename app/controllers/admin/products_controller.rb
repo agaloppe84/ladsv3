@@ -1,46 +1,51 @@
-module Admin
-  class ProductsController < Admin::ApplicationController
-    # Overwrite any of the RESTful controller actions to implement custom behavior
-    # For example, you may want to send an email after a foo is updated.
-    #
-    # def update
-    #   super
-    #   send_foo_updated_email(requested_resource)
-    # end
+class Admin::ProductsController < AdminController
 
-    # Override this method to specify custom lookup behavior.
-    # This will be used to set the resource for the `show`, `edit`, and `update`
-    # actions.
-    #
-    # def find_resource(param)
-    #   Foo.find_by!(slug: param)
-    # end
+  def index
+    @products = Product.all
+  end
 
-    # The result of this lookup will be available as `requested_resource`
+  def show
 
-    # Override this if you have certain roles that require a subset
-    # this will be used to set the records shown on the `index` action.
-    #
-    # def scoped_resource
-    #   if current_user.super_admin?
-    #     resource_class
-    #   else
-    #     resource_class.with_less_stuff
-    #   end
-    # end
+  end
 
-    # Override `resource_params` if you want to transform the submitted
-    # data before it's persisted. For example, the following would turn all
-    # empty values into nil values. It uses other APIs such as `resource_class`
-    # and `dashboard`:
-    #
-    # def resource_params
-    #   params.require(resource_class.model_name.param_key).
-    #     permit(dashboard.permitted_attributes(action_name)).
-    #     transform_values { |value| value == "" ? nil : value }
-    # end
+  def new
+    @product = Product.new
+  end
 
-    # See https://administrate-demo.herokuapp.com/customizing_controller_actions
-    # for more information
+  def edit
+    @product = Product.find(params[:id])
+    if !@product.service
+      puts "SERVICE NON PRESENT !!!!!!!!!!!!!!"
+      @service = @product.build_service
+    end
+  end
+
+  def create
+
+  end
+
+  def update
+    @product = Product.find(params[:id])
+
+    if @product.update(product_params)
+      # Envoi d'un turbo_stream pour rester sur la même page et afficher la notification
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace('product-notification', partial: 'admin/products/notification', locals: { notice: 'Produit mis à jour !!' })
+        end
+        format.html { redirect_to admin_products_path, notice: "Produit mis à jour !!" }
+      end
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+
+
+
+  private
+
+  def product_params
+    params.require(:product).permit(:name, :description, service_attributes: [:id, :warranty, :custom_dimensions, :made_in_france], options_attributes: [:id, :order, :content, :_destroy], motorist_ids: [], ral_ids: [], images: [])
   end
 end

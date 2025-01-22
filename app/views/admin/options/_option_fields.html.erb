@@ -1,0 +1,7 @@
+<div class="option-fields">
+  <%= simple_fields_for :options, option do |option_fields| %>
+    <div class="flex space-x-4">
+      <%= option_fields.text_field :content, placeholder: "Nom de l'option", class: "form-input" %>
+    </div>
+  <% end %>
+</div>

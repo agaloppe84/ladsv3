@@ -1,46 +1,28 @@
-module Admin
-  class OptionsController < Admin::ApplicationController
-    # Overwrite any of the RESTful controller actions to implement custom behavior
-    # For example, you may want to send an email after a foo is updated.
-    #
-    # def update
-    #   super
-    #   send_foo_updated_email(requested_resource)
-    # end
+class Admin::OptionsController < AdminController
 
-    # Override this method to specify custom lookup behavior.
-    # This will be used to set the resource for the `show`, `edit`, and `update`
-    # actions.
-    #
-    # def find_resource(param)
-    #   Foo.find_by!(slug: param)
-    # end
+  def create
+    @product = Product.find(params[:product_id])
+    @new_option = @product.options.build
+    puts "INTO OPTION CREATE VIA TURBO"
+    if @new_option.save
+      redirect_to edit_admin_product_path(@product), notice: "Option ajoutée"
+    else
+      render :edit
+    end
+  end
 
-    # The result of this lookup will be available as `requested_resource`
+  def destroy
+    @option = Option.find(params[:id])
+    @option.destroy
 
-    # Override this if you have certain roles that require a subset
-    # this will be used to set the records shown on the `index` action.
-    #
-    # def scoped_resource
-    #   if current_user.super_admin?
-    #     resource_class
-    #   else
-    #     resource_class.with_less_stuff
-    #   end
-    # end
+    puts "TOTOTOTOTOTOTOTOTOTOTOTOTOTOTOTOTOTOTOTOTOTOTOTOT"
+    puts @option.inspect
 
-    # Override `resource_params` if you want to transform the submitted
-    # data before it's persisted. For example, the following would turn all
-    # empty values into nil values. It uses other APIs such as `resource_class`
-    # and `dashboard`:
-    #
-    # def resource_params
-    #   params.require(resource_class.model_name.param_key).
-    #     permit(dashboard.permitted_attributes(action_name)).
-    #     transform_values { |value| value == "" ? nil : value }
-    # end
-
-    # See https://administrate-demo.herokuapp.com/customizing_controller_actions
-    # for more information
+    respond_to do |format|
+      # format.turbo_stream do
+      #   render turbo_stream: turbo_stream.remove("option_#{@option.id}")
+      # end
+      format.html { redirect_to edit_admin_product_path(@option.product), notice: "Option supprimée." }
+    end
   end
 end
