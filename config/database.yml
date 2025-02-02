@@ -80,7 +80,7 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
-  database: ladsv3_production
-  username: ladsv3
-  password: <%= ENV["LADSV3_DATABASE_PASSWORD"] %>
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  url: <%= ENV['DATABASE_URL'] %>
