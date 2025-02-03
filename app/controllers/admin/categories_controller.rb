@@ -8,6 +8,10 @@ class Admin::CategoriesController < AdminController
 
   end
 
+  def edit
+    @category = Category.find(params[:id])
+  end
+
   def new
     @category = Category.new
   end

@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     resources :brands
     resources :motorists
 
-    root to: "categories#index"
+    root to: "products#index"
   end
   root 'pages#home'
 
