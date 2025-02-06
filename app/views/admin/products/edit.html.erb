@@ -20,6 +20,12 @@
           </div>
 
           <%= f.input :description, as: :text, label: "Description", wrapper: :admin_form %>
+          <%= f.input :infos, as: :text, label: "Infos", wrapper: :admin_form %>
+
+          <div class="w-1/4">
+            <%= f.input :warranty, as: :numeric, label: "Garantie", wrapper: :admin_form %>
+          </div>
+
 
         </div>
 
@@ -283,6 +289,61 @@
               class="flex items-center cursor-pointer px-3 py-2 text-xs font-medium border rounded-lg text-gray-500 bg-gray-50 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600">
               <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2") %>
               Made in France
+            </label>
+          </div>
+
+          <div class="relative">
+            <%= service_fields.check_box :free_quote,
+              class: "peer hidden",
+              id: "free_quote" %>
+            <label for="free_quote"
+              class="flex items-center cursor-pointer px-3 py-2 text-xs font-medium border rounded-lg text-gray-500 bg-gray-50 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600">
+              <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2") %>
+              Devis gratuit
+            </label>
+          </div>
+
+          <div class="relative">
+            <%= service_fields.check_box :anti_fire,
+              class: "peer hidden",
+              id: "anti_fire" %>
+            <label for="anti_fire"
+              class="flex items-center cursor-pointer px-3 py-2 text-xs font-medium border rounded-lg text-gray-500 bg-gray-50 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600">
+              <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2") %>
+              Anti feu
+            </label>
+          </div>
+
+          <div class="relative">
+            <%= service_fields.check_box :anti_uv,
+              class: "peer hidden",
+              id: "anti_uv" %>
+            <label for="anti_uv"
+              class="flex items-center cursor-pointer px-3 py-2 text-xs font-medium border rounded-lg text-gray-500 bg-gray-50 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600">
+              <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2") %>
+              Anti UV
+            </label>
+          </div>
+
+          <div class="relative">
+            <%= service_fields.check_box :rge,
+              class: "peer hidden",
+              id: "rge" %>
+            <label for="rge"
+              class="flex items-center cursor-pointer px-3 py-2 text-xs font-medium border rounded-lg text-gray-500 bg-gray-50 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600">
+              <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2") %>
+              RGE
+            </label>
+          </div>
+
+          <div class="relative mb-10">
+            <%= service_fields.check_box :wind_resistance,
+              class: "peer hidden",
+              id: "wind_resistance" %>
+            <label for="wind_resistance"
+              class="flex items-center cursor-pointer px-3 py-2 text-xs font-medium border rounded-lg text-gray-500 bg-gray-50 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600">
+              <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2") %>
+              Résistance au vent
             </label>
           </div>
 

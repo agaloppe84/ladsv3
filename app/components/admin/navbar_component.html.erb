@@ -22,6 +22,18 @@
                 Produits
               <% end %>
             </li>
+            <li>
+              <%= active_link_to admin_brands_path do %>
+                <%= inline_svg_tag("icons/fire.svg", class: "h-6 w-6 shrink-0 text-gray-400")%>
+                Marques
+              <% end %>
+            </li>
+            <li>
+              <%= active_link_to admin_motorists_path do %>
+                <%= inline_svg_tag("icons/fire.svg", class: "h-6 w-6 shrink-0 text-gray-400")%>
+                Motoristes
+              <% end %>
+            </li>
 
 
           </ul>
