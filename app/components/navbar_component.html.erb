@@ -1,4 +1,4 @@
-<nav class="bg-white/70 shadow-sm backdrop-blur-lg sticky top-0 z-50 nav">
+<nav class="bg-white/70 shadow-sm backdrop-blur-lg sticky top-0 z-50 nav flex justify-between">
   <div class="px-4 pl-10">
     <div class="flex h-14 justify-between">
       <div class="flex">
@@ -13,41 +13,37 @@
           <a href="#" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">Contact</a>
         </div>
       </div>
-
-      <div class="-mr-2 flex items-center sm:hidden">
-        <!-- Mobile menu button -->
-        <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" aria-controls="mobile-menu" aria-expanded="false">
-          <span class="absolute -inset-0.5"></span>
-          <span class="sr-only">Open main menu</span>
-          <!--
-            Icon when menu is closed.
-
-            Menu open: "hidden", Menu closed: "block"
-          -->
-          <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
-          <!--
-            Icon when menu is open.
-
-            Menu open: "block", Menu closed: "hidden"
-          -->
-          <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
     </div>
   </div>
 
-  <!-- Mobile menu, show/hide based on menu state. -->
-  <div class="sm:hidden" id="mobile-menu">
-    <div class="space-y-1 pb-3 pt-2">
-      <!-- Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" -->
-      <a href="#" class="block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700">Dashboard</a>
-      <a href="#" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700">Team</a>
-      <a href="#" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700">Projects</a>
-      <a href="#" class="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-700">Calendar</a>
+  <div data-controller="dropdown" class="flex items-center sm:hidden pr-6 relative">
+    <!-- Mobile menu button -->
+    <%= link_to "#",
+          data: { turbo: false, action: "click->dropdown#toggle" },
+          "aria-controls": "mobile-menu",
+          "aria-expanded": "false",
+          class: "relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:text-gray-500 focus:outline-none mobile-nav-item" do %>
+      <!-- Icon quand le menu est fermé -->
+      <svg data-dropdown-target="openIcon" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+      </svg>
+      <!-- Icon quand le menu est ouvert -->
+      <svg data-dropdown-target="closeIcon" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    <% end %>
+
+
+    <!-- Dropdown content -->
+    <div data-dropdown-target="menu" id="mobile-menu" class="hidden absolute right-4 top-14 z-10 mt-2 w-40 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5">
+      <!-- Place ici le contenu de ton menu déroulant -->
+      <nav class="pt-2 pb-3 space-y-1 flex flex-col pl-3">
+        <%= link_to 'Accueil', root_path, class: "text-gray-700 mobile-nav-item" %>
+        <%= link_to 'Produits', categories_path, class: "text-gray-700 mobile-nav-item" %>
+        <%= link_to 'Devis', new_quote_path, class: "text-gray-700 mobile-nav-item" %>
+      </nav>
     </div>
   </div>
+
+
 </nav>
