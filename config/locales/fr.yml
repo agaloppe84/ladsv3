@@ -1,3 +1,11 @@
 fr:
+  date:
+    formats:
+      default: "%d/%m/%Y"
+      long: "%A %d %B %Y"
+  time:
+    formats:
+      default: "%d/%m/%Y"
+      long: "%A %d %B %Y"
   pages:
     home:

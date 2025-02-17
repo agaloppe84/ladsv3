@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :categories
     resources :options
+    resources :events
+    resources :quotes
     resources :products do
       resources :options, only: [:create, :destroy]
     end

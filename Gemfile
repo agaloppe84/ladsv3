@@ -44,6 +44,7 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "devise"
+gem 'rails-i18n'
 gem 'simple_form'
 gem 'simple_form-tailwind'
 gem "image_processing"
