@@ -1,10 +1,65 @@
-<ul role="list" class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-3 xl:gap-x-8 mt-5">
-  <% @rals.each do |ral| %>
-    <li class="relative flex flex-col items-center">
-      <div class="w-8 h-8 rounded-full border" style="background-color: <%= ral.hex %>;">
+<div class="" data-controller="panel">
+
+  <ul role="list" class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-3 xl:gap-x-8 mt-5">
+    <% @rals.first(6).each do |ral| %>
+      <li class="relative flex flex-col items-center">
+        <div class="w-8 h-8 rounded-full border" style="background-color: <%= ral.hex %>;">
+        </div>
+        <p class="pointer-events-none mt-2 block truncate text-xs font-semibold text-gray-900"><%= ral.ref %></p>
+        <p class="pointer-events-none block text-xs font-medium text-gray-400 truncate"><%= ral.name %></p>
+      </li>
+    <% end %>
+  </ul>
+
+  <% if (@rals.size > 6) %>
+    <div class="flex items-center justify-center w-full mt-10">
+      <div data-action="click->panel#open" class="cursor-pointer px-4 py-2 font-semibold bg-gray-100 text-gray-500 rounded hover:bg-gray-200 text-[10px]">
+        Tout voir
       </div>
-      <p class="pointer-events-none mt-2 block truncate text-xs font-semibold text-gray-900"><%= ral.ref %></p>
-      <p class="pointer-events-none block text-xs font-medium text-gray-400 truncate"><%= ral.name %></p>
-    </li>
+    </div>
   <% end %>
-</ul>
+
+
+  <div data-panel-target="panel" class="fixed inset-0 z-50 hidden">
+    <div class="flex items-end justify-center min-h-screen px-4 pb-20 text-center sm:block sm:p-0">
+      <!-- Fond de la modal -->
+      <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+      </div>
+
+      <!-- Pour centrer le contenu -->
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+      <div class="h-[75vh] inline-block align-bottom bg-white rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div class="bg-white p-6 overflow-y-scroll h-full rounded-lg">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="text-lg font-medium text-gray-900">Coloris armature</h3>
+            <button type="button"
+                    data-action="click->panel#close"
+                    class="text-gray-500 hover:text-gray-700">
+              <span class="sr-only">Fermer</span>
+              <!-- Icône de fermeture -->
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="mt-10">
+            <ul class="grid grid-cols-2 gap-4">
+              <% @rals.each do |ral| %>
+                <li class="flex flex-col items-center">
+                  <div class="w-8 h-8 rounded-full border" style="background-color: <%= ral.hex %>;"></div>
+                  <p class="mt-2 text-xs font-semibold text-gray-900"><%= ral.ref %></p>
+                  <p class="text-xs font-medium text-gray-400"><%= ral.name %></p>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -10,7 +10,7 @@
     <% if @service.warranty %>
       <div class="flex flex-col space-y-2 items-center p-4 bg-yellow-50 rounded-lg w-32 border border-yellow-200">
         <%= inline_svg_tag("icons/warranty.svg", class: "w-6 h-6 stroke-yellow-500") %>
-        <div class="text-xs font-bold text-yellow-600"><%= "Garantie #{@service.warranty} ans" %></div>
+        <div class="text-xs font-bold text-yellow-600"><%= "Garantie #{@service.product.warranty} ans" %></div>
       </div>
     <% end %>
 
