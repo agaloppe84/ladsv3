@@ -1,0 +1,30 @@
+<%= render Admin::HeaderComponent.new(title: "Créer un nouveau motoriste") %>
+
+<%= simple_form_for([:admin, @motorist], data: {turbo: true}) do |f| %>
+
+  <div class="w-2/4">
+    <div class="flex items-center space-x-3 border-b h-12 pl-4">
+      <div class="text-sm font-medium text-slate-700">Infos</div>
+    </div>
+
+    <div class="p-8">
+      <div class="mb-6 flex space-x-8">
+        <div class="w-1/2">
+          <%= f.input :name, label: "Nom", wrapper: :admin_form %>
+        </div>
+        <div class="w-1/2">
+          <%= f.input :logo, label: "Logo", wrapper: :admin_form %>
+        </div>
+      </div>
+
+
+      <%= f.button :submit, "Enregistrer" %>
+
+
+
+    </div>
+
+  </div>
+
+
+<% end %>
