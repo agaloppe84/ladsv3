@@ -36,7 +36,7 @@
           </svg>
           <h3 class="text-sm font-semibold text-gray-900">Infos</h3>
         </div>
-        <p class="text-sm text-gray-500 mt-2 font-medium leading-6"><%= @product.infos %></p>
+        <p class="text-md text-gray-500 mt-2 font-medium leading-6"><%= @product.infos %></p>
       </div>
 
 
@@ -58,7 +58,7 @@
         </svg>
         <h3 class="text-sm font-semibold text-gray-900">Infos</h3>
       </div>
-      <p class="text-sm text-gray-500 mt-4 font-medium leading-6"><%= @product.infos %></p>
+      <p class="text-[15px] text-gray-500 mt-4 font-medium leading-6"><%= @product.infos %></p>
     </div>
 
     <div class="w-full md:w-1/3 p-8 border-l border-gray-100">
@@ -73,7 +73,7 @@
       <div class="prose prose-sm mt-4 text-gray-500">
         <ul role="list">
           <% @product.options.each do |option| %>
-            <li><%= option.content %></li>
+            <li class="text-[12px]"><%= option.content %></li>
           <% end %>
         </ul>
       </div>
