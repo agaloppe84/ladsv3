@@ -1,7 +1,15 @@
 class Admin::ProductsController < AdminController
 
   def index
-    @products = Product.all
+    @categories = Category.all
+    if params[:category_id].present?
+      @category = Category.find(params[:category_id])
+      # Mettre la catégorie sélectionnée en premier, puis les autres
+      @categories = [@category] + @categories.reject { |cat| cat.id == @category.id }
+      @products = Product.where(category: @category).order(updated_at: :desc)
+    else
+      @products = Product.all.order(updated_at: :desc)
+    end
   end
 
   def show
@@ -39,9 +47,6 @@ class Admin::ProductsController < AdminController
       render :edit, status: :unprocessable_entity
     end
   end
-
-
-
 
   private
 

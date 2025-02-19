@@ -68,6 +68,7 @@ nav.admin-navbar a:hover svg {
 
 .scrollbar::-webkit-scrollbar {
   width: 7px;
+  height: 4px;
 }
 
 .scrollbar::-webkit-scrollbar-track {
@@ -76,7 +77,7 @@ nav.admin-navbar a:hover svg {
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(15, 23, 42, 0.4);
+  background: rgba(183, 182, 210, 0.4);
   border-radius: 100vh;
   border: none;
 }
