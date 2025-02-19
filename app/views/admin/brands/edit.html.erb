@@ -1,6 +1,6 @@
-<%= render Admin::HeaderComponent.new(title: "Modifier #{@motorist.name}") %>
+<%= render Admin::HeaderComponent.new(title: "Modifier #{@brand.name}") %>
 
-<%= simple_form_for([:admin, @motorist], data: {turbo: true}) do |f| %>
+<%= simple_form_for([:admin, @brand], data: {turbo: true}) do |f| %>
 
   <div class="w-2/4">
     <div class="flex items-center space-x-3 border-b h-12 pl-4">

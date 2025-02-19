@@ -12,9 +12,19 @@
         <div class="w-1/2">
           <%= f.input :name, label: "Nom", wrapper: :admin_form %>
         </div>
-        <div class="w-1/2">
-          <%= f.input :logo, label: "Logo", wrapper: :admin_form %>
-        </div>
+      </div>
+
+
+      <div class="text-[10px] font-semibold text-slate-400 mb-3">Logo</div>
+      <div class="flex items-center space-x-3 mb-4">
+        <%= f.collection_radio_buttons :logo, @logos, :to_s, :to_s do |b| %>
+          <div class="checkbox-wrapper w-16">
+            <%= b.radio_button(class: "peer hidden") %>
+            <%= b.label(class: 'cursor-pointer text-[10px] flex items-center justify-center space-x-2 border p-1 rounded font-bold text-gray-700 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600') do %>
+              <%= inline_svg_tag("logos/#{b.object}", class: "fill-slate-700 h-10 w-20") %>
+            <% end %>
+          </div>
+        <% end %>
       </div>
 
 
