@@ -16,7 +16,7 @@
 
 
       <div class="text-[10px] font-semibold text-slate-400 mb-3">Logo</div>
-      <div class="flex items-center space-x-3 mb-4">
+      <div class="flex items-center space-x-3 space-y-3 mb-4 w-full flex-wrap">
         <%= f.collection_radio_buttons :logo, @logos, :to_s, :to_s do |b| %>
           <div class="checkbox-wrapper w-16">
             <%= b.radio_button(class: "peer hidden") %>

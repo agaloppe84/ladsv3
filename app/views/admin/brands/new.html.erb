@@ -2,7 +2,7 @@
 
 <%= simple_form_for([:admin, @brand], data: {turbo: true}) do |f| %>
 
-  <div class="w-2/4">
+  <div class="w-2/4 border-r border-slate-100">
     <div class="flex items-center space-x-3 border-b h-12 pl-4">
       <div class="text-sm font-medium text-slate-700">Infos</div>
     </div>
@@ -16,11 +16,11 @@
 
 
       <div class="text-[10px] font-semibold text-slate-400 mb-3">Logo</div>
-      <div class="flex items-center space-x-3 mb-4">
+      <div class="flex items-center space-x-3 space-y-3 mb-4 w-full flex-wrap">
         <%= f.collection_radio_buttons :logo, @logos, :to_s, :to_s do |b| %>
           <div class="checkbox-wrapper w-16">
             <%= b.radio_button(class: "peer hidden") %>
-            <%= b.label(class: 'cursor-pointer text-[10px] flex items-center justify-center space-x-2 border p-1 rounded font-bold text-gray-700 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600') do %>
+            <%= b.label(class: 'cursor-pointer text-[10px] flex items-center justify-center space-x-2 border p-1 rounded font-bold peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600') do %>
               <%= inline_svg_tag("logos/#{b.object}", class: "fill-slate-700 h-10 w-20") %>
             <% end %>
           </div>
