@@ -6,6 +6,10 @@ class PagesController < ApplicationController
     add_breadcrumb("Home", root_path)
   end
 
+  def destock
+
+  end
+
   def services
   end
 end
