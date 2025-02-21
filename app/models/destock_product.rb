@@ -1,0 +1,2 @@
+class DestockProduct < Product
+end

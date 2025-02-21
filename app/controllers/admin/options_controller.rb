@@ -1,11 +1,19 @@
 class Admin::OptionsController < AdminController
 
   def create
-    @product = Product.find(params[:product_id])
+    if params[:product_id]
+      @product = Product.find(params[:product_id])
+    elsif params[:destock_product_id]
+      @product = DestockProduct.find(params[:destock_product_id])
+    end
     @new_option = @product.options.build
-    puts "INTO OPTION CREATE VIA TURBO"
+
     if @new_option.save
-      redirect_to edit_admin_product_path(@product), notice: "Option ajoutée"
+      if params[:product_id]
+        redirect_to edit_admin_product_path(@product), notice: "Option ajoutée"
+      elsif params[:destock_product_id]
+        redirect_to edit_admin_destock_product_path(@product), notice: "Option ajoutée"
+      end
     else
       render :edit
     end

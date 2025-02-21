@@ -46,6 +46,12 @@
                 Devis
               <% end %>
             </li>
+            <li>
+              <%= active_link_to admin_destock_products_path do %>
+                <%= inline_svg_tag("icons/fire.svg", class: "h-6 w-6 shrink-0 text-gray-400")%>
+                Déstockage
+              <% end %>
+            </li>
 
 
           </ul>

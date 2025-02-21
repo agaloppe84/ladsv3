@@ -1,0 +1,380 @@
+<%= render Admin::HeaderComponent.new(title: "Créer un produit de déstockage") %>
+
+<%= simple_form_for([:admin, @product], data: {turbo: true}) do |f| %>
+  <div class="main">
+
+    <div class="flex">
+      <div class="w-2/4">
+        <div class="flex items-center space-x-3 border-b h-12 pl-4">
+          <div class="text-sm font-medium text-slate-700">Infos</div>
+        </div>
+
+        <div class="p-8">
+          <div class="mb-6 flex space-x-8">
+            <div class="w-1/2">
+              <%= f.input :name, label: "Nom", wrapper: :admin_form %>
+            </div>
+            <div class="w-1/2">
+              <%= f.input :category_id, as: :select, label: "Catégorie", wrapper: :admin_form, collection: Category.all, label_method: :name, value_method: :id, include_blank: "Sélectionnez une catégorie" %>
+            </div>
+          </div>
+
+          <div class="flex space-x-8">
+            <div class="w-1/2">
+              <%= f.input :old_price, label: "Ancien prix", wrapper: :admin_form %>
+              <%= f.input :new_price, label: "Nouveau prix", wrapper: :admin_form %>
+              <%= f.input :dimensions, label: "Dimensions", wrapper: :admin_form %>
+            </div>
+            <div class="w-1/2">
+              <%= f.input :brand_id, as: :select, label: "Marque", wrapper: :admin_form, collection: Brand.all, label_method: :name, value_method: :id, include_blank: "Sélectionnez une marque" %>
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+
+
+      <div class="w-1/4">
+        <div class="flex items-center space-x-3 border-b h-12 pl-4 border-l">
+          <div class="text-sm font-medium text-slate-700">Motoristes</div>
+          <span class="inline-flex items-center rounded bg-purple-50 px-2.5 py-1.5 text-[9px] font-bold text-purple-700 ring-1 ring-inset ring-purple-700/10"><%= @product.motorists.size %></span>
+        </div>
+
+        <div class="h-80 border-l">
+          <div class="flex flex-col">
+            <%= f.collection_check_boxes :motorist_ids, Motorist.all, :id, :name do |b| %>
+              <div class="checkbox-wrapper w-full relative">
+                <%= b.check_box(class: "peer hidden") %>
+                <%= inline_svg_tag("icons/check-circle.svg", class: "h-4 w-4 shrink-0 mr-2 hidden peer-checked:flex peer-checked:text-violet-600 absolute left-4 top-1/3 transition") %>
+                <%= inline_svg_tag("icons/circle-empty.svg", class: "h-4 w-4 shrink-0 mr-2 peer-checked:hidden absolute left-4 top-1/3 text-gray-300 transition") %>
+                <div class="h-4 w-4 shrink-0 mr-2 peer-checked:hidden absolute left-4 top-1/3"></div>
+                <%= b.label(class: 'cursor-pointer text-xs flex items-center justify-start space-x-2 border-b px-10 py-4 font-bold text-gray-700 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600') do %>
+                  <%= inline_svg_tag("icons/check-circle.svg", class: "h-4 w-4 shrink-0 mr-2 hidden peer-checked:flex") %>
+                  <div><%= b.text %></div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-1/4">
+        <div class="flex items-center space-x-3 border-b h-12 pl-4 border-l">
+          <div class="text-sm font-medium text-slate-700">Ral</div>
+          <span class="inline-flex items-center rounded bg-purple-50 px-2.5 py-1.5 text-[9px] font-bold text-purple-700 ring-1 ring-inset ring-purple-700/10"><%= @product.rals.size %></span>
+        </div>
+
+        <div class="p-8 h-80 overflow-y-scroll scrollbar border-l">
+          <div class="flex flex-wrap gap-4">
+            <%= f.collection_check_boxes :ral_ids, Ral.all, :id, :ref do |b| %>
+              <div class="checkbox-wrapper w-16">
+                <%= b.check_box(class: "peer hidden") %>
+                <%= b.label(class: 'cursor-pointer text-[10px] flex items-center justify-center space-x-2 border p-1 rounded font-bold text-gray-700 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600') do %>
+                  <div class="ral-color rounded-full w-2 h-2" style="background-color: <%= b.object.rgb %>;"></div>
+                  <div><%= b.text.remove("RAL") %></div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <% if @product.images.attached? %>
+
+      <div class="border-t">
+        <div class="flex space-x-3 items-center px-4 py-3">
+          <div class="text-sm font-medium text-slate-700">Photos</div>
+          <span class="inline-flex items-center rounded bg-purple-50 px-2.5 py-1.5 text-[9px] font-bold text-purple-700 ring-1 ring-inset ring-purple-700/10"><%= "#{@product.images.size} Photos" %></span>
+        </div>
+
+        <div class="flex border-t">
+
+          <ul role="list" class="p-12 w-3/4 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-6 xl:gap-x-8">
+            <% @product.images.each do |image| %>
+              <li class="relative" data-controller="image" data-image-signed-id-value="<%= image.signed_id %>">
+                <%= f.hidden_field :images, multiple: true, value: image.signed_id, data: { image_target: "hiddenField" } %>
+                <div class="group overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                  <%= cl_image_tag(image.key, crop: :scale, class: "pointer-events-none aspect-[10/7] object-cover group-hover:opacity-75") %>
+                </div>
+                <div class="mt-2">
+                  <p class="pointer-events-none truncate text-ellipsis text-[9px] font-semibold text-gray-900 border-b mb-2 pb-2 border-gray-100"><%= image.blob.filename %></p>
+
+                  <div class="flex justify-between items-center">
+                    <span class="inline-flex items-center rounded-md bg-purple-50 px-1.5 py-0.5 text-[9px] font-bold text-purple-700 ring-1 ring-inset ring-purple-700/10"><%= "#{(image.blob.byte_size.to_f / 1000000.0).round(1)} MB" %></span>
+                    <!-- Bouton de suppression -->
+                    <%= link_to "#", data: {action: "image#remove", turbo: false} do %>
+                      <div class="flex space-x-3 items-center">
+                        <%= inline_svg_tag("icons/trash.svg", class: "h-4 w-4 shrink-0 text-gray-600")%>
+                      </div>
+                    <% end %>
+                  </div>
+
+                </div>
+              </li>
+            <% end %>
+          </ul>
+
+          <div class="w-1/4 border-l flex flex-col items-center">
+
+            <div data-controller="upload" class="w-full">
+              <!-- Champ de fichier pour télécharger l'image -->
+              <%= f.file_field :images, direct_upload: true, multiple: true, data: { upload_target: "input", action: "change->upload#uploadFile" }, style: "display: none;" %>
+
+              <%= link_to "#", class: "text-blue-600 text-sm font-bold", data: { action: "upload#triggerFileInput" } do %>
+                <div class="p-6 w-full flex flex-col items-center">
+                  <div class="relative w-full flex flex-col items-center rounded-lg border-2 border-dashed border-gray-200 p-12 text-center hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    <%= inline_svg_tag("icons/cube-transparent.svg", class: "h-10 w-10 text-violet-300")%>
+                    <span class="mt-2 block text-[11px] font-semibold text-slate-500">Ajoutez des photos</span>
+                  </div>
+                  <small class="text-[8px] font-semibold text-center text-slate-400 mt-1">Sauvegardez le produit pour enregister les photos</small>
+                </div>
+              <% end %>
+
+              <div data-upload-target="preview" class="flex flex-col w-full items-center">
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+    <% else %>
+      <div class="border-t">
+        <div class="text-sm font-medium text-slate-700 my-4">Photos</div>
+
+        <div class="flex border-t">
+
+          <div class="w-3/4 p-12">
+
+            <div class="text-center flex flex-col items-center">
+              <%= inline_svg_tag("icons/exclamation-circle.svg", class: "h-6 w-6 shrink-0 text-red-500") %>
+              <h3 class="mt-2 text-sm font-semibold text-gray-900">0 images</h3>
+              <p class="mt-1 text-xs font-medium text-gray-400">Ajoutez des photos dans le menu à droite</p>
+            </div>
+
+          </div>
+
+          <div class="w-1/4 border-l flex flex-col items-center">
+
+            <div data-controller="upload" class="w-full">
+              <!-- Champ de fichier pour télécharger l'image -->
+              <%= f.file_field :images, direct_upload: true, multiple: true, data: { upload_target: "input", action: "change->upload#uploadFile" }, style: "display: none;" %>
+
+              <%= link_to "#", class: "text-blue-600 text-sm font-bold", data: { action: "upload#triggerFileInput" } do %>
+                <div class="bg-indigo-50 px-2 py-2 border-b border-indigo-100 text-xs font-semibold text-indigo-600 hover:bg-indigo-100 flex items-center w-full">
+                  <%= inline_svg_tag("icons/queue-list.svg", class: "h-3 w-3 shrink-0 text-indigo-500")%>
+                  <div class="ml-2">Add photos</div>
+                </div>
+              <% end %>
+
+              <div data-upload-target="preview" class="flex flex-col w-full items-center p-6"></div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    <% end %>
+
+
+  </div>
+
+
+  <div class="flex">
+
+    <div class="options w-3/4">
+      <% if @product.persisted? %>
+        <div class="flex items-center space-x-3 border-y h-12 pl-4 border-r">
+          <div class="text-sm font-medium text-slate-700">Options</div>
+          <span class="inline-flex items-center rounded bg-purple-50 px-2.5 py-1.5 text-[9px] font-bold text-purple-700 ring-1 ring-inset ring-purple-700/10"><%= "#{@product.options.size} Options" %></span>
+          <%= link_to admin_destock_product_options_path(@product), data: { turbo_method: :post, turbo_stream: true } do %>
+            <div class="flex space-x-2 items-center">
+              <div class="text-xs text-gray-500 font-medium px-2 py-1 rounded border border-gray-200 hover:bg-gray-100">+ Ajouter</div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+
+      <% if @product.options.any? %>
+        <div class="draggable-options p-12 w-full border-r">
+          <ul role="list" id="sortable-options" data-controller="sortable" class="divide-y divide-gray-100 overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
+            <% @product.options.each_with_index do |option, index| %>
+              <li class="relative flex px-3 py-4 sm:px-6 drag-handle cursor-move bg-white" data-id="<%= index + 1 %>">
+                <div class="flex w-full gap-x-3 items-center">
+
+                  <div class="py-1 px-2 flex items-center space-x-2 mr-2 rounded border border-violet-100">
+                    <div class="flex-none rounded-full bg-violet-500/20 p-1">
+                      <div class="size-1.5 rounded-full bg-violet-500"></div>
+                    </div>
+                    <div class="text-violet-600 text-xs font-bold">
+                      <%= "#{index + 1}" %>
+                    </div>
+                  </div>
+
+                  <%= f.fields_for :options, option do |option_fields| %>
+                    <%= option_fields.input :content, wrapper: :small_input, label: false %>
+                    <%= option_fields.input :order, as: :hidden, value: option.order %>
+                  <% end %>
+                </div>
+                <div class="flex shrink-0 items-center gap-x-4">
+                  <%= inline_svg_tag("icons/dragging.svg", class: "h-4 w-4 shrink-0 text-gray-600")%>
+
+                  <%= link_to admin_destock_product_option_path(@product, option), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure ?', turbo_stream: true }, remote: true do %>
+                    <div class="flex space-x-3 items-center">
+                      <%= inline_svg_tag("icons/minus-circle.svg", class: "h-4 w-4 shrink-0 text-red-500") %>
+                    </div>
+                  <% end %>
+                </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% else %>
+
+        <div class="text-center flex flex-col items-center p-12 w-full  bg-gray-50">
+          <div class="rounded px-4 py-3 flex items-center border border-gray-100 bg-white">
+            <%= inline_svg_tag("icons/exclamation-circle.svg", class: "h-6 w-6 shrink-0 text-violet-500") %>
+            <div class="text-[12px] font-medium text-gray-800 ml-2">Pas d'options pour ce produit</div>
+          </div>
+        </div>
+
+      <% end %>
+
+    </div>
+
+    <div class="service w-1/4">
+      <div class="flex items-center space-x-3 border-y h-12 pl-4">
+        <div class="text-sm font-medium text-slate-700">Services</div>
+        <span class="inline-flex items-center rounded bg-purple-50 px-2.5 py-1.5 text-[9px] font-bold text-purple-700 ring-1 ring-inset ring-purple-700/10"><%= "1 service" %></span>
+      </div>
+
+
+      <%= f.fields_for :service, @product.service do |service_fields| %>
+        <div class="flex items-start flex-col gap-y-4 p-12 border-gray-100">
+
+          <div class="relative">
+            <%= service_fields.check_box :warranty,
+              class: "peer hidden",
+              id: "warranty" %>
+            <label for="warranty"
+              class="flex items-center cursor-pointer px-3 py-2 text-xs font-medium border rounded-lg text-gray-500 bg-gray-50 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600">
+              <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2") %>
+              Garantie
+            </label>
+          </div>
+
+          <div class="relative">
+            <%= service_fields.check_box :custom_dimensions,
+              class: "peer hidden",
+              id: "custom_dimensions" %>
+            <label for="custom_dimensions"
+              class="flex items-center cursor-pointer px-3 py-2 text-xs font-medium border rounded-lg text-gray-500 bg-gray-50 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600">
+              <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2") %>
+              Sur mesure
+            </label>
+          </div>
+
+          <div class="relative">
+            <%= service_fields.check_box :made_in_france,
+              class: "peer hidden",
+              id: "made_in_france" %>
+            <label for="made_in_france"
+              class="flex items-center cursor-pointer px-3 py-2 text-xs font-medium border rounded-lg text-gray-500 bg-gray-50 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600">
+              <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2") %>
+              Made in France
+            </label>
+          </div>
+
+          <div class="relative">
+            <%= service_fields.check_box :free_quote,
+              class: "peer hidden",
+              id: "free_quote" %>
+            <label for="free_quote"
+              class="flex items-center cursor-pointer px-3 py-2 text-xs font-medium border rounded-lg text-gray-500 bg-gray-50 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600">
+              <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2") %>
+              Devis gratuit
+            </label>
+          </div>
+
+          <div class="relative">
+            <%= service_fields.check_box :anti_fire,
+              class: "peer hidden",
+              id: "anti_fire" %>
+            <label for="anti_fire"
+              class="flex items-center cursor-pointer px-3 py-2 text-xs font-medium border rounded-lg text-gray-500 bg-gray-50 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600">
+              <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2") %>
+              Anti feu
+            </label>
+          </div>
+
+          <div class="relative">
+            <%= service_fields.check_box :anti_uv,
+              class: "peer hidden",
+              id: "anti_uv" %>
+            <label for="anti_uv"
+              class="flex items-center cursor-pointer px-3 py-2 text-xs font-medium border rounded-lg text-gray-500 bg-gray-50 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600">
+              <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2") %>
+              Anti UV
+            </label>
+          </div>
+
+          <div class="relative">
+            <%= service_fields.check_box :rge,
+              class: "peer hidden",
+              id: "rge" %>
+            <label for="rge"
+              class="flex items-center cursor-pointer px-3 py-2 text-xs font-medium border rounded-lg text-gray-500 bg-gray-50 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600">
+              <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2") %>
+              RGE
+            </label>
+          </div>
+
+          <div class="relative mb-10">
+            <%= service_fields.check_box :wind_resistance,
+              class: "peer hidden",
+              id: "wind_resistance" %>
+            <label for="wind_resistance"
+              class="flex items-center cursor-pointer px-3 py-2 text-xs font-medium border rounded-lg text-gray-500 bg-gray-50 peer-checked:bg-violet-50 peer-checked:border-violet-100 peer-checked:text-violet-600">
+              <%= inline_svg_tag("icons/check-circle.svg", class: "h-5 w-5 shrink-0 mr-2") %>
+              Résistance au vent
+            </label>
+          </div>
+
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+
+  <% if @product.errors.any? %>
+    <% @product.errors.each do |error| %>
+      <div class="flex flex-col items-start">
+         <div class="px-4 py-2 bg-red-100 text-red-700 rounded-md text-xs font-semibold flex items-center space-x-2 mb-4">
+            <div><%= error.type %></div>
+          </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div class="fixed bottom-5 right-0 w-10/12 flex items-center justify-end pr-8">
+    <div class="px-5 py-3 border border-gray-100 rounded bg-white shadow-lg flex space-x-5 items-center shadow-violet-200/50">
+      <div class="text-[10px] font-medium text-violet-400">Retour</div>
+      <%= f.button :submit, "Enregistrer" %>
+      <%= render 'admin/products/notification', notice: nil %>
+    </div>
+  </div>
+
+<% end %>

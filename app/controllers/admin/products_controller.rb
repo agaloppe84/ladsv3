@@ -6,9 +6,9 @@ class Admin::ProductsController < AdminController
       @category = Category.find(params[:category_id])
       # Mettre la catégorie sélectionnée en premier, puis les autres
       @categories = [@category] + @categories.reject { |cat| cat.id == @category.id }
-      @products = Product.where(category: @category).order(updated_at: :desc)
+      @products = Product.where(category: @category, type: nil).order(updated_at: :desc)
     else
-      @products = Product.all.order(updated_at: :desc)
+      @products = Product.where(type: nil).order(updated_at: :desc)
     end
   end
 

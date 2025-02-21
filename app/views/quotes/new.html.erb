@@ -1,46 +1,85 @@
 <div class="relative isolate bg-white px-6 py-14 sm:py-14 lg:px-8">
-  <div class="mx-auto max-w-xl lg:max-w-4xl">
-    <h2 class="text-4xl font-bold tracking-tight text-gray-900">Devis gratuit</h2>
-    <p class="mt-2 text-lg leading-8 text-gray-600">Remplissez ce formulaire et recevez une réponse sous 48h</p>
-    <div class="mt-16 flex flex-col gap-16 sm:gap-y-20 lg:flex-row">
 
-      <%= simple_form_for(@quote) do |f| %>
-        <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-          <div>
-            <%= f.input :lastname, label: "Nom", error: "Doit être rempli" %>
-          </div>
-
-          <div>
-            <%= f.input :email, label: "Email", input_html: { autocomplete: "email" }, error: "Doit être rempli" %>
-          </div>
-
-          <div>
-            <%= f.input :city, label: "Ville", error: "Doit être rempli" %>
-          </div>
-
-          <div>
-            <%= f.input :address, label: "Adresse", error: "Doit être rempli" %>
-          </div>
-
-          <div>
-            <%= f.input :phone, label: "Téléphone", error: "Doit être rempli" %>
-          </div>
-
-          <div>
-            <%= f.input :product, collection: Product.all, label: "Produit", label_method: :name, value_method: :name, error: "Doit être rempli" %>
-          </div>
-
-          <div class="sm:col-span-2">
-            <%= f.input :message, as: :text, label: "Message", input_html: {rows: 8}, error: "Doit être rempli" %>
-          </div>
-
+  <div class="flex px-20 w-full flex-col md:flex-row">
+    <% if @product %>
+      <div class="w-full md:w-1/2 order-2 ml-10">
+        <div class="px-6 pt-6">
+          <p class="text-xl font-bold"><%= @product.name %></p>
+          <p class="text-[10px] text-violet-500 font-semibold">Catégorie : <%= @product.category.name %></p>
+          <p class="my-4 text-sm font-medium text-slate-500"><%= @product.description %></p>
         </div>
-        <div class="mt-2">
-          <%= f.button :submit, "Envoyer", class: "w-full" %>
-        </div>
-        <p class="mt-2 text-[9px] leading-6 font-semibold text-gray-600 text-center">En soumettant ce formulaire, j'accepte la <small class="font-semibold text-violet-600 text-[9px]">politique de confidentialité</small>.</p>
-      <% end %>
 
+        <% if @product.images.any? %>
+          <div class="px-6 pb-4 flex space-x-3">
+            <% @product.images.each do |image| %>
+              <div class="w-1/4">
+                  <%= cl_image_tag(image.key, crop: :scale, class: "pointer-events-none object-cover rounded") %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <div class="prose prose-sm text-gray-500 px-6">
+          <ul role="list">
+            <% @product.options.each do |option| %>
+              <li class="text-[12px] text-slate-500"><%= option.content %></li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div class="px-6 pb-6">
+          <p class="mt-2 text-[9px] text-slate-400">Créé le <%= I18n.l @product.created_at, format: :long %></p>
+        </div>
+
+      </div>
+    <% end %>
+
+    <div class="w-full md:w-1/2">
+      <h2 class="text-4xl font-bold tracking-tight text-gray-900">Devis gratuit</h2>
+      <p class="mt-2 text-lg leading-8 text-gray-600">Remplissez ce formulaire et recevez une réponse sous 48h</p>
+      <div class="mt-16 flex flex-col gap-16 sm:gap-y-20 lg:flex-row">
+
+        <%= simple_form_for(@quote) do |f| %>
+          <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+            <div>
+              <%= f.input :lastname, label: "Nom", error: "Doit être rempli" %>
+            </div>
+
+            <div>
+              <%= f.input :email, label: "Email", input_html: { autocomplete: "email" }, error: "Doit être rempli" %>
+            </div>
+
+            <div>
+              <%= f.input :city, label: "Ville", error: "Doit être rempli" %>
+            </div>
+
+            <div>
+              <%= f.input :address, label: "Adresse", error: "Doit être rempli" %>
+            </div>
+
+            <div>
+              <%= f.input :phone, label: "Téléphone", error: "Doit être rempli" %>
+            </div>
+
+            <div>
+              <%= f.input :product, collection: Product.all, label: "Produit", label_method: :name, value_method: :name, error: "Doit être rempli", selected: (@product.name if @product ) %>
+            </div>
+
+            <div class="sm:col-span-2">
+              <%= f.input :message, as: :text, label: "Message", input_html: {rows: 8}, error: "Doit être rempli" %>
+            </div>
+
+          </div>
+          <div class="mt-2">
+            <%= f.button :submit, "Envoyer", class: "w-full" %>
+          </div>
+          <p class="mt-2 text-[9px] leading-6 font-semibold text-gray-600 text-center">En soumettant ce formulaire, j'accepte la <small class="font-semibold text-violet-600 text-[9px]">politique de confidentialité</small>.</p>
+        <% end %>
+
+      </div>
     </div>
+
   </div>
+
+
 </div>

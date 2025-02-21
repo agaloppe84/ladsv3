@@ -1,5 +1,8 @@
 class QuotesController < ApplicationController
   def new
+    if params[:product_id]
+      @product = Product.find(params[:product_id])
+    end
     @quote = Quote.new
   end
 

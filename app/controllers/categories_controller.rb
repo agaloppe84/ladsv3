@@ -9,6 +9,7 @@ class CategoriesController < ApplicationController
   def show
     @categories = Category.all
     @category = Category.find(params[:id])
+    @products = @category.products.where(type: nil)
     add_breadcrumb("Home", root_path)
     add_breadcrumb("Produits", categories_path)
     add_breadcrumb(@category.name, nil, @category.products.count)

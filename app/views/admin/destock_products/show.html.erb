@@ -1,0 +1,32 @@
+<%= turbo_frame_tag "item_detail", data: { controller: "fadein", action: "turbo:frame-load->fadein#removeOpacity" } do %>
+  <div data-fadein-target="content" class="opacity-0 transition duration-1000 ease-out">
+    <div class="px-6 pt-6">
+      <p class="text-xl font-bold"><%= @product.name %></p>
+      <p class="text-[10px] text-violet-500 font-semibold">Catégorie : <%= @product.category.name %></p>
+      <p class="my-4 text-sm font-medium text-slate-500"><%= @product.description %></p>
+    </div>
+
+    <% if @product.images.any? %>
+      <div class="px-6 pb-4 flex space-x-3">
+        <% @product.images.each do |image| %>
+          <div class="w-1/4">
+              <%= cl_image_tag(image.key, crop: :scale, class: "pointer-events-none object-cover rounded") %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="prose prose-sm text-gray-500 px-6">
+      <ul role="list">
+        <% @product.options.each do |option| %>
+          <li class="text-[12px] text-slate-500"><%= option.content %></li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="px-6 pb-6">
+      <p class="mt-2 text-[9px] text-slate-400">Créé le <%= I18n.l @product.created_at, format: :long %></p>
+    </div>
+
+  </div>
+<% end %>

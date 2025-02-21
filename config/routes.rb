@@ -5,6 +5,9 @@ Rails.application.routes.draw do
     resources :options
     resources :events
     resources :quotes
+    resources :destock_products do
+      resources :options, only: [:create, :destroy]
+    end
     resources :products do
       resources :options, only: [:create, :destroy]
     end

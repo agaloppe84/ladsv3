@@ -1,91 +1,36 @@
 <div class="container mx-auto px-4 py-8">
   <h1 class="text-2xl font-bold text-center mb-8">Déstockage</h1>
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <% @products.each do |product| %>
 
-    <!-- Produit 1 -->
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-      <img src="https://via.placeholder.com/400x300?text=Luxaflex+1" alt="Luxaflex Store Élégance" class="w-full h-48 object-cover">
-      <div class="p-4">
-        <h2 class="text-md font-bold mb-1 text-slate-700">Luxaflex Store Élégance</h2>
-        <p class="text-violet-500 text-[12px] font-medium">Dimensions : 120cm x 150cm</p>
-        <div class="flex items-center mt-2">
-          <span class="text-slate-400 line-through font-medium text-sm mr-2">300€</span>
-          <span class="text-violet-500 font-semibold text-lg">250€</span>
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <img src="https://via.placeholder.com/400x300?text=Luxaflex" alt="Coffre intégral C400 de Coublanc" class="w-full h-48 object-cover">
+        <div class="p-4">
+          <h2 class="text-md font-bold text-slate-700"><%= product.name %></h2>
+          <p class="text-violet-500 text-[12px] font-medium">Dimensions : 5500 x 3500</p>
+          <ul class="list-disc list-inside text-gray-500 mt-3 text-xs font-medium">
+            <li>Coffre intégral C400 de Coublanc</li>
+            <li>Armature : Ral 7016</li>
+            <li>Moteur : Somfy Sunea Io</li>
+            <li>Télécommande : Situo 5 Io</li>
+            <li>Pare soleil : enroulable électrique</li>
+            <li>LED : à variation sous les 2 bras</li>
+            <li>Coloris : toile et pare soleil au choix</li>
+            <li>Quantité : 2 stores</li>
+          </ul>
+          <div class="flex items-center mt-4">
+            <span class="text-slate-400 line-through font-medium text-sm mr-2">10000€ TTC posé</span>
+            <span class="text-violet-500 font-semibold text-lg">5900€ TTC posé</span>
+          </div>
+          <p class="text-slate-400 text-[10px] font-medium mb-4">
+            (Dans un rayon de 30km autour de l’Arbresle)
+          </p>
+          <%= link_to "Nous contacter", new_quote_path(product_id: product.id), class: "bg-orange-500 text-white text-center mt-4 px-3 py-2 rounded hover:bg-orange-600 transition text-xs font-medium" %>
         </div>
-        <p class="text-gray-500 mt-2 mb-4 text-xs font-medium">
-          Store intérieur Luxaflex au design moderne, parfait pour sublimer votre salon.
-        </p>
-        <%= link_to "Devis gratuit", new_quote_path, class: "bg-orange-500 text-white text-center mt-4 px-3 py-2 rounded hover:bg-orange-600 transition text-xs font-medium" %>
       </div>
-    </div>
 
-    <!-- Produit 2 -->
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-      <img src="https://via.placeholder.com/400x300?text=Luxaflex+2" alt="Luxaflex Store Confort" class="w-full h-48 object-cover">
-      <div class="p-4">
-        <h2 class="text-lg font-bold mb-2">Luxaflex Store Confort</h2>
-        <p class="text-gray-600 text-sm">Dimensions : 100cm x 130cm</p>
-        <div class="flex items-center mt-2">
-          <span class="text-gray-500 line-through text-sm mr-2">280€</span>
-          <span class="text-red-500 font-bold text-sm">230€</span>
-        </div>
-        <p class="text-gray-700 mt-2 text-sm">
-          Profitez d’un confort optimal grâce à ce store intérieur alliant isolation et esthétisme.
-        </p>
-        <%= link_to "Demander un devis", new_quote_path, class: "bg-blue-500 text-white block text-center mt-4 px-3 py-2 rounded hover:bg-blue-600 transition text-sm" %>
-      </div>
-    </div>
+    <% end %>
 
-    <!-- Produit 3 -->
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-      <img src="https://via.placeholder.com/400x300?text=Luxaflex+3" alt="Luxaflex Store Modern" class="w-full h-48 object-cover">
-      <div class="p-4">
-        <h2 class="text-lg font-bold mb-2">Luxaflex Store Modern</h2>
-        <p class="text-gray-600 text-sm">Dimensions : 140cm x 160cm</p>
-        <div class="flex items-center mt-2">
-          <span class="text-gray-500 line-through text-sm mr-2">350€</span>
-          <span class="text-red-500 font-bold text-sm">300€</span>
-        </div>
-        <p class="text-gray-700 mt-2 text-sm">
-          Un style contemporain et épuré pour illuminer votre intérieur avec élégance.
-        </p>
-        <%= link_to "Demander un devis", new_quote_path, class: "bg-blue-500 text-white block text-center mt-4 px-3 py-2 rounded hover:bg-blue-600 transition text-sm" %>
-      </div>
-    </div>
-
-    <!-- Produit 4 -->
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-      <img src="https://via.placeholder.com/400x300?text=Luxaflex+4" alt="Luxaflex Store Premium" class="w-full h-48 object-cover">
-      <div class="p-4">
-        <h2 class="text-lg font-bold mb-2">Luxaflex Store Premium</h2>
-        <p class="text-gray-600 text-sm">Dimensions : 110cm x 140cm</p>
-        <div class="flex items-center mt-2">
-          <span class="text-gray-500 line-through text-sm mr-2">320€</span>
-          <span class="text-red-500 font-bold text-sm">270€</span>
-        </div>
-        <p class="text-gray-700 mt-2 text-sm">
-          Une qualité supérieure et une finition raffinée pour un intérieur luxueux.
-        </p>
-        <%= link_to "Demander un devis", new_quote_path, class: "bg-blue-500 text-white block text-center mt-4 px-3 py-2 rounded hover:bg-blue-600 transition text-sm" %>
-      </div>
-    </div>
-
-    <!-- Produit 5 -->
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-      <img src="https://via.placeholder.com/400x300?text=Luxaflex+5" alt="Luxaflex Store Prestige" class="w-full h-48 object-cover">
-      <div class="p-4">
-        <h2 class="text-lg font-bold mb-2">Luxaflex Store Prestige</h2>
-        <p class="text-gray-600 text-sm">Dimensions : 130cm x 155cm</p>
-        <div class="flex items-center mt-2">
-          <span class="text-gray-500 line-through text-sm mr-2">330€</span>
-          <span class="text-red-500 font-bold text-sm">280€</span>
-        </div>
-        <p class="text-gray-700 mt-2 text-sm">
-          Ce store intérieur Luxaflex apporte une touche de luxe et de modernité à votre pièce.
-        </p>
-        <%= link_to "Demander un devis", new_quote_path, class: "bg-blue-500 text-white block text-center mt-4 px-3 py-2 rounded hover:bg-blue-600 transition text-sm" %>
-      </div>
-    </div>
 
   </div>
 </div>

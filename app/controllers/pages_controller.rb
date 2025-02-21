@@ -7,7 +7,7 @@ class PagesController < ApplicationController
   end
 
   def destock
-
+    @products = DestockProduct.all
   end
 
   def services
