@@ -10,6 +10,9 @@
     <div class="mx-auto max-w-2xl lg:mx-0">
       <h2 class="text-4xl font-bold tracking-tight text-white sm:text-6xl"><%= @product.name %></h2>
       <p class="mt-2 text-lg leading-8 text-gray-100"><%= @product.description %></p>
+      <div class="h-14 flex items-center">
+        <%= link_to "Devis gratuit", new_quote_path(product_id: @product.id), class: "bg-orange-500 text-white text-center px-3 py-2 rounded hover:bg-orange-600 transition text-[11px] font-semibold" %>
+      </div>
     </div>
   </div>
   <div class="absolute bottom-0 right-0 p-4 pr-8 flex space-x-4 items-center">

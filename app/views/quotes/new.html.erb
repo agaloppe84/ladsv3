@@ -27,7 +27,7 @@
           </ul>
         </div>
 
-        <div class="px-6 pb-6">
+        <div class="px-6 pb-6 hidden">
           <p class="mt-2 text-[9px] text-slate-400">Créé le <%= I18n.l @product.created_at, format: :long %></p>
         </div>
 
@@ -35,8 +35,8 @@
     <% end %>
 
     <div class="w-full md:w-1/2">
-      <h2 class="text-4xl font-bold tracking-tight text-gray-900">Devis gratuit</h2>
-      <p class="mt-2 text-lg leading-8 text-gray-600">Remplissez ce formulaire et recevez une réponse sous 48h</p>
+      <h2 class="text-2xl font-bold tracking-tight text-gray-900">Devis gratuit</h2>
+      <p class="text-sm leading-8 text-gray-600">Remplissez ce formulaire et recevez une réponse sous 48h</p>
       <div class="mt-16 flex flex-col gap-16 sm:gap-y-20 lg:flex-row">
 
         <%= simple_form_for(@quote) do |f| %>
