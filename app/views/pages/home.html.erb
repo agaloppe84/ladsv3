@@ -3,7 +3,7 @@
 <div class="bg-white">
   <main>
     <!-- Hero -->
-    <div class="flex border-b border-gray-200 h-[500px]">
+    <div class="flex border-b border-gray-200 h-[500px] hidden">
       <div class="w-full h-full">
         <% if @carousel_products.any? %>
           <%= render CarouselComponent.new(@carousel_products) %>
@@ -11,75 +11,42 @@
       </div>
     </div>
 
-    <div class="bg-gray-50 py-12 sm:py-12">
-      <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
-        <p class="mx-auto mt-2 max-w-lg text-center text-2xl font-semibold tracking-tight text-balance text-gray-950 sm:text-2xl">Notre Savoir-Faire pour un engagement durable</p>
-        <div class="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
-          <div class="relative lg:row-span-2">
-            <div class="absolute inset-px rounded-lg bg-white lg:rounded-l-[2rem]"></div>
-            <div class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
-              <div class="px-8 pt-8 pb-3 sm:px-10 sm:pt-10 sm:pb-0">
-                <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">Expérience</p>
-                <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">Les artisans du store dans le Rhône, c'est plus de 35 ans d'expérience à votre service. Nous proposons toute une gamme de produits pour la fermeture et la protection solaire : stores extérieurs, pergostores, pergolas, moustiquaires, volets roulants et battants, portes de garage et stores intérieurs.</p>
-              </div>
-              <div class="@container relative min-h-[30rem] w-full grow max-lg:mx-auto max-lg:max-w-sm">
-                <div class="absolute inset-x-10 top-10 bottom-0 overflow-hidden rounded-t-[12cqw] border-x-[3cqw] border-t-[3cqw] border-gray-700 bg-gray-900 shadow-2xl">
-                  <img class="size-full object-cover object-top" src="https://tailwindui.com/plus/img/component-images/bento-03-mobile-friendly.png" alt="">
-                </div>
-              </div>
-            </div>
-            <div class="pointer-events-none absolute inset-px rounded-lg ring-1 shadow-sm ring-black/5 lg:rounded-l-[2rem]"></div>
-          </div>
-          <div class="relative max-lg:row-start-1">
-            <div class="absolute inset-px rounded-lg bg-white max-lg:rounded-t-[2rem]"></div>
-            <div class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
-              <div class="px-8 pt-8 sm:px-10 sm:pt-10">
-                <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">Equipe</p>
-                <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">Qualifiée RGE (Reconnus Garants de l’environnement), Les artisans du store c’est avant tout une équipe de 6 personnes à votre service pour vous conseiller et vous accompagner dans tous vos projets d’aménagement.</p>
-              </div>
-              <div class="flex flex-1 items-center justify-center px-8 max-lg:pt-10 max-lg:pb-12 sm:px-10 lg:pb-2">
-                <img class="w-full max-lg:max-w-xs" src="https://tailwindui.com/plus/img/component-images/bento-03-performance.png" alt="">
-              </div>
-            </div>
-            <div class="pointer-events-none absolute inset-px rounded-lg ring-1 shadow-sm ring-black/5 max-lg:rounded-t-[2rem]"></div>
-          </div>
-          <div class="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2">
-            <div class="absolute inset-px rounded-lg bg-white"></div>
-            <div class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)]">
-              <div class="px-8 pt-8 sm:px-10 sm:pt-10">
-                <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">Services</p>
-                <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">Entreprise de proximité, nous nous déplaçons dans un rayon de 30 km autour de L’Arbresle, afin d’établir des devis personnalisés gratuits et sans engagement.</p>
-              </div>
-              <div class="@container flex flex-1 items-center max-lg:py-6 lg:pb-2">
-                <img class="h-[min(152px,40cqw)] object-cover" src="https://tailwindui.com/plus/img/component-images/bento-03-security.png" alt="">
-              </div>
-            </div>
-            <div class="pointer-events-none absolute inset-px rounded-lg ring-1 shadow-sm ring-black/5"></div>
-          </div>
-          <div class="relative lg:row-span-2">
-            <div class="absolute inset-px rounded-lg bg-white max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]"></div>
-            <div class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]">
-              <div class="px-8 pt-8 pb-3 sm:px-10 sm:pt-10 sm:pb-0">
-                <p class="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">Produits</p>
-                <p class="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">Face à la crise climatique incitant à une meilleure isolation thermique, nous déclinons toute notre gamme de produits qui répondent à ces nouvelles exigences et nous nous efforçons de privilégier les fabricants français, tels que FRANCE FERMETURES, SOMFY, COUBLANC, MATEST, REFLEXOL, DICKSON mais aussi LUXAFLEX pour qui nous assurons le seul Espace Gallery de la région Auvergne-Rhône-Alpes.</p>
-              </div>
-              <div class="relative min-h-[30rem] w-full grow">
-                <div class="absolute top-10 right-0 bottom-0 left-10 overflow-hidden rounded-tl-xl bg-gray-900 shadow-2xl">
-                  <div class="flex bg-gray-800/40 ring-1 ring-white/5">
-                    <div class="-mb-px flex text-sm/6 font-medium text-gray-400">
-                      <div class="border-r border-b border-r-white/10 border-b-white/20 bg-white/5 px-4 py-2 text-white">NotificationSetting.jsx</div>
-                      <div class="border-r border-gray-600/10 px-4 py-2">App.jsx</div>
-                    </div>
-                  </div>
-                  <div class="px-6 pt-6 pb-14">
-                    <!-- Your code example -->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="pointer-events-none absolute inset-px rounded-lg ring-1 shadow-sm ring-black/5 max-lg:rounded-b-[2rem] lg:rounded-r-[2rem]"></div>
-          </div>
+    <div class="flex items-center justify-center flex-col p-12">
+      <div><%= inline_svg_tag("logos/ads-without-text.svg", class: "h-20 w-20 shrink-0") %></div>
+      <h1 class="text-2xl font-bold tracking-tight text-gray-900 mt-2">Les Artisans du Store</h1>
+    </div>
+
+    <div class="flex space-x-10 py-4 px-20">
+      <div class="w-2/3 p-8 text-lg text-slate-600">
+        <p class="text-xl font-semibold tracking-tight text-balance text-slate-700 mb-4">Notre Savoir-Faire pour un engagement durable</p>
+        <div class="mb-3">
+          Les artisans du store dans le Rhône, c'est plus de 35 ans d'expérience à votre service. Nous proposons toute une gamme de produits pour la fermeture et la protection solaire : stores extérieurs et intérieurs, pergostores, pergolas, moustiquaires, volets roulants et battants, portes de garage.
         </div>
+        <div>
+          Qualifiée RGE (Reconnus Garants de l’environnement), Les artisans du store c’est avant tout une équipe de 5 personnes à votre service pour vous conseiller et vous accompagner dans tous vos projets d’aménagement.
+        </div>
+
+      </div>
+      <div class="w-1/3 p-8">
+        <%= image_tag("https://res.cloudinary.com/dytbi4y5w/image/upload/v1742218647/production/static/u6i9jfhrr0fvmxm8dxfi.jpg", crop: :scale, class: "w-full object-cover object-center rounded") %>
+      </div>
+    </div>
+
+    <div class="flex space-x-10 bg-slate-100 py-4 px-20">
+      <div class="w-1/3 p-8">
+        <%= image_tag("https://res.cloudinary.com/dytbi4y5w/image/upload/v1742218647/production/static/kgtp3vvpdgpccd1wgej7.jpg", crop: :scale, class: "w-full object-cover object-center rounded") %>
+      </div>
+
+      <div class="w-2/3 p-8 text-lg text-slate-600">
+        <p class="text-xl font-semibold tracking-tight text-balance text-slate-700 mb-4">Nos produits</p>
+        <div>
+          Face à la crise climatique incitant à une meilleure isolation thermique, nous déclinons toute notre gamme de produits qui répondent à ces nouvelles exigences et nous nous efforçons de privilégier les fabricants français, tels que FRANCE FERMETURES, SOMFY, COUBLANC, MATEST, REFLEXOL, DICKSON mais aussi LUXAFLEX pour qui nous assurons le seul Espace Gallery de la région Auvergne-Rhône-Alpes.
+        </div>
+
+        <div class="h-14 flex items-center mt-3">
+          <%= link_to "Nos produits", categories_path, class: "bg-orange-500 text-white text-center px-3 py-1 rounded hover:bg-orange-600 transition text-[13px] font-semibold" %>
+        </div>
+
       </div>
     </div>
 
