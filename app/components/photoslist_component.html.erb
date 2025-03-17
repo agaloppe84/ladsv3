@@ -12,7 +12,7 @@
           <!-- On ajoute data-action et data-modal-url-value pour ouvrir la modal -->
           <button type="button"
                   data-action="click->modal#open"
-                  data-modal-url-value="<%= cl_image_path(photo.key, crop: :scale) %>"
+                  data-modal-url-value="<%= cl_image_path(photo.key) %>"
                   class="absolute inset-0 focus:outline-none">
             <span class="sr-only">Voir la photo en grand</span>
           </button>
@@ -25,11 +25,11 @@
   <div id="modal"
        class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 hidden z-50"
        data-modal-target="container">
-    <div class="bg-white p-4 rounded shadow-lg relative w-full h-full">
+    <div class="bg-white p-4 rounded shadow-lg relative w-full">
       <!-- Bouton de fermeture -->
       <button type="button"
               data-action="click->modal#close"
-              class="absolute top-10 right-10 p-2">
+              class="fixed top-10 right-10 p-2">
         <svg class="h-6 w-6 text-gray-700" fill="none" stroke="white" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M6 18L18 6M6 6l12 12" />
@@ -39,7 +39,7 @@
       <img data-modal-target="image"
            src=""
            alt="Photo agrandie"
-           class="object-cover object-center">
+           class="object-contain">
     </div>
   </div>
 </div>
