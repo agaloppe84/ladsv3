@@ -6,6 +6,7 @@ class Product < ApplicationRecord
   has_and_belongs_to_many :rals
   has_and_belongs_to_many :motorists
   has_many_attached :images
+  has_many_attached :documentations
 
   accepts_nested_attributes_for(
     :options,
