@@ -17,10 +17,10 @@
   </div>
   <div class="absolute bottom-0 right-0 p-4 pr-8 flex space-x-4 items-center">
     <% if @product.motorists.any? %>
-      <%= inline_svg_tag("logos/#{@product.motorists.first.logo}", class: "fill-white h-10 w-20 pt-2") %>
+      <%= inline_svg_tag("logos/#{@product.motorists.first.logo}", class: "text-white fill-white h-10 w-20 pt-2") %>
     <% end %>
     <% if @product.brand.present? %>
-      <%= inline_svg_tag("logos/#{@product.brand.logo}", class: "text-white fill-white h-14 w-22") %>
+      <%= inline_svg_tag("logos/#{@product.brand.logo}", class: "text-white fill-white h-10 w-20") %>
     <% end %>
   </div>
 </div>
