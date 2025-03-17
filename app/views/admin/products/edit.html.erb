@@ -370,7 +370,7 @@
 
   <div class="fixed bottom-5 right-0 w-10/12 flex items-center justify-end pr-8">
     <div class="px-5 py-3 border border-gray-100 rounded bg-white shadow-lg flex space-x-5 items-center shadow-violet-200/50">
-      <div class="text-[10px] font-medium text-violet-400">Retour</div>
+      <%= link_to "Retour", admin_root_path, class: "text-[10px] font-medium text-violet-400" %>
       <%= f.button :submit, "Enregistrer" %>
       <%= render 'admin/products/notification', notice: nil %>
     </div>
