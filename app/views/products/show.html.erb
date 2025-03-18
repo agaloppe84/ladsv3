@@ -11,7 +11,7 @@
       <h2 class="text-4xl font-bold tracking-tight text-white sm:text-6xl"><%= @product.name %></h2>
       <p class="mt-2 text-lg leading-8 text-gray-100"><%= @product.description %></p>
       <div class="h-14 flex items-center">
-        <%= link_to "Devis gratuit", new_quote_path(product_id: @product.id), class: "bg-orange-500 text-white text-center px-3 py-2 rounded hover:bg-orange-600 transition text-[11px] font-semibold" %>
+        <%= link_to "Devis gratuit", new_quote_path(product_id: @product.id), class: "bg-orange-500 text-white text-center px-3 py-2 rounded hover:bg-orange-600 transition text-[12px] font-semibold" %>
       </div>
     </div>
   </div>
@@ -122,7 +122,7 @@
         <h3 class="text-sm font-semibold text-gray-900">Documentation</h3>
       </div>
 
-      <div class="flex flex-col space-y-3 items-center mt-4">
+      <div class="flex flex-col space-y-3 items-start mt-4">
         <% if @product.documentations.attached? %>
           <% @product.documentations.each do |doc| %>
             <%= link_to cloudinary_url(doc.key), target: "_blank" do %>
