@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get 'home', to: 'pages#home'
   get 'services', to: 'pages#services'
   get 'destock', to: 'pages#destock'
+  get 'contact', to: 'pages#contact'
   resources :categories, only: [:index, :show]
   resources :products, only: [:show]
   resources :quotes, only: [:new, :create]

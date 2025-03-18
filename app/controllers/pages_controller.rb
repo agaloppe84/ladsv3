@@ -11,6 +11,10 @@ class PagesController < ApplicationController
     @products = DestockProduct.all
   end
 
+  def contact
+
+  end
+
   def services
   end
 end

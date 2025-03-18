@@ -1,0 +1,37 @@
+<div class="flex space-x-4 items-start p-16">
+  <div class="border rounded-lg border-gray-100 w-1/2 flex flex-wrap">
+
+    <div class="w-1/2 p-8 border-b border-gray-100">
+      <div class="rounded-lg w-10 h-10 flex items-center justify-center bg-orange-50 mb-4">
+        <%= inline_svg_tag("icons/map-pin.svg", class: "text-orange-400 h-6 w-6") %>
+      </div>
+      <div class="text-lg">35 rue des martinets</div>
+      <div class="text-lg font-semibold">69210 L'Arbresle</div>
+    </div>
+
+    <div class="w-1/2 p-8 border-b border-l border-gray-100">
+      <div class="rounded-lg w-10 h-10 flex items-center justify-center bg-blue-50 mb-4">
+        <%= inline_svg_tag("icons/phone.svg", class: "text-blue-400 h-6 w-6") %>
+      </div>
+      <%= link_to "04 74 01 05 11", "tel:0474010511", class: "text-lg font-semibold hover:underline" %>
+    </div>
+
+    <div class="w-1/2 p-8">
+      <div class="rounded-lg w-10 h-10 flex items-center justify-center bg-green-50 mb-4">
+        <%= inline_svg_tag("icons/clock.svg", class: "text-green-400 h-6 w-6") %>
+      </div>
+      <div class="text-lg">Du lundi au vendredi</div>
+      <div class="text-lg font-semibold">9h - 18h30</div>
+    </div>
+
+    <div class="w-1/2 p-8 border-l border-gray-100">
+      <div class="rounded-lg w-10 h-10 flex items-center justify-center bg-violet-50 mb-4">
+        <%= inline_svg_tag("icons/at-symbol.svg", class: "text-violet-400 h-6 w-6") %>
+      </div>
+      <%= link_to "ads.pascale@lesartisansdustore.com", "mailto:ads.pascale@lesartisansdustore.com", class: "text-sm hover:underline" %>
+    </div>
+  </div>
+  <div class="w-1/2">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2780.2835652333556!2d4.604221976642868!3d45.82560487108219!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f48b472a3cbe87%3A0xb8e782d7f52576e0!2sLes%20Artisans%20du%20Store!5e0!3m2!1sfr!2sfr!4v1742294949861!5m2!1sfr!2sfr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+</div>
