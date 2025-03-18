@@ -5,6 +5,7 @@ class Product < ApplicationRecord
   has_one :service, dependent: :destroy
   has_and_belongs_to_many :rals
   has_and_belongs_to_many :motorists
+  has_and_belongs_to_many :manufacturers
   has_many_attached :images
   has_many_attached :documentations
 

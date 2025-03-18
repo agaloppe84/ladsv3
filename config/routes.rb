@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     end
     resources :brands
     resources :motorists
+    resources :manufacturers
 
     root to: "products#index"
   end
