@@ -16,4 +16,8 @@ class Product < ApplicationRecord
     allow_destroy: true
   )
 
+  def to_param
+    "#{id}-#{name.parameterize}"
+  end
+
 end

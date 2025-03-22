@@ -1,3 +1,7 @@
+<% title "Catégories" %>
+<% description "Toutes les catégories de produit" %>
+<% keywords "Stores, volets roulants, stores intérieurs" %>
+
 <%= render EventFlashComponent.new(@event) %>
 <%= render BreadcrumbComponent.new(breadcrumbs) %>
 
@@ -14,7 +18,7 @@
               <% if category.products.any? && category.products.first.images.attached? %>
                 <%= cl_image_tag(category.products.first.images.first.key, crop: :scale, class: "h-full w-full object-cover object-center") %>
               <% else %>
-                <img src="https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg" alt="Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug." class="h-full w-full object-cover object-center">
+                <%= image_tag('placeholder.jpg', class: "w-full object-cover object-center") %>
               <% end %>
             </div>
             <p class="text-base font-semibold text-gray-900 mt-3"><%= category.name %></p>
