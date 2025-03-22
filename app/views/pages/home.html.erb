@@ -1,6 +1,5 @@
 <% title "Home page" %>
-<% description "Page principale du site" %>
-<% keywords "Stores, volets roulants" %>
+<% description "Fourniture / Pose de stores , 69 , Rhône-alpes , stores extérieurs et intérieurs, moustiquaires, volets roulants, portes de garages." %>
 
 <%= render EventFlashComponent.new(@event) %>
 
@@ -20,8 +19,8 @@
       <h1 class="text-3xl font-bold tracking-tight text-gray-900 mt-2">Les Artisans du Store</h1>
     </div>
 
-    <div class="flex space-x-10 py-4 px-20">
-      <div class="w-2/3 p-8 text-lg text-slate-600">
+    <div class="flex space-x-0 md:space-x-10 py-4 px-20 flex-col md:flex-row">
+      <div class="w-full md:w-2/3 p-8 text-lg text-slate-600">
         <p class="text-2xl font-semibold tracking-tight text-balance text-slate-700 mb-5">Notre Savoir-Faire pour un engagement durable</p>
         <div class="mb-3">
           Les artisans du store dans le Rhône, c'est plus de 35 ans d'expérience à votre service. Nous proposons toute une gamme de produits pour la fermeture et la protection solaire : stores extérieurs et intérieurs, pergostores, pergolas, moustiquaires, volets roulants et battants, portes de garage.
@@ -31,17 +30,17 @@
         </div>
 
       </div>
-      <div class="w-1/3 p-8">
+      <div class="w-full md:w-1/3 p-8">
         <%= image_tag("https://res.cloudinary.com/dytbi4y5w/image/upload/v1742218647/production/static/u6i9jfhrr0fvmxm8dxfi.jpg", crop: :scale, class: "w-full object-cover object-center rounded") %>
       </div>
     </div>
 
-    <div class="flex space-x-10 bg-slate-100 py-4 px-20">
-      <div class="w-1/3 p-8">
+    <div class="flex space-x-0 md:space-x-10 bg-slate-100 py-4 px-20 flex-col md:flex-row">
+      <div class="w-full md:w-1/3 p-8">
         <%= image_tag("https://res.cloudinary.com/dytbi4y5w/image/upload/v1742218647/production/static/kgtp3vvpdgpccd1wgej7.jpg", crop: :scale, class: "w-full object-cover object-center rounded") %>
       </div>
 
-      <div class="w-2/3 p-8 text-lg text-slate-600">
+      <div class="w-full md:w-2/3 p-8 text-lg text-slate-600">
         <p class="text-2xl font-semibold tracking-tight text-balance text-slate-700 mb-5">Nos produits</p>
         <div>
           Face à la crise climatique incitant à une meilleure isolation thermique, nous déclinons toute notre gamme de produits qui répondent à ces nouvelles exigences et nous nous efforçons de privilégier les fabricants français, tels que FRANCE FERMETURES, SOMFY, COUBLANC, MATEST, REFLEXOL, DICKSON mais aussi LUXAFLEX pour qui nous assurons le seul Espace Gallery de la région Auvergne-Rhône-Alpes.
