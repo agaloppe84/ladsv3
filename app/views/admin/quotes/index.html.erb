@@ -1,6 +1,7 @@
 <%= render Admin::HeaderComponent.new(title: "Devis") %>
 
-<ul role="list" class="divide-y divide-gray-100">
+<%= turbo_stream_from "admin_quotes" %>
+<ul role="list" class="divide-y divide-gray-100" id="quotes">
   <% @quotes.each do |quote| %>
     <li class="flex items-center gap-x-6 py-5 px-8 w-full">
       <div class="w-2/5">
