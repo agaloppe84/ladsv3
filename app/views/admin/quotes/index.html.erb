@@ -1,25 +1,20 @@
 <%= render Admin::HeaderComponent.new(title: "Devis") %>
 
-<ul role="list" class="divide-y divide-gray-100" id="quotes">
-  <% @quotes.each do |quote| %>
-    <li class="flex items-center gap-x-6 py-5 px-8 w-full">
-      <div class="w-2/5">
-        <div class="flex items-start gap-x-3 items-center">
-          <p class="text-sm font-semibold leading-6 text-gray-900"><%= quote.lastname %></p>
-        </div>
-        <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-          <%= quote.address %>
-        </div>
-      </div>
-
-      <div class="w-2/5 flex items-center space-x-3">
-        <p class="rounded-md whitespace-nowrap px-1.5 py-0.5 text-[10px] font-medium ring-1 ring-inset text-green-500 bg-green-50 ring-green-600/20"><%= quote.product %></p>
-        <p class="rounded-md whitespace-nowrap px-1.5 py-0.5 text-[10px] font-medium ring-1 ring-inset text-violet-500 bg-violet-50 ring-violet-600/20"><%= I18n.l quote.created_at, format: :long %></p>
-      </div>
-
-      <div class="flex items-center w-1/5 justify-end">
-        <%= link_to "Détails", admin_quote_path(quote), class: "button-light" %>
-      </div>
-    </li>
-  <% end %>
-</ul>
+<turbo-frame id="quotes_list">
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-slate-50">
+      <tr>
+        <th class="px-6 py-3 text-left text-[8px] font-bold text-gray-400 uppercase tracking-wider">Client</th>
+        <th class="px-6 py-3 text-left text-[8px] font-bold text-gray-400 uppercase tracking-wider">Produit</th>
+        <th class="px-6 py-3 text-left text-[8px] font-bold text-gray-400 uppercase tracking-wider">Statut</th>
+        <th class="px-6 py-3 text-left text-[8px] font-bold text-gray-400 uppercase tracking-wider"></th>
+        <th class="px-6 py-3 text-left text-[8px] font-bold text-gray-400 uppercase tracking-wider">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      <% @quotes.each do |quote| %>
+        <%= render partial: "quote_row", locals: { quote: quote } %>
+      <% end %>
+    </tbody>
+  </table>
+</turbo-frame>
