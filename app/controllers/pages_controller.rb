@@ -4,6 +4,7 @@ class PagesController < ApplicationController
     @photos = Product.all.first.images
     @carousel_products = Product.all.first(6)
     @carousel_products = []
+    @categories = Category.all
     add_breadcrumb("Home", root_path)
   end
 
