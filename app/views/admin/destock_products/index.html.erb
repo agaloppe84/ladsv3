@@ -27,7 +27,7 @@
 
       <ul role="list" class="divide-y divide-gray-100">
         <% @products.each do |product| %>
-          <li class="flex items-center justify-between gap-x-6 py-5 px-8">
+          <li id="product_<%= product.id %>" class="flex items-center justify-between gap-x-6 py-5 px-8">
             <div class="min-w-0">
               <div class="flex items-center gap-x-3">
                 <%= link_to admin_destock_product_path(product), data: { turbo_frame: "item_detail" } do %>
@@ -40,7 +40,17 @@
               </div>
             </div>
             <div class="flex flex-none items-center gap-x-4">
-              <%= link_to "Modifier", edit_admin_destock_product_path(product), data: { turbo: false }, class: "border rounded px-2 py-1 font-semibold border-violet-200 bg-violet-100 text-violet-500 text-[11px] hover:bg-violet-200" %>
+              <%= link_to "Modifier", edit_admin_destock_product_path(product), data: { turbo: false }, class: "border rounded px-2 py-1 font-semibold border-violet-200 text-violet-500 text-[11px] hover:bg-violet-50" %>
+
+              <%= link_to admin_destock_product_path(product),
+              method: :delete,
+              data: { turbo_confirm: "Êtes-vous sûr de vouloir supprimer ce produit ?",
+                      turbo_method: :delete,
+                      turbo_frame: "products_list" },
+              class: "border rounded px-2 py-1 font-semibold border-violet-200 text-violet-500 text-[11px]" do %>
+                <%= inline_svg_tag("icons/trash.svg", class: "text-violet-500 h-4 w-4") %>
+              <% end %>
+
             </div>
           </li>
         <% end %>
