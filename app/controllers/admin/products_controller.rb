@@ -48,6 +48,16 @@ class Admin::ProductsController < AdminController
     end
   end
 
+  def destroy
+    @product = Product.find(params[:id])
+    @product.destroy
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.remove("product_#{@product.id}") }
+      format.html { redirect_to admin_products_path, notice: "Produit supprimé." }
+    end
+  end
+
+
   private
 
   def product_params

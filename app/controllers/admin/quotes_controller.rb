@@ -23,6 +23,16 @@ class Admin::QuotesController < AdminController
     end
   end
 
+  def destroy
+    @quote = Quote.find(params[:id])
+    @quote.destroy
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.remove("quote_#{@quote.id}") }
+      format.html { redirect_to admin_quotes_path, notice: "Devis supprimé." }
+    end
+  end
+
+
   private
 
   def set_quote

@@ -20,5 +20,11 @@
             class: "rounded border border-violet-100 px-3 py-1 text-violet-700 font-medium hover:bg-violet-50 text-xs transition" %>
     <% end %>
     <%= link_to "Détails", admin_quote_path(quote), class: "rounded border border-violet-100 px-3 py-1 text-violet-700 font-medium hover:bg-violet-50 text-xs transition", data: { turbo_frame: "_top" } %>
+    <%= link_to admin_quote_path(quote),
+      method: :delete,
+      data: { turbo_confirm: "Êtes-vous sûr de vouloir supprimer ce devis ?", turbo_method: :delete, turbo_frame: "quotes_list" },
+      class: "rounded border border-violet-100 px-2 py-1 text-violet-700 font-medium hover:bg-violet-50 text-xs transition" do %>
+      <%= inline_svg_tag("icons/trash.svg", class: "text-violet-700 h-4 w-4") %>
+    <% end %>
   </td>
 </tr>
