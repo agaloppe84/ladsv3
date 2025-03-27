@@ -64,9 +64,12 @@
         </li>
 
         <li class="-mx-6 mt-auto">
-          <div class="flex px-5 py-4 w-full items-center space-x-2 hover:bg-gray-50">
-            <%= inline_svg_tag("icons/logout.svg", class: "text-gray-400 w-5 h-5") %>
-            <%= button_to("Déconnexion", destroy_user_session_path, method: :delete, class: " text-sm font-semibold flex-grow") %>
+          <div class="pl-6 py-2 border-y w-full font-medium text-xs text-gray-400 bg-gray-50">
+            <%= current_user.email %>
+          </div>
+          <div class="flex px-5 py-2 w-full items-center space-x-2 hover:bg-gray-50">
+            <%= inline_svg_tag("icons/logout.svg", class: "text-gray-400 w-4 h-4") %>
+            <%= button_to("Déconnexion", destroy_user_session_path, method: :delete, class: " text-xs font-semibold flex-grow pb-1") %>
           </div>
         </li>
       </ul>
