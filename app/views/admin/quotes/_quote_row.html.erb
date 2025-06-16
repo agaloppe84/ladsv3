@@ -1,5 +1,6 @@
 <tr id="quote_<%= quote.id %>">
   <td class="px-6 py-4 whitespace-nowrap text-xs font-semibold"><%= quote.lastname %></td>
+  <td class="px-6 py-4 whitespace-nowrap text-[10px] font-medium text-gray-400"><%= I18n.l quote.created_at, format: :long %></td>
   <td class="px-6 py-4 whitespace-nowrap text-xs font-medium"><%= quote.product %></td>
   <td class="px-6 py-4 whitespace-nowrap text-xs font-medium">
     <% if quote.processed %>
