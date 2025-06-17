@@ -37,7 +37,16 @@ Rails.application.configure do
   config.active_storage.service = :cloudinary
 
   # Don't care if the mailer can't send.
-  config.action_mailer.delivery_method        = :letter_opener
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:              "smtp.gmail.com",
+    port:                 587,
+    domain:               "gmail.com",               # ici
+    user_name:            Rails.application.credentials.dig(:smtp, :user_name),
+    password:             Rails.application.credentials.dig(:smtp, :password),
+    authentication:       "plain",
+    enable_starttls_auto: true
+  }
   config.action_mailer.perform_deliveries     = true
   config.action_mailer.raise_delivery_errors  = true
   config.active_job.queue_adapter             = :async
