@@ -29,7 +29,20 @@ class Admin::ProductsController < AdminController
   end
 
   def create
+    @product = Product.new(product_params)
 
+    if @product.save
+      # Envoi d'un turbo_stream pour rester sur la même page et afficher la notification
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace('product-notification', partial: 'admin/products/notification', locals: { notice: 'Produit enregistré !!' })
+        end
+        format.html { redirect_to admin_products_path, notice: "Produit enregistré" }
+      end
+    else
+      puts @product.errors.full_messages
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def update
@@ -61,6 +74,6 @@ class Admin::ProductsController < AdminController
   private
 
   def product_params
-    params.require(:product).permit(:name, :description, :infos, :category_id, :brand_id, :warranty, service_attributes: [:id, :warranty, :custom_dimensions, :made_in_france, :anti_fire, :anti_uv, :rge, :wind_resistance, :free_quote], options_attributes: [:id, :order, :content, :_destroy], manufacturer_ids: [],  motorist_ids: [], ral_ids: [], documentations: [], images: [])
+    params.require(:product).permit(:name, :description, :infos, :category_id, :warranty, service_attributes: [:id, :warranty, :custom_dimensions, :made_in_france, :anti_fire, :anti_uv, :rge, :wind_resistance, :free_quote], options_attributes: [:id, :order, :content, :_destroy], manufacturer_ids: [],  motorist_ids: [], ral_ids: [], documentations: [], images: [])
   end
 end

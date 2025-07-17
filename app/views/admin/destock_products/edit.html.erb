@@ -25,9 +25,6 @@
               <%= f.input :new_price, label: "Nouveau prix", wrapper: :admin_form %>
               <%= f.input :dimensions, label: "Dimensions", wrapper: :admin_form %>
             </div>
-            <div class="w-1/2">
-              <%= f.input :brand_id, as: :select, label: "Marque", wrapper: :admin_form, collection: Brand.all, label_method: :name, value_method: :id, include_blank: "Sélectionnez une marque" %>
-            </div>
           </div>
 
 

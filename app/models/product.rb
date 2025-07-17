@@ -1,6 +1,5 @@
 class Product < ApplicationRecord
   belongs_to :category
-  belongs_to :brand
   has_many :options, dependent: :destroy
   has_one :service, dependent: :destroy
   has_and_belongs_to_many :rals
@@ -17,7 +16,11 @@ class Product < ApplicationRecord
   )
 
   def to_param
-    "#{id}-#{name.parameterize}"
+    if persisted? && name.present?
+      "#{id}-#{name.parameterize}"
+    else
+      super
+    end
   end
 
 end

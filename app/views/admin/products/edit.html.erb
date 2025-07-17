@@ -26,9 +26,6 @@
             <div class="w-1/4">
               <%= f.input :warranty, as: :numeric, label: "Garantie", wrapper: :admin_form %>
             </div>
-            <div class="w-1/4">
-              <%= f.input :brand_id, as: :select, label: "Marque", wrapper: :admin_form, collection: Brand.all, label_method: :name, value_method: :id, include_blank: "Sélectionnez une marque" %>
-            </div>
           </div>
 
 
