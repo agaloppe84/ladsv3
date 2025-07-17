@@ -11,7 +11,6 @@ Rails.application.routes.draw do
     resources :products do
       resources :options, only: [:create, :destroy]
     end
-    resources :brands
     resources :motorists
     resources :manufacturers
 
