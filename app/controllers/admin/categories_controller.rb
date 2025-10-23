@@ -21,7 +21,12 @@ class Admin::CategoriesController < AdminController
   end
 
   def update
-
+    @category = Category.find(params[:id])
+    if @category.update(category_params)
+      redirect_to admin_categories_path, notice: "Catégorie modifiée"
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   private

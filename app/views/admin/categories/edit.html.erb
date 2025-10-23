@@ -1,1 +1,12 @@
 <%= render Admin::HeaderComponent.new(title: "Modifier #{@category.name}") %>
+
+<%= simple_form_for([:admin, @category]) do |f| %>
+  <div class="space-y-6">
+    <%= f.input :name %>
+    <%= f.input :description  %>
+    <div>
+      <%= f.button :submit, "Valider" %>
+    </div>
+
+  </div>
+<% end %>
