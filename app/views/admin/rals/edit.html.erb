@@ -1,0 +1,13 @@
+<%= render Admin::HeaderComponent.new(title: "Modifier #{@ral.name} - #{@ral.ref}") %>
+
+<%= simple_form_for([:admin, @ral]) do |f| %>
+  <div class="space-y-6 w-1/2">
+    <%= f.input :name %>
+    <%= f.input :collection, as: :select, collection: ["classic", "modern", "premium"], include_blank: false %>
+
+    <div>
+      <%= f.button :submit, "Valider" %>
+    </div>
+
+  </div>
+<% end %>
