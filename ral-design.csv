@@ -1,0 +1,1713 @@
+code_ral,name_fr,rgba,hex
+000 15 00,Brun noir,"rgba(33,33,34,1)",#212122
+000 20 00,Noir de sécurité,"rgba(43,43,43,1)",#2B2B2B
+000 25 00,Olive noire,"rgba(58,58,58,1)",#3A3A3A
+000 30 00,Cosmos,"rgba(68,68,67,1)",#444443
+000 35 00,Gris signalisation B,"rgba(80,80,80,1)",#505050
+000 40 00,Gris,"rgba(93,92,91,1)",#5D5C5B
+000 45 00,Gris mat,"rgba(107,106,105,1)",#6B6A69
+000 50 00,Gris moyen,"rgba(118,118,117,1)",#767675
+000 55 00,Gris fonçé nacré,"rgba(130,130,130,1)",#828282
+000 60 00,Aluminium gris,"rgba(143,143,142,1)",#8F8F8E
+000 65 00,Gris souris,"rgba(158,159,158,1)",#9E9F9E
+000 70 00,Gris acier,"rgba(172,173,172,1)",#ACADAC
+000 75 00,Étain oxydé,"rgba(186,186,186,1)",#BABABA
+000 80 00,Mauve d'antan,"rgba(201,200,199,1)",#C9C8C7
+000 85 00,Gris clair,"rgba(214,214,212,1)",#D6D6D4
+000 90 00,Gris Hanoï,"rgba(226,227,224,1)",#E2E3E0
+010 20 10,Marron puce,"rgba(62,42,44,1)",#3E2A2C
+010 20 15,Rouge noir,"rgba(66,35,41,1)",#422329
+010 20 20,Rouge noir,"rgba(72,32,41,1)",#482029
+010 20 25,Violet pourpre,"rgba(76,28,40,1)",#4C1C28
+010 30 10,Marron puce,"rgba(88,64,67,1)",#584043
+010 30 15,Marron puce,"rgba(93,59,65,1)",#5D3B41
+010 30 20,Marron,"rgba(100,57,65,1)",#643941
+010 30 25,Marron brun,"rgba(108,51,63,1)",#6C333F
+010 30 30,Violet de Bayeux,"rgba(113,47,62,1)",#712F3E
+010 30 35,Violet bordeaux,"rgba(115,41,59,1)",#73293B
+010 30 40,Violet bordeaux,"rgba(123,32,57,1)",#7B2039
+010 30 44,Pensée pourpre,"rgba(130,25,58,1)",#82193A
+010 40 10,Bistre,"rgba(111,88,91,1)",#6F585B
+010 40 15,Bistre,"rgba(119,83,89,1)",#775359
+010 40 20,Bistre,"rgba(127,81,88,1)",#7F5158
+010 40 25,Cacao,"rgba(134,77,88,1)",#864D58
+010 40 30,Quinacridone magenta,"rgba(141,72,86,1)",#8D4856
+010 40 35,Quinacridone magenta,"rgba(144,67,83,1)",#904353
+010 40 40,Quinacridone magenta,"rgba(152,61,83,1)",#983D53
+010 40 45,Framboise,"rgba(159,55,83,1)",#9F3753
+010 40 50,Amarante violet,"rgba(165,49,82,1)",#A53152
+010 40 53,Amarante violet,"rgba(169,43,79,1)",#A92B4F
+010 50 10,Gris platine,"rgba(136,113,117,1)",#887175
+010 50 15,Vanille,"rgba(143,109,115,1)",#8F6D73
+010 50 20,Pourpre,"rgba(152,105,113,1)",#986971
+010 50 25,Rose Saint Paulia,"rgba(160,101,112,1)",#A06570
+010 50 30,Rose Saint Paulia,"rgba(169,96,110,1)",#A9606E
+010 50 35,Rose sarrasin,"rgba(174,91,108,1)",#AE5B6C
+010 50 40,Rose sarrasin,"rgba(179,88,108,1)",#B3586C
+010 50 45,Rose sarrasin,"rgba(184,81,106,1)",#B8516A
+010 50 50,Rose sarrasin,"rgba(194,76,106,1)",#C24C6A
+010 60 10,Brun midi,"rgba(163,138,141,1)",#A38A8D
+010 60 15,Brun midi,"rgba(173,135,141,1)",#AD878D
+010 60 20,Brun rosé,"rgba(182,132,140,1)",#B6848C
+010 60 25,Brun rosé,"rgba(189,127,138,1)",#BD7F8A
+010 60 30,Rose hibiscus,"rgba(196,122,136,1)",#C47A88
+010 60 35,Rose hibiscus,"rgba(205,118,135,1)",#CD7687
+010 60 40,Mauve,"rgba(212,113,134,1)",#D47186
+010 60 45,Tango rose,"rgba(220,108,132,1)",#DC6C84
+010 70 10,Gris tourterelle,"rgba(192,166,170,1)",#C0A6AA
+010 70 15,Rose camélia,"rgba(200,162,167,1)",#C8A2A7
+010 70 20,Rose pastel,"rgba(210,158,166,1)",#D29EA6
+010 70 25,Rose pastel,"rgba(219,154,165,1)",#DB9AA5
+010 70 30,Rose charme,"rgba(226,151,164,1)",#E297A4
+010 70 35,Rose clair,"rgba(234,145,161,1)",#EA91A1
+010 80 10,Bauxite,"rgba(220,192,195,1)",#DCC0C3
+010 80 15,Bauxite,"rgba(228,189,194,1)",#E4BDC2
+010 80 20,Rose espagnol,"rgba(239,185,192,1)",#EFB9C0
+010 90 05,Framboise,"rgba(239,224,222,1)",#EFE0DE
+010 90 10,Rose ballerine,"rgba(242,218,214,1)",#F2DAD6
+010 92 05,Ambre,"rgba(241,228,227,1)",#F1E4E3
+020 20 05,Gris terre d'ombre,"rgba(52,42,42,1)",#342A2A
+020 20 10,Rouge noir,"rgba(60,39,39,1)",#3C2727
+020 20 20,Rouge noir,"rgba(74,33,37,1)",#4A2125
+020 20 29,Cosmos rouge,"rgba(83,24,31,1)",#53181F
+020 30 05,Brun gris,"rgba(77,65,65,1)",#4D4141
+020 30 10,Marron puce,"rgba(85,61,62,1)",#553D3E
+020 30 20,Marron brun,"rgba(99,54,57,1)",#633639
+020 30 30,Brique,"rgba(109,44,50,1)",#6D2C32
+020 30 40,Brique,"rgba(123,35,49,1)",#7B2331
+020 30 48,Framboise glacée,"rgba(132,23,44,1)",#84172C
+020 40 05,Truffe,"rgba(103,91,91,1)",#675B5B
+020 40 10,Bistre,"rgba(110,86,87,1)",#6E5657
+020 40 20,Bistre,"rgba(125,79,81,1)",#7D4F51
+020 40 30,Bistre,"rgba(138,71,76,1)",#8A474C
+020 40 40,Rose uni,"rgba(148,61,70,1)",#943D46
+020 40 50,Framboise,"rgba(160,46,62,1)",#A02E3E
+020 50 05,Gris platine,"rgba(128,116,115,1)",#807473
+020 50 10,Vanille,"rgba(136,110,112,1)",#886E70
+020 50 20,Vanille,"rgba(153,104,106,1)",#99686A
+020 50 30,Acajou,"rgba(167,96,101,1)",#A76065
+020 50 40,Acajou,"rgba(177,87,95,1)",#B1575F
+020 50 50,Miroitement doux-amer,"rgba(190,76,90,1)",#BE4C5A
+020 50 58,Terracotta,"rgba(206,68,88,1)",#CE4458
+020 60 05,Violet alouette,"rgba(153,141,141,1)",#998D8D
+020 60 10,Canelle,"rgba(163,137,138,1)",#A3898A
+020 60 20,Brun midi,"rgba(180,130,134,1)",#B48286
+020 60 30,Rose hibiscus,"rgba(195,121,127,1)",#C3797F
+020 60 40,Mauve,"rgba(209,113,123,1)",#D1717B
+020 70 05,Gris tourterelle,"rgba(181,168,168,1)",#B5A8A8
+020 70 10,Savane,"rgba(189,163,165,1)",#BDA3A5
+020 70 20,Rose pastel,"rgba(211,158,162,1)",#D39EA2
+020 70 30,Framboise,"rgba(227,150,155,1)",#E3969B
+020 80 05,Mauve d'antan,"rgba(211,197,196,1)",#D3C5C4
+020 80 10,Bauxite,"rgba(219,191,192,1)",#DBBFC0
+020 80 20,Rose espagnol,"rgba(238,186,188,1)",#EEBABC
+020 90 05,Framboise,"rgba(240,226,222,1)",#F0E2DE
+020 90 10,Rose ballerine,"rgba(244,220,216,1)",#F4DCD8
+030 20 10,Rouge noir,"rgba(62,41,39,1)",#3E2927
+030 30 10,Marron puce,"rgba(85,64,62,1)",#55403E
+030 30 20,Marron,"rgba(98,56,54,1)",#623836
+030 30 30,Brique,"rgba(110,47,44,1)",#6E2F2C
+030 30 40,Rouge basque,"rgba(124,41,42,1)",#7C292A
+030 30 45,Rouge brun,"rgba(125,30,32,1)",#7D1E20
+030 40 10,Beige nacré,"rgba(108,87,85,1)",#6C5755
+030 40 20,Bistre,"rgba(126,83,80,1)",#7E5350
+030 40 30,Bistre,"rgba(139,75,71,1)",#8B4B47
+030 40 40,Rouge électrique,"rgba(151,65,62,1)",#97413E
+030 40 50,Rouge Saint Émilion,"rgba(163,55,55,1)",#A33737
+030 40 60,Brun rouge,"rgba(172,44,50,1)",#AC2C32
+030 50 10,Vanille,"rgba(136,111,109,1)",#886F6D
+030 50 20,Vanille,"rgba(151,106,102,1)",#976A66
+030 50 30,Acajou,"rgba(166,97,93,1)",#A6615D
+030 50 40,Acajou,"rgba(180,90,86,1)",#B45A56
+030 50 50,Miroitement doux-amer,"rgba(191,81,78,1)",#BF514E
+030 50 60,Terre cuite rosée,"rgba(203,69,67,1)",#CB4543
+030 60 10,Canelle,"rgba(162,138,136,1)",#A28A88
+030 60 20,Sépia,"rgba(179,131,127,1)",#B3837F
+030 60 30,Rouge beige,"rgba(194,122,116,1)",#C27A74
+030 60 40,Vieux rose,"rgba(208,117,111,1)",#D0756F
+030 60 50,Vieux rose,"rgba(222,107,102,1)",#DE6B66
+030 70 10,Savane,"rgba(190,164,162,1)",#BEA4A2
+030 70 20,Framboise,"rgba(208,156,151,1)",#D09C97
+030 70 30,Framboise,"rgba(225,149,143,1)",#E1958F
+030 70 40,Corail clair,"rgba(239,142,135,1)",#EF8E87
+030 80 10,Bauxite,"rgba(218,192,188,1)",#DAC0BC
+030 80 20,Café au lait,"rgba(236,185,179,1)",#ECB9B3
+030 90 05,Framboise,"rgba(238,224,220,1)",#EEE0DC
+030 90 10,Rose ballerine,"rgba(246,223,216,1)",#F6DFD8
+040 20 05,Maduro,"rgba(53,43,40,1)",#352B28
+040 20 10,Bistre,"rgba(61,42,37,1)",#3D2A25
+040 20 19,Bismarck,"rgba(71,36,26,1)",#47241A
+040 30 05,Taupe,"rgba(77,66,62,1)",#4D423E
+040 30 10,Marron puce,"rgba(83,62,57,1)",#533E39
+040 30 20,Marron,"rgba(96,57,47,1)",#60392F
+040 30 30,Moka,"rgba(107,50,38,1)",#6B3226
+040 30 40,Chocolat,"rgba(119,47,33,1)",#772F21
+040 40 05,Truffe,"rgba(103,91,88,1)",#675B58
+040 40 10,Beige nacré,"rgba(108,87,81,1)",#6C5751
+040 40 20,Brun pâle,"rgba(123,83,73,1)",#7B5349
+040 40 30,Ombre brûlée,"rgba(133,75,60,1)",#854B3C
+040 40 40,Brun cuivré,"rgba(145,65,47,1)",#91412F
+040 40 50,Terre cuite,"rgba(157,61,39,1)",#9D3D27
+040 40 60,Rouge feu,"rgba(165,49,26,1)",#A5311A
+040 40 67,Rouge bismarck,"rgba(173,43,16,1)",#AD2B10
+040 50 05,Gris Rabat,"rgba(126,115,111,1)",#7E736F
+040 50 10,Vanille,"rgba(135,112,107,1)",#87706B
+040 50 20,Chocolat,"rgba(149,106,96,1)",#956A60
+040 50 30,Acajou,"rgba(164,100,84,1)",#A46454
+040 50 40,Acajou,"rgba(176,93,74,1)",#B05D4A
+040 50 50,Terre cuite rosée,"rgba(189,85,62,1)",#BD553E
+040 50 60,Terre cuite rosée,"rgba(202,78,51,1)",#CA4E33
+040 50 70,Rouge saumon,"rgba(209,70,44,1)",#D1462C
+040 60 05,Violet alouette,"rgba(153,142,138,1)",#998E8A
+040 60 10,Canelle,"rgba(163,138,131,1)",#A38A83
+040 60 20,Sépia,"rgba(176,130,119,1)",#B08277
+040 60 30,Rouge beige,"rgba(194,126,111,1)",#C27E6F
+040 60 40,Brique,"rgba(204,118,97,1)",#CC7661
+040 60 50,Terre brûlée,"rgba(218,113,87,1)",#DA7157
+040 60 60,Terre brûlée,"rgba(228,105,76,1)",#E4694C
+040 70 05,Savane,"rgba(180,168,164,1)",#B4A8A4
+040 70 10,Brun vénitie,"rgba(191,165,158,1)",#BFA59E
+040 70 20,Framboise,"rgba(208,159,147,1)",#D09F93
+040 70 30,Brique,"rgba(224,152,135,1)",#E09887
+040 70 40,Saumon foncé,"rgba(232,145,125,1)",#E8917D
+040 70 50,Saumon,"rgba(250,137,112,1)",#FA8970
+040 80 05,Perle,"rgba(211,197,192,1)",#D3C5C0
+040 80 10,Bauxite,"rgba(221,194,186,1)",#DDC2BA
+040 80 20,Sables du désert,"rgba(241,190,176,1)",#F1BEB0
+040 80 30,Chair,"rgba(254,183,165,1)",#FEB7A5
+040 90 05,Framboise,"rgba(240,225,219,1)",#F0E1DB
+040 90 10,Cassonade,"rgba(247,224,214,1)",#F7E0D6
+050 20 10,Bistre,"rgba(61,45,36,1)",#3D2D24
+050 20 16,Bistre,"rgba(68,40,27,1)",#44281B
+050 30 10,Brun terre,"rgba(82,62,53,1)",#523E35
+050 30 20,Rouille,"rgba(96,59,42,1)",#603B2A
+050 30 30,Brun de sécurité,"rgba(108,56,33,1)",#6C3821
+050 30 36,Colorado,"rgba(114,55,28,1)",#72371C
+050 40 10,Beige nacré,"rgba(111,91,82,1)",#6F5B52
+050 40 20,Brun beige,"rgba(122,85,68,1)",#7A5544
+050 40 30,Châtaigne,"rgba(132,80,56,1)",#845038
+050 40 40,Terre cuite,"rgba(143,72,38,1)",#8F4826
+050 40 50,Terre cuite,"rgba(153,69,31,1)",#99451F
+050 50 10,Vanille,"rgba(137,117,107,1)",#89756B
+050 50 20,Terre de sienne brûlée,"rgba(150,111,93,1)",#966F5D
+050 50 30,Ton bois,"rgba(163,106,79,1)",#A36A4F
+050 50 40,Ton bois,"rgba(173,99,66,1)",#AD6342
+050 50 50,Orangé nacré,"rgba(185,94,51,1)",#B95E33
+050 50 60,Terracotta,"rgba(189,86,32,1)",#BD5620
+050 50 70,Orange brûlée,"rgba(205,77,4,1)",#CD4D04
+050 50 78,Cuivre,"rgba(212,88,20,1)",#D45814
+050 60 10,Canelle,"rgba(164,141,131,1)",#A48D83
+050 60 20,Sépia,"rgba(177,135,117,1)",#B18775
+050 60 30,Rouge beige,"rgba(194,132,104,1)",#C28468
+050 60 40,Brique,"rgba(204,126,91,1)",#CC7E5B
+050 60 50,Ocre salentina,"rgba(216,121,76,1)",#D8794C
+050 60 60,Orange sanguine,"rgba(229,116,59,1)",#E5743B
+050 60 70,Orangé rouge clair,"rgba(233,103,45,1)",#E9672D
+050 60 80,Carotte,"rgba(246,97,26,1)",#F6611A
+050 70 10,Poivre de Sichuan,"rgba(193,171,160,1)",#C1ABA0
+050 70 20,Brun,"rgba(208,165,146,1)",#D0A592
+050 70 30,Brique,"rgba(222,159,131,1)",#DE9F83
+050 70 40,Saumon foncé,"rgba(237,154,118,1)",#ED9A76
+050 70 50,Corail,"rgba(246,146,104,1)",#F69268
+050 70 60,Saumon,"rgba(255,139,88,1)",#FF8B58
+050 80 10,Bauxite,"rgba(223,199,188,1)",#DFC7BC
+050 80 20,Café au lait,"rgba(238,192,171,1)",#EEC0AB
+050 80 30,Cannelle,"rgba(252,185,157,1)",#FCB99D
+050 90 05,Corail,"rgba(243,228,220,1)",#F3E4DC
+050 90 10,Blanc antique,"rgba(255,230,216,1)",#FFE6D8
+050 92 05,Terre cuite,"rgba(246,233,226,1)",#F6E9E2
+060 20 05,Maduro,"rgba(50,43,38,1)",#322B26
+060 20 10,Bistre,"rgba(59,45,35,1)",#3B2D23
+060 30 05,Fusil vert,"rgba(76,67,61,1)",#4C433D
+060 30 10,Brun terre,"rgba(81,64,53,1)",#514035
+060 30 20,Brun noisette,"rgba(90,61,41,1)",#5A3D29
+060 30 27,Chocolat,"rgba(98,60,31,1)",#623C1F
+060 40 05,Truffe,"rgba(101,91,85,1)",#655B55
+060 40 10,Beige nacré,"rgba(106,88,77,1)",#6A584D
+060 40 20,Brun beige,"rgba(118,86,64,1)",#765640
+060 40 30,Cannelle,"rgba(127,81,49,1)",#7F5131
+060 40 40,Café au lait,"rgba(138,80,36,1)",#8A5024
+060 50 05,Gris Rabat,"rgba(127,116,110,1)",#7F746E
+060 50 10,Vanille,"rgba(133,114,102,1)",#857266
+060 50 20,Chocolat,"rgba(144,110,88,1)",#906E58
+060 50 30,Ambre,"rgba(157,108,74,1)",#9D6C4A
+060 50 40,Ton bois,"rgba(165,102,57,1)",#A56639
+060 50 50,Baillet,"rgba(175,100,43,1)",#AF642B
+060 50 60,Aquilain,"rgba(178,91,9,1)",#B25B09
+060 50 70,Orange brûlée,"rgba(189,92,0,1)",#BD5C00
+060 60 05,Canelle,"rgba(154,144,138,1)",#9A908A
+060 60 10,Canelle,"rgba(161,141,128,1)",#A18D80
+060 60 20,Sépia,"rgba(176,137,113,1)",#B08971
+060 60 30,Ambre,"rgba(185,133,99,1)",#B98563
+060 60 40,Ambre,"rgba(200,133,84,1)",#C88554
+060 60 50,Fauve,"rgba(202,122,64,1)",#CA7A40
+060 60 60,Orange sanguine,"rgba(213,118,43,1)",#D5762B
+060 60 70,Citrouille,"rgba(219,114,16,1)",#DB7210
+060 60 80,Orange espagnol,"rgba(229,109,0,1)",#E56D00
+060 70 05,Savane,"rgba(181,171,164,1)",#B5ABA4
+060 70 10,Grège,"rgba(189,168,156,1)",#BDA89C
+060 70 20,Beige,"rgba(200,163,138,1)",#C8A38A
+060 70 30,Brique,"rgba(209,156,121,1)",#D19C79
+060 70 40,Tulle corail,"rgba(224,155,110,1)",#E09B6E
+060 70 50,Corail,"rgba(235,151,94,1)",#EB975E
+060 70 60,Jaune indien,"rgba(240,143,72,1)",#F08F48
+060 70 70,Abricot,"rgba(252,140,53,1)",#FC8C35
+060 80 05,Gris petit cheval,"rgba(209,198,190,1)",#D1C6BE
+060 80 10,Bauxite,"rgba(215,195,181,1)",#D7C3B5
+060 80 20,Café au lait,"rgba(230,191,166,1)",#E6BFA6
+060 80 30,Cannelle,"rgba(244,186,148,1)",#F4BA94
+060 80 40,Abricot clair,"rgba(253,180,130,1)",#FDB482
+060 90 05,Beige poudré,"rgba(239,227,216,1)",#EFE3D8
+060 90 10,Cassonade,"rgba(247,224,210,1)",#F7E0D2
+060 90 15,Chair-rose,"rgba(253,220,200,1)",#FDDCC8
+070 20 10,Brun sépia,"rgba(57,44,30,1)",#392C1E
+070 30 10,Brun terre,"rgba(77,63,51,1)",#4D3F33
+070 30 20,Brun noisette,"rgba(87,65,40,1)",#574128
+070 40 10,Beige nacré,"rgba(103,89,76,1)",#67594C
+070 40 20,Or nacré,"rgba(113,86,59,1)",#71563B
+070 40 30,Cannelle,"rgba(122,85,46,1)",#7A552E
+070 40 40,Mordoré,"rgba(128,82,26,1)",#80521A
+070 50 10,Vanille,"rgba(129,114,101,1)",#817265
+070 50 20,Bistre,"rgba(140,111,84,1)",#8C6F54
+070 50 30,Châtain,"rgba(148,107,65,1)",#946B41
+070 50 40,Chocolat,"rgba(157,105,47,1)",#9D692F
+070 50 50,Alezan,"rgba(158,105,40,1)",#9E6928
+070 50 55,Alezan,"rgba(167,105,36,1)",#A76924
+070 60 10,Crême de noisette,"rgba(155,139,124,1)",#9B8B7C
+070 60 20,Bronze,"rgba(166,138,110,1)",#A68A6E
+070 60 30,Sépia,"rgba(175,133,92,1)",#AF855C
+070 60 40,Tabac,"rgba(184,131,73,1)",#B88349
+070 60 50,Tabac,"rgba(193,129,54,1)",#C18136
+070 60 60,Pérou,"rgba(203,129,45,1)",#CB812D
+070 60 70,Ambre miel,"rgba(205,123,0,1)",#CD7B00
+070 60 75,Ambre miel,"rgba(208,122,4,1)",#D07A04
+070 70 10,Brun vénitie,"rgba(184,168,153,1)",#B8A899
+070 70 20,Beige,"rgba(194,164,135,1)",#C2A487
+070 70 30,Ocre rocheuses,"rgba(206,162,119,1)",#CEA277
+070 70 40,Ocre rouge,"rgba(215,158,98,1)",#D79E62
+070 70 50,Ocre rouge,"rgba(222,156,82,1)",#DE9C52
+070 70 60,Jaune indien,"rgba(233,154,60,1)",#E99A3C
+070 70 70,Orange carotte,"rgba(235,147,31,1)",#EB931F
+070 70 80,Mandarine,"rgba(240,143,0,1)",#F08F00
+070 80 10,Beige wes,"rgba(212,195,179,1)",#D4C3B3
+070 80 20,Isabelle,"rgba(227,194,163,1)",#E3C2A3
+070 80 30,Saumon,"rgba(236,190,145,1)",#ECBE91
+070 80 40,Abricot clair,"rgba(247,189,129,1)",#F7BD81
+070 80 50,Ocre Guadeloupe,"rgba(255,184,107,1)",#FFB86B
+070 80 60,Aurore,"rgba(255,182,87,1)",#FFB657
+070 90 05,Beige poudré,"rgba(237,228,217,1)",#EDE4D9
+070 90 10,Cassonade,"rgba(243,226,209,1)",#F3E2D1
+070 90 20,Beige pêche,"rgba(255,222,190,1)",#FFDEBE
+075 20 10,Maduro,"rgba(57,47,35,1)",#392F23
+075 30 10,Brun terre,"rgba(80,68,55,1)",#504437
+075 30 20,Brun noisette,"rgba(87,65,39,1)",#574127
+075 40 10,Beige nacré,"rgba(102,91,78,1)",#665B4E
+075 40 20,Or nacré,"rgba(109,86,60,1)",#6D563C
+075 40 30,Châtaignier,"rgba(115,83,42,1)",#73532A
+075 40 38,Marron,"rgba(121,84,25,1)",#795419
+075 50 10,Vanille,"rgba(128,115,101,1)",#807365
+075 50 20,Bistre,"rgba(138,112,84,1)",#8A7054
+075 50 30,Châtain,"rgba(147,112,67,1)",#937043
+075 50 40,Terre d'ombre,"rgba(154,108,49,1)",#9A6C31
+075 50 50,Brun terre de Sienne,"rgba(158,106,25,1)",#9E6A19
+075 50 58,Tanné,"rgba(160,102,0,1)",#A06600
+075 60 10,Canelle,"rgba(157,142,127,1)",#9D8E7F
+075 60 20,Bronze,"rgba(166,139,110,1)",#A68B6E
+075 60 30,Sépia,"rgba(174,137,93,1)",#AE895D
+075 60 40,Tabac,"rgba(182,136,77,1)",#B6884D
+075 60 50,Tabac,"rgba(187,132,52,1)",#BB8434
+075 60 60,Jaune doré foncée,"rgba(193,129,22,1)",#C18116
+075 60 70,Ambre miel,"rgba(200,127,0,1)",#C87F00
+075 70 10,Grège,"rgba(183,169,154,1)",#B7A99A
+075 70 20,Beige,"rgba(194,165,133,1)",#C2A585
+075 70 30,Ocre rocheuses,"rgba(202,163,117,1)",#CAA375
+075 70 40,Ocre rocheuses,"rgba(210,161,97,1)",#D2A161
+075 70 50,Ocre rouge,"rgba(217,159,80,1)",#D99F50
+075 70 60,Caramel au beurre,"rgba(225,156,53,1)",#E19C35
+075 70 70,Gomme-gutte,"rgba(233,154,16,1)",#E99A10
+075 70 80,Jaune narcisse,"rgba(233,151,0,1)",#E99700
+075 80 10,Beige wes,"rgba(214,197,180,1)",#D6C5B4
+075 80 20,Isabelle,"rgba(224,195,162,1)",#E0C3A2
+075 80 30,Saumon,"rgba(231,191,142,1)",#E7BF8E
+075 80 40,Ocre Guadeloupe,"rgba(240,189,126,1)",#F0BD7E
+075 80 50,Ocre Guadeloupe,"rgba(247,185,105,1)",#F7B969
+075 80 60,Aurore,"rgba(255,183,86,1)",#FFB756
+075 90 10,Cassonade,"rgba(246,228,208,1)",#F6E4D0
+075 90 20,Beige pêche,"rgba(253,222,189,1)",#FDDEBD
+075 92 05,Beige poudré,"rgba(238,230,220,1)",#EEE6DC
+080 20 05,Maduro,"rgba(50,45,37,1)",#322D25
+080 20 10,Brun sépia,"rgba(54,44,29,1)",#362C1D
+080 30 05,Taupe,"rgba(73,67,59,1)",#49433B
+080 30 10,Olive jaune,"rgba(75,64,49,1)",#4B4031
+080 30 20,Bitume,"rgba(82,63,33,1)",#523F21
+080 30 26,Brun,"rgba(87,63,22,1)",#573F16
+080 40 05,Truffe,"rgba(99,93,84,1)",#635D54
+080 40 10,Beige nacré,"rgba(102,91,77,1)",#665B4D
+080 40 20,Or nacré,"rgba(108,87,56,1)",#6C5738
+080 40 30,Brun olive,"rgba(114,87,40,1)",#725728
+080 40 40,Chaudron,"rgba(122,86,14,1)",#7A560E
+080 50 05,Gris Rabat,"rgba(123,117,108,1)",#7B756C
+080 50 10,Vanille,"rgba(128,116,101,1)",#807465
+080 50 20,Bistre,"rgba(135,114,84,1)",#877254
+080 50 30,Châtain,"rgba(141,112,64,1)",#8D7040
+080 50 40,Terre d'ombre,"rgba(146,110,46,1)",#926E2E
+080 50 50,Terre d'ombre,"rgba(152,110,25,1)",#986E19
+080 60 05,Gris de lin,"rgba(150,144,135,1)",#969087
+080 60 10,Crême de noisette,"rgba(153,141,124,1)",#998D7C
+080 60 20,Bronze,"rgba(163,140,107,1)",#A38C6B
+080 60 30,Sépia,"rgba(170,138,88,1)",#AA8A58
+080 60 40,Tabac,"rgba(174,136,75,1)",#AE884B
+080 60 50,Poil de chameau,"rgba(181,135,53,1)",#B58735
+080 60 60,Jaune doré foncée,"rgba(187,134,16,1)",#BB8610
+080 60 70,Jaune doré foncée,"rgba(190,132,0,1)",#BE8400
+080 70 05,Vert bourrache,"rgba(176,170,161,1)",#B0AAA1
+080 70 10,Brun vénitie,"rgba(181,169,152,1)",#B5A998
+080 70 20,Beige,"rgba(191,167,133,1)",#BFA785
+080 70 30,Caramel,"rgba(197,165,116,1)",#C5A574
+080 70 40,Jaune sable,"rgba(206,164,97,1)",#CEA461
+080 70 50,Fauve,"rgba(212,162,78,1)",#D4A24E
+080 70 60,Jaune or,"rgba(218,161,53,1)",#DAA135
+080 70 70,Melon,"rgba(223,160,26,1)",#DFA01A
+080 70 80,Jaune narcisse,"rgba(225,156,0,1)",#E19C00
+080 70 88,Jaune narcisse,"rgba(229,155,0,1)",#E59B00
+080 80 05,Gris petit cheval,"rgba(205,199,189,1)",#CDC7BD
+080 80 10,Beige wes,"rgba(213,198,180,1)",#D5C6B4
+080 80 20,Isabelle,"rgba(220,195,159,1)",#DCC39F
+080 80 30,Bois massif,"rgba(227,192,141,1)",#E3C08D
+080 80 40,Ocre Guadeloupe,"rgba(236,191,122,1)",#ECBF7A
+080 80 50,Jaune mimosa,"rgba(243,190,103,1)",#F3BE67
+080 80 60,Orangé jaune,"rgba(249,188,79,1)",#F9BC4F
+080 80 70,Orangé jaune,"rgba(252,185,55,1)",#FCB937
+080 80 80,Ambre,"rgba(255,183,11,1)",#FFB70B
+080 80 90,Ambre,"rgba(255,183,0,1)",#FFB700
+080 90 05,Beige poudré,"rgba(238,230,217,1)",#EEE6D9
+080 90 10,Beige pierre,"rgba(240,225,205,1)",#F0E1CD
+080 90 20,Blé,"rgba(247,223,186,1)",#F7DFBA
+080 90 30,Blanc navarro,"rgba(255,222,169,1)",#FFDEA9
+085 20 10,Vert brun,"rgba(60,54,42,1)",#3C362A
+085 30 10,Gris brun,"rgba(78,70,55,1)",#4E4637
+085 30 20,Bitume,"rgba(82,66,35,1)",#524223
+085 40 10,Beige nacré,"rgba(102,93,78,1)",#665D4E
+085 40 20,Bureau,"rgba(106,90,57,1)",#6A5A39
+085 40 30,Café au lait,"rgba(113,91,46,1)",#715B2E
+085 50 10,Gris Rabat,"rgba(126,116,99,1)",#7E7463
+085 50 20,Bistre,"rgba(134,116,82,1)",#867452
+085 50 30,Châtain,"rgba(140,115,64,1)",#8C7340
+085 50 40,Terre d'ombre,"rgba(142,113,46,1)",#8E712E
+085 50 50,Terre d'ombre,"rgba(147,112,22,1)",#937016
+085 60 10,Canelle,"rgba(153,143,127,1)",#998F7F
+085 60 20,Bronze,"rgba(161,142,107,1)",#A18E6B
+085 60 30,Sépia,"rgba(167,140,89,1)",#A78C59
+085 60 40,Tabac,"rgba(172,139,70,1)",#AC8B46
+085 60 50,Poil de chameau,"rgba(177,139,50,1)",#B18B32
+085 60 60,Jaune doré foncée,"rgba(182,139,19,1)",#B68B13
+085 70 10,Beige cachemire,"rgba(179,169,150,1)",#B3A996
+085 70 20,Beige cachemire,"rgba(188,168,133,1)",#BCA885
+085 70 30,Caramel,"rgba(194,167,112,1)",#C2A770
+085 70 40,Jaune sable,"rgba(199,165,95,1)",#C7A55F
+085 70 50,Fauve,"rgba(205,164,73,1)",#CDA449
+085 70 60,Jaune or,"rgba(208,163,46,1)",#D0A32E
+085 70 70,Jaune narcisse,"rgba(212,162,7,1)",#D4A207
+085 70 75,Jaune narcisse,"rgba(217,164,0,1)",#D9A400
+085 80 10,Gris soie,"rgba(208,197,177,1)",#D0C5B1
+085 80 20,Isabelle,"rgba(216,196,159,1)",#D8C49F
+085 80 30,Bois massif,"rgba(225,195,139,1)",#E1C38B
+085 80 40,Blond,"rgba(229,194,121,1)",#E5C279
+085 80 50,Jaune mimosa,"rgba(234,192,100,1)",#EAC064
+085 80 60,Mars,"rgba(239,191,77,1)",#EFBF4D
+085 80 70,Safran,"rgba(243,189,50,1)",#F3BD32
+085 80 80,Gomme-gutte,"rgba(245,187,0,1)",#F5BB00
+085 80 85,Gomme-gutte,"rgba(246,187,0,1)",#F6BB00
+085 90 10,Parchemin,"rgba(241,229,209,1)",#F1E5D1
+085 90 20,Bis,"rgba(247,224,186,1)",#F7E0BA
+085 90 30,Blanc navarro,"rgba(253,221,167,1)",#FDDDA7
+090 20 10,Brun sépia,"rgba(54,46,30,1)",#362E1E
+090 30 10,Gris brun,"rgba(75,68,51,1)",#4B4433
+090 30 20,Bitume,"rgba(81,68,33,1)",#514421
+090 40 10,Beige nacré,"rgba(101,94,78,1)",#655E4E
+090 40 20,Gris kaki,"rgba(105,92,57,1)",#695C39
+090 40 30,Gris kaki,"rgba(110,94,44,1)",#6E5E2C
+090 50 10,Gris Rabat,"rgba(124,118,102,1)",#7C7666
+090 50 20,Gris olive,"rgba(129,117,83,1)",#817553
+090 50 30,Châtain,"rgba(136,118,63,1)",#88763F
+090 50 40,Terre d'ombre,"rgba(139,118,44,1)",#8B762C
+090 60 10,Canelle,"rgba(150,143,127,1)",#968F7F
+090 60 20,Bronze,"rgba(158,143,107,1)",#9E8F6B
+090 60 30,Beige gris,"rgba(162,143,92,1)",#A28F5C
+090 60 40,Tabac,"rgba(165,141,69,1)",#A58D45
+090 60 50,Kaki,"rgba(165,139,44,1)",#A58B2C
+090 60 60,Jaune doré foncée,"rgba(173,143,15,1)",#AD8F0F
+090 70 10,Vert bourrache,"rgba(178,170,152,1)",#B2AA98
+090 70 20,Beige cachemire,"rgba(184,169,131,1)",#B8A983
+090 70 30,Clarissimo,"rgba(188,168,114,1)",#BCA872
+090 70 40,Jaune sable,"rgba(196,170,94,1)",#C4AA5E
+090 70 50,Jaune citron,"rgba(199,169,74,1)",#C7A94A
+090 70 60,Jaune or,"rgba(202,168,47,1)",#CAA82F
+090 70 70,Jaune genêt,"rgba(204,168,0,1)",#CCA800
+090 70 80,Jaune genêt,"rgba(208,167,0,1)",#D0A700
+090 80 10,Gris soie,"rgba(207,197,176,1)",#CFC5B0
+090 80 20,Bambou,"rgba(212,196,158,1)",#D4C49E
+090 80 30,Vanille,"rgba(220,198,142,1)",#DCC68E
+090 80 40,Blond,"rgba(225,199,125,1)",#E1C77D
+090 80 50,Jaune mimosa,"rgba(230,197,98,1)",#E6C562
+090 80 60,Ivoire,"rgba(232,194,71,1)",#E8C247
+090 80 70,Bouton d'or,"rgba(237,197,55,1)",#EDC537
+090 80 80,Ambre jaune,"rgba(236,193,0,1)",#ECC100
+090 80 90,Ambre jaune,"rgba(242,194,0,1)",#F2C200
+090 90 05,Beige poudré,"rgba(234,228,216,1)",#EAE4D8
+090 90 10,Blanc perlé,"rgba(236,228,208,1)",#ECE4D0
+090 90 20,Bis,"rgba(244,227,187,1)",#F4E3BB
+090 90 30,Vanille,"rgba(248,225,168,1)",#F8E1A8
+090 90 40,Jaune sinding,"rgba(254,225,147,1)",#FEE193
+090 90 50,Jaune moelleux,"rgba(255,222,126,1)",#FFDE7E
+090 90 60,Jaune royal,"rgba(255,219,103,1)",#FFDB67
+095 20 10,Maduro,"rgba(53,48,34,1)",#353022
+095 30 10,Gris brun,"rgba(76,71,55,1)",#4C4737
+095 30 18,Bitume,"rgba(79,71,42,1)",#4F472A
+095 40 10,Terre d'ombre,"rgba(99,93,76,1)",#635D4C
+095 40 20,Gris kaki,"rgba(102,91,56,1)",#665B38
+095 40 30,Gris kaki,"rgba(104,92,39,1)",#685C27
+095 50 10,Gris Rabat,"rgba(122,117,100,1)",#7A7564
+095 50 20,Gris olive,"rgba(128,117,83,1)",#807553
+095 50 30,Châtain,"rgba(132,118,64,1)",#847640
+095 50 40,Brun vert,"rgba(135,118,43,1)",#87762B
+095 50 50,Kaki,"rgba(137,119,20,1)",#897714
+095 60 10,Crême de noisette,"rgba(150,144,126,1)",#96907E
+095 60 20,Bronze,"rgba(154,143,108,1)",#9A8F6C
+095 60 30,Vert kaki,"rgba(158,143,87,1)",#9E8F57
+095 60 40,Olive,"rgba(161,143,68,1)",#A18F44
+095 60 50,Olive,"rgba(163,145,47,1)",#A3912F
+095 60 60,Jaune curry,"rgba(161,141,13,1)",#A18D0D
+095 60 70,Jaune curry,"rgba(163,142,0,1)",#A38E00
+095 70 10,Vert bourrache,"rgba(178,171,152,1)",#B2AB98
+095 70 20,Beige cachemire,"rgba(183,172,135,1)",#B7AC87
+095 70 30,Clarissimo,"rgba(187,171,117,1)",#BBAB75
+095 70 40,Jaune sable,"rgba(189,170,93,1)",#BDAA5D
+095 70 50,Jaune citron,"rgba(190,170,74,1)",#BEAA4A
+095 70 60,Jaune or,"rgba(190,169,50,1)",#BEA932
+095 70 70,Vert banane,"rgba(195,170,0,1)",#C3AA00
+095 80 10,Gris petit cheval,"rgba(205,199,180,1)",#CDC7B4
+095 80 20,Sable,"rgba(211,199,161,1)",#D3C7A1
+095 80 30,Vanille,"rgba(218,201,142,1)",#DAC98E
+095 80 40,Blond,"rgba(221,200,122,1)",#DDC87A
+095 80 50,Jaune mimosa,"rgba(221,199,101,1)",#DDC765
+095 80 60,Ivoire,"rgba(219,196,77,1)",#DBC44D
+095 80 70,Blé,"rgba(223,198,51,1)",#DFC633
+095 80 80,Jaune de sécurité,"rgba(218,193,0,1)",#DAC100
+095 90 10,Blanc perlé,"rgba(236,228,206,1)",#ECE4CE
+095 90 20,Bis,"rgba(241,227,188,1)",#F1E3BC
+095 90 30,Vanille,"rgba(246,226,167,1)",#F6E2A7
+095 90 40,Jaune sinding,"rgba(247,225,144,1)",#F7E190
+095 90 50,Trèfle-Lime,"rgba(254,227,127,1)",#FEE37F
+095 90 59,Jaune Nankin,"rgba(255,227,109,1)",#FFE36D
+100 20 05,Gris terre d'ombre,"rgba(48,47,39,1)",#302F27
+100 20 10,Brun sépia,"rgba(50,46,31,1)",#322E1F
+100 30 05,Fusil vert,"rgba(69,67,59,1)",#45433B
+100 30 10,Olive jaune,"rgba(71,66,48,1)",#474230
+100 30 20,Bitume,"rgba(76,70,35,1)",#4C4623
+100 40 05,Ébène,"rgba(93,91,83,1)",#5D5B53
+100 40 10,Terre d'ombre,"rgba(97,93,76,1)",#615D4C
+100 40 20,Gris de maure,"rgba(99,93,59,1)",#635D3B
+100 40 30,Gris kaki,"rgba(102,93,37,1)",#665D25
+100 40 40,Bronze kaki,"rgba(102,94,13,1)",#665E0D
+100 50 05,Gris Rabat,"rgba(120,118,109,1)",#78766D
+100 50 10,Bis,"rgba(122,117,98,1)",#7A7562
+100 50 20,Gris olive,"rgba(125,120,83,1)",#7D7853
+100 50 30,Brun vert,"rgba(125,118,64,1)",#7D7640
+100 50 40,Brun vert,"rgba(129,118,43,1)",#81762B
+100 50 50,Kaki,"rgba(127,119,17,1)",#7F7711
+100 60 05,Gris de lin,"rgba(147,144,135,1)",#939087
+100 60 10,Gris pierre,"rgba(146,142,124,1)",#928E7C
+100 60 20,Bronze,"rgba(152,145,108,1)",#98916C
+100 60 30,Vert kaki,"rgba(152,144,87,1)",#989057
+100 60 40,Olive,"rgba(155,146,70,1)",#9B9246
+100 60 50,Olive,"rgba(156,147,47,1)",#9C932F
+100 60 60,Jaune curry,"rgba(152,142,1,1)",#988E01
+100 70 05,Vert bourrache,"rgba(174,173,163,1)",#AEADA3
+100 70 10,Vert bourrache,"rgba(176,172,152,1)",#B0AC98
+100 70 20,Beige cachemire,"rgba(179,172,133,1)",#B3AC85
+100 70 30,Clarissimo,"rgba(180,172,113,1)",#B4AC71
+100 70 40,Kaki foncé,"rgba(184,174,96,1)",#B8AE60
+100 70 50,Vert granny,"rgba(182,172,75,1)",#B6AC4B
+100 70 60,Vert granny,"rgba(181,172,49,1)",#B5AC31
+100 80 05,Gris petit cheval,"rgba(200,199,188,1)",#C8C7BC
+100 80 10,Gris soie,"rgba(204,199,177,1)",#CCC7B1
+100 80 20,Sable,"rgba(210,202,161,1)",#D2CAA1
+100 80 30,Brun,"rgba(210,200,140,1)",#D2C88C
+100 80 40,Chamois,"rgba(212,201,120,1)",#D4C978
+100 80 50,Vert plexi,"rgba(212,201,100,1)",#D4C964
+100 80 60,Ivoire,"rgba(216,203,75,1)",#D8CB4B
+100 80 70,Acacia,"rgba(216,203,50,1)",#D8CB32
+100 80 80,Jaune moutarde,"rgba(212,204,0,1)",#D4CC00
+100 90 05,Blanc champagny,"rgba(232,229,216,1)",#E8E5D8
+100 90 10,Blanc perlé,"rgba(234,229,207,1)",#EAE5CF
+100 90 20,Bis,"rgba(239,229,187,1)",#EFE5BB
+100 90 30,Jaune doré pâle,"rgba(239,228,165,1)",#EFE4A5
+100 90 40,Jaune sinding,"rgba(243,230,146,1)",#F3E692
+100 90 50,Jaune moelleux,"rgba(242,228,125,1)",#F2E47D
+110 20 10,Brun sépia,"rgba(47,46,31,1)",#2F2E1F
+110 30 10,Vert olive,"rgba(69,70,54,1)",#454636
+110 30 20,Gris brun,"rgba(70,72,38,1)",#464826
+110 40 10,Terre d'ombre,"rgba(94,95,77,1)",#5E5F4D
+110 40 20,Terre d'ombre,"rgba(92,93,57,1)",#5C5D39
+110 40 30,Vert Véronèse,"rgba(94,96,42,1)",#5E602A
+110 40 40,Vert Véronèse,"rgba(92,97,22,1)",#5C6116
+110 50 10,Bis,"rgba(118,119,100,1)",#767764
+110 50 20,Gris olive,"rgba(118,120,83,1)",#767853
+110 50 30,Gris olive,"rgba(119,122,68,1)",#777A44
+110 50 40,Vert kaki,"rgba(116,122,44,1)",#747A2C
+110 50 50,Kaki,"rgba(113,121,16,1)",#717910
+110 50 55,Jaune olive,"rgba(113,124,0,1)",#717C00
+110 60 10,Gris de lin,"rgba(144,145,126,1)",#90917E
+110 60 20,Gris jaune,"rgba(142,145,109,1)",#8E916D
+110 60 30,Vert kaki,"rgba(145,149,95,1)",#91955F
+110 60 40,Jaune olive,"rgba(142,149,73,1)",#8E9549
+110 60 50,Gris Pragues,"rgba(140,150,50,1)",#8C9632
+110 60 60,Vert curry,"rgba(139,153,22,1)",#8B9916
+110 60 65,Vert curry,"rgba(140,153,0,1)",#8C9900
+110 70 10,Vert bourrache,"rgba(172,173,152,1)",#ACAD98
+110 70 20,Beigeasse,"rgba(171,174,134,1)",#ABAE86
+110 70 30,Beigeasse,"rgba(169,173,116,1)",#A9AD74
+110 70 40,Kaki foncé,"rgba(169,176,98,1)",#A9B062
+110 70 50,Vert granny,"rgba(170,179,80,1)",#AAB350
+110 70 60,Vert granny,"rgba(166,178,55,1)",#A6B237
+110 70 70,Acacia,"rgba(158,177,0,1)",#9EB100
+110 70 77,Vert curry,"rgba(157,175,0,1)",#9DAF00
+110 80 10,Gris soie,"rgba(197,198,179,1)",#C5C6B3
+110 80 20,Beige kyanite,"rgba(201,202,161,1)",#C9CAA1
+110 80 30,Ombre naturelle claire,"rgba(200,203,142,1)",#C8CB8E
+110 80 40,Chamois,"rgba(198,205,125,1)",#C6CD7D
+110 80 50,Vert plexi,"rgba(199,207,104,1)",#C7CF68
+110 80 60,Vert plexi,"rgba(196,208,86,1)",#C4D056
+110 80 70,Acacia,"rgba(192,208,54,1)",#C0D036
+110 90 05,Blanc champagny,"rgba(228,227,216,1)",#E4E3D8
+110 90 10,Blanc perlé,"rgba(230,230,208,1)",#E6E6D0
+110 90 20,Blanc néerlandais,"rgba(230,230,188,1)",#E6E6BC
+110 90 30,Jaune doré pâle,"rgba(229,231,167,1)",#E5E7A7
+110 90 35,Flave,"rgba(226,231,159,1)",#E2E79F
+110 90 40,Flave,"rgba(229,232,150,1)",#E5E896
+110 92 05,Blanc gris,"rgba(232,232,219,1)",#E8E8DB
+120 20 05,Gris terre d'ombre,"rgba(47,49,41,1)",#2F3129
+120 20 10,Réglisse,"rgba(42,44,27,1)",#2A2C1B
+120 30 05,Vert olive,"rgba(65,67,58,1)",#41433A
+120 30 10,Vert olive,"rgba(65,70,52,1)",#414634
+120 30 20,Vert olive,"rgba(62,72,38,1)",#3E4826
+120 40 05,Ébène,"rgba(90,92,83,1)",#5A5C53
+120 40 10,Ébène,"rgba(89,94,76,1)",#595E4C
+120 40 20,Vert militaire,"rgba(86,96,61,1)",#56603D
+120 40 30,Olive verte foncé,"rgba(84,98,46,1)",#54622E
+120 40 40,Vert mousse foncé,"rgba(78,99,20,1)",#4E6314
+120 50 05,Nickel,"rgba(117,118,108,1)",#75766C
+120 50 10,Bis,"rgba(115,120,102,1)",#737866
+120 50 20,Vert réséda,"rgba(113,123,86,1)",#717B56
+120 50 30,Vert réséda,"rgba(110,124,69,1)",#6E7C45
+120 50 40,Vert kaki,"rgba(105,125,54,1)",#697D36
+120 50 50,Olivatre,"rgba(99,126,29,1)",#637E1D
+120 60 05,Gris signalisation A,"rgba(146,148,137,1)",#929489
+120 60 10,Gris pierre,"rgba(140,145,128,1)",#8C9180
+120 60 20,Artichaut,"rgba(138,148,111,1)",#8A946F
+120 60 30,Vert mousse,"rgba(135,152,96,1)",#879860
+120 60 40,Vert mousse,"rgba(130,153,76,1)",#82994C
+120 60 50,Gris Pragues,"rgba(126,155,57,1)",#7E9B39
+120 60 60,Vert olive,"rgba(119,154,32,1)",#779A20
+120 60 63,Vert olive,"rgba(118,156,24,1)",#769C18
+120 70 05,Gris foncé,"rgba(170,172,162,1)",#AAACA2
+120 70 10,Vert bourrache,"rgba(169,173,153,1)",#A9AD99
+120 70 20,Vert olivier,"rgba(165,175,137,1)",#A5AF89
+120 70 30,Vert olivier,"rgba(162,179,122,1)",#A2B37A
+120 70 40,Glauque,"rgba(157,181,103,1)",#9DB567
+120 70 50,Jaune olive,"rgba(152,182,82,1)",#98B652
+120 70 60,Olive,"rgba(145,179,60,1)",#91B33C
+120 70 70,Jaune vert,"rgba(142,184,38,1)",#8EB826
+120 70 75,Vert moyen,"rgba(136,180,7,1)",#88B407
+120 80 05,Gris tendre,"rgba(198,200,190,1)",#C6C8BE
+120 80 10,Gris soie,"rgba(195,200,179,1)",#C3C8B3
+120 80 20,Gris soie,"rgba(194,205,165,1)",#C2CDA5
+120 80 30,Ombre naturelle claire,"rgba(188,205,145,1)",#BCCD91
+120 80 40,Beige vert,"rgba(185,208,128,1)",#B9D080
+120 80 50,Kaki foncé,"rgba(179,210,109,1)",#B3D26D
+120 80 60,Vert tilleul,"rgba(176,212,93,1)",#B0D45D
+120 90 05,Blanc champagny,"rgba(225,227,215,1)",#E1E3D7
+120 90 10,Blanc champagny,"rgba(227,231,209,1)",#E3E7D1
+120 90 20,Vert absinthe,"rgba(222,232,190,1)",#DEE8BE
+120 90 30,Vert essia,"rgba(217,235,172,1)",#D9EBAC
+130 20 10,Veste en cuir noir,"rgba(41,48,32,1)",#293020
+130 30 10,Vert olive,"rgba(63,70,53,1)",#3F4635
+130 30 20,Vert bouteille,"rgba(57,72,39,1)",#394827
+130 40 10,Ébène,"rgba(89,96,79,1)",#59604F
+130 40 20,Gris vert,"rgba(79,96,62,1)",#4F603E
+130 40 30,Olive verte foncé,"rgba(75,99,49,1)",#4B6331
+130 50 10,Bis,"rgba(111,119,102,1)",#6F7766
+130 50 20,Vert réséda,"rgba(106,123,89,1)",#6A7B59
+130 50 30,Vert réséda,"rgba(97,125,72,1)",#617D48
+130 50 40,Fougère verte,"rgba(89,128,57,1)",#598039
+130 50 50,Vert véronèse,"rgba(79,129,41,1)",#4F8129
+130 60 10,Gris de lin,"rgba(138,147,129,1)",#8A9381
+130 60 20,Artichaut,"rgba(131,149,115,1)",#839573
+130 60 30,Lichen,"rgba(124,152,101,1)",#7C9865
+130 60 40,Asperge,"rgba(116,154,84,1)",#749A54
+130 60 50,Vert jaune,"rgba(107,156,66,1)",#6B9C42
+130 60 60,Vert jaune,"rgba(96,158,47,1)",#609E2F
+130 70 10,Vert bourrache,"rgba(165,175,157,1)",#A5AF9D
+130 70 20,Vert olivier,"rgba(160,178,142,1)",#A0B28E
+130 70 30,Glauque,"rgba(150,180,126,1)",#96B47E
+130 70 40,Glauque,"rgba(143,182,109,1)",#8FB66D
+130 70 50,Vert amande,"rgba(135,185,96,1)",#87B960
+130 70 60,Mante,"rgba(126,186,77,1)",#7EBA4D
+130 80 10,Gris tendre,"rgba(193,202,183,1)",#C1CAB7
+130 80 20,Tourdille,"rgba(186,204,168,1)",#BACCA8
+130 80 30,Laurier vert,"rgba(179,207,153,1)",#B3CF99
+130 80 40,Laurier vert,"rgba(172,211,139,1)",#ACD38B
+130 80 50,Beige vert,"rgba(164,213,121,1)",#A4D579
+130 90 05,Blanc champagny,"rgba(223,227,216,1)",#DFE3D8
+130 90 10,Blanc champagny,"rgba(224,233,211,1)",#E0E9D3
+130 90 20,Thé vert,"rgba(214,233,195,1)",#D6E9C3
+130 92 05,Gris Hanoï,"rgba(229,233,222,1)",#E5E9DE
+140 20 05,Noir de sécurité,"rgba(40,46,39,1)",#282E27
+140 20 10,Veste en cuir noir,"rgba(40,49,35,1)",#283123
+140 20 20,Veste en cuir noir,"rgba(37,54,30,1)",#25361E
+140 30 05,Fusil vert,"rgba(66,71,64,1)",#424740
+140 30 10,Fusil vert,"rgba(62,73,57,1)",#3E4939
+140 30 20,Vert basque,"rgba(54,76,46,1)",#364C2E
+140 30 30,Vert feuillage,"rgba(42,79,33,1)",#2A4F21
+140 30 40,Vert Cal Poly Pomona,"rgba(27,79,28,1)",#1B4F1C
+140 40 05,Ébène,"rgba(89,95,87,1)",#595F57
+140 40 10,Ébène,"rgba(85,97,81,1)",#556151
+140 40 20,Artichaut vert,"rgba(72,98,65,1)",#486241
+140 40 30,Vert fougère,"rgba(64,102,53,1)",#406635
+140 40 40,Vert herbe,"rgba(50,106,43,1)",#326A2B
+140 40 50,Vert herbe,"rgba(41,109,35,1)",#296D23
+140 50 05,Nickel,"rgba(113,119,110,1)",#71776E
+140 50 10,Nickel,"rgba(109,121,105,1)",#6D7969
+140 50 20,Vert réséda,"rgba(99,124,91,1)",#637C5B
+140 50 30,Vert réséda,"rgba(90,128,79,1)",#5A804F
+140 50 40,Fougère verte,"rgba(74,129,64,1)",#4A8140
+140 50 50,Vert mai,"rgba(65,134,56,1)",#418638
+140 50 60,Vert forêt,"rgba(43,135,37,1)",#2B8725
+140 60 05,Gris métallisé,"rgba(139,145,138,1)",#8B918A
+140 60 10,Gris pierre,"rgba(133,147,130,1)",#859382
+140 60 20,Artichaut,"rgba(126,153,119,1)",#7E9977
+140 60 30,Vert sauge,"rgba(115,156,105,1)",#739C69
+140 60 40,Vert mousse,"rgba(106,158,92,1)",#6A9E5C
+140 60 50,Vert mousse,"rgba(90,159,77,1)",#5A9F4D
+140 60 60,Vert jaune,"rgba(77,162,65,1)",#4DA241
+140 60 70,Vert anglais,"rgba(59,162,52,1)",#3BA234
+140 70 05,Aluminium blanc,"rgba(165,172,164,1)",#A5ACA4
+140 70 10,Aluminium blanc,"rgba(159,174,158,1)",#9FAE9E
+140 70 20,Vert océan foncé,"rgba(151,179,145,1)",#97B391
+140 70 30,Vert océan foncé,"rgba(140,182,132,1)",#8CB684
+140 70 40,Vert lichen,"rgba(132,185,119,1)",#84B977
+140 70 50,Mante,"rgba(118,187,104,1)",#76BB68
+140 70 60,Mante,"rgba(105,189,90,1)",#69BD5A
+140 80 05,Gris tendre,"rgba(195,202,191,1)",#C3CABF
+140 80 10,Gris tendre,"rgba(188,203,185,1)",#BCCBB9
+140 80 20,Ash gris,"rgba(179,206,171,1)",#B3CEAB
+140 80 30,Laurier vert,"rgba(168,209,158,1)",#A8D19E
+140 80 40,Vert clair,"rgba(153,213,144,1)",#99D590
+140 90 05,Blanc champagny,"rgba(223,230,218,1)",#DFE6DA
+140 90 10,Blanc champagny,"rgba(219,233,213,1)",#DBE9D5
+150 20 10,Veste en cuir noir,"rgba(37,51,40,1)",#253328
+150 30 10,Fusil vert,"rgba(61,75,61,1)",#3D4B3D
+150 30 20,Vert basque,"rgba(46,78,54,1)",#2E4E36
+150 30 30,Vert Cal Poly Pomona,"rgba(30,79,43,1)",#1E4F2B
+150 40 10,Ébène,"rgba(82,97,83,1)",#526153
+150 40 20,Vert empire,"rgba(71,101,74,1)",#47654A
+150 40 30,Vert chasseur,"rgba(51,103,63,1)",#33673F
+150 40 40,Vert menthe,"rgba(28,106,53,1)",#1C6A35
+150 40 50,Castleton vert,"rgba(0,108,46,1)",#006C2E
+150 50 10,Nickel,"rgba(105,121,106,1)",#69796A
+150 50 20,Gris vert,"rgba(93,125,97,1)",#5D7D61
+150 50 30,Vert de Hooker,"rgba(83,128,89,1)",#538059
+150 50 40,Sapin,"rgba(63,134,83,1)",#3F8653
+150 50 50,Émeraude,"rgba(33,136,69,1)",#218845
+150 50 60,Vert pur,"rgba(0,139,60,1)",#008B3C
+150 60 10,Gris signalisation A,"rgba(133,149,135,1)",#859587
+150 60 20,Vert sauge,"rgba(119,153,125,1)",#77997D
+150 60 30,Vert sauge,"rgba(105,155,114,1)",#699B72
+150 60 40,Vert poireau,"rgba(89,159,104,1)",#599F68
+150 60 50,Vert poireau,"rgba(73,164,98,1)",#49A462
+150 60 60,Vert malachite,"rgba(28,163,80,1)",#1CA350
+150 70 10,Aluminium blanc,"rgba(158,175,160,1)",#9EAFA0
+150 70 20,Vert océan foncé,"rgba(146,180,152,1)",#92B498
+150 70 30,Menthe,"rgba(131,186,142,1)",#83BA8E
+150 70 40,Fougère,"rgba(116,187,131,1)",#74BB83
+150 70 50,Fougère,"rgba(98,190,119,1)",#62BE77
+150 80 10,Gris tendre,"rgba(187,204,189,1)",#BBCCBD
+150 80 20,Céladon,"rgba(173,208,179,1)",#ADD0B3
+150 80 30,Céladon,"rgba(159,212,170,1)",#9FD4AA
+150 80 40,Jade,"rgba(143,216,159,1)",#8FD89F
+150 90 05,Blanc champagny,"rgba(220,229,217,1)",#DCE5D9
+150 90 10,Blanc champagny,"rgba(215,233,215,1)",#D7E9D7
+160 20 05,Gris anthracite,"rgba(43,50,45,1)",#2B322D
+160 20 10,Veste en cuir noir,"rgba(36,52,42,1)",#24342A
+160 20 15,Phtalo vert,"rgba(24,52,37,1)",#183425
+160 20 20,Phtalo vert,"rgba(16,50,34,1)",#103222
+160 30 05,Fusil vert,"rgba(62,71,64,1)",#3E4740
+160 30 10,Vert mousse,"rgba(56,73,62,1)",#38493E
+160 30 15,Vert mousse,"rgba(47,73,57,1)",#2F4939
+160 30 20,Vert basque,"rgba(37,75,55,1)",#254B37
+160 30 25,Vert Cal Poly Pomona,"rgba(26,76,50,1)",#1A4C32
+160 30 30,Vert sapin,"rgba(1,78,46,1)",#014E2E
+160 30 35,Vert sapin,"rgba(0,81,44,1)",#00512C
+160 30 40,Vert sapin,"rgba(0,82,40,1)",#005228
+160 40 05,Gris bitume,"rgba(87,96,90,1)",#57605A
+160 40 10,Vert empire,"rgba(78,97,87,1)",#4E6157
+160 40 15,Vert empire,"rgba(70,99,83,1)",#466353
+160 40 20,Vert empire,"rgba(62,100,79,1)",#3E644F
+160 40 25,Vert patine,"rgba(51,101,74,1)",#33654A
+160 40 30,Vert patine,"rgba(40,104,72,1)",#286848
+160 40 35,Vert menthe,"rgba(22,106,69,1)",#166A45
+160 40 40,Vert bouteille,"rgba(0,108,68,1)",#006C44
+160 40 45,Vert bouteille,"rgba(0,105,60,1)",#00693C
+160 40 50,Castleton vert,"rgba(0,107,56,1)",#006B38
+160 40 55,Vert bouteille,"rgba(0,111,55,1)",#006F37
+160 50 05,Nickel,"rgba(111,120,114,1)",#6F7872
+160 50 10,Gris vert,"rgba(102,122,110,1)",#667A6E
+160 50 15,Gris vert,"rgba(95,125,108,1)",#5F7D6C
+160 50 20,Vert de Hooker,"rgba(86,127,105,1)",#567F69
+160 50 25,Vert de Hooker,"rgba(77,128,100,1)",#4D8064
+160 50 30,Viridian,"rgba(67,130,97,1)",#438261
+160 50 35,Sapin,"rgba(59,132,94,1)",#3B845E
+160 50 40,Vert océan,"rgba(36,133,91,1)",#24855B
+160 50 45,Émeraude,"rgba(19,136,89,1)",#138859
+160 50 50,Vert,"rgba(0,136,84,1)",#008854
+160 50 55,Vert,"rgba(0,139,82,1)",#008B52
+160 50 60,Vert,"rgba(0,138,76,1)",#008A4C
+160 60 05,Gris métallisé,"rgba(136,146,140,1)",#88928C
+160 60 10,Gris loft,"rgba(127,148,136,1)",#7F9488
+160 60 15,Gris petit,"rgba(120,152,133,1)",#789885
+160 60 20,Glauque,"rgba(111,152,129,1)",#6F9881
+160 60 25,Vert sauge,"rgba(103,154,124,1)",#679A7C
+160 60 30,Vert sauge,"rgba(94,157,123,1)",#5E9D7B
+160 60 35,Vert poireau,"rgba(83,160,121,1)",#53A079
+160 60 40,Vert poireau,"rgba(69,160,116,1)",#45A074
+160 60 45,Vert océan moyen,"rgba(58,163,114,1)",#3AA372
+160 60 50,Vert,"rgba(26,163,109,1)",#1AA36D
+160 60 55,Vert,"rgba(0,162,103,1)",#00A267
+160 60 58,Transit vert,"rgba(0,164,101,1)",#00A465
+160 70 05,Gris foncé,"rgba(163,174,167,1)",#A3AEA7
+160 70 10,Aluminium blanc,"rgba(153,175,163,1)",#99AFA3
+160 70 15,Matin bleu,"rgba(144,177,157,1)",#90B19D
+160 70 20,Vert céladon,"rgba(138,179,155,1)",#8AB39B
+160 70 25,Menthe,"rgba(129,184,154,1)",#81B89A
+160 70 30,Menthe,"rgba(117,185,150,1)",#75B996
+160 70 35,Menthe,"rgba(106,186,146,1)",#6ABA92
+160 70 40,Menthe,"rgba(96,189,142,1)",#60BD8E
+160 70 45,Vert de Paris,"rgba(81,191,138,1)",#51BF8A
+160 70 50,Vert de Paris,"rgba(68,192,137,1)",#44C089
+160 80 05,Gris tendre,"rgba(188,200,193,1)",#BCC8C1
+160 80 10,Ash gris,"rgba(181,203,189,1)",#B5CBBD
+160 80 15,Vert d'eau,"rgba(171,206,186,1)",#ABCEBA
+160 80 20,Vert d'eau,"rgba(163,208,182,1)",#A3D0B6
+160 80 25,Céladon,"rgba(156,210,180,1)",#9CD2B4
+160 80 30,Vert opaline,"rgba(148,214,178,1)",#94D6B2
+160 90 05,Gris Hanoï,"rgba(219,229,219,1)",#DBE5DB
+160 90 10,Gris étain,"rgba(210,232,216,1)",#D2E8D8
+160 90 15,Gris gravier,"rgba(201,234,212,1)",#C9EAD4
+170 20 10,Charleston vert,"rgba(28,49,41,1)",#1C3129
+170 20 15,Phtalo vert,"rgba(18,51,40,1)",#123328
+170 20 20,Vert Sacramento Etat,"rgba(0,53,39,1)",#003527
+170 20 25,Vert foncé,"rgba(0,55,35,1)",#003723
+170 30 10,Vert noir,"rgba(53,74,65,1)",#354A41
+170 30 15,Vert basque,"rgba(40,75,62,1)",#284B3E
+170 30 20,Vert Brunswick,"rgba(30,75,59,1)",#1E4B3B
+170 30 25,Castleton vert,"rgba(4,79,59,1)",#044F3B
+170 30 30,Castleton vert,"rgba(0,79,57,1)",#004F39
+170 30 35,Castleton vert,"rgba(0,82,57,1)",#005239
+170 30 40,Castleton vert,"rgba(0,84,55,1)",#005437
+170 40 10,Vert empire,"rgba(75,96,87,1)",#4B6057
+170 40 15,Vert empire,"rgba(66,98,85,1)",#426255
+170 40 20,Vert patine,"rgba(53,101,84,1)",#356554
+170 40 25,Vert patine,"rgba(43,101,81,1)",#2B6551
+170 40 30,Vert turquoise,"rgba(28,106,81,1)",#1C6A51
+170 40 35,Vert bouteille,"rgba(0,106,77,1)",#006A4D
+170 40 40,Vert bouteille,"rgba(0,107,77,1)",#006B4D
+170 40 45,Vert bouteille,"rgba(0,108,75,1)",#006C4B
+170 40 50,Vert bouteille,"rgba(0,108,71,1)",#006C47
+170 50 10,Gris de Payne,"rgba(99,122,114,1)",#637A72
+170 50 15,Gris vert,"rgba(91,126,112,1)",#5B7E70
+170 50 20,Vert de Hooker,"rgba(80,127,109,1)",#507F6D
+170 50 25,Viridian,"rgba(70,129,108,1)",#46816C
+170 50 30,Viridian,"rgba(53,131,106,1)",#35836A
+170 50 35,Vert océan,"rgba(32,132,104,1)",#208468
+170 50 40,Émeraude,"rgba(0,134,100,1)",#008664
+170 50 45,Émeraude,"rgba(0,135,100,1)",#008764
+170 50 50,Émeraude,"rgba(0,139,98,1)",#008B62
+170 50 55,Émeraude,"rgba(0,138,96,1)",#008A60
+170 60 10,Gris loft,"rgba(124,148,139,1)",#7C948B
+170 60 15,Gris petit,"rgba(118,151,137,1)",#769789
+170 60 20,Glauque,"rgba(105,154,136,1)",#699A88
+170 60 25,Glauque,"rgba(94,155,134,1)",#5E9B86
+170 60 30,Glauque,"rgba(80,157,131,1)",#509D83
+170 60 35,Vert océan moyen,"rgba(63,162,130,1)",#3FA282
+170 60 40,Jungle verte,"rgba(44,161,128,1)",#2CA180
+170 60 45,Vert,"rgba(0,162,125,1)",#00A27D
+170 60 50,Vert,"rgba(0,166,126,1)",#00A67E
+170 70 10,Gris fenêtre,"rgba(152,177,166,1)",#98B1A6
+170 70 15,Matin bleu,"rgba(143,178,163,1)",#8FB2A3
+170 70 20,Vert céladon,"rgba(132,182,162,1)",#84B6A2
+170 70 25,Menthe,"rgba(124,184,161,1)",#7CB8A1
+170 70 30,Menthe,"rgba(108,187,160,1)",#6CBBA0
+170 70 35,Menthe,"rgba(95,187,156,1)",#5FBB9C
+170 70 40,Bleu turquoise,"rgba(82,188,154,1)",#52BC9A
+170 80 10,Gris tendre,"rgba(180,204,194,1)",#B4CCC2
+170 80 15,Bleu cupcake,"rgba(168,207,192,1)",#A8CFC0
+170 80 20,Vert opaline,"rgba(159,211,191,1)",#9FD3BF
+170 80 25,Vert opaline,"rgba(147,211,188,1)",#93D3BC
+170 90 05,Gris étain,"rgba(217,229,221,1)",#D9E5DD
+170 90 10,Gris étain,"rgba(207,233,220,1)",#CFE9DC
+170 92 05,Gris Hanoï,"rgba(222,234,227,1)",#DEEAE3
+180 20 05,Gris anthracite,"rgba(40,51,48,1)",#283330
+180 20 10,Charleston vert,"rgba(27,50,44,1)",#1B322C
+180 20 15,Vert Sacramento Etat,"rgba(9,51,44,1)",#09332C
+180 20 20,Vert Sacramento Etat,"rgba(0,53,44,1)",#00352C
+180 30 05,Cosmos,"rgba(63,74,71,1)",#3F4A47
+180 30 10,Vert noir,"rgba(50,73,67,1)",#324943
+180 30 15,Vert pin,"rgba(39,76,67,1)",#274C43
+180 30 20,Vert Brunswick,"rgba(24,77,67,1)",#184D43
+180 30 25,Castleton vert,"rgba(0,80,67,1)",#005043
+180 30 30,Castleton vert,"rgba(0,80,66,1)",#005042
+180 30 36,Castleton vert,"rgba(0,83,65,1)",#005341
+180 40 05,Gris bitume,"rgba(84,95,91,1)",#545F5B
+180 40 10,Vert empire,"rgba(74,99,92,1)",#4A635C
+180 40 15,Vert empire,"rgba(62,100,91,1)",#3E645B
+180 40 20,Vert patine,"rgba(48,103,92,1)",#30675C
+180 40 25,Vert patine,"rgba(30,103,90,1)",#1E675A
+180 40 30,Vert bouteille,"rgba(0,106,91,1)",#006A5B
+180 40 35,Vert bouteille,"rgba(0,107,87,1)",#006B57
+180 40 40,Vert bouteille,"rgba(0,107,86,1)",#006B56
+180 40 45,Vert bouteille,"rgba(0,109,87,1)",#006D57
+180 50 05,Gris minéral,"rgba(110,122,119,1)",#6E7A77
+180 50 10,Gris de Payne,"rgba(97,122,116,1)",#617A74
+180 50 15,Turquoise menthe,"rgba(85,125,115,1)",#557D73
+180 50 20,Turquoise menthe,"rgba(73,127,115,1)",#497F73
+180 50 25,Viridian,"rgba(57,129,116,1)",#398174
+180 50 30,Vert céladon,"rgba(35,132,114,1)",#238472
+180 50 35,Vert pin,"rgba(0,133,114,1)",#008572
+180 50 40,Vert pin,"rgba(0,133,113,1)",#008571
+180 50 45,Vert pin,"rgba(0,138,112,1)",#008A70
+180 50 50,Vert pin,"rgba(0,138,111,1)",#008A6F
+180 60 05,Gris métallisé,"rgba(133,146,143,1)",#85928F
+180 60 10,Gris loft,"rgba(122,149,142,1)",#7A958E
+180 60 15,Glauque,"rgba(111,151,142,1)",#6F978E
+180 60 20,Glauque,"rgba(99,154,142,1)",#639A8E
+180 60 25,Glauque,"rgba(84,155,140,1)",#549B8C
+180 60 30,Bleu turquoise,"rgba(67,158,141,1)",#439E8D
+180 60 35,Jungle verte,"rgba(46,161,140,1)",#2EA18C
+180 60 40,Vert persan,"rgba(0,163,140,1)",#00A38C
+180 60 45,Vert persan,"rgba(0,165,140,1)",#00A58C
+180 60 50,Vert persan,"rgba(0,166,139,1)",#00A68B
+180 70 05,Gris foncé,"rgba(160,173,169,1)",#A0ADA9
+180 70 10,Gris cadet,"rgba(147,176,169,1)",#93B0A9
+180 70 15,Turquoise pastel,"rgba(136,178,169,1)",#88B2A9
+180 70 20,Turquoise pastel,"rgba(125,182,168,1)",#7DB6A8
+180 70 25,Bleu néon,"rgba(111,183,168,1)",#6FB7A8
+180 70 30,Bleu turquoise,"rgba(98,186,168,1)",#62BAA8
+180 70 35,Verdigris,"rgba(76,188,167,1)",#4CBCA7
+180 70 40,Keppel,"rgba(54,191,168,1)",#36BFA8
+180 80 05,Gris tendre,"rgba(188,201,195,1)",#BCC9C3
+180 80 10,Bleu polaire,"rgba(177,204,197,1)",#B1CCC5
+180 80 15,Bleu polaire,"rgba(167,208,197,1)",#A7D0C5
+180 80 20,Vert opaline,"rgba(150,209,195,1)",#96D1C3
+180 80 25,Vert opaline,"rgba(139,212,195,1)",#8BD4C3
+180 80 30,Bleu tiffany,"rgba(130,217,197,1)",#82D9C5
+180 90 05,Gris Hanoï,"rgba(217,231,226,1)",#D9E7E2
+180 90 10,Bleu niolon,"rgba(205,235,225,1)",#CDEBE1
+190 20 10,Vert opal nacré,"rgba(25,50,47,1)",#19322F
+190 20 15,Vert Sacramento Etat,"rgba(9,54,50,1)",#093632
+190 20 20,Vert Sacramento Etat,"rgba(0,56,51,1)",#003833
+190 30 10,Gris ardoise foncé,"rgba(49,73,70,1)",#314946
+190 30 15,Vert pin,"rgba(37,77,72,1)",#254D48
+190 30 20,Bleu pétrole,"rgba(16,79,74,1)",#104F4A
+190 30 25,Vert minuit,"rgba(0,80,75,1)",#00504B
+190 30 30,Vert minuit,"rgba(0,82,76,1)",#00524C
+190 30 35,Vert opale,"rgba(0,83,76,1)",#00534C
+190 40 10,Vert empire,"rgba(73,98,94,1)",#49625E
+190 40 15,Vert empire,"rgba(60,100,97,1)",#3C6461
+190 40 20,Vert patine,"rgba(41,102,97,1)",#296661
+190 40 25,Caraïbes,"rgba(11,104,99,1)",#0B6863
+190 40 30,Caraïbes,"rgba(0,107,100,1)",#006B64
+190 40 35,Caraïbes,"rgba(0,108,101,1)",#006C65
+190 40 40,Caraïbes,"rgba(0,110,102,1)",#006E66
+190 40 45,Caraïbes,"rgba(0,113,103,1)",#007167
+190 50 10,Gris de Payne,"rgba(97,124,120,1)",#617C78
+190 50 15,Turquoise menthe,"rgba(84,126,121,1)",#547E79
+190 50 20,Turquoise menthe,"rgba(70,128,123,1)",#46807B
+190 50 25,Vert céladon,"rgba(49,130,123,1)",#31827B
+190 50 30,Bleu sarcelle,"rgba(8,132,124,1)",#08847C
+190 50 35,Bleu sarcelle,"rgba(0,134,125,1)",#00867D
+190 50 40,Bleu sarcelle,"rgba(0,137,128,1)",#008980
+190 50 45,Bleu sarcelle,"rgba(0,138,129,1)",#008A81
+190 60 10,Gris ardoise clair,"rgba(122,150,147,1)",#7A9693
+190 60 15,Glauque,"rgba(111,152,146,1)",#6F9892
+190 60 20,Bleu pastel,"rgba(99,155,149,1)",#639B95
+190 60 25,Bleu pastel,"rgba(79,158,150,1)",#4F9E96
+190 60 30,Keppel,"rgba(58,160,152,1)",#3AA098
+190 60 35,Vert persan,"rgba(22,162,154,1)",#16A29A
+190 60 40,Vert persan,"rgba(0,164,154,1)",#00A49A
+190 60 45,Vert persan,"rgba(0,164,153,1)",#00A499
+190 70 10,Gris cadet,"rgba(149,176,173,1)",#95B0AD
+190 70 15,Turquoise pastel,"rgba(137,179,173,1)",#89B3AD
+190 70 20,Turquoise pastel,"rgba(122,181,174,1)",#7AB5AE
+190 70 25,Bleu néon,"rgba(107,184,177,1)",#6BB8B1
+190 70 30,Bleu turquoise,"rgba(93,188,180,1)",#5DBCB4
+190 70 35,Verdigris,"rgba(69,188,179,1)",#45BCB3
+190 80 10,Bleu polaire,"rgba(175,205,199,1)",#AFCDC7
+190 80 15,Bleu polaire,"rgba(165,208,203,1)",#A5D0CB
+190 80 20,Vert opaline,"rgba(151,209,203,1)",#97D1CB
+190 80 25,Bleu tiffany,"rgba(136,212,204,1)",#88D4CC
+190 90 05,Gris Hanoï,"rgba(218,230,226,1)",#DAE6E2
+190 90 10,Bleu niolon,"rgba(205,234,229,1)",#CDEAE5
+200 20 05,Gris anthracite,"rgba(38,49,48,1)",#263130
+200 20 10,Vert opal nacré,"rgba(25,50,50,1)",#193232
+200 20 15,Bleu opal nacré,"rgba(4,49,50,1)",#043132
+200 20 20,Bleu opal nacré,"rgba(0,54,54,1)",#003636
+200 20 23,Bleu opal nacré,"rgba(0,56,57,1)",#003839
+200 30 05,Cosmos,"rgba(58,70,69,1)",#3A4645
+200 30 10,Gris ardoise foncé,"rgba(48,75,74,1)",#304B4A
+200 30 15,Bleu pétrole,"rgba(35,78,77,1)",#234E4D
+200 30 20,Vert minuit,"rgba(14,79,79,1)",#0E4F4F
+200 30 25,Vert minuit,"rgba(0,78,78,1)",#004E4E
+200 30 30,Vert minuit,"rgba(0,81,82,1)",#005152
+200 30 33,Vert opale,"rgba(0,84,86,1)",#005456
+200 40 05,Gris bitume,"rgba(82,96,95,1)",#52605F
+200 40 10,Bleu minéral,"rgba(72,98,98,1)",#486262
+200 40 15,Bleu de Bering,"rgba(58,99,100,1)",#3A6364
+200 40 20,Gentiane nacré,"rgba(41,103,103,1)",#296767
+200 40 25,Caraïbes,"rgba(10,105,106,1)",#0A696A
+200 40 30,Caraïbes,"rgba(0,107,108,1)",#006B6C
+200 40 35,Caraïbes,"rgba(0,108,110,1)",#006C6E
+200 40 40,Caraïbes,"rgba(0,111,114,1)",#006F72
+200 50 05,Gris minéral,"rgba(106,119,119,1)",#6A7777
+200 50 10,Gris de Payne,"rgba(96,123,123,1)",#607B7B
+200 50 15,Bleu madura,"rgba(83,126,126,1)",#537E7E
+200 50 20,Turquoise menthe,"rgba(66,127,128,1)",#427F80
+200 50 25,Vert céladon,"rgba(45,130,132,1)",#2D8284
+200 50 30,Bleu sarcelle,"rgba(0,132,134,1)",#008486
+200 50 35,Cyan foncé,"rgba(0,136,139,1)",#00888B
+200 50 40,Cyan foncé,"rgba(0,137,140,1)",#00898C
+200 50 45,Cyan foncé,"rgba(0,138,142,1)",#008A8E
+200 60 05,Gris zinc,"rgba(132,146,146,1)",#849292
+200 60 10,Gris ardoise clair,"rgba(122,149,149,1)",#7A9595
+200 60 15,Bleu pastel,"rgba(108,152,152,1)",#6C9898
+200 60 20,Bleu pastel,"rgba(95,155,156,1)",#5F9B9C
+200 60 25,Bleu persan,"rgba(73,156,157,1)",#499C9D
+200 60 30,Keppel,"rgba(49,159,159,1)",#319F9F
+200 60 35,Bleu-vert,"rgba(0,161,163,1)",#00A1A3
+200 60 40,Bleu-vert,"rgba(0,164,166,1)",#00A4A6
+200 70 05,Gris foncé,"rgba(160,173,172,1)",#A0ADAC
+200 70 10,Gris cadet,"rgba(148,178,178,1)",#94B2B2
+200 70 15,Turquoise pastel,"rgba(133,179,178,1)",#85B3B2
+200 70 20,Turquoise pastel,"rgba(122,182,182,1)",#7AB6B6
+200 70 25,Bleu néon,"rgba(106,185,187,1)",#6AB9BB
+200 70 30,Bleu turquoise,"rgba(82,188,189,1)",#52BCBD
+200 70 35,Verdigris,"rgba(57,190,191,1)",#39BEBF
+200 80 05,Gris tendre,"rgba(188,201,199,1)",#BCC9C7
+200 80 10,Bleu polaire,"rgba(174,204,203,1)",#AECCCB
+200 80 15,Bleu polaire,"rgba(162,205,203,1)",#A2CDCB
+200 80 20,Vert opaline,"rgba(148,211,209,1)",#94D3D1
+200 80 25,Bleu tiffany,"rgba(133,212,212,1)",#85D4D4
+200 90 05,Gris Hanoï,"rgba(217,231,228,1)",#D9E7E4
+200 90 10,Bleu niolon,"rgba(204,233,228,1)",#CCE9E4
+200 92 05,Bleu niolon,"rgba(219,234,232,1)",#DBEAE8
+210 20 10,Bleu vert,"rgba(29,53,55,1)",#1D3537
+210 20 15,Vert opal nacré,"rgba(7,53,56,1)",#073538
+210 30 10,Gris charbon,"rgba(50,73,75,1)",#32494B
+210 30 15,Bleu pétrole,"rgba(33,76,79,1)",#214C4F
+210 30 20,Vert minuit,"rgba(0,79,84,1)",#004F54
+210 30 25,Vert minuit,"rgba(0,79,87,1)",#004F57
+210 30 30,Vert minuit,"rgba(0,80,90,1)",#00505A
+210 40 10,Bleu minéral,"rgba(70,97,99,1)",#466163
+210 40 15,Bleu de Bering,"rgba(58,100,104,1)",#3A6468
+210 40 20,Gentiane nacré,"rgba(38,102,107,1)",#26666B
+210 40 25,Caraïbes,"rgba(0,102,109,1)",#00666D
+210 40 30,Caraïbes,"rgba(0,105,115,1)",#006973
+210 40 35,Caraïbes,"rgba(0,108,120,1)",#006C78
+210 40 38,Bleu pétrole,"rgba(0,106,119,1)",#006A77
+210 50 10,Bleu madura,"rgba(95,123,126,1)",#5F7B7E
+210 50 15,Bleu madura,"rgba(84,125,128,1)",#547D80
+210 50 20,Bleu turquoise,"rgba(66,127,133,1)",#427F85
+210 50 25,Vert céladon,"rgba(43,130,136,1)",#2B8288
+210 50 30,Cyan foncé,"rgba(0,131,141,1)",#00838D
+210 50 35,Cyan foncé,"rgba(0,134,145,1)",#008691
+210 50 40,Bleu canard,"rgba(0,136,148,1)",#008894
+210 50 45,Bleu canard,"rgba(0,137,151,1)",#008997
+210 60 10,Gris ardoise clair,"rgba(122,149,152,1)",#7A9598
+210 60 15,Bleu pastel,"rgba(108,150,154,1)",#6C969A
+210 60 20,Bleu cadet,"rgba(95,156,162,1)",#5F9CA2
+210 60 25,Bleu persan,"rgba(74,159,167,1)",#4A9FA7
+210 60 30,Keppel,"rgba(48,160,170,1)",#30A0AA
+210 60 35,Bleu-vert,"rgba(0,161,172,1)",#00A1AC
+210 60 40,Bleu-vert,"rgba(0,164,177,1)",#00A4B1
+210 70 10,Gris cadet,"rgba(149,177,179,1)",#95B1B3
+210 70 15,Turquoise pastel,"rgba(137,179,182,1)",#89B3B6
+210 70 20,Turquoise pastel,"rgba(121,182,188,1)",#79B6BC
+210 70 25,Bleu néon,"rgba(105,184,192,1)",#69B8C0
+210 70 30,Turquoise moyen,"rgba(83,188,197,1)",#53BCC5
+210 70 35,Turquoise moyen,"rgba(53,189,200,1)",#35BDC8
+210 80 10,Bleu polaire,"rgba(180,206,207,1)",#B4CECF
+210 80 15,Bleu polaire,"rgba(165,209,211,1)",#A5D1D3
+210 80 20,Pervenche,"rgba(150,210,214,1)",#96D2D6
+210 80 25,Bleu tiffany,"rgba(136,214,220,1)",#88D6DC
+210 90 05,Bleu niolon,"rgba(217,231,229,1)",#D9E7E5
+210 90 10,Bleu niolon,"rgba(204,234,231,1)",#CCEAE7
+220 20 05,Gris anthracite,"rgba(38,48,50,1)",#263032
+220 20 10,Vert opal nacré,"rgba(26,51,56,1)",#1A3338
+220 20 15,Bleu opal nacré,"rgba(1,52,58,1)",#01343A
+220 20 20,Bleu opal nacré,"rgba(0,55,64,1)",#003740
+220 30 05,Cosmos,"rgba(60,71,72,1)",#3C4748
+220 30 10,Gris ardoise foncé,"rgba(49,74,78,1)",#314A4E
+220 30 15,Bleu pétrole,"rgba(37,77,84,1)",#254D54
+220 30 20,Vert minuit,"rgba(8,77,88,1)",#084D58
+220 30 25,Vert minuit,"rgba(0,81,93,1)",#00515D
+220 30 30,Bleu azur,"rgba(0,81,96,1)",#005160
+220 40 05,Gris bitume,"rgba(83,95,98,1)",#535F62
+220 40 10,Bleu minéral,"rgba(74,98,103,1)",#4A6267
+220 40 15,Bleu de Bering,"rgba(59,100,108,1)",#3B646C
+220 40 20,Gentiane nacré,"rgba(42,102,113,1)",#2A6671
+220 40 25,Bleu pétrole,"rgba(6,105,118,1)",#066976
+220 40 30,Bleu pétrole,"rgba(0,107,125,1)",#006B7D
+220 40 35,Bleu pétrole,"rgba(0,108,129,1)",#006C81
+220 40 40,Canard bleu,"rgba(0,111,134,1)",#006F86
+220 50 05,Gris minéral,"rgba(110,122,124,1)",#6E7A7C
+220 50 10,Gris minéral,"rgba(99,123,128,1)",#637B80
+220 50 15,Bleu madura,"rgba(84,125,134,1)",#547D86
+220 50 20,Bleu turquoise,"rgba(66,128,138,1)",#42808A
+220 50 25,Bleu sarcelle,"rgba(48,129,143,1)",#30818F
+220 50 30,Canard bleu,"rgba(0,129,147,1)",#008193
+220 50 35,Bleu canard,"rgba(0,134,154,1)",#00869A
+220 50 40,Bleu canard,"rgba(0,136,159,1)",#00889F
+220 60 05,Gris zinc,"rgba(135,146,148,1)",#879294
+220 60 10,Bleu horizon,"rgba(124,149,155,1)",#7C959B
+220 60 15,Bleu cadet,"rgba(112,152,160,1)",#7098A0
+220 60 20,Bleu cadet,"rgba(93,154,166,1)",#5D9AA6
+220 60 25,Bleu persan,"rgba(75,156,171,1)",#4B9CAB
+220 60 30,Bleu clair,"rgba(50,160,177,1)",#32A0B1
+220 60 35,Bleu-vert,"rgba(0,159,179,1)",#009FB3
+220 60 40,Bleu vert,"rgba(0,161,185,1)",#00A1B9
+220 70 05,Gris Ile de France,"rgba(161,174,177,1)",#A1AEB1
+220 70 10,Gris ciment,"rgba(151,178,183,1)",#97B2B7
+220 70 15,Turquoise pastel,"rgba(138,181,189,1)",#8AB5BD
+220 70 20,Turquoise pastel,"rgba(123,182,193,1)",#7BB6C1
+220 70 25,Bleu néon,"rgba(103,183,198,1)",#67B7C6
+220 70 30,Turquoise moyen,"rgba(83,184,201,1)",#53B8C9
+220 70 35,Cæruléum,"rgba(50,188,209,1)",#32BCD1
+220 80 05,Gris tendre,"rgba(188,202,202,1)",#BCCACA
+220 80 10,Bleu polaire,"rgba(178,207,211,1)",#B2CFD3
+220 80 15,Bleu polaire,"rgba(161,206,215,1)",#A1CED7
+220 80 20,Bleu clair,"rgba(153,211,223,1)",#99D3DF
+220 80 25,Bleu ciel,"rgba(139,214,226,1)",#8BD6E2
+220 90 05,Bleu niolon,"rgba(217,231,230,1)",#D9E7E6
+220 92 05,Bleu niolon,"rgba(220,234,234,1)",#DCEAEA
+230 20 10,Bleu vert,"rgba(28,51,57,1)",#1C3339
+230 20 15,Vert opal nacré,"rgba(17,53,63,1)",#11353F
+230 20 20,Bleu opal nacré,"rgba(0,52,66,1)",#003442
+230 30 10,Gris charbon,"rgba(55,75,82,1)",#374B52
+230 30 15,Bleu Berlin,"rgba(38,75,86,1)",#264B56
+230 30 20,Vert minuit,"rgba(15,77,92,1)",#0F4D5C
+230 30 25,Bleu azur,"rgba(0,79,99,1)",#004F63
+230 40 10,Marengo,"rgba(74,97,105,1)",#4A6169
+230 40 15,Marengo,"rgba(63,98,110,1)",#3F626E
+230 40 20,Gentiane nacré,"rgba(46,102,118,1)",#2E6676
+230 40 25,Bleu pétrole,"rgba(2,102,123,1)",#02667B
+230 40 30,Bleu pétrole,"rgba(0,105,129,1)",#006981
+230 40 35,Canard bleu,"rgba(0,107,136,1)",#006B88
+230 40 40,Canard bleu,"rgba(0,107,139,1)",#006B8B
+230 50 10,Gris minéral,"rgba(99,122,130,1)",#637A82
+230 50 15,Bleu madura,"rgba(87,126,137,1)",#577E89
+230 50 20,Bleu turquoise,"rgba(73,128,144,1)",#498090
+230 50 25,Bleu turquoise,"rgba(53,128,148,1)",#358094
+230 50 30,Bleu canard,"rgba(0,132,157,1)",#00849D
+230 50 35,Bleu canard,"rgba(0,132,160,1)",#0084A0
+230 50 40,Cæruléum,"rgba(0,133,167,1)",#0085A7
+230 60 10,Bleu horizon,"rgba(126,150,159,1)",#7E969F
+230 60 15,Bleu horizon,"rgba(113,150,162,1)",#7196A2
+230 60 20,Bleu opaline,"rgba(98,153,170,1)",#6299AA
+230 60 25,Bleu turquoise,"rgba(78,154,176,1)",#4E9AB0
+230 60 30,Bleu clair,"rgba(57,155,180,1)",#399BB4
+230 60 35,Bleu vert,"rgba(0,159,189,1)",#009FBD
+230 60 40,Bleu vert,"rgba(0,160,195,1)",#00A0C3
+230 70 10,Gris ciment,"rgba(155,178,186,1)",#9BB2BA
+230 70 15,Turquoise pastel,"rgba(138,179,191,1)",#8AB3BF
+230 70 20,Turquoise pastel,"rgba(124,181,198,1)",#7CB5C6
+230 70 25,Bleu néon,"rgba(111,183,204,1)",#6FB7CC
+230 70 30,Opale,"rgba(91,185,210,1)",#5BB9D2
+230 80 10,Bleu polaire,"rgba(179,205,212,1)",#B3CDD4
+230 80 15,Bleu polaire,"rgba(166,204,216,1)",#A6CCD8
+230 80 20,Bleu clair,"rgba(155,208,225,1)",#9BD0E1
+230 90 05,Gris Hanoï,"rgba(218,230,229,1)",#DAE6E5
+240 20 05,Gris anthracite,"rgba(41,49,53,1)",#293135
+240 20 10,Bleu vert,"rgba(30,50,59,1)",#1E323B
+240 20 15,Vert opal nacré,"rgba(15,51,65,1)",#0F3341
+240 20 20,Bleu gentiane,"rgba(0,52,71,1)",#003447
+240 20 22,Bleu gentiane,"rgba(0,52,74,1)",#00344A
+240 30 05,Cosmos,"rgba(62,71,75,1)",#3E474B
+240 30 10,Gris charbon,"rgba(52,73,83,1)",#344953
+240 30 15,Bleu Berlin,"rgba(42,75,90,1)",#2A4B5A
+240 30 20,Bleu de Prusse,"rgba(23,76,96,1)",#174C60
+240 30 25,Bleu azur,"rgba(0,77,103,1)",#004D67
+240 30 30,Bleu azur,"rgba(0,79,109,1)",#004F6D
+240 30 35,Bleu azur,"rgba(0,81,113,1)",#005171
+240 40 05,Gris bitume,"rgba(85,94,100,1)",#555E64
+240 40 10,Marengo,"rgba(76,96,107,1)",#4C606B
+240 40 15,Marengo,"rgba(64,99,116,1)",#406374
+240 40 20,Gentiane nacré,"rgba(47,100,121,1)",#2F6479
+240 40 25,Bleu charron,"rgba(21,102,129,1)",#156681
+240 40 30,Bleu océan,"rgba(0,102,135,1)",#006687
+240 40 35,Bleu océan,"rgba(0,104,141,1)",#00688D
+240 40 40,Canard bleu,"rgba(0,106,147,1)",#006A93
+240 50 05,Gris minéral,"rgba(111,120,125,1)",#6F787D
+240 50 10,Bleu pigeon,"rgba(99,121,133,1)",#637985
+240 50 15,Bleu madura,"rgba(88,124,141,1)",#587C8D
+240 50 20,Bleu turquoise,"rgba(73,125,147,1)",#497D93
+240 50 25,Bleu turquoise,"rgba(54,127,154,1)",#367F9A
+240 50 30,Bleu canard,"rgba(24,128,161,1)",#1880A1
+240 50 35,Cæruléum,"rgba(0,129,168,1)",#0081A8
+240 50 40,Cæruléum,"rgba(0,130,173,1)",#0082AD
+240 60 05,Gris argent,"rgba(136,147,152,1)",#889398
+240 60 10,Bleu horizon,"rgba(123,146,158,1)",#7B929E
+240 60 15,Bleu horizon,"rgba(113,149,166,1)",#7195A6
+240 60 20,Bleu opaline,"rgba(101,152,175,1)",#6598AF
+240 60 25,Bleu opaline,"rgba(85,153,182,1)",#5599B6
+240 60 30,Bleu clair,"rgba(62,154,189,1)",#3E9ABD
+240 60 35,Bleu vert,"rgba(20,156,196,1)",#149CC4
+240 60 40,Bleu vert,"rgba(0,159,200,1)",#009FC8
+240 70 05,Gris Ile de France,"rgba(162,173,179,1)",#A2ADB3
+240 70 10,Gris ciment,"rgba(152,175,186,1)",#98AFBA
+240 70 15,Bleu charette,"rgba(140,177,194,1)",#8CB1C2
+240 70 20,Turquoise pastel,"rgba(128,178,201,1)",#80B2C9
+240 70 25,Cobalt,"rgba(113,181,209,1)",#71B5D1
+240 70 30,Opale,"rgba(95,181,214,1)",#5FB5D6
+240 80 05,Gris tendre,"rgba(188,200,204,1)",#BCC8CC
+240 80 10,Bleu acier clair,"rgba(181,205,215,1)",#B5CDD7
+240 80 15,Bleu acier clair,"rgba(169,205,221,1)",#A9CDDD
+240 80 20,Bleu clair,"rgba(155,208,229,1)",#9BD0E5
+240 90 05,Bleu niolon,"rgba(218,231,233,1)",#DAE7E9
+250 20 10,Bleu vert,"rgba(32,49,61,1)",#20313D
+250 20 15,Bleu océan,"rgba(21,50,67,1)",#153243
+250 20 20,Bleu marine,"rgba(0,50,73,1)",#003249
+250 20 25,Bleu marine,"rgba(0,51,79,1)",#00334F
+250 30 10,Gris charbon,"rgba(54,71,83,1)",#364753
+250 30 15,Bleu Berlin,"rgba(41,72,90,1)",#29485A
+250 30 20,Bleu de Prusse,"rgba(21,73,98,1)",#154962
+250 30 25,Bleu azur,"rgba(0,76,106,1)",#004C6A
+250 30 30,Bleu azur,"rgba(0,76,113,1)",#004C71
+250 40 10,Marengo,"rgba(78,96,109,1)",#4E606D
+250 40 15,Marengo,"rgba(67,97,117,1)",#436175
+250 40 20,Gentiane nacré,"rgba(50,96,122,1)",#32607A
+250 40 25,Bleu charron,"rgba(29,99,131,1)",#1D6383
+250 40 30,Bleu océan,"rgba(0,101,140,1)",#00658C
+250 40 35,Bleu océan,"rgba(0,100,145,1)",#006491
+250 40 40,Bleu océan,"rgba(0,103,150,1)",#006796
+250 50 10,Gris minéral,"rgba(103,121,134,1)",#677986
+250 50 15,Bleu pigeon,"rgba(91,121,142,1)",#5B798E
+250 50 20,Bleu guède,"rgba(81,123,149,1)",#517B95
+250 50 25,Bleu persan,"rgba(66,124,157,1)",#427C9D
+250 50 30,Bleu céruléen,"rgba(43,125,166,1)",#2B7DA6
+250 50 35,Cæruléum,"rgba(0,127,174,1)",#007FAE
+250 50 40,Bleu,"rgba(0,129,181,1)",#0081B5
+250 60 10,Bleu horizon,"rgba(127,146,160,1)",#7F92A0
+250 60 15,Bleu horizon,"rgba(118,148,169,1)",#7694A9
+250 60 20,Bleu opaline,"rgba(106,149,177,1)",#6A95B1
+250 60 25,Bleu opaline,"rgba(93,150,185,1)",#5D96B9
+250 60 30,Cobalt,"rgba(75,152,192,1)",#4B98C0
+250 60 35,Bleu clair,"rgba(55,153,200,1)",#3799C8
+250 60 40,Bleu céruléen,"rgba(14,155,209,1)",#0E9BD1
+250 70 10,Gris ciment,"rgba(153,174,187,1)",#99AEBB
+250 70 15,Bleu charette,"rgba(144,176,196,1)",#90B0C4
+250 70 20,Charrette,"rgba(133,176,204,1)",#85B0CC
+250 70 25,Cobalt,"rgba(122,178,212,1)",#7AB2D4
+250 70 30,Pervenche,"rgba(107,179,219,1)",#6BB3DB
+250 80 10,Bleu acier clair,"rgba(182,202,215,1)",#B6CAD7
+250 80 15,Bleu acier clair,"rgba(174,205,224,1)",#AECDE0
+250 80 20,Bleu lavande,"rgba(159,202,229,1)",#9FCAE5
+250 90 05,Bleu niolon,"rgba(218,227,231,1)",#DAE3E7
+250 92 05,Bleu niolon,"rgba(223,232,237,1)",#DFE8ED
+260 20 05,Gris anthracite,"rgba(36,49,61,1)",#24313D
+260 20 10,Bleu océan,"rgba(21,48,67,1)",#153043
+260 20 15,Gris anthracite,"rgba(43,48,54,1)",#2B3036
+260 20 20,Bleu gentiane,"rgba(9,50,74,1)",#09324A
+260 30 05,Cosmos,"rgba(64,70,77,1)",#40464D
+260 30 10,Gris charbon,"rgba(58,72,86,1)",#3A4856
+260 30 15,Bleu de Prusse,"rgba(49,72,92,1)",#31485C
+260 30 20,Bleu de Prusse,"rgba(38,73,99,1)",#264963
+260 30 25,Bleu indigo,"rgba(17,74,107,1)",#114A6B
+260 30 30,Bleu azur,"rgba(0,76,115,1)",#004C73
+260 30 35,Bleu azur,"rgba(0,77,124,1)",#004D7C
+260 40 05,Gris bitume,"rgba(87,93,100,1)",#575D64
+260 40 10,Gris ardoise,"rgba(82,97,111,1)",#52616F
+260 40 15,Indépendance,"rgba(75,97,118,1)",#4B6176
+260 40 20,Bleu brillant,"rgba(61,95,124,1)",#3D5F7C
+260 40 25,Bleu brillant,"rgba(50,98,133,1)",#326285
+260 40 30,Bleu outremer,"rgba(33,99,139,1)",#21638B
+260 40 35,Bleu océan,"rgba(0,99,146,1)",#006392
+260 40 40,Bleu océan,"rgba(0,101,157,1)",#00659D
+260 40 45,Bleu océan,"rgba(0,102,163,1)",#0066A3
+260 50 05,Gris minéral,"rgba(111,117,125,1)",#6F757D
+260 50 10,Gris minéral,"rgba(106,119,134,1)",#6A7786
+260 50 15,Bleu pigeon,"rgba(98,120,142,1)",#62788E
+260 50 20,Bleu guède,"rgba(92,123,151,1)",#5C7B97
+260 50 25,Bleu guède,"rgba(80,124,160,1)",#507CA0
+260 50 30,Bleu acier,"rgba(62,125,170,1)",#3E7DAA
+260 50 35,Bleu céruléen,"rgba(43,124,175,1)",#2B7CAF
+260 50 40,Bleu,"rgba(0,127,185,1)",#007FB9
+260 60 05,Gris zinc,"rgba(138,144,152,1)",#8A9098
+260 60 10,Bleu horizon,"rgba(131,145,160,1)",#8391A0
+260 60 15,Bleu horizon,"rgba(126,149,171,1)",#7E95AB
+260 60 20,Bleu horizon,"rgba(116,148,177,1)",#7494B1
+260 60 25,Bleu opaline,"rgba(106,150,186,1)",#6A96BA
+260 60 30,Bleu-gris,"rgba(94,150,195,1)",#5E96C3
+260 60 35,Bleu lagon,"rgba(79,152,203,1)",#4F98CB
+260 70 05,Gris Ile de France,"rgba(167,174,180,1)",#A7AEB4
+260 70 10,Gris ciment,"rgba(160,174,188,1)",#A0AEBC
+260 70 15,Mauve,"rgba(150,174,197,1)",#96AEC5
+260 70 20,Charrette,"rgba(143,176,206,1)",#8FB0CE
+260 70 25,Cobalt,"rgba(131,176,214,1)",#83B0D6
+260 80 05,Gris perle,"rgba(192,200,207,1)",#C0C8CF
+260 80 10,Bleu acier clair,"rgba(185,201,215,1)",#B9C9D7
+260 80 15,Bleu acier clair,"rgba(177,201,223,1)",#B1C9DF
+260 90 05,Bleu niolon,"rgba(220,227,231,1)",#DCE3E7
+270 20 10,Gris anthracite,"rgba(36,46,59,1)",#242E3B
+270 20 15,Bleu océan,"rgba(29,46,67,1)",#1D2E43
+270 20 20,Bleu gentiane,"rgba(17,47,75,1)",#112F4B
+270 20 25,Bleu marine,"rgba(0,46,81,1)",#002E51
+270 20 29,Bleu de minuit,"rgba(0,49,90,1)",#00315A
+270 30 10,Gris charbon,"rgba(59,69,84,1)",#3B4554
+270 30 15,Gris charbon,"rgba(54,71,92,1)",#36475C
+270 30 20,Bleu de Prusse,"rgba(46,71,100,1)",#2E4764
+270 30 25,Bleu indigo,"rgba(36,72,108,1)",#24486C
+270 30 30,Bleu signalisation,"rgba(16,71,115,1)",#104773
+270 30 35,Bleu signalisation,"rgba(0,71,122,1)",#00477A
+270 30 40,Bleu signalisation,"rgba(0,72,131,1)",#004883
+270 30 45,Bleu smalt,"rgba(0,74,136,1)",#004A88
+270 40 10,Gris ardoise,"rgba(85,95,110,1)",#555F6E
+270 40 15,Gris ardoise,"rgba(79,95,118,1)",#4F5F76
+270 40 20,Bleu turquin,"rgba(70,95,126,1)",#465F7E
+270 40 25,Bleu brillant,"rgba(63,96,134,1)",#3F6086
+270 40 30,Bleu brillant,"rgba(51,95,141,1)",#335F8D
+270 40 35,Lapis-lazuli,"rgba(33,95,150,1)",#215F96
+270 40 40,Bleu océan,"rgba(0,95,157,1)",#005F9D
+270 50 10,Gris minéral,"rgba(109,120,136,1)",#6D7888
+270 50 15,Gris ardoise,"rgba(105,121,145,1)",#697991
+270 50 20,Bleu guède,"rgba(96,121,153,1)",#607999
+270 50 25,Bleu guède,"rgba(90,122,162,1)",#5A7AA2
+270 50 30,Bleu barbeau,"rgba(78,120,169,1)",#4E78A9
+270 50 35,Bleu acier,"rgba(66,120,175,1)",#4278AF
+270 50 40,Bleu céruléen,"rgba(50,122,185,1)",#327AB9
+270 60 10,Bleu horizon,"rgba(133,145,162,1)",#8591A2
+270 60 15,Bleu horizon,"rgba(130,147,172,1)",#8293AC
+270 60 20,Bleu horizon,"rgba(123,147,180,1)",#7B93B4
+270 60 25,Bleu opaline,"rgba(116,148,188,1)",#7494BC
+270 60 30,Bleu-gris,"rgba(107,148,197,1)",#6B94C5
+270 60 35,Bleu-gris,"rgba(95,147,204,1)",#5F93CC
+270 70 10,Gris ciment,"rgba(162,174,191,1)",#A2AEBF
+270 70 15,Mauve,"rgba(156,173,199,1)",#9CADC7
+270 70 20,Mauve,"rgba(150,174,208,1)",#96AED0
+270 70 25,Charrette,"rgba(140,172,214,1)",#8CACD6
+270 80 10,Bleu fumée,"rgba(190,200,216,1)",#BEC8D8
+270 80 15,Bleu acier clair,"rgba(182,199,224,1)",#B6C7E0
+280 20 05,Gris granit,"rgba(49,50,56,1)",#313238
+280 20 10,Gunmetal,"rgba(43,48,62,1)",#2B303E
+280 20 15,Bleu violet,"rgba(38,49,69,1)",#263145
+280 20 20,Bleu océan,"rgba(32,47,75,1)",#202F4B
+280 20 25,Cadet de l'espace,"rgba(27,48,83,1)",#1B3053
+280 20 30,Bleu nuit nacré,"rgba(13,47,90,1)",#0D2F5A
+280 30 05,Gris ardoise,"rgba(67,69,76,1)",#43454C
+280 30 10,Gris ardoise,"rgba(65,71,86,1)",#414756
+280 30 15,Gris ardoise,"rgba(61,71,94,1)",#3D475E
+280 30 20,Bleu de Bering,"rgba(56,72,102,1)",#384866
+280 30 25,Bleu de Bering,"rgba(51,71,109,1)",#33476D
+280 30 30,Bleu indigo,"rgba(38,70,116,1)",#264674
+280 30 35,Bleu cobalt,"rgba(33,70,122,1)",#21467A
+280 30 40,Bleu cobalt,"rgba(19,70,130,1)",#134682
+280 40 05,Gris ardoise,"rgba(91,93,101,1)",#5B5D65
+280 40 10,Gris ardoise,"rgba(88,93,109,1)",#585D6D
+280 40 15,Gris ardoise,"rgba(84,94,118,1)",#545E76
+280 40 20,Bleu turquin,"rgba(79,94,126,1)",#4F5E7E
+280 40 25,Bleu turquin,"rgba(76,94,135,1)",#4C5E87
+280 40 30,Bleu turquin,"rgba(68,94,141,1)",#445E8D
+280 40 35,Bleu brillant,"rgba(60,94,149,1)",#3C5E95
+280 40 40,Lapis-lazuli,"rgba(46,93,157,1)",#2E5D9D
+280 40 45,Lapis-lazuli,"rgba(30,93,165,1)",#1E5DA5
+280 50 05,Gris minéral,"rgba(115,119,127,1)",#73777F
+280 50 10,Gris minéral,"rgba(113,119,135,1)",#717787
+280 50 15,Gris ardoise,"rgba(109,119,143,1)",#6D778F
+280 50 20,Bleu ardoise,"rgba(104,118,152,1)",#687698
+280 50 25,Bleu guède,"rgba(100,119,160,1)",#6477A0
+280 50 30,Bleu barbeau,"rgba(95,118,168,1)",#5F76A8
+280 50 35,Bleu barbeau,"rgba(87,118,175,1)",#5776AF
+280 50 40,Bleu barbeau,"rgba(80,119,186,1)",#5077BA
+280 60 05,Gris zinc,"rgba(141,144,152,1)",#8D9098
+280 60 10,Gris argent,"rgba(137,143,160,1)",#898FA0
+280 60 15,Bleu horizon,"rgba(134,143,169,1)",#868FA9
+280 60 20,Bleu horizon,"rgba(131,144,179,1)",#8390B3
+280 60 25,Cool gris,"rgba(126,143,187,1)",#7E8FBB
+280 60 30,Cool gris,"rgba(121,144,194,1)",#7990C2
+280 60 35,Bleu-gris,"rgba(115,145,204,1)",#7391CC
+280 70 05,Gris foncé,"rgba(167,169,177,1)",#A7A9B1
+280 70 10,Gris Ile de France,"rgba(166,172,188,1)",#A6ACBC
+280 70 15,Mauve,"rgba(162,172,197,1)",#A2ACC5
+280 70 20,Mauve,"rgba(158,171,208,1)",#9EABD0
+280 70 25,Mauve,"rgba(155,172,216,1)",#9BACD8
+280 80 05,Gris télescope,"rgba(198,200,208,1)",#C6C8D0
+280 80 10,Gris télescope,"rgba(193,199,215,1)",#C1C7D7
+280 80 15,Bleu acier clair,"rgba(188,198,223,1)",#BCC6DF
+280 90 05,Gris platine,"rgba(223,227,232,1)",#DFE3E8
+290 20 10,Gris anthracite,"rgba(39,42,59,1)",#272A3B
+290 20 15,Bleu violet,"rgba(43,44,66,1)",#2B2C42
+290 20 20,Bleu violet,"rgba(42,46,76,1)",#2A2E4C
+290 20 25,Bleu nocturne,"rgba(36,44,82,1)",#242C52
+290 20 30,Cadet de l'espace,"rgba(29,42,88,1)",#1D2A58
+290 20 35,Bleu Delft,"rgba(25,41,97,1)",#192961
+290 30 10,Gris ardoise,"rgba(67,66,82,1)",#434252
+290 30 15,Gris ardoise,"rgba(65,67,91,1)",#41435B
+290 30 20,Bleu de Bering,"rgba(61,65,97,1)",#3D4161
+290 30 25,Bleu de Bering,"rgba(60,65,106,1)",#3C416A
+290 30 30,Violet brulé,"rgba(56,65,114,1)",#384172
+290 30 35,Violet brulé,"rgba(53,66,123,1)",#35427B
+290 30 40,Bleu cobalt,"rgba(46,65,130,1)",#2E4182
+290 40 10,Gris ardoise,"rgba(91,91,108,1)",#5B5B6C
+290 40 15,Gris ardoise,"rgba(90,91,116,1)",#5A5B74
+290 40 20,Gris ardoise,"rgba(86,90,125,1)",#565A7D
+290 40 25,Bleu turquin,"rgba(84,88,131,1)",#545883
+290 40 30,Bleu turquin,"rgba(80,87,139,1)",#50578B
+290 40 35,Bleu turquin,"rgba(76,86,146,1)",#4C5692
+290 40 40,Liberté,"rgba(73,88,156,1)",#49589C
+290 40 45,Liberté,"rgba(65,87,162,1)",#4157A2
+290 50 10,Gris minéral,"rgba(115,116,134,1)",#737486
+290 50 15,Bleu ardoise,"rgba(113,115,140,1)",#71738C
+290 50 20,Bleu ardoise,"rgba(110,113,150,1)",#6E7196
+290 50 25,Bleu ardoise,"rgba(111,114,159,1)",#6F729F
+290 50 30,Bleu guède,"rgba(108,113,166,1)",#6C71A6
+290 50 35,Bleu barbeau,"rgba(103,112,174,1)",#6770AE
+290 50 40,Bleu barbeau,"rgba(99,112,182,1)",#6370B6
+290 60 10,Gris zinc,"rgba(140,141,161,1)",#8C8DA1
+290 60 15,Bleu horizon,"rgba(140,141,168,1)",#8C8DA8
+290 60 20,Bleu horizon,"rgba(135,139,177,1)",#878BB1
+290 60 25,Cool gris,"rgba(136,140,186,1)",#888CBA
+290 60 30,Cool gris,"rgba(133,139,194,1)",#858BC2
+290 60 35,Cool gris,"rgba(126,137,200,1)",#7E89C8
+290 70 10,Gris Ile de France,"rgba(169,170,189,1)",#A9AABD
+290 70 15,Mauve,"rgba(166,168,197,1)",#A6A8C5
+290 70 20,Mauve,"rgba(163,167,204,1)",#A3A7CC
+290 70 25,Mauve,"rgba(161,166,214,1)",#A1A6D6
+290 80 10,Gris télescope,"rgba(195,196,214,1)",#C3C4D6
+290 80 15,Bleu fumée,"rgba(195,196,221,1)",#C3C4DD
+290 90 05,Gris platine,"rgba(226,227,233,1)",#E2E3E9
+290 92 05,Mauve poudré,"rgba(229,230,236,1)",#E5E6EC
+300 20 05,Gris anthracite,"rgba(49,47,54,1)",#312F36
+300 20 10,Gris anthracite,"rgba(47,43,58,1)",#2F2B3A
+300 20 15,Bleu violet,"rgba(47,42,65,1)",#2F2A41
+300 20 20,Bleu violet,"rgba(46,40,72,1)",#2E2848
+300 20 25,Bleu violet,"rgba(44,40,76,1)",#2C284C
+300 20 30,Bleu nocturne,"rgba(42,39,86,1)",#2A2756
+300 30 05,Gris ardoise,"rgba(70,68,76,1)",#46444C
+300 30 10,Gris ardoise,"rgba(71,67,84,1)",#474354
+300 30 15,Gris ardoise,"rgba(70,65,89,1)",#464159
+300 30 20,Violet anglais,"rgba(70,63,96,1)",#463F60
+300 30 25,Violet anglais,"rgba(70,63,103,1)",#463F67
+300 30 30,Indépendance,"rgba(69,62,110,1)",#453E6E
+300 30 35,Violet brulé,"rgba(68,62,117,1)",#443E75
+300 30 40,Violet brulé,"rgba(65,60,123,1)",#413C7B
+300 40 05,Gris,"rgba(95,93,100,1)",#5F5D64
+300 40 10,Gris ardoise,"rgba(94,90,106,1)",#5E5A6A
+300 40 15,Gris ardoise,"rgba(94,88,113,1)",#5E5871
+300 40 20,Gris ardoise,"rgba(95,87,121,1)",#5F5779
+300 40 25,Ultra Violet,"rgba(95,86,128,1)",#5F5680
+300 40 30,Ultra Violet,"rgba(94,85,135,1)",#5E5587
+300 40 35,Ultra Violet,"rgba(94,84,141,1)",#5E548D
+300 40 40,Ultra Violet,"rgba(90,82,147,1)",#5A5293
+300 40 45,Ultra Violet,"rgba(89,82,156,1)",#59529C
+300 50 05,Élysée,"rgba(119,117,125,1)",#77757D
+300 50 10,Élysée,"rgba(120,115,132,1)",#787384
+300 50 15,Bleu ardoise,"rgba(120,114,140,1)",#78728C
+300 50 20,Bleu ardoise,"rgba(120,112,147,1)",#787093
+300 50 25,Violet nacré,"rgba(119,111,154,1)",#776F9A
+300 50 30,Violet nacré,"rgba(119,110,162,1)",#776EA2
+300 50 35,Violet nacré,"rgba(120,109,170,1)",#786DAA
+300 50 40,Violet nacré,"rgba(118,108,176,1)",#766CB0
+300 60 05,Gris zinc,"rgba(145,144,152,1)",#919098
+300 60 10,Gris zinc,"rgba(146,141,159,1)",#928D9F
+300 60 15,Bleu horizon,"rgba(146,139,166,1)",#928BA6
+300 60 20,Mauve,"rgba(146,138,174,1)",#928AAE
+300 60 25,Mauve,"rgba(145,136,181,1)",#9188B5
+300 60 30,Cool gris,"rgba(145,135,189,1)",#9187BD
+300 60 35,Cool gris,"rgba(144,133,196,1)",#9085C4
+300 70 05,Gris acier,"rgba(172,170,179,1)",#ACAAB3
+300 70 10,Gris lyre,"rgba(173,167,185,1)",#ADA7B9
+300 70 15,Gris lyre,"rgba(173,166,194,1)",#ADA6C2
+300 70 20,Mauve,"rgba(174,166,201,1)",#AEA6C9
+300 70 25,Mauve,"rgba(173,163,209,1)",#ADA3D1
+300 80 05,Pinchard,"rgba(200,198,206,1)",#C8C6CE
+300 80 10,Gris télescope,"rgba(198,195,214,1)",#C6C3D6
+300 80 15,Violet chardon,"rgba(201,194,221,1)",#C9C2DD
+300 90 05,Gris platine,"rgba(228,227,233,1)",#E4E3E9
+310 20 10,Jet,"rgba(53,45,58,1)",#352D3A
+310 20 15,Gris granit,"rgba(55,44,65,1)",#372C41
+310 20 20,Bleu violet,"rgba(56,43,70,1)",#382B46
+310 20 25,Bleu violet,"rgba(58,40,76,1)",#3A284C
+310 20 30,Violette russe,"rgba(55,34,82,1)",#372252
+310 30 10,Gris graphite,"rgba(74,66,81,1)",#4A4251
+310 30 15,Coulis de cassis,"rgba(78,68,89,1)",#4E4459
+310 30 20,Violet anglais,"rgba(76,63,93,1)",#4C3F5D
+310 30 25,Violet anglais,"rgba(81,62,100,1)",#513E64
+310 30 30,Puce,"rgba(83,61,107,1)",#533D6B
+310 30 35,Puce,"rgba(81,59,110,1)",#513B6E
+310 30 40,Puce,"rgba(85,58,118,1)",#553A76
+310 40 10,Gris ardoise,"rgba(100,91,107,1)",#645B6B
+310 40 15,Gris ardoise,"rgba(103,91,114,1)",#675B72
+310 40 20,Mûre nacré,"rgba(105,90,120,1)",#695A78
+310 40 25,Mûre nacré,"rgba(106,87,127,1)",#6A577F
+310 40 30,Ultra Violet,"rgba(106,83,131,1)",#6A5383
+310 40 35,Ultra Violet,"rgba(108,83,137,1)",#6C5389
+310 40 40,Ultra Violet,"rgba(111,83,144,1)",#6F5390
+310 50 10,Gris platine,"rgba(125,116,133,1)",#7D7485
+310 50 15,Gris fer,"rgba(126,115,139,1)",#7E738B
+310 50 20,Violet nacré,"rgba(130,113,145,1)",#827191
+310 50 25,Violet nacré,"rgba(132,112,152,1)",#847098
+310 50 30,Violet nacré,"rgba(133,109,158,1)",#856D9E
+310 50 35,Violet nacré,"rgba(132,107,163,1)",#846BA3
+310 50 40,Violet nacré,"rgba(134,106,170,1)",#866AAA
+310 60 10,Violet alouette,"rgba(149,140,158,1)",#958C9E
+310 60 15,Gris dauphin,"rgba(153,139,165,1)",#998BA5
+310 60 20,Quartz rose,"rgba(156,138,171,1)",#9C8AAB
+310 60 25,Mauve,"rgba(158,136,177,1)",#9E88B1
+310 60 30,Mauve,"rgba(159,134,183,1)",#9F86B7
+310 60 35,Violette africaine,"rgba(161,131,192,1)",#A183C0
+310 70 10,Gris lyre,"rgba(177,167,183,1)",#B1A7B7
+310 70 15,Gris lyre,"rgba(180,166,191,1)",#B4A6BF
+310 70 20,Lilas,"rgba(181,163,197,1)",#B5A3C5
+310 70 25,Lilas,"rgba(183,162,204,1)",#B7A2CC
+310 80 10,Gris télescope,"rgba(203,194,211,1)",#CBC2D3
+310 80 15,Violet chardon,"rgba(207,193,218,1)",#CFC1DA
+310 90 05,Gris platine,"rgba(231,227,231,1)",#E7E3E7
+320 20 05,Jet,"rgba(53,47,54,1)",#352F36
+320 20 10,Jet,"rgba(55,42,56,1)",#372A38
+320 20 15,Jet,"rgba(56,40,61,1)",#38283D
+320 20 20,Gris granit,"rgba(59,39,65,1)",#3B2741
+320 20 25,Violette russe,"rgba(60,34,70,1)",#3C2246
+320 30 05,Gris bleu,"rgba(73,67,74,1)",#49434A
+320 30 10,Coulis de cassis,"rgba(77,64,79,1)",#4D404F
+320 30 15,Coulis de cassis,"rgba(79,60,82,1)",#4F3C52
+320 30 20,Violet anglais,"rgba(83,57,88,1)",#533958
+320 30 25,Violet anglais,"rgba(87,56,94,1)",#57385E
+320 30 30,Violet anglais,"rgba(88,53,99,1)",#583563
+320 30 35,Violet anglais,"rgba(90,52,104,1)",#5A3468
+320 30 37,Palatinat,"rgba(94,51,109,1)",#5E336D
+320 40 05,Gris,"rgba(98,92,99,1)",#625C63
+320 40 10,Gris,"rgba(101,88,103,1)",#655867
+320 40 15,Gris ardoise,"rgba(105,87,109,1)",#69576D
+320 40 20,Lilas bleu,"rgba(108,84,114,1)",#6C5472
+320 40 25,Lilas bleu,"rgba(110,81,120,1)",#6E5178
+320 40 30,Lilas bleu,"rgba(114,76,123,1)",#724C7B
+320 40 35,Lilas bleu,"rgba(117,74,128,1)",#754A80
+320 40 40,Prune,"rgba(120,72,136,1)",#784888
+320 50 05,Élysée,"rgba(120,115,122,1)",#78737A
+320 50 10,Gris platine,"rgba(125,112,129,1)",#7D7081
+320 50 15,Gris platine,"rgba(128,110,133,1)",#806E85
+320 50 20,Lilas français,"rgba(135,109,140,1)",#876D8C
+320 50 25,Lilas français,"rgba(136,104,145,1)",#886891
+320 50 30,Lilas français,"rgba(140,104,151,1)",#8C6897
+320 50 35,Lilas français,"rgba(143,98,154,1)",#8F629A
+320 50 40,Violet minéral,"rgba(146,100,162,1)",#9264A2
+320 60 05,Violet alouette,"rgba(148,142,150,1)",#948E96
+320 60 10,Violet alouette,"rgba(152,140,155,1)",#988C9B
+320 60 15,Violet alouette,"rgba(156,137,161,1)",#9C89A1
+320 60 20,Quartz rose,"rgba(160,133,166,1)",#A085A6
+320 60 25,Quartz rose,"rgba(163,131,172,1)",#A383AC
+320 60 30,Violette africaine,"rgba(167,128,178,1)",#A780B2
+320 60 35,Violette africaine,"rgba(169,126,182,1)",#A97EB6
+320 70 05,Gris acier,"rgba(174,168,176,1)",#AEA8B0
+320 70 10,Gris lyre,"rgba(178,165,183,1)",#B2A5B7
+320 70 15,Gris lyre,"rgba(181,162,188,1)",#B5A2BC
+320 70 20,Lilas,"rgba(189,162,196,1)",#BDA2C4
+320 70 25,Lilas,"rgba(192,157,200,1)",#C09DC8
+320 80 05,Mauve d'antan,"rgba(203,196,203,1)",#CBC4CB
+320 80 10,Mauve d'antan,"rgba(207,194,209,1)",#CFC2D1
+320 80 15,Violet chardon,"rgba(211,190,213,1)",#D3BED5
+320 90 05,Gris platine,"rgba(232,225,230,1)",#E8E1E6
+330 20 10,Jet,"rgba(57,44,55,1)",#392C37
+330 20 15,Jet,"rgba(61,43,60,1)",#3D2B3C
+330 20 20,Marron puce,"rgba(64,36,61,1)",#40243D
+330 20 25,Marron puce,"rgba(70,35,67,1)",#462343
+330 30 10,Coulis de cassis,"rgba(82,68,79,1)",#52444F
+330 30 15,Coulis de cassis,"rgba(85,62,81,1)",#553E51
+330 30 20,Violet anglais,"rgba(90,60,85,1)",#5A3C55
+330 30 25,Violette japonaise,"rgba(94,57,88,1)",#5E3958
+330 30 30,Violette japonaise,"rgba(99,54,93,1)",#63365D
+330 30 35,Palatinat,"rgba(103,51,98,1)",#673362
+330 30 40,Palatinat,"rgba(104,45,99,1)",#682D63
+330 40 10,Gris,"rgba(105,90,103,1)",#695A67
+330 40 15,Bistre,"rgba(110,87,107,1)",#6E576B
+330 40 20,Lilas bleu,"rgba(114,86,112,1)",#725670
+330 40 25,Lilas bleu,"rgba(119,83,115,1)",#775373
+330 40 30,Violet de sécurité,"rgba(127,79,120,1)",#7F4F78
+330 40 35,Violet de sécurité,"rgba(131,77,124,1)",#834D7C
+330 40 40,Prune,"rgba(131,71,125,1)",#83477D
+330 40 45,Prune,"rgba(134,68,128,1)",#864480
+330 50 10,Gris platine,"rgba(129,113,126,1)",#81717E
+330 50 15,Gris platine,"rgba(136,112,132,1)",#887084
+330 50 20,Violet chinois,"rgba(141,109,137,1)",#8D6D89
+330 50 25,Lilas français,"rgba(145,107,140,1)",#916B8C
+330 50 30,Rose Mountbatten,"rgba(150,105,147,1)",#966993
+330 50 35,Rose Mountbatten,"rgba(154,101,150,1)",#9A6596
+330 50 40,Violet de sécurité,"rgba(159,97,152,1)",#9F6198
+330 60 10,Violet alouette,"rgba(156,140,154,1)",#9C8C9A
+330 60 15,Gris espagnol,"rgba(162,138,159,1)",#A28A9F
+330 60 20,Quartz rose,"rgba(168,135,164,1)",#A887A4
+330 60 25,Quartz rose,"rgba(170,131,164,1)",#AA83A4
+330 60 30,Violette africaine,"rgba(176,129,170,1)",#B081AA
+330 60 35,Violette africaine,"rgba(182,125,175,1)",#B67DAF
+330 60 40,Violette africaine,"rgba(186,122,179,1)",#BA7AB3
+330 70 10,Gris tourterelle,"rgba(184,166,181,1)",#B8A6B5
+330 70 15,Rose camélia,"rgba(188,163,184,1)",#BCA3B8
+330 70 20,Rose camélia,"rgba(193,161,189,1)",#C1A1BD
+330 70 25,Lilas,"rgba(202,158,194,1)",#CA9EC2
+330 70 30,Lilas,"rgba(205,155,196,1)",#CD9BC4
+330 80 10,Rose lilas,"rgba(211,194,207,1)",#D3C2CF
+330 80 15,Violet chardon,"rgba(216,191,212,1)",#D8BFD4
+330 80 20,Violet chardon,"rgba(225,188,216,1)",#E1BCD8
+330 90 05,Mauve poudré,"rgba(235,226,229,1)",#EBE2E5
+340 20 05,Gris anthracite,"rgba(53,45,50,1)",#352D32
+340 20 10,Gris terre d'ombre,"rgba(58,39,50,1)",#3A2732
+340 20 15,Rouge noir,"rgba(60,34,51,1)",#3C2233
+340 20 20,Marron puce,"rgba(68,34,56,1)",#442238
+340 20 25,Violet pourpre,"rgba(76,33,61,1)",#4C213D
+340 30 05,Gris bleu,"rgba(75,66,71,1)",#4B4247
+340 30 10,Coulis de cassis,"rgba(81,62,73,1)",#513E49
+340 30 15,Violette japonaise,"rgba(87,59,76,1)",#573B4C
+340 30 20,Violette japonaise,"rgba(92,56,78,1)",#5C384E
+340 30 25,Violette japonaise,"rgba(99,54,84,1)",#633654
+340 30 30,Violette japonaise,"rgba(101,48,84,1)",#653054
+340 30 35,Palatinat,"rgba(105,43,87,1)",#692B57
+340 30 38,Palatinat,"rgba(110,39,89,1)",#6E2759
+340 40 05,Gris,"rgba(98,89,95,1)",#62595F
+340 40 10,Bistre,"rgba(106,86,98,1)",#6A5662
+340 40 15,Bistre,"rgba(112,83,100,1)",#705364
+340 40 20,Bistre,"rgba(118,80,103,1)",#765067
+340 40 25,Violet d'évêque,"rgba(123,77,107,1)",#7B4D6B
+340 40 30,Violet d'évêque,"rgba(128,73,110,1)",#80496E
+340 40 35,Violet d'évêque,"rgba(131,67,112,1)",#834370
+340 40 40,Prune,"rgba(136,62,114,1)",#883E72
+340 40 45,Pourpre signalisation,"rgba(145,57,119,1)",#913977
+340 50 05,Gris platine,"rgba(124,115,121,1)",#7C7379
+340 50 10,Gris platine,"rgba(133,112,124,1)",#85707C
+340 50 15,Gris platine,"rgba(139,108,126,1)",#8B6C7E
+340 50 20,Violet chinois,"rgba(145,105,129,1)",#916981
+340 50 25,Violet chinois,"rgba(150,102,132,1)",#966684
+340 50 30,Violet de sécurité,"rgba(155,98,135,1)",#9B6287
+340 50 35,Violet de sécurité,"rgba(160,93,139,1)",#A05D8B
+340 50 40,Parme,"rgba(167,89,141,1)",#A7598D
+340 50 45,Parme,"rgba(173,84,143,1)",#AD548F
+340 60 05,Violet alouette,"rgba(152,142,148,1)",#988E94
+340 60 10,Violet alouette,"rgba(158,137,150,1)",#9E8996
+340 60 15,Violet pastel,"rgba(167,135,154,1)",#A7879A
+340 60 20,Violet pastel,"rgba(172,131,156,1)",#AC839C
+340 60 25,Violet pastel,"rgba(176,127,158,1)",#B07F9E
+340 60 30,Violet nacré,"rgba(182,124,162,1)",#B67CA2
+340 60 35,Violet nacré,"rgba(189,121,165,1)",#BD79A5
+340 60 40,Magenta céleste,"rgba(196,115,169,1)",#C473A9
+340 70 05,Gris acier,"rgba(177,167,173,1)",#B1A7AD
+340 70 10,Gris tourterelle,"rgba(185,164,176,1)",#B9A4B0
+340 70 15,Rose camélia,"rgba(194,161,181,1)",#C2A1B5
+340 70 20,Rose camélia,"rgba(200,158,183,1)",#C89EB7
+340 70 25,Rose camélia,"rgba(202,153,183,1)",#CA99B7
+340 70 30,Rose,"rgba(212,150,189,1)",#D496BD
+340 70 35,Rose,"rgba(218,147,193,1)",#DA93C1
+340 80 05,Mauve d'antan,"rgba(207,196,199,1)",#CFC4C7
+340 80 10,Rose lilas,"rgba(215,194,206,1)",#D7C2CE
+340 80 15,Rose dauphin,"rgba(223,189,208,1)",#DFBDD0
+340 80 20,Rose dauphin,"rgba(230,186,210,1)",#E6BAD2
+340 90 05,Framboise,"rgba(235,224,228,1)",#EBE0E4
+340 92 05,Mauve poudré,"rgba(240,228,232,1)",#F0E4E8
+350 20 10,Gris terre d'ombre,"rgba(59,41,50,1)",#3B2932
+350 20 15,Marron puce,"rgba(65,37,51,1)",#412533
+350 20 20,Violet pourpre,"rgba(72,32,52,1)",#482034
+350 20 25,Violet pourpre,"rgba(75,28,53,1)",#4B1C35
+350 20 30,Violet pourpre,"rgba(83,25,56,1)",#531938
+350 30 10,Coulis de cassis,"rgba(82,62,71,1)",#523E47
+350 30 15,Violette japonaise,"rgba(90,61,74,1)",#5A3D4A
+350 30 20,Violette japonaise,"rgba(97,57,75,1)",#61394B
+350 30 25,Violette japonaise,"rgba(103,51,76,1)",#67334C
+350 30 30,Lilas rouge,"rgba(110,49,79,1)",#6E314F
+350 30 35,Violet de Bayeux,"rgba(111,44,79,1)",#6F2C4F
+350 30 40,Pensée pourpre,"rgba(117,38,83,1)",#752653
+350 40 10,Bistre,"rgba(110,88,97,1)",#6E5861
+350 40 15,Bistre,"rgba(115,83,98,1)",#735362
+350 40 20,Bistre,"rgba(122,80,99,1)",#7A5063
+350 40 25,Bistre,"rgba(127,76,100,1)",#7F4C64
+350 40 30,Quinacridone magenta,"rgba(135,71,102,1)",#874766
+350 40 35,Quinacridone magenta,"rgba(140,66,104,1)",#8C4268
+350 40 40,Coulis de framboise,"rgba(145,63,106,1)",#913F6A
+350 40 45,Pourpre signalisation,"rgba(149,57,106,1)",#95396A
+350 40 50,Pourpre signalisation,"rgba(156,50,107,1)",#9C326B
+350 50 10,Gris platine,"rgba(133,111,121,1)",#856F79
+350 50 15,Gris platine,"rgba(141,108,122,1)",#8D6C7A
+350 50 20,Rose Saint Paulia,"rgba(149,104,125,1)",#95687D
+350 50 25,Rose Saint Paulia,"rgba(156,101,126,1)",#9C657E
+350 50 30,Rose Saint Paulia,"rgba(161,99,129,1)",#A16381
+350 50 35,Rose Saint Paulia,"rgba(170,92,129,1)",#AA5C81
+350 50 40,Rose Saint Paulia,"rgba(177,88,130,1)",#B15882
+350 50 45,Mûre,"rgba(177,83,132,1)",#B15384
+350 50 50,Mûre,"rgba(189,78,132,1)",#BD4E84
+350 60 10,Violet alouette,"rgba(160,137,148,1)",#A08994
+350 60 15,Violet pastel,"rgba(167,133,148,1)",#A78594
+350 60 20,Violet pastel,"rgba(177,131,152,1)",#B18398
+350 60 25,Brun rosé,"rgba(184,127,151,1)",#B87F97
+350 60 30,Puce,"rgba(192,123,154,1)",#C07B9A
+350 60 35,Rose balais,"rgba(197,118,155,1)",#C5769B
+350 60 40,Super rose,"rgba(205,115,157,1)",#CD739D
+350 60 45,Super rose,"rgba(208,111,160,1)",#D06FA0
+350 70 10,Gris tourterelle,"rgba(188,165,173,1)",#BCA5AD
+350 70 15,Rose camélia,"rgba(196,161,175,1)",#C4A1AF
+350 70 20,Rose camélia,"rgba(201,155,176,1)",#C99BB0
+350 70 25,Rose,"rgba(212,154,179,1)",#D49AB3
+350 70 30,Rose,"rgba(221,149,180,1)",#DD95B4
+350 70 35,Rose,"rgba(226,146,182,1)",#E292B6
+350 80 10,Rose lilas,"rgba(216,191,200,1)",#D8BFC8
+350 80 15,Rose lilas,"rgba(223,188,201,1)",#DFBCC9
+350 80 20,Camée rose,"rgba(232,185,205,1)",#E8B9CD
+350 90 05,Framboise,"rgba(237,224,225,1)",#EDE0E1
+360 20 05,Gris terre d'ombre,"rgba(53,42,45,1)",#352A2D
+360 20 10,Marron puce,"rgba(60,40,45,1)",#3C282D
+360 20 15,Rouge noir,"rgba(67,35,44,1)",#43232C
+360 30 05,Gris bleu,"rgba(77,66,68,1)",#4D4244
+360 30 10,Marron puce,"rgba(83,61,68,1)",#533D44
+360 30 15,Marron puce,"rgba(90,56,68,1)",#5A3844
+360 30 20,Marron brun,"rgba(98,55,69,1)",#623745
+360 30 25,Violet de Bayeux,"rgba(102,49,69,1)",#663145
+360 30 30,Violet de Bayeux,"rgba(108,44,69,1)",#6C2C45
+360 30 35,Violet de Bayeux,"rgba(117,39,69,1)",#752745
+360 30 40,Pensée pourpre,"rgba(121,36,69,1)",#792445
+360 40 05,Truffe,"rgba(101,90,92,1)",#655A5C
+360 40 10,Bistre,"rgba(107,86,94,1)",#6B565E
+360 40 15,Bistre,"rgba(115,82,92,1)",#73525C
+360 40 20,Bistre,"rgba(123,79,93,1)",#7B4F5D
+360 40 25,Bistre,"rgba(129,74,92,1)",#814A5C
+360 40 30,Quinacridone magenta,"rgba(136,69,94,1)",#88455E
+360 40 35,Quinacridone magenta,"rgba(143,65,95,1)",#8F415F
+360 40 40,Quinacridone magenta,"rgba(150,59,96,1)",#963B60
+360 40 45,Quinacridone magenta,"rgba(155,54,94,1)",#9B365E
+360 40 50,Marron,"rgba(161,45,93,1)",#A12D5D
+360 50 05,Gris platine,"rgba(128,115,117,1)",#807375
+360 50 10,Gris platine,"rgba(133,111,118,1)",#856F76
+360 50 15,Gris platine,"rgba(142,107,118,1)",#8E6B76
+360 50 20,Pourpre,"rgba(148,104,119,1)",#946877
+360 50 25,Pourpre,"rgba(157,99,117,1)",#9D6375
+360 50 30,Rose Saint Paulia,"rgba(165,96,120,1)",#A56078
+360 50 35,Rose Saint Paulia,"rgba(173,91,120,1)",#AD5B78
+360 50 40,Rose sarrasin,"rgba(180,88,119,1)",#B45877
+360 50 45,Rose sarrasin,"rgba(188,83,120,1)",#BC5378
+360 50 50,Rose sarrasin,"rgba(192,76,119,1)",#C04C77
+360 60 05,Violet alouette,"rgba(153,142,145,1)",#998E91
+360 60 10,Violet alouette,"rgba(160,137,144,1)",#A08990
+360 60 15,Violet pastel,"rgba(169,134,145,1)",#A98691
+360 60 20,Violet pastel,"rgba(178,131,146,1)",#B28392
+360 60 25,Brun rosé,"rgba(184,126,145,1)",#B87E91
+360 70 05,Gris tourterelle,"rgba(181,169,172,1)",#B5A9AC
+360 70 10,Gris tourterelle,"rgba(188,163,170,1)",#BCA3AA
+360 70 15,Rose camélia,"rgba(198,160,171,1)",#C6A0AB
+360 80 05,Mauve d'antan,"rgba(209,196,198,1)",#D1C4C6
+360 80 10,Rose lilas,"rgba(217,191,197,1)",#D9BFC5
+360 90 05,Framboise,"rgba(241,225,224,1)",#F1E1E0
+360 92 05,Ambre,"rgba(240,228,229,1)",#F0E4E5

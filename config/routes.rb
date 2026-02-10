@@ -24,6 +24,6 @@ Rails.application.routes.draw do
   get 'destock', to: 'pages#destock'
   get 'contact', to: 'pages#contact'
   resources :categories, only: [:index, :show]
-  resources :products, only: [:show]
+  resources :products, only: [:show], path: 'produits'
   resources :quotes, only: [:new, :create]
 end

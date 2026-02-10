@@ -4,10 +4,10 @@
     <% @breadcrumbs.each do |crumb| %>
       <li class="flex items-center">
         <% if crumb.link? %>
-          <%= link_to crumb.name, crumb.path, class: "font-medium text-slate-400 hover:text-gray-600 text-xs" %>
+          <%= link_to crumb.name, crumb.path, class: "font-medium text-slate-400 hover:text-gray-600 text-sm" %>
         <% else %>
           <div class="flex items-center">
-            <div class="text-xs font-medium text-slate-300 hover:text-slate-500 truncate text-ellipsis"><%= crumb.name %></div>
+            <div class="text-sm font-medium text-slate-300 hover:text-slate-500 truncate text-ellipsis"><%= crumb.name %></div>
           </div>
         <% end %>
 
@@ -20,7 +20,7 @@
         <% end %>
 
         <% if crumb.count? %>
-          <span class="inline-flex items-center rounded-full bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10 ml-4"><%= "#{crumb.count} produits" %></span>
+          <span class="inline-flex items-center rounded-full bg-purple-50 px-2 py-1 text-sm font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10 ml-4"><%= "#{crumb.count} produits" %></span>
         <% end %>
 
       </li>
