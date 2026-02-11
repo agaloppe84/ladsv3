@@ -25,5 +25,5 @@ Rails.application.routes.draw do
   get 'contact', to: 'pages#contact'
   resources :categories, only: [:index, :show]
   resources :products, only: [:show], path: 'produits'
-  resources :quotes, only: [:new, :create]
+  resources :quotes, only: [:new, :create], path: 'devis'
 end
