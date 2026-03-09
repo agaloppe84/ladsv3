@@ -1,0 +1,13 @@
+<section data-reveal-target="item" class="opacity-0 translate-y-4 transition-all duration-700 ease-out rounded-3xl border border-slate-200 bg-gradient-to-r from-orange-50 via-white to-slate-50 p-6 shadow-sm">
+  <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <div>
+      <h2 class="text-2xl font-extrabold tracking-tight text-slate-900">Un projet sur mesure ?</h2>
+      <p class="mt-1 text-sm text-slate-600">Conseil, prise de cotes et pose par notre équipe. Réponse rapide sous 48h.</p>
+    </div>
+
+    <div class="flex flex-wrap gap-3">
+      <%= link_to "Demander un devis", new_quote_path(product_id: @product.id), class: "inline-flex items-center justify-center rounded-2xl border border-orange-500 bg-orange-500 px-5 py-3 text-sm font-semibold text-white transition hover:border-orange-600 hover:bg-orange-600" %>
+      <%= link_to "04 74 01 05 11", "tel:0474010511", class: "inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50" %>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,59 @@
+<section
+  data-controller="gallery-modal"
+  data-action="keydown.esc@window->gallery-modal#close"
+  data-reveal-target="item"
+  class="opacity-0 translate-y-4 transition-all duration-700 ease-out rounded-3xl border border-slate-200 bg-white p-4 shadow-sm"
+>
+  <div class="flex items-center gap-2 px-2 py-1">
+    <%= inline_svg_tag("icons/camera.svg", class: "h-5 w-5 text-slate-500") %>
+    <h2 class="text-base font-bold text-slate-900">Galerie photo</h2>
+  </div>
+
+  <ul role="list" class="mt-3 grid grid-cols-2 gap-3 lg:grid-cols-4">
+    <% @photos.each do |photo| %>
+      <li class="relative">
+        <div class="group aspect-w-10 aspect-h-7 overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
+          <%= cl_image_tag(photo.key, crop: :scale, class: "h-full w-full object-cover object-center transition duration-300 group-hover:scale-[1.03]") %>
+          <button
+            type="button"
+            data-action="click->gallery-modal#open"
+            data-gallery-modal-url-value="<%= cl_image_path(photo.key) %>"
+            class="absolute inset-0"
+          >
+            <span class="sr-only">Voir la photo en grand</span>
+          </button>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+
+  <div
+    data-gallery-modal-target="overlay"
+    data-action="click->gallery-modal#backdropClose"
+    class="fixed inset-0 z-[100] hidden bg-slate-950/85 p-4 opacity-0 transition-opacity duration-200"
+  >
+    <div
+      data-gallery-modal-target="panel"
+      class="flex h-full w-full items-center justify-center opacity-0 scale-95 translate-y-2 transition-all duration-200"
+    >
+      <button
+        type="button"
+        data-action="click->gallery-modal#close"
+        data-gallery-modal-close
+        class="fixed right-5 top-5 rounded-xl border border-white/30 bg-white/10 p-2 backdrop-blur-sm transition hover:bg-white/20"
+      >
+        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+        <span class="sr-only">Fermer</span>
+      </button>
+
+      <img
+        data-gallery-modal-target="image"
+        src=""
+        alt="Photo agrandie"
+        class="max-h-[92vh] w-auto max-w-full rounded-xl object-contain shadow-2xl"
+      >
+    </div>
+  </div>
+</section>
