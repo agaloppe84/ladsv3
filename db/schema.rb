@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_12_08_102523) do
+ActiveRecord::Schema[7.0].define(version: 2026_03_10_133525) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -107,7 +107,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_12_08_102523) do
     t.string "dimensions"
     t.string "old_price"
     t.string "new_price"
+    t.string "slug"
     t.index ["category_id"], name: "index_products_on_category_id"
+    t.index ["slug"], name: "index_products_on_slug", unique: true
   end
 
   create_table "products_rals", id: false, force: :cascade do |t|
