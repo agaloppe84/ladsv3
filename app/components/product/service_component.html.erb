@@ -4,10 +4,10 @@
     <h2 class="text-base font-bold text-slate-900">Services et engagements</h2>
   </div>
 
-  <div class="mt-4 w-full space-y-2">
+  <div class="mt-6 w-full space-y-2">
     <% features.each do |feature| %>
-      <article class="flex h-14 w-full items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 transition hover:border-slate-300 hover:shadow-sm">
-        <div class="<%= feature[:tone_class] %> inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border">
+      <article class="flex h-10 w-full items-center gap-3 rounded-xl bg-white">
+        <div class="<%= feature[:tone_class] %> inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
           <%= inline_svg_tag(feature[:icon], class: feature[:icon_class]) %>
         </div>
 

@@ -20,7 +20,7 @@ export default class extends Controller {
       tab.setAttribute("aria-selected", active ? "true" : "false")
 
       tab.classList.toggle("bg-orange-50", active)
-      tab.classList.toggle("text-orange-700", active)
+      tab.classList.toggle("text-orange-500", active)
       tab.classList.toggle("border-orange-200", active)
 
       tab.classList.toggle("bg-white", !active)

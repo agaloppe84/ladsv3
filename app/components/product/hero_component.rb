@@ -16,4 +16,8 @@ class Product::HeroComponent < ViewComponent::Base
   def manufacturers
     @manufacturers ||= product.manufacturers.first(6)
   end
+
+  def motorists
+    @motorists ||= product.motorists.first(6)
+  end
 end

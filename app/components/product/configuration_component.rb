@@ -6,7 +6,7 @@ class Product::ConfigurationComponent < ViewComponent::Base
   end
 
   def render?
-    show_specs? || show_motorization? || show_rals?
+    show_specs? || show_rals?
   end
 
   private
@@ -15,10 +15,6 @@ class Product::ConfigurationComponent < ViewComponent::Base
 
   def show_specs?
     product.infos.present? || product.options.any?
-  end
-
-  def show_motorization?
-    product.motorists.any?
   end
 
   def show_rals?
@@ -31,7 +27,6 @@ class Product::ConfigurationComponent < ViewComponent::Base
 
   def initial_tab
     return "specs" if show_specs?
-    return "motorization" if show_motorization?
     return "rals" if show_rals?
 
     "specs"
