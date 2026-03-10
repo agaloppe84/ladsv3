@@ -19,14 +19,6 @@ class Product < ApplicationRecord
 
   validates :slug, presence: true, uniqueness: { case_sensitive: false }
 
-  def to_param
-    if persisted? && name.present?
-      "#{id}-#{name.parameterize}"
-    else
-      super
-    end
-  end
-
   private
 
   def assign_slug
