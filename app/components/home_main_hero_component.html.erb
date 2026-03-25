@@ -5,11 +5,30 @@
     <div class="grid md:grid-cols-2 gap-6 items-stretch">
       <div class="p-8 md:p-12 flex flex-col justify-center">
 
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-4 hidden">
           <div><%= inline_svg_tag("logos/ads-without-text.svg", class: "h-12 w-12 shrink-0") %></div>
           <h1 class="text-5xl md:text-4xl font-extrabold leading-[0.92] tracking-tight text-slate-900">
             Les Artisans du Store
           </h1>
+        </div>
+
+        <div class="flex justify-between items-center">
+          <div class="left-item">
+            <h1 class="text-4xl md:text-4xl font-extrabold leading-[0.92] tracking-tight text-slate-900">
+              Les Artisans du Store
+            </h1>
+
+            <div class="mt-2 text-xs font-semibold leading-[0.9] tracking-tight text-slate-600 md:text-[20px]">
+              <p class="font-extrabold">Rhône - L'Arbresle</p>
+            </div>
+
+            <p class="mt-2 text-[20px] font-extrabold leading-tight tracking-tight text-transparent bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text md:text-[22px]">
+              35 ans d'expérience à votre service
+            </p>
+          </div>
+          <div class="right-item">
+            <div><%= inline_svg_tag("logos/ads-without-text.svg", class: "h-16 w-16 shrink-0") %></div>
+          </div>
         </div>
 
         <div class="mt-6 mb-3 text-slate-800 max-w-prose text-lg">
@@ -140,26 +159,7 @@
 
 
   <%= render HomeOpenDayComponent.new(categories: @categories) %>
-
-  <!-- Promise bar -->
-  <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
-    <div class="rounded-2xl border border-slate-200 p-5">
-      <p class="font-semibold">Devis sous 48&nbsp;h</p>
-      <p class="text-sm text-slate-600">Chiffrage clair, sans surprise.</p>
-    </div>
-    <div class="rounded-2xl border border-slate-200 p-5">
-      <p class="font-semibold">Pose maîtrisée</p>
-      <p class="text-sm text-slate-600">Équipe interne expérimentée.</p>
-    </div>
-    <div class="rounded-2xl border border-slate-200 p-5">
-      <p class="font-semibold">Garantie & SAV</p>
-      <p class="text-sm text-slate-600">Accompagnement après pose.</p>
-    </div>
-    <div class="rounded-2xl border border-slate-200 p-5">
-      <p class="font-semibold">Marques de référence</p>
-      <p class="text-sm text-slate-600">Motorisations Somfy, toiles Dickson…</p>
-    </div>
-  </div>
+  <%= render HomeCommitmentsComponent.new %>
 
   <!-- Categories -->
   <section class="mt-12">
