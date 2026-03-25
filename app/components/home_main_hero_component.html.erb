@@ -54,11 +54,12 @@
         data-hero-rotator-interval-value="10000"
         data-hero-rotator-pause-on-hover-value="true"
       >
+
         <!-- Slide 1 (visible) -->
         <figure
           data-hero-rotator-target="slide"
           class="absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out group"
-          aria-hidden="false">
+          aria-hidden="true">
           <%= image_tag "magasin-01.jpeg",
                 alt: "Pergola bioclimatique moderne",
                 class: "absolute inset-0 h-full w-full object-cover",
@@ -137,6 +138,8 @@
     </div>
   </div>
 
+
+  <%= render HomeOpenDayComponent.new(categories: @categories) %>
 
   <!-- Promise bar -->
   <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -269,6 +272,5 @@ Un grand merci à toute l'équipe.”</blockquote>
       </div>
     </div>
   </section>
-
 
 </section>
