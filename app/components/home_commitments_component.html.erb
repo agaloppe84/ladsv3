@@ -12,22 +12,27 @@
       </p>
 
       <div class="mt-10 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-2">
-        <div class="rounded-2xl">
-          <p class="text-3xl font-extrabold leading-[0.9] tracking-tight text-transparent bg-gradient-to-r from-teal-500 to-lime-300 bg-clip-text [-webkit-text-fill-color:transparent]">Devis sous 48h</p>
+        <div class="">
+          <div class="flex items-center">
+            <p class="text-3xl mr-6 font-extrabold leading-[0.9] tracking-tight text-transparent bg-gradient-to-r from-teal-500 to-lime-300 bg-clip-text [-webkit-text-fill-color:transparent]">Devis sous 48h</p>
+            <%= link_to new_quote_path, class: "inline-flex text-slate-400 items-center justify-center rounded-lg hover:text-teal-500 transition tracking-tight" do %>
+              <div><%= inline_svg_tag("icons/arrow-right-circle.svg", class: "h-8 w-8 shrink-0") %></div>
+            <% end %>
+          </div>
           <p class="mt-2 text-xl font-extrabold text-slate-600 leading-[0.9] tracking-tight">Chiffrage clair, sans surprise</p>
         </div>
 
-        <div class="rounded-2xl">
+        <div class="">
           <p class="text-3xl font-extrabold leading-[0.9] tracking-tight text-transparent bg-gradient-to-r from-teal-500 to-lime-300 bg-clip-text [-webkit-text-fill-color:transparent]">Pose maîtrisée</p>
           <p class="mt-2 text-xl font-extrabold text-slate-600 leading-[0.9] tracking-tight">Équipe interne expérimentée</p>
         </div>
 
-        <div class="rounded-2xl">
+        <div class="">
           <p class="text-3xl font-extrabold leading-[0.9] tracking-tight text-transparent bg-gradient-to-r from-teal-500 to-lime-300 bg-clip-text [-webkit-text-fill-color:transparent]">Garantie & SAV</p>
           <p class="mt-2 text-xl font-extrabold text-slate-600 leading-[0.9] tracking-tight">Accompagnement après pose</p>
         </div>
 
-        <div class="rounded-2xl">
+        <div class="">
           <p class="text-3xl font-extrabold leading-[0.9] tracking-tight text-transparent bg-gradient-to-r from-teal-500 to-lime-300 bg-clip-text [-webkit-text-fill-color:transparent]">Marques de référence</p>
           <p class="mt-2 text-xl font-extrabold text-slate-600 leading-[0.9] tracking-tight">Motorisations Somfy, toiles Dickson…</p>
         </div>
