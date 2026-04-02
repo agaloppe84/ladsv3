@@ -1,0 +1,107 @@
+<section class="mt-10">
+  <div class="grid grid-cols-1 items-stretch gap-3 md:grid-cols-2 md:gap-4">
+    <div class="grid min-h-[320px] gap-3 md:gap-4 md:min-h-[520px]">
+      <div class="relative h-full w-full rounded-3xl from-slate-100 p-6 md:p-10">
+        <div class="flex h-full flex-col justify-between">
+          <div>
+            <h2 class="text-3xl font-extrabold leading-[0.92] tracking-tight text-slate-900 md:text-5xl">
+              Les Artisans du Store
+            </h2>
+            <p class="mt-1 text-[18px] font-extrabold leading-tight tracking-tight text-transparent bg-gradient-to-r from-orange-600 to-orange-500 bg-clip-text md:text-[24px]">
+              35 ans d'expérience à votre service
+            </p>
+            <p class="mt-1 text-[18px] font-extrabold leading-tight tracking-tight text-transparent bg-gradient-to-r from-slate-500 to-slate-300 bg-clip-text md:text-[20px]">
+              Rhône - L'Arbresle
+            </p>
+          </div>
+
+          <div>
+            <p class="text-xl font-bold text-slate-600 tracking-tight">
+              Les artisans du store dans le Rhône, c'est plus de 35 ans d'expérience à votre service. Nous proposons toute une gamme de produits pour la fermeture et la protection solaire : stores extérieurs et intérieurs, pergostores, pergolas, moustiquaires, volets roulants et battants, portes de garage.
+            </p>
+          </div>
+
+          <p class="text-2xl leading-[1] font-extrabold tracking-tight text-transparent bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-200 bg-clip-text [-webkit-text-fill-color:transparent] md:text-[3rem]">
+            Expert RGE
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="relative h-full w-full overflow-hidden rounded-3xl border border-slate-200 bg-slate-100">
+      <div
+        class="relative min-h-[320px] md:min-h-[520px]"
+        data-controller="hero-rotator"
+        data-hero-rotator-interval-value="10000"
+        data-hero-rotator-pause-on-hover-value="true"
+      >
+        <figure
+          data-hero-rotator-target="slide"
+          class="absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out group"
+          aria-hidden="true">
+          <%= image_tag "magasin-01.jpeg",
+                alt: "Pergola bioclimatique moderne",
+                class: "absolute inset-0 h-full w-full object-cover",
+                decoding: "async", loading: "eager" %>
+          <figcaption class="absolute bottom-4 left-4 right-4 glass rounded-2xl p-4 shadow-soft bg-white opacity-75 hidden group-hover:block">
+            <p class="text-sm"><span class="font-semibold">Magasin - 35 Rue des Martinets 69210 L'Arbresle</p>
+          </figcaption>
+        </figure>
+
+        <figure
+          data-hero-rotator-target="slide"
+          class="absolute inset-0 h-full w-full opacity-0 pointer-events-none transition-opacity duration-700 ease-in-out group"
+          aria-hidden="true">
+          <%= image_tag "magasin-02.jpeg",
+                alt: "Store banne motorisé",
+                class: "absolute inset-0 h-full w-full object-cover",
+                decoding: "async", loading: "lazy" %>
+          <figcaption class="absolute bottom-4 left-4 right-4 glass rounded-2xl p-4 shadow-soft bg-white opacity-75 hidden group-hover:block">
+            <p class="text-sm"><span class="font-semibold">Showroom - Stores intérieurs</p>
+          </figcaption>
+        </figure>
+
+        <figure
+          data-hero-rotator-target="slide"
+          class="absolute inset-0 h-full w-full opacity-0 pointer-events-none transition-opacity duration-700 ease-in-out group"
+          aria-hidden="true">
+          <%= image_tag "magasin-03.jpeg",
+                alt: "Menuiseries aluminium noires",
+                class: "absolute inset-0 h-full w-full object-cover",
+                decoding: "async", loading: "lazy" %>
+          <figcaption class="absolute bottom-4 left-4 right-4 glass rounded-2xl p-4 shadow-soft bg-white opacity-75 hidden group-hover:block">
+            <p class="text-sm"><span class="font-semibold">Showroom - Espace Luxaflex</p>
+          </figcaption>
+        </figure>
+
+        <figure
+          data-hero-rotator-target="slide"
+          class="absolute inset-0 h-full w-full opacity-0 pointer-events-none transition-opacity duration-700 ease-in-out group"
+          aria-hidden="true">
+          <%= image_tag "magasin-04.jpeg",
+                alt: "Menuiseries aluminium noires",
+                class: "absolute inset-0 h-full w-full object-cover",
+                decoding: "async", loading: "lazy" %>
+          <figcaption class="absolute bottom-4 left-4 right-4 glass rounded-2xl p-4 shadow-soft bg-white opacity-75 hidden group-hover:block">
+            <p class="text-sm"><span class="font-semibold">Showroom - Espace Luxaflex</p>
+          </figcaption>
+        </figure>
+
+        <figure
+          data-hero-rotator-target="slide"
+          class="absolute inset-0 h-full w-full opacity-0 pointer-events-none transition-opacity duration-700 ease-in-out group"
+          aria-hidden="true">
+          <%= image_tag "magasin-05.jpeg",
+                alt: "Menuiseries aluminium noires",
+                class: "absolute inset-0 h-full w-full object-cover",
+                decoding: "async", loading: "lazy" %>
+          <figcaption class="absolute bottom-4 left-4 right-4 glass rounded-2xl p-4 shadow-soft bg-white opacity-75 hidden group-hover:block">
+            <p class="text-sm"><span class="font-semibold">Showroom - Espace Luxaflex</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>

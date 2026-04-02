@@ -1,52 +1,53 @@
-<nav class="bg-white/70 shadow-sm backdrop-blur-lg sticky top-0 z-50 nav flex justify-between">
-  <div class="px-4 pl-10">
-    <div class="flex h-14 justify-between">
-      <div class="flex">
-        <div class="flex flex-shrink-0 items-center">
-          <div><%= inline_svg_tag("logos/ads-without-text.svg", class: "h-6 w-6 shrink-0 mr-3") %></div>
-        </div>
-        <div class="hidden sm:ml-6 sm:flex sm:space-x-6">
-          <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
-          <%= active_link_to 'Accueil', root_path, active: :exclusive %>
-          <%= active_link_to 'Produits', categories_path %>
-          <%= active_link_to 'Devis', new_quote_path %>
-          <%= active_link_to 'Déstockage', destock_path %>
-          <%= active_link_to 'Contact', contact_path %>
+<section class="w-full sticky top-0 z-50 bg-white">
+  <nav class="nav flex justify-between max-w-7xl mx-auto">
+    <div class="">
+      <div class="flex justify-between p-7">
+        <div class="flex">
+          <div class="flex flex-shrink-0 items-center">
+            <div><%= inline_svg_tag("logos/ads-without-text.svg", class: "h-10 w-10 shrink-0 mr-3") %></div>
+          </div>
+          <div class="hidden sm:ml-6 sm:flex sm:space-x-6">
+            <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
+            <%= active_link_to 'Accueil', root_path, active: :exclusive %>
+            <%= active_link_to 'Produits', categories_path %>
+            <%= active_link_to 'Devis', new_quote_path %>
+            <%= active_link_to 'Déstockage', destock_path %>
+            <%= active_link_to 'Contact', contact_path %>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div data-controller="dropdown" class="flex items-center sm:hidden pr-6 relative">
-    <!-- Mobile menu button -->
-    <%= link_to "#",
-          data: { turbo: false, action: "click->dropdown#toggle" },
-          "aria-controls": "mobile-menu",
-          "aria-expanded": "false",
-          class: "relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:text-gray-500 focus:outline-none mobile-nav-item" do %>
-      <!-- Icon quand le menu est fermé -->
-      <svg data-dropdown-target="openIcon" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-      </svg>
-      <!-- Icon quand le menu est ouvert -->
-      <svg data-dropdown-target="closeIcon" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    <% end %>
+    <div data-controller="dropdown" class="flex items-center sm:hidden pr-6 relative">
+      <!-- Mobile menu button -->
+      <%= link_to "#",
+            data: { turbo: false, action: "click->dropdown#toggle" },
+            "aria-controls": "mobile-menu",
+            "aria-expanded": "false",
+            class: "relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:text-gray-500 focus:outline-none mobile-nav-item" do %>
+        <!-- Icon quand le menu est fermé -->
+        <svg data-dropdown-target="openIcon" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+        <!-- Icon quand le menu est ouvert -->
+        <svg data-dropdown-target="closeIcon" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      <% end %>
 
 
-    <!-- Dropdown content -->
-    <div data-dropdown-target="menu" id="mobile-menu" class="hidden absolute right-4 top-14 z-10 mt-2 w-40 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5">
-      <!-- Place ici le contenu de ton menu déroulant -->
-      <nav class="pt-2 pb-3 space-y-1 flex flex-col pl-3">
-        <%= link_to 'Accueil', root_path, class: "text-gray-700 mobile-nav-item" %>
-        <%= link_to 'Produits', categories_path, class: "text-gray-700 mobile-nav-item" %>
-        <%= link_to 'Devis', new_quote_path, class: "text-gray-700 mobile-nav-item" %>
-        <%= link_to 'Déstockage', destock_path, class: "text-gray-700 mobile-nav-item" %>
-        <%= link_to 'Contact', contact_path, class: "text-gray-700 mobile-nav-item" %>
-      </nav>
+      <!-- Dropdown content -->
+      <div data-dropdown-target="menu" id="mobile-menu" class="hidden absolute right-4 top-14 z-10 mt-2 w-40 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5">
+        <!-- Place ici le contenu de ton menu déroulant -->
+        <nav class="pt-2 pb-3 space-y-1 flex flex-col pl-3">
+          <%= link_to 'Accueil', root_path, class: "text-gray-700 mobile-nav-item" %>
+          <%= link_to 'Produits', categories_path, class: "text-gray-700 mobile-nav-item" %>
+          <%= link_to 'Devis', new_quote_path, class: "text-gray-700 mobile-nav-item" %>
+          <%= link_to 'Déstockage', destock_path, class: "text-gray-700 mobile-nav-item" %>
+          <%= link_to 'Contact', contact_path, class: "text-gray-700 mobile-nav-item" %>
+        </nav>
+      </div>
     </div>
-  </div>
 
-
-</nav>
+  </nav>
+</section>

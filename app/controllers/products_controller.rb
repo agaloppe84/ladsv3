@@ -16,14 +16,14 @@ class ProductsController < ApplicationController
   end
 
   def set_breadcrumbs
-    add_breadcrumb("Home", root_path)
+    add_breadcrumb("Accueil", root_path)
     add_breadcrumb("Produits", categories_path)
     add_breadcrumb(@product.category.name, @product.category)
     add_breadcrumb(@product.name)
   end
 
   def set_canvas_selector_breadcrumbs
-    add_breadcrumb("Home", root_path)
+    add_breadcrumb("Accueil", root_path)
     add_breadcrumb("Produits", categories_path)
     add_breadcrumb(@product.category.name, @product.category)
     add_breadcrumb(@product.name, product_path(slug: @product.slug))
