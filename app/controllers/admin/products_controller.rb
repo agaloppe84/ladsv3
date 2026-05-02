@@ -32,6 +32,7 @@ class Admin::ProductsController < AdminController
     @product = Product.new(product_params)
 
     if @product.save
+      sync_product_image_positions
       # Envoi d'un turbo_stream pour rester sur la même page et afficher la notification
       respond_to do |format|
         format.turbo_stream do
@@ -49,6 +50,7 @@ class Admin::ProductsController < AdminController
     @product = Product.find(params[:id])
 
     if @product.update(product_params)
+      sync_product_image_positions
       # Envoi d'un turbo_stream pour rester sur la même page et afficher la notification
       respond_to do |format|
         format.turbo_stream do
@@ -75,5 +77,9 @@ class Admin::ProductsController < AdminController
 
   def product_params
     params.require(:product).permit(:name, :description, :infos, :category_id, :warranty, service_attributes: [:id, :warranty, :custom_dimensions, :made_in_france, :anti_fire, :anti_uv, :rge, :wind_resistance, :free_quote], options_attributes: [:id, :order, :content, :_destroy], manufacturer_ids: [],  motorist_ids: [], ral_ids: [], documentations: [], images: [])
+  end
+
+  def sync_product_image_positions
+    @product.sync_image_positions!(params.dig(:product, :images))
   end
 end

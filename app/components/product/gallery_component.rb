@@ -6,6 +6,6 @@ class Product::GalleryComponent < ViewComponent::Base
   end
 
   def render?
-    @photos.attached?
+    @photos.any?
   end
 end

@@ -23,7 +23,7 @@
       </div>
     <% end %>
 
-    <%= render Product::GalleryComponent.new(photos: @product.images) %>
+    <%= render Product::GalleryComponent.new(photos: @product.ordered_images) %>
     <%= render Product::BottomCtaComponent.new(product: @product) %>
   </div>
 </section>

@@ -21,7 +21,40 @@ class Product < ApplicationRecord
 
   validates :slug, presence: true, uniqueness: { case_sensitive: false }
 
+  def ordered_images
+    images.attachments.includes(:blob).order(:position, :id)
+  end
+
+  def primary_image
+    ordered_images.first
+  end
+
+  def sync_image_positions!(signed_ids)
+    signed_ids = Array(signed_ids).reject(&:blank?)
+    blob_ids_by_signed_id = image_blob_ids_by_signed_id(signed_ids)
+    return if blob_ids_by_signed_id.empty?
+
+    position_by_blob_id = {}
+
+    signed_ids.each_with_index do |signed_id, index|
+      blob_id = blob_ids_by_signed_id[signed_id]
+      position_by_blob_id[blob_id] = index + 1 if blob_id
+    end
+
+    images.attachments.where(blob_id: position_by_blob_id.keys).find_each do |attachment|
+      position = position_by_blob_id[attachment.blob_id]
+      attachment.update_column(:position, position) if position && attachment.position != position
+    end
+  end
+
   private
+
+  def image_blob_ids_by_signed_id(signed_ids)
+    signed_ids.each_with_object({}) do |signed_id, blob_ids|
+      blob = ActiveStorage::Blob.find_signed(signed_id)
+      blob_ids[signed_id] = blob.id if blob
+    end
+  end
 
   def assign_slug
     return if slug.present?

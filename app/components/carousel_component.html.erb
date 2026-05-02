@@ -9,8 +9,8 @@
   <div data-carousel-target="container" class="flex transform transition-transform duration-300 h-full">
     <% @products.each_with_index do |product, index| %>
       <div class="w-full flex-shrink-0 h-full relative">
-        <% if product.images.attached? %>
-          <%= cl_image_tag(product.images.first.key, crop: :scale, class: "w-full object-cover object-center") %>
+        <% if product.primary_image.present? %>
+          <%= cl_image_tag(product.primary_image.key, crop: :scale, class: "w-full object-cover object-center") %>
         <% else %>
           <%= image_tag('placeholder.jpg', class: "w-full object-cover object-center") %>
         <% end %>

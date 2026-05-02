@@ -10,7 +10,7 @@ class Product::HeroComponent < ViewComponent::Base
   attr_reader :product
 
   def gallery_photos
-    @gallery_photos ||= product.images.first(4)
+    @gallery_photos ||= product.ordered_images.first(4)
   end
 
   def description_text

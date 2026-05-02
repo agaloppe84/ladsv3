@@ -6,9 +6,9 @@
       <p class="my-4 text-sm font-medium text-slate-500"><%= @product.description %></p>
     </div>
 
-    <% if @product.images.any? %>
+    <% if @product.ordered_images.any? %>
       <div class="px-6 pb-4 flex space-x-3">
-        <% @product.images.each do |image| %>
+        <% @product.ordered_images.each do |image| %>
           <div class="w-1/4">
               <%= cl_image_tag(image.key, crop: :scale, class: "pointer-events-none object-cover rounded") %>
           </div>

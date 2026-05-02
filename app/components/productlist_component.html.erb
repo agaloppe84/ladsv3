@@ -6,8 +6,8 @@
         <%= link_to product_path(slug: prod.slug), class: "group text-sm" do %>
           <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
 
-            <% if prod.images.attached? %>
-              <%= cl_image_tag(prod.images.first.key, crop: :scale, class: "h-full w-full object-cover object-center") %>
+            <% if prod.primary_image.present? %>
+              <%= cl_image_tag(prod.primary_image.key, crop: :scale, class: "h-full w-full object-cover object-center") %>
             <% else %>
               <img src="https://tailwindui.com/img/ecommerce-images/category-page-07-product-01.jpg" alt="White fabric pouch with white zipper, black zipper pull, and black elastic loop." class="h-full w-full object-cover object-center">
             <% end %>

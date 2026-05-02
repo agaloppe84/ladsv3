@@ -7,7 +7,7 @@
     <% @products.each do |product| %>
 
       <div class="bg-white rounded-lg border border-slate-100 overflow-hidden flex flex-col">
-        <%= cl_image_tag(product.category.products.first.images.first.key, crop: :scale, class: "h-48 w-full object-cover") %>
+        <%= cl_image_tag(product.category.products.first.primary_image.key, crop: :scale, class: "h-48 w-full object-cover") %>
         <div class="p-8">
           <h2 class="text-md font-bold text-slate-700"><%= product.name %></h2>
           <p class="text-violet-500 text-[12px] font-medium"><%= "Dimensions: #{product.dimensions}" %></p>

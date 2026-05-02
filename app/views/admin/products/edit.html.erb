@@ -114,9 +114,9 @@
 
         <div class="flex border-t">
 
-          <ul role="list" class="p-12 w-3/4 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-6 xl:gap-x-8">
-            <% @product.images.each do |image| %>
-              <li class="relative" data-controller="image" data-image-signed-id-value="<%= image.signed_id %>">
+          <ul role="list" data-controller="image-sortable" class="p-12 w-3/4 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-6 xl:gap-x-8">
+            <% @product.ordered_images.each_with_index do |image, index| %>
+              <li class="relative" data-controller="image" data-image-sortable-item data-image-signed-id-value="<%= image.signed_id %>">
                 <%= f.hidden_field :images, multiple: true, value: image.signed_id, data: { image_target: "hiddenField" } %>
                 <div class="group overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
                   <%= cl_image_tag(image.key, crop: :scale, class: "pointer-events-none aspect-[10/7] object-cover group-hover:opacity-75") %>
@@ -125,13 +125,19 @@
                   <p class="pointer-events-none truncate text-ellipsis text-[9px] font-semibold text-gray-900 border-b mb-2 pb-2 border-gray-100"><%= image.blob.filename %></p>
 
                   <div class="flex justify-between items-center">
-                    <span class="inline-flex items-center rounded-md bg-purple-50 px-1.5 py-0.5 text-[9px] font-bold text-purple-700 ring-1 ring-inset ring-purple-700/10"><%= "#{(image.blob.byte_size.to_f / 1000000.0).round(1)} MB" %></span>
-                    <!-- Bouton de suppression -->
-                    <%= link_to "#", data: {action: "image#remove", turbo: false} do %>
-                      <div class="flex space-x-3 items-center">
+                    <div class="flex items-center space-x-2">
+                      <span class="inline-flex items-center rounded-md bg-purple-50 px-1.5 py-0.5 text-[9px] font-bold text-purple-700 ring-1 ring-inset ring-purple-700/10" data-image-sortable-target="position"><%= index + 1 %></span>
+                      <span class="inline-flex items-center rounded-md bg-slate-50 px-1.5 py-0.5 text-[9px] font-bold text-slate-500 ring-1 ring-inset ring-slate-700/10"><%= "#{(image.blob.byte_size.to_f / 1000000.0).round(1)} MB" %></span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                      <button type="button" class="image-sortable-handle cursor-move">
+                        <%= inline_svg_tag("icons/dragging.svg", class: "h-4 w-4 shrink-0 text-gray-600") %>
+                      </button>
+                      <!-- Bouton de suppression -->
+                      <%= link_to "#", data: {action: "image#remove", turbo: false} do %>
                         <%= inline_svg_tag("icons/trash.svg", class: "h-4 w-4 shrink-0 text-gray-600")%>
-                      </div>
-                    <% end %>
+                      <% end %>
+                    </div>
                   </div>
 
                 </div>
