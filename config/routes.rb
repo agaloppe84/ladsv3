@@ -40,8 +40,6 @@ Rails.application.routes.draw do
   resources :products, only: [:show], path: 'produits', param: :slug do
     member do
       get :canvas_selector
-      get :show_test, path: "test"
-      get :show_test_v2, path: "test-v2"
     end
   end
   resources :quotes, only: [:new, :create], path: 'devis'

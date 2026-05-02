@@ -9,15 +9,14 @@ class Product::HeroComponent < ViewComponent::Base
 
   attr_reader :product
 
-  def images
-    @images ||= product.images.first(5)
+  def gallery_photos
+    @gallery_photos ||= product.images.first(4)
   end
 
-  def manufacturers
-    @manufacturers ||= product.manufacturers.first(6)
-  end
+  def description_text
+    return product.description if product.description.present?
+    return product.infos if product.infos.present?
 
-  def motorists
-    @motorists ||= product.motorists.first(6)
+    "Découvrez la configuration complète du produit, ses coloris, finitions et documentations associées."
   end
 end

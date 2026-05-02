@@ -5,16 +5,25 @@
 <%= render BreadcrumbComponent.new(breadcrumbs) %>
 
 <section class="bg-slate-50">
-
-  <div data-controller="reveal" class="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-6 lg:px-8 lg:py-8">
+  <div data-controller="reveal" class="mx-auto max-w-7xl px-4 py-6 lg:px-8 lg:py-8 space-y-5">
     <%= render Product::HeroComponent.new(product: @product) %>
-    <%= render Product::ConfigurationComponent.new(product: @product) %>
-    <div class="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:items-start">
-      <%= render Product::ServiceComponent.new(service: @product.service) %>
-      <%= render Product::DocumentationComponent.new(documentations: @product.documentations) %>
-    </div>
+    <%= render Product::ConfigurationComponent.new(product: @product, product_color_parts: @product_color_parts) %>
+
+    <% if @product.service.present? || @product.documentations.attached? %>
+      <div class="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:items-start">
+        <%= render Product::ServiceComponent.new(service: @product.service) %>
+        <%= render Product::DocumentationComponent.new(documentations: @product.documentations) %>
+      </div>
+    <% end %>
+
+    <% if @product.manufacturers.any? || @product.motorists.any? %>
+      <div class="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:items-start">
+        <%= render Product::BrandsComponent.new(manufacturers: @product.manufacturers) %>
+        <%= render Product::MotorizationComponent.new(motorists: @product.motorists) %>
+      </div>
+    <% end %>
+
     <%= render Product::GalleryComponent.new(photos: @product.images) %>
     <%= render Product::BottomCtaComponent.new(product: @product) %>
   </div>
-
 </section>
