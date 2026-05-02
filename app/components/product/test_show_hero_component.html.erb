@@ -1,0 +1,121 @@
+<section data-reveal-target="item" class="opacity-0 translate-y-4 transition-all duration-700 ease-out">
+  <div class="grid grid-cols-1 items-stretch gap-3 md:grid-cols-2 md:gap-4">
+    <article class="rounded-3xl border border-slate-200 bg-gradient-to-b from-slate-100 to-white p-6 md:p-10">
+      <p class="inline-flex items-center rounded-2xl bg-orange-500 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white">
+        Version test v2
+      </p>
+
+      <h1 class="mt-4 text-3xl font-extrabold leading-[0.92] tracking-tight text-slate-900 md:text-5xl">
+        <%= product.name %>
+      </h1>
+
+      <p class="mt-2 text-[17px] font-extrabold leading-tight tracking-tight text-transparent bg-gradient-to-r from-orange-500 via-amber-400 to-rose-400 bg-clip-text md:text-[21px]">
+        Nouvelle architecture couleurs
+      </p>
+
+      <p class="mt-4 max-w-prose text-sm font-medium leading-6 text-slate-600">
+        <%= description_text %>
+      </p>
+
+      <p class="mt-3 max-w-prose text-xs font-semibold text-slate-500">
+        Cette vue est isolée et s’appuie sur les nouvelles entités:
+        <span class="font-semibold text-slate-700">parts</span>,
+        <span class="font-semibold text-slate-700">palettes</span>,
+        <span class="font-semibold text-slate-700">finitions</span> et
+        <span class="font-semibold text-slate-700">option payante</span>.
+      </p>
+
+      <div class="mt-6 flex flex-wrap gap-2">
+        <span class="inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold text-slate-700">
+          <%= parts_count %> part<%= "s" if parts_count > 1 %>
+        </span>
+        <span class="inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold text-slate-700">
+          <%= colors_count %> couleur<%= "s" if colors_count > 1 %>
+        </span>
+        <span class="inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-[11px] font-semibold text-amber-700">
+          <%= paid_options_count %> option<%= "s" if paid_options_count > 1 %> payante<%= "s" if paid_options_count > 1 %>
+        </span>
+      </div>
+
+      <div class="mt-8 flex flex-wrap gap-2">
+        <%= link_to "Show actuelle", product_path(slug: product.slug), class: "inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50" %>
+        <%= link_to "Show test v1", show_test_product_path(slug: product.slug), class: "inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50" %>
+        <% if show_canvas_selector? %>
+          <%= link_to "Sélecteur toile", canvas_selector_product_path(slug: product.slug), class: "inline-flex items-center justify-center rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50" %>
+        <% end %>
+        <%= link_to "Demander un devis", new_quote_path(product_id: product.id), class: "inline-flex items-center justify-center rounded-2xl border border-orange-500 bg-orange-500 px-4 py-2 text-xs font-semibold text-white transition hover:bg-orange-600 hover:border-orange-600" %>
+      </div>
+    </article>
+
+    <article
+      data-controller="gallery-modal"
+      data-action="keydown.esc@window->gallery-modal#close"
+      class="rounded-3xl border border-slate-200 bg-white overflow-hidden"
+    >
+      <div class="border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white px-5 py-4">
+        <p class="inline-flex w-fit items-center rounded-2xl border border-slate-200 bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-700">
+          <%= product.category.name %>
+        </p>
+        <p class="mt-2 text-xl font-extrabold leading-[0.9] tracking-tight text-transparent bg-gradient-to-r from-orange-500 via-amber-400 to-rose-400 bg-clip-text md:text-3xl">
+          Galerie express
+        </p>
+        <p class="mt-1 text-xs font-semibold text-slate-500">4 photos cliquables pour prévisualiser le produit.</p>
+      </div>
+
+      <div class="p-4">
+        <div class="grid grid-cols-2 gap-3">
+          <% 4.times do |index| %>
+            <% photo = gallery_photos[index] %>
+            <% modal_url = photo.present? ? cl_image_path(photo.key) : image_path("placeholder.jpg") %>
+            <div class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 aspect-[4/3]">
+              <% if photo.present? %>
+                <%= cl_image_tag(photo.key, crop: :scale, class: "absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]") %>
+              <% else %>
+                <%= image_tag("placeholder.jpg", class: "absolute inset-0 h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]") %>
+              <% end %>
+
+              <button
+                type="button"
+                data-action="click->gallery-modal#open"
+                data-gallery-modal-url-value="<%= modal_url %>"
+                class="absolute inset-0"
+              >
+                <span class="sr-only">Voir la photo <%= index + 1 %> en grand</span>
+              </button>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div
+        data-gallery-modal-target="overlay"
+        data-action="click->gallery-modal#backdropClose"
+        class="fixed inset-0 z-[100] hidden bg-slate-950/85 p-4 opacity-0 transition-opacity duration-200"
+      >
+        <div
+          data-gallery-modal-target="panel"
+          class="flex h-full w-full items-center justify-center opacity-0 scale-95 translate-y-2 transition-all duration-200"
+        >
+          <button
+            type="button"
+            data-action="click->gallery-modal#close"
+            data-gallery-modal-close
+            class="fixed right-5 top-5 rounded-xl border border-white/30 bg-white/10 p-2 backdrop-blur-sm transition hover:bg-white/20"
+          >
+            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            <span class="sr-only">Fermer</span>
+          </button>
+
+          <img
+            data-gallery-modal-target="image"
+            src=""
+            alt="Photo agrandie"
+            class="max-h-[92vh] w-auto max-w-full rounded-xl object-contain shadow-2xl"
+          >
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

@@ -1,0 +1,8 @@
+<div id="product-configurator-notice" class="px-6 pt-4">
+  <% if message.present? %>
+    <% wrapper_classes = error ? "border border-red-100 bg-red-50 text-red-700" : "border border-emerald-100 bg-emerald-50 text-emerald-700" %>
+    <div class="<%= wrapper_classes %> rounded px-3 py-2 text-[11px] font-semibold">
+      <%= message %>
+    </div>
+  <% end %>
+</div>

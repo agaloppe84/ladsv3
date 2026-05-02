@@ -1,0 +1,33 @@
+<%= turbo_frame_tag "item_detail", data: { controller: "fadein", action: "turbo:frame-load->fadein#removeOpacity" } do %>
+  <div data-fadein-target="content" class="opacity-0 transition duration-700 ease-out">
+    <div class="px-6 py-5 border-b border-slate-100">
+      <div class="flex items-center justify-between gap-3">
+        <div>
+          <p class="text-xl font-bold"><%= @product.name %></p>
+          <p class="text-[10px] text-violet-500 font-semibold">Catégorie : <%= @product.category.name %></p>
+          <p class="mt-2 text-[11px] text-slate-500">Configuration couleur (nouvelle architecture)</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <%= link_to "Show test v1",
+                      show_test_product_path(slug: @product.slug),
+                      target: "_blank",
+                      class: "inline-flex items-center rounded border border-slate-200 px-2 py-1 text-[10px] font-semibold text-slate-600 hover:bg-slate-50" %>
+          <%= link_to "Show test v2",
+                      show_test_v2_product_path(slug: @product.slug),
+                      target: "_blank",
+                      class: "inline-flex items-center rounded border border-violet-200 px-2 py-1 text-[10px] font-semibold text-violet-600 hover:bg-violet-50" %>
+        </div>
+      </div>
+    </div>
+
+    <%= render "admin/product_configurators/notice", message: notice, error: false %>
+
+    <%= turbo_frame_tag "product_configurator_content" do %>
+      <%= render "admin/product_configurators/configurator",
+                 product: @product,
+                 product_color_parts: @product_color_parts,
+                 rals: @rals,
+                 finishes: @finishes %>
+    <% end %>
+  </div>
+<% end %>

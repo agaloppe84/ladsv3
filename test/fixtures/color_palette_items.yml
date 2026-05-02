@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  color_palette: one
+  ral: one
+  finish: one
+  paid_option: false
+
+two:
+  color_palette: two
+  ral: two
+  finish: two
+  paid_option: false

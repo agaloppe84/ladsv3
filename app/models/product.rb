@@ -3,6 +3,8 @@ class Product < ApplicationRecord
   has_many :options, dependent: :destroy
   has_one :service, dependent: :destroy
   has_and_belongs_to_many :rals
+  has_many :product_color_parts, dependent: :destroy
+  has_many :color_palettes, -> { distinct }, through: :product_color_parts
   has_and_belongs_to_many :motorists
   has_and_belongs_to_many :manufacturers
   has_many_attached :images

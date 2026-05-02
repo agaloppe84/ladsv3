@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_03_10_133525) do
+ActiveRecord::Schema[7.0].define(version: 2026_05_02_085219) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -51,6 +51,26 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_10_133525) do
     t.string "color"
   end
 
+  create_table "color_palette_items", force: :cascade do |t|
+    t.bigint "color_palette_id", null: false
+    t.bigint "ral_id", null: false
+    t.bigint "finish_id"
+    t.boolean "paid_option", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["color_palette_id", "ral_id", "finish_id"], name: "idx_cpi_palette_ral_finish_uniq", unique: true, where: "(finish_id IS NOT NULL)"
+    t.index ["color_palette_id", "ral_id"], name: "idx_cpi_palette_ral_no_finish_uniq", unique: true, where: "(finish_id IS NULL)"
+    t.index ["color_palette_id"], name: "index_color_palette_items_on_color_palette_id"
+    t.index ["finish_id"], name: "index_color_palette_items_on_finish_id"
+    t.index ["ral_id"], name: "index_color_palette_items_on_ral_id"
+  end
+
+  create_table "color_palettes", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "events", force: :cascade do |t|
     t.datetime "start_date"
     t.datetime "end_date"
@@ -58,6 +78,14 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_10_133525) do
     t.string "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "finishes", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "label", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_finishes_on_code", unique: true
   end
 
   create_table "manufacturers", force: :cascade do |t|
@@ -93,6 +121,18 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_10_133525) do
     t.datetime "updated_at", null: false
     t.integer "order"
     t.index ["product_id"], name: "index_options_on_product_id"
+  end
+
+  create_table "product_color_parts", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.string "code", null: false
+    t.string "label", null: false
+    t.bigint "color_palette_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["color_palette_id"], name: "index_product_color_parts_on_color_palette_id"
+    t.index ["product_id", "code"], name: "idx_product_color_parts_product_code", unique: true
+    t.index ["product_id"], name: "index_product_color_parts_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -172,7 +212,12 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_10_133525) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "color_palette_items", "color_palettes"
+  add_foreign_key "color_palette_items", "finishes"
+  add_foreign_key "color_palette_items", "rals"
   add_foreign_key "options", "products"
+  add_foreign_key "product_color_parts", "color_palettes"
+  add_foreign_key "product_color_parts", "products"
   add_foreign_key "products", "categories"
   add_foreign_key "services", "products"
 end

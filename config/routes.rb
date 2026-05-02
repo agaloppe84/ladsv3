@@ -11,6 +11,19 @@ Rails.application.routes.draw do
     resources :products do
       resources :options, only: [:create, :destroy]
     end
+    resources :product_configurators, only: [:index, :show] do
+      member do
+        post :create_part
+        patch "parts/:part_id", action: :update_part, as: :part
+        delete "parts/:part_id", action: :destroy_part, as: :destroy_part
+
+        post "parts/:part_id/items", action: :create_item, as: :part_items
+        patch "parts/:part_id/items/:item_id", action: :update_item, as: :part_item
+        delete "parts/:part_id/items/:item_id", action: :destroy_item, as: :destroy_item
+
+        post :create_finish
+      end
+    end
     resources :motorists
     resources :manufacturers
     resources :rals
@@ -27,6 +40,8 @@ Rails.application.routes.draw do
   resources :products, only: [:show], path: 'produits', param: :slug do
     member do
       get :canvas_selector
+      get :show_test, path: "test"
+      get :show_test_v2, path: "test-v2"
     end
   end
   resources :quotes, only: [:new, :create], path: 'devis'
