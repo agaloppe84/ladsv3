@@ -19,13 +19,8 @@ export default class extends Controller {
       const active = tab.dataset.tabId === tabId
       tab.setAttribute("aria-selected", active ? "true" : "false")
 
-      tab.classList.toggle("bg-orange-50", active)
-      tab.classList.toggle("text-orange-500", active)
-      tab.classList.toggle("border-orange-200", active)
-
-      tab.classList.toggle("bg-white", !active)
-      tab.classList.toggle("text-slate-600", !active)
-      tab.classList.toggle("border-slate-200", !active)
+      tab.classList.toggle("text-slate-950", active)
+      tab.classList.toggle("text-slate-400", !active)
     })
 
     this.panelTargets.forEach((panel) => {
