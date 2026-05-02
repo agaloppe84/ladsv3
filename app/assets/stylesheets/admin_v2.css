@@ -1,0 +1,78 @@
+.admin-v2 {
+  --g-bg: #0b0d10;
+  --g-bg-soft: #0f1116;
+  --g-surface: #14171d;
+  --g-surface-raised: #191d25;
+  --g-surface-hover: #20242d;
+  --g-surface-inset: #0f1217;
+  --g-border: rgba(255, 255, 255, 0.075);
+  --g-border-strong: rgba(255, 255, 255, 0.13);
+  --g-text: #f2f3f5;
+  --g-muted: #a2a6b0;
+  --g-subtle: #737987;
+  --g-faint: #505766;
+  --g-accent: #7c5cff;
+  --g-accent-soft: rgba(124, 92, 255, 0.14);
+  --g-accent-border: rgba(124, 92, 255, 0.36);
+  --g-green: #75d67b;
+  --g-amber: #f5c451;
+  --g-red: #ff6868;
+  --g-cyan: #67d8ef;
+  background: var(--g-bg);
+  color: var(--g-text);
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.admin-v2 * {
+  scrollbar-color: rgba(162, 166, 176, 0.3) transparent;
+}
+
+.admin-v2 ::selection {
+  background: var(--g-accent-soft);
+}
+
+.admin-v2-shell {
+  background:
+    radial-gradient(circle at 20% -10%, rgba(124, 92, 255, 0.12), transparent 34rem),
+    linear-gradient(180deg, #10131a 0%, var(--g-bg) 42%);
+}
+
+.admin-v2-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.admin-v2-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.admin-v2-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+
+.admin-v2-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.admin-v2-focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.admin-v2-focus:focus-visible {
+  box-shadow: 0 0 0 1px var(--g-accent), 0 0 0 5px rgba(124, 92, 255, 0.16);
+}
+
+.admin-v2-grid-bg {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.admin-v2-pending {
+  opacity: 0.68;
+  pointer-events: none;
+}

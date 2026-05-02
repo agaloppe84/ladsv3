@@ -1,0 +1,41 @@
+<%= render AdminV2::Ui::PanelComponent.new(id: "admin_v2_product_associations", title: "Associations", subtitle: "Motoristes et fabricants, sans RAL direct") do %>
+  <%= form_with scope: :product,
+    url: admin_v2_product_associations_path(product),
+    method: :patch,
+    data: { controller: "toggle-association inline-form", action: "turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete" },
+    class: "space-y-5" do %>
+
+    <input type="hidden" name="product[motorist_ids][]" value="">
+    <input type="hidden" name="product[manufacturer_ids][]" value="">
+
+    <section>
+      <div class="mb-3 flex items-center justify-between">
+        <h3 class="text-xs font-semibold text-[var(--g-text)]">Motoristes</h3>
+        <%= render AdminV2::Ui::BadgeComponent.new(label: product.motorists.size, variant: :accent) %>
+      </div>
+      <div class="grid gap-2">
+        <% Motorist.order(:name).each do |motorist| %>
+          <label class="flex cursor-pointer items-center justify-between rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 py-2 text-[12px] font-medium text-[var(--g-muted)] has-[:checked]:border-[var(--g-accent-border)] has-[:checked]:bg-[var(--g-accent-soft)] has-[:checked]:text-[var(--g-text)]">
+            <span><%= motorist.name %></span>
+            <%= check_box_tag "product[motorist_ids][]", motorist.id, product.motorist_ids.include?(motorist.id), class: "rounded border-white/[0.13] bg-[var(--g-surface)] text-[var(--g-accent)] focus:ring-[var(--g-accent)]", data: { action: "change->toggle-association#submit", label: "Motorist##{motorist.id}" } %>
+          </label>
+        <% end %>
+      </div>
+    </section>
+
+    <section>
+      <div class="mb-3 flex items-center justify-between">
+        <h3 class="text-xs font-semibold text-[var(--g-text)]">Fabricants</h3>
+        <%= render AdminV2::Ui::BadgeComponent.new(label: product.manufacturers.size, variant: :accent) %>
+      </div>
+      <div class="grid gap-2">
+        <% Manufacturer.order(:name).each do |manufacturer| %>
+          <label class="flex cursor-pointer items-center justify-between rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 py-2 text-[12px] font-medium text-[var(--g-muted)] has-[:checked]:border-[var(--g-accent-border)] has-[:checked]:bg-[var(--g-accent-soft)] has-[:checked]:text-[var(--g-text)]">
+            <span><%= manufacturer.name %></span>
+            <%= check_box_tag "product[manufacturer_ids][]", manufacturer.id, product.manufacturer_ids.include?(manufacturer.id), class: "rounded border-white/[0.13] bg-[var(--g-surface)] text-[var(--g-accent)] focus:ring-[var(--g-accent)]", data: { action: "change->toggle-association#submit", label: "Manufacturer##{manufacturer.id}" } %>
+          </label>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+<% end %>

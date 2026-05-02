@@ -1,0 +1,44 @@
+<%= render AdminV2::ShellComponent.new(current_user: current_user, active: :products) do %>
+  <turbo-frame id="admin_v2_main">
+    <div class="min-h-full">
+      <header class="sticky top-0 z-10 border-b border-white/[0.075] bg-[var(--g-bg)]/88 px-7 py-5 backdrop-blur">
+        <p class="font-mono text-[10px] uppercase tracking-[0.24em] text-[var(--g-faint)]">admin-v2 / store</p>
+        <div class="mt-3 flex items-end justify-between gap-5">
+          <div>
+            <h1 class="text-2xl font-semibold tracking-normal text-[var(--g-text)]">Produits</h1>
+            <p class="mt-1 text-sm text-[var(--g-muted)]">Index expérimental, isolé de l’admin classique.</p>
+          </div>
+
+          <%= form_with url: admin_v2_products_path, method: :get, data: { turbo_frame: "admin_v2_main" }, class: "flex items-center gap-2" do |f| %>
+            <%= f.search_field :query, value: params[:query], placeholder: "Rechercher", class: "h-9 w-64 rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 text-sm text-[var(--g-text)] placeholder:text-[var(--g-faint)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+            <%= f.select :category_id,
+              options_from_collection_for_select(@categories, :id, :name, params[:category_id]),
+              { include_blank: "Toutes catégories" },
+              class: "h-9 rounded-lg border border-white/[0.09] bg-[var(--g-surface)] px-3 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+            <%= f.submit "Filtrer", class: "admin-v2-focus h-9 rounded-lg border border-white/[0.09] bg-white/[0.055] px-3 text-[11px] font-semibold text-[var(--g-text)] hover:bg-white/[0.09]" %>
+          <% end %>
+        </div>
+      </header>
+
+      <div class="px-7 py-6">
+        <div class="overflow-hidden rounded-xl border border-white/[0.075] bg-[var(--g-surface)]/88">
+          <table class="min-w-full table-fixed">
+            <thead class="border-b border-white/[0.075] bg-white/[0.035]">
+              <tr>
+                <th class="w-[44%] px-4 py-3 text-left font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--g-faint)]">Produit</th>
+                <th class="w-[18%] px-4 py-3 text-left font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--g-faint)]">Catégorie</th>
+                <th class="w-[18%] px-4 py-3 text-left font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--g-faint)]">Médias</th>
+                <th class="w-[20%] px-4 py-3 text-right font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--g-faint)]">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/[0.055]">
+              <% @products.each do |product| %>
+                <%= render "admin_v2/products/row", product: product %>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </turbo-frame>
+<% end %>

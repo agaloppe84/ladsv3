@@ -1,0 +1,38 @@
+<%= render AdminV2::Ui::PanelComponent.new(id: "admin_v2_product_documentations", title: "Documentations", subtitle: "Fichiers attachés au produit") do %>
+  <div class="grid grid-cols-[minmax(0,1fr)_240px] gap-4">
+    <div>
+      <% if product.documentations.attached? %>
+        <ul class="grid grid-cols-3 gap-3">
+          <% product.documentations.each do |doc| %>
+            <li class="rounded-xl border border-white/[0.075] bg-white/[0.035] p-3">
+              <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                  <p class="truncate text-[12px] font-semibold text-[var(--g-text)]"><%= doc.blob.filename %></p>
+                  <p class="mt-1 font-mono text-[10px] text-[var(--g-subtle)]"><%= "#{(doc.blob.byte_size.to_f / 1_000_000.0).round(1)} MB" %></p>
+                </div>
+                <%= button_to "×", admin_v2_product_documentation_path(product, doc), method: :delete, class: "admin-v2-focus rounded-md border border-red-300/20 px-2 py-1 text-[11px] font-bold text-[var(--g-red)]", form: { data: { turbo_stream: true } } %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <div class="flex min-h-32 items-center justify-center rounded-xl border border-dashed border-white/[0.1] bg-white/[0.025]">
+          <p class="text-sm font-medium text-[var(--g-subtle)]">Aucune documentation attachée.</p>
+        </div>
+      <% end %>
+    </div>
+
+    <div
+      data-controller="upload"
+      data-upload-create-url-value="<%= admin_v2_product_documentations_path(product) %>"
+      data-upload-field-value="documentation"
+      class="rounded-xl border border-white/[0.075] bg-[var(--g-surface-inset)] p-3">
+      <input type="file" multiple direct_upload="true" class="hidden" data-upload-target="input" data-action="change->upload#upload">
+      <button type="button" data-action="upload#choose" class="admin-v2-focus flex min-h-24 w-full flex-col items-center justify-center rounded-lg border border-dashed border-white/[0.12] bg-white/[0.035] text-center hover:border-[var(--g-accent-border)]">
+        <span class="text-sm font-semibold text-[var(--g-text)]">Ajouter docs</span>
+        <span class="mt-1 text-[11px] text-[var(--g-subtle)]">PDF/images</span>
+      </button>
+      <div class="mt-3 grid gap-2" data-upload-target="preview"></div>
+    </div>
+  </div>
+<% end %>

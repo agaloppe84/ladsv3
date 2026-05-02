@@ -1,0 +1,56 @@
+<div class="admin-v2-shell grid h-dvh grid-cols-[296px_minmax(720px,1fr)_500px] overflow-hidden">
+  <aside class="flex min-h-0 flex-col border-r border-white/[0.075] bg-[var(--g-bg-soft)]/95">
+    <div class="border-b border-white/[0.075] px-5 py-5">
+      <p class="font-mono text-[10px] uppercase tracking-[0.28em] text-[var(--g-subtle)]">Graphite</p>
+      <h1 class="mt-1 text-lg font-semibold text-[var(--g-text)]">Store Console</h1>
+    </div>
+
+    <nav class="admin-v2-scrollbar min-h-0 flex-1 overflow-y-auto px-3 py-4">
+      <%= render AdminV2::SidebarSectionComponent.new(title: "Store") do %>
+        <%= render AdminV2::SidebarItemComponent.new(label: "Produits", path: admin_v2_products_path, active: active?(:products), count: Product.where(type: nil).count) %>
+        <%= render AdminV2::SidebarItemComponent.new(label: "Catégories", path: "#", active: active?(:categories), disabled: true) %>
+        <%= render AdminV2::SidebarItemComponent.new(label: "Events", path: "#", active: active?(:events), disabled: true) %>
+        <%= render AdminV2::SidebarItemComponent.new(label: "RALs", path: "#", active: active?(:rals), disabled: true) %>
+        <%= render AdminV2::SidebarItemComponent.new(label: "Devis", path: "#", active: active?(:quotes), disabled: true) %>
+      <% end %>
+
+      <%= render AdminV2::SidebarSectionComponent.new(title: "Operations") do %>
+        <%= render AdminV2::SidebarItemComponent.new(label: "Imports", path: "#", disabled: true) %>
+        <%= render AdminV2::SidebarItemComponent.new(label: "Exports", path: "#", disabled: true) %>
+        <%= render AdminV2::SidebarItemComponent.new(label: "Session feed", path: "#", disabled: true) %>
+        <%= render AdminV2::SidebarItemComponent.new(label: "Webhooks", path: "#", disabled: true) %>
+      <% end %>
+
+      <%= render AdminV2::SidebarSectionComponent.new(title: "Configuration") do %>
+        <%= render AdminV2::SidebarItemComponent.new(label: "Utilisateurs", path: "#", disabled: true) %>
+        <%= render AdminV2::SidebarItemComponent.new(label: "Rôles", path: "#", disabled: true) %>
+        <%= render AdminV2::SidebarItemComponent.new(label: "Paramètres", path: "#", disabled: true) %>
+      <% end %>
+    </nav>
+
+    <div class="border-t border-white/[0.075] px-5 py-4">
+      <p class="truncate text-[11px] font-medium text-[var(--g-muted)]"><%= current_user.email %></p>
+      <%= button_to "Déconnexion", destroy_user_session_path, method: :delete, class: "mt-2 text-[11px] font-semibold text-[var(--g-subtle)] hover:text-[var(--g-text)]" %>
+    </div>
+  </aside>
+
+  <main class="admin-v2-scrollbar min-h-0 overflow-y-auto">
+    <%= content %>
+  </main>
+
+  <aside class="grid min-h-0 grid-rows-[248px_minmax(0,1fr)] border-l border-white/[0.075] bg-[var(--g-bg-soft)]/90">
+    <%= render AdminV2::SessionFeedComponent.new %>
+    <turbo-frame id="admin_v2_drawer" class="admin-v2-grid-bg admin-v2-scrollbar min-h-0 overflow-y-auto">
+      <% if drawer %>
+        <%= drawer %>
+      <% else %>
+        <div class="flex h-full items-center justify-center px-8 text-center">
+          <div>
+            <p class="font-mono text-[10px] uppercase tracking-[0.26em] text-[var(--g-faint)]">Context drawer</p>
+            <p class="mt-2 text-sm font-medium text-[var(--g-muted)]">Sélectionne un produit ou une action pour ouvrir son contexte.</p>
+          </div>
+        </div>
+      <% end %>
+    </turbo-frame>
+  </aside>
+</div>

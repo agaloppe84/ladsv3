@@ -1,0 +1,36 @@
+<%= render AdminV2::Ui::PanelComponent.new(id: "admin_v2_product_options", title: "Options", subtitle: "Création, édition et ordre sans submit global") do %>
+  <div class="mb-4 flex items-center justify-between">
+    <%= render AdminV2::Ui::BadgeComponent.new(label: "#{product.options.size} options", variant: :accent) %>
+    <%= button_to "Ajouter option", admin_v2_product_options_path(product), method: :post, class: "admin-v2-focus h-8 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-3 text-[11px] font-semibold text-[#c6bbff]", form: { data: { turbo_stream: true } } %>
+  </div>
+
+  <% ordered_options = product.options.order(:order, :created_at) %>
+  <% if ordered_options.any? %>
+    <ul
+      class="grid gap-2"
+      data-controller="sortable"
+      data-sortable-url-value="<%= reorder_admin_v2_product_options_path(product) %>"
+      data-sortable-param-value="options">
+      <% ordered_options.each_with_index do |option, index| %>
+        <li data-sortable-id="<%= option.id %>" class="grid grid-cols-[48px_minmax(0,1fr)_auto] items-center gap-3 rounded-xl border border-white/[0.075] bg-white/[0.035] p-3">
+          <button type="button" data-admin-v2-sortable-handle class="admin-v2-focus rounded-lg border border-white/[0.075] px-2 py-2 font-mono text-[10px] text-[var(--g-subtle)]">#<%= index + 1 %></button>
+
+          <%= form_with scope: :option,
+            url: admin_v2_product_option_path(product, option),
+            method: :patch,
+            data: { controller: "inline-form", action: "turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete" },
+            class: "flex items-center gap-2" do |f| %>
+            <%= f.text_field :content, value: option.content, class: "w-full rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+            <%= f.submit "OK", class: "admin-v2-focus h-9 rounded-lg border border-white/[0.09] bg-white/[0.055] px-3 text-[11px] font-semibold text-[var(--g-text)]" %>
+          <% end %>
+
+          <%= button_to "Supprimer", admin_v2_product_option_path(product, option), method: :delete, class: "admin-v2-focus h-9 rounded-lg border border-red-300/20 bg-red-300/10 px-3 text-[11px] font-semibold text-[var(--g-red)]", form: { data: { turbo_stream: true, turbo_confirm: "Supprimer cette option ?" } } %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="rounded-xl border border-dashed border-white/[0.1] bg-white/[0.025] p-8 text-center text-sm font-medium text-[var(--g-subtle)]">
+      Aucune option pour ce produit.
+    </div>
+  <% end %>
+<% end %>

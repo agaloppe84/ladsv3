@@ -1,0 +1,15 @@
+<% if disabled? %>
+  <span class="<%= classes %>">
+    <span><%= label %></span>
+    <% if count %>
+      <span class="font-mono text-[10px] text-[var(--g-faint)]"><%= count %></span>
+    <% end %>
+  </span>
+<% else %>
+  <%= link_to path, class: classes, data: { turbo_frame: "admin_v2_main" } do %>
+    <span><%= label %></span>
+    <% if count %>
+      <span class="font-mono text-[10px] text-[var(--g-subtle)]"><%= count %></span>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,9 @@
+<% if path %>
+  <%= link_to path, class: classes, data: data, method: method do %>
+    <%= label || content %>
+  <% end %>
+<% else %>
+  <%= button_tag type: (type || "button"), class: classes, data: data do %>
+    <%= label || content %>
+  <% end %>
+<% end %>

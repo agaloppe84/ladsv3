@@ -1,5 +1,32 @@
 Rails.application.routes.draw do
   devise_for :users
+
+  namespace :admin_v2, path: "admin-v2" do
+    root to: "products#index"
+
+    resources :products, only: [:index, :show, :edit] do
+      resource :details, only: [:update], controller: "product_details"
+      resource :associations, only: [:update], controller: "product_associations"
+      resource :service, only: [:update], controller: "product_services"
+
+      resources :media_items, path: "media", only: [:create, :destroy], controller: "product_media" do
+        patch :reorder, on: :collection
+      end
+
+      resources :documentations, only: [:create, :destroy], controller: "product_documentations"
+
+      resources :options, only: [:create, :update, :destroy], controller: "product_options" do
+        patch :reorder, on: :collection
+      end
+
+      resources :color_parts, only: [:create, :update, :destroy], controller: "product_color_parts" do
+        resources :items, only: [:create, :update, :destroy], controller: "color_palette_items"
+      end
+
+      resources :finishes, only: [:create]
+    end
+  end
+
   namespace :admin do
     resources :categories
     resources :options

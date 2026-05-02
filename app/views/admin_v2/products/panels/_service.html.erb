@@ -1,0 +1,27 @@
+<% service = product.service || product.build_service %>
+
+<%= render AdminV2::Ui::PanelComponent.new(id: "admin_v2_product_service", title: "Services", subtitle: "Chaque clic sauvegarde la section") do %>
+  <%= form_with scope: :service,
+    url: admin_v2_product_service_path(product),
+    method: :patch,
+    data: { controller: "inline-form", action: "change->inline-form#submit turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete" },
+    class: "grid gap-2" do %>
+
+    <% {
+      warranty: "Garantie",
+      custom_dimensions: "Sur mesure",
+      made_in_france: "Made in France",
+      free_quote: "Devis gratuit",
+      anti_fire: "Anti feu",
+      anti_uv: "Anti UV",
+      rge: "RGE",
+      wind_resistance: "Résistance au vent"
+    }.each do |field, label| %>
+      <label class="flex cursor-pointer items-center justify-between rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 py-2 text-[12px] font-medium text-[var(--g-muted)] has-[:checked]:border-[var(--g-accent-border)] has-[:checked]:bg-[var(--g-accent-soft)] has-[:checked]:text-[var(--g-text)]">
+        <span><%= label %></span>
+        <%= hidden_field_tag "service[#{field}]", "0" %>
+        <%= check_box_tag "service[#{field}]", "1", service.public_send(field), class: "rounded border-white/[0.13] bg-[var(--g-surface)] text-[var(--g-accent)] focus:ring-[var(--g-accent)]" %>
+      </label>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin V2</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "admin_v2", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags "admin_v2/application" %>
+  </head>
+
+  <body class="admin-v2">
+    <%= yield %>
+  </body>
+</html>

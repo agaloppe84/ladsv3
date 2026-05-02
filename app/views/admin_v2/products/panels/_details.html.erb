@@ -1,0 +1,40 @@
+<%= render AdminV2::Ui::PanelComponent.new(id: "admin_v2_product_details", title: "Infos produit", subtitle: "Sauvegarde locale de la section") do %>
+  <%= form_with scope: :product,
+    url: admin_v2_product_details_path(product),
+    method: :patch,
+    data: { controller: "inline-form", action: "turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete" },
+    class: "grid grid-cols-12 gap-4" do |f| %>
+
+    <div class="col-span-5">
+      <%= f.label :name, "Nom", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+      <%= f.text_field :name, value: product.name, class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+    </div>
+
+    <div class="col-span-4">
+      <%= f.label :category_id, "Catégorie", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+      <%= f.select :category_id,
+        options_from_collection_for_select(categories, :id, :name, product.category_id),
+        {},
+        class: "w-full rounded-lg border border-white/[0.09] bg-[var(--g-surface)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+    </div>
+
+    <div class="col-span-3">
+      <%= f.label :warranty, "Garantie", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+      <%= f.text_field :warranty, value: product.warranty, class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+    </div>
+
+    <div class="col-span-6">
+      <%= f.label :description, "Description", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+      <%= f.text_area :description, value: product.description, rows: 5, class: "w-full resize-none rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+    </div>
+
+    <div class="col-span-6">
+      <%= f.label :infos, "Infos", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+      <%= f.text_area :infos, value: product.infos, rows: 5, class: "w-full resize-none rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+    </div>
+
+    <div class="col-span-12 flex justify-end">
+      <%= f.submit "Sauvegarder infos", class: "admin-v2-focus h-9 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-4 text-[11px] font-semibold text-[#c6bbff] hover:bg-[rgba(124,92,255,0.2)]" %>
+    </div>
+  <% end %>
+<% end %>
