@@ -35,6 +35,10 @@ Rails.application.routes.draw do
       resource :details, only: [:update], controller: "event_details"
       resource :schedule, only: [:update], controller: "event_schedule"
     end
+
+    resources :quotes, path: "devis", only: [:index, :show] do
+      resource :processing, only: [:update], controller: "quote_processing"
+    end
   end
 
   namespace :admin do

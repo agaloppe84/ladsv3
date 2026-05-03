@@ -1,0 +1,91 @@
+<div id="admin_v2_quote_drawer_summary" class="min-h-full">
+  <div class="border-b border-white/[0.075] p-5">
+    <div class="flex items-start justify-between gap-4">
+      <div class="min-w-0">
+        <p class="text-[10px] uppercase tracking-[0.24em] text-[var(--g-faint)]">Demande de devis</p>
+        <h2 class="mt-2 truncate text-xl font-semibold text-[var(--g-text)]"><%= quote.lastname.presence || "Nom non renseigné" %></h2>
+        <p class="mt-1 truncate text-sm text-[var(--g-muted)]"><%= quote.product.presence || "Produit non renseigné" %></p>
+      </div>
+      <%= render AdminV2::Quotes::StatusBadgeComponent.new(quote: quote) %>
+    </div>
+  </div>
+
+  <div class="space-y-4 p-5">
+    <%= render AdminV2::Ui::PanelComponent.new(
+      id: "admin_v2_quote_processing",
+      title: "Traitement",
+      subtitle: "Chaque clic sauvegarde le statut",
+      data: {
+        controller: "action-state",
+        action_state_hide_delay_value: 1800
+      }
+    ) do |panel| %>
+      <% panel.with_actions do %>
+        <%= render AdminV2::Ui::ActionStateComponent.new %>
+      <% end %>
+
+      <%= form_with scope: :quote,
+        url: admin_v2_quote_processing_path(quote),
+        method: :patch,
+        data: { controller: "inline-form", action: "change->inline-form#submit turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete" },
+        class: "grid gap-2" do %>
+        <label class="flex cursor-pointer items-center justify-between rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 py-2 text-[12px] font-medium text-[var(--g-muted)] transition has-[:checked]:border-[var(--g-accent-border)] has-[:checked]:bg-[var(--g-accent-soft)] has-[:checked]:text-[var(--g-text)]">
+          <span>Demande traitée</span>
+          <%= hidden_field_tag "quote[processed]", "0" %>
+          <%= check_box_tag "quote[processed]", "1", quote.processed?, class: "rounded border-white/[0.13] bg-[var(--g-surface)] text-[var(--g-accent)] focus:ring-[var(--g-accent)]" %>
+        </label>
+      <% end %>
+    <% end %>
+
+    <%= render AdminV2::Ui::PanelComponent.new(title: "Contact", subtitle: "Coordonnées transmises") do %>
+      <dl class="space-y-3 text-sm">
+        <div class="flex justify-between gap-4">
+          <dt class="text-[var(--g-subtle)]">Email</dt>
+          <dd class="min-w-0 truncate text-right font-mono text-[var(--g-text)]"><%= quote.email.presence || "Non renseigné" %></dd>
+        </div>
+        <div class="flex justify-between gap-4">
+          <dt class="text-[var(--g-subtle)]">Téléphone</dt>
+          <dd class="text-right font-mono text-[var(--g-text)]"><%= quote.phone.presence || "Non renseigné" %></dd>
+        </div>
+        <div class="flex justify-between gap-4">
+          <dt class="text-[var(--g-subtle)]">Ville</dt>
+          <dd class="text-right text-[var(--g-text)]"><%= quote.city.presence || "Non renseignée" %></dd>
+        </div>
+        <div class="grid gap-1">
+          <dt class="text-[var(--g-subtle)]">Adresse</dt>
+          <dd class="rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 py-2 text-[var(--g-text)]"><%= quote.address.presence || "Non renseignée" %></dd>
+        </div>
+      </dl>
+    <% end %>
+
+    <%= render AdminV2::Ui::PanelComponent.new(title: "Demande", subtitle: "Produit et message") do %>
+      <div class="space-y-3">
+        <div class="rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 py-2">
+          <p class="text-[10px] uppercase tracking-[0.18em] text-[var(--g-faint)]">Produit</p>
+          <p class="mt-1 text-sm font-semibold text-[var(--g-text)]"><%= quote.product.presence || "Non renseigné" %></p>
+        </div>
+
+        <div class="rounded-xl border border-white/[0.075] bg-white/[0.035] p-4 text-sm leading-6 text-[var(--g-muted)]">
+          <% if quote.message.present? %>
+            <%= simple_format(quote.message) %>
+          <% else %>
+            <p>Aucun message renseigné.</p>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render AdminV2::Ui::PanelComponent.new(title: "Horodatage", subtitle: "Cycle de vie") do %>
+      <dl class="space-y-3 text-sm">
+        <div class="flex justify-between gap-4">
+          <dt class="text-[var(--g-subtle)]">Créé</dt>
+          <dd class="text-right font-mono text-[var(--g-text)]"><%= l(quote.created_at, format: :long) %></dd>
+        </div>
+        <div class="flex justify-between gap-4">
+          <dt class="text-[var(--g-subtle)]">Mis à jour</dt>
+          <dd class="text-right font-mono text-[var(--g-text)]"><%= l(quote.updated_at, format: :long) %></dd>
+        </div>
+      </dl>
+    <% end %>
+  </div>
+</div>

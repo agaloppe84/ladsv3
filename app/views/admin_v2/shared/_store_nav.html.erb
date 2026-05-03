@@ -18,6 +18,12 @@
       data: { turbo_stream: true }
     ) %>
     <%= render AdminV2::SidebarItemComponent.new(label: "RALs", path: "#", active: active_key == :rals, disabled: true) %>
-    <%= render AdminV2::SidebarItemComponent.new(label: "Devis", path: "#", active: active_key == :quotes, disabled: true) %>
+    <%= render AdminV2::SidebarItemComponent.new(
+      label: "Devis",
+      path: admin_v2_quotes_path,
+      active: active_key == :quotes,
+      count: Quote.count,
+      data: { turbo_stream: true }
+    ) %>
   <% end %>
 </section>

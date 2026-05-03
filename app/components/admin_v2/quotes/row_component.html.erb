@@ -1,0 +1,26 @@
+<article id="admin_v2_quote_<%= quote.id %>" class="group flex items-center gap-4 rounded-xl border border-white/[0.075] bg-[linear-gradient(135deg,rgba(var(--g-accent-rgb),0.08),rgba(255,255,255,0.025)_34%,rgba(255,255,255,0.015))] p-4 transition hover:border-[var(--g-accent-border)] hover:bg-[linear-gradient(135deg,rgba(var(--g-accent-rgb),0.12),rgba(255,255,255,0.035)_38%,rgba(255,255,255,0.018))]">
+  <%= link_to admin_v2_quote_path(quote), data: { turbo_frame: "admin_v2_drawer" }, class: "min-w-0 flex-1" do %>
+    <p class="truncate text-base font-semibold text-[var(--g-text)]"><%= customer_name %></p>
+    <p class="mt-1 truncate text-[11px] text-[var(--g-subtle)]">Quote#<%= quote.id %> · <%= product_name %></p>
+  <% end %>
+
+  <div class="grid w-[25rem] shrink-0 grid-cols-[minmax(0,1fr)_minmax(0,1fr)_8rem] gap-2">
+    <span class="truncate rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 py-2 text-center text-[11px] font-bold text-[var(--g-muted)]"><%= product_name %></span>
+    <span class="truncate rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 py-2 text-center text-[11px] font-bold text-[var(--g-muted)]"><%= city_name %></span>
+    <span class="truncate rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 py-2 text-center font-mono text-[10px] font-bold text-[var(--g-muted)]"><%= formatted_created_at %></span>
+  </div>
+
+  <div class="flex shrink-0 items-center gap-2">
+    <%= render AdminV2::Quotes::StatusBadgeComponent.new(quote: quote) %>
+  </div>
+
+  <div class="flex shrink-0 justify-end gap-2">
+    <%= link_to admin_v2_quote_path(quote), data: { turbo_frame: "admin_v2_drawer" }, title: "Ouvrir la demande", class: "admin-v2-focus inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.075] bg-white/[0.035] text-[var(--g-accent)] transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)]" do %>
+      <span class="sr-only">Ouvrir la demande</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 17 17 7" />
+        <path d="M8 7h9v9" />
+      </svg>
+    <% end %>
+  </div>
+</article>

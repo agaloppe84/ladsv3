@@ -1,0 +1,3 @@
+<%= render AdminV2::ShellComponent.new(current_user: current_user, active: :quotes, show_boot_panel: @show_boot_panel) do %>
+  <%= render "admin_v2/quotes/index_frame", quotes: @quotes, total_quotes: @total_quotes %>
+<% end %>
