@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   namespace :admin_v2, path: "admin-v2" do
     root to: "products#index"
 
-    resources :products, only: [:index, :show, :edit] do
+    resources :products, only: [:index, :show, :new, :create, :edit] do
       resource :details, only: [:update], controller: "product_details"
       resource :category, only: [:update], controller: "product_categories"
       resource :associations, only: [:update], controller: "product_associations"

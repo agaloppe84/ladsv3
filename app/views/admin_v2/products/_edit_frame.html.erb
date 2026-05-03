@@ -1,0 +1,42 @@
+<turbo-frame id="admin_v2_main">
+  <div class="min-h-full">
+    <header class="sticky top-0 z-10 border-b border-white/[0.075] bg-[var(--g-bg)]/90 px-7 py-5 backdrop-blur">
+      <div class="flex items-end justify-between gap-5">
+        <div>
+          <p class="text-[10px] uppercase tracking-[0.24em] text-[var(--g-faint)]">admin-v2 / products / edit</p>
+          <%= render "admin_v2/products/header_title", product: product %>
+          <p class="mt-1 text-sm text-[var(--g-muted)]">Atelier live, sans submit global. Chaque section sauvegarde sa propre action.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <%= render AdminV2::Ui::BadgeComponent.new(label: "Product##{product.id}", variant: :server) %>
+          <%= render "admin_v2/products/header_category", product: product %>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid gap-5 px-7 py-6">
+      <div class="grid grid-cols-[minmax(0,1fr)_360px] gap-5">
+        <div class="grid grid-cols-3 gap-5">
+          <%= render "admin_v2/products/panels/details", product: product %>
+          <%= render "admin_v2/products/panels/category", product: product, categories: categories %>
+          <%= render "admin_v2/products/panels/warranty", product: product %>
+        </div>
+        <%= render "admin_v2/products/panels/infos", product: product %>
+      </div>
+
+      <div class="grid grid-cols-[minmax(0,1fr)_360px] gap-5">
+        <div class="space-y-5">
+          <%= render "admin_v2/products/panels/media", product: product %>
+          <%= render "admin_v2/products/panels/documentations", product: product %>
+          <%= render "admin_v2/products/panels/options", product: product %>
+          <%= render "admin_v2/products/panels/configurator", product: product, product_color_parts: product.product_color_parts.includes(color_palette: { color_palette_items: [:ral, :finish] }).order(:created_at), rals: Ral.order(:collection, :ref), finishes: Finish.order(:label) %>
+        </div>
+
+        <div class="space-y-5">
+          <%= render "admin_v2/products/panels/associations", product: product %>
+          <%= render "admin_v2/products/panels/service", product: product %>
+        </div>
+      </div>
+    </div>
+  </div>
+</turbo-frame>
