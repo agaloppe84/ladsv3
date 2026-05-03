@@ -25,7 +25,7 @@ class AdminV2::SidebarItemComponent < ViewComponent::Base
   def classes
     base = "admin-v2-focus flex h-9 items-center justify-between rounded-lg border px-3 text-[12px] font-medium transition"
     return "#{base} cursor-not-allowed border-transparent text-[var(--g-faint)] opacity-60" if disabled?
-    return "#{base} border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[var(--g-text)]" if active?
+    return "#{base} border-transparent text-[var(--g-accent)]" if active?
 
     "#{base} border-transparent text-[var(--g-muted)] hover:border-white/[0.075] hover:bg-white/[0.035] hover:text-[var(--g-text)]"
   end

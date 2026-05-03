@@ -9,7 +9,7 @@
   <%= link_to path, class: classes, data: data do %>
     <span><%= label %></span>
     <% if count %>
-      <span class="text-[10px] text-[var(--g-subtle)]"><%= count %></span>
+      <span class="text-[10px] <%= active? ? "text-[var(--g-accent)]" : "text-[var(--g-subtle)]" %>"><%= count %></span>
     <% end %>
   <% end %>
 <% end %>
