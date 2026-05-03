@@ -1,0 +1,37 @@
+<%= render AdminV2::Ui::PanelComponent.new(
+  id: "admin_v2_product_category",
+  title: "Catégorie",
+  subtitle: "Sauvegarde au clic",
+  data: {
+    controller: "action-state",
+    action_state_hide_delay_value: 1800
+  }
+) do |panel| %>
+  <% panel.with_actions do %>
+    <%= render AdminV2::Ui::ActionStateComponent.new %>
+  <% end %>
+
+  <%= form_with scope: :product,
+    url: admin_v2_product_category_path(product),
+    method: :patch,
+    data: { controller: "toggle-association inline-form", action: "turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete" },
+    class: "space-y-3" do |f| %>
+
+    <div class="grid grid-cols-2 gap-2">
+      <% categories.each do |category| %>
+        <% category_input_id = "admin_v2_product_#{product.id}_category_#{category.id}" %>
+        <label
+          for="<%= category_input_id %>"
+          class="admin-v2-focus flex h-11 cursor-pointer items-center justify-center rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 text-center text-[12px] font-bold capitalize text-[var(--g-muted)] transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)] has-[:checked]:border-[var(--g-accent-border)] has-[:checked]:bg-[var(--g-accent-soft)] has-[:checked]:text-[var(--g-accent)]">
+          <%= f.radio_button :category_id,
+            category.id,
+            id: category_input_id,
+            checked: product.category_id == category.id,
+            class: "sr-only",
+            data: { action: "change->toggle-association#submit", label: "Category##{category.id}" } %>
+          <span class="min-w-0 truncate"><%= category.name.to_s.downcase %></span>
+        </label>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

@@ -19,6 +19,6 @@ class AdminV2::ProductDetailsController < AdminV2::ProductScopedController
   private
 
   def product_params
-    params.require(:product).permit(:name, :category_id, :description, :infos, :warranty)
+    params.require(:product).permit(:name, :description, :infos, :warranty)
   end
 end

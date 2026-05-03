@@ -58,6 +58,14 @@ class AdminV2::ProductScopedController < AdminV2::BaseController
     turbo_stream.replace(
       "admin_v2_product_details",
       partial: "admin_v2/products/panels/details",
+      locals: { product: @product }
+    )
+  end
+
+  def category_panel_stream
+    turbo_stream.replace(
+      "admin_v2_product_category",
+      partial: "admin_v2/products/panels/category",
       locals: { product: @product, categories: Category.order(:name) }
     )
   end
@@ -74,6 +82,14 @@ class AdminV2::ProductScopedController < AdminV2::BaseController
     turbo_stream.replace(
       "admin_v2_product_drawer_summary",
       partial: "admin_v2/products/drawer_summary",
+      locals: { product: @product }
+    )
+  end
+
+  def header_category_stream
+    turbo_stream.replace(
+      "admin_v2_product_header_category",
+      partial: "admin_v2/products/header_category",
       locals: { product: @product }
     )
   end

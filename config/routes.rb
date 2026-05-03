@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
     resources :products, only: [:index, :show, :edit] do
       resource :details, only: [:update], controller: "product_details"
+      resource :category, only: [:update], controller: "product_categories"
       resource :associations, only: [:update], controller: "product_associations"
       resource :service, only: [:update], controller: "product_services"
 

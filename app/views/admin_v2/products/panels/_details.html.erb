@@ -5,22 +5,30 @@
     data: { controller: "inline-form", action: "turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete" },
     class: "grid grid-cols-12 gap-4" do |f| %>
 
-    <div class="col-span-5">
+    <div class="col-span-6">
       <%= f.label :name, "Nom", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
       <%= f.text_field :name, value: product.name, class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
     </div>
 
-    <div class="col-span-4">
-      <%= f.label :category_id, "Catégorie", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
-      <%= f.select :category_id,
-        options_from_collection_for_select(categories, :id, :name, product.category_id),
-        {},
-        class: "w-full rounded-lg border border-white/[0.09] bg-[var(--g-surface)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-    </div>
-
-    <div class="col-span-3">
-      <%= f.label :warranty, "Garantie", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
-      <%= f.text_field :warranty, value: product.warranty, class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+    <div class="col-span-6">
+      <span class="mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]">Garantie</span>
+      <div class="grid grid-cols-5 gap-2">
+        <% (1..10).each do |year| %>
+          <% warranty_input_id = "admin_v2_product_#{product.id}_warranty_#{year}" %>
+          <div class="relative">
+            <%= f.radio_button :warranty,
+              year,
+              id: warranty_input_id,
+              checked: product.warranty.to_i == year,
+              class: "peer sr-only" %>
+            <label
+              for="<%= warranty_input_id %>"
+              class="admin-v2-focus flex h-8 cursor-pointer items-center justify-center rounded-lg border border-white/[0.075] bg-white/[0.035] px-2 text-[10px] font-bold text-[var(--g-muted)] transition hover:border-white/[0.18] hover:bg-white/[0.07] peer-checked:border-white/[0.24] peer-checked:bg-white/[0.12] peer-checked:text-[var(--g-text)]">
+              <%= year %> an<%= "s" if year > 1 %>
+            </label>
+          </div>
+        <% end %>
+      </div>
     </div>
 
     <div class="col-span-6">

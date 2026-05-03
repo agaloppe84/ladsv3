@@ -10,13 +10,16 @@
           </div>
           <div class="flex items-center gap-2">
             <%= render AdminV2::Ui::BadgeComponent.new(label: "Product##{@product.id}", variant: :server) %>
-            <%= render AdminV2::Ui::BadgeComponent.new(label: @product.category.name, variant: :neutral) %>
+            <%= render "admin_v2/products/header_category", product: @product %>
           </div>
         </div>
       </header>
 
       <div class="grid gap-5 px-7 py-6">
-        <%= render "admin_v2/products/panels/details", product: @product, categories: @categories %>
+        <div class="grid grid-cols-[minmax(0,1fr)_360px] gap-5">
+          <%= render "admin_v2/products/panels/details", product: @product %>
+          <%= render "admin_v2/products/panels/category", product: @product, categories: @categories %>
+        </div>
 
         <div class="grid grid-cols-[minmax(0,1fr)_360px] gap-5">
           <div class="space-y-5">
