@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["form", "query", "status"]
+  static targets = ["form", "query"]
   static values = {
     delay: { type: Number, default: 300 },
     minLength: { type: Number, default: 2 }
@@ -28,18 +28,6 @@ export default class extends Controller {
     this.clearTimer()
     const form = this.hasFormTarget ? this.formTarget : this.element
     form.requestSubmit()
-  }
-
-  pending() {
-    if (!this.hasStatusTarget) return
-
-    this.statusTarget.textContent = "searching"
-  }
-
-  complete() {
-    if (!this.hasStatusTarget) return
-
-    this.statusTarget.textContent = "live"
   }
 
   clearTimer() {
