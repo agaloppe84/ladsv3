@@ -6,7 +6,7 @@
     <% end %>
   </span>
 <% else %>
-  <%= link_to path, class: classes, data: { turbo_frame: "admin_v2_main" } do %>
+  <%= link_to path, class: classes, data: data do %>
     <span><%= label %></span>
     <% if count %>
       <span class="text-[10px] text-[var(--g-subtle)]"><%= count %></span>

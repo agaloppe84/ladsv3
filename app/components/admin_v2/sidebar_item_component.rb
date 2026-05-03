@@ -1,17 +1,18 @@
 # frozen_string_literal: true
 
 class AdminV2::SidebarItemComponent < ViewComponent::Base
-  def initialize(label:, path:, active: false, count: nil, disabled: false)
+  def initialize(label:, path:, active: false, count: nil, disabled: false, data: { turbo_frame: "admin_v2_main" })
     @label = label
     @path = path
     @active = active
     @count = count
     @disabled = disabled
+    @data = data
   end
 
   private
 
-  attr_reader :label, :path, :count
+  attr_reader :label, :path, :count, :data
 
   def active?
     @active

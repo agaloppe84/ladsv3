@@ -11,6 +11,20 @@ class AdminV2::ProductsController < AdminV2::BaseController
 
     query = params[:query].to_s.strip
     @products = @products.where("products.name ILIKE ?", "%#{ActiveRecord::Base.sanitize_sql_like(query)}%") if query.present?
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream do
+        render turbo_stream: [
+          store_nav_stream(:products),
+          turbo_stream.replace(
+            "admin_v2_main",
+            partial: "admin_v2/products/index_frame",
+            locals: { products: @products, total_products: @total_products }
+          )
+        ]
+      end
+    end
   end
 
   def show
@@ -44,6 +58,7 @@ class AdminV2::ProductsController < AdminV2::BaseController
               partial: "admin_v2/products/drawer_frame",
               locals: { product: @product }
             ),
+            store_nav_stream(:products),
             turbo_stream_flash(:success, "Product##{@product.id} created")
           ]
         end
@@ -74,7 +89,8 @@ class AdminV2::ProductsController < AdminV2::BaseController
             "admin_v2_drawer",
             partial: "admin_v2/products/drawer_frame",
             locals: { product: @product }
-          )
+          ),
+          store_nav_stream(:products)
         ]
       end
       format.html

@@ -1,0 +1,49 @@
+<%= render AdminV2::Ui::PanelComponent.new(
+  title: "Contenu",
+  subtitle: "Titre et message public",
+  id: "admin_v2_event_details",
+  data: { controller: "action-state", action_state_hide_delay_value: "1800" }
+) do |panel| %>
+  <% panel.with_actions do %>
+    <%= render AdminV2::Ui::ActionStateComponent.new %>
+  <% end %>
+
+  <% if event.errors.any? %>
+    <div class="mb-4 rounded-xl border border-red-300/20 bg-red-300/10 p-3 text-sm text-[var(--g-red)]">
+      <%= event.errors.full_messages.to_sentence %>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-12 gap-4">
+    <%= form_with scope: :event,
+      url: admin_v2_event_details_path(event),
+      method: :patch,
+      data: {
+        controller: "autosave-field inline-form",
+        action: "turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete turbo:submit-end->autosave-field#complete"
+      },
+      class: "col-span-12" do |f| %>
+      <%= f.label :title, "Titre", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+      <%= f.text_field :title,
+        value: event.title,
+        data: { action: "focusin->autosave-field#remember blur->autosave-field#submitIfChanged" },
+        class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+    <% end %>
+
+    <%= form_with scope: :event,
+      url: admin_v2_event_details_path(event),
+      method: :patch,
+      data: {
+        controller: "autosave-field inline-form",
+        action: "turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete turbo:submit-end->autosave-field#complete"
+      },
+      class: "col-span-12" do |f| %>
+      <%= f.label :content, "Message", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+      <%= f.text_area :content,
+        value: event.content,
+        rows: 7,
+        data: { action: "focusin->autosave-field#remember blur->autosave-field#submitIfChanged" },
+        class: "w-full resize-none rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+    <% end %>
+  </div>
+<% end %>

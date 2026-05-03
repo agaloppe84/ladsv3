@@ -17,4 +17,12 @@ class AdminV2::BaseController < ActionController::Base
       locals: { level: level, message: message, timestamp: Time.current }
     )
   end
+
+  def store_nav_stream(active)
+    turbo_stream.replace(
+      "admin_v2_store_nav",
+      partial: "admin_v2/shared/store_nav",
+      locals: { active: active }
+    )
+  end
 end

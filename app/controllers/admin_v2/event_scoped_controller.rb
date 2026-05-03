@@ -1,0 +1,64 @@
+class AdminV2::EventScopedController < AdminV2::BaseController
+  before_action :set_event
+
+  private
+
+  def set_event
+    @event = Event.find(params[:event_id])
+  end
+
+  def render_event_streams(*streams, level: :success, message:, status: :ok)
+    render turbo_stream: [
+      *streams,
+      turbo_stream_flash(level, message)
+    ], status: status
+  end
+
+  def details_panel_stream
+    turbo_stream.replace(
+      "admin_v2_event_details",
+      partial: "admin_v2/events/panels/details",
+      locals: { event: @event }
+    )
+  end
+
+  def schedule_panel_stream
+    turbo_stream.replace(
+      "admin_v2_event_schedule",
+      partial: "admin_v2/events/panels/schedule",
+      locals: { event: @event }
+    )
+  end
+
+  def preview_panel_stream
+    turbo_stream.replace(
+      "admin_v2_event_preview",
+      partial: "admin_v2/events/panels/preview",
+      locals: { event: @event }
+    )
+  end
+
+  def drawer_summary_stream
+    turbo_stream.replace(
+      "admin_v2_event_drawer_summary",
+      partial: "admin_v2/events/drawer_summary",
+      locals: { event: @event }
+    )
+  end
+
+  def header_title_stream
+    turbo_stream.replace(
+      "admin_v2_event_header_title",
+      partial: "admin_v2/events/header_title",
+      locals: { event: @event }
+    )
+  end
+
+  def header_status_stream
+    turbo_stream.replace(
+      "admin_v2_event_header_status",
+      partial: "admin_v2/events/header_status",
+      locals: { event: @event }
+    )
+  end
+end

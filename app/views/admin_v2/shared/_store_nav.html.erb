@@ -1,0 +1,23 @@
+<section id="admin_v2_store_nav">
+  <% active_key = active.to_sym %>
+
+  <%= render AdminV2::SidebarSectionComponent.new(title: "Store") do %>
+    <%= render AdminV2::SidebarItemComponent.new(
+      label: "Produits",
+      path: admin_v2_products_path,
+      active: active_key == :products,
+      count: Product.where(type: nil).count,
+      data: { turbo_stream: true }
+    ) %>
+    <%= render AdminV2::SidebarItemComponent.new(label: "Catégories", path: "#", active: active_key == :categories, disabled: true) %>
+    <%= render AdminV2::SidebarItemComponent.new(
+      label: "Events",
+      path: admin_v2_events_path,
+      active: active_key == :events,
+      count: Event.count,
+      data: { turbo_stream: true }
+    ) %>
+    <%= render AdminV2::SidebarItemComponent.new(label: "RALs", path: "#", active: active_key == :rals, disabled: true) %>
+    <%= render AdminV2::SidebarItemComponent.new(label: "Devis", path: "#", active: active_key == :quotes, disabled: true) %>
+  <% end %>
+</section>

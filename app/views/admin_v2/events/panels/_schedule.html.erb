@@ -1,0 +1,48 @@
+<%= render AdminV2::Ui::PanelComponent.new(
+  title: "Planning",
+  subtitle: "Sauvegarde au changement",
+  id: "admin_v2_event_schedule",
+  data: { controller: "action-state", action_state_hide_delay_value: "1800" }
+) do |panel| %>
+  <% panel.with_actions do %>
+    <%= render AdminV2::Ui::ActionStateComponent.new %>
+  <% end %>
+
+  <% if event.errors.any? %>
+    <div class="mb-4 rounded-xl border border-red-300/20 bg-red-300/10 p-3 text-sm text-[var(--g-red)]">
+      <%= event.errors.full_messages.to_sentence %>
+    </div>
+  <% end %>
+
+  <%= form_with scope: :event,
+    url: admin_v2_event_schedule_path(event),
+    method: :patch,
+    data: {
+      controller: "autosave-field inline-form",
+      action: "turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete turbo:submit-end->autosave-field#complete"
+    },
+    class: "grid gap-4" do |f| %>
+    <div>
+      <%= f.label :start_date, "Début", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+      <%= f.datetime_local_field :start_date,
+        value: event.start_date&.strftime("%Y-%m-%dT%H:%M"),
+        data: { action: "focusin->autosave-field#remember change->autosave-field#submitIfChanged blur->autosave-field#submitIfChanged" },
+        class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+    </div>
+
+    <div>
+      <%= f.label :end_date, "Fin", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+      <%= f.datetime_local_field :end_date,
+        value: event.end_date&.strftime("%Y-%m-%dT%H:%M"),
+        data: { action: "focusin->autosave-field#remember change->autosave-field#submitIfChanged blur->autosave-field#submitIfChanged" },
+        class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+    </div>
+  <% end %>
+
+  <div class="mt-4 rounded-xl border border-white/[0.075] bg-white/[0.035] p-3">
+    <div class="flex items-center justify-between gap-3">
+      <span class="text-[11px] font-semibold text-[var(--g-subtle)]">Statut calculé</span>
+      <%= render AdminV2::Events::StatusBadgeComponent.new(event: event) %>
+    </div>
+  </div>
+<% end %>

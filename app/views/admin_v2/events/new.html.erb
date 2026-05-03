@@ -1,0 +1,85 @@
+<turbo-frame id="admin_v2_drawer">
+  <div class="min-h-full" data-controller="action-state" data-action-state-hide-delay-value="1800">
+    <div class="border-b border-white/[0.075] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <p class="text-[10px] uppercase tracking-[0.24em] text-[var(--g-accent)]">New event</p>
+          <h2 class="mt-2 text-xl font-semibold text-[var(--g-text)]">Créer un event</h2>
+          <p class="mt-1 text-sm text-[var(--g-muted)]">Crée la base, puis ouvre l’atelier edit V2.</p>
+        </div>
+        <%= render AdminV2::Ui::ActionStateComponent.new %>
+      </div>
+    </div>
+
+    <div class="space-y-4 p-5">
+      <% if @event.errors.any? %>
+        <div class="rounded-xl border border-red-300/20 bg-red-300/10 p-4">
+          <p class="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--g-red)]">Création impossible</p>
+          <ul class="mt-2 grid gap-1 text-sm text-[var(--g-muted)]">
+            <% @event.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= render AdminV2::Ui::PanelComponent.new(title: "Base event", subtitle: "Champs nécessaires avant atelier") do %>
+        <%= form_with scope: :event,
+          url: admin_v2_events_path,
+          method: :post,
+          data: {
+            action: "turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete",
+            controller: "inline-form"
+          },
+          class: "grid gap-4" do |f| %>
+          <div>
+            <%= f.label :title, "Titre", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+            <%= f.text_field :title,
+              value: @event.title,
+              autofocus: true,
+              placeholder: "Titre de l’event",
+              class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] placeholder:text-[var(--g-faint)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+          </div>
+
+          <div>
+            <%= f.label :content, "Message", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+            <%= f.text_area :content,
+              value: @event.content,
+              rows: 4,
+              placeholder: "Message court affiché sur le site.",
+              class: "w-full resize-none rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] placeholder:text-[var(--g-faint)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <%= f.label :start_date, "Début", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+              <%= f.datetime_local_field :start_date,
+                value: @event.start_date&.strftime("%Y-%m-%dT%H:%M"),
+                class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+            </div>
+            <div>
+              <%= f.label :end_date, "Fin", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+              <%= f.datetime_local_field :end_date,
+                value: @event.end_date&.strftime("%Y-%m-%dT%H:%M"),
+                class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+            </div>
+          </div>
+
+          <%= f.submit "Créer et ouvrir l’atelier",
+            class: "admin-v2-focus h-10 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-4 text-sm font-semibold text-[var(--g-accent)] transition hover:bg-[var(--g-accent-hover)]" %>
+        <% end %>
+      <% end %>
+
+      <%= render AdminV2::Ui::PanelComponent.new(title: "Après création", subtitle: "L’atelier live prend le relais") do %>
+        <div class="grid gap-3 text-sm">
+          <% ["Contenu autosave", "Planning autosave", "Aperçu local", "Drawer résumé"].each do |label| %>
+            <div class="flex items-center gap-3 rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 py-2">
+              <span class="h-1.5 w-1.5 rounded-full bg-[var(--g-accent)]"></span>
+              <span class="text-[var(--g-muted)]"><%= label %></span>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</turbo-frame>

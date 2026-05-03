@@ -6,13 +6,7 @@
     </div>
 
     <nav class="admin-v2-scrollbar min-h-0 flex-1 overflow-y-auto px-3 py-4">
-      <%= render AdminV2::SidebarSectionComponent.new(title: "Store") do %>
-        <%= render AdminV2::SidebarItemComponent.new(label: "Produits", path: admin_v2_products_path, active: active?(:products), count: Product.where(type: nil).count) %>
-        <%= render AdminV2::SidebarItemComponent.new(label: "Catégories", path: "#", active: active?(:categories), disabled: true) %>
-        <%= render AdminV2::SidebarItemComponent.new(label: "Events", path: "#", active: active?(:events), disabled: true) %>
-        <%= render AdminV2::SidebarItemComponent.new(label: "RALs", path: "#", active: active?(:rals), disabled: true) %>
-        <%= render AdminV2::SidebarItemComponent.new(label: "Devis", path: "#", active: active?(:quotes), disabled: true) %>
-      <% end %>
+      <%= render "admin_v2/shared/store_nav", active: active %>
 
       <%= render AdminV2::SidebarSectionComponent.new(title: "Operations") do %>
         <%= render AdminV2::SidebarItemComponent.new(label: "Imports", path: "#", disabled: true) %>

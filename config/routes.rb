@@ -30,6 +30,11 @@ Rails.application.routes.draw do
 
       resources :finishes, only: [:create]
     end
+
+    resources :events, only: [:index, :show, :new, :create, :edit] do
+      resource :details, only: [:update], controller: "event_details"
+      resource :schedule, only: [:update], controller: "event_schedule"
+    end
   end
 
   namespace :admin do

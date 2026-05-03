@@ -1,0 +1,36 @@
+<%= render AdminV2::Ui::PanelComponent.new(
+  title: "Aperçu",
+  subtitle: "Simulation locale du bandeau public",
+  id: "admin_v2_event_preview"
+) do %>
+  <div class="rounded-2xl border border-white/[0.075] bg-[linear-gradient(135deg,rgba(var(--g-accent-rgb),0.13),rgba(255,255,255,0.04)_38%,rgba(255,255,255,0.02))] p-5">
+    <div class="flex items-start gap-4">
+      <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[var(--g-accent)]">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4.5" y="4.5" width="15" height="15" rx="4" />
+          <path d="M12 11.25v4.5" />
+          <path d="M12 8.25h.01" />
+        </svg>
+      </div>
+
+      <div class="min-w-0 flex-1">
+        <div class="flex items-center gap-2">
+          <p class="truncate text-lg font-semibold text-[var(--g-text)]"><%= event.title.to_s.downcase.capitalize.presence || "Event sans titre" %></p>
+          <%= render AdminV2::Events::StatusBadgeComponent.new(event: event) %>
+        </div>
+        <div class="mt-2 text-sm leading-6 text-[var(--g-muted)]">
+          <% if event.content.present? %>
+            <%= simple_format(event.content) %>
+          <% else %>
+            <p>Aucun message renseigné.</p>
+          <% end %>
+        </div>
+        <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--g-faint)]">
+          <%= event.start_date ? l(event.start_date, format: :short) : "début non défini" %>
+          →
+          <%= event.end_date ? l(event.end_date, format: :short) : "fin non définie" %>
+        </p>
+      </div>
+    </div>
+  </div>
+<% end %>
