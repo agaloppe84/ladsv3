@@ -1,12 +1,16 @@
 class AdminV2::ProductsController < AdminV2::BaseController
   def index
     @categories = Category.order(:name)
-    @products = Product.where(type: nil)
-                       .includes(:category, images_attachments: :blob)
-                       .order(updated_at: :desc)
+    base_scope = Product.where(type: nil)
+
+    @total_products = base_scope.count
+    @products = base_scope.includes(:category, :options, images_attachments: :blob, documentations_attachments: :blob)
+                          .order(updated_at: :desc)
 
     @products = @products.where(category_id: params[:category_id]) if params[:category_id].present?
-    @products = @products.where("products.name ILIKE ?", "%#{params[:query]}%") if params[:query].present?
+
+    query = params[:query].to_s.strip
+    @products = @products.where("products.name ILIKE ?", "%#{ActiveRecord::Base.sanitize_sql_like(query)}%") if query.present?
   end
 
   def show

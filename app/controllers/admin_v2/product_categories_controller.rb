@@ -11,7 +11,8 @@ class AdminV2::ProductCategoriesController < AdminV2::ProductScopedController
       render_product_streams(
         category_panel_stream,
         level: :warning,
-        message: @product.errors.full_messages.to_sentence.presence || "Product category invalid"
+        message: @product.errors.full_messages.to_sentence.presence || "Product category invalid",
+        status: :unprocessable_entity
       )
     end
   end

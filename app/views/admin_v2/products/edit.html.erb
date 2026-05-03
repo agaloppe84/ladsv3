@@ -5,7 +5,7 @@
         <div class="flex items-end justify-between gap-5">
           <div>
             <p class="text-[10px] uppercase tracking-[0.24em] text-[var(--g-faint)]">admin-v2 / products / edit</p>
-            <h1 class="mt-2 text-2xl font-semibold text-[var(--g-text)]"><%= @product.name %></h1>
+            <%= render "admin_v2/products/header_title", product: @product %>
             <p class="mt-1 text-sm text-[var(--g-muted)]">Atelier live, sans submit global. Chaque section sauvegarde sa propre action.</p>
           </div>
           <div class="flex items-center gap-2">
@@ -17,8 +17,12 @@
 
       <div class="grid gap-5 px-7 py-6">
         <div class="grid grid-cols-[minmax(0,1fr)_360px] gap-5">
-          <%= render "admin_v2/products/panels/details", product: @product %>
-          <%= render "admin_v2/products/panels/category", product: @product, categories: @categories %>
+          <div class="grid grid-cols-3 gap-5">
+            <%= render "admin_v2/products/panels/details", product: @product %>
+            <%= render "admin_v2/products/panels/category", product: @product, categories: @categories %>
+            <%= render "admin_v2/products/panels/warranty", product: @product %>
+          </div>
+          <%= render "admin_v2/products/panels/infos", product: @product %>
         </div>
 
         <div class="grid grid-cols-[minmax(0,1fr)_360px] gap-5">

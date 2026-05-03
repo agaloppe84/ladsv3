@@ -7,11 +7,11 @@ class AdminV2::ProductScopedController < AdminV2::BaseController
     @product = Product.find(params[:product_id])
   end
 
-  def render_product_streams(*streams, level: :success, message:)
+  def render_product_streams(*streams, level: :success, message:, status: :ok)
     render turbo_stream: [
       *streams,
       turbo_stream_flash(level, message)
-    ]
+    ], status: status
   end
 
   def media_panel_stream
@@ -90,6 +90,14 @@ class AdminV2::ProductScopedController < AdminV2::BaseController
     turbo_stream.replace(
       "admin_v2_product_header_category",
       partial: "admin_v2/products/header_category",
+      locals: { product: @product }
+    )
+  end
+
+  def header_title_stream
+    turbo_stream.replace(
+      "admin_v2_product_header_title",
+      partial: "admin_v2/products/header_title",
       locals: { product: @product }
     )
   end

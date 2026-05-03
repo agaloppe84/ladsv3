@@ -1,17 +1,18 @@
 class AdminV2::ProductDetailsController < AdminV2::ProductScopedController
   def update
-    if @product.update(product_params)
+    permitted_params = product_params
+
+    if @product.update(permitted_params)
       render_product_streams(
-        details_panel_stream,
-        drawer_summary_stream,
+        *success_streams(permitted_params),
         level: :success,
-        message: "Product##{@product.id} details updated"
+        message: detail_message(permitted_params)
       )
     else
       render_product_streams(
-        details_panel_stream,
         level: :warning,
-        message: @product.errors.full_messages.to_sentence.presence || "Product details invalid"
+        message: @product.errors.full_messages.to_sentence.presence || "Product details invalid",
+        status: :unprocessable_entity
       )
     end
   end
@@ -20,5 +21,16 @@ class AdminV2::ProductDetailsController < AdminV2::ProductScopedController
 
   def product_params
     params.require(:product).permit(:name, :description, :infos, :warranty)
+  end
+
+  def success_streams(permitted_params)
+    return [] unless permitted_params.key?(:name) || permitted_params.key?("name")
+
+    [header_title_stream, drawer_summary_stream]
+  end
+
+  def detail_message(permitted_params)
+    field = permitted_params.keys.first.to_s.presence || "details"
+    "Product##{@product.id} #{field} updated"
   end
 end

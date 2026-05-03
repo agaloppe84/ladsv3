@@ -1,7 +1,31 @@
-<%= render AdminV2::Ui::PanelComponent.new(id: "admin_v2_product_options", title: "Options", subtitle: "Création, édition et ordre sans submit global") do %>
+<% autosave_actions = "turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete turbo:submit-end->autosave-field#complete" %>
+<% blur_autosave_action = "focusin->autosave-field#remember blur->autosave-field#submitIfChanged" %>
+
+<%= render AdminV2::Ui::PanelComponent.new(id: "admin_v2_product_options", title: "Options", subtitle: "Création, édition et ordre sans submit global") do |panel| %>
+  <% panel.with_actions do %>
+    <%= button_to admin_v2_product_options_path(product), method: :post, title: "Ajouter option", class: "admin-v2-focus inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[var(--g-accent)] transition hover:bg-[var(--g-accent-hover)]", form: { data: { turbo_stream: true } } do %>
+      <span class="sr-only">Ajouter option</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14" />
+        <path d="M5 12h14" />
+      </svg>
+    <% end %>
+
+    <%= link_to drawer_admin_v2_product_options_path(product), data: { turbo_frame: "admin_v2_drawer" }, title: "Afficher les options dans le context drawer", class: "admin-v2-focus inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.075] bg-white/[0.035] text-[var(--g-accent)] transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)]" do %>
+      <span class="sr-only">Afficher les options dans le context drawer</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 6h13" />
+        <path d="M8 12h13" />
+        <path d="M8 18h13" />
+        <path d="M3 6h.01" />
+        <path d="M3 12h.01" />
+        <path d="M3 18h.01" />
+      </svg>
+    <% end %>
+  <% end %>
+
   <div class="mb-4 flex items-center justify-between">
     <%= render AdminV2::Ui::BadgeComponent.new(label: "#{product.options.size} options", variant: :accent) %>
-    <%= button_to "Ajouter option", admin_v2_product_options_path(product), method: :post, class: "admin-v2-focus h-8 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-3 text-[11px] font-semibold text-[var(--g-accent-text)] hover:bg-[var(--g-accent-hover)]", form: { data: { turbo_stream: true } } %>
   </div>
 
   <% ordered_options = product.options.order(:order, :created_at) %>
@@ -12,19 +36,27 @@
       data-sortable-url-value="<%= reorder_admin_v2_product_options_path(product) %>"
       data-sortable-param-value="options">
       <% ordered_options.each_with_index do |option, index| %>
-        <li data-sortable-id="<%= option.id %>" class="grid grid-cols-[48px_minmax(0,1fr)_auto] items-center gap-3 rounded-xl border border-white/[0.075] bg-white/[0.035] p-3">
-          <button type="button" data-admin-v2-sortable-handle class="admin-v2-focus rounded-lg border border-white/[0.075] px-2 py-2 text-[10px] text-[var(--g-subtle)]">#<%= index + 1 %></button>
+        <li data-sortable-id="<%= option.id %>" class="grid grid-cols-[32px_minmax(0,1fr)_auto] items-center gap-3 rounded-xl border border-white/[0.075] bg-white/[0.035] p-3">
+          <button type="button" data-admin-v2-sortable-handle class="admin-v2-focus inline-flex h-7 w-7 items-center justify-center rounded-lg border border-white/[0.075] bg-white/[0.035] text-[10px] font-bold text-[var(--g-subtle)]">#<%= index + 1 %></button>
 
           <%= form_with scope: :option,
             url: admin_v2_product_option_path(product, option),
             method: :patch,
-            data: { controller: "inline-form", action: "turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete" },
+            data: { controller: "autosave-field inline-form", action: autosave_actions },
             class: "flex items-center gap-2" do |f| %>
-            <%= f.text_field :content, value: option.content, class: "w-full rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-            <%= f.submit "OK", class: "admin-v2-focus h-9 rounded-lg border border-white/[0.09] bg-white/[0.055] px-3 text-[11px] font-semibold text-[var(--g-text)]" %>
+            <%= f.text_field :content, value: option.content, data: { action: blur_autosave_action }, class: "w-full rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
           <% end %>
 
-          <%= button_to "Supprimer", admin_v2_product_option_path(product, option), method: :delete, class: "admin-v2-focus h-9 rounded-lg border border-red-300/20 bg-red-300/10 px-3 text-[11px] font-semibold text-[var(--g-red)]", form: { data: { turbo_stream: true, turbo_confirm: "Supprimer cette option ?" } } %>
+          <%= button_to admin_v2_product_option_path(product, option), method: :delete, title: "Supprimer l’option", class: "admin-v2-focus inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red-300/20 bg-red-300/10 text-[var(--g-red)] transition hover:bg-red-300/15", form: { data: { turbo_stream: true, turbo_confirm: "Supprimer cette option ?" } } do %>
+            <span class="sr-only">Supprimer l’option</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 6h18" />
+              <path d="M8 6V4.5A1.5 1.5 0 0 1 9.5 3h5A1.5 1.5 0 0 1 16 4.5V6" />
+              <path d="M19 6l-1 14H6L5 6" />
+              <path d="M10 11v5" />
+              <path d="M14 11v5" />
+            </svg>
+          <% end %>
         </li>
       <% end %>
     </ul>

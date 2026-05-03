@@ -1,0 +1,40 @@
+<% autosave_actions = "turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete turbo:submit-end->autosave-field#complete" %>
+
+<%= render AdminV2::Ui::PanelComponent.new(
+  id: "admin_v2_product_warranty",
+  title: "Garantie",
+  subtitle: "Sauvegarde au clic",
+  data: {
+    controller: "action-state",
+    action_state_hide_delay_value: 1800
+  }
+) do |panel| %>
+  <% panel.with_actions do %>
+    <%= render AdminV2::Ui::ActionStateComponent.new %>
+  <% end %>
+
+  <%= form_with scope: :product,
+    url: admin_v2_product_details_path(product),
+    method: :patch,
+    data: { controller: "autosave-field inline-form", action: autosave_actions },
+    class: "space-y-3" do |f| %>
+    <div class="grid grid-cols-5 gap-2">
+      <% (1..10).each do |year| %>
+        <% warranty_input_id = "admin_v2_product_#{product.id}_warranty_#{year}" %>
+        <div class="relative">
+          <%= f.radio_button :warranty,
+            year,
+            id: warranty_input_id,
+            checked: product.warranty.to_i == year,
+            class: "peer sr-only",
+            data: { action: "change->autosave-field#submit" } %>
+          <label
+            for="<%= warranty_input_id %>"
+            class="admin-v2-focus flex h-8 cursor-pointer items-center justify-center rounded-lg border border-white/[0.075] bg-white/[0.035] px-2 text-[10px] font-bold text-[var(--g-muted)] transition hover:border-white/[0.18] hover:bg-white/[0.07] peer-checked:border-white/[0.24] peer-checked:bg-white/[0.12] peer-checked:text-[var(--g-text)]">
+            <%= year %> an<%= "s" if year > 1 %>
+          </label>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

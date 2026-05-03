@@ -1,4 +1,6 @@
 class AdminV2::ProductOptionsController < AdminV2::ProductScopedController
+  def drawer; end
+
   def create
     @product.options.create!(content: "Nouvelle option", order: next_order)
     render_product_streams(
@@ -13,7 +15,6 @@ class AdminV2::ProductOptionsController < AdminV2::ProductScopedController
 
     if option.update(option_params)
       render_product_streams(
-        options_panel_stream,
         level: :success,
         message: "Option##{option.id} updated"
       )
@@ -21,7 +22,8 @@ class AdminV2::ProductOptionsController < AdminV2::ProductScopedController
       render_product_streams(
         options_panel_stream,
         level: :warning,
-        message: option.errors.full_messages.to_sentence.presence || "Option invalid"
+        message: option.errors.full_messages.to_sentence.presence || "Option invalid",
+        status: :unprocessable_entity
       )
     end
   end

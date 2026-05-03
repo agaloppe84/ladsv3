@@ -1,43 +1,76 @@
 <%= render AdminV2::ShellComponent.new(current_user: current_user, active: :products) do %>
   <turbo-frame id="admin_v2_main">
     <div class="min-h-full">
-      <header class="sticky top-0 z-10 border-b border-white/[0.075] bg-[var(--g-bg)]/88 px-7 py-5 backdrop-blur">
-        <p class="text-[10px] uppercase tracking-[0.24em] text-[var(--g-faint)]">admin-v2 / store</p>
-        <div class="mt-3 flex items-end justify-between gap-5">
+      <header class="sticky top-0 z-10 border-b border-white/[0.075] bg-[var(--g-bg)]/90 px-7 py-5 backdrop-blur">
+        <div class="flex items-end justify-between gap-5">
           <div>
-            <h1 class="text-2xl font-semibold tracking-normal text-[var(--g-text)]">Produits</h1>
-            <p class="mt-1 text-sm text-[var(--g-muted)]">Index expérimental, isolé de l’admin classique.</p>
+            <p class="text-[10px] uppercase tracking-[0.24em] text-[var(--g-faint)]">admin-v2 / products / index</p>
+            <h1 class="mt-2 text-2xl font-semibold text-[var(--g-text)]">Produits</h1>
+            <p class="mt-1 text-sm text-[var(--g-muted)]">Console catalogue, recherche live et accès rapide au drawer.</p>
           </div>
 
-          <%= form_with url: admin_v2_products_path, method: :get, data: { turbo_frame: "admin_v2_main" }, class: "flex items-center gap-2" do |f| %>
-            <%= f.search_field :query, value: params[:query], placeholder: "Rechercher", class: "h-9 w-64 rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 text-sm text-[var(--g-text)] placeholder:text-[var(--g-faint)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-            <%= f.select :category_id,
-              options_from_collection_for_select(@categories, :id, :name, params[:category_id]),
-              { include_blank: "Toutes catégories" },
-              class: "h-9 rounded-lg border border-white/[0.09] bg-[var(--g-surface)] px-3 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-            <%= f.submit "Filtrer", class: "admin-v2-focus h-9 rounded-lg border border-white/[0.09] bg-white/[0.055] px-3 text-[11px] font-semibold text-[var(--g-text)] hover:bg-white/[0.09]" %>
-          <% end %>
+          <div class="flex items-center gap-2">
+            <%= render AdminV2::Ui::BadgeComponent.new(label: "#{@total_products} produits", variant: :server) %>
+            <%= render AdminV2::Ui::BadgeComponent.new(label: "live search", variant: :accent) %>
+          </div>
         </div>
       </header>
 
-      <div class="px-7 py-6">
-        <div class="overflow-hidden rounded-xl border border-white/[0.075] bg-[var(--g-surface)]/88">
-          <table class="min-w-full table-fixed">
-            <thead class="border-b border-white/[0.075] bg-white/[0.035]">
-              <tr>
-                <th class="w-[44%] px-4 py-3 text-left text-[10px] uppercase tracking-[0.2em] text-[var(--g-faint)]">Produit</th>
-                <th class="w-[18%] px-4 py-3 text-left text-[10px] uppercase tracking-[0.2em] text-[var(--g-faint)]">Catégorie</th>
-                <th class="w-[18%] px-4 py-3 text-left text-[10px] uppercase tracking-[0.2em] text-[var(--g-faint)]">Médias</th>
-                <th class="w-[20%] px-4 py-3 text-right text-[10px] uppercase tracking-[0.2em] text-[var(--g-faint)]">Actions</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-white/[0.055]">
-              <% @products.each do |product| %>
-                <%= render "admin_v2/products/row", product: product %>
+      <div class="grid gap-5 px-7 py-6">
+        <section
+          data-controller="live-search"
+          data-live-search-delay-value="300"
+          data-live-search-min-length-value="2"
+          class="rounded-xl border border-white/[0.075] bg-[var(--g-surface)]/88">
+          <header class="flex items-center justify-between gap-4 border-b border-white/[0.075] px-4 py-3">
+            <div>
+              <h2 class="text-xs uppercase tracking-[0.2em] text-[var(--g-accent)]">Recherche</h2>
+              <p class="mt-1 text-[10px] text-[var(--g-faint)]">Le résultat se met à jour pendant la saisie</p>
+            </div>
+            <span data-live-search-target="status" class="rounded-lg border border-white/[0.075] bg-white/[0.035] px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--g-subtle)]">live</span>
+          </header>
+
+          <%= form_with url: admin_v2_products_path,
+            method: :get,
+            id: "admin_v2_products_filter_form",
+            data: {
+              live_search_target: "form",
+              turbo_frame: "admin_v2_products_results",
+              action: "input->live-search#queue change->live-search#submit turbo:submit-start->live-search#pending turbo:submit-end->live-search#complete"
+            },
+            class: "grid grid-cols-[minmax(0,1fr)_260px_auto] gap-3 p-4" do |f| %>
+            <div>
+              <%= f.label :query, "Recherche produit", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+              <%= f.search_field :query,
+                value: params[:query],
+                placeholder: "Nom du produit",
+                data: { live_search_target: "query" },
+                class: "h-10 w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 text-sm text-[var(--g-text)] placeholder:text-[var(--g-faint)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+            </div>
+
+            <div>
+              <%= f.label :category_id, "Catégorie", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+              <%= f.select :category_id,
+                options_from_collection_for_select(@categories, :id, :name, params[:category_id]),
+                { include_blank: "Toutes catégories" },
+                class: "h-10 w-full rounded-lg border border-white/[0.09] bg-[var(--g-surface)] px-3 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+            </div>
+
+            <div class="flex items-end">
+              <%= button_tag type: :submit, title: "Filtrer", class: "admin-v2-focus inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[var(--g-accent)] transition hover:bg-[var(--g-accent-hover)]" do %>
+                <span class="sr-only">Filtrer</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="m20 20-3.5-3.5" />
+                </svg>
               <% end %>
-            </tbody>
-          </table>
-        </div>
+            </div>
+          <% end %>
+        </section>
+
+        <turbo-frame id="admin_v2_products_results">
+          <%= render AdminV2::Products::IndexComponent.new(products: @products) %>
+        </turbo-frame>
       </div>
     </div>
   </turbo-frame>

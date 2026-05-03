@@ -1,48 +1,43 @@
-<%= render AdminV2::Ui::PanelComponent.new(id: "admin_v2_product_details", title: "Infos produit", subtitle: "Sauvegarde locale de la section") do %>
-  <%= form_with scope: :product,
-    url: admin_v2_product_details_path(product),
-    method: :patch,
-    data: { controller: "inline-form", action: "turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete" },
-    class: "grid grid-cols-12 gap-4" do |f| %>
+<% autosave_actions = "turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete turbo:submit-end->autosave-field#complete" %>
+<% blur_autosave_action = "focusin->autosave-field#remember blur->autosave-field#submitIfChanged" %>
 
-    <div class="col-span-6">
-      <%= f.label :name, "Nom", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
-      <%= f.text_field :name, value: product.name, class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-    </div>
-
-    <div class="col-span-6">
-      <span class="mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]">Garantie</span>
-      <div class="grid grid-cols-5 gap-2">
-        <% (1..10).each do |year| %>
-          <% warranty_input_id = "admin_v2_product_#{product.id}_warranty_#{year}" %>
-          <div class="relative">
-            <%= f.radio_button :warranty,
-              year,
-              id: warranty_input_id,
-              checked: product.warranty.to_i == year,
-              class: "peer sr-only" %>
-            <label
-              for="<%= warranty_input_id %>"
-              class="admin-v2-focus flex h-8 cursor-pointer items-center justify-center rounded-lg border border-white/[0.075] bg-white/[0.035] px-2 text-[10px] font-bold text-[var(--g-muted)] transition hover:border-white/[0.18] hover:bg-white/[0.07] peer-checked:border-white/[0.24] peer-checked:bg-white/[0.12] peer-checked:text-[var(--g-text)]">
-              <%= year %> an<%= "s" if year > 1 %>
-            </label>
-          </div>
-        <% end %>
-      </div>
-    </div>
-
-    <div class="col-span-6">
-      <%= f.label :description, "Description", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
-      <%= f.text_area :description, value: product.description, rows: 5, class: "w-full resize-none rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-    </div>
-
-    <div class="col-span-6">
-      <%= f.label :infos, "Infos", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
-      <%= f.text_area :infos, value: product.infos, rows: 5, class: "w-full resize-none rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-    </div>
-
-    <div class="col-span-12 flex justify-end">
-      <%= f.submit "Sauvegarder infos", class: "admin-v2-focus h-9 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-4 text-[11px] font-semibold text-[var(--g-accent-text)] hover:bg-[var(--g-accent-hover)]" %>
-    </div>
+<%= render AdminV2::Ui::PanelComponent.new(
+  id: "admin_v2_product_details",
+  title: "Description",
+  subtitle: "Nom, description et garantie",
+  data: {
+    controller: "action-state",
+    action_state_hide_delay_value: 1800
+  }
+) do |panel| %>
+  <% panel.with_actions do %>
+    <%= render AdminV2::Ui::ActionStateComponent.new %>
   <% end %>
+
+  <div class="grid grid-cols-12 gap-4">
+    <%= form_with scope: :product,
+      url: admin_v2_product_details_path(product),
+      method: :patch,
+      data: { controller: "autosave-field inline-form", action: autosave_actions },
+      class: "col-span-12" do |f| %>
+      <%= f.label :name, "Nom", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+      <%= f.text_field :name,
+        value: product.name,
+        data: { action: blur_autosave_action },
+        class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+    <% end %>
+
+    <%= form_with scope: :product,
+      url: admin_v2_product_details_path(product),
+      method: :patch,
+      data: { controller: "autosave-field inline-form", action: autosave_actions },
+      class: "col-span-12" do |f| %>
+      <%= f.label :description, "Description", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+      <%= f.text_area :description,
+        value: product.description,
+        rows: 7,
+        data: { action: blur_autosave_action },
+        class: "w-full resize-none rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+    <% end %>
+  </div>
 <% end %>

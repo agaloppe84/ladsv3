@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       end
 
       resources :options, only: [:create, :update, :destroy], controller: "product_options" do
+        get :drawer, on: :collection
         patch :reorder, on: :collection
       end
 

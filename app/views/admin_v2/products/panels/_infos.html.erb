@@ -1,0 +1,29 @@
+<% autosave_actions = "turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete turbo:submit-end->autosave-field#complete" %>
+<% blur_autosave_action = "focusin->autosave-field#remember blur->autosave-field#submitIfChanged" %>
+
+<%= render AdminV2::Ui::PanelComponent.new(
+  id: "admin_v2_product_infos",
+  title: "Infos",
+  subtitle: "Contenu complémentaire produit",
+  data: {
+    controller: "action-state",
+    action_state_hide_delay_value: 1800
+  }
+) do |panel| %>
+  <% panel.with_actions do %>
+    <%= render AdminV2::Ui::ActionStateComponent.new %>
+  <% end %>
+
+  <%= form_with scope: :product,
+    url: admin_v2_product_details_path(product),
+    method: :patch,
+    data: { controller: "autosave-field inline-form", action: autosave_actions },
+    class: "h-full" do |f| %>
+    <%= f.label :infos, "Infos", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+    <%= f.text_area :infos,
+      value: product.infos,
+      rows: 11,
+      data: { action: blur_autosave_action },
+      class: "w-full resize-none rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+  <% end %>
+<% end %>

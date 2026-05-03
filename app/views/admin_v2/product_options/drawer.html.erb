@@ -1,0 +1,31 @@
+<turbo-frame id="admin_v2_drawer">
+  <div class="min-h-full">
+    <div class="border-b border-white/[0.075] p-5">
+      <p class="text-[10px] uppercase tracking-[0.24em] text-[var(--g-accent)]">Product options</p>
+      <h2 class="mt-2 text-xl font-semibold text-[var(--g-text)]"><%= @product.name %></h2>
+      <p class="mt-1 text-sm text-[var(--g-muted)]"><%= pluralize(@product.options.size, "option") %> configurée<%= "s" unless @product.options.size == 1 %></p>
+    </div>
+
+    <div class="space-y-4 p-5">
+      <%= render AdminV2::Ui::PanelComponent.new(title: "Options", subtitle: "Ordre actuel du produit") do %>
+        <% ordered_options = @product.options.order(:order, :created_at) %>
+        <% if ordered_options.any? %>
+          <div class="grid gap-3">
+            <% ordered_options.each_with_index do |option, index| %>
+              <div class="rounded-xl border border-white/[0.075] bg-[var(--g-surface-inset)] p-4">
+                <div class="flex items-start gap-3">
+                  <span class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-white/[0.075] bg-white/[0.035] text-[10px] font-bold text-[var(--g-subtle)]">#<%= index + 1 %></span>
+                  <p class="min-w-0 text-sm font-medium leading-5 text-[var(--g-text)]"><%= option.content.presence || "Option sans contenu" %></p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="flex min-h-36 items-center justify-center rounded-xl border border-dashed border-white/[0.1] bg-white/[0.025]">
+            <p class="text-sm font-medium text-[var(--g-subtle)]">Aucune option pour ce produit.</p>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</turbo-frame>
