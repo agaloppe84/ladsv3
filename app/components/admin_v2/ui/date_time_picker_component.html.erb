@@ -1,0 +1,88 @@
+<div
+  id="<%= "#{input_id}_picker" %>"
+  data-controller="date-time-picker"
+  data-date-time-picker-selected-value="<%= iso_value %>"
+  data-date-time-picker-minute-step-value="<%= minute_step %>"
+  class="space-y-2">
+  <%= form.hidden_field attribute, value: iso_value, id: input_id, data: input_data %>
+
+  <div class="flex items-center justify-between gap-3">
+    <label for="<%= input_id %>" class="block text-[11px] font-semibold text-[var(--g-subtle)]"><%= label %></label>
+    <span data-date-time-picker-target="dirtyBadge" class="hidden rounded-md border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-[var(--g-accent)]">draft</span>
+  </div>
+
+  <button
+    type="button"
+    aria-expanded="false"
+    aria-controls="<%= panel_id %>"
+    data-date-time-picker-target="toggle"
+    data-action="date-time-picker#toggle"
+    class="admin-v2-focus group flex w-full items-center justify-between gap-3 rounded-xl border border-white/[0.09] bg-white/[0.045] p-3 text-left transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)]">
+    <span class="min-w-0">
+      <span data-date-time-picker-target="displayDate" class="block truncate text-sm font-semibold text-[var(--g-text)]"><%= display_date %></span>
+      <span class="mt-1 block text-[10px] uppercase tracking-[0.16em] text-[var(--g-faint)]">date</span>
+    </span>
+    <span class="flex shrink-0 items-center gap-2">
+      <span data-date-time-picker-target="displayTime" class="rounded-lg border border-white/[0.075] bg-[var(--g-surface-inset)] px-2.5 py-1.5 font-mono text-[11px] font-semibold text-[var(--g-accent)]"><%= display_time %></span>
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4 text-[var(--g-accent)]" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="5" width="16" height="15" rx="2" />
+        <path d="M8 3v4" />
+        <path d="M16 3v4" />
+        <path d="M4 10h16" />
+      </svg>
+    </span>
+  </button>
+
+  <div id="<%= panel_id %>" data-date-time-picker-target="panel" class="hidden rounded-xl border border-white/[0.075] bg-[var(--g-surface)]/95 p-3 shadow-[0_20px_80px_rgba(0,0,0,0.28)]">
+    <div class="flex items-center justify-between gap-3">
+      <button type="button" data-action="date-time-picker#previousMonth" class="admin-v2-focus inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.075] bg-white/[0.035] text-[var(--g-accent)] transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)]">
+        <span class="sr-only">Mois précédent</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6" />
+        </svg>
+      </button>
+      <p data-date-time-picker-target="monthLabel" class="text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--g-accent)]"></p>
+      <button type="button" data-action="date-time-picker#nextMonth" class="admin-v2-focus inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.075] bg-white/[0.035] text-[var(--g-accent)] transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)]">
+        <span class="sr-only">Mois suivant</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="mt-3 grid grid-cols-7 gap-1">
+      <% AdminV2::Ui::DateTimePickerComponent::WEEKDAYS.each do |weekday| %>
+        <span class="flex h-6 items-center justify-center text-[9px] font-semibold uppercase tracking-[0.12em] text-[var(--g-faint)]"><%= weekday %></span>
+      <% end %>
+    </div>
+    <div data-date-time-picker-target="days" class="mt-1 grid grid-cols-7 gap-1"></div>
+
+    <div class="mt-4 rounded-xl border border-white/[0.075] bg-white/[0.03] p-3">
+      <div class="flex items-center justify-between gap-3">
+        <span class="text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--g-faint)]">Heure</span>
+        <span class="font-mono text-sm font-semibold text-[var(--g-text)]">
+          <span data-date-time-picker-target="hourLabel">--</span>:<span data-date-time-picker-target="minuteLabel">--</span>
+        </span>
+      </div>
+
+      <div class="mt-3 grid grid-cols-2 gap-2">
+        <div class="grid grid-cols-3 items-center gap-1">
+          <button type="button" data-action="date-time-picker#adjustHour" data-step="-1" class="admin-v2-focus h-8 rounded-lg border border-white/[0.075] bg-white/[0.035] text-[var(--g-muted)] hover:text-[var(--g-text)]">-</button>
+          <span class="text-center text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--g-subtle)]">h</span>
+          <button type="button" data-action="date-time-picker#adjustHour" data-step="1" class="admin-v2-focus h-8 rounded-lg border border-white/[0.075] bg-white/[0.035] text-[var(--g-muted)] hover:text-[var(--g-text)]">+</button>
+        </div>
+        <div class="grid grid-cols-3 items-center gap-1">
+          <button type="button" data-action="date-time-picker#adjustMinute" data-step="-1" class="admin-v2-focus h-8 rounded-lg border border-white/[0.075] bg-white/[0.035] text-[var(--g-muted)] hover:text-[var(--g-text)]">-</button>
+          <span class="text-center text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--g-subtle)]">min</span>
+          <button type="button" data-action="date-time-picker#adjustMinute" data-step="1" class="admin-v2-focus h-8 rounded-lg border border-white/[0.075] bg-white/[0.035] text-[var(--g-muted)] hover:text-[var(--g-text)]">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-3 grid grid-cols-3 gap-2">
+      <button type="button" data-action="date-time-picker#setToday" class="admin-v2-focus h-8 rounded-lg border border-white/[0.075] bg-white/[0.035] px-2 text-[10px] font-semibold text-[var(--g-muted)] hover:text-[var(--g-text)]">Aujourd’hui</button>
+      <button type="button" data-action="date-time-picker#setNow" class="admin-v2-focus h-8 rounded-lg border border-white/[0.075] bg-white/[0.035] px-2 text-[10px] font-semibold text-[var(--g-muted)] hover:text-[var(--g-text)]">Maintenant</button>
+      <button type="button" data-date-time-picker-target="applyButton" data-action="date-time-picker#apply" class="admin-v2-focus h-8 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-2 text-[10px] font-semibold text-[var(--g-accent)] transition hover:bg-[var(--g-accent-hover)]">Valider</button>
+    </div>
+  </div>
+</div>

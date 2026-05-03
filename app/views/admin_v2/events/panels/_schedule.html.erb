@@ -22,21 +22,8 @@
       action: "turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete turbo:submit-end->autosave-field#complete"
     },
     class: "grid gap-4" do |f| %>
-    <div>
-      <%= f.label :start_date, "Début", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
-      <%= f.datetime_local_field :start_date,
-        value: event.start_date&.strftime("%Y-%m-%dT%H:%M"),
-        data: { action: "focusin->autosave-field#remember change->autosave-field#submitIfChanged blur->autosave-field#submitIfChanged" },
-        class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-    </div>
-
-    <div>
-      <%= f.label :end_date, "Fin", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
-      <%= f.datetime_local_field :end_date,
-        value: event.end_date&.strftime("%Y-%m-%dT%H:%M"),
-        data: { action: "focusin->autosave-field#remember change->autosave-field#submitIfChanged blur->autosave-field#submitIfChanged" },
-        class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-    </div>
+    <%= render AdminV2::Ui::DateTimePickerComponent.new(form: f, attribute: :start_date, label: "Début", value: event.start_date, autosave: true) %>
+    <%= render AdminV2::Ui::DateTimePickerComponent.new(form: f, attribute: :end_date, label: "Fin", value: event.end_date, autosave: true) %>
   <% end %>
 
   <div class="mt-4 rounded-xl border border-white/[0.075] bg-white/[0.035] p-3">

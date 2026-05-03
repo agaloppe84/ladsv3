@@ -50,19 +50,9 @@
               class: "w-full resize-none rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] placeholder:text-[var(--g-faint)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
           </div>
 
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <%= f.label :start_date, "Début", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
-              <%= f.datetime_local_field :start_date,
-                value: @event.start_date&.strftime("%Y-%m-%dT%H:%M"),
-                class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-            </div>
-            <div>
-              <%= f.label :end_date, "Fin", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
-              <%= f.datetime_local_field :end_date,
-                value: @event.end_date&.strftime("%Y-%m-%dT%H:%M"),
-                class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-            </div>
+          <div class="grid gap-3">
+            <%= render AdminV2::Ui::DateTimePickerComponent.new(form: f, attribute: :start_date, label: "Début", value: @event.start_date) %>
+            <%= render AdminV2::Ui::DateTimePickerComponent.new(form: f, attribute: :end_date, label: "Fin", value: @event.end_date) %>
           </div>
 
           <%= f.submit "Créer et ouvrir l’atelier",
