@@ -1,0 +1,50 @@
+<%= render AdminV2::Ui::PanelComponent.new(
+  id: "admin_v2_category_appearance",
+  title: "Apparence",
+  subtitle: "Couleur publique de la catégorie",
+  data: {
+    controller: "action-state",
+    action_state_hide_delay_value: 1800
+  }
+) do |panel| %>
+  <% panel.with_actions do %>
+    <%= render AdminV2::Ui::ActionStateComponent.new %>
+  <% end %>
+
+  <% if category.errors[:color].any? %>
+    <div class="mb-4 rounded-xl border border-red-300/20 bg-red-300/10 p-3 text-[12px] text-[var(--g-red)]">
+      <%= category.errors[:color].to_sentence %>
+    </div>
+  <% end %>
+
+  <%= form_with scope: :category,
+    url: admin_v2_category_appearance_path(category.id),
+    method: :patch,
+    data: {
+      controller: "toggle-association inline-form",
+      action: "turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete"
+    },
+    class: "grid gap-3" do %>
+    <div class="grid grid-cols-2 gap-2">
+      <% neutral_input_id = "admin_v2_category_#{category.id}_color_neutral" %>
+      <label
+        for="<%= neutral_input_id %>"
+        class="admin-v2-focus flex h-10 cursor-pointer items-center justify-between rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 text-[11px] font-bold capitalize text-[var(--g-muted)] transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)] has-[:checked]:border-[var(--g-accent-border)] has-[:checked]:bg-[var(--g-accent-soft)] has-[:checked]:text-[var(--g-accent)]">
+        <%= radio_button_tag "category[color]", "", category.color.blank?, id: neutral_input_id, class: "sr-only", data: { action: "change->toggle-association#submit", label: "Category##{category.id} color neutral" } %>
+        <span class="min-w-0 truncate">neutral</span>
+        <span class="h-3 w-3 rounded-full border border-white/[0.18] bg-[var(--g-faint)]"></span>
+      </label>
+
+      <% AdminV2::Categories::ColorPalette.options.each do |option| %>
+        <% color_input_id = "admin_v2_category_#{category.id}_color_#{option[:value].parameterize}" %>
+        <label
+          for="<%= color_input_id %>"
+          class="admin-v2-focus flex h-10 cursor-pointer items-center justify-between rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 text-[11px] font-bold capitalize text-[var(--g-muted)] transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)] has-[:checked]:border-[var(--g-accent-border)] has-[:checked]:bg-[var(--g-accent-soft)] has-[:checked]:text-[var(--g-accent)]">
+          <%= radio_button_tag "category[color]", option[:value], category.color == option[:value], id: color_input_id, class: "sr-only", data: { action: "change->toggle-association#submit", label: "Category##{category.id} color #{option[:value]}" } %>
+          <span class="min-w-0 truncate"><%= option[:label].downcase %></span>
+          <span class="h-3 w-3 rounded-full border border-white/[0.18]" style="background-color: <%= option[:css] %>"></span>
+        </label>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,54 @@
+<%= render AdminV2::Ui::PanelComponent.new(
+  id: "admin_v2_category_details",
+  title: "Identité",
+  subtitle: "Autosave au blur",
+  data: {
+    controller: "action-state",
+    action_state_hide_delay_value: 1800
+  }
+) do |panel| %>
+  <% panel.with_actions do %>
+    <%= render AdminV2::Ui::ActionStateComponent.new %>
+  <% end %>
+
+  <% if category.errors.any? %>
+    <div class="mb-4 rounded-xl border border-red-300/20 bg-red-300/10 p-3">
+      <ul class="grid gap-1 text-[12px] text-[var(--g-red)]">
+        <% category.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid gap-4">
+    <%= form_with scope: :category,
+      url: admin_v2_category_details_path(category.id),
+      method: :patch,
+      data: {
+        controller: "autosave-field inline-form",
+        action: "turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete turbo:submit-end->autosave-field#complete"
+      } do |f| %>
+      <%= f.label :name, "Nom", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+      <%= f.text_field :name,
+        value: category.name,
+        data: { action: "focusin->autosave-field#remember blur->autosave-field#submitIfChanged" },
+        class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+    <% end %>
+
+    <%= form_with scope: :category,
+      url: admin_v2_category_details_path(category.id),
+      method: :patch,
+      data: {
+        controller: "autosave-field inline-form",
+        action: "turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete turbo:submit-end->autosave-field#complete"
+      } do |f| %>
+      <%= f.label :description, "Description", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+      <%= f.text_area :description,
+        value: category.description,
+        rows: 5,
+        data: { action: "focusin->autosave-field#remember blur->autosave-field#submitIfChanged" },
+        class: "w-full resize-none rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+    <% end %>
+  </div>
+<% end %>

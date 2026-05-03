@@ -1,0 +1,75 @@
+<turbo-frame id="admin_v2_drawer">
+  <div class="min-h-full" data-controller="action-state" data-action-state-hide-delay-value="1800">
+    <div class="border-b border-white/[0.075] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <p class="text-[10px] uppercase tracking-[0.24em] text-[var(--g-accent)]">New category</p>
+          <h2 class="mt-2 text-xl font-semibold text-[var(--g-text)]">Créer une catégorie</h2>
+          <p class="mt-1 text-sm text-[var(--g-muted)]">Création légère, puis contexte éditable dans le drawer.</p>
+        </div>
+        <%= render AdminV2::Ui::ActionStateComponent.new %>
+      </div>
+    </div>
+
+    <div class="space-y-4 p-5">
+      <% if @category.errors.any? %>
+        <div class="rounded-xl border border-red-300/20 bg-red-300/10 p-4">
+          <p class="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--g-red)]">Création impossible</p>
+          <ul class="mt-2 grid gap-1 text-sm text-[var(--g-muted)]">
+            <% @category.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= render AdminV2::Ui::PanelComponent.new(title: "Base catégorie", subtitle: "Nom, description et couleur") do %>
+        <%= form_with scope: :category,
+          url: admin_v2_categories_path,
+          method: :post,
+          data: {
+            action: "turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete",
+            controller: "inline-form"
+          },
+          class: "grid gap-4" do |f| %>
+          <div>
+            <%= f.label :name, "Nom", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+            <%= f.text_field :name,
+              value: @category.name,
+              autofocus: true,
+              placeholder: "Nom de la catégorie",
+              class: "w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] placeholder:text-[var(--g-faint)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+          </div>
+
+          <div>
+            <%= f.label :description, "Description", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
+            <%= f.text_area :description,
+              value: @category.description,
+              rows: 4,
+              placeholder: "Description courte affichée sur le site.",
+              class: "w-full resize-none rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 py-2 text-sm text-[var(--g-text)] placeholder:text-[var(--g-faint)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+          </div>
+
+          <div>
+            <p class="mb-2 text-[11px] font-semibold text-[var(--g-subtle)]">Couleur</p>
+            <div class="grid grid-cols-2 gap-2">
+              <% AdminV2::Categories::ColorPalette.options.each do |option| %>
+                <% color_input_id = "admin_v2_new_category_color_#{option[:value].parameterize}" %>
+                <label
+                  for="<%= color_input_id %>"
+                  class="admin-v2-focus flex h-10 cursor-pointer items-center justify-between rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 text-[11px] font-bold capitalize text-[var(--g-muted)] transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)] has-[:checked]:border-[var(--g-accent-border)] has-[:checked]:bg-[var(--g-accent-soft)] has-[:checked]:text-[var(--g-accent)]">
+                  <%= f.radio_button :color, option[:value], id: color_input_id, checked: @category.color == option[:value], class: "sr-only" %>
+                  <span class="min-w-0 truncate"><%= option[:label].downcase %></span>
+                  <span class="h-3 w-3 rounded-full border border-white/[0.18]" style="background-color: <%= option[:css] %>"></span>
+                </label>
+              <% end %>
+            </div>
+          </div>
+
+          <%= f.submit "Créer la catégorie",
+            class: "admin-v2-focus h-10 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-4 text-sm font-semibold text-[var(--g-accent)] transition hover:bg-[var(--g-accent-hover)]" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</turbo-frame>

@@ -1,0 +1,29 @@
+<% store_products = category.products.where(type: nil).order(:name).limit(8) %>
+<% total_store_products = category.products.where(type: nil).count %>
+
+<%= render AdminV2::Ui::PanelComponent.new(title: "Produits", subtitle: "Rattachements store") do |panel| %>
+  <% panel.with_actions do %>
+    <%= render AdminV2::Ui::BadgeComponent.new(label: "#{total_store_products}", variant: :accent) %>
+  <% end %>
+
+  <% if store_products.any? %>
+    <div class="grid gap-2">
+      <% store_products.each do |product| %>
+        <%= link_to edit_admin_v2_product_path(product), data: { turbo_stream: true }, class: "admin-v2-focus flex items-center justify-between gap-3 rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 py-2 text-[12px] font-medium text-[var(--g-muted)] transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)] hover:text-[var(--g-text)]" do %>
+          <span class="min-w-0 truncate"><%= product.name %></span>
+          <span class="font-mono text-[10px] text-[var(--g-faint)]">Product#<%= product.id %></span>
+        <% end %>
+      <% end %>
+
+      <% if total_store_products > store_products.size %>
+        <%= link_to admin_v2_products_path(category_id: category.id), data: { turbo_stream: true }, class: "admin-v2-focus flex h-9 items-center justify-center rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[11px] font-semibold text-[var(--g-accent)] transition hover:bg-[var(--g-accent-hover)]" do %>
+          Voir les <%= total_store_products %> produits
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="flex min-h-24 items-center justify-center rounded-xl border border-dashed border-white/[0.1] bg-white/[0.025]">
+      <p class="text-sm font-medium text-[var(--g-subtle)]">Aucun produit store rattaché.</p>
+    </div>
+  <% end %>
+<% end %>

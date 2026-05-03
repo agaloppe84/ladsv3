@@ -1,0 +1,47 @@
+<turbo-frame id="admin_v2_main">
+  <div class="min-h-full">
+    <header class="sticky top-0 z-10 border-b border-white/[0.075] bg-[var(--g-bg)]/90 px-7 py-5 backdrop-blur">
+      <div class="flex items-end justify-between gap-5">
+        <div>
+          <p class="text-[10px] uppercase tracking-[0.24em] text-[var(--g-faint)]">admin-v2 / categories / index</p>
+          <h1 class="mt-2 text-2xl font-semibold text-[var(--g-text)]">Catégories</h1>
+          <p class="mt-1 text-sm text-[var(--g-muted)]">Taxonomie store, couleurs et rattachements produits.</p>
+        </div>
+
+        <div
+          data-controller="live-search"
+          data-live-search-delay-value="300"
+          data-live-search-min-length-value="2"
+          class="flex items-center gap-2">
+          <%= form_with url: admin_v2_categories_path,
+            method: :get,
+            id: "admin_v2_categories_filter_form",
+            data: {
+              live_search_target: "form",
+              turbo_frame: "admin_v2_categories_results"
+            },
+            class: "w-72" do |f| %>
+            <%= f.label :query, "Recherche catégorie", class: "sr-only" %>
+            <%= f.search_field :query,
+              value: params[:query],
+              placeholder: "Rechercher une catégorie",
+              data: { live_search_target: "query", action: "input->live-search#queue" },
+              class: "h-9 w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 text-sm text-[var(--g-text)] placeholder:text-[var(--g-faint)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+          <% end %>
+          <%= render AdminV2::Ui::BadgeComponent.new(label: "#{total_categories} catégories", variant: :server) %>
+          <%= link_to new_admin_v2_category_path, data: { turbo_frame: "admin_v2_drawer" }, title: "Créer une catégorie", class: "admin-v2-focus inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[var(--g-accent)] transition hover:bg-[var(--g-accent-hover)]" do %>
+            <span class="sr-only">Créer une catégorie</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 5v14" />
+              <path d="M5 12h14" />
+            </svg>
+          <% end %>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid gap-5 px-7 py-6">
+      <%= render "admin_v2/categories/results_frame", categories: categories %>
+    </div>
+  </div>
+</turbo-frame>

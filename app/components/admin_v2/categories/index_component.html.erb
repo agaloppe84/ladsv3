@@ -1,0 +1,21 @@
+<section class="rounded-xl border border-white/[0.075] bg-[var(--g-surface)]/88">
+  <header class="flex items-center justify-between gap-4 border-b border-white/[0.075] px-4 py-3">
+    <div>
+      <h2 class="text-xs uppercase tracking-[0.2em] text-[var(--g-accent)]">Catégories</h2>
+      <p class="mt-1 text-[10px] text-[var(--g-faint)]">Taxonomie store, couleurs et rattachements produits</p>
+    </div>
+    <%= render AdminV2::Ui::BadgeComponent.new(label: "#{categories.size} items", variant: :neutral) %>
+  </header>
+
+  <div class="grid gap-3 p-4">
+    <% if categories.any? %>
+      <% categories.each do |category| %>
+        <%= render AdminV2::Categories::RowComponent.new(category: category) %>
+      <% end %>
+    <% else %>
+      <div class="flex min-h-44 items-center justify-center rounded-xl border border-dashed border-white/[0.1] bg-white/[0.025]">
+        <p class="text-sm font-medium text-[var(--g-subtle)]">Aucune catégorie trouvée.</p>
+      </div>
+    <% end %>
+  </div>
+</section>

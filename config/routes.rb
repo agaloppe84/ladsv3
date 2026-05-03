@@ -36,6 +36,11 @@ Rails.application.routes.draw do
       resource :schedule, only: [:update], controller: "event_schedule"
     end
 
+    resources :categories, only: [:index, :show, :new, :create] do
+      resource :details, only: [:update], controller: "category_details"
+      resource :appearance, only: [:update], controller: "category_appearance"
+    end
+
     resources :quotes, path: "devis", only: [:index, :show] do
       resource :processing, only: [:update], controller: "quote_processing"
     end

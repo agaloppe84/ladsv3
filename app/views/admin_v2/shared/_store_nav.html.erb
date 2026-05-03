@@ -9,7 +9,13 @@
       count: Product.where(type: nil).count,
       data: { turbo_stream: true }
     ) %>
-    <%= render AdminV2::SidebarItemComponent.new(label: "Catégories", path: "#", active: active_key == :categories, disabled: true) %>
+    <%= render AdminV2::SidebarItemComponent.new(
+      label: "Catégories",
+      path: admin_v2_categories_path,
+      active: active_key == :categories,
+      count: Category.count,
+      data: { turbo_stream: true }
+    ) %>
     <%= render AdminV2::SidebarItemComponent.new(
       label: "Events",
       path: admin_v2_events_path,
