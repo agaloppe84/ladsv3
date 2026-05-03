@@ -10,10 +10,13 @@ Rails.application.routes.draw do
       resource :service, only: [:update], controller: "product_services"
 
       resources :media_items, path: "media", only: [:create, :destroy], controller: "product_media" do
+        get :drawer, on: :collection
         patch :reorder, on: :collection
       end
 
-      resources :documentations, only: [:create, :destroy], controller: "product_documentations"
+      resources :documentations, only: [:create, :destroy], controller: "product_documentations" do
+        get :drawer, on: :collection
+      end
 
       resources :options, only: [:create, :update, :destroy], controller: "product_options" do
         patch :reorder, on: :collection

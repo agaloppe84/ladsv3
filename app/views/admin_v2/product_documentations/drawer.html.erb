@@ -1,0 +1,39 @@
+<turbo-frame id="admin_v2_drawer">
+  <div class="min-h-full">
+    <div class="border-b border-white/[0.075] p-5">
+      <p class="text-[10px] uppercase tracking-[0.24em] text-[var(--g-accent)]">Product docs</p>
+      <h2 class="mt-2 text-xl font-semibold text-[var(--g-text)]"><%= @product.name %></h2>
+      <p class="mt-1 text-sm text-[var(--g-muted)]"><%= pluralize(@product.documentations.size, "fichier") %> attaché<%= "s" unless @product.documentations.size == 1 %></p>
+    </div>
+
+    <div class="space-y-4 p-5">
+      <%= render AdminV2::Ui::PanelComponent.new(title: "Documentations", subtitle: "Fichiers du produit") do %>
+        <% if @product.documentations.attached? %>
+          <div class="grid gap-3">
+            <% @product.documentations.each do |documentation| %>
+              <div class="overflow-hidden rounded-xl border border-white/[0.075] bg-[var(--g-surface-inset)] p-4">
+                <div class="flex items-start justify-between gap-3">
+                  <div class="min-w-0">
+                    <p class="max-w-full truncate text-[11px] font-semibold text-[var(--g-text)]"><%= documentation.blob.filename %></p>
+                    <p class="mt-1 text-[10px] text-[var(--g-subtle)]"><%= "#{(documentation.blob.byte_size.to_f / 1_000_000.0).round(1)} MB" %></p>
+                  </div>
+                  <%= link_to rails_blob_path(documentation, disposition: "attachment"), target: "_blank", rel: "noopener", class: "admin-v2-focus inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.075] bg-white/[0.035] text-[var(--g-accent)] transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)]" do %>
+                    <span class="sr-only">Ouvrir la documentation</span>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M7 7h10v10" />
+                      <path d="M7 17 17 7" />
+                    </svg>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="flex min-h-36 items-center justify-center rounded-xl border border-dashed border-white/[0.1] bg-white/[0.025]">
+            <p class="text-sm font-medium text-[var(--g-subtle)]">Aucune documentation attachée.</p>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</turbo-frame>

@@ -1,38 +1,77 @@
-<%= render AdminV2::Ui::PanelComponent.new(id: "admin_v2_product_documentations", title: "Documentations", subtitle: "Fichiers attachés au produit") do %>
-  <div class="grid grid-cols-[minmax(0,1fr)_240px] gap-4">
-    <div>
-      <% if product.documentations.attached? %>
-        <ul class="grid grid-cols-3 gap-3">
-          <% product.documentations.each do |doc| %>
-            <li class="rounded-xl border border-white/[0.075] bg-white/[0.035] p-3">
-              <div class="flex items-start justify-between gap-3">
-                <div class="min-w-0">
-                  <p class="truncate text-[12px] font-semibold text-[var(--g-text)]"><%= doc.blob.filename %></p>
-                  <p class="mt-1 text-[10px] text-[var(--g-subtle)]"><%= "#{(doc.blob.byte_size.to_f / 1_000_000.0).round(1)} MB" %></p>
-                </div>
-                <%= button_to "×", admin_v2_product_documentation_path(product, doc), method: :delete, class: "admin-v2-focus rounded-md border border-red-300/20 px-2 py-1 text-[11px] font-bold text-[var(--g-red)]", form: { data: { turbo_stream: true } } %>
-              </div>
-            </li>
-          <% end %>
-        </ul>
-      <% else %>
-        <div class="flex min-h-32 items-center justify-center rounded-xl border border-dashed border-white/[0.1] bg-white/[0.025]">
-          <p class="text-sm font-medium text-[var(--g-subtle)]">Aucune documentation attachée.</p>
+<% upload_input_id = "admin_v2_product_#{product.id}_documentations_upload" %>
+
+<%= render AdminV2::Ui::PanelComponent.new(
+  id: "admin_v2_product_documentations",
+  title: "Documentations",
+  subtitle: "Fichiers attachés au produit",
+  data: {
+    controller: "upload",
+    upload_create_url_value: admin_v2_product_documentations_path(product),
+    upload_field_value: "documentation"
+  }
+) do |panel| %>
+  <% panel.with_actions do %>
+    <span
+      data-upload-target="status"
+      class="hidden h-8 items-center gap-2 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-2.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--g-accent)]">
+      <svg
+        data-upload-target="spinner"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        class="h-3.5 w-3.5 animate-spin"
+        fill="none">
+        <circle class="opacity-20" cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" />
+        <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+      </svg>
+      <span data-upload-target="statusLabel">uploading</span>
+      <span data-upload-target="progress" class="hidden h-1 w-14 overflow-hidden rounded-full bg-white/[0.1]">
+        <span data-upload-target="progressBar" class="block h-full w-2 rounded-full bg-[var(--g-accent)] transition-[width] duration-150"></span>
+      </span>
+    </span>
+
+    <label
+      for="<%= upload_input_id %>"
+      title="Upload fichier"
+      class="admin-v2-focus inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[var(--g-accent)] transition hover:bg-[var(--g-accent-hover)]">
+      <span class="sr-only">Upload fichier</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 16V4" />
+        <path d="m7 9 5-5 5 5" />
+        <path d="M20 16.5v1.75A1.75 1.75 0 0 1 18.25 20H5.75A1.75 1.75 0 0 1 4 18.25V16.5" />
+      </svg>
+    </label>
+
+    <%= link_to drawer_admin_v2_product_documentations_path(product), data: { turbo_frame: "admin_v2_drawer" }, title: "Afficher les documentations dans le context drawer", class: "admin-v2-focus inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.075] bg-white/[0.035] text-[var(--g-accent)] transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)]" do %>
+      <span class="sr-only">Afficher les documentations dans le context drawer</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7Z" />
+        <path d="M14 2v5h5" />
+        <path d="M9 13h6" />
+        <path d="M9 17h4" />
+      </svg>
+    <% end %>
+  <% end %>
+
+  <input id="<%= upload_input_id %>" type="file" multiple direct_upload="true" class="hidden" data-upload-target="input" data-action="change->upload#upload">
+
+  <% if product.documentations.attached? %>
+    <div class="grid grid-cols-4 gap-3">
+      <% product.documentations.each do |documentation| %>
+        <div class="group flex min-h-16 items-center justify-between gap-3 rounded-xl border border-white/[0.075] bg-white/[0.035] px-4 py-3">
+          <div class="min-w-0">
+            <p class="truncate text-[10px] font-semibold text-[var(--g-text)]"><%= documentation.blob.filename %></p>
+            <p class="mt-1 text-[9px] text-[var(--g-subtle)]"><%= "#{(documentation.blob.byte_size.to_f / 1_000_000.0).round(1)} MB" %></p>
+          </div>
+          <%= button_to "×", admin_v2_product_documentation_path(product, documentation), method: :delete, class: "admin-v2-focus rounded-md border border-red-300/20 px-2 py-1 text-[11px] font-bold text-[var(--g-red)]", form: { data: { turbo_stream: true } } %>
         </div>
       <% end %>
     </div>
-
-    <div
-      data-controller="upload"
-      data-upload-create-url-value="<%= admin_v2_product_documentations_path(product) %>"
-      data-upload-field-value="documentation"
-      class="rounded-xl border border-white/[0.075] bg-[var(--g-surface-inset)] p-3">
-      <input type="file" multiple direct_upload="true" class="hidden" data-upload-target="input" data-action="change->upload#upload">
-      <button type="button" data-action="upload#choose" class="admin-v2-focus flex min-h-24 w-full flex-col items-center justify-center rounded-lg border border-dashed border-white/[0.12] bg-white/[0.035] text-center hover:border-[var(--g-accent-border)]">
-        <span class="text-sm font-semibold text-[var(--g-text)]">Ajouter docs</span>
-        <span class="mt-1 text-[11px] text-[var(--g-subtle)]">PDF/images</span>
-      </button>
-      <div class="mt-3 grid gap-2" data-upload-target="preview"></div>
+  <% else %>
+    <div class="flex min-h-32 items-center justify-center rounded-xl border border-dashed border-white/[0.1] bg-white/[0.025]">
+      <div class="text-center">
+        <p class="text-sm font-medium text-[var(--g-subtle)]">Aucune documentation attachée.</p>
+        <p class="mt-1 text-[11px] text-[var(--g-faint)]">Utilise l’icône upload dans le header du bloc.</p>
+      </div>
     </div>
-  </div>
+  <% end %>
 <% end %>

@@ -1,14 +1,24 @@
-<section id="<%= id %>" class="overflow-hidden rounded-xl border border-white/[0.075] bg-[var(--g-surface)]/88 shadow-[0_20px_80px_rgba(0,0,0,0.18)]">
+<section
+  <% if id %>id="<%= id %>"<% end %>
+  <% data.each do |key, value| %>
+    data-<%= key.to_s.dasherize %>="<%= value %>"
+  <% end %>
+  class="overflow-hidden rounded-xl border border-white/[0.075] bg-[var(--g-surface)]/88 shadow-[0_20px_80px_rgba(0,0,0,0.18)]">
   <% if title || subtitle %>
     <header class="flex min-h-12 items-center justify-between border-b border-white/[0.075] px-4 py-3">
-      <div>
+      <div class="min-w-0">
         <% if title %>
-          <h2 class="text-xs uppercase tracking-[0.2em] text-[var(--g-accent-text)]"><%= title %></h2>
+          <h2 class="text-xs uppercase tracking-[0.2em] text-[var(--g-accent)]"><%= title %></h2>
         <% end %>
         <% if subtitle %>
           <p class="mt-1 text-[10px] tracking-normal text-[var(--g-faint)]"><%= subtitle %></p>
         <% end %>
       </div>
+      <% if actions? %>
+        <div class="flex shrink-0 items-center gap-2">
+          <%= actions %>
+        </div>
+      <% end %>
     </header>
   <% end %>
   <div class="p-4">

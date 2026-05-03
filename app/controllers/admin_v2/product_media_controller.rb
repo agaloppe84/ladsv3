@@ -1,4 +1,6 @@
 class AdminV2::ProductMediaController < AdminV2::ProductScopedController
+  def drawer; end
+
   def create
     @product.images.attach(params[:image])
     render_product_streams(

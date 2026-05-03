@@ -1,4 +1,6 @@
 class AdminV2::ProductDocumentationsController < AdminV2::ProductScopedController
+  def drawer; end
+
   def create
     @product.documentations.attach(params[:documentation])
     render_product_streams(
