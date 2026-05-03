@@ -39,6 +39,12 @@
   background: var(--g-accent-soft);
 }
 
+.admin-v2-login {
+  --g-font-family: var(--g-font-mono);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 .admin-v2-shell {
   background:
     radial-gradient(circle at 20% -10%, rgba(var(--g-accent-rgb), 0.12), transparent 34rem),

@@ -1,0 +1,43 @@
+<div
+  data-turbo-temporary
+  data-controller="boot-panel"
+  data-boot-panel-lines-value="<%= lines.to_json %>"
+  data-boot-panel-interval-value="360"
+  class="absolute inset-0 z-50 grid place-items-center bg-[rgba(11,13,16,0.78)] px-6 font-mono backdrop-blur-xl">
+  <section class="w-full max-w-xl overflow-hidden rounded-xl border border-[var(--g-accent-border)] bg-[linear-gradient(135deg,rgba(var(--g-accent-rgb),0.14),rgba(20,23,29,0.97)_34%,rgba(15,18,23,0.98))] shadow-[0_40px_140px_rgba(0,0,0,0.5)]">
+    <header class="flex items-center justify-between gap-4 border-b border-white/[0.075] px-5 py-4">
+      <div class="min-w-0">
+        <p class="text-[10px] uppercase tracking-[0.24em] text-[var(--g-accent-text)]">Admin V2 boot</p>
+        <h2 class="mt-2 truncate text-xl font-semibold text-[var(--g-text)]">Bienvenue, <%= current_user.email %></h2>
+      </div>
+      <span class="inline-flex items-center gap-2 rounded-lg border border-emerald-300/20 bg-emerald-300/10 px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--g-green)]">
+        <span class="h-1.5 w-1.5 rounded-full bg-[var(--g-green)] shadow-[0_0_18px_rgba(117,214,123,0.55)]"></span>
+        online
+      </span>
+    </header>
+
+    <div class="admin-v2-grid-bg p-5">
+      <ol
+        data-boot-panel-target="list"
+        class="min-h-52 rounded-xl border border-white/[0.075] bg-[var(--g-surface-inset)]/92 p-3"></ol>
+
+      <div class="mt-4 flex items-center justify-between gap-4">
+        <div class="min-w-0 flex-1">
+          <p data-boot-panel-target="status" class="text-[10px] uppercase tracking-[0.2em] text-[var(--g-subtle)]">initializing</p>
+          <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.08]">
+            <span data-boot-panel-target="progress" class="block h-full w-0 rounded-full bg-[var(--g-accent)] transition-[width] duration-300"></span>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          disabled
+          data-boot-panel-target="button"
+          data-action="boot-panel#dismiss"
+          class="admin-v2-focus inline-flex h-10 shrink-0 items-center justify-center rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--g-accent-text)] transition hover:bg-[var(--g-accent-hover)] disabled:cursor-not-allowed disabled:opacity-45">
+          Commencer
+        </button>
+      </div>
+    </div>
+  </section>
+</div>

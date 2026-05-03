@@ -1,4 +1,4 @@
-<%= render AdminV2::ShellComponent.new(current_user: current_user, active: :products) do %>
+<%= render AdminV2::ShellComponent.new(current_user: current_user, active: :products, show_boot_panel: @show_boot_panel) do %>
   <turbo-frame id="admin_v2_main">
     <div class="min-h-full">
       <header class="sticky top-0 z-10 border-b border-white/[0.075] bg-[var(--g-bg)]/90 px-7 py-5 backdrop-blur">

@@ -1,4 +1,4 @@
-<div class="admin-v2-shell grid h-dvh grid-cols-[296px_minmax(720px,1fr)_500px] overflow-hidden">
+<div class="admin-v2-shell relative grid h-dvh grid-cols-[296px_minmax(720px,1fr)_500px] overflow-hidden">
   <aside class="flex min-h-0 flex-col border-r border-white/[0.075] bg-[var(--g-bg-soft)]/95">
     <div class="border-b border-white/[0.075] px-5 py-5">
       <p class="text-[10px] uppercase tracking-[0.28em] text-[var(--g-subtle)]">Graphite</p>
@@ -111,4 +111,8 @@
       <% end %>
     </turbo-frame>
   </aside>
+
+  <% if show_boot_panel %>
+    <%= render AdminV2::BootPanelComponent.new(current_user: current_user) %>
+  <% end %>
 </div>
