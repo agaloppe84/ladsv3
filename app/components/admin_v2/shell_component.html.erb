@@ -2,7 +2,10 @@
   <aside class="flex min-h-0 flex-col border-r border-white/[0.075] bg-[var(--g-bg-soft)]/95">
     <div class="border-b border-white/[0.075] px-5 py-5">
       <p class="text-[10px] uppercase tracking-[0.28em] text-[var(--g-subtle)]">Graphite</p>
-      <h1 class="mt-1 text-lg font-semibold text-[var(--g-text)]">Store Console</h1>
+      <div class="mt-1 flex items-center gap-3">
+        <h1 class="text-lg font-semibold text-[var(--g-text)]">Store Console</h1>
+        <%= render AdminV2::BrandOrbitComponent.new %>
+      </div>
     </div>
 
     <nav class="admin-v2-scrollbar min-h-0 flex-1 overflow-y-auto px-3 py-4">
