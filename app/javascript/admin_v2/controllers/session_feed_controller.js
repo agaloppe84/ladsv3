@@ -50,7 +50,7 @@ export default class extends Controller {
     item.className = this.classNameFor(level)
     item.innerHTML = `
       <span class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full" style="background:${this.colorFor(level)}"></span>
-      <span class="font-mono text-[10px] text-[var(--g-subtle)]">${this.timestamp()}</span>
+      <span class="text-[10px] text-[var(--g-subtle)]">${this.timestamp()}</span>
       <span class="uppercase tracking-wide text-[9px]" style="color:${this.colorFor(level)}">${level}</span>
       <span class="min-w-0 flex-1 truncate text-[11px] text-[var(--g-muted)]">${this.escape(message)}</span>
     `

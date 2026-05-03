@@ -8,7 +8,7 @@
               <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0">
                   <p class="truncate text-[12px] font-semibold text-[var(--g-text)]"><%= doc.blob.filename %></p>
-                  <p class="mt-1 font-mono text-[10px] text-[var(--g-subtle)]"><%= "#{(doc.blob.byte_size.to_f / 1_000_000.0).round(1)} MB" %></p>
+                  <p class="mt-1 text-[10px] text-[var(--g-subtle)]"><%= "#{(doc.blob.byte_size.to_f / 1_000_000.0).round(1)} MB" %></p>
                 </div>
                 <%= button_to "×", admin_v2_product_documentation_path(product, doc), method: :delete, class: "admin-v2-focus rounded-md border border-red-300/20 px-2 py-1 text-[11px] font-bold text-[var(--g-red)]", form: { data: { turbo_stream: true } } %>
               </div>

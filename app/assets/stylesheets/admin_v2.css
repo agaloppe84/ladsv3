@@ -21,8 +21,12 @@
   --g-amber: #f5c451;
   --g-red: #ff6868;
   --g-cyan: #67d8ef;
+  --g-font-sans: "Inter var", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --g-font-mono: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --g-font-family: var(--g-font-sans);
   background: var(--g-bg);
   color: var(--g-text);
+  font-family: var(--g-font-family);
   height: 100dvh;
   overflow: hidden;
 }
