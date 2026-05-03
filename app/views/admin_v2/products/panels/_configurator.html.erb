@@ -10,7 +10,7 @@
         <%= f.text_field :label, placeholder: "Label", data: { part_form_target: "label", action: "input->part-form#syncCode" }, class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
         <%= f.text_field :code, placeholder: "code_unique", data: { part_form_target: "code", action: "input->part-form#markManualEdit" }, class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
         <%= f.text_field :palette_name, placeholder: "Nom palette optionnel", class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-        <%= f.submit "Ajouter part", class: "admin-v2-focus h-9 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-3 text-[11px] font-semibold text-[#c6bbff]" %>
+        <%= f.submit "Ajouter part", class: "admin-v2-focus h-9 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-3 text-[11px] font-semibold text-[var(--g-accent-text)] hover:bg-[var(--g-accent-hover)]" %>
       </div>
     <% end %>
 
@@ -71,7 +71,7 @@
               <%= f.check_box :paid_option, class: "rounded border-white/[0.13] bg-[var(--g-surface)] text-[var(--g-accent)] focus:ring-[var(--g-accent)]" %>
               Payant
             </label>
-            <%= f.submit "Ajouter", class: "admin-v2-focus h-10 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-3 text-[11px] font-semibold text-[#c6bbff]" %>
+            <%= f.submit "Ajouter", class: "admin-v2-focus h-10 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-3 text-[11px] font-semibold text-[var(--g-accent-text)] hover:bg-[var(--g-accent-hover)]" %>
           <% end %>
 
           <table class="min-w-full table-fixed overflow-hidden rounded-lg">

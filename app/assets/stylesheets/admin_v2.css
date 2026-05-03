@@ -11,9 +11,12 @@
   --g-muted: #a2a6b0;
   --g-subtle: #737987;
   --g-faint: #505766;
-  --g-accent: #7c5cff;
-  --g-accent-soft: rgba(124, 92, 255, 0.14);
-  --g-accent-border: rgba(124, 92, 255, 0.36);
+  --g-accent-rgb: 124, 92, 255;
+  --g-accent: rgb(var(--g-accent-rgb));
+  --g-accent-soft: rgba(var(--g-accent-rgb), 0.14);
+  --g-accent-border: rgba(var(--g-accent-rgb), 0.36);
+  --g-accent-hover: rgba(var(--g-accent-rgb), 0.22);
+  --g-accent-text: #d9d2ff;
   --g-green: #75d67b;
   --g-amber: #f5c451;
   --g-red: #ff6868;
@@ -34,7 +37,7 @@
 
 .admin-v2-shell {
   background:
-    radial-gradient(circle at 20% -10%, rgba(124, 92, 255, 0.12), transparent 34rem),
+    radial-gradient(circle at 20% -10%, rgba(var(--g-accent-rgb), 0.12), transparent 34rem),
     linear-gradient(180deg, #10131a 0%, var(--g-bg) 42%);
 }
 

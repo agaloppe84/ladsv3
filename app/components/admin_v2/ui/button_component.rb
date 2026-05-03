@@ -16,7 +16,7 @@ class AdminV2::Ui::ButtonComponent < ViewComponent::Base
 
   def classes
     colors = {
-      primary: "border-[var(--g-accent-border)] bg-[var(--g-accent)] text-white hover:bg-[#6e50f0]",
+      primary: "border-[var(--g-accent-border)] bg-[var(--g-accent)] text-white hover:bg-[var(--g-accent-hover)]",
       secondary: "border-white/[0.09] bg-white/[0.055] text-[var(--g-text)] hover:bg-white/[0.09]",
       ghost: "border-transparent bg-transparent text-[var(--g-muted)] hover:bg-white/[0.055] hover:text-[var(--g-text)]",
       danger: "border-red-300/20 bg-red-300/10 text-[var(--g-red)] hover:bg-red-300/15"

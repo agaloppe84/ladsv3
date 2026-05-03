@@ -13,7 +13,7 @@ class AdminV2::Ui::BadgeComponent < ViewComponent::Base
   def classes
     colors = {
       neutral: "border-white/[0.09] bg-white/[0.045] text-[var(--g-muted)]",
-      accent: "border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[#c6bbff]",
+      accent: "border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[var(--g-accent-text)]",
       success: "border-emerald-300/20 bg-emerald-300/10 text-[var(--g-green)]",
       warning: "border-amber-300/20 bg-amber-300/10 text-[var(--g-amber)]",
       danger: "border-red-300/20 bg-red-300/10 text-[var(--g-red)]",
