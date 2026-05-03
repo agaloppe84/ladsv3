@@ -9,9 +9,29 @@
             <p class="mt-1 text-sm text-[var(--g-muted)]">Console catalogue, recherche live et accès rapide au drawer.</p>
           </div>
 
-          <div class="flex items-center gap-2">
+          <div
+            data-controller="live-search"
+            data-live-search-delay-value="300"
+            data-live-search-min-length-value="2"
+            class="flex items-center gap-2">
+            <%= form_with url: admin_v2_products_path,
+              method: :get,
+              id: "admin_v2_products_filter_form",
+              data: {
+                live_search_target: "form",
+                turbo_frame: "admin_v2_products_results",
+                action: "turbo:submit-start->live-search#pending turbo:submit-end->live-search#complete"
+              },
+              class: "w-72" do |f| %>
+              <%= f.label :query, "Recherche produit", class: "sr-only" %>
+              <%= f.search_field :query,
+                value: params[:query],
+                placeholder: "Rechercher un produit",
+                data: { live_search_target: "query", action: "input->live-search#queue" },
+                class: "h-9 w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 text-sm text-[var(--g-text)] placeholder:text-[var(--g-faint)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+            <% end %>
+            <span data-live-search-target="status" class="rounded-lg border border-white/[0.075] bg-white/[0.035] px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--g-subtle)]">live</span>
             <%= render AdminV2::Ui::BadgeComponent.new(label: "#{@total_products} produits", variant: :server) %>
-            <%= render AdminV2::Ui::BadgeComponent.new(label: "live search", variant: :accent) %>
             <%= link_to new_admin_v2_product_path, data: { turbo_frame: "admin_v2_drawer" }, title: "Créer un produit", class: "admin-v2-focus inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[var(--g-accent)] transition hover:bg-[var(--g-accent-hover)]" do %>
               <span class="sr-only">Créer un produit</span>
               <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -24,58 +44,6 @@
       </header>
 
       <div class="grid gap-5 px-7 py-6">
-        <section
-          data-controller="live-search"
-          data-live-search-delay-value="300"
-          data-live-search-min-length-value="2"
-          class="rounded-xl border border-white/[0.075] bg-[var(--g-surface)]/88">
-          <header class="flex items-center justify-between gap-4 border-b border-white/[0.075] px-4 py-3">
-            <div>
-              <h2 class="text-xs uppercase tracking-[0.2em] text-[var(--g-accent)]">Recherche</h2>
-              <p class="mt-1 text-[10px] text-[var(--g-faint)]">Le résultat se met à jour pendant la saisie</p>
-            </div>
-            <span data-live-search-target="status" class="rounded-lg border border-white/[0.075] bg-white/[0.035] px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--g-subtle)]">live</span>
-          </header>
-
-          <%= form_with url: admin_v2_products_path,
-            method: :get,
-            id: "admin_v2_products_filter_form",
-            data: {
-              live_search_target: "form",
-              turbo_frame: "admin_v2_products_results",
-              action: "turbo:submit-start->live-search#pending turbo:submit-end->live-search#complete"
-            },
-            class: "grid grid-cols-[minmax(0,1fr)_260px_auto] gap-3 p-4" do |f| %>
-            <div>
-              <%= f.label :query, "Recherche produit", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
-              <%= f.search_field :query,
-                value: params[:query],
-                placeholder: "Nom du produit",
-                data: { live_search_target: "query", action: "input->live-search#queue" },
-                class: "h-10 w-full rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 text-sm text-[var(--g-text)] placeholder:text-[var(--g-faint)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-            </div>
-
-            <div>
-              <%= f.label :category_id, "Catégorie", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
-              <%= f.select :category_id,
-                options_from_collection_for_select(@categories, :id, :name, params[:category_id]),
-                { include_blank: "Toutes catégories" },
-                data: { action: "change->live-search#submit" },
-                class: "h-10 w-full rounded-lg border border-white/[0.09] bg-[var(--g-surface)] px-3 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-            </div>
-
-            <div class="flex items-end">
-              <%= button_tag type: :submit, title: "Filtrer", class: "admin-v2-focus inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[var(--g-accent)] transition hover:bg-[var(--g-accent-hover)]" do %>
-                <span class="sr-only">Filtrer</span>
-                <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="11" cy="11" r="7" />
-                  <path d="m20 20-3.5-3.5" />
-                </svg>
-              <% end %>
-            </div>
-          <% end %>
-        </section>
-
         <turbo-frame id="admin_v2_products_results">
           <%= render AdminV2::Products::IndexComponent.new(products: @products) %>
         </turbo-frame>
