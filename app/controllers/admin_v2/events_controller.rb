@@ -43,11 +43,13 @@ class AdminV2::EventsController < AdminV2::BaseController
     if @event.save
       respond_to do |format|
         format.turbo_stream do
+          events = Event.order(start_date: :desc, updated_at: :desc)
+
           render turbo_stream: [
             turbo_stream.replace(
               "admin_v2_main",
-              partial: "admin_v2/events/edit_frame",
-              locals: { event: @event }
+              partial: "admin_v2/events/index_frame",
+              locals: { events: events, total_events: Event.count }
             ),
             turbo_stream.replace(
               "admin_v2_drawer",
@@ -58,7 +60,7 @@ class AdminV2::EventsController < AdminV2::BaseController
             turbo_stream_flash(:success, "Event##{@event.id} created")
           ]
         end
-        format.html { redirect_to edit_admin_v2_event_path(@event), notice: "Event créé" }
+        format.html { redirect_to admin_v2_events_path, notice: "Event créé" }
       end
     else
       respond_to do |format|

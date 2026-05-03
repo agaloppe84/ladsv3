@@ -5,7 +5,7 @@
         <div>
           <p class="text-[10px] uppercase tracking-[0.24em] text-[var(--g-accent)]">New event</p>
           <h2 class="mt-2 text-xl font-semibold text-[var(--g-text)]">Créer un event</h2>
-          <p class="mt-1 text-sm text-[var(--g-muted)]">Crée la base, puis ouvre l’atelier edit V2.</p>
+          <p class="mt-1 text-sm text-[var(--g-muted)]">Crée l’event puis affiche son résumé dans le drawer.</p>
         </div>
         <%= render AdminV2::Ui::ActionStateComponent.new %>
       </div>
@@ -55,14 +55,14 @@
             <%= render AdminV2::Ui::DateTimePickerComponent.new(form: f, attribute: :end_date, label: "Fin", value: @event.end_date) %>
           </div>
 
-          <%= f.submit "Créer et ouvrir l’atelier",
+          <%= f.submit "Créer l’event",
             class: "admin-v2-focus h-10 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-4 text-sm font-semibold text-[var(--g-accent)] transition hover:bg-[var(--g-accent-hover)]" %>
         <% end %>
       <% end %>
 
-      <%= render AdminV2::Ui::PanelComponent.new(title: "Après création", subtitle: "L’atelier live prend le relais") do %>
+      <%= render AdminV2::Ui::PanelComponent.new(title: "Après création", subtitle: "Retour index et contexte ouvert") do %>
         <div class="grid gap-3 text-sm">
-          <% ["Contenu autosave", "Planning autosave", "Aperçu local", "Drawer résumé"].each do |label| %>
+          <% ["Index mis à jour", "Drawer résumé", "Live feed session", "Édition possible ensuite"].each do |label| %>
             <div class="flex items-center gap-3 rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 py-2">
               <span class="h-1.5 w-1.5 rounded-full bg-[var(--g-accent)]"></span>
               <span class="text-[var(--g-muted)]"><%= label %></span>
