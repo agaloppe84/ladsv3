@@ -13,16 +13,15 @@ class AdminV2::ProductsController < AdminV2::BaseController
     @products = @products.where("products.name ILIKE ?", "%#{ActiveRecord::Base.sanitize_sql_like(query)}%") if query.present?
 
     respond_to do |format|
-      format.html
+      format.html do
+        if products_results_frame_request?
+          render partial: "admin_v2/products/results_frame", locals: { products: @products }, layout: false
+        else
+          render
+        end
+      end
       format.turbo_stream do
-        render turbo_stream: [
-          store_nav_stream(:products),
-          turbo_stream.replace(
-            "admin_v2_main",
-            partial: "admin_v2/products/index_frame",
-            locals: { products: @products, total_products: @total_products }
-          )
-        ]
+        render turbo_stream: products_index_stream
       end
     end
   end
@@ -101,5 +100,30 @@ class AdminV2::ProductsController < AdminV2::BaseController
 
   def product_params
     params.require(:product).permit(:name, :category_id, :description, :infos, :warranty)
+  end
+
+  def products_results_frame_request?
+    request.headers["Turbo-Frame"] == "admin_v2_products_results"
+  end
+
+  def products_index_stream
+    return products_results_stream if products_results_frame_request?
+
+    [
+      store_nav_stream(:products),
+      turbo_stream.replace(
+        "admin_v2_main",
+        partial: "admin_v2/products/index_frame",
+        locals: { products: @products, total_products: @total_products }
+      )
+    ]
+  end
+
+  def products_results_stream
+    turbo_stream.replace(
+      "admin_v2_products_results",
+      partial: "admin_v2/products/results_frame",
+      locals: { products: @products }
+    )
   end
 end
