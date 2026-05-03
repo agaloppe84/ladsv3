@@ -61,6 +61,24 @@ class AdminV2::ProductsController < AdminV2::BaseController
     @product = Product.find(params[:id])
     @product.build_service unless @product.service
     @categories = Category.order(:name)
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.replace(
+            "admin_v2_main",
+            partial: "admin_v2/products/edit_frame",
+            locals: { product: @product, categories: @categories }
+          ),
+          turbo_stream.replace(
+            "admin_v2_drawer",
+            partial: "admin_v2/products/drawer_frame",
+            locals: { product: @product }
+          )
+        ]
+      end
+      format.html
+    end
   end
 
   private
