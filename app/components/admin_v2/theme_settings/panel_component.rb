@@ -3,6 +3,14 @@
 class AdminV2::ThemeSettings::PanelComponent < ViewComponent::Base
   private
 
+  def default_accent_label
+    "Lime"
+  end
+
+  def default_font_label
+    "Mono"
+  end
+
   def accent_options
     [
       ["Violet", "124, 92, 255", "#d9d2ff", "#7c5cff"],

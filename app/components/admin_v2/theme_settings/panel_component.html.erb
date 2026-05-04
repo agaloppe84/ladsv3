@@ -16,18 +16,19 @@
       <section data-controller="color-theme">
         <h3 class="text-[9px] font-semibold uppercase tracking-[0.16em] text-[var(--g-faint)]">Accent</h3>
         <div class="mt-2 grid grid-cols-5 gap-2">
-          <% accent_options.each_with_index do |(label, rgb, text, hex), index| %>
+          <% accent_options.each do |label, rgb, text, hex| %>
+            <% selected = label == default_accent_label %>
             <button
               type="button"
               title="<%= label %>"
               aria-label="<%= label %>"
-              aria-pressed="<%= index.zero? ? "true" : "false" %>"
+              aria-pressed="<%= selected ? "true" : "false" %>"
               data-color-theme-target="button"
               data-action="color-theme#select"
               data-label="<%= label %>"
               data-rgb="<%= rgb %>"
               data-text="<%= text %>"
-              class="admin-v2-focus flex h-7 items-center justify-center rounded-lg border <%= index.zero? ? "border-[var(--g-accent-border)] bg-[var(--g-accent-soft)]" : "border-white/[0.075]" %>">
+              class="admin-v2-focus flex h-7 items-center justify-center rounded-lg border <%= selected ? "border-[var(--g-accent-border)] bg-[var(--g-accent-soft)]" : "border-white/[0.075]" %>">
               <span class="h-3 w-3 rounded-full" style="background:<%= hex %>"></span>
             </button>
           <% end %>
@@ -39,22 +40,22 @@
         <div class="mt-2 grid grid-cols-2 gap-2">
           <button
             type="button"
-            aria-pressed="true"
+            aria-pressed="<%= default_font_label == "Sans" ? "true" : "false" %>"
             data-font-theme-target="button"
             data-action="font-theme#select"
             data-label="Sans"
             data-font-variable="--g-font-sans"
-            class="admin-v2-focus h-8 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-3 text-[11px] font-semibold text-[var(--g-accent-text)]">
+            class="admin-v2-focus h-8 rounded-lg border <%= default_font_label == "Sans" ? "border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[var(--g-accent-text)]" : "border-white/[0.075] bg-white/[0.035] text-[var(--g-muted)] hover:text-[var(--g-text)]" %> px-3 text-[11px] font-semibold">
             Sans
           </button>
           <button
             type="button"
-            aria-pressed="false"
+            aria-pressed="<%= default_font_label == "Mono" ? "true" : "false" %>"
             data-font-theme-target="button"
             data-action="font-theme#select"
             data-label="Mono"
             data-font-variable="--g-font-mono"
-            class="admin-v2-focus h-8 rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 text-[11px] font-semibold text-[var(--g-muted)] hover:text-[var(--g-text)]">
+            class="admin-v2-focus h-8 rounded-lg border <%= default_font_label == "Mono" ? "border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[var(--g-accent-text)]" : "border-white/[0.075] bg-white/[0.035] text-[var(--g-muted)] hover:text-[var(--g-text)]" %> px-3 text-[11px] font-semibold">
             Mono
           </button>
         </div>

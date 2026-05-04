@@ -84,6 +84,12 @@ Principes :
 - accent dynamique base sur `--g-accent-rgb` ;
 - micro-couleurs reservees aux statuts, logs, focus et feedback serveur.
 
+Theme par defaut :
+
+- accent Lime : `--g-accent-rgb: 190, 242, 100` ;
+- texte accent clair : `--g-accent-text: #efffd1` ;
+- typographie globale : mono.
+
 Tokens importants :
 
 - `--g-bg`
@@ -113,6 +119,8 @@ Le mode typographique est dynamique :
 
 - mode sans : interface standard ;
 - mode mono : toute l'interface passe en mono.
+
+Le mode mono est le choix par defaut de l'Admin V2. Le selecteur reste dynamique et permet de repasser en sans pendant la session.
 
 Les composants ne doivent pas forcer une police locale inutilement. Les exceptions doivent etre intentionnelles, par exemple timestamps ou IDs, mais le mode global doit pouvoir tout changer.
 

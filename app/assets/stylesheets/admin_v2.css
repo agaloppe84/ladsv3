@@ -11,19 +11,19 @@
   --g-muted: #a2a6b0;
   --g-subtle: #737987;
   --g-faint: #505766;
-  --g-accent-rgb: 124, 92, 255;
+  --g-accent-rgb: 190, 242, 100;
   --g-accent: rgb(var(--g-accent-rgb));
   --g-accent-soft: rgba(var(--g-accent-rgb), 0.14);
   --g-accent-border: rgba(var(--g-accent-rgb), 0.36);
   --g-accent-hover: rgba(var(--g-accent-rgb), 0.22);
-  --g-accent-text: #d9d2ff;
+  --g-accent-text: #efffd1;
   --g-green: #75d67b;
   --g-amber: #f5c451;
   --g-red: #ff6868;
   --g-cyan: #67d8ef;
   --g-font-sans: "Inter var", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --g-font-mono: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --g-font-family: var(--g-font-sans);
+  --g-font-family: var(--g-font-mono);
   background: var(--g-bg);
   color: var(--g-text);
   font-family: var(--g-font-family);
@@ -75,7 +75,7 @@
 }
 
 .admin-v2-focus:focus-visible {
-  box-shadow: 0 0 0 1px var(--g-accent), 0 0 0 5px rgba(124, 92, 255, 0.16);
+  box-shadow: 0 0 0 1px var(--g-accent), 0 0 0 5px rgba(var(--g-accent-rgb), 0.16);
 }
 
 .admin-v2-grid-bg {
