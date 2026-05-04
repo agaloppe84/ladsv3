@@ -28,7 +28,7 @@
       </svg>
     <% end %>
 
-    <%= link_to edit_admin_v2_event_path(event), data: { turbo_stream: true }, title: "Éditer l’event", class: "admin-v2-focus inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[var(--g-accent)] transition hover:bg-[var(--g-accent-hover)]" do %>
+    <%= link_to edit_admin_v2_event_path(event), data: { turbo_frame: "admin_v2_drawer" }, title: "Éditer l’event", class: "admin-v2-focus inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[var(--g-accent)] transition hover:bg-[var(--g-accent-hover)]" do %>
       <span class="sr-only">Éditer l’event</span>
       <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 20h9" />

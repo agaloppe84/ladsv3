@@ -263,9 +263,10 @@ Pattern :
 - index ;
 - new dans drawer ;
 - create termine dans le drawer avec show ;
-- edit possible mais simple ;
+- edit dans le drawer, pas de workspace central dedie ;
 - date picker custom Admin V2 ;
-- autosave pour details et schedule.
+- autosave pour details et schedule ;
+- succes autosave : row index, header drawer, preview et statut calcule mis a jour par Turbo Streams.
 
 ### Quotes / Devis
 

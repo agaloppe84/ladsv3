@@ -22,7 +22,9 @@ export default class extends Controller {
 
   connect() {
     this.boundOutsideClick = (event) => this.closeFromOutside(event)
-    this.boundBeforeSubmit = () => this.commit(false)
+    this.boundBeforeSubmit = () => {
+      if (this.dirty) this.commit(false)
+    }
 
     const initialValue = this.inputTarget.value || this.selectedValue
     this.selectedDate = this.parseValue(initialValue)

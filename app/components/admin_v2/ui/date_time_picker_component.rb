@@ -43,7 +43,7 @@ class AdminV2::Ui::DateTimePickerComponent < ViewComponent::Base
 
   def input_data
     data = { date_time_picker_target: "input" }
-    data[:action] = "change->autosave-field#submitIfChanged" if @autosave
+    data[:action] = "change->autosave-field#submit" if @autosave
     data
   end
 end

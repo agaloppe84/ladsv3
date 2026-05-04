@@ -74,22 +74,27 @@ class AdminV2::EventsController < AdminV2::BaseController
     @event = Event.find(params[:id])
 
     respond_to do |format|
+      format.html do
+        @drawer_only = turbo_frame_request?
+
+        if @drawer_only
+          render :edit, layout: false
+        else
+          @total_events = Event.count
+          @events = Event.order(start_date: :desc, updated_at: :desc)
+          render
+        end
+      end
       format.turbo_stream do
         render turbo_stream: [
           turbo_stream.replace(
-            "admin_v2_main",
-            partial: "admin_v2/events/edit_frame",
-            locals: { event: @event }
-          ),
-          turbo_stream.replace(
             "admin_v2_drawer",
-            partial: "admin_v2/events/drawer_frame",
+            partial: "admin_v2/events/drawer_edit_frame",
             locals: { event: @event }
           ),
           store_nav_stream(:events)
         ]
       end
-      format.html
     end
   end
 

@@ -4,8 +4,8 @@ class AdminV2::EventDetailsController < AdminV2::EventScopedController
 
     if @event.update(permitted_params)
       render_event_streams(
-        header_title_stream,
-        drawer_summary_stream,
+        event_row_stream,
+        drawer_header_stream,
         preview_panel_stream,
         level: :success,
         message: detail_message(permitted_params)

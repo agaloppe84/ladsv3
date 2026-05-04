@@ -1,14 +1,5 @@
 <div id="admin_v2_event_drawer_summary" class="min-h-full">
-  <div class="border-b border-white/[0.075] p-5">
-    <div class="flex items-start justify-between gap-4">
-      <div class="min-w-0">
-        <p class="text-[10px] uppercase tracking-[0.24em] text-[var(--g-faint)]">Event context</p>
-        <h2 class="mt-2 truncate text-xl font-semibold text-[var(--g-text)]"><%= event.title.presence || "Event sans titre" %></h2>
-        <p class="mt-1 text-sm text-[var(--g-muted)]"><%= event.content.to_s.squish.presence || "Aucun contenu public." %></p>
-      </div>
-      <%= render AdminV2::Events::StatusBadgeComponent.new(event: event) %>
-    </div>
-  </div>
+  <%= render "admin_v2/events/drawer_header", event: event, eyebrow: "Event context" %>
 
   <div class="space-y-4 p-5">
     <%= render AdminV2::Ui::PanelComponent.new(title: "Planning", subtitle: "Fenêtre de diffusion") do %>
@@ -38,6 +29,6 @@
       </div>
     <% end %>
 
-    <%= link_to "Ouvrir l’atelier event V2", edit_admin_v2_event_path(event), data: { turbo_stream: true }, class: "admin-v2-focus flex h-10 items-center justify-center rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-sm font-semibold text-[var(--g-accent-text)] hover:bg-[var(--g-accent-hover)]" %>
+    <%= link_to "Modifier dans le drawer", edit_admin_v2_event_path(event), data: { turbo_frame: "admin_v2_drawer" }, class: "admin-v2-focus flex h-10 items-center justify-center rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-sm font-semibold text-[var(--g-accent-text)] hover:bg-[var(--g-accent-hover)]" %>
   </div>
 </div>

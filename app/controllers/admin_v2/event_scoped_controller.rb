@@ -46,19 +46,28 @@ class AdminV2::EventScopedController < AdminV2::BaseController
     )
   end
 
-  def header_title_stream
+  def drawer_header_stream
     turbo_stream.replace(
-      "admin_v2_event_header_title",
-      partial: "admin_v2/events/header_title",
+      "admin_v2_event_drawer_header",
+      partial: "admin_v2/events/drawer_header",
+      locals: { event: @event, eyebrow: "Event edit" }
+    )
+  end
+
+  def event_row_stream
+    turbo_stream.replace(
+      "admin_v2_event_#{@event.id}",
+      partial: "admin_v2/events/row",
       locals: { event: @event }
     )
   end
 
-  def header_status_stream
+  def schedule_status_stream
     turbo_stream.replace(
-      "admin_v2_event_header_status",
-      partial: "admin_v2/events/header_status",
+      "admin_v2_event_schedule_status",
+      partial: "admin_v2/events/schedule_status",
       locals: { event: @event }
     )
   end
+
 end

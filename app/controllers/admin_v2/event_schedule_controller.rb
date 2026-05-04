@@ -2,9 +2,10 @@ class AdminV2::EventScheduleController < AdminV2::EventScopedController
   def update
     if @event.update(event_params)
       render_event_streams(
-        header_status_stream,
-        drawer_summary_stream,
+        event_row_stream,
+        drawer_header_stream,
         preview_panel_stream,
+        schedule_status_stream,
         level: :success,
         message: "Event##{@event.id} schedule updated"
       )

@@ -29,7 +29,7 @@
   <div class="mt-4 rounded-xl border border-white/[0.075] bg-white/[0.035] p-3">
     <div class="flex items-center justify-between gap-3">
       <span class="text-[11px] font-semibold text-[var(--g-subtle)]">Statut calculé</span>
-      <%= render AdminV2::Events::StatusBadgeComponent.new(event: event) %>
+      <%= render "admin_v2/events/schedule_status", event: event %>
     </div>
   </div>
 <% end %>
