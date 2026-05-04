@@ -215,6 +215,25 @@ Patterns de reponse :
 
 Attention : les routes appelees par Turbo Stream doivent toujours rendre des targets presents sur la page courante. Si le target peut etre absent, le stream doit rester sans effet destructeur.
 
+## Pagination
+
+Les index Admin V2 utilisent une pagination maison, sans gem externe.
+
+Pieces principales :
+
+- `AdminV2::Pagination` pour calculer `page`, `per_page`, `offset`, `total_count` et les records limites ;
+- `AdminV2::Ui::PaginationComponent` pour le rendu des controles ;
+- params standards : `query`, filtres eventuels, `page` ;
+- les liens de pagination ciblent le turbo-frame results de la ressource.
+
+Regles :
+
+- le search-live remplace uniquement le frame results ;
+- une nouvelle recherche repart naturellement en page 1 car le formulaire n'envoie pas `page` ;
+- les liens de pagination conservent `query` et les filtres actifs ;
+- ne pas paginer dans le composant row : la pagination se fait dans le controller, avant le rendu ;
+- garder `per_page` fixe au debut pour eviter une UI trop bavarde.
+
 ## Live Feed
 
 Le live feed reste **session-only**, mais peut maintenant s'appuyer sur une session Admin V2 persistante et legere :
@@ -225,6 +244,8 @@ Le live feed reste **session-only**, mais peut maintenant s'appuyer sur une sess
 - pas d'Action Cable obligatoire ;
 - logs scopes sur l'Admin V2 et le user connecte ;
 - compteurs denormalises sur la session pour garder le footer leger.
+- retention par session : garder environ les 1000 derniers events utiles et supprimer les anciens au fil de l'eau ;
+- contexte courant : area + ressource ouverte quand il y en a une.
 
 Il sert a donner une sensation vivante :
 
@@ -235,9 +256,31 @@ Il sert a donner une sensation vivante :
 - reorder ;
 - create/update/delete V2.
 
+Le format debug affiche volontairement des informations compactes :
+
+- source : `client`, `form`, `turbo`, `server`, `system` ;
+- type : `session`, `frame`, `submit`, `response`, `create`, `autosave`, `upload`, etc. ;
+- meta : methode HTTP, status code, ressource concernee si disponible.
+
 Ne pas y mettre de donnees sensibles inutilement. Preferer `Product#id`, `Quote#id`, `Category#id` a des emails, telephones ou contenus prives.
 
 Le feed visible peut encore recevoir des evenements client via Stimulus pour garder une sensation instantanee, mais les evenements serveur importants doivent passer par le tracker Admin V2 afin d'alimenter le rapport de session.
+
+## Session Storage
+
+La maintenance des sessions Admin V2 est une action manuelle dans l'interface, pas une tache automatique.
+
+Pattern retenu :
+
+- bloc accordeon `Session storage` dans la section `Configuration` de la sidebar ;
+- affichage compact des sessions, events, sessions gardees et sessions purgeables ;
+- purge volontaire via confirmation Turbo ;
+- scope strict sur le user connecte ;
+- conservation des 4 dernieres sessions, avec protection de la session courante ;
+- suppression des sessions plus anciennes et de leurs events via `dependent: :destroy` ;
+- retour Turbo : mise a jour du bloc storage, du rapport user et ajout d'un event dans le live feed.
+
+Ne pas afficher d'IP, user-agent ou details sensibles dans ce bloc. Ces informations peuvent exister en base pour debug, mais l'UI de sidebar doit rester sobre.
 
 ## Patterns Par Ressource
 

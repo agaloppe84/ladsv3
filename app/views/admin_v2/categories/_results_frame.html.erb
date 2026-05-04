@@ -1,3 +1,14 @@
 <turbo-frame id="admin_v2_categories_results">
-  <%= render AdminV2::Categories::IndexComponent.new(categories: categories) %>
+  <div class="pb-16">
+    <%= render AdminV2::Categories::IndexComponent.new(
+      categories: categories,
+      pagination: pagination
+    ) %>
+  </div>
+
+  <%= render "admin_v2/shared/pagination_bar",
+    pagination: pagination,
+    path: admin_v2_categories_path,
+    pagination_params: admin_v2_pagination_params(:query),
+    frame: "admin_v2_categories_results" %>
 </turbo-frame>

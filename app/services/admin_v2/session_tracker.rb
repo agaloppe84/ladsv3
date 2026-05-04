@@ -3,6 +3,9 @@
 module AdminV2
   class SessionTracker
     TOUCH_INTERVAL = 30.seconds
+    SESSION_TIMEOUT = 8.hours
+    EVENT_RETENTION_LIMIT = 1_000
+    EVENT_PRUNE_BATCH_SIZE = 200
 
     def initialize(controller)
       @controller = controller
@@ -60,6 +63,7 @@ module AdminV2
 
       admin_session.register_event_counters!(event)
       admin_session.reload
+      prune_events!(admin_session)
       event
     rescue ActiveRecord::ActiveRecordError
       nil
@@ -75,7 +79,11 @@ module AdminV2
     end
 
     def find_or_create_session
-      admin_session = find_active_session || create_session
+      admin_session = find_active_session
+      unless admin_session
+        close_stale_sessions!
+        admin_session = create_session
+      end
       @session[:admin_v2_session_id] = admin_session.id
       admin_session
     end
@@ -84,7 +92,17 @@ module AdminV2
       session_id = @session[:admin_v2_session_id]
       return if session_id.blank?
 
-      ::AdminV2Session.active.find_by(id: session_id, user: @user)
+      admin_session = ::AdminV2Session.active.find_by(id: session_id, user: @user)
+      return unless admin_session
+
+      if admin_session.last_seen_at < SESSION_TIMEOUT.ago
+        close_session!(admin_session, status: "stale")
+        @session.delete(:admin_v2_session_id)
+        @session.delete(:admin_v2_session_last_seen_at)
+        return
+      end
+
+      admin_session
     end
 
     def create_session
@@ -107,7 +125,33 @@ module AdminV2
         message: "Admin V2 session started"
       )
       admin_session.register_event_counters!(event)
+      @session[:admin_v2_session_last_seen_at] = now.to_i
       admin_session.reload
+    end
+
+    def close_stale_sessions!
+      ::AdminV2Session
+        .active
+        .where(user: @user)
+        .where("last_seen_at < ?", SESSION_TIMEOUT.ago)
+        .update_all(status: "stale", ended_at: Time.current, updated_at: Time.current)
+    end
+
+    def close_session!(admin_session, status:)
+      admin_session.update_columns(status: status, ended_at: Time.current, updated_at: Time.current)
+    end
+
+    def prune_events!(admin_session)
+      return if admin_session.events_count <= EVENT_RETENTION_LIMIT
+
+      ids = admin_session
+            .session_events
+            .recent
+            .offset(EVENT_RETENTION_LIMIT)
+            .limit(EVENT_PRUNE_BATCH_SIZE)
+            .pluck(:id)
+
+      ::AdminV2SessionEvent.where(id: ids).delete_all if ids.any?
     end
 
     def touch_due?
@@ -117,10 +161,10 @@ module AdminV2
 
     def context_attributes(area:, resource:)
       {
-        current_area: area,
+        current_area: area.to_s.presence,
         current_resource_type: resource_type_for(resource),
         current_resource_id: resource_id_for(resource)
-      }.compact
+      }
     end
 
     def resource_type_for(resource)

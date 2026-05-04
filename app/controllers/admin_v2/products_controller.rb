@@ -11,11 +11,12 @@ class AdminV2::ProductsController < AdminV2::BaseController
 
     query = params[:query].to_s.strip
     @products = @products.where("products.name ILIKE ?", "%#{ActiveRecord::Base.sanitize_sql_like(query)}%") if query.present?
+    @products, @pagination = paginate_admin_v2(@products)
 
     respond_to do |format|
       format.html do
         if products_results_frame_request?
-          render partial: "admin_v2/products/results_frame", locals: { products: @products }, layout: false
+          render partial: "admin_v2/products/results_frame", locals: { products: @products, pagination: @pagination }, layout: false
         else
           render
         end
@@ -28,6 +29,7 @@ class AdminV2::ProductsController < AdminV2::BaseController
 
   def show
     @product = Product.includes(:category, images_attachments: :blob).find(params[:id])
+    track_admin_v2_context(@product)
   end
 
   def new
@@ -75,6 +77,7 @@ class AdminV2::ProductsController < AdminV2::BaseController
     @product = Product.find(params[:id])
     @product.build_service unless @product.service
     @categories = Category.order(:name)
+    track_admin_v2_context(@product)
 
     respond_to do |format|
       format.turbo_stream do
@@ -114,7 +117,7 @@ class AdminV2::ProductsController < AdminV2::BaseController
       turbo_stream.replace(
         "admin_v2_main",
         partial: "admin_v2/products/index_frame",
-        locals: { products: @products, total_products: @total_products }
+        locals: { products: @products, total_products: @total_products, pagination: @pagination }
       )
     ]
   end
@@ -123,7 +126,7 @@ class AdminV2::ProductsController < AdminV2::BaseController
     turbo_stream.replace(
       "admin_v2_products_results",
       partial: "admin_v2/products/results_frame",
-      locals: { products: @products }
+      locals: { products: @products, pagination: @pagination }
     )
   end
 end

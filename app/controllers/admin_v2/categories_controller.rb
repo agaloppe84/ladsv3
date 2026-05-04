@@ -13,11 +13,12 @@ class AdminV2::CategoriesController < AdminV2::BaseController
         query: "%#{sanitized_query}%"
       )
     end
+    @categories, @pagination = paginate_admin_v2(@categories)
 
     respond_to do |format|
       format.html do
         if categories_results_frame_request?
-          render partial: "admin_v2/categories/results_frame", locals: { categories: @categories }, layout: false
+          render partial: "admin_v2/categories/results_frame", locals: { categories: @categories, pagination: @pagination }, layout: false
         else
           render
         end
@@ -28,6 +29,7 @@ class AdminV2::CategoriesController < AdminV2::BaseController
 
   def show
     @category = Category.find(params[:id])
+    track_admin_v2_context(@category)
   end
 
   def new
@@ -41,13 +43,13 @@ class AdminV2::CategoriesController < AdminV2::BaseController
     if @category.errors.empty? && @category.save
       respond_to do |format|
         format.turbo_stream do
-          categories = categories_scope.order(Arel.sql("LOWER(categories.name) ASC"))
+          categories, pagination = paginate_admin_v2(categories_scope.order(Arel.sql("LOWER(categories.name) ASC")))
 
           render turbo_stream: [
             turbo_stream.replace(
               "admin_v2_main",
               partial: "admin_v2/categories/index_frame",
-              locals: { categories: categories, total_categories: Category.count }
+              locals: { categories: categories, total_categories: Category.count, pagination: pagination }
             ),
             turbo_stream.replace(
               "admin_v2_drawer",
@@ -86,7 +88,7 @@ class AdminV2::CategoriesController < AdminV2::BaseController
       turbo_stream.replace(
         "admin_v2_main",
         partial: "admin_v2/categories/index_frame",
-        locals: { categories: @categories, total_categories: @total_categories }
+        locals: { categories: @categories, total_categories: @total_categories, pagination: @pagination }
       )
     ]
   end
@@ -95,14 +97,21 @@ class AdminV2::CategoriesController < AdminV2::BaseController
     turbo_stream.replace(
       "admin_v2_categories_results",
       partial: "admin_v2/categories/results_frame",
-      locals: { categories: @categories }
+      locals: { categories: @categories, pagination: @pagination }
     )
   end
 
   def categories_scope
-    Category
-      .left_joins(:products)
-      .select("categories.*, COUNT(products.id) FILTER (WHERE products.type IS NULL) AS admin_v2_products_count")
-      .group("categories.id")
+    Category.select(
+      <<~SQL.squish
+        categories.*,
+        (
+          SELECT COUNT(*)
+          FROM products
+          WHERE products.category_id = categories.id
+            AND products.type IS NULL
+        ) AS admin_v2_products_count
+      SQL
+    )
   end
 end

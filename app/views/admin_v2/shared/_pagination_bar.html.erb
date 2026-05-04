@@ -1,0 +1,10 @@
+<% if pagination %>
+  <footer class="fixed bottom-0 left-[296px] right-[500px] z-20 border-t border-white/[0.075] bg-[var(--g-bg)] px-7 py-3 shadow-[0_-20px_60px_rgba(0,0,0,0.22)]">
+    <%= render AdminV2::Ui::PaginationComponent.new(
+      pagination: pagination,
+      path: path,
+      params: pagination_params,
+      frame: frame
+    ) %>
+  </footer>
+<% end %>

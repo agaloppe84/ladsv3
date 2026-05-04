@@ -13,11 +13,12 @@ class AdminV2::QuotesController < AdminV2::BaseController
         query: "%#{sanitized_query}%"
       )
     end
+    @quotes, @pagination = paginate_admin_v2(@quotes)
 
     respond_to do |format|
       format.html do
         if quotes_results_frame_request?
-          render partial: "admin_v2/quotes/results_frame", locals: { quotes: @quotes }, layout: false
+          render partial: "admin_v2/quotes/results_frame", locals: { quotes: @quotes, pagination: @pagination }, layout: false
         else
           render
         end
@@ -28,6 +29,7 @@ class AdminV2::QuotesController < AdminV2::BaseController
 
   def show
     @quote = Quote.find(params[:id])
+    track_admin_v2_context(@quote)
   end
 
   private
@@ -44,7 +46,7 @@ class AdminV2::QuotesController < AdminV2::BaseController
       turbo_stream.replace(
         "admin_v2_main",
         partial: "admin_v2/quotes/index_frame",
-        locals: { quotes: @quotes, total_quotes: @total_quotes }
+        locals: { quotes: @quotes, total_quotes: @total_quotes, pagination: @pagination }
       )
     ]
   end
@@ -53,7 +55,7 @@ class AdminV2::QuotesController < AdminV2::BaseController
     turbo_stream.replace(
       "admin_v2_quotes_results",
       partial: "admin_v2/quotes/results_frame",
-      locals: { quotes: @quotes }
+      locals: { quotes: @quotes, pagination: @pagination }
     )
   end
 end

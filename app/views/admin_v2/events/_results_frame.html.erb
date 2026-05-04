@@ -1,14 +1,14 @@
-<turbo-frame id="admin_v2_quotes_results">
+<turbo-frame id="admin_v2_events_results">
   <div class="pb-16">
-    <%= render AdminV2::Quotes::IndexComponent.new(
-      quotes: quotes,
+    <%= render AdminV2::Events::IndexComponent.new(
+      events: events,
       pagination: pagination
     ) %>
   </div>
 
   <%= render "admin_v2/shared/pagination_bar",
     pagination: pagination,
-    path: admin_v2_quotes_path,
+    path: admin_v2_events_path,
     pagination_params: admin_v2_pagination_params(:query),
-    frame: "admin_v2_quotes_results" %>
+    frame: "admin_v2_events_results" %>
 </turbo-frame>

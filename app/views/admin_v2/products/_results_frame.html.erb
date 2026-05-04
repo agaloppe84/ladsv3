@@ -1,3 +1,14 @@
 <turbo-frame id="admin_v2_products_results">
-  <%= render AdminV2::Products::IndexComponent.new(products: products) %>
+  <div class="pb-16">
+    <%= render AdminV2::Products::IndexComponent.new(
+      products: products,
+      pagination: pagination
+    ) %>
+  </div>
+
+  <%= render "admin_v2/shared/pagination_bar",
+    pagination: pagination,
+    path: admin_v2_products_path,
+    pagination_params: admin_v2_pagination_params(:query, :category_id),
+    frame: "admin_v2_products_results" %>
 </turbo-frame>

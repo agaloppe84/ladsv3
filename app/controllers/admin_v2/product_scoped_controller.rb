@@ -5,6 +5,7 @@ class AdminV2::ProductScopedController < AdminV2::BaseController
 
   def set_product
     @product = Product.find(params[:product_id])
+    track_admin_v2_context(@product)
   end
 
   def render_product_streams(*streams, level: :success, message:, event_type: :update, status: :ok)

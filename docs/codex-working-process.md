@@ -151,6 +151,14 @@ Recherche live :
 - target frame dedie ;
 - remplacer uniquement le results frame ;
 - eviter les loaders qui bougent la largeur du header.
+- compatible pagination : ne pas inclure `page` dans le formulaire de recherche pour repartir en page 1.
+
+Pagination :
+
+- utiliser `AdminV2::Pagination` ;
+- rendre `AdminV2::Ui::PaginationComponent` dans le results frame ;
+- conserver `query` et filtres dans les liens de pagination ;
+- eviter les gems externes tant que la pagination maison reste suffisante.
 
 Autosave :
 
@@ -197,6 +205,10 @@ Pour les logs Admin V2 :
 - pas de modele global `ActivityLog` ;
 - pas d'Action Cable obligatoire ;
 - pas de donnees sensibles dans le feed.
+- garder le feed utile comme console debug : source, type, methode, status et ressource doivent rester lisibles ;
+- appliquer une retention courte par session, environ 1000 events visibles, plutot que conserver un historique illimite ;
+- mettre a jour le contexte de session quand une ressource est ouverte, et le laisser retomber sur l'area quand on revient sur un index.
+- la purge globale des sessions doit rester manuelle depuis l'Admin V2 : bloc `Session storage` dans `Configuration`, confirmation obligatoire, conservation des 4 dernieres sessions du user connecte.
 - Codex peut generer une migration si l'utilisateur le demande explicitement, mais l'utilisateur lance `db:migrate` lui-meme.
 
 ## Tests Et Verification

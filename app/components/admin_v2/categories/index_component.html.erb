@@ -4,7 +4,7 @@
       <h2 class="text-xs uppercase tracking-[0.2em] text-[var(--g-accent)]">Catégories</h2>
       <p class="mt-1 text-[10px] text-[var(--g-faint)]">Taxonomie store, couleurs et rattachements produits</p>
     </div>
-    <%= render AdminV2::Ui::BadgeComponent.new(label: "#{categories.size} items", variant: :neutral) %>
+    <%= render AdminV2::Ui::BadgeComponent.new(label: "#{pagination ? pagination.total_count : categories.size} resultats", variant: :neutral) %>
   </header>
 
   <div class="grid gap-3 p-4">

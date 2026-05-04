@@ -12,6 +12,7 @@
           ["session", "##{admin_v2_session.id}"],
           ["status", admin_v2_session.status],
           ["area", active.to_s],
+          ["context", [admin_v2_session.current_resource_type&.demodulize, admin_v2_session.current_resource_id].compact.join("#").presence || active.to_s],
           ["started", l(admin_v2_session.started_at, format: :short)],
           ["seen", l(admin_v2_session.last_seen_at, format: :short)],
           ["events", admin_v2_session.events_count],

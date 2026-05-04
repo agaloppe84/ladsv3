@@ -10,24 +10,23 @@ class AdminV2::EventsController < AdminV2::BaseController
       sanitized_query = ActiveRecord::Base.sanitize_sql_like(query)
       @events = @events.where("events.title ILIKE :query OR events.content ILIKE :query", query: "%#{sanitized_query}%")
     end
+    @events, @pagination = paginate_admin_v2(@events)
 
     respond_to do |format|
-      format.html
-      format.turbo_stream do
-        render turbo_stream: [
-          store_nav_stream(:events),
-          turbo_stream.replace(
-            "admin_v2_main",
-            partial: "admin_v2/events/index_frame",
-            locals: { events: @events, total_events: @total_events }
-          )
-        ]
+      format.html do
+        if events_results_frame_request?
+          render partial: "admin_v2/events/results_frame", locals: { events: @events, pagination: @pagination }, layout: false
+        else
+          render
+        end
       end
+      format.turbo_stream { render turbo_stream: events_index_stream }
     end
   end
 
   def show
     @event = Event.find(params[:id])
+    track_admin_v2_context(@event)
   end
 
   def new
@@ -43,13 +42,13 @@ class AdminV2::EventsController < AdminV2::BaseController
     if @event.save
       respond_to do |format|
         format.turbo_stream do
-          events = Event.order(start_date: :desc, updated_at: :desc)
+          events, pagination = paginate_admin_v2(Event.order(start_date: :desc, updated_at: :desc))
 
           render turbo_stream: [
             turbo_stream.replace(
               "admin_v2_main",
               partial: "admin_v2/events/index_frame",
-              locals: { events: events, total_events: Event.count }
+              locals: { events: events, total_events: Event.count, pagination: pagination }
             ),
             turbo_stream.replace(
               "admin_v2_drawer",
@@ -72,6 +71,7 @@ class AdminV2::EventsController < AdminV2::BaseController
 
   def edit
     @event = Event.find(params[:id])
+    track_admin_v2_context(@event)
 
     respond_to do |format|
       format.html do
@@ -81,7 +81,7 @@ class AdminV2::EventsController < AdminV2::BaseController
           render :edit, layout: false
         else
           @total_events = Event.count
-          @events = Event.order(start_date: :desc, updated_at: :desc)
+          @events, @pagination = paginate_admin_v2(Event.order(start_date: :desc, updated_at: :desc))
           render
         end
       end
@@ -102,5 +102,30 @@ class AdminV2::EventsController < AdminV2::BaseController
 
   def event_params
     params.require(:event).permit(:title, :content, :start_date, :end_date)
+  end
+
+  def events_results_frame_request?
+    request.headers["Turbo-Frame"] == "admin_v2_events_results"
+  end
+
+  def events_index_stream
+    return events_results_stream if events_results_frame_request?
+
+    [
+      store_nav_stream(:events),
+      turbo_stream.replace(
+        "admin_v2_main",
+        partial: "admin_v2/events/index_frame",
+        locals: { events: @events, total_events: @total_events, pagination: @pagination }
+      )
+    ]
+  end
+
+  def events_results_stream
+    turbo_stream.replace(
+      "admin_v2_events_results",
+      partial: "admin_v2/events/results_frame",
+      locals: { events: @events, pagination: @pagination }
+    )
   end
 end

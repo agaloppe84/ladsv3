@@ -5,6 +5,7 @@ class AdminV2::CategoryScopedController < AdminV2::BaseController
 
   def set_category
     @category = Category.find(params[:category_id])
+    track_admin_v2_context(@category)
   end
 
   def render_category_streams(*streams, level: :success, message:, event_type: :update, status: :ok)

@@ -1,0 +1,64 @@
+<div data-controller="disclosure" class="mt-1">
+  <button
+    type="button"
+    class="admin-v2-focus flex h-9 w-full items-center justify-between rounded-lg border border-transparent px-3 text-[12px] font-medium text-[var(--g-muted)] transition hover:border-white/[0.075] hover:bg-white/[0.035] hover:text-[var(--g-text)]"
+    aria-expanded="false"
+    data-disclosure-target="button"
+    data-action="disclosure#toggle">
+    <span>Typo & Accent</span>
+    <svg data-disclosure-target="icon" viewBox="0 0 24 24" aria-hidden="true" class="h-3.5 w-3.5 text-[var(--g-subtle)] transition-transform" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  </button>
+
+  <div data-disclosure-target="panel" class="hidden px-2 pb-2 pt-2">
+    <div class="rounded-lg border border-white/[0.06] bg-white/[0.025] p-2.5">
+      <section data-controller="color-theme">
+        <h3 class="text-[9px] font-semibold uppercase tracking-[0.16em] text-[var(--g-faint)]">Accent</h3>
+        <div class="mt-2 grid grid-cols-5 gap-2">
+          <% accent_options.each_with_index do |(label, rgb, text, hex), index| %>
+            <button
+              type="button"
+              title="<%= label %>"
+              aria-label="<%= label %>"
+              aria-pressed="<%= index.zero? ? "true" : "false" %>"
+              data-color-theme-target="button"
+              data-action="color-theme#select"
+              data-label="<%= label %>"
+              data-rgb="<%= rgb %>"
+              data-text="<%= text %>"
+              class="admin-v2-focus flex h-7 items-center justify-center rounded-lg border <%= index.zero? ? "border-[var(--g-accent-border)] bg-[var(--g-accent-soft)]" : "border-white/[0.075]" %>">
+              <span class="h-3 w-3 rounded-full" style="background:<%= hex %>"></span>
+            </button>
+          <% end %>
+        </div>
+      </section>
+
+      <section class="mt-3" data-controller="font-theme">
+        <h3 class="text-[9px] font-semibold uppercase tracking-[0.16em] text-[var(--g-faint)]">Typography</h3>
+        <div class="mt-2 grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            aria-pressed="true"
+            data-font-theme-target="button"
+            data-action="font-theme#select"
+            data-label="Sans"
+            data-font-variable="--g-font-sans"
+            class="admin-v2-focus h-8 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-3 text-[11px] font-semibold text-[var(--g-accent-text)]">
+            Sans
+          </button>
+          <button
+            type="button"
+            aria-pressed="false"
+            data-font-theme-target="button"
+            data-action="font-theme#select"
+            data-label="Mono"
+            data-font-variable="--g-font-mono"
+            class="admin-v2-focus h-8 rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 text-[11px] font-semibold text-[var(--g-muted)] hover:text-[var(--g-text)]">
+            Mono
+          </button>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

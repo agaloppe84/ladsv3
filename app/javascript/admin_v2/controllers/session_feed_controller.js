@@ -7,7 +7,7 @@ export default class extends Controller {
   }
 
   connect() {
-    this.add("system", "Session feed ready")
+    this.add({ level: "system", source: "client", type: "session", message: "Session feed ready" })
     this.boundTurboSubmitStart = (event) => this.handleSubmitStart(event)
     this.boundTurboSubmitEnd = (event) => this.handleSubmitEnd(event)
     this.boundTurboFrameLoad = (event) => this.handleFrameLoad(event)
@@ -28,31 +28,70 @@ export default class extends Controller {
 
   handleSubmitStart(event) {
     const form = event.target
-    this.add("server", `${form.method.toUpperCase()} ${new URL(form.action).pathname}`)
+    const method = form.method.toUpperCase()
+
+    this.add({
+      level: "server",
+      source: "form",
+      type: "submit",
+      method,
+      path: this.pathFor(form.action),
+      message: `${method} ${this.pathFor(form.action)}`
+    })
   }
 
   handleSubmitEnd(event) {
     const status = event.detail.fetchResponse?.response?.status
     const level = status && status >= 400 ? "error" : "success"
-    this.add(level, `Server response ${status || "ok"}`)
+    const form = event.detail.formSubmission?.formElement
+
+    this.add({
+      level,
+      source: "server",
+      type: "response",
+      method: form?.method?.toUpperCase(),
+      status: status || "ok",
+      message: `Response ${status || "ok"}`
+    })
   }
 
   handleFrameLoad(event) {
-    this.add("info", `Frame loaded ${event.target.id}`)
+    this.add({
+      level: "info",
+      source: "turbo",
+      type: "frame",
+      message: event.target.id || "frame loaded"
+    })
   }
 
   handleCustomEvent(event) {
-    this.add(event.detail.level || "info", event.detail.message || "Action")
+    const detail = event.detail || {}
+
+    this.add({
+      level: detail.level || "info",
+      source: detail.source || "server",
+      type: detail.type || "event",
+      method: detail.method,
+      path: detail.path,
+      status: detail.status,
+      resource: detail.resource,
+      message: detail.message || "Action"
+    })
   }
 
-  add(level, message) {
+  add(detail, fallbackMessage) {
+    const entry = this.normalizeEntry(detail, fallbackMessage)
     const item = document.createElement("li")
-    item.className = this.classNameFor(level)
+    item.className = this.classNameFor()
     item.innerHTML = `
-      <span class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full" style="background:${this.colorFor(level)}"></span>
+      <span class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full" style="background:${this.colorFor(entry.level)}"></span>
       <span class="text-[10px] text-[var(--g-subtle)]">${this.timestamp()}</span>
-      <span class="uppercase tracking-wide text-[9px]" style="color:${this.colorFor(level)}">${level}</span>
-      <span class="min-w-0 flex-1 truncate text-[11px] text-[var(--g-muted)]">${this.escape(message)}</span>
+      <span class="truncate uppercase tracking-wide text-[9px] text-[var(--g-faint)]">${this.escape(entry.source)}</span>
+      <span class="truncate uppercase tracking-wide text-[9px]" style="color:${this.colorFor(entry.level)}">${this.escape(entry.type)}</span>
+      <span class="min-w-0 flex items-center gap-2">
+        <span class="min-w-0 flex-1 truncate text-[11px] text-[var(--g-muted)]">${this.escape(entry.message)}</span>
+        ${this.metaMarkup(entry)}
+      </span>
     `
 
     this.listTarget.prepend(item)
@@ -62,8 +101,37 @@ export default class extends Controller {
     }
   }
 
+  normalizeEntry(detail, fallbackMessage) {
+    if (typeof detail === "string") {
+      return {
+        level: detail,
+        source: "client",
+        type: detail,
+        message: fallbackMessage || "Action"
+      }
+    }
+
+    return {
+      level: detail?.level || "info",
+      source: detail?.source || "client",
+      type: detail?.type || detail?.level || "event",
+      method: detail?.method,
+      path: detail?.path,
+      status: detail?.status,
+      resource: detail?.resource,
+      message: detail?.message || "Action"
+    }
+  }
+
+  metaMarkup(entry) {
+    const parts = [entry.method, entry.status, entry.resource].filter(Boolean)
+    if (parts.length === 0) return ""
+
+    return `<span class="shrink-0 rounded border border-white/[0.06] bg-white/[0.035] px-1.5 py-0.5 font-mono text-[9px] text-[var(--g-subtle)]">${this.escape(parts.join(" "))}</span>`
+  }
+
   classNameFor() {
-    return "grid grid-cols-[8px_58px_48px_minmax(0,1fr)] items-start gap-2 border-b border-white/[0.055] px-3 py-2"
+    return "grid grid-cols-[8px_58px_42px_52px_minmax(0,1fr)] items-start gap-2 border-b border-white/[0.055] px-3 py-2"
   }
 
   colorFor(level) {
@@ -85,9 +153,13 @@ export default class extends Controller {
     }).format(new Date())
   }
 
+  pathFor(url) {
+    return new URL(url, window.location.href).pathname
+  }
+
   escape(value) {
     const div = document.createElement("div")
-    div.textContent = value
+    div.textContent = value || ""
     return div.innerHTML
   }
 }

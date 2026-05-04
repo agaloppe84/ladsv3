@@ -44,6 +44,10 @@ Rails.application.routes.draw do
     resources :quotes, path: "devis", only: [:index, :show] do
       resource :processing, only: [:update], controller: "quote_processing"
     end
+
+    resource :session_storage, path: "session-storage", only: [], controller: "session_storage" do
+      post :prune
+    end
   end
 
   namespace :admin do

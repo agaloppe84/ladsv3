@@ -20,6 +20,7 @@ class AdminV2::QuoteProcessingController < AdminV2::BaseController
 
   def set_quote
     @quote = Quote.find(params[:quote_id])
+    track_admin_v2_context(@quote)
   end
 
   def quote_params

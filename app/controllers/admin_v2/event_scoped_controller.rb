@@ -5,6 +5,7 @@ class AdminV2::EventScopedController < AdminV2::BaseController
 
   def set_event
     @event = Event.find(params[:event_id])
+    track_admin_v2_context(@event)
   end
 
   def render_event_streams(*streams, level: :success, message:, event_type: :update, status: :ok)

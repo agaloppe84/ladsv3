@@ -41,9 +41,7 @@
     </header>
 
     <div class="grid gap-5 px-7 py-6">
-      <turbo-frame id="admin_v2_events_results">
-        <%= render AdminV2::Events::IndexComponent.new(events: events) %>
-      </turbo-frame>
+      <%= render "admin_v2/events/results_frame", events: events, pagination: pagination %>
     </div>
   </div>
 </turbo-frame>

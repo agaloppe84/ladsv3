@@ -1,6 +1,14 @@
-<li class="grid grid-cols-[8px_58px_48px_minmax(0,1fr)] items-start gap-2 border-b border-white/[0.055] px-3 py-2">
-  <span class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full <%= event.level == "success" ? "bg-[var(--g-green)]" : event.level == "warning" ? "bg-[var(--g-amber)]" : event.level == "error" ? "bg-[var(--g-red)]" : event.level == "server" ? "bg-[var(--g-cyan)]" : event.level == "info" ? "bg-[var(--g-accent)]" : "bg-[var(--g-faint)]" %>"></span>
+<li class="grid grid-cols-[8px_58px_42px_52px_minmax(0,1fr)] items-start gap-2 border-b border-white/[0.055] px-3 py-2">
+  <span class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full" style="background:<%= event.debug_color %>"></span>
   <span class="text-[10px] text-[var(--g-subtle)]"><%= l(event.created_at, format: "%H:%M:%S") %></span>
-  <span class="text-[9px] uppercase tracking-wide <%= event.level == "success" ? "text-[var(--g-green)]" : event.level == "warning" ? "text-[var(--g-amber)]" : event.level == "error" ? "text-[var(--g-red)]" : event.level == "server" ? "text-[var(--g-cyan)]" : event.level == "info" ? "text-[var(--g-accent)]" : "text-[var(--g-faint)]" %>"><%= event.level %></span>
-  <span class="min-w-0 flex-1 truncate text-[11px] text-[var(--g-muted)]"><%= event.message %></span>
+  <span class="truncate text-[9px] uppercase tracking-wide text-[var(--g-faint)]"><%= event.debug_source %></span>
+  <span class="truncate text-[9px] uppercase tracking-wide" style="color:<%= event.debug_color %>"><%= event.debug_type %></span>
+  <span class="min-w-0 flex items-center gap-2">
+    <span class="min-w-0 flex-1 truncate text-[11px] text-[var(--g-muted)]"><%= event.message %></span>
+    <% if event.debug_meta.present? || event.resource_label.present? %>
+      <span class="shrink-0 rounded border border-white/[0.06] bg-white/[0.035] px-1.5 py-0.5 font-mono text-[9px] text-[var(--g-subtle)]">
+        <%= [event.debug_meta, event.resource_label].compact.join(" ") %>
+      </span>
+    <% end %>
+  </span>
 </li>
