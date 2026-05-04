@@ -13,7 +13,7 @@ class ProductsController < ApplicationController
   private
 
   def set_product
-    @product = Product.find_by!(slug: params[:slug])
+    @product = Product.joins(:category).merge(Category.published).where(type: nil).find_by!(slug: params[:slug])
   end
 
   def set_breadcrumbs

@@ -4,7 +4,7 @@ class PagesController < ApplicationController
     @photos = Product.all.first.images
     @carousel_products = Product.all.first(6)
     @carousel_products = []
-    @categories = Category.includes(products: [images_attachments: :blob]).all
+    @categories = Category.published.includes(products: [images_attachments: :blob]).order(:name)
     add_breadcrumb("Accueil", root_path)
   end
 

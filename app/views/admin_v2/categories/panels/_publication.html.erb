@@ -1,0 +1,50 @@
+<%= render AdminV2::Ui::PanelComponent.new(
+  id: "admin_v2_category_publication",
+  title: "Publication",
+  subtitle: "Visibilité site public",
+  data: {
+    controller: "action-state",
+    action_state_hide_delay_value: 1800
+  }
+) do |panel| %>
+  <% panel.with_actions do %>
+    <%= render AdminV2::Ui::ActionStateComponent.new %>
+  <% end %>
+
+  <% if category.errors[:active].any? %>
+    <div class="mb-4 rounded-xl border border-red-300/20 bg-red-300/10 p-3 text-[12px] text-[var(--g-red)]">
+      <%= category.errors[:active].to_sentence %>
+    </div>
+  <% end %>
+
+  <%= form_with scope: :category,
+    url: admin_v2_category_publication_path(category.id),
+    method: :patch,
+    data: {
+      controller: "toggle-association inline-form",
+      action: "turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete"
+    },
+    class: "grid gap-3" do %>
+    <div class="grid grid-cols-2 gap-2">
+      <% draft_input_id = "admin_v2_category_#{category.id}_publication_draft" %>
+      <label
+        for="<%= draft_input_id %>"
+        class="admin-v2-focus flex h-10 cursor-pointer items-center justify-center rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 text-center text-[11px] font-bold text-[var(--g-muted)] transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)] has-[:checked]:border-white/[0.18] has-[:checked]:bg-white/[0.08] has-[:checked]:text-[var(--g-text)]">
+        <%= radio_button_tag "category[active]", "0", !category.active?, id: draft_input_id, class: "sr-only", data: { action: "change->toggle-association#submit", label: "Category##{category.id} unpublished" } %>
+        <span class="min-w-0 truncate">Non publié</span>
+      </label>
+
+      <% published_input_id = "admin_v2_category_#{category.id}_publication_published" %>
+      <label
+        for="<%= published_input_id %>"
+        class="admin-v2-focus flex h-10 cursor-pointer items-center justify-center rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 text-center text-[11px] font-bold text-[var(--g-muted)] transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)] has-[:checked]:border-[var(--g-accent-border)] has-[:checked]:bg-[var(--g-accent-soft)] has-[:checked]:text-[var(--g-accent)]">
+        <%= radio_button_tag "category[active]", "1", category.active?, id: published_input_id, class: "sr-only", data: { action: "change->toggle-association#submit", label: "Category##{category.id} published" } %>
+        <span class="min-w-0 truncate">Publié</span>
+      </label>
+    </div>
+
+    <p class="text-[11px] leading-5 text-[var(--g-subtle)]">
+      Les produits associés suivent ce statut sur le site public.
+    </p>
+  <% end %>
+<% end %>

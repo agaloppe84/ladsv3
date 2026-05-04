@@ -30,4 +30,8 @@ class AdminV2::Categories::RowComponent < ViewComponent::Base
   def updated_at
     helpers.l(category.updated_at, format: :short)
   end
+
+  def index_params
+    helpers.request.query_parameters.slice("query", "page")
+  end
 end

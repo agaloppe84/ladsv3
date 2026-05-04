@@ -61,6 +61,14 @@ class AdminV2::CategoryScopedController < AdminV2::BaseController
     )
   end
 
+  def publication_panel_stream
+    turbo_stream.replace(
+      "admin_v2_category_publication",
+      partial: "admin_v2/categories/panels/publication",
+      locals: { category: @category }
+    )
+  end
+
   def category_with_count
     Category
       .left_joins(:products)

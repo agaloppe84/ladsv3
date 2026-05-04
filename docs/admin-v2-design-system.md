@@ -352,9 +352,19 @@ Pattern :
 - create met a jour index + sidebar + drawer show ;
 - autosave `name` et `description` au blur ;
 - autosave `color` au clic dans une palette controlee ;
+- autosave `active` au clic dans un panel `Publication` ;
 - produits rattaches affiches en lecture avec liens vers Product V2.
 
 Compteur produits : compter les produits store classiques, donc `Product.where(type: nil)`, pour eviter de melanger avec `DestockProduct`.
+
+Publication publique :
+
+- `active: true` signifie categorie publiee sur le site public ;
+- `active: false` signifie categorie en construction, visible dans l'Admin V2 mais invisible sur le site public ;
+- les nouvelles categories V2 doivent naitre non publiees ;
+- une categorie ne peut etre publiee que si elle possede au moins un produit store valide ;
+- les produits rattaches a une categorie non publiee ne doivent pas etre accessibles sur le site public, meme par URL directe.
+- une categorie ne peut etre supprimee dans l'Admin V2 que si elle ne possede aucun produit rattache.
 
 ## Index Et Row Cards
 
