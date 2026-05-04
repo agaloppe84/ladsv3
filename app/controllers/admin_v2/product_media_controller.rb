@@ -7,7 +7,8 @@ class AdminV2::ProductMediaController < AdminV2::ProductScopedController
       media_panel_stream,
       drawer_summary_stream,
       level: :success,
-      message: "Product##{@product.id} image attached"
+      message: "Product##{@product.id} image attached",
+      event_type: :upload
     )
   end
 
@@ -18,7 +19,8 @@ class AdminV2::ProductMediaController < AdminV2::ProductScopedController
       media_panel_stream,
       drawer_summary_stream,
       level: :success,
-      message: "Product##{@product.id} image removed"
+      message: "Product##{@product.id} image removed",
+      event_type: :delete
     )
   end
 
@@ -30,7 +32,8 @@ class AdminV2::ProductMediaController < AdminV2::ProductScopedController
     render_product_streams(
       media_panel_stream,
       level: :success,
-      message: "Product##{@product.id} image order saved"
+      message: "Product##{@product.id} image order saved",
+      event_type: :reorder
     )
   end
 end

@@ -6,13 +6,15 @@ class AdminV2::ProductServicesController < AdminV2::ProductScopedController
       render_product_streams(
         service_panel_stream,
         level: :success,
-        message: "Product##{@product.id} service updated"
+        message: "Product##{@product.id} service updated",
+        event_type: :autosave
       )
     else
       render_product_streams(
         service_panel_stream,
         level: :warning,
-        message: service.errors.full_messages.to_sentence.presence || "Service invalid"
+        message: service.errors.full_messages.to_sentence.presence || "Service invalid",
+        event_type: :error
       )
     end
   end

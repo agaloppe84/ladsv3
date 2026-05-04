@@ -4,13 +4,15 @@ class AdminV2::FinishesController < AdminV2::ProductScopedController
     render_product_streams(
       configurator_panel_stream,
       level: :success,
-      message: "Finish##{finish.id} created"
+      message: "Finish##{finish.id} created",
+      event_type: :create
     )
   rescue ActiveRecord::RecordInvalid => e
     render_product_streams(
       configurator_panel_stream,
       level: :warning,
-      message: e.record.errors.full_messages.to_sentence
+      message: e.record.errors.full_messages.to_sentence,
+      event_type: :error
     )
   end
 

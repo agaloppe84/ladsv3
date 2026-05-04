@@ -1,0 +1,44 @@
+<div id="admin_v2_session_report" class="min-w-0">
+  <p class="truncate text-[11px] font-semibold text-[var(--g-accent)]"><%= current_user.email %></p>
+  <div class="mt-2 rounded-lg border border-white/[0.06] bg-white/[0.025] p-2.5">
+    <div class="flex items-center justify-between gap-3">
+      <span class="text-[9px] font-semibold uppercase tracking-[0.18em] text-[var(--g-faint)]">current user</span>
+      <span class="font-mono text-[10px] font-semibold text-[var(--g-subtle)]">User#<%= current_user.id %></span>
+    </div>
+
+    <dl class="mt-2 grid gap-1.5">
+      <% if admin_v2_session %>
+        <% [
+          ["session", "##{admin_v2_session.id}"],
+          ["status", admin_v2_session.status],
+          ["area", active.to_s],
+          ["started", l(admin_v2_session.started_at, format: :short)],
+          ["seen", l(admin_v2_session.last_seen_at, format: :short)],
+          ["events", admin_v2_session.events_count],
+          ["mutations", admin_v2_session.mutations_count],
+          ["autosaves", admin_v2_session.autosaves_count],
+          ["uploads", admin_v2_session.uploads_count],
+          ["errors", admin_v2_session.errors_count]
+        ].each do |label, value| %>
+          <div class="flex items-center justify-between gap-3 text-[9px]">
+            <dt class="font-semibold uppercase tracking-[0.16em] text-[var(--g-faint)]"><%= label %></dt>
+            <dd class="max-w-32 truncate text-right font-mono text-[var(--g-subtle)]"><%= value %></dd>
+          </div>
+        <% end %>
+      <% else %>
+        <% [
+          ["scope", "admin-v2"],
+          ["area", active.to_s],
+          ["created", l(current_user.created_at, format: :short)],
+          ["updated", l(current_user.updated_at, format: :short)],
+          ["feed", "volatile"]
+        ].each do |label, value| %>
+          <div class="flex items-center justify-between gap-3 text-[9px]">
+            <dt class="font-semibold uppercase tracking-[0.16em] text-[var(--g-faint)]"><%= label %></dt>
+            <dd class="max-w-32 truncate text-right font-mono text-[var(--g-subtle)]"><%= value %></dd>
+          </div>
+        <% end %>
+      <% end %>
+    </dl>
+  </div>
+</div>

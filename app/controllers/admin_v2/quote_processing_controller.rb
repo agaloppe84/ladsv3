@@ -6,12 +6,12 @@ class AdminV2::QuoteProcessingController < AdminV2::BaseController
       render turbo_stream: [
         quote_row_stream,
         drawer_summary_stream,
-        turbo_stream_flash(:success, processing_message)
+        *admin_v2_feedback_streams(:success, processing_message, event_type: :processed, resource: @quote, status_code: 200)
       ]
     else
       render turbo_stream: [
         drawer_summary_stream,
-        turbo_stream_flash(:warning, @quote.errors.full_messages.to_sentence.presence || "Quote processing invalid")
+        *admin_v2_feedback_streams(:warning, @quote.errors.full_messages.to_sentence.presence || "Quote processing invalid", event_type: :error, resource: @quote, status_code: 422)
       ], status: :unprocessable_entity
     end
   end

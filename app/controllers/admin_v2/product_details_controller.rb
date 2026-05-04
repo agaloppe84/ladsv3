@@ -6,12 +6,14 @@ class AdminV2::ProductDetailsController < AdminV2::ProductScopedController
       render_product_streams(
         *success_streams(permitted_params),
         level: :success,
-        message: detail_message(permitted_params)
+        message: detail_message(permitted_params),
+        event_type: :autosave
       )
     else
       render_product_streams(
         level: :warning,
         message: @product.errors.full_messages.to_sentence.presence || "Product details invalid",
+        event_type: :error,
         status: :unprocessable_entity
       )
     end

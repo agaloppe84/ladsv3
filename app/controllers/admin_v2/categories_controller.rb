@@ -55,7 +55,7 @@ class AdminV2::CategoriesController < AdminV2::BaseController
               locals: { category: @category }
             ),
             store_nav_stream(:categories),
-            turbo_stream_flash(:success, "Category##{@category.id} created")
+            *admin_v2_feedback_streams(:success, "Category##{@category.id} created", event_type: :create, resource: @category, status_code: 200)
           ]
         end
         format.html { redirect_to admin_v2_categories_path, notice: "Catégorie créée" }

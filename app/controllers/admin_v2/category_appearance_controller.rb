@@ -11,13 +11,15 @@ class AdminV2::CategoryAppearanceController < AdminV2::CategoryScopedController
         category_row_stream,
         drawer_header_stream,
         level: :success,
-        message: "Category##{@category.id} color updated"
+        message: "Category##{@category.id} color updated",
+        event_type: :autosave
       )
     else
       render_category_streams(
         appearance_panel_stream,
         level: :warning,
         message: @category.errors.full_messages.to_sentence.presence || "Category color invalid",
+        event_type: :error,
         status: :unprocessable_entity
       )
     end

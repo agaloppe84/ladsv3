@@ -7,7 +7,8 @@ class AdminV2::ProductDocumentationsController < AdminV2::ProductScopedControlle
       documentations_panel_stream,
       drawer_summary_stream,
       level: :success,
-      message: "Product##{@product.id} documentation attached"
+      message: "Product##{@product.id} documentation attached",
+      event_type: :upload
     )
   end
 
@@ -18,7 +19,8 @@ class AdminV2::ProductDocumentationsController < AdminV2::ProductScopedControlle
       documentations_panel_stream,
       drawer_summary_stream,
       level: :success,
-      message: "Product##{@product.id} documentation removed"
+      message: "Product##{@product.id} documentation removed",
+      event_type: :delete
     )
   end
 end

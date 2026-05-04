@@ -7,13 +7,15 @@ class AdminV2::EventScheduleController < AdminV2::EventScopedController
         preview_panel_stream,
         schedule_status_stream,
         level: :success,
-        message: "Event##{@event.id} schedule updated"
+        message: "Event##{@event.id} schedule updated",
+        event_type: :autosave
       )
     else
       render_event_streams(
         schedule_panel_stream,
         level: :warning,
         message: @event.errors.full_messages.to_sentence.presence || "Event schedule invalid",
+        event_type: :error,
         status: :unprocessable_entity
       )
     end

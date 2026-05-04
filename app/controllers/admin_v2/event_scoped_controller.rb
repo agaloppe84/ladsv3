@@ -7,10 +7,16 @@ class AdminV2::EventScopedController < AdminV2::BaseController
     @event = Event.find(params[:event_id])
   end
 
-  def render_event_streams(*streams, level: :success, message:, status: :ok)
+  def render_event_streams(*streams, level: :success, message:, event_type: :update, status: :ok)
     render turbo_stream: [
       *streams,
-      turbo_stream_flash(level, message)
+      *admin_v2_feedback_streams(
+        level,
+        message,
+        event_type: event_type,
+        resource: @event,
+        status_code: Rack::Utils.status_code(status)
+      )
     ], status: status
   end
 

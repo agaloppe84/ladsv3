@@ -6,13 +6,15 @@ class AdminV2::ColorPaletteItemsController < AdminV2::ProductScopedController
     render_product_streams(
       configurator_panel_stream,
       level: :success,
-      message: "Color added to #{@part.code}"
+      message: "Color added to #{@part.code}",
+      event_type: :create
     )
   rescue ActiveRecord::RecordInvalid => e
     render_product_streams(
       configurator_panel_stream,
       level: :warning,
-      message: e.record.errors.full_messages.to_sentence
+      message: e.record.errors.full_messages.to_sentence,
+      event_type: :error
     )
   end
 
@@ -22,13 +24,15 @@ class AdminV2::ColorPaletteItemsController < AdminV2::ProductScopedController
     render_product_streams(
       configurator_panel_stream,
       level: :success,
-      message: "PaletteItem##{item.id} updated"
+      message: "PaletteItem##{item.id} updated",
+      event_type: :autosave
     )
   rescue ActiveRecord::RecordInvalid => e
     render_product_streams(
       configurator_panel_stream,
       level: :warning,
-      message: e.record.errors.full_messages.to_sentence
+      message: e.record.errors.full_messages.to_sentence,
+      event_type: :error
     )
   end
 
@@ -38,13 +42,15 @@ class AdminV2::ColorPaletteItemsController < AdminV2::ProductScopedController
     render_product_streams(
       configurator_panel_stream,
       level: :success,
-      message: "PaletteItem##{item.id} removed"
+      message: "PaletteItem##{item.id} removed",
+      event_type: :delete
     )
   rescue ActiveRecord::RecordNotDestroyed => e
     render_product_streams(
       configurator_panel_stream,
       level: :error,
-      message: e.record.errors.full_messages.to_sentence.presence || "Palette item remove failed"
+      message: e.record.errors.full_messages.to_sentence.presence || "Palette item remove failed",
+      event_type: :error
     )
   end
 

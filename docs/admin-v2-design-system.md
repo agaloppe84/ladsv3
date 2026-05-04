@@ -217,12 +217,14 @@ Attention : les routes appelees par Turbo Stream doivent toujours rendre des tar
 
 ## Live Feed
 
-Le live feed est **session-only** :
+Le live feed reste **session-only**, mais peut maintenant s'appuyer sur une session Admin V2 persistante et legere :
 
-- pas de persistence ;
-- pas de modele `ActivityLog` pour l'instant ;
+- session courante : `AdminV2Session` ;
+- evenements courts : `AdminV2SessionEvent` ;
+- pas de modele global `ActivityLog` ;
 - pas d'Action Cable obligatoire ;
-- logs affiches uniquement pendant la session dashboard ouverte.
+- logs scopes sur l'Admin V2 et le user connecte ;
+- compteurs denormalises sur la session pour garder le footer leger.
 
 Il sert a donner une sensation vivante :
 
@@ -234,6 +236,8 @@ Il sert a donner une sensation vivante :
 - create/update/delete V2.
 
 Ne pas y mettre de donnees sensibles inutilement. Preferer `Product#id`, `Quote#id`, `Category#id` a des emails, telephones ou contenus prives.
+
+Le feed visible peut encore recevoir des evenements client via Stimulus pour garder une sensation instantanee, mais les evenements serveur importants doivent passer par le tracker Admin V2 afin d'alimenter le rapport de session.
 
 ## Patterns Par Ressource
 

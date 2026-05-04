@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_05_02_190000) do
+ActiveRecord::Schema[7.0].define(version: 2026_05_04_080248) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -43,6 +43,50 @@ ActiveRecord::Schema[7.0].define(version: 2026_05_02_190000) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "admin_v2_session_events", force: :cascade do |t|
+    t.bigint "admin_v2_session_id", null: false
+    t.bigint "user_id", null: false
+    t.string "level", null: false
+    t.string "event_type", null: false
+    t.string "resource_type"
+    t.bigint "resource_id"
+    t.string "request_method"
+    t.string "request_path"
+    t.integer "status_code"
+    t.text "message", null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_v2_session_id", "created_at"], name: "index_admin_v2_events_on_session_and_created_at"
+    t.index ["admin_v2_session_id"], name: "index_admin_v2_session_events_on_admin_v2_session_id"
+    t.index ["resource_type", "resource_id"], name: "index_admin_v2_events_on_resource"
+    t.index ["user_id", "created_at"], name: "index_admin_v2_events_on_user_and_created_at"
+    t.index ["user_id"], name: "index_admin_v2_session_events_on_user_id"
+  end
+
+  create_table "admin_v2_sessions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "started_at", null: false
+    t.datetime "last_seen_at", null: false
+    t.datetime "ended_at"
+    t.string "status", default: "active", null: false
+    t.string "ip_address"
+    t.text "user_agent"
+    t.string "current_area"
+    t.string "current_resource_type"
+    t.bigint "current_resource_id"
+    t.integer "events_count", default: 0, null: false
+    t.integer "mutations_count", default: 0, null: false
+    t.integer "errors_count", default: 0, null: false
+    t.integer "uploads_count", default: 0, null: false
+    t.integer "autosaves_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["current_resource_type", "current_resource_id"], name: "idx_admin_v2_sessions_on_current_resource"
+    t.index ["user_id", "status", "last_seen_at"], name: "index_admin_v2_sessions_on_user_id_and_status_and_last_seen_at"
+    t.index ["user_id"], name: "index_admin_v2_sessions_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -214,6 +258,9 @@ ActiveRecord::Schema[7.0].define(version: 2026_05_02_190000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "admin_v2_session_events", "admin_v2_sessions"
+  add_foreign_key "admin_v2_session_events", "users"
+  add_foreign_key "admin_v2_sessions", "users"
   add_foreign_key "color_palette_items", "color_palettes"
   add_foreign_key "color_palette_items", "finishes"
   add_foreign_key "color_palette_items", "rals"

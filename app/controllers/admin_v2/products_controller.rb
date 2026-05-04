@@ -58,7 +58,7 @@ class AdminV2::ProductsController < AdminV2::BaseController
               locals: { product: @product }
             ),
             store_nav_stream(:products),
-            turbo_stream_flash(:success, "Product##{@product.id} created")
+            *admin_v2_feedback_streams(:success, "Product##{@product.id} created", event_type: :create, resource: @product, status_code: 200)
           ]
         end
         format.html { redirect_to edit_admin_v2_product_path(@product), notice: "Produit créé" }

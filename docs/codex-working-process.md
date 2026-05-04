@@ -188,15 +188,16 @@ Par defaut :
 - ne pas reset ;
 - ne pas seed ;
 - ne pas creer de donnees ;
-- ne pas persister de logs de session ;
 - ne pas ajouter de table d'audit dans ce sprint.
 
 Pour les logs Admin V2 :
 
-- session-only ;
-- pas de modele `ActivityLog` ;
+- session-only, scopes sur le user admin connecte ;
+- persistance legere via `AdminV2Session` et `AdminV2SessionEvent` si la migration existe ;
+- pas de modele global `ActivityLog` ;
 - pas d'Action Cable obligatoire ;
 - pas de donnees sensibles dans le feed.
+- Codex peut generer une migration si l'utilisateur le demande explicitement, mais l'utilisateur lance `db:migrate` lui-meme.
 
 ## Tests Et Verification
 

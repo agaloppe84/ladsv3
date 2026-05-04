@@ -9,13 +9,15 @@ class AdminV2::CategoryDetailsController < AdminV2::CategoryScopedController
         category_row_stream,
         drawer_header_stream,
         level: :success,
-        message: detail_message(permitted_params)
+        message: detail_message(permitted_params),
+        event_type: :autosave
       )
     else
       render_category_streams(
         details_panel_stream,
         level: :warning,
         message: @category.errors.full_messages.to_sentence.presence || "Category details invalid",
+        event_type: :error,
         status: :unprocessable_entity
       )
     end

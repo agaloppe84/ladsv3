@@ -1,6 +1,9 @@
 class AdminV2::BaseController < ActionController::Base
   before_action :authenticate_user!
+  before_action :track_admin_v2_session
   before_action :consume_boot_panel
+
+  helper_method :current_admin_v2_session
 
   layout "admin_v2"
 
@@ -11,6 +14,28 @@ class AdminV2::BaseController < ActionController::Base
   end
 
   def turbo_stream_flash(level, message)
+    track_admin_v2_event(level: level, event_type: :server, message: message)
+
+    server_event_stream(level, message)
+  end
+
+  def admin_v2_feedback_streams(level, message, event_type: :server, resource: nil, metadata: {}, status_code: nil)
+    track_admin_v2_event(
+      level: level,
+      event_type: event_type,
+      message: message,
+      resource: resource,
+      metadata: metadata,
+      status_code: status_code
+    )
+
+    [
+      server_event_stream(level, message),
+      admin_v2_session_report_stream
+    ].compact
+  end
+
+  def server_event_stream(level, message)
     turbo_stream.append(
       "admin_v2_server_events",
       partial: "admin_v2/shared/server_event",
@@ -24,5 +49,59 @@ class AdminV2::BaseController < ActionController::Base
       partial: "admin_v2/shared/store_nav",
       locals: { active: active }
     )
+  end
+
+  def track_admin_v2_session
+    @admin_v2_session = admin_v2_session_tracker.touch!(area: admin_v2_active_key)
+  end
+
+  def current_admin_v2_session
+    @admin_v2_session ||= admin_v2_session_tracker.current_session
+  end
+
+  def track_admin_v2_event(level:, event_type:, message:, resource: nil, metadata: {}, status_code: nil)
+    event = admin_v2_session_tracker.track!(
+      level: level,
+      event_type: event_type,
+      message: message,
+      resource: resource,
+      metadata: metadata,
+      status_code: status_code
+    )
+    @admin_v2_session = admin_v2_session_tracker.current_session if event
+    event
+  end
+
+  def admin_v2_session_report_stream
+    return unless current_admin_v2_session
+
+    turbo_stream.replace(
+      "admin_v2_session_report",
+      partial: "admin_v2/sessions/report",
+      locals: {
+        current_user: current_user,
+        admin_v2_session: current_admin_v2_session,
+        active: admin_v2_active_key
+      }
+    )
+  end
+
+  def admin_v2_session_tracker
+    @admin_v2_session_tracker ||= AdminV2::SessionTracker.new(self)
+  end
+
+  def admin_v2_active_key
+    case controller_path.delete_prefix("admin_v2/")
+    when /\Aproduct/
+      :products
+    when /\Aevent/
+      :events
+    when /\Acategor/
+      :categories
+    when /\Aquote/
+      :quotes
+    else
+      controller_name
+    end
   end
 end

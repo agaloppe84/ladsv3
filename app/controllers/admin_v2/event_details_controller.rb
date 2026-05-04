@@ -8,13 +8,15 @@ class AdminV2::EventDetailsController < AdminV2::EventScopedController
         drawer_header_stream,
         preview_panel_stream,
         level: :success,
-        message: detail_message(permitted_params)
+        message: detail_message(permitted_params),
+        event_type: :autosave
       )
     else
       render_event_streams(
         details_panel_stream,
         level: :warning,
         message: @event.errors.full_messages.to_sentence.presence || "Event details invalid",
+        event_type: :error,
         status: :unprocessable_entity
       )
     end

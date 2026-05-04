@@ -1,16 +1,17 @@
 # frozen_string_literal: true
 
 class AdminV2::ShellComponent < ViewComponent::Base
-  def initialize(current_user:, active: :products, drawer: nil, show_boot_panel: false)
+  def initialize(current_user:, active: :products, drawer: nil, show_boot_panel: false, admin_v2_session: nil)
     @current_user = current_user
     @active = active
     @drawer = drawer
     @show_boot_panel = show_boot_panel
+    @admin_v2_session = admin_v2_session
   end
 
   private
 
-  attr_reader :current_user, :active, :drawer, :show_boot_panel
+  attr_reader :current_user, :active, :drawer, :show_boot_panel, :admin_v2_session
 
   def active?(key)
     active.to_sym == key.to_sym

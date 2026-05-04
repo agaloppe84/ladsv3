@@ -84,7 +84,7 @@
     </nav>
 
     <div class="border-t border-white/[0.075] px-5 py-4">
-      <p class="truncate text-[11px] font-medium text-[var(--g-muted)]"><%= current_user.email %></p>
+      <%= render "admin_v2/sessions/report", current_user: current_user, admin_v2_session: admin_v2_session, active: active %>
       <%= button_to "Déconnexion", destroy_user_session_path, method: :delete, class: "mt-2 text-[11px] font-semibold text-[var(--g-subtle)] hover:text-[var(--g-text)]" %>
     </div>
   </aside>
@@ -94,7 +94,7 @@
   </main>
 
   <aside class="grid min-h-0 grid-rows-[248px_minmax(0,1fr)] border-l border-white/[0.075] bg-[var(--g-bg-soft)]/90">
-    <%= render AdminV2::SessionFeedComponent.new %>
+    <%= render AdminV2::SessionFeedComponent.new(admin_v2_session: admin_v2_session) %>
     <turbo-frame id="admin_v2_drawer" class="admin-v2-grid-bg admin-v2-scrollbar min-h-0 overflow-y-auto">
       <% if drawer %>
         <%= drawer %>

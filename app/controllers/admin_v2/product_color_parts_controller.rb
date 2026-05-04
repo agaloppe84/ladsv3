@@ -11,13 +11,15 @@ class AdminV2::ProductColorPartsController < AdminV2::ProductScopedController
     render_product_streams(
       configurator_panel_stream,
       level: :success,
-      message: "Product##{@product.id} color part created"
+      message: "Product##{@product.id} color part created",
+      event_type: :create
     )
   rescue ActiveRecord::RecordInvalid => e
     render_product_streams(
       configurator_panel_stream,
       level: :warning,
-      message: e.record.errors.full_messages.to_sentence
+      message: e.record.errors.full_messages.to_sentence,
+      event_type: :error
     )
   end
 
@@ -34,13 +36,15 @@ class AdminV2::ProductColorPartsController < AdminV2::ProductScopedController
     render_product_streams(
       configurator_panel_stream,
       level: :success,
-      message: "ColorPart##{part.id} updated"
+      message: "ColorPart##{part.id} updated",
+      event_type: :autosave
     )
   rescue ActiveRecord::RecordInvalid => e
     render_product_streams(
       configurator_panel_stream,
       level: :warning,
-      message: e.record.errors.full_messages.to_sentence
+      message: e.record.errors.full_messages.to_sentence,
+      event_type: :error
     )
   end
 
@@ -56,13 +60,15 @@ class AdminV2::ProductColorPartsController < AdminV2::ProductScopedController
     render_product_streams(
       configurator_panel_stream,
       level: :success,
-      message: "ColorPart##{part.id} removed"
+      message: "ColorPart##{part.id} removed",
+      event_type: :delete
     )
   rescue ActiveRecord::RecordNotDestroyed => e
     render_product_streams(
       configurator_panel_stream,
       level: :error,
-      message: e.record.errors.full_messages.to_sentence.presence || "Color part remove failed"
+      message: e.record.errors.full_messages.to_sentence.presence || "Color part remove failed",
+      event_type: :error
     )
   end
 

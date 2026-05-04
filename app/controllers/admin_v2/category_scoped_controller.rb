@@ -7,10 +7,16 @@ class AdminV2::CategoryScopedController < AdminV2::BaseController
     @category = Category.find(params[:category_id])
   end
 
-  def render_category_streams(*streams, level: :success, message:, status: :ok)
+  def render_category_streams(*streams, level: :success, message:, event_type: :update, status: :ok)
     render turbo_stream: [
       *streams,
-      turbo_stream_flash(level, message)
+      *admin_v2_feedback_streams(
+        level,
+        message,
+        event_type: event_type,
+        resource: @category,
+        status_code: Rack::Utils.status_code(status)
+      )
     ], status: status
   end
 

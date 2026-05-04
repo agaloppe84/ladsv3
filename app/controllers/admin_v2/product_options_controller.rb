@@ -6,7 +6,8 @@ class AdminV2::ProductOptionsController < AdminV2::ProductScopedController
     render_product_streams(
       options_panel_stream,
       level: :success,
-      message: "Product##{@product.id} option created"
+      message: "Product##{@product.id} option created",
+      event_type: :create
     )
   end
 
@@ -16,13 +17,15 @@ class AdminV2::ProductOptionsController < AdminV2::ProductScopedController
     if option.update(option_params)
       render_product_streams(
         level: :success,
-        message: "Option##{option.id} updated"
+        message: "Option##{option.id} updated",
+        event_type: :autosave
       )
     else
       render_product_streams(
         options_panel_stream,
         level: :warning,
         message: option.errors.full_messages.to_sentence.presence || "Option invalid",
+        event_type: :error,
         status: :unprocessable_entity
       )
     end
@@ -34,7 +37,8 @@ class AdminV2::ProductOptionsController < AdminV2::ProductScopedController
     render_product_streams(
       options_panel_stream,
       level: :success,
-      message: "Option##{option.id} removed"
+      message: "Option##{option.id} removed",
+      event_type: :delete
     )
   end
 
@@ -46,7 +50,8 @@ class AdminV2::ProductOptionsController < AdminV2::ProductScopedController
     render_product_streams(
       options_panel_stream,
       level: :success,
-      message: "Product##{@product.id} option order saved"
+      message: "Product##{@product.id} option order saved",
+      event_type: :reorder
     )
   end
 

@@ -57,7 +57,7 @@ class AdminV2::EventsController < AdminV2::BaseController
               locals: { event: @event }
             ),
             store_nav_stream(:events),
-            turbo_stream_flash(:success, "Event##{@event.id} created")
+            *admin_v2_feedback_streams(:success, "Event##{@event.id} created", event_type: :create, resource: @event, status_code: 200)
           ]
         end
         format.html { redirect_to admin_v2_events_path, notice: "Event créé" }
