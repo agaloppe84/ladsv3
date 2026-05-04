@@ -55,14 +55,25 @@ class AdminV2::ProductColorPartsController < AdminV2::ProductScopedController
   def destroy
     part = @product.product_color_parts.includes(:color_palette).find(params[:id])
     palette = part.color_palette
+    result = {
+      id: part.id,
+      label: part.label.presence || "Partie sans nom",
+      palette_name: palette.name,
+      rals_count: palette.color_palette_items.count,
+      palette_destroyed: false
+    }
 
     ActiveRecord::Base.transaction do
       part.destroy!
-      palette.destroy! if palette.product_color_parts.reload.empty?
+
+      if palette.product_color_parts.reload.empty?
+        palette.destroy!
+        result[:palette_destroyed] = true
+      end
     end
 
     render_product_streams(
-      configurator_panel_stream,
+      *color_part_destroy_streams(result),
       level: :success,
       message: "ColorPart##{part.id} removed",
       event_type: :delete
@@ -80,5 +91,23 @@ class AdminV2::ProductColorPartsController < AdminV2::ProductScopedController
 
   def color_part_params
     params.require(:product_color_part).permit(:code, :label, :palette_name)
+  end
+
+  def deleted_color_part_drawer_stream(result)
+    turbo_stream.replace(
+      "admin_v2_drawer",
+      partial: "admin_v2/product_color_parts/deleted_drawer_frame",
+      locals: { result: result }
+    )
+  end
+
+  def color_part_destroy_streams(result)
+    streams = [configurator_panel_stream]
+    streams << deleted_color_part_drawer_stream(result) if color_part_drawer_context?
+    streams
+  end
+
+  def color_part_drawer_context?
+    params[:admin_v2_drawer_context] == "color_part"
   end
 end

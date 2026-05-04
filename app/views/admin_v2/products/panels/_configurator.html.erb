@@ -140,7 +140,21 @@
                 <path d="M3.5 18h.01" />
               </svg>
             <% end %>
-            <%= button_to admin_v2_product_color_part_path(product, part), method: :delete, title: "Supprimer la partie", class: "admin-v2-focus inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red-300/20 bg-red-300/10 text-[var(--g-red)] transition hover:bg-red-300/15", form: { data: { turbo_stream: true, turbo_confirm: "Supprimer cette partie ?" } } do %>
+            <%= button_to admin_v2_product_color_part_path(product, part),
+              method: :delete,
+              params: { admin_v2_drawer_context: "color_part" },
+              title: "Supprimer la partie",
+              class: "admin-v2-focus inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red-300/20 bg-red-300/10 text-[var(--g-red)] transition hover:bg-red-300/15",
+              form: {
+                data: {
+                  turbo_stream: true,
+                  turbo_confirm: "Supprimer ColorPart##{part.id} ?",
+                  admin_v2_confirm: true,
+                  admin_v2_confirm_title: "Supprimer cette partie ?",
+                  admin_v2_confirm_body: "Cette action supprime la partie du produit. Si sa palette n’est plus utilisée par une autre partie, ses RALs configurés seront aussi retirés.",
+                  admin_v2_confirm_action: "Supprimer"
+                }
+              } do %>
               <span class="sr-only">Supprimer la partie</span>
               <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 6h18" />

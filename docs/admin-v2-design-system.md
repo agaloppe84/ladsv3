@@ -355,6 +355,7 @@ Configuration Parts :
 - le champ RAL doit afficher une recherche locale ou live, une pastille couleur, la reference RAL et le nom ;
 - la finition reste optionnelle avec une entree claire `Sans finition` ;
 - la creation d'une finition est une action contextuelle du bloc d'ajout RAL, pas un bloc global de meme niveau que les parties.
+- la suppression d'une partie utilise le custom confirm Admin V2 et remplace le drawer par un etat supprime si le drawer affichait cette partie.
 
 ### Events
 
