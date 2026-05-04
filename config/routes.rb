@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       end
 
       resources :color_parts, only: [:create, :update, :destroy], controller: "product_color_parts" do
+        get :drawer, on: :member
         resources :items, only: [:create, :update, :destroy], controller: "color_palette_items"
       end
 

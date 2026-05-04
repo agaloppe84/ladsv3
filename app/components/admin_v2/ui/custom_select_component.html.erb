@@ -1,0 +1,79 @@
+<div
+  data-controller="custom-select"
+  data-custom-select-placeholder-value="<%= placeholder %>"
+  data-custom-select-required-value="<%= required %>"
+  data-custom-select-invalid-label-value="<%= invalid_label %>"
+  class="relative min-w-0">
+  <%= hidden_field_tag name, selected_option ? value : "", id: input_id, data: { custom_select_target: "input" } %>
+
+  <% if label.present? %>
+    <label for="<%= input_id %>" class="mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]"><%= label %></label>
+  <% end %>
+
+  <button
+    type="button"
+    data-custom-select-target="button"
+    data-action="custom-select#toggle"
+    aria-expanded="false"
+    class="admin-v2-focus flex h-11 w-full items-center justify-between gap-3 rounded-lg border border-white/[0.09] bg-[var(--g-surface)] px-3 text-left text-sm text-[var(--g-text)] transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)]">
+    <span class="flex min-w-0 items-center gap-2">
+      <span
+        data-custom-select-target="swatch"
+        <% if selected_swatch.present? %>style="background-color: <%= selected_swatch %>"<% end %>
+        class="<%= selected_swatch.present? ? "" : "hidden" %> h-3.5 w-3.5 shrink-0 rounded-full border border-white/[0.18]"></span>
+      <span class="min-w-0">
+        <span data-custom-select-target="label" class="block truncate font-semibold"><%= selected_label %></span>
+        <span data-custom-select-target="meta" class="<%= selected_meta.present? ? "" : "hidden" %> mt-0.5 block truncate text-[9px] uppercase tracking-[0.14em] text-[var(--g-faint)]"><%= selected_meta %></span>
+      </span>
+    </span>
+
+    <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4 shrink-0 text-[var(--g-accent)]" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  </button>
+
+  <div data-custom-select-target="panel" class="hidden mt-2 overflow-hidden rounded-xl border border-white/[0.075] bg-[var(--g-surface)] shadow-[0_18px_50px_rgba(0,0,0,0.24)]">
+    <% if searchable %>
+      <div class="border-b border-white/[0.075] p-2">
+        <input
+          type="search"
+          autocomplete="off"
+          placeholder="Rechercher"
+          data-custom-select-target="search"
+          data-action="input->custom-select#filter keydown.enter->custom-select#selectFirst keydown.escape->custom-select#close"
+          class="w-full rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] placeholder:text-[var(--g-faint)] focus:border-[var(--g-accent-border)] focus:ring-0">
+      </div>
+    <% end %>
+
+    <div class="admin-v2-scrollbar max-h-72 overflow-y-auto p-2">
+      <% normalized_options.each do |option| %>
+        <button
+          type="button"
+          data-custom-select-target="option"
+          data-action="custom-select#select"
+          data-value="<%= option[:value] %>"
+          data-label="<%= option[:label] %>"
+          data-display-label="<%= option[:display_label] %>"
+          data-meta="<%= option[:meta] %>"
+          data-display-meta="<%= option[:display_meta] %>"
+          data-swatch="<%= option[:swatch] %>"
+          data-keywords="<%= option[:keywords] %>"
+          class="admin-v2-focus flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left transition hover:bg-[var(--g-accent-soft)]">
+          <% if option[:swatch].present? %>
+            <span class="h-4 w-4 shrink-0 rounded-full border border-white/[0.18]" style="background-color: <%= option[:swatch] %>"></span>
+          <% end %>
+          <span class="min-w-0">
+            <span class="block truncate text-[12px] font-semibold text-[var(--g-text)]"><%= option[:label] %></span>
+            <% if option[:meta].present? %>
+              <span class="mt-0.5 block truncate text-[9px] text-[var(--g-subtle)]"><%= option[:meta] %></span>
+            <% end %>
+          </span>
+        </button>
+      <% end %>
+
+      <p data-custom-select-target="empty" class="hidden px-3 py-6 text-center text-[12px] font-medium text-[var(--g-subtle)]">
+        Aucun résultat.
+      </p>
+    </div>
+  </div>
+</div>

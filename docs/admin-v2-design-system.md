@@ -335,12 +335,26 @@ Pattern :
 - new minimal dans drawer ;
 - apres create, ouverture de l'edit V2 complet ;
 - edit complexe dans `admin_v2_main` ;
-- drawer pour resume/contexte ou sous-vues medias/docs/options ;
+- drawer pour resume/contexte ou sous-vues medias/docs/options/RALs de partie ;
 - autosave par sections ;
 - medias/docs avec upload state dans le header ;
 - options et configuration couleur dans panels dedies.
 
 Ne pas fusionner la logique RAL directe historique dans l'edit Product. La configuration couleur V2 passe par la logique `ProductColorPart`, `ColorPalette`, `ColorPaletteItem`.
+
+Configuration Parts :
+
+- cote interface, parler de `partie` produit plutot que de `part couleur` ;
+- le back reste `ProductColorPart`, `ColorPalette` et `ColorPaletteItem`, mais l'UI traduit cette mecanique en vocabulaire metier ;
+- le bloc principal affiche les parties du produit sous forme de grille, avec le bloc `Nouvelle partie` en colonne laterale quand la largeur le permet ;
+- le clic sur une partie ouvre son editeur sous la grille ;
+- les champs d'identite de la partie utilisent l'autosave au blur ;
+- l'ajout de RAL reste unitaire, jamais multi-select ;
+- la liste detaillee des RALs d'une partie vit dans le drawer pour alleger l'edition centrale ;
+- les selects natifs sont evites dans ce flux : utiliser le custom select Admin V2 pour RAL et finition ;
+- le champ RAL doit afficher une recherche locale ou live, une pastille couleur, la reference RAL et le nom ;
+- la finition reste optionnelle avec une entree claire `Sans finition` ;
+- la creation d'une finition est une action contextuelle du bloc d'ajout RAL, pas un bloc global de meme niveau que les parties.
 
 ### Events
 

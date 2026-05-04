@@ -1,4 +1,8 @@
 class AdminV2::ProductColorPartsController < AdminV2::ProductScopedController
+  def drawer
+    @part = @product.product_color_parts.includes(color_palette: { color_palette_items: [:ral, :finish] }).find(params[:id])
+  end
+
   def create
     attrs = color_part_params.to_h.symbolize_keys
     palette_name = attrs.delete(:palette_name)

@@ -22,7 +22,7 @@ class AdminV2::ColorPaletteItemsController < AdminV2::ProductScopedController
     item = @part.color_palette.color_palette_items.find(params[:id])
     item.update!(paid_option: ActiveModel::Type::Boolean.new.cast(params.dig(:color_palette_item, :paid_option)))
     render_product_streams(
-      configurator_panel_stream,
+      *color_palette_item_streams,
       level: :success,
       message: "PaletteItem##{item.id} updated",
       event_type: :autosave
@@ -40,7 +40,7 @@ class AdminV2::ColorPaletteItemsController < AdminV2::ProductScopedController
     item = @part.color_palette.color_palette_items.find(params[:id])
     item.destroy!
     render_product_streams(
-      configurator_panel_stream,
+      *color_palette_item_streams,
       level: :success,
       message: "PaletteItem##{item.id} removed",
       event_type: :delete
@@ -65,5 +65,23 @@ class AdminV2::ColorPaletteItemsController < AdminV2::ProductScopedController
     attrs[:finish_id] = attrs[:finish_id].presence
     attrs[:paid_option] = ActiveModel::Type::Boolean.new.cast(attrs[:paid_option])
     attrs
+  end
+
+  def color_palette_item_streams
+    streams = [configurator_panel_stream]
+    streams << color_part_drawer_stream if drawer_context?
+    streams
+  end
+
+  def color_part_drawer_stream
+    turbo_stream.replace(
+      "admin_v2_drawer",
+      partial: "admin_v2/product_color_parts/drawer_frame",
+      locals: { product: @product, part: @part }
+    )
+  end
+
+  def drawer_context?
+    params[:admin_v2_drawer_context] == "color_part"
   end
 end

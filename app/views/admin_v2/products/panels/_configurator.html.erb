@@ -1,140 +1,247 @@
-<%= render AdminV2::Ui::PanelComponent.new(id: "admin_v2_product_configurator", title: "Configuration couleur", subtitle: "Source V2 des RALs, finitions et palettes") do %>
-  <div class="mb-4 grid grid-cols-2 gap-4">
-    <%= form_with scope: :product_color_part,
-      url: admin_v2_product_color_parts_path(product),
-      method: :post,
-      data: { controller: "part-form inline-form", action: "turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete" },
-      class: "rounded-xl border border-white/[0.075] bg-white/[0.035] p-4" do |f| %>
-      <h3 class="text-xs font-semibold text-[var(--g-text)]">Créer une part couleur</h3>
-      <div class="mt-3 grid gap-3">
-        <%= f.text_field :label, placeholder: "Label", data: { part_form_target: "label", action: "input->part-form#syncCode" }, class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-        <%= f.text_field :code, placeholder: "code_unique", data: { part_form_target: "code", action: "input->part-form#markManualEdit" }, class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-        <%= f.text_field :palette_name, placeholder: "Nom palette optionnel", class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-        <%= f.submit "Ajouter part", class: "admin-v2-focus h-9 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-3 text-[11px] font-semibold text-[var(--g-accent-text)] hover:bg-[var(--g-accent-hover)]" %>
-      </div>
-    <% end %>
+<%
+  ral_options = rals.map do |ral|
+    raw_color = ral.hex.presence || ral.try(:rgb).presence || "#505766"
+    swatch_color = raw_color.to_s.start_with?("#", "rgb", "hsl") ? raw_color : "##{raw_color}"
 
-    <%= form_with scope: :finish,
-      url: admin_v2_product_finishes_path(product),
-      method: :post,
-      data: { controller: "inline-form", action: "turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete" },
-      class: "rounded-xl border border-white/[0.075] bg-white/[0.035] p-4" do |f| %>
-      <h3 class="text-xs font-semibold text-[var(--g-text)]">Créer une finition</h3>
-      <div class="mt-3 grid gap-3">
-        <%= f.text_field :code, placeholder: "code", class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-        <%= f.text_field :label, placeholder: "Nom finition", class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-        <%= f.submit "Ajouter finition", class: "admin-v2-focus h-9 rounded-lg border border-white/[0.09] bg-white/[0.055] px-3 text-[11px] font-semibold text-[var(--g-text)]" %>
-      </div>
-    <% end %>
-  </div>
+    {
+      value: ral.id,
+      label: "RAL #{ral.ref} #{ral.name}",
+      display_label: "RAL #{ral.ref}",
+      meta: ral.collection,
+      display_meta: "",
+      swatch: swatch_color,
+      keywords: "#{ral.ref} #{ral.name} #{ral.collection}"
+    }
+  end
 
-  <div class="grid gap-4">
-    <% if product_color_parts.empty? %>
-      <div class="rounded-xl border border-dashed border-white/[0.1] bg-white/[0.025] p-8 text-center text-sm font-medium text-[var(--g-subtle)]">
-        Aucune part couleur configurée.
-      </div>
-    <% end %>
+  finish_options = [
+    { value: "", label: "Sans finition" }
+  ] + finishes.map do |finish|
+    {
+      value: finish.id,
+      label: finish.label,
+      display_label: finish.label,
+      meta: finish.code,
+      display_meta: "",
+      keywords: "#{finish.label} #{finish.code}"
+    }
+  end
+%>
+
+<%= render AdminV2::Ui::PanelComponent.new(id: "admin_v2_product_configurator", title: "Configuration Parts", subtitle: "Parties du produit et coloris disponibles") do |panel| %>
+  <% panel.with_actions do %>
+    <%= render AdminV2::Ui::BadgeComponent.new(label: "#{product_color_parts.size} parties", variant: :neutral) %>
+    <a
+      href="#admin_v2_new_product_part"
+      title="Créer une partie"
+      class="admin-v2-focus inline-flex h-8 w-8 items-center justify-center rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[var(--g-accent)] transition hover:bg-[var(--g-accent-hover)]">
+      <span class="sr-only">Créer une partie</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14" />
+        <path d="M5 12h14" />
+      </svg>
+    </a>
+  <% end %>
+
+  <div data-controller="part-workspace" class="space-y-5">
+    <div class="grid gap-4 2xl:grid-cols-[minmax(0,1fr)_360px]">
+      <section class="rounded-xl border border-white/[0.075] bg-white/[0.025] p-4">
+        <div class="mb-4 flex items-center justify-between gap-3">
+          <div>
+            <h3 class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--g-accent)]">Parties produit</h3>
+            <p class="mt-1 text-[10px] text-[var(--g-faint)]">Chaque partie possède sa propre liste de RALs.</p>
+          </div>
+        </div>
+
+        <div class="grid gap-3 xl:grid-cols-2">
+          <% if product_color_parts.empty? %>
+            <div class="rounded-xl border border-dashed border-white/[0.1] bg-white/[0.025] p-8 text-center text-sm font-medium text-[var(--g-subtle)]">
+              Aucune partie configurée.
+            </div>
+          <% end %>
+
+          <% product_color_parts.each do |part| %>
+            <% palette = part.color_palette %>
+            <% items = palette.color_palette_items.to_a %>
+            <% paid_count = items.count(&:paid_option) %>
+            <% finish_count = items.map(&:finish_id).compact.uniq.size %>
+
+            <button
+              type="button"
+              data-part-workspace-target="tab"
+              data-part-id="<%= part.id %>"
+              data-action="part-workspace#select"
+              aria-pressed="false"
+              class="admin-v2-focus group min-h-28 rounded-xl border border-white/[0.075] bg-white/[0.035] p-4 text-left text-[var(--g-muted)] transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)]">
+              <span class="flex items-start justify-between gap-3">
+                <span class="min-w-0">
+                  <span class="block truncate text-base font-semibold text-[var(--g-text)]"><%= part.label %></span>
+                  <span class="mt-1 block truncate text-[10px] text-[var(--g-subtle)]"><%= part.code %> · <%= palette.name %></span>
+                </span>
+                <span class="rounded-lg border border-white/[0.075] bg-[var(--g-surface-inset)] px-2 py-1 text-[10px] font-semibold text-[var(--g-accent)]"><%= items.size %> RALs</span>
+              </span>
+
+              <span class="mt-4 grid grid-cols-2 gap-2">
+                <span class="rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 py-2 text-[10px] font-semibold text-[var(--g-subtle)]">
+                  <%= finish_count %> finitions
+                </span>
+                <span class="rounded-lg border border-white/[0.075] bg-white/[0.035] px-3 py-2 text-[10px] font-semibold text-[var(--g-subtle)]">
+                  <%= paid_count %> payants
+                </span>
+              </span>
+            </button>
+          <% end %>
+        </div>
+      </section>
+
+      <aside id="admin_v2_new_product_part" class="rounded-xl border border-dashed border-[var(--g-accent-border)] bg-[var(--g-accent-soft)]/60 p-4">
+        <h3 class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--g-accent)]">Nouvelle partie</h3>
+        <p class="mt-1 text-[10px] text-[var(--g-faint)]">Exemple : lames, coulisses, coffre, armature.</p>
+
+        <%= form_with scope: :product_color_part,
+          url: admin_v2_product_color_parts_path(product),
+          method: :post,
+          data: { controller: "part-form inline-form", action: "turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete" },
+          class: "mt-4 grid gap-3" do |f| %>
+          <%= f.text_field :label, placeholder: "Nom de la partie", data: { part_form_target: "label", action: "input->part-form#syncCode" }, class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] placeholder:text-[var(--g-faint)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+          <%= f.text_field :code, placeholder: "Code interne", data: { part_form_target: "code", action: "input->part-form#markManualEdit" }, class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] placeholder:text-[var(--g-faint)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+          <%= f.text_field :palette_name, placeholder: "Nom de groupe optionnel", class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] placeholder:text-[var(--g-faint)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+          <%= f.submit "Créer la partie", class: "admin-v2-focus h-9 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-3 text-[11px] font-semibold text-[var(--g-accent-text)] hover:bg-[var(--g-accent-hover)]" %>
+        <% end %>
+      </aside>
+    </div>
 
     <% product_color_parts.each do |part| %>
       <% palette = part.color_palette %>
       <% items = palette.color_palette_items.sort_by { |item| [item.ral&.collection.to_s, item.ral&.ref.to_s, item.finish&.label.to_s] } %>
 
-      <section class="rounded-xl border border-white/[0.075] bg-white/[0.035]">
+      <section
+        data-part-workspace-target="panel"
+        data-part-id="<%= part.id %>"
+        data-controller="action-state"
+        data-action-state-hide-delay-value="1800"
+        class="hidden overflow-hidden rounded-xl border border-white/[0.075] bg-white/[0.035]">
         <header class="flex items-start justify-between gap-4 border-b border-white/[0.075] px-4 py-3">
-          <div>
-            <p class="text-sm font-semibold text-[var(--g-text)]"><%= part.label %></p>
-            <p class="mt-1 text-[10px] text-[var(--g-subtle)]"><%= part.code %> / <%= palette.name %></p>
+          <div class="min-w-0">
+            <h3 class="truncate text-xs font-semibold uppercase tracking-[0.18em] text-[var(--g-accent)]">Édition partie · <%= part.label %></h3>
+            <p class="mt-1 text-[10px] text-[var(--g-faint)]">Identité, RALs disponibles, finition et option payante.</p>
           </div>
-          <%= button_to "Supprimer part", admin_v2_product_color_part_path(product, part), method: :delete, class: "admin-v2-focus rounded-lg border border-red-300/20 bg-red-300/10 px-3 py-2 text-[11px] font-semibold text-[var(--g-red)]", form: { data: { turbo_stream: true, turbo_confirm: "Supprimer cette part couleur ?" } } %>
+
+          <div class="flex shrink-0 items-center gap-2">
+            <%= render AdminV2::Ui::ActionStateComponent.new %>
+            <%= link_to drawer_admin_v2_product_color_part_path(product, part), data: { turbo_frame: "admin_v2_drawer" }, title: "Afficher les RALs dans le drawer", class: "admin-v2-focus inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.075] bg-white/[0.035] text-[var(--g-accent)] transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)]" do %>
+              <span class="sr-only">Afficher les RALs dans le drawer</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 6h14" />
+                <path d="M7 12h14" />
+                <path d="M7 18h14" />
+                <path d="M3.5 6h.01" />
+                <path d="M3.5 12h.01" />
+                <path d="M3.5 18h.01" />
+              </svg>
+            <% end %>
+            <%= button_to admin_v2_product_color_part_path(product, part), method: :delete, title: "Supprimer la partie", class: "admin-v2-focus inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red-300/20 bg-red-300/10 text-[var(--g-red)] transition hover:bg-red-300/15", form: { data: { turbo_stream: true, turbo_confirm: "Supprimer cette partie ?" } } do %>
+              <span class="sr-only">Supprimer la partie</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 6h18" />
+                <path d="M8 6V4.5A1.5 1.5 0 0 1 9.5 3h5A1.5 1.5 0 0 1 16 4.5V6" />
+                <path d="M19 6l-1 14H6L5 6" />
+                <path d="M10 11v5" />
+                <path d="M14 11v5" />
+              </svg>
+            <% end %>
+          </div>
         </header>
 
         <div class="grid gap-4 p-4">
-          <%= form_with scope: :product_color_part,
-            url: admin_v2_product_color_part_path(product, part),
-            method: :patch,
-            data: { controller: "inline-form", action: "turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete" },
-            class: "grid grid-cols-[1fr_1fr_1fr_auto] gap-3" do |f| %>
-            <%= f.text_field :label, value: part.label, class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-            <%= f.text_field :code, value: part.code, class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-            <%= f.text_field :palette_name, value: palette.name, class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-            <%= f.submit "OK", class: "admin-v2-focus h-10 rounded-lg border border-white/[0.09] bg-white/[0.055] px-3 text-[11px] font-semibold text-[var(--g-text)]" %>
-          <% end %>
-
-          <%= form_with scope: :color_palette_item,
-            url: admin_v2_product_color_part_items_path(product, part),
-            method: :post,
-            data: { controller: "inline-form", action: "turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete" },
-            class: "grid grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_auto_auto] gap-3 rounded-lg border border-white/[0.075] bg-[var(--g-surface-inset)] p-3" do |f| %>
-            <%= f.select :ral_id, options_for_select(rals.map { |ral| ["#{ral.ref} - #{ral.name}", ral.id] }), { include_blank: "Choisir RAL" }, class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-            <%= f.select :finish_id, options_for_select(finishes.map { |finish| ["#{finish.label} (#{finish.code})", finish.id] }), { include_blank: "Sans finition" }, class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
-            <label class="flex items-center gap-2 rounded-lg border border-white/[0.075] px-3 text-[11px] font-semibold text-[var(--g-muted)]">
-              <%= f.check_box :paid_option, class: "rounded border-white/[0.13] bg-[var(--g-surface)] text-[var(--g-accent)] focus:ring-[var(--g-accent)]" %>
-              Payant
-            </label>
-            <%= f.submit "Ajouter", class: "admin-v2-focus h-10 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-3 text-[11px] font-semibold text-[var(--g-accent-text)] hover:bg-[var(--g-accent-hover)]" %>
-          <% end %>
-
-          <section class="overflow-hidden rounded-lg border border-white/[0.075] bg-[var(--g-surface-inset)]">
-            <header class="flex items-center justify-between gap-3 border-b border-white/[0.075] px-3 py-2">
-              <h4 class="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--g-accent)]">Coloris</h4>
-              <%= render AdminV2::Ui::BadgeComponent.new(label: items.size, variant: :neutral) %>
-            </header>
-
-            <% if items.empty? %>
-              <div class="px-3 py-5 text-center text-sm text-[var(--g-subtle)]">
-                Aucune couleur dans cette palette.
-              </div>
-            <% else %>
-              <div class="grid grid-cols-2 gap-2 p-3 xl:grid-cols-3 2xl:grid-cols-4">
-                <% items.each do |item| %>
-                  <% raw_color = item.ral.hex.presence || item.ral.try(:rgb).presence || "#505766" %>
-                  <% swatch_color = raw_color.to_s.start_with?("#", "rgb", "hsl") ? raw_color : "##{raw_color}" %>
-
-                  <article class="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-lg border border-white/[0.075] bg-white/[0.035] p-3 transition hover:border-[var(--g-accent-border)]">
-                    <div class="flex min-w-0 items-center gap-2">
-                      <span class="h-4 w-4 shrink-0 rounded-full border border-white/[0.18] shadow-[0_0_0_2px_rgba(255,255,255,0.035)]" style="background-color: <%= swatch_color %>"></span>
-                      <div class="min-w-0">
-                        <p class="truncate text-[11px] font-semibold text-[var(--g-text)]">
-                          <span class="text-[var(--g-cyan)]"><%= item.ral.ref %></span>
-                          <span><%= item.ral.name %></span>
-                        </p>
-                        <p class="mt-0.5 truncate text-[9px] text-[var(--g-subtle)]"><%= item.finish&.label || "Sans finition" %></p>
-                      </div>
-                    </div>
-
-                    <div class="flex shrink-0 items-center gap-1.5">
-                      <%= form_with scope: :color_palette_item,
-                        url: admin_v2_product_color_part_item_path(product, part, item),
-                        method: :patch,
-                        data: { controller: "inline-form", action: "change->inline-form#submit turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete" },
-                        class: "inline-flex items-center" do |f| %>
-                        <%= hidden_field_tag "color_palette_item[paid_option]", "0" %>
-                        <label class="admin-v2-focus inline-flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg border border-white/[0.075] bg-white/[0.035] text-[var(--g-muted)] transition has-[:checked]:border-[var(--g-accent-border)] has-[:checked]:bg-[var(--g-accent-soft)] has-[:checked]:text-[var(--g-accent)]" title="Option payante">
-                          <span class="sr-only">Option payante</span>
-                          <%= f.check_box :paid_option, checked: item.paid_option, class: "sr-only" %>
-                          <svg viewBox="0 0 24 24" aria-hidden="true" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 3v18" />
-                            <path d="M17 7.5c-.8-.9-2.1-1.5-3.7-1.5-2.1 0-3.8 1.1-3.8 2.8 0 1.8 1.8 2.4 3.7 2.9 2 .5 3.8 1.1 3.8 3 0 1.7-1.6 3.1-4 3.1-1.8 0-3.4-.7-4.3-1.8" />
-                          </svg>
-                        </label>
-                      <% end %>
-
-                      <%= button_to admin_v2_product_color_part_item_path(product, part, item), method: :delete, title: "Supprimer cette couleur", class: "admin-v2-focus inline-flex h-7 w-7 items-center justify-center rounded-lg border border-red-300/20 bg-red-300/10 text-[var(--g-red)] transition hover:bg-red-300/15", form: { data: { turbo_stream: true, turbo_confirm: "Supprimer cette couleur ?" } } do %>
-                        <span class="sr-only">Supprimer cette couleur</span>
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                          <path d="M3 6h18" />
-                          <path d="M8 6V4.5A1.5 1.5 0 0 1 9.5 3h5A1.5 1.5 0 0 1 16 4.5V6" />
-                          <path d="M19 6l-1 14H6L5 6" />
-                          <path d="M10 11v5" />
-                          <path d="M14 11v5" />
-                        </svg>
-                      <% end %>
-                    </div>
-                  </article>
-                <% end %>
-              </div>
+          <div class="grid gap-3 2xl:grid-cols-3">
+            <%= form_with scope: :product_color_part,
+              url: admin_v2_product_color_part_path(product, part),
+              method: :patch,
+              data: { controller: "autosave-field inline-form", action: "turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete turbo:submit-end->autosave-field#complete" } do |f| %>
+              <label class="mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]">Nom de la partie</label>
+              <%= f.text_field :label, value: part.label, data: { action: "focusin->autosave-field#remember blur->autosave-field#submitIfChanged" }, class: "w-full rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
             <% end %>
-          </section>
+
+            <%= form_with scope: :product_color_part,
+              url: admin_v2_product_color_part_path(product, part),
+              method: :patch,
+              data: { controller: "autosave-field inline-form", action: "turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete turbo:submit-end->autosave-field#complete" } do |f| %>
+              <label class="mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]">Code interne</label>
+              <%= f.text_field :code, value: part.code, data: { action: "focusin->autosave-field#remember blur->autosave-field#submitIfChanged" }, class: "w-full rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+            <% end %>
+
+            <%= form_with scope: :product_color_part,
+              url: admin_v2_product_color_part_path(product, part),
+              method: :patch,
+              data: { controller: "autosave-field inline-form", action: "turbo:submit-start->action-state#saving turbo:submit-end->action-state#complete turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete turbo:submit-end->autosave-field#complete" } do |f| %>
+              <label class="mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]">Nom de groupe optionnel</label>
+              <%= f.text_field :palette_name, value: palette.name, data: { action: "focusin->autosave-field#remember blur->autosave-field#submitIfChanged" }, class: "w-full rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+            <% end %>
+          </div>
+
+          <div class="rounded-xl border border-white/[0.075] bg-[var(--g-surface-inset)] p-3">
+            <div class="mb-3 flex items-center justify-between gap-3">
+              <div>
+                <h4 class="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--g-accent)]">Ajouter un RAL</h4>
+                <p class="mt-1 text-[10px] text-[var(--g-faint)]">Un RAL à la fois, avec finition optionnelle.</p>
+              </div>
+              <%= render AdminV2::Ui::BadgeComponent.new(label: "#{items.size} disponibles", variant: :neutral) %>
+            </div>
+
+            <%= form_with scope: :color_palette_item,
+              url: admin_v2_product_color_part_items_path(product, part),
+              method: :post,
+              data: { controller: "inline-form", action: "turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete" },
+              class: "grid gap-3 2xl:grid-cols-[minmax(0,1.3fr)_minmax(0,0.9fr)_auto_auto]" do %>
+              <%= render AdminV2::Ui::CustomSelectComponent.new(
+                name: "color_palette_item[ral_id]",
+                options: ral_options,
+                input_id: "admin_v2_part_#{part.id}_ral_id",
+                placeholder: "Rechercher un RAL",
+                searchable: true,
+                required: true,
+                invalid_label: "Choisis un RAL"
+              ) %>
+
+              <%= render AdminV2::Ui::CustomSelectComponent.new(
+                name: "color_palette_item[finish_id]",
+                options: finish_options,
+                input_id: "admin_v2_part_#{part.id}_finish_id",
+                placeholder: "Sans finition"
+              ) %>
+
+              <label class="flex h-11 items-center gap-2 rounded-lg border border-white/[0.075] px-3 text-[11px] font-semibold text-[var(--g-muted)]">
+                <%= hidden_field_tag "color_palette_item[paid_option]", "0" %>
+                <%= check_box_tag "color_palette_item[paid_option]", "1", false, class: "rounded border-white/[0.13] bg-[var(--g-surface)] text-[var(--g-accent)] focus:ring-[var(--g-accent)]" %>
+                Option payante
+              </label>
+
+              <button type="submit" class="admin-v2-focus inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-4 text-[11px] font-semibold text-[var(--g-accent-text)] hover:bg-[var(--g-accent-hover)]">
+                <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 5v14" />
+                  <path d="M5 12h14" />
+                </svg>
+                Ajouter
+              </button>
+            <% end %>
+
+            <details class="mt-3 rounded-lg border border-white/[0.075] bg-white/[0.025]">
+              <summary class="admin-v2-focus cursor-pointer px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--g-accent)]">
+                Créer une finition
+              </summary>
+
+              <%= form_with scope: :finish,
+                url: admin_v2_product_finishes_path(product),
+                method: :post,
+                data: { controller: "inline-form", action: "turbo:submit-start->inline-form#pending turbo:submit-end->inline-form#complete" },
+                class: "grid gap-3 border-t border-white/[0.075] p-3 2xl:grid-cols-[1fr_1fr_auto]" do |f| %>
+                <%= f.text_field :code, placeholder: "Code finition", class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] placeholder:text-[var(--g-faint)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+                <%= f.text_field :label, placeholder: "Nom finition", class: "rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] placeholder:text-[var(--g-faint)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+                <%= f.submit "Créer", class: "admin-v2-focus h-10 rounded-lg border border-white/[0.09] bg-white/[0.055] px-4 text-[11px] font-semibold text-[var(--g-text)] hover:bg-white/[0.09]" %>
+              <% end %>
+            </details>
+          </div>
         </div>
       </section>
     <% end %>
