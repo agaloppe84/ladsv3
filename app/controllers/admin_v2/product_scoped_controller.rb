@@ -8,7 +8,7 @@ class AdminV2::ProductScopedController < AdminV2::BaseController
     track_admin_v2_context(@product)
   end
 
-  def render_product_streams(*streams, level: :success, message:, event_type: :update, status: :ok)
+  def render_product_streams(*streams, level: :success, message:, event_type: :update, status: :ok, metadata: {})
     render turbo_stream: [
       *streams,
       *admin_v2_feedback_streams(
@@ -16,9 +16,53 @@ class AdminV2::ProductScopedController < AdminV2::BaseController
         message,
         event_type: event_type,
         resource: @product,
+        metadata: metadata,
         status_code: Rack::Utils.status_code(status)
       )
     ], status: status
+  end
+
+  def render_product_feedback(level:, message:, event_type: :server, status: :ok, metadata: {})
+    render turbo_stream: admin_v2_feedback_streams(
+      level,
+      message,
+      event_type: event_type,
+      resource: @product,
+      metadata: metadata,
+      status_code: Rack::Utils.status_code(status)
+    ), status: status
+  end
+
+  def attach_product_upload(field:, attachments:, success_message:)
+    blob = ActiveStorage::Blob.find_signed!(params.require(field))
+    validation = AdminV2::UploadPolicy.validate_blob(blob, field)
+
+    unless validation.valid?
+      purge_rejected_upload(blob)
+      return render_product_upload_error(field, validation.message)
+    end
+
+    attachments.attach(blob)
+    @product.reload
+
+    render_product_streams(
+      *Array(yield),
+      level: :success,
+      message: success_message,
+      event_type: :upload,
+      metadata: upload_metadata(field)
+    )
+  rescue ActionController::ParameterMissing
+    render_product_upload_error(field, "#{AdminV2::UploadPolicy.label(field)} manquant. Relance l'upload.")
+  rescue ActiveSupport::MessageVerifier::InvalidSignature, ActiveRecord::RecordNotFound
+    render_product_upload_error(field, "#{AdminV2::UploadPolicy.label(field)} invalide. Relance l'upload.")
+  rescue ActiveRecord::RecordInvalid, ActiveStorage::IntegrityError => error
+    purge_rejected_upload(blob)
+    render_product_upload_error(field, "#{AdminV2::UploadPolicy.label(field)} refusé : #{error.message}.")
+  rescue StandardError => error
+    Rails.logger.error("[AdminV2 upload] #{error.class}: #{error.message}")
+    purge_rejected_upload(blob)
+    render_product_upload_error(field, "#{AdminV2::UploadPolicy.label(field)} impossible à attacher. Vérifie le fichier puis réessaie.")
   end
 
   def media_panel_stream
@@ -116,5 +160,26 @@ class AdminV2::ProductScopedController < AdminV2::BaseController
       rals: Ral.order(:collection, :ref),
       finishes: Finish.order(:label)
     }
+  end
+
+  def render_product_upload_error(field, message)
+    render_product_feedback(
+      level: :error,
+      message: message,
+      event_type: :error,
+      status: :unprocessable_entity,
+      metadata: upload_metadata(field)
+    )
+  end
+
+  def upload_metadata(field)
+    { source: "upload", field: field.to_s }
+  end
+
+  def purge_rejected_upload(blob)
+    return if blob.blank?
+    return if blob.attachments.exists?
+
+    blob.purge_later
   end
 end

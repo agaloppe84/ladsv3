@@ -2,14 +2,13 @@ class AdminV2::ProductMediaController < AdminV2::ProductScopedController
   def drawer; end
 
   def create
-    @product.images.attach(params[:image])
-    render_product_streams(
-      media_panel_stream,
-      drawer_summary_stream,
-      level: :success,
-      message: "Product##{@product.id} image attached",
-      event_type: :upload
-    )
+    attach_product_upload(
+      field: :image,
+      attachments: @product.images,
+      success_message: "Product##{@product.id} image attached"
+    ) do
+      [media_panel_stream, drawer_summary_stream]
+    end
   end
 
   def destroy

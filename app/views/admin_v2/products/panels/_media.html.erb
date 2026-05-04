@@ -7,7 +7,9 @@
   data: {
     controller: "upload",
     upload_create_url_value: admin_v2_product_media_items_path(product),
-    upload_field_value: "image"
+    upload_field_value: "image",
+    upload_max_size_mb_value: AdminV2::UploadPolicy.max_size_mb(:image),
+    upload_accepted_types_value: AdminV2::UploadPolicy.accept(:image)
   }
 ) do |panel| %>
   <% panel.with_actions do %>
@@ -51,7 +53,7 @@
     <% end %>
   <% end %>
 
-  <input id="<%= upload_input_id %>" type="file" multiple direct_upload="true" class="hidden" data-upload-target="input" data-action="change->upload#upload">
+  <input id="<%= upload_input_id %>" type="file" multiple direct_upload="true" accept="<%= AdminV2::UploadPolicy.accept(:image) %>" class="hidden" data-upload-target="input" data-action="change->upload#upload">
 
   <% if product.images.attached? %>
     <ul

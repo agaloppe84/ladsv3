@@ -194,6 +194,33 @@ Regle UX :
 - les erreurs doivent re-render le panel concerne, pas toute l'interface ;
 - les succes peuvent remplacer une row, un header de drawer, un badge ou un compteur.
 
+## Uploads Media Et Documents
+
+Les uploads Admin V2 gardent le flux Active Storage direct upload vers Cloudinary.
+
+Pattern retenu :
+
+- pre-validation Stimulus avant `DirectUpload` pour bloquer les fichiers trop lourds ou les formats manifestement invalides ;
+- validation serveur au moment d'attacher le blob au produit ;
+- limites et types autorises centralises dans `AdminV2::UploadPolicy` ;
+- les vues injectent les limites dans `upload_controller` via data attributes ;
+- les inputs gardent un attribut `accept` coherent avec la policy ;
+- les erreurs serveur renvoient un Turbo Stream de feedback, sans casser le panel ni le drawer ;
+- les blobs refuses cote serveur sont purges s'ils ne sont pas deja attaches.
+
+Limites actuelles :
+
+- images produit : 12 MB, JPG/PNG/WEBP ;
+- documentations : 25 MB, PDF/JPG/PNG/WEBP.
+
+Le live feed doit rester explicite :
+
+- fichier bloque cote client : taille ou format ;
+- direct upload echoue : erreur reseau, storage ou Cloudinary ;
+- attach serveur refuse : signed id invalide, blob absent, type non autorise ou fichier trop lourd.
+
+Ne pas remplacer ce flux par un upload custom tant que Cloudinary et Active Storage font le travail correctement.
+
 ## Turbo Frames Et Streams
 
 Frames stables :

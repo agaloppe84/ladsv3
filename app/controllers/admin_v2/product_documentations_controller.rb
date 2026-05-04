@@ -2,14 +2,13 @@ class AdminV2::ProductDocumentationsController < AdminV2::ProductScopedControlle
   def drawer; end
 
   def create
-    @product.documentations.attach(params[:documentation])
-    render_product_streams(
-      documentations_panel_stream,
-      drawer_summary_stream,
-      level: :success,
-      message: "Product##{@product.id} documentation attached",
-      event_type: :upload
-    )
+    attach_product_upload(
+      field: :documentation,
+      attachments: @product.documentations,
+      success_message: "Product##{@product.id} documentation attached"
+    ) do
+      [documentations_panel_stream, drawer_summary_stream]
+    end
   end
 
   def destroy
