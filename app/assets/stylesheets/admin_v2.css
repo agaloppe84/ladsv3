@@ -24,6 +24,11 @@
   --g-font-sans: "Inter var", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --g-font-mono: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --g-font-family: var(--g-font-mono);
+  --admin-v2-sidebar-width: 296px;
+  --admin-v2-drawer-width: 512px;
+  --admin-v2-grid-unit: 32px;
+  --admin-v2-grid-line-width: 1px;
+  --admin-v2-grid-opacity: 0.045;
   background: var(--g-bg);
   color: var(--g-text);
   font-family: var(--g-font-family);
@@ -76,6 +81,25 @@
 
 .admin-v2-focus:focus-visible {
   box-shadow: 0 0 0 1px var(--g-accent), 0 0 0 5px rgba(var(--g-accent-rgb), 0.16);
+}
+
+.admin-v2-background-grid {
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(var(--g-accent-rgb), var(--admin-v2-grid-opacity)) 0,
+      rgba(var(--g-accent-rgb), var(--admin-v2-grid-opacity)) var(--admin-v2-grid-line-width),
+      transparent var(--admin-v2-grid-line-width)
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(var(--g-accent-rgb), var(--admin-v2-grid-opacity)) 0,
+      rgba(var(--g-accent-rgb), var(--admin-v2-grid-opacity)) var(--admin-v2-grid-line-width),
+      transparent var(--admin-v2-grid-line-width)
+    );
+  background-position: top left;
+  background-repeat: repeat;
+  background-size: var(--admin-v2-grid-unit) var(--admin-v2-grid-unit);
 }
 
 .admin-v2-grid-bg {

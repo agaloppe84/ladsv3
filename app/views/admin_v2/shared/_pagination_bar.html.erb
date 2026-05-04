@@ -1,5 +1,5 @@
 <% if pagination %>
-  <footer class="fixed bottom-0 left-[296px] right-[500px] z-20 border-t border-white/[0.075] bg-[var(--g-bg)] px-7 py-3 shadow-[0_-20px_60px_rgba(0,0,0,0.22)]">
+  <footer class="fixed bottom-0 z-20 border-t border-white/[0.075] bg-[var(--g-bg)] px-7 py-3 shadow-[0_-20px_60px_rgba(0,0,0,0.22)]" style="left: var(--admin-v2-sidebar-width); right: var(--admin-v2-drawer-width);">
     <%= render AdminV2::Ui::PaginationComponent.new(
       pagination: pagination,
       path: path,

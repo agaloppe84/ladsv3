@@ -1,5 +1,7 @@
-<div id="admin_v2_quote_drawer_summary" class="min-h-full">
-  <div class="border-b border-white/[0.075] p-5">
+<div id="admin_v2_quote_drawer_summary" class="relative min-h-full" style="min-height: calc(var(--admin-v2-grid-unit) * 44);">
+  <div
+    class="absolute left-0 top-0 flex w-full flex-col justify-center border-b border-white/[0.075] pr-5"
+    style="height: calc(var(--admin-v2-grid-unit) * 4); padding-left: var(--admin-v2-grid-unit);">
     <div class="flex items-start justify-between gap-4">
       <div class="min-w-0">
         <p class="text-[10px] uppercase tracking-[0.24em] text-[var(--g-faint)]">Demande de devis</p>
@@ -10,7 +12,9 @@
     </div>
   </div>
 
-  <div class="space-y-4 p-5">
+  <div
+    class="absolute"
+    style="left: calc(var(--admin-v2-grid-unit) * 1); top: calc(var(--admin-v2-grid-unit) * 5); width: calc(var(--admin-v2-grid-unit) * 14); display: grid; gap: var(--admin-v2-grid-unit); padding-bottom: var(--admin-v2-grid-unit);">
     <%= render AdminV2::Ui::PanelComponent.new(
       id: "admin_v2_quote_processing",
       title: "Traitement",

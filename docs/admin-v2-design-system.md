@@ -71,6 +71,8 @@ Le shell Admin V2 est organise en trois zones :
    - show, new, preview, CRUD associe ou resume ;
    - scroll interne uniquement ;
    - fond grille autorise dans le drawer, mais pas derriere les logs.
+   - le drawer du shell utilise `AdminV2::Ui::BackgroundGridComponent` comme repere permanent de composition.
+   - l'etat vide du drawer utilise `AdminV2::DrawerEmptyStateComponent`, une surface compacte visuellement encastree dans la grille et alignee sur ses divisions.
 
 ## Palette Et Tokens
 
@@ -139,10 +141,35 @@ Les composants generiques vivent dans :
 app/components/admin_v2/ui
 ```
 
+### Background Grid
+
+`AdminV2::Ui::BackgroundGridComponent` rend une grille fixe en overlay absolute. Le composant n'est plus parametrique : la forme de grille est une convention du design system, exposee en CSS.
+
+Usage :
+
+- le parent doit etre `relative` et gerer son `overflow` ;
+- le composant est `pointer-events-none` et se place en `absolute inset-0` ;
+- le contenu du bloc doit rester au-dessus avec `relative z-10` ;
+- la couleur par defaut utilise l'accent dynamique via `rgb(var(--g-accent-rgb))`.
+- dans le drawer, la grille vit dans le shell, en dehors du frame remplace par Turbo, afin de rester visible pendant les navigations show/new/edit.
+
+Tokens :
+
+- `--admin-v2-drawer-width: 512px` ;
+- `--admin-v2-grid-unit: 32px` ;
+- `--admin-v2-grid-line-width: 1px` ;
+- `--admin-v2-grid-opacity: 0.045`.
+
+La largeur drawer de 512px donne exactement 16 colonnes de 32px. La hauteur reste fluide : la grille part du haut et la derniere ligne peut etre coupee en bas. Les elements alignes sur la grille doivent utiliser des positions et dimensions en multiples de `--admin-v2-grid-unit`.
+
+`admin-v2-grid-bg` reste disponible comme fond legacy pour certains ecrans hors drawer, mais les frames drawer ne doivent plus l'utiliser.
+
 Composants UI actuels ou attendus :
 
 - `ButtonComponent`
 - `BadgeComponent`
+- `BackgroundGridComponent`
+- `DrawerEmptyStateComponent`
 - `PanelComponent`
 - `ActionStateComponent`
 - `DateTimePickerComponent`
