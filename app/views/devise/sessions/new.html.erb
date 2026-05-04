@@ -28,7 +28,7 @@
             </div>
 
             <div class="p-4">
-              <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-5" }) do |f| %>
+              <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-5", data: { turbo: false } }) do |f| %>
                 <div>
                   <%= f.label :email, "Email", class: "mb-1 block text-[11px] font-semibold text-[var(--g-subtle)]" %>
                   <%= f.email_field :email,
