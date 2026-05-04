@@ -55,4 +55,6 @@
   <% if show_boot_panel %>
     <%= render AdminV2::BootPanelComponent.new(current_user: current_user) %>
   <% end %>
+
+  <%= render AdminV2::ConfirmDialogComponent.new %>
 </div>

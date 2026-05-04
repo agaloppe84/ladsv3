@@ -282,6 +282,20 @@ Pattern retenu :
 
 Ne pas afficher d'IP, user-agent ou details sensibles dans ce bloc. Ces informations peuvent exister en base pour debug, mais l'UI de sidebar doit rester sobre.
 
+## Confirmations Destructives
+
+Une modale de confirmation Admin V2 existe en mode opt-in pour tester le remplacement progressif du confirm natif navigateur.
+
+Pattern actuel :
+
+- Turbo garde le comportement natif par defaut ;
+- la modale custom ne s'active que sur les formulaires avec `data-admin-v2-confirm="true"` ;
+- les actions non migrees continuent d'utiliser `data-turbo-confirm` natif ou leur comportement existant ;
+- le premier perimetre valide est la suppression depuis les rows de l'index Events ;
+- le live feed reste alimente par les Turbo Streams serveur apres confirmation.
+
+Ne pas generaliser cette modale aux attachments pour l'instant : les suppressions medias et documentations gardent leur comportement direct.
+
 ## Patterns Par Ressource
 
 ### Products

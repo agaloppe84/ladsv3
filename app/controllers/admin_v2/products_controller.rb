@@ -1,17 +1,6 @@
 class AdminV2::ProductsController < AdminV2::BaseController
   def index
-    @categories = Category.order(:name)
-    base_scope = Product.where(type: nil)
-
-    @total_products = base_scope.count
-    @products = base_scope.includes(:category, :options, images_attachments: :blob, documentations_attachments: :blob)
-                          .order(updated_at: :desc)
-
-    @products = @products.where(category_id: params[:category_id]) if params[:category_id].present?
-
-    query = params[:query].to_s.strip
-    @products = @products.where("products.name ILIKE ?", "%#{ActiveRecord::Base.sanitize_sql_like(query)}%") if query.present?
-    @products, @pagination = paginate_admin_v2(@products)
+    load_products_index
 
     respond_to do |format|
       format.html do
@@ -99,10 +88,85 @@ class AdminV2::ProductsController < AdminV2::BaseController
     end
   end
 
+  def destroy
+    @product = products_scope.find(params[:id])
+    result = AdminV2::ProductDestroyer.new(@product).destroy!
+    load_products_index
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.replace(
+            "admin_v2_main",
+            partial: "admin_v2/products/index_frame",
+            locals: { products: @products, total_products: @total_products, pagination: @pagination }
+          ),
+          deleted_product_drawer_stream(result),
+          store_nav_stream(:products),
+          *admin_v2_feedback_streams(
+            :success,
+            product_deleted_message(result),
+            event_type: :delete,
+            metadata: { source: "cleanup", resource_type: "Product", resource_id: result.product_id },
+            status_code: 200
+          )
+        ].compact
+      end
+      format.html { redirect_to admin_v2_products_path, notice: "Produit supprimé" }
+    end
+  rescue ActiveRecord::ActiveRecordError => e
+    record = e.respond_to?(:record) ? e.record : nil
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: admin_v2_feedback_streams(
+          :error,
+          record&.errors&.full_messages&.to_sentence.presence || "Product delete failed",
+          event_type: :error,
+          resource: @product,
+          metadata: { source: "cleanup" },
+          status_code: 422
+        ), status: :unprocessable_entity
+      end
+      format.html { redirect_to admin_v2_products_path, alert: "Suppression impossible" }
+    end
+  end
+
   private
+
+  def load_products_index
+    @categories = Category.order(:name)
+    base_scope = products_scope
+
+    @total_products = base_scope.count
+    @products = base_scope.includes(:category, :options, images_attachments: :blob, documentations_attachments: :blob)
+                          .order(updated_at: :desc)
+
+    @products = @products.where(category_id: params[:category_id]) if params[:category_id].present?
+
+    query = params[:query].to_s.strip
+    @products = @products.where("products.name ILIKE ?", "%#{ActiveRecord::Base.sanitize_sql_like(query)}%") if query.present?
+    @products, @pagination = paginate_admin_v2(@products)
+  end
 
   def product_params
     params.require(:product).permit(:name, :category_id, :description, :infos, :warranty)
+  end
+
+  def products_scope
+    Product.where(type: nil)
+  end
+
+  def deleted_product_drawer_stream(result)
+    turbo_stream.replace(
+      "admin_v2_drawer",
+      partial: "admin_v2/products/deleted_drawer_frame",
+      locals: { result: result }
+    )
+  end
+
+  def product_deleted_message(result)
+    "Product##{result.product_id} deleted images=#{result.images_purged} docs=#{result.documentations_purged} options=#{result.options_destroyed} palettes=#{result.color_palettes_destroyed}"
   end
 
   def products_results_frame_request?

@@ -2,6 +2,9 @@
   <%= render "admin_v2/events/drawer_edit_frame", event: @event %>
 <% else %>
   <%= render AdminV2::ShellComponent.new(current_user: current_user, active: :events, drawer: render("admin_v2/events/drawer_edit", event: @event), show_boot_panel: @show_boot_panel, admin_v2_session: current_admin_v2_session) do %>
-    <%= render "admin_v2/events/index_frame", events: @events, total_events: @total_events, pagination: @pagination %>
+    <%= render "admin_v2/events/index_frame",
+      events: @events,
+      total_events: @total_events,
+      pagination: @pagination %>
   <% end %>
 <% end %>

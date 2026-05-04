@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   namespace :admin_v2, path: "admin-v2" do
     root to: "products#index"
 
-    resources :products, only: [:index, :show, :new, :create, :edit] do
+    resources :products, only: [:index, :show, :new, :create, :edit, :destroy] do
       resource :details, only: [:update], controller: "product_details"
       resource :category, only: [:update], controller: "product_categories"
       resource :associations, only: [:update], controller: "product_associations"
@@ -31,7 +31,7 @@ Rails.application.routes.draw do
       resources :finishes, only: [:create]
     end
 
-    resources :events, only: [:index, :show, :new, :create, :edit] do
+    resources :events, only: [:index, :show, :new, :create, :edit, :destroy] do
       resource :details, only: [:update], controller: "event_details"
       resource :schedule, only: [:update], controller: "event_schedule"
     end

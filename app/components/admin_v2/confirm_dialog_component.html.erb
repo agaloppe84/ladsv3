@@ -1,0 +1,43 @@
+<div
+  data-controller="confirm-dialog"
+  data-confirm-dialog-target="dialog"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-[rgba(5,7,10,0.74)] px-6 backdrop-blur-sm">
+  <button
+    type="button"
+    aria-label="Fermer"
+    class="absolute inset-0 cursor-default"
+    data-action="confirm-dialog#cancel"></button>
+
+  <section class="relative w-full max-w-md overflow-hidden rounded-xl border border-white/[0.09] bg-[linear-gradient(135deg,rgba(255,255,255,0.055),rgba(20,23,29,0.98)_34%,rgba(15,18,23,0.99))] shadow-[0_40px_140px_rgba(0,0,0,0.56)]">
+    <div class="border-b border-white/[0.075] px-5 py-4">
+      <p class="text-[10px] uppercase tracking-[0.24em] text-[var(--g-red)]">Confirm action</p>
+      <h2 data-confirm-dialog-target="title" class="mt-2 text-lg font-semibold text-[var(--g-text)]">Confirmer cette action</h2>
+      <p data-confirm-dialog-target="message" class="mt-2 text-sm leading-5 text-[var(--g-muted)]">Cette action est irreversible.</p>
+    </div>
+
+    <div class="px-5 py-4">
+      <div class="rounded-lg border border-red-300/15 bg-red-300/10 px-3 py-2">
+        <p data-confirm-dialog-target="body" class="text-[11px] leading-5 text-[var(--g-subtle)]">
+          Verifie le contexte avant de confirmer.
+        </p>
+      </div>
+
+      <div class="mt-4 grid grid-cols-2 gap-2">
+        <button
+          type="button"
+          data-confirm-dialog-target="cancelButton"
+          data-action="confirm-dialog#cancel"
+          class="admin-v2-focus h-9 rounded-lg border border-white/[0.09] bg-white/[0.045] px-3 text-[11px] font-semibold text-[var(--g-text)] transition hover:bg-white/[0.08]">
+          Annuler
+        </button>
+        <button
+          type="button"
+          data-confirm-dialog-target="confirmButton"
+          data-action="confirm-dialog#confirm"
+          class="admin-v2-focus h-9 rounded-lg border border-red-300/20 bg-red-300/10 px-3 text-[11px] font-semibold text-[var(--g-red)] transition hover:bg-red-300/15">
+          Confirmer
+        </button>
+      </div>
+    </div>
+  </section>
+</div>

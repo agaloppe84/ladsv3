@@ -98,6 +98,41 @@ class AdminV2::EventsController < AdminV2::BaseController
     end
   end
 
+  def destroy
+    @event = Event.find(params[:id])
+    @event.destroy!
+
+    events, pagination = paginate_admin_v2(Event.order(start_date: :desc, updated_at: :desc))
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.replace(
+            "admin_v2_main",
+            partial: "admin_v2/events/index_frame",
+            locals: { events: events, total_events: Event.count, pagination: pagination }
+          ),
+          store_nav_stream(:events),
+          *admin_v2_feedback_streams(:success, "Event##{@event.id} deleted", event_type: :delete, resource: @event, status_code: 200)
+        ]
+      end
+      format.html { redirect_to admin_v2_events_path, notice: "Event supprimé" }
+    end
+  rescue ActiveRecord::RecordNotDestroyed => e
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: admin_v2_feedback_streams(
+          :error,
+          e.record.errors.full_messages.to_sentence.presence || "Event delete failed",
+          event_type: :error,
+          resource: @event,
+          status_code: 422
+        ), status: :unprocessable_entity
+      end
+      format.html { redirect_to admin_v2_events_path, alert: "Suppression impossible" }
+    end
+  end
+
   private
 
   def event_params
