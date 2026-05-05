@@ -25,8 +25,9 @@
   --g-font-mono: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --g-font-family: var(--g-font-mono);
   --admin-v2-sidebar-width: 296px;
-  --admin-v2-drawer-width: 512px;
-  --admin-v2-grid-unit: 32px;
+  --admin-v2-drawer-width: 504px;
+  --admin-v2-grid-unit: 21px;
+  --admin-v2-layout-unit: 32px;
   --admin-v2-grid-line-width: 1px;
   --admin-v2-grid-opacity: 0.045;
   background: var(--g-bg);

@@ -1,13 +1,13 @@
-<div id="admin_v2_event_drawer_edit" class="relative min-h-full" style="min-height: calc(var(--admin-v2-grid-unit) * 42);">
+<div id="admin_v2_event_drawer_edit" class="relative min-h-full" style="min-height: calc(var(--admin-v2-layout-unit) * 42);">
   <%= render "admin_v2/events/drawer_header", event: event, eyebrow: "Event edit" %>
 
   <div
     class="absolute"
-    style="left: calc(var(--admin-v2-grid-unit) * 1); top: calc(var(--admin-v2-grid-unit) * 5); width: calc(var(--admin-v2-grid-unit) * 14); display: grid; gap: var(--admin-v2-grid-unit); padding-bottom: var(--admin-v2-grid-unit);">
+    style="left: calc(var(--admin-v2-layout-unit) * 1); top: calc(var(--admin-v2-layout-unit) * 5); width: calc(var(--admin-v2-layout-unit) * 14); display: grid; gap: var(--admin-v2-layout-unit); padding-bottom: var(--admin-v2-layout-unit);">
     <%= render "admin_v2/events/panels/details", event: event %>
     <%= render "admin_v2/events/panels/schedule", event: event %>
     <%= render "admin_v2/events/panels/preview", event: event %>
 
-    <%= link_to "Revenir au résumé", admin_v2_event_path(event), data: { turbo_frame: "admin_v2_drawer" }, class: "admin-v2-focus flex items-center justify-center rounded-lg border border-white/[0.09] bg-white/[0.055] text-sm font-semibold text-[var(--g-text)] hover:bg-white/[0.09]", style: "height: calc(var(--admin-v2-grid-unit) * 2);" %>
+    <%= link_to "Revenir au résumé", admin_v2_event_path(event), data: { turbo_frame: "admin_v2_drawer" }, class: "admin-v2-focus flex items-center justify-center rounded-lg border border-white/[0.09] bg-white/[0.055] text-sm font-semibold text-[var(--g-text)] hover:bg-white/[0.09]", style: "height: calc(var(--admin-v2-layout-unit) * 2);" %>
   </div>
 </div>

@@ -1,44 +1,88 @@
-<div id="admin_v2_product_drawer_summary" class="relative min-h-full" style="min-height: calc(var(--admin-v2-grid-unit) * 26);">
+<div id="admin_v2_product_drawer_summary" class="relative min-h-full" style="min-height: calc(var(--admin-v2-grid-unit) * 31);">
   <div
-    class="absolute left-0 top-0 flex w-full flex-col justify-center border-b border-white/[0.075] pr-5"
-    style="height: calc(var(--admin-v2-grid-unit) * 4); padding-left: var(--admin-v2-grid-unit);">
-    <p class="text-[10px] uppercase tracking-[0.24em] text-[var(--g-faint)]">Product context</p>
-    <h2 class="mt-2 text-xl font-semibold text-[var(--g-text)]"><%= product.name %></h2>
-    <p class="mt-1 text-sm text-[var(--g-muted)]"><%= product.category.name %></p>
+    class="absolute left-0 top-0 w-full border-b border-white/[0.075]"
+    style="height: calc(var(--admin-v2-grid-unit) * 6);">
+    <div
+      class="absolute flex items-center justify-start"
+      style="left: var(--admin-v2-grid-unit); top: var(--admin-v2-grid-unit); width: calc(var(--admin-v2-grid-unit) * 22); height: var(--admin-v2-grid-unit);">
+      <p
+        class="text-[10px] uppercase tracking-[0.24em] text-[var(--g-faint)]"
+        style="line-height: var(--admin-v2-grid-unit);">Product context</p>
+    </div>
+
+    <div
+      class="absolute flex items-center justify-start"
+      style="left: var(--admin-v2-grid-unit); top: calc(var(--admin-v2-grid-unit) * 2); width: calc(var(--admin-v2-grid-unit) * 22); height: calc(var(--admin-v2-grid-unit) * 2);">
+      <h2
+        class="truncate text-xl font-semibold text-[var(--g-text)]"
+        style="line-height: calc(var(--admin-v2-grid-unit) * 2);"><%= product.name %></h2>
+    </div>
+
+    <div
+      class="absolute flex items-center justify-start"
+      style="left: var(--admin-v2-grid-unit); top: calc(var(--admin-v2-grid-unit) * 4); width: calc(var(--admin-v2-grid-unit) * 22); height: var(--admin-v2-grid-unit);">
+      <p
+        class="-translate-y-0.5 truncate text-sm text-[var(--g-muted)]"
+        style="line-height: var(--admin-v2-grid-unit);"><%= product.category.name %></p>
+    </div>
   </div>
 
   <% if product.primary_image %>
     <div
-      class="absolute overflow-hidden rounded-xl border border-white/[0.075] bg-[var(--g-surface)]"
-      style="left: calc(var(--admin-v2-grid-unit) * 1); top: calc(var(--admin-v2-grid-unit) * 5); width: calc(var(--admin-v2-grid-unit) * 14); height: calc(var(--admin-v2-grid-unit) * 8);">
-      <%= cl_image_tag(product.primary_image.key, crop: :scale, class: "h-full w-full object-cover") %>
+      class="absolute overflow-hidden rounded-xl border border-dashed bg-transparent"
+      style="left: var(--admin-v2-grid-unit); top: calc(var(--admin-v2-grid-unit) * 7); width: calc(var(--admin-v2-grid-unit) * 22); height: calc(var(--admin-v2-grid-unit) * 10); border-color: rgba(var(--g-accent-rgb), 0.42);">
+      <div class="h-full w-full p-[var(--admin-v2-grid-unit)]">
+        <%= cl_image_tag(product.primary_image.key, crop: :scale, class: "h-full w-full rounded-xl object-cover") %>
+      </div>
     </div>
   <% end %>
 
   <div
     class="absolute [&>section]:h-full"
-    style="left: calc(var(--admin-v2-grid-unit) * 1); top: calc(var(--admin-v2-grid-unit) * 14); width: calc(var(--admin-v2-grid-unit) * 14); height: calc(var(--admin-v2-grid-unit) * 7);">
-    <%= render AdminV2::Ui::PanelComponent.new(title: "Résumé", subtitle: "Données actuelles") do %>
-      <dl class="space-y-3 text-sm">
-        <div class="flex justify-between gap-4">
-          <dt class="text-[var(--g-subtle)]">Images</dt>
-          <dd class="text-[var(--g-text)]"><%= product.images.size %></dd>
+    style="left: var(--admin-v2-grid-unit); top: calc(var(--admin-v2-grid-unit) * 18); width: calc(var(--admin-v2-grid-unit) * 22); height: calc(var(--admin-v2-grid-unit) * 9);">
+    <section class="h-full overflow-hidden rounded-xl border border-white/[0.075] bg-[var(--g-surface)]/88">
+      <header
+        class="flex flex-col justify-center border-b border-white/[0.075]"
+        style="height: calc(var(--admin-v2-grid-unit) * 3); padding-left: var(--admin-v2-grid-unit); padding-right: var(--admin-v2-grid-unit);">
+        <div
+          class="flex items-center justify-start"
+          style="height: var(--admin-v2-grid-unit);">
+          <h2
+            class="text-xs uppercase tracking-[0.2em] text-[var(--g-accent)]"
+            style="line-height: var(--admin-v2-grid-unit);">Résumé</h2>
         </div>
-        <div class="flex justify-between gap-4">
-          <dt class="text-[var(--g-subtle)]">Documentations</dt>
-          <dd class="text-[var(--g-text)]"><%= product.documentations.size %></dd>
+        <div
+          class="flex items-center justify-start"
+          style="height: var(--admin-v2-grid-unit);">
+          <p
+            class="-translate-y-0.5 text-[10px] tracking-normal text-[var(--g-faint)]"
+            style="line-height: var(--admin-v2-grid-unit);">Données actuelles</p>
         </div>
-        <div class="flex justify-between gap-4">
-          <dt class="text-[var(--g-subtle)]">Options</dt>
-          <dd class="text-[var(--g-text)]"><%= product.options.size %></dd>
-        </div>
-        <div class="flex justify-between gap-4">
-          <dt class="text-[var(--g-subtle)]">Color parts</dt>
-          <dd class="text-[var(--g-text)]"><%= product.product_color_parts.size %></dd>
-        </div>
-      </dl>
-    <% end %>
+      </header>
+
+      <div
+        style="height: calc(var(--admin-v2-grid-unit) * 6); padding-left: var(--admin-v2-grid-unit); padding-right: var(--admin-v2-grid-unit);">
+        <dl class="grid h-full content-center gap-1 text-sm">
+          <div class="flex justify-between gap-4">
+            <dt class="text-[var(--g-subtle)]">Images</dt>
+            <dd class="text-[var(--g-text)]"><%= product.images.size %></dd>
+          </div>
+          <div class="flex justify-between gap-4">
+            <dt class="text-[var(--g-subtle)]">Documentations</dt>
+            <dd class="text-[var(--g-text)]"><%= product.documentations.size %></dd>
+          </div>
+          <div class="flex justify-between gap-4">
+            <dt class="text-[var(--g-subtle)]">Options</dt>
+            <dd class="text-[var(--g-text)]"><%= product.options.size %></dd>
+          </div>
+          <div class="flex justify-between gap-4">
+            <dt class="text-[var(--g-subtle)]">Color parts</dt>
+            <dd class="text-[var(--g-text)]"><%= product.product_color_parts.size %></dd>
+          </div>
+        </dl>
+      </div>
+    </section>
   </div>
 
-  <%= link_to "Edit factory", edit_admin_v2_product_path(product), data: { turbo_stream: true }, class: "admin-v2-focus absolute flex items-center justify-center rounded-lg bg-[var(--g-accent)] text-sm font-semibold text-black transition hover:brightness-110", style: "left: calc(var(--admin-v2-grid-unit) * 5); top: calc(var(--admin-v2-grid-unit) * 22); width: calc(var(--admin-v2-grid-unit) * 6); height: calc(var(--admin-v2-grid-unit) * 2);" %>
+  <%= link_to "Edit factory", edit_admin_v2_product_path(product), data: { turbo_stream: true }, class: "admin-v2-focus absolute flex items-center justify-center rounded-lg bg-[var(--g-accent)] text-sm font-semibold text-black transition hover:brightness-110", style: "left: calc(var(--admin-v2-grid-unit) * 9); top: calc(var(--admin-v2-grid-unit) * 28); width: calc(var(--admin-v2-grid-unit) * 6); height: calc(var(--admin-v2-grid-unit) * 2);" %>
 </div>

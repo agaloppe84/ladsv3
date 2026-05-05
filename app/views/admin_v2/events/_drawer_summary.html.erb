@@ -1,9 +1,9 @@
-<div id="admin_v2_event_drawer_summary" class="relative min-h-full" style="min-height: calc(var(--admin-v2-grid-unit) * 28);">
+<div id="admin_v2_event_drawer_summary" class="relative min-h-full" style="min-height: calc(var(--admin-v2-layout-unit) * 28);">
   <%= render "admin_v2/events/drawer_header", event: event, eyebrow: "Event context" %>
 
   <div
     class="absolute"
-    style="left: calc(var(--admin-v2-grid-unit) * 1); top: calc(var(--admin-v2-grid-unit) * 5); width: calc(var(--admin-v2-grid-unit) * 14); display: grid; gap: var(--admin-v2-grid-unit); padding-bottom: var(--admin-v2-grid-unit);">
+    style="left: calc(var(--admin-v2-layout-unit) * 1); top: calc(var(--admin-v2-layout-unit) * 5); width: calc(var(--admin-v2-layout-unit) * 14); display: grid; gap: var(--admin-v2-layout-unit); padding-bottom: var(--admin-v2-layout-unit);">
     <%= render AdminV2::Ui::PanelComponent.new(title: "Planning", subtitle: "Fenêtre de diffusion") do %>
       <dl class="space-y-3 text-sm">
         <div class="flex justify-between gap-4">
@@ -31,6 +31,6 @@
       </div>
     <% end %>
 
-    <%= link_to "Modifier dans le drawer", edit_admin_v2_event_path(event), data: { turbo_frame: "admin_v2_drawer" }, class: "admin-v2-focus flex items-center justify-center rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-sm font-semibold text-[var(--g-accent-text)] hover:bg-[var(--g-accent-hover)]", style: "height: calc(var(--admin-v2-grid-unit) * 2);" %>
+    <%= link_to "Modifier dans le drawer", edit_admin_v2_event_path(event), data: { turbo_frame: "admin_v2_drawer" }, class: "admin-v2-focus flex items-center justify-center rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-sm font-semibold text-[var(--g-accent-text)] hover:bg-[var(--g-accent-hover)]", style: "height: calc(var(--admin-v2-layout-unit) * 2);" %>
   </div>
 </div>

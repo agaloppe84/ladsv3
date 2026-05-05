@@ -155,12 +155,23 @@ Usage :
 
 Tokens :
 
-- `--admin-v2-drawer-width: 512px` ;
-- `--admin-v2-grid-unit: 32px` ;
+- `--admin-v2-drawer-width: 504px` ;
+- `--admin-v2-grid-unit: 21px` ;
+- `--admin-v2-layout-unit: 32px` ;
 - `--admin-v2-grid-line-width: 1px` ;
 - `--admin-v2-grid-opacity: 0.045`.
 
-La largeur drawer de 512px donne exactement 16 colonnes de 32px. La hauteur reste fluide : la grille part du haut et la derniere ligne peut etre coupee en bas. Les elements alignes sur la grille doivent utiliser des positions et dimensions en multiples de `--admin-v2-grid-unit`.
+La largeur drawer de 504px donne exactement 24 colonnes de 21px, sans valeur decimale et sans reserve laterale. La hauteur reste fluide : la grille part du haut et la derniere ligne peut etre coupee en bas. Les nouveaux elements alignes sur la grille fine doivent utiliser des positions et dimensions en multiples de `--admin-v2-grid-unit`.
+
+Les blocs deja calibres sur l'ancienne grille 16 colonnes peuvent rester temporairement sur `--admin-v2-layout-unit` pour eviter une regression visuelle brutale. Quand un drawer est retravaille, il peut migrer vers la grille fine de 24 colonnes.
+
+Regle de placement texte sur la grille :
+
+- ne pas caler directement un texte sur la grille ;
+- caler une box en multiples de `--admin-v2-grid-unit`, puis aligner le texte dedans avec `flex` ;
+- les titres uppercase tiennent en general sur une box de 1 cellule avec `line-height: var(--admin-v2-grid-unit)` ;
+- les textes lowercase peuvent garder le meme line-height, avec un ajustement optique leger type `-translate-y-0.5` si la baseline parait trop basse ;
+- eviter les borders inset et shadows pour les blocs calibres : preferer des borders classiques.
 
 `admin-v2-grid-bg` reste disponible comme fond legacy pour certains ecrans hors drawer, mais les frames drawer ne doivent plus l'utiliser.
 
