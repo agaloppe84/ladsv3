@@ -1,0 +1,187 @@
+<% title "Layouts TEST - Public V2" %>
+<% description "Reference TEST Public V2 pour experimenter les layouts globaux, de sections et micro layouts." %>
+
+<main class="mx-auto grid w-full max-w-[min(1440px,100vw)] min-w-0 grid-cols-[minmax(0,1fr)] gap-8 overflow-hidden px-[clamp(1rem,4vw,3rem)] py-8 pb-20 text-[#111510]">
+  <header class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-5 overflow-hidden rounded-lg border border-[#d8dccf] bg-[#f7f8f1] p-5 shadow-sm min-[821px]:grid-cols-[minmax(0,1fr)_minmax(260px,.36fr)] min-[821px]:items-end min-[1121px]:p-7">
+    <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3">
+      <p class="font-mono text-[0.68rem] font-black uppercase text-[#5ca800]">LAYOUTS TEST</p>
+      <h1 class="m-0 max-w-[18ch] [overflow-wrap:anywhere] text-[1.82rem] font-black leading-[1.02] tracking-normal min-[480px]:text-[2rem] min-[821px]:text-[2.55rem]">
+        Reference visuelle pour assembler les pages.
+      </h1>
+      <p class="m-0 max-w-[76ch] text-[0.94rem] font-semibold leading-7 text-[#5f665b]">
+        Cette page sert aux experimentations de layouts globaux, de sections et de micro-compositions, avec <%= @layouts_test.layout_count %> schemas filaires.
+        Les schemas sont volontairement abstraits : uniquement des blocs Tailwind, sans theme switch et sans composants metier. La couche composer guide les choix avant toute generation aleatoire.
+      </p>
+    </div>
+
+    <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3 rounded-md border border-[#d8dccf] bg-white p-4">
+      <p class="m-0 font-mono text-[0.64rem] font-black uppercase text-[#5ca800]">Contrat</p>
+      <ul class="m-0 grid gap-2 p-0 text-[0.82rem] font-bold leading-6 text-[#5f665b] [list-style:none]">
+        <li>01 · Representation uniquement</li>
+        <li>02 · Pas de donnees reelles</li>
+        <li>03 · Pas de ViewComponent</li>
+        <li>04 · Suppression facile via TEST</li>
+      </ul>
+    </div>
+  </header>
+
+  <section id="layouts-test-composer" class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-5 overflow-hidden rounded-lg border border-[#d8dccf] bg-white p-4 min-[821px]:p-5" data-layout-test-composer>
+    <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3 min-[961px]:grid-cols-[minmax(0,.72fr)_minmax(280px,.28fr)] min-[961px]:items-start">
+      <div class="grid min-w-0 gap-2">
+        <p class="m-0 font-mono text-[0.64rem] font-black uppercase text-[#5ca800]">00 · Composer intelligent</p>
+        <h2 class="m-0 max-w-[22ch] [overflow-wrap:anywhere] text-[1.4rem] font-black leading-tight min-[821px]:text-[1.75rem]">
+          Piocher avec intention, pas au hasard brut.
+        </h2>
+        <p class="m-0 max-w-[82ch] text-[0.86rem] font-semibold leading-6 text-[#5f665b]">
+          Les <%= @layouts_test.layout_count %> bases restent le vocabulaire. Les variantes parametriques multiplient les directions possibles
+          sans allonger la bibliotheque : environ <%= number_with_delimiter(@layouts_test.estimated_combination_count, delimiter: " ") %> combinaisons candidates,
+          filtrees par intention, contenu disponible et coherence mobile.
+        </p>
+      </div>
+
+      <div class="grid min-w-0 gap-2 rounded-md border border-[#d8dccf] bg-[#f7f8f1] p-3">
+        <p class="m-0 font-mono text-[0.62rem] font-black uppercase text-[#5ca800]">Regle</p>
+        <p class="m-0 text-[0.82rem] font-bold leading-6 text-[#5f665b]">
+          Une demande de test doit nommer une intention, puis Codex choisit global layout, sections, micro-layouts et variantes avant de creer une vue <code class="rounded bg-white px-1 py-0.5 font-mono text-[0.72rem]">*_test</code>.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3 min-[721px]:grid-cols-2 min-[1121px]:grid-cols-3">
+      <% @layouts_test.variant_axes.each do |axis| %>
+        <article class="grid min-w-0 gap-3 overflow-hidden rounded-md border border-[#d8dccf] bg-[#fbfcf7] p-3">
+          <div class="grid min-w-0 gap-1">
+            <p class="m-0 font-mono text-[0.62rem] font-black uppercase text-[#5ca800]"><%= axis.key %></p>
+            <h3 class="m-0 text-[0.98rem] font-black leading-tight"><%= axis.name %></h3>
+            <p class="m-0 text-[0.78rem] font-semibold leading-5 text-[#5f665b]"><%= axis.description %></p>
+          </div>
+
+          <div class="flex min-w-0 flex-wrap gap-2">
+            <% axis.values.each do |value| %>
+              <span class="rounded-full border border-[#d8dccf] bg-white px-2.5 py-1 text-[0.68rem] font-extrabold leading-5 text-[#5f665b]" title="<%= value[:effect] %>">
+                <%= value[:label] %>
+              </span>
+            <% end %>
+          </div>
+        </article>
+      <% end %>
+    </div>
+
+    <div class="grid min-w-0 gap-3 rounded-md border border-[#d8dccf] bg-[#f7f8f1] p-3">
+      <div class="grid min-w-0 gap-1">
+        <p class="m-0 font-mono text-[0.62rem] font-black uppercase text-[#5ca800]">Process</p>
+        <h3 class="m-0 text-[1rem] font-black leading-tight">Generation guidee</h3>
+      </div>
+
+      <ol class="m-0 grid min-w-0 grid-cols-[minmax(0,1fr)] gap-2 p-0 [list-style:none] min-[721px]:grid-cols-2 min-[1121px]:grid-cols-4">
+        <% @layouts_test.composer_process.each do |step| %>
+          <li class="grid min-w-0 gap-2 rounded-md border border-[#d8dccf] bg-white p-3">
+            <span class="font-mono text-[0.62rem] font-black uppercase text-[#5ca800]"><%= step.number %></span>
+            <strong class="text-[0.86rem] font-black leading-5"><%= step.title %></strong>
+            <p class="m-0 text-[0.74rem] font-semibold leading-5 text-[#5f665b]"><%= step.description %></p>
+          </li>
+        <% end %>
+      </ol>
+    </div>
+
+    <div class="grid min-w-0 gap-3">
+      <div class="grid min-w-0 gap-1">
+        <p class="m-0 font-mono text-[0.62rem] font-black uppercase text-[#5ca800]">Presets</p>
+        <h3 class="m-0 text-[1rem] font-black leading-tight">Directions candidates pour les futures pages TEST</h3>
+      </div>
+
+      <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3 min-[961px]:grid-cols-2">
+        <% @layouts_test.composer_presets.each do |preset| %>
+          <% global_layout = @layouts_test.layout_by_code(preset.global_code) %>
+          <article class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3 overflow-hidden rounded-md border border-[#d8dccf] bg-[#fbfcf7] p-3" data-layout-composer-preset="<%= preset.code %>">
+            <div class="grid min-w-0 gap-2 min-[641px]:grid-cols-[minmax(0,.58fr)_minmax(0,.42fr)]">
+              <div class="grid min-w-0 gap-1">
+                <p class="m-0 font-mono text-[0.62rem] font-black uppercase text-[#5ca800]"><%= preset.code %> · <%= preset.intent %></p>
+                <h4 class="m-0 text-[1rem] font-black leading-tight"><%= preset.name %></h4>
+                <p class="m-0 text-[0.78rem] font-semibold leading-5 text-[#5f665b]"><%= preset.brief %></p>
+              </div>
+
+              <%= render "layout_wireframe", pattern: global_layout.pattern %>
+            </div>
+
+            <div class="grid min-w-0 gap-2">
+              <p class="m-0 font-mono text-[0.6rem] font-black uppercase text-[#5ca800]">Variantes</p>
+              <div class="flex min-w-0 flex-wrap gap-2">
+                <% @layouts_test.variant_summary(preset).each do |variant| %>
+                  <span class="rounded-full border border-[#d8dccf] bg-white px-2.5 py-1 text-[0.68rem] font-extrabold leading-5 text-[#5f665b]">
+                    <%= variant[:axis] %> · <%= variant[:value] %>
+                  </span>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="grid min-w-0 gap-3 min-[641px]:grid-cols-2">
+              <div class="grid min-w-0 gap-2">
+                <p class="m-0 font-mono text-[0.6rem] font-black uppercase text-[#5ca800]">Sections</p>
+                <div class="grid min-w-0 gap-1">
+                  <% @layouts_test.layouts_for_codes(preset.section_codes).each do |layout| %>
+                    <span class="truncate rounded border border-[#d8dccf] bg-white px-2 py-1 text-[0.7rem] font-bold text-[#5f665b]"><%= layout.code %> · <%= layout.name %></span>
+                  <% end %>
+                </div>
+              </div>
+
+              <div class="grid min-w-0 gap-2">
+                <p class="m-0 font-mono text-[0.6rem] font-black uppercase text-[#5ca800]">Micros</p>
+                <div class="grid min-w-0 gap-1">
+                  <% @layouts_test.layouts_for_codes(preset.micro_codes).each do |layout| %>
+                    <span class="truncate rounded border border-[#d8dccf] bg-white px-2 py-1 text-[0.7rem] font-bold text-[#5f665b]"><%= layout.code %> · <%= layout.name %></span>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid min-w-0 gap-2 rounded-md border border-[#d8dccf] bg-white p-3">
+              <p class="m-0 font-mono text-[0.6rem] font-black uppercase text-[#5ca800]">A rejeter</p>
+              <ul class="m-0 grid gap-1 p-0 text-[0.72rem] font-bold leading-5 text-[#5f665b] [list-style:none]">
+                <% preset.avoid.each do |rule| %>
+                  <li><%= rule %></li>
+                <% end %>
+              </ul>
+            </div>
+          </article>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <nav class="sticky top-[82px] z-20 flex gap-2 overflow-x-auto rounded-md border border-[#d8dccf] bg-white/90 p-2 backdrop-blur" aria-label="Categories de layouts">
+    <a class="shrink-0 rounded-full border border-[#d8dccf] px-3 py-2 text-[0.72rem] font-extrabold text-[#5f665b] hover:border-[#84cc16] hover:text-[#111510]" href="#layouts-test-composer">
+      00 · Composer
+    </a>
+
+    <% @layouts_test.sections.each do |section| %>
+      <a class="shrink-0 rounded-full border border-[#d8dccf] px-3 py-2 text-[0.72rem] font-extrabold text-[#5f665b] hover:border-[#84cc16] hover:text-[#111510]" href="#layouts-test-<%= section.number %>">
+        <%= section.number %> · <%= section.title %>
+      </a>
+    <% end %>
+  </nav>
+
+  <% @layouts_test.sections.each do |section| %>
+    <section id="layouts-test-<%= section.number %>" class="grid min-w-0 grid-cols-[minmax(0,1fr)] scroll-mt-28 gap-4 overflow-hidden rounded-lg border border-[#d8dccf] bg-white p-4 min-[821px]:p-5" data-layout-test-section="<%= section.number %>">
+      <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-2">
+        <p class="m-0 font-mono text-[0.64rem] font-black uppercase text-[#5ca800]"><%= section.number %> · <%= section.title %></p>
+        <h2 class="m-0 text-[1.15rem] font-black leading-tight"><%= section.title %></h2>
+        <p class="m-0 max-w-[82ch] text-[0.86rem] font-semibold leading-6 text-[#5f665b]"><%= section.description %></p>
+      </div>
+
+      <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3 min-[721px]:grid-cols-2 min-[1121px]:grid-cols-3">
+        <% section.layouts.each do |layout| %>
+          <article class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3 overflow-hidden rounded-md border border-[#d8dccf] bg-[#fbfcf7] p-3" data-layout-test-card="<%= layout.code %>">
+            <div class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-1">
+              <p class="m-0 font-mono text-[0.62rem] font-black uppercase text-[#5ca800]"><%= layout.code %></p>
+              <h3 class="m-0 text-[0.98rem] font-black leading-tight"><%= layout.name %></h3>
+              <p class="m-0 text-[0.78rem] font-semibold leading-5 text-[#5f665b]"><%= layout.purpose %></p>
+            </div>
+
+            <%= render "layout_wireframe", pattern: layout.pattern %>
+          </article>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+</main>

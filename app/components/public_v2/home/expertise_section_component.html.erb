@@ -1,8 +1,9 @@
-<section id="solutions" class="pv2-home-section pv2-home-graphite__matrix grid w-full min-w-0 gap-5">
+<section id="solutions" class="<%= component_classes %>" <%= debug_attributes %>>
   <%= render PublicV2::Content::SectionHeaderComponent.new(
     kicker: "Expertise",
     title: "Trois besoins principaux, une lecture rapide.",
-    variant: :home
+    variant: :home,
+    debug: debug?
   ) %>
 
   <div class="pv2-home-graphite__tracks grid grid-cols-1 gap-3 min-[821px]:grid-cols-3">

@@ -1,10 +1,10 @@
-<section id="showroom" class="pv2-home-section pv2-home-graphite__showroom grid w-full min-w-0 grid-cols-1 items-center gap-4 min-[1121px]:grid-cols-[minmax(0,.8fr)_minmax(320px,.7fr)]">
+<section id="showroom" class="<%= component_classes %>" <%= debug_attributes %>>
   <div class="grid gap-2">
     <p class="pv2-eyebrow">Showroom technique</p>
     <h2>200m2 pour comparer les mecanismes, toiles et finitions.</h2>
     <p>Le showroom de L'Arbresle permet de voir les produits, comprendre les options et valider les contraintes avant devis.</p>
   </div>
   <div class="pv2-home-media">
-    <%= render PublicV2::Ui::MediaFrameComponent.new(image: "magasin-06.jpeg", alt: "Showroom Les Artisans du Store") %>
+    <%= render PublicV2::Ui::MediaFrameComponent.new(image: "magasin-06.jpeg", alt: "Showroom Les Artisans du Store", debug: debug?) %>
   </div>
 </section>

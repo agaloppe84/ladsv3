@@ -98,7 +98,7 @@ class PublicV2::BaseController < ApplicationController
   end
 
   def public_v2_active_nav_key
-    return :home if controller_name == "pages" && action_name == "home"
+    return :home if controller_name == "pages" && action_name.in?(%w[home home_test])
     return :contact if controller_name == "pages" && action_name == "contact"
     return :products if controller_name.in?(%w[categories products])
     return :quote if controller_name == "quotes"

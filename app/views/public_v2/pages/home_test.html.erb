@@ -1,0 +1,24 @@
+<% title "HOME TEST - Public V2" %>
+<% description "Page TEST Public V2 dediee aux essais temporaires de layouts home." %>
+
+<main class="pv2-home-page pv2-home-graphite grid gap-6 pb-20 pt-8">
+  <section class="grid gap-3 rounded-lg border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-5 min-[821px]:p-7">
+    <p class="pv2-eyebrow">HOME TEST</p>
+    <h1 class="m-0 max-w-[18ch] text-[1.8rem] font-black leading-tight min-[821px]:text-[2.2rem]">10 compositions premium/design orientees devis.</h1>
+    <p class="m-0 max-w-[72ch] text-[0.9rem] font-semibold leading-7 text-[var(--pv2-home-muted)]">
+      Objectif : tester des directions plus design/modernes, plus orientees devis, avec photo en support, blocs flashy contenus et textes courts.
+    </p>
+  </section>
+
+  <nav class="sticky top-[82px] z-20 flex gap-2 overflow-x-auto rounded-md border border-[var(--pv2-home-border)] bg-[color-mix(in_srgb,var(--pv2-home-surface)_92%,transparent)] p-2 backdrop-blur" aria-label="Compositions home test">
+    <% @home_test.compositions.each do |composition| %>
+      <a class="shrink-0 rounded-full border border-[var(--pv2-home-border)] px-3 py-2 text-[0.72rem] font-extrabold text-[var(--pv2-home-muted)] hover:border-[var(--pv2-accent)] hover:text-[var(--pv2-home-text)]" href="#home-test-<%= composition.code.downcase %>">
+        <%= composition.code %> · <%= composition.name %>
+      </a>
+    <% end %>
+  </nav>
+
+  <% @home_test.compositions.each do |composition| %>
+    <%= render "home_test_composition", composition: composition %>
+  <% end %>
+</main>

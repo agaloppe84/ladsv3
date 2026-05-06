@@ -22,7 +22,9 @@ Documents a lire au debut d'un nouveau chat Codex sur Public V2 :
 ## Decisions Actees
 
 - URL de home Public V2 : `/public-v2/home`.
-- URL du laboratoire design system : `/public-v2/design-system`.
+- URL du design system : `/public-v2/design-system`.
+- URL de test layout home : `/public-v2/home-test` (`PagesController#home_test`, vue `home_test.html.erb`).
+- URL de reference layouts : `/public-v2/layouts-test` (`PagesController#layouts_test`, vue `layouts_test.html.erb`).
 - `/public-v2/home` utilise maintenant la direction **Atelier Graphite** comme vraie home Public V2.
 - Pages Public V2 ajoutees dans la meme direction Graphite :
   - `/public-v2/categories` : index categories enrichi, chaque categorie affiche tous ses produits publies ;
@@ -30,7 +32,10 @@ Documents a lire au debut d'un nouveau chat Codex sur Public V2 :
   - `/public-v2/devis` : page devis Public V2 avec formulaire et selection produits classiques + destockage ;
   - `/public-v2/contact` : page contact Public V2 avec coordonnees, acces, showroom et CTA devis.
 - Les gros titres de la direction Graphite ont ete reduits pour preparer une UI publique plus premium, plus dense et plus factorisable.
-- Le laboratoire design system est centre sur le UI Kit actif **Atelier Graphite**.
+- Le design system est centre sur le UI Kit actif **Atelier Graphite**.
+- Les tests de layouts ne doivent plus vivre dans le design-system ni dans les vraies vues. Ils passent par des vues dediees avec `test` dans le nom, par exemple `home_test` et `layouts_test`.
+- Au-dela de la bibliotheque de 240 layouts, ne plus ajouter des layouts "juste pour en ajouter". Utiliser une couche de composition guidee : intention, contenu disponible, choix de layouts, variantes parametriques, regles de rejet, puis vue `*_test`.
+- Le random de layouts doit rester intelligent : Codex doit choisir les composants/layouts selon l'objectif UX, pas tirer des blocs au hasard.
 - Les pages reelles Public V2 doivent afficher un selecteur de theme : clair/sombre, accents et typo. Le rendu par defaut reste clair.
 - Theme par defaut : clair.
 - Strategy CSS : meme logique que l'Admin V2, avec layout dedie, CSS dedie et classe racine dediee.
@@ -39,7 +44,7 @@ Documents a lire au debut d'un nouveau chat Codex sur Public V2 :
 - Pas de noindex tant que le chantier n'est pas pousse en production.
 - Si les routes `/public-v2/*` deviennent accessibles en production avant lancement officiel, ajouter une protection SEO temporaire dans le layout Public V2.
 - Pas de modification DB pour ce chantier.
-- ViewComponent autorise pour Public V2 : les composants Graphite servent maintenant aux pages reelles et au laboratoire design system.
+- ViewComponent autorise pour Public V2 : les composants Graphite servent maintenant aux pages reelles et au design system.
 - Codex ne lance pas de serveur Rails par defaut. Pour les steps UI/front importantes, Codex peut lancer un serveur temporaire dedie, idealement `127.0.0.1:3020`, tester desktop/mobile/theme, puis le couper systematiquement en fin de step.
 - A la fin de chaque step important, verifier s'il y a une optimisation ou une factorisation pertinente a faire, cote front comme cote back.
 
@@ -48,17 +53,21 @@ Documents a lire au debut d'un nouveau chat Codex sur Public V2 :
 Structure actuelle :
 
 - route `GET /public-v2/home` ;
+- route `GET /public-v2/home-test` ;
+- route `GET /public-v2/layouts-test` ;
 - route `GET /public-v2/categories` ;
 - route `GET /public-v2/produits/:slug` ;
 - routes `GET /public-v2/devis` et `POST /public-v2/devis` ;
 - route `GET /public-v2/contact` ;
 - route `GET /public-v2/design-system` ;
-- controller `PublicV2::PagesController#home` ;
+- controller `PublicV2::PagesController#home`, `#home_test` et `#layouts_test` ;
 - controllers `PublicV2::CategoriesController`, `PublicV2::ProductsController`, `PublicV2::QuotesController` ;
 - controller `PublicV2::PagesController#design_system` et `#contact` ;
 - base controller `PublicV2::BaseController` ;
 - layout `app/views/layouts/public_v2.html.erb` ;
 - vue `app/views/public_v2/pages/home.html.erb`, basee sur la direction Graphite retenue ;
+- vue test `app/views/public_v2/pages/home_test.html.erb` pour les futurs essais de layout home ;
+- vue test `app/views/public_v2/pages/layouts_test.html.erb` pour referencer les layouts globaux, sections et micro-layouts ;
 - vues `app/views/public_v2/categories/index.html.erb`, `app/views/public_v2/products/show.html.erb`, `app/views/public_v2/quotes/new.html.erb`, `app/views/public_v2/pages/contact.html.erb` ;
 - vue `app/views/public_v2/pages/design_system.html.erb` ;
 - CSS `app/assets/stylesheets/public_v2.css` ;
@@ -69,7 +78,19 @@ Structure actuelle :
 - composants ViewComponent `app/components/public_v2` ;
 - presenters Public V2 `app/presenters/public_v2` pour preparer les donnees d'affichage sans polluer les vues.
 
-La page `/public-v2/design-system` sert maintenant de laboratoire officiel et de banc de validation des composants. Sa coquille de presentation doit rester sobre, majoritairement Tailwind, avec une navigation laterale desktop et une navigation horizontale mobile. Les ViewComponents doivent etre rendus directement dans des cadres neutres, sans classe de demo qui modifie leur style interne.
+La page `/public-v2/design-system` sert maintenant de reference UI Kit et de banc de validation des composants. Sa coquille de presentation doit rester sobre, majoritairement Tailwind, avec une navigation laterale desktop et une navigation horizontale mobile. Les ViewComponents doivent etre rendus directement dans des cadres neutres, sans classe de demo qui modifie leur style interne.
+
+Le design-system ne doit pas contenir de tests de layout, de prototypes de pages ou de previews de pages reelles. Les explorations temporaires passent par des vues `*_test`, en commencant par `/public-v2/home-test`.
+
+La vue `/public-v2/layouts-test` sert de reference de composition. Elle contient :
+
+- les 240 bases filaires : 80 global layouts, 80 section layouts, 80 micro layouts ;
+- une couche "Composer intelligent" pour guider les generations ;
+- des axes parametriques : orientation, densite, accent, nombre de colonnes, ordre mobile et rythme ;
+- des presets de composition pour transformer une intention en selection de global layout, sections, micro-layouts et variantes ;
+- des regles de rejet pour eviter les compositions incoherentes.
+
+Quand l'utilisateur demande une page test "aleatoire", Codex doit reformuler l'intention et proposer une composition guidee. Le hasard peut servir a varier une direction, mais la decision finale doit etre argumentee par l'objectif UX, le contenu disponible et la coherence responsive.
 
 Elle documente :
 
@@ -82,14 +103,13 @@ Elle documente :
 - formulaires : inputs custom, select, textarea, checkbox, radio, toggle, range, stepper, erreurs, consentement et submit ;
 - feedback : alert, toast, form error, empty state, skeleton ;
 - motion : hover lift, focus, progress, timeline, accordion ;
-- pages : home, categories, product/show, devis et contact ;
 - inventaire des composants Public V2 actifs ;
 - theme clair/sombre ;
 - selecteur accent doux/flashy ;
 - selecteur typo ;
 - data reelle quand elle aide a juger les directions.
 
-Regle d'iteration : les requetes du laboratoire doivent rester legeres. La page charge seulement quelques categories, produits card et produits de destockage pour illustrer le UI Kit sans redevenir une page lourde.
+Regle d'iteration : les requetes du design-system doivent rester legeres. La page charge seulement quelques categories, produits card et produits de destockage pour illustrer le UI Kit sans redevenir une page lourde.
 
 ## Architecture Composants
 
@@ -289,7 +309,7 @@ Exception interactive :
 
 ## Design System Et Composants
 
-Objectif : maintenir `/public-v2/design-system` comme laboratoire de composants Graphite. `/public-v2/home` est la vraie home Public V2 basee sur Atelier Graphite, et le lab documente les ViewComponents Public V2 actifs.
+Objectif : maintenir `/public-v2/design-system` comme reference de composants Graphite. `/public-v2/home` est la vraie home Public V2 basee sur Atelier Graphite, et le design-system documente les ViewComponents Public V2 actifs.
 
 La page design system doit contenir :
 
@@ -302,14 +322,38 @@ La page design system doit contenir :
 - navigation desktop ;
 - navigation mobile ;
 - footer Public V2 ;
-- une home V2 reelle basee sur Atelier Graphite ;
 - une vue design system structuree ;
 - un UI kit actif pour Atelier Graphite ;
 - fondations, layouts, navigation, contenu, produits, formulaires, feedback, motion et inventaire composants ;
 - notifications dynamiques dans les exemples si un event actif existe ;
 - categories et produits publies pour enrichir les exemples ;
-- CTA devis dans les exemples de layouts, mais pas dans la navbar globale ;
+- CTA devis dans les exemples de composants, mais pas dans la navbar globale ;
 - design responsive mobile et desktop.
+
+La page design system ne doit pas contenir :
+
+- tests temporaires de layout ;
+- prototypes de sections home, product, devis ou contact ;
+- previews de pages reelles assemblees ;
+- variantes candidates qui ne sont pas des composants stabilises.
+
+## Vues Test Public V2
+
+Les essais de layout se font dans des vues dediees `*_test`, jamais dans `/public-v2/design-system` et jamais directement dans les vues reelles tant que la direction n'est pas validee.
+
+Regles :
+
+- le nom de l'action, de la vue et du helper de route doit contenir `test` ;
+- la route publique peut rester lisible avec un tiret, par exemple `/public-v2/home-test` pour `home_test` ;
+- la vue test doit etre facile a supprimer par recherche globale sur `test` ou `TEST` ;
+- une fois un layout valide, integrer uniquement le rendu retenu dans le bon composant reel ;
+- apres integration, nettoyer la vue test si elle ne sert plus au prochain arbitrage.
+
+Vue de reference :
+
+- `/public-v2/layouts-test` sert de bibliotheque filaire pour layouts globaux, layouts de sections et micro-layouts ;
+- cette page reste une representation abstraite en blocs Tailwind, sans composants metier, sans donnees reelles et sans switch clair/sombre/theme ;
+- les vraies explorations home peuvent partir de cette reference puis etre testees dans `/public-v2/home-test`.
 
 Regles composants :
 
@@ -365,6 +409,8 @@ Pages migrees :
 Routes Public V2 actuelles :
 
 - `GET /public-v2/home` vers `PublicV2::PagesController#home`.
+- `GET /public-v2/home-test` vers `PublicV2::PagesController#home_test`.
+- `GET /public-v2/layouts-test` vers `PublicV2::PagesController#layouts_test`.
 - `GET /public-v2/design-system` vers `PublicV2::PagesController#design_system`.
 - `GET /public-v2/contact` vers `PublicV2::PagesController#contact`.
 - `GET /public-v2/categories` vers `PublicV2::CategoriesController#index`.
@@ -471,5 +517,5 @@ Mettre a jour `docs/public-v2-design-system.md` quand :
 - une decision de design system est prise ;
 - une palette change ;
 - un composant devient reutilisable ;
-- un layout de page est valide ;
+- un layout de page est valide et integre dans une vraie page ;
 - un pattern responsive ou formulaire est stabilise.

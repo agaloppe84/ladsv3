@@ -99,7 +99,9 @@ Regle importante : creer de nouveaux fichiers Public V2 plutot que modifier ou r
 Etat actuel :
 
 - URL home : `/public-v2/home` ;
-- URL laboratoire : `/public-v2/design-system` ;
+- URL design system : `/public-v2/design-system` ;
+- URL test layout home : `/public-v2/home-test` ;
+- URL reference layouts : `/public-v2/layouts-test` ;
 - layout dedie avec classe racine `.public-v2` ;
 - CSS dedie entierement scope sous `.public-v2` ;
 - entree JS dediee ;
@@ -113,14 +115,16 @@ Etat actuel :
 - pages reelles categories, product/show, devis et contact reconstruites avec les composants Public V2 ;
 - vue `design_system` enrichie avec le UI Kit actif et l'inventaire des composants.
 
-Design system lab :
+Design system :
 
-- la home ne porte plus le laboratoire ; elle utilise la direction Atelier Graphite ;
-- le laboratoire est maintenant centre sur le kit actif **Atelier Graphite** ;
-- le laboratoire separe la presentation UX/UI de la page et le contenu des composants : la coquille est sobre, en utilities Tailwind, avec nav laterale desktop et nav horizontale mobile ;
+- la home ne porte plus de zone de test ; elle utilise la direction Atelier Graphite ;
+- le design-system est maintenant centre sur le kit actif **Atelier Graphite** ;
+- le design-system separe la presentation UX/UI de la page et le contenu des composants : la coquille est sobre, en utilities Tailwind, avec nav laterale desktop et nav horizontale mobile ;
 - les composants sont rendus directement dans des cadres neutres, sans surcouche `pv2-kit-*` susceptible de deformer paddings, badges ou alignements ;
-- le laboratoire documente les composants vraiment utilises avant extraction future ;
-- le laboratoire est trie par type : fondations, layouts, navigation, contenu, produits, formulaires, feedback, motion, pages et inventaire ViewComponent ;
+- le design-system documente les composants vraiment utilises avant extraction future ;
+- le design-system est trie par type : fondations, layouts, navigation, contenu, produits, formulaires, feedback, motion et inventaire ViewComponent ;
+- les tests de layouts, prototypes de pages et previews de pages reelles vivent dans des vues `*_test`, pas dans le design-system ;
+- `/public-v2/layouts-test` contient maintenant 240 bases filaires et une couche de composition guidee pour eviter l'empilement infini de layouts ;
 - les exemples utilisent une collection limitee de categories et produits reels quand cela aide a documenter un composant.
 
 UI kit actif Atelier Graphite :
@@ -139,9 +143,24 @@ UI kit actif Atelier Graphite :
 - formulaires custom : labels mono, inputs, select, textarea, erreur, consentement, submit ;
 - interactions : hover leger, focus ring accent, transitions courtes.
 
-Les routes reelles actuellement disponibles couvrent `/public-v2/home`, `/public-v2/categories`, `/public-v2/produits/:slug`, `/public-v2/devis`, `/public-v2/contact` et `/public-v2/design-system`.
+Les routes reelles actuellement disponibles couvrent `/public-v2/home`, `/public-v2/categories`, `/public-v2/produits/:slug`, `/public-v2/devis`, `/public-v2/contact` et `/public-v2/design-system`. Les routes `/public-v2/home-test` et `/public-v2/layouts-test` sont reservees aux essais temporaires et references de layout.
 
 Note : la page `/public-v2/design-system` charge une collection limitee pour rester utile sans devenir une page lourde : categories `limit(8)`, produits cards `limit(8)` et destockage `limit(2)`.
+
+## Reference Layouts Et Composer
+
+La page `/public-v2/layouts-test` n'est pas une page UI Kit. Elle sert a explorer les compositions de page et de section avec des blocs Tailwind abstraits.
+
+Structure actuelle :
+
+- 80 global layouts ;
+- 80 section layouts ;
+- 80 micro layouts ;
+- une zone `Composer intelligent` ;
+- axes de variantes : orientation, densite, accent, colonnes, ordre mobile et rythme ;
+- presets de composition pour home premium, devis rapide, produit technique, inspiration categorie, confiance showroom et support local compact.
+
+Regle de design system : au-dela de ces 240 bases, preferer les variantes parametriques et les presets guides plutot que l'ajout de nouveaux layouts isoles. Une generation de page test doit toujours partir d'une intention UX, puis choisir les layouts et variantes compatibles. Le random brut est interdit comme logique principale ; il peut seulement varier une direction deja coherente.
 
 ## Layout Global
 
@@ -294,7 +313,7 @@ Pattern CSS/Tailwind actif :
 - une propriete de layout migree vers Tailwind ne doit plus etre redefinie dans `public_v2.css` ;
 - les utilities doivent rester litterales dans les templates ou dans les classes Ruby scannees par Tailwind ;
 - ne pas utiliser de couleurs Tailwind generiques pour remplacer les tokens Public V2.
-- la page design-system utilise Tailwind pour sa propre mise en page et ne doit pas recreer une couche CSS de laboratoire ; si un composant apparait casse dans le lab, corriger le composant ou son API plutot qu'ajouter une surcouche demo.
+- la page design-system utilise Tailwind pour sa propre mise en page et ne doit pas recreer une couche CSS de demonstration ; si un composant apparait casse dans le design-system, corriger le composant ou son API plutot qu'ajouter une surcouche demo.
 
 Contrat de largeur :
 
@@ -404,19 +423,19 @@ Formulaire devis :
 
 ## Home V2
 
-La home ne sert plus de laboratoire. Elle utilise maintenant la direction **Atelier Graphite** comme vraie home Public V2.
+La home ne sert plus de zone de test. Elle utilise maintenant la direction **Atelier Graphite** comme vraie home Public V2.
 
 Objectif actuel :
 
 - garder un point d'entree propre sur `/public-v2/home` ;
 - presenter rapidement categories, produits, showroom, partenaires, preuves et devis ;
-- laisser le laboratoire vivre dans une page dediee ;
+- faire les essais temporaires dans les vues `*_test` ;
 - s'appuyer sur les composants Public V2 stabilises ;
 - continuer a optimiser les requetes et les patterns apres chaque iteration.
 
-## Design System Lab
+## Design System
 
-La page `/public-v2/design-system` sert maintenant de laboratoire UI Kit officiel pour Atelier Graphite. Elle doit rester suffisamment complete pour preparer les futurs ViewComponents, avec un contenu propre et centre sur les composants actifs.
+La page `/public-v2/design-system` sert maintenant de reference UI Kit officielle pour Atelier Graphite. Elle doit rester suffisamment complete pour preparer les futurs ViewComponents, avec un contenu propre et centre sur les composants actifs.
 
 Sections attendues :
 
@@ -428,8 +447,11 @@ Sections attendues :
 - formulaires : inputs custom, select, textarea, checkbox, radio, toggle, range, stepper, erreurs, consentement, submit ;
 - feedback : notification, toast, form error, empty state, skeleton ;
 - motion : hover lift, focus ring, progress, timeline, accordion ;
-- pages : liens et apercus vers home, categories, product/show, devis et contact ;
 - inventaire ViewComponent : composants cibles, responsabilites et niveau de maturite.
+
+Les tests de layouts, prototypes de pages et previews de pages reelles ne doivent pas etre ajoutes ici. Ils passent par des vues `*_test`, par exemple `/public-v2/home-test`.
+
+La page `/public-v2/layouts-test` sert de reference filaire pour experimenter les layouts globaux, layouts de sections et micro-layouts. Elle doit rester abstraite : blocs Tailwind, pas de composants Public V2, pas de donnees reelles et pas de controles de theme.
 
 La future home devra pouvoir contenir plus de contexte que le site classique actuel, sans devenir une landing page bavarde. Le visiteur devra comprendre vite :
 
@@ -658,7 +680,7 @@ Regle : les controllers Public V2 preparent les donnees. Les vues affichent.
 
 Mettre a jour ce document quand :
 
-- un layout de page est valide ;
+- un layout de page est valide et integre dans une vraie page ;
 - une palette est retenue ;
 - un accent par defaut change ;
 - un composant devient reusable ;

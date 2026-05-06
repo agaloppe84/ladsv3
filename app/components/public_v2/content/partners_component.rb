@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PublicV2::Content::PartnersComponent < ViewComponent::Base
+  include PublicV2::Debuggable
+
   DEFAULT_PARTNERS = [
     { name: "Somfy", logo: "somfy.svg" },
     { name: "Luxaflex", logo: "logo-luxaflex.svg" },
@@ -18,12 +20,14 @@ class PublicV2::Content::PartnersComponent < ViewComponent::Base
     title: "Nos partenaires",
     text: "Un ecosysteme de marques techniques et durables pour comparer moteurs, toiles, fermetures et finitions au showroom.",
     partners: DEFAULT_PARTNERS,
-    classes: nil
+    classes: nil,
+    debug: false
   )
     @title = title
     @text = text
     @partners = partners
     @classes = classes
+    @debug = debug
   end
 
   private
@@ -31,6 +35,6 @@ class PublicV2::Content::PartnersComponent < ViewComponent::Base
   attr_reader :title, :text, :partners, :classes
 
   def component_classes
-    ["pv2-partners", "grid w-full min-w-0 gap-6 p-[1.35rem]", classes].compact.join(" ")
+    ["pv2-partners", "grid w-full min-w-0 gap-6 p-[1.35rem]", debug_class, classes].compact.join(" ")
   end
 end

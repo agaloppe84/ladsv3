@@ -1,4 +1,4 @@
-<section id="devis" class="pv2-home-section pv2-home-quote-panel grid w-full min-w-0 grid-cols-1 items-start gap-6 p-5 min-[1121px]:grid-cols-[minmax(0,.78fr)_minmax(320px,.48fr)]">
+<section id="devis" class="<%= component_classes %>" <%= debug_attributes %>>
   <div>
     <p class="pv2-eyebrow">Demande de devis</p>
     <h2>Selectionner un produit ou laisser l'equipe orienter le projet.</h2>
@@ -11,6 +11,6 @@
             options_for_select(product_options, selected_product_id),
             { include_blank: "A definir avec l'equipe" } %>
     </label>
-    <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", type: "submit", variant: :primary) %>
+    <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", type: "submit", variant: :primary, debug: debug?) %>
   <% end %>
 </section>

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PublicV2::Ui::SpotlightPanelComponent < ViewComponent::Base
+  include PublicV2::Debuggable
+
   renders_one :actions
   renders_one :footer
 
@@ -8,7 +10,7 @@ class PublicV2::Ui::SpotlightPanelComponent < ViewComponent::Base
   SIZES = %i[md lg].freeze
   TAGS = %i[article aside div section].freeze
 
-  def initialize(kicker: nil, title: nil, text: nil, id: nil, variant: :soft, size: :md, tag: :section, data: {}, classes: nil)
+  def initialize(kicker: nil, title: nil, text: nil, id: nil, variant: :soft, size: :md, tag: :section, data: {}, classes: nil, debug: false)
     @kicker = kicker
     @title = title
     @text = text
@@ -18,6 +20,7 @@ class PublicV2::Ui::SpotlightPanelComponent < ViewComponent::Base
     @html_tag = TAGS.include?(tag.to_sym) ? tag.to_sym : :section
     @data = data
     @classes = classes
+    @debug = debug
   end
 
   private
@@ -30,8 +33,13 @@ class PublicV2::Ui::SpotlightPanelComponent < ViewComponent::Base
       "pv2-ui-spotlight-panel--#{variant}",
       "pv2-ui-spotlight-panel--#{size}",
       "grid w-full min-w-0",
+      debug_class,
       classes
     ].compact.join(" ")
+  end
+
+  def component_data
+    with_debug_data(data)
   end
 
   def render_header?

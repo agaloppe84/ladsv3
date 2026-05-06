@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class PublicV2::Home::ProductRowsSectionComponent < ViewComponent::Base
-  def initialize(products:)
+  include PublicV2::Debuggable
+
+  def initialize(products:, debug: false)
     @products = products
+    @debug = debug
   end
 
   def render?
@@ -12,4 +15,12 @@ class PublicV2::Home::ProductRowsSectionComponent < ViewComponent::Base
   private
 
   attr_reader :products
+
+  def component_classes
+    [
+      "pv2-home-section pv2-home-graphite__specs",
+      "grid w-full min-w-0 gap-5",
+      debug_class
+    ].compact.join(" ")
+  end
 end

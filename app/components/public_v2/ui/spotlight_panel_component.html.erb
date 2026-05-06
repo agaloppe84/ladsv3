@@ -1,4 +1,4 @@
-<%= tag.public_send(html_tag, id: id, class: component_classes, data: data) do %>
+<%= tag.public_send(html_tag, id: id, class: component_classes, data: component_data) do %>
   <% if render_header? %>
     <header class="pv2-ui-spotlight-panel__head grid gap-4">
       <% if kicker.present? %>

@@ -122,7 +122,7 @@
         <div class="mb-5 grid gap-2">
           <p class="font-[var(--p-font-mono)] text-[0.64rem] font-black uppercase text-[var(--pv2-accent)]">02 · Layout</p>
           <h2 class="text-[1.15rem] font-black leading-tight">Shell, hero, medias, CTA et footer.</h2>
-          <p class="max-w-[72ch] text-[0.86rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">Les previews sont des cadres neutres. Le style visible a l'interieur vient des composants eux-memes.</p>
+          <p class="max-w-[72ch] text-[0.86rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">Les exemples sont des cadres neutres. Le style visible a l'interieur vient des composants eux-memes.</p>
         </div>
 
         <div class="grid gap-4 min-[1121px]:grid-cols-2">
@@ -184,7 +184,7 @@
         <div class="mb-5 grid gap-2">
           <p class="font-[var(--p-font-mono)] text-[0.64rem] font-black uppercase text-[var(--pv2-accent)]">03 · Navigation</p>
           <h2 class="text-[1.15rem] font-black leading-tight">Navbar, breadcrumb et controles.</h2>
-          <p class="max-w-[72ch] text-[0.86rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">La navbar reelle garde l'etat actif. La page labo ajoute seulement une navigation laterale dediee au design system.</p>
+          <p class="max-w-[72ch] text-[0.86rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">La navbar reelle garde l'etat actif. Cette page ajoute seulement une navigation laterale dediee au design system.</p>
         </div>
 
         <div class="grid gap-4 min-[1121px]:grid-cols-3">
@@ -589,59 +589,9 @@
         </div>
       </section>
 
-      <section id="public-v2-kit-pages" class="scroll-mt-28 rounded-lg border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-4 min-[821px]:p-5">
-        <div class="mb-5 grid gap-2">
-          <p class="font-[var(--p-font-mono)] text-[0.64rem] font-black uppercase text-[var(--pv2-accent)]">09 · Pages</p>
-          <h2 class="text-[1.15rem] font-black leading-tight">Blueprints transposables.</h2>
-          <p class="max-w-[72ch] text-[0.86rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">Chaque page reelle assemble des sections Public V2 dediees. Les sections portent le layout responsive interne, les primitives portent le skin.</p>
-        </div>
-
-        <div class="grid gap-3 min-[821px]:grid-cols-2 min-[1121px]:grid-cols-5">
-          <%= link_to public_v2_home_path, class: "grid min-h-[132px] gap-2 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4 transition hover:-translate-y-px hover:border-[rgba(var(--pv2-accent-rgb),0.38)]" do %>
-            <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">Home</span><strong class="text-[0.88rem] font-black leading-6">HeroSection, Expertise, CategoryGrid, ProductRows, Showroom, Partners, QuoteShortcut.</strong>
-          <% end %>
-          <%= link_to public_v2_categories_path, class: "grid min-h-[132px] gap-2 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4 transition hover:-translate-y-px hover:border-[rgba(var(--pv2-accent-rgb),0.38)]" do %>
-            <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">Categories</span><strong class="text-[0.88rem] font-black leading-6">Hero, SummarySection, ListSection, CategoryBlock, ProductCard.</strong>
-          <% end %>
-          <%= link_to @design_system.featured_product.present? ? public_v2_product_path(slug: @design_system.featured_product.slug) : public_v2_categories_path, class: "grid min-h-[132px] gap-2 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4 transition hover:-translate-y-px hover:border-[rgba(var(--pv2-accent-rgb),0.38)]" do %>
-            <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">Product/show</span><strong class="text-[0.88rem] font-black leading-6">Breadcrumb, ProductHero, DetailsSection, RelatedSection.</strong>
-          <% end %>
-          <%= link_to public_v2_new_quote_path, class: "grid min-h-[132px] gap-2 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4 transition hover:-translate-y-px hover:border-[rgba(var(--pv2-accent-rgb),0.38)]" do %>
-            <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">Devis</span><strong class="text-[0.88rem] font-black leading-6">Hero, FormSection, QuoteForm, selected product, errors.</strong>
-          <% end %>
-          <%= link_to public_v2_contact_path, class: "grid min-h-[132px] gap-2 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4 transition hover:-translate-y-px hover:border-[rgba(var(--pv2-accent-rgb),0.38)]" do %>
-            <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">Contact</span><strong class="text-[0.88rem] font-black leading-6">Hero, DetailsSection, ShowroomSection, CTA.</strong>
-          <% end %>
-        </div>
-
-        <div class="mt-5 grid gap-4">
-          <article class="min-w-0 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-3 min-[821px]:p-4">
-            <span class="mb-3 block font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">Quotes::HeroSectionComponent</span>
-            <%= render PublicV2::Quotes::HeroSectionComponent.new %>
-          </article>
-
-          <article class="min-w-0 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-3 min-[821px]:p-4">
-            <span class="mb-3 block font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">Contact::HeroSectionComponent</span>
-            <%= render PublicV2::Contact::HeroSectionComponent.new %>
-          </article>
-
-          <div class="grid gap-4 min-[1121px]:grid-cols-2">
-            <article class="min-w-0 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-3 min-[821px]:p-4">
-              <span class="mb-3 block font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">Categories::SummarySectionComponent</span>
-              <%= render PublicV2::Categories::SummarySectionComponent.new %>
-            </article>
-
-            <article class="min-w-0 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-3 min-[821px]:p-4">
-              <span class="mb-3 block font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">Contact::CtaSectionComponent</span>
-              <%= render PublicV2::Contact::CtaSectionComponent.new %>
-            </article>
-          </div>
-        </div>
-      </section>
-
       <section id="public-v2-kit-components" class="scroll-mt-28 rounded-lg border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-4 min-[821px]:p-5">
         <div class="mb-5 grid gap-2">
-          <p class="font-[var(--p-font-mono)] text-[0.64rem] font-black uppercase text-[var(--pv2-accent)]">10 · ViewComponents</p>
+          <p class="font-[var(--p-font-mono)] text-[0.64rem] font-black uppercase text-[var(--pv2-accent)]">09 · ViewComponents</p>
           <h2 class="text-[1.15rem] font-black leading-tight">Inventaire d'extraction.</h2>
           <p class="max-w-[72ch] text-[0.86rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">Ces composants portent les pages reelles Public V2. La suite consiste a stabiliser les APIs et optimiser seulement les patterns repetes.</p>
         </div>

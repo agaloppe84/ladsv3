@@ -19,8 +19,7 @@ class PublicV2::DesignSystemPage
     { id: "public-v2-kit-forms", label: "Formulaires", number: "06" },
     { id: "public-v2-kit-feedback", label: "Etats", number: "07" },
     { id: "public-v2-kit-motion", label: "Motion", number: "08" },
-    { id: "public-v2-kit-pages", label: "Pages", number: "09" },
-    { id: "public-v2-kit-components", label: "ViewComponents", number: "10" }
+    { id: "public-v2-kit-components", label: "ViewComponents", number: "09" }
   ].freeze
 
   OPTION_LIST_CONCEPTS = [
@@ -66,7 +65,7 @@ class PublicV2::DesignSystemPage
     ["Content", "PublicV2::Content::CtaBandComponent", "Bande CTA inter-section ou fin de page."],
     ["Content", "PublicV2::Content::InfoCardComponent", "Coordonnees, preuves et informations contextuelles."],
     ["Content", "PublicV2::Content::PartnersComponent", "Logo wall partenaires avec hover accent."],
-    ["Home", "PublicV2::Home::HeroSectionComponent", "Hero home reel avec copy, actions, proofline, media et produit mis en avant."],
+    ["Home", "PublicV2::Home::HeroSectionComponent", "Hero home reel : spotlight principal, media aligne et panels de preuves."],
     ["Home", "PublicV2::Home::ExpertiseSectionComponent", "Section besoins metier : soleil, fermeture, confort."],
     ["Home", "PublicV2::Home::CategoryGridSectionComponent", "Grille familles produits de la home."],
     ["Home", "PublicV2::Home::ProductRowsSectionComponent", "Selection catalogue en lignes comparables."],
