@@ -138,6 +138,7 @@ Regles de validation :
 
 - ne pas lancer de serveur Rails par defaut ;
 - pour une etape UI/front importante, Codex peut lancer un serveur temporaire dedie, idealement `127.0.0.1:3020`, faire les captures desktop/mobile/theme utiles, puis le couper systematiquement avant de rendre la main ;
+- pour un micro-ajustement CSS/UI que l'utilisateur verifie lui-meme en local, ne pas lancer de serveur Rails ni de capture Chrome ; appliquer le patch et faire seulement un check statique utile ;
 - valider les GET avec `bin/rails runner` si besoin ;
 - ne pas POSTer `/public-v2/devis` pendant les validations automatiques, car cela cree une demande ;
 - verifier les reliquats CSS/vues/routes apres chaque gros nettoyage.
@@ -454,6 +455,7 @@ Checks non destructifs utiles :
 - verification responsive mobile et desktop avant de valider une direction visuelle.
 
 Ne pas lancer de serveur si l'utilisateur dit qu'il valide lui-meme.
+Pour les micro-changements de style, privilegier un patch court et un check statique, puis laisser l'utilisateur juger le rendu dans son navigateur.
 
 ## Documentation
 

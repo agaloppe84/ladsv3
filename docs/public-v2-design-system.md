@@ -134,6 +134,7 @@ UI kit actif Atelier Graphite :
 - footer sombre avec coordonnees, contact et categories ;
 - cards categorie, cards produit, panels product/show, cards contact, logo wall partenaires, CTA band ;
 - breadcrumb, dropdown custom, facts, badges services, swatches coloris, galerie, empty state ;
+- liste options produit en rail compact : index carres, ligne verticale masquee derriere les index, liaisons horizontales courtes et texte mono uppercase en couleur accent ;
 - panels expressifs `SpotlightPanelComponent` en variantes soft et flashy pour les messages forts ;
 - formulaires custom : labels mono, inputs, select, textarea, erreur, consentement, submit ;
 - interactions : hover leger, focus ring accent, transitions courtes.
@@ -552,8 +553,9 @@ Primitives recentes :
 - `PublicV2::Ui::PanelComponent` accepte maintenant des variantes de surface (`default`, `accent`, `soft`, `rail`, `elevated`, `outline`, `inset`, `flashy`) et des paddings (`sm`, `md`, `lg`) ;
 - `PublicV2::Ui::ButtonComponent` accepte `size`, `shape`, `variant` et `full_width` pour eviter les boutons trop ronds ou trop massifs par defaut ;
 - les composants compatibles peuvent recevoir `debug: true` pour afficher leur limite spatiale et le nom du composant, utile pendant les arbitrages de layout ;
-- la fiche produit Public V2 utilise temporairement `debug: true` pour visualiser les limites de ses composants.
+- la fiche produit Public V2 utilise temporairement `debug: true` pour visualiser les limites de ses composants ;
 - `PublicV2::Products::OptionListComponent` explore cinq lectures plus compactes des options ordonnees : `rail`, `chips`, `focus`, `blueprint`, `accordion` ;
+- la variante `rail` retenue sur product/show affiche une lecture technique compacte : cube d'index legerement arrondi, rail vertical accent, petit trait horizontal vers le texte, texte mono uppercase couleur accent et densite verticale reduite ;
 - `focus` et `accordion` utilisent `public_v2/controllers/option_list_controller.js`.
 
 ## Destockage
