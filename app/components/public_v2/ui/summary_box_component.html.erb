@@ -1,0 +1,25 @@
+<aside class="<%= component_classes %>" <%= debug_attributes %>>
+  <div class="grid min-w-0 gap-2">
+    <% if kicker.present? %>
+      <p class="pv2-ui-summary-box__kicker"><%= kicker %></p>
+    <% end %>
+    <h3><%= title %></h3>
+    <% if text.present? %>
+      <p><%= text %></p>
+    <% end %>
+  </div>
+
+  <% if render_items? %>
+    <ul class="pv2-ui-summary-box__items grid min-w-0 gap-2">
+      <% items.each do |item| %>
+        <li><%= item %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% if content.present? %>
+    <div class="pv2-ui-summary-box__content grid min-w-0 gap-2">
+      <%= content %>
+    </div>
+  <% end %>
+</aside>

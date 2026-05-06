@@ -1,0 +1,24 @@
+<section class="<%= component_classes %>" <%= debug_attributes %>>
+  <div class="pv2-ui-action-dock__copy grid min-w-0 gap-2">
+    <p class="pv2-ui-action-dock__kicker"><%= kicker %></p>
+    <h3><%= title %></h3>
+    <% if text.present? %>
+      <p><%= text %></p>
+    <% end %>
+  </div>
+
+  <% if render_actions? %>
+    <div class="pv2-ui-action-dock__actions flex min-w-0 flex-wrap items-center gap-2">
+      <% if primary_label.present? %>
+        <%= render PublicV2::Ui::ButtonComponent.new(label: primary_label, path: primary_path, variant: variant == :flashy ? :inverse : :primary, size: :sm) %>
+      <% end %>
+      <% if secondary_label.present? %>
+        <%= render PublicV2::Ui::ButtonComponent.new(label: secondary_label, path: secondary_path, variant: :secondary, size: :sm) %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if meta.present? %>
+    <p class="pv2-ui-action-dock__meta"><%= meta %></p>
+  <% end %>
+</section>

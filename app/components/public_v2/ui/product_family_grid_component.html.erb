@@ -1,0 +1,35 @@
+<section class="<%= component_classes %>" <%= debug_attributes %>>
+  <% if label.present? %>
+    <p class="pv2-ui-product-family-grid__label"><%= label %></p>
+  <% end %>
+
+  <div class="pv2-ui-product-family-grid__items grid min-w-0 gap-2">
+    <% families.each_with_index do |family, index| %>
+      <% card = capture do %>
+        <% if family[:image].present? %>
+          <div class="pv2-ui-product-family-grid__media">
+            <%= render PublicV2::Ui::MediaFrameComponent.new(image: family[:image], alt: family[:alt].presence || family[:title], ratio: :product) %>
+          </div>
+        <% end %>
+        <span><%= family_number(family, index) %></span>
+        <strong><%= family[:title] %></strong>
+        <% if family[:text].present? %>
+          <p><%= family[:text] %></p>
+        <% end %>
+        <% if family[:meta].present? %>
+          <small><%= family[:meta] %></small>
+        <% end %>
+      <% end %>
+
+      <% if family[:path].present? %>
+        <%= link_to family[:path], class: "pv2-ui-product-family-grid__item grid min-w-0 gap-2" do %>
+          <%= card %>
+        <% end %>
+      <% else %>
+        <article class="pv2-ui-product-family-grid__item grid min-w-0 gap-2">
+          <%= card %>
+        </article>
+      <% end %>
+    <% end %>
+  </div>
+</section>

@@ -492,6 +492,568 @@
   opacity: 0.72;
 }
 
+.public-v2 .pv2-ui-action-dock,
+.public-v2 .pv2-ui-proof-rail__item,
+.public-v2 .pv2-ui-step-rail__item,
+.public-v2 .pv2-ui-choice-tile {
+  border: 1px solid var(--pv2-home-border, var(--p-border));
+  border-radius: 6px;
+}
+
+.public-v2 .pv2-ui-action-dock {
+  background: var(--pv2-home-surface, var(--p-surface));
+  color: var(--pv2-home-text, var(--p-text));
+  padding: clamp(0.9rem, 2vw, 1.15rem);
+}
+
+.public-v2 .pv2-ui-action-dock--soft {
+  background:
+    linear-gradient(135deg, rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.1), transparent 42%),
+    var(--pv2-home-surface, var(--p-surface));
+  border-color: rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.22);
+}
+
+.public-v2 .pv2-ui-action-dock--flashy {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.26), transparent 34%),
+    var(--pv2-accent, var(--p-accent));
+  border-color: color-mix(in srgb, var(--pv2-accent, var(--p-accent)) 76%, #000);
+  color: var(--pv2-accent-text, var(--p-accent-text));
+}
+
+.public-v2 .pv2-ui-action-dock--dark {
+  background: #111510;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #fffef7;
+}
+
+.public-v2 .pv2-ui-action-dock__kicker,
+.public-v2 .pv2-ui-proof-rail__label,
+.public-v2 .pv2-ui-step-rail__label,
+.public-v2 .pv2-ui-choice-tile__kicker {
+  color: var(--pv2-accent, var(--p-accent));
+  font-family: var(--p-font-mono);
+  font-size: 0.64rem;
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 1.1;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.public-v2 .pv2-ui-action-dock--flashy .pv2-ui-action-dock__kicker {
+  color: var(--pv2-accent-text, var(--p-accent-text));
+  opacity: 0.72;
+}
+
+.public-v2 .pv2-ui-action-dock h3 {
+  color: inherit;
+  font-size: 1.05rem;
+  font-weight: 930;
+  line-height: 1.08;
+  margin: 0;
+}
+
+.public-v2 .pv2-ui-action-dock p:not(.pv2-ui-action-dock__kicker),
+.public-v2 .pv2-ui-action-dock__meta {
+  color: var(--pv2-home-muted, var(--p-muted));
+  font-size: 0.82rem;
+  font-weight: 650;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.public-v2 .pv2-ui-action-dock--flashy p:not(.pv2-ui-action-dock__kicker),
+.public-v2 .pv2-ui-action-dock--flashy .pv2-ui-action-dock__meta {
+  color: color-mix(in srgb, var(--pv2-accent-text, var(--p-accent-text)) 78%, transparent);
+}
+
+.public-v2 .pv2-ui-action-dock--dark p:not(.pv2-ui-action-dock__kicker),
+.public-v2 .pv2-ui-action-dock--dark .pv2-ui-action-dock__meta {
+  color: rgba(255, 254, 247, 0.68);
+}
+
+.public-v2 .pv2-ui-proof-rail__items {
+  grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+}
+
+.public-v2 .pv2-ui-proof-rail__item {
+  background: var(--pv2-home-surface, var(--p-surface));
+  padding: 0.8rem;
+}
+
+.public-v2 .pv2-ui-proof-rail--compact .pv2-ui-proof-rail__item {
+  padding: 0.68rem;
+}
+
+.public-v2 .pv2-ui-proof-rail--soft .pv2-ui-proof-rail__item {
+  background: rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.08);
+  border-color: rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.2);
+}
+
+.public-v2 .pv2-ui-proof-rail__item strong {
+  color: var(--pv2-home-text, var(--p-text));
+  font-size: 1.02rem;
+  font-weight: 940;
+  line-height: 1;
+}
+
+.public-v2 .pv2-ui-proof-rail__item span,
+.public-v2 .pv2-ui-proof-rail__item p {
+  color: var(--pv2-home-muted, var(--p-muted));
+  font-size: 0.74rem;
+  font-weight: 720;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.public-v2 .pv2-ui-step-rail__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.public-v2 .pv2-ui-step-rail--cards .pv2-ui-step-rail__items,
+.public-v2 .pv2-ui-step-rail--compact .pv2-ui-step-rail__items {
+  grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr));
+}
+
+.public-v2 .pv2-ui-step-rail__item {
+  background: var(--pv2-home-surface, var(--p-surface));
+  padding: 0.82rem;
+}
+
+.public-v2 .pv2-ui-step-rail--rail .pv2-ui-step-rail__item {
+  border-left: 3px solid var(--pv2-accent, var(--p-accent));
+}
+
+.public-v2 .pv2-ui-step-rail__item span {
+  color: var(--pv2-accent, var(--p-accent));
+  font-family: var(--p-font-mono);
+  font-size: 0.62rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.public-v2 .pv2-ui-step-rail__item strong,
+.public-v2 .pv2-ui-choice-tile strong {
+  color: var(--pv2-home-text, var(--p-text));
+  font-size: 0.96rem;
+  font-weight: 930;
+  line-height: 1.12;
+}
+
+.public-v2 .pv2-ui-step-rail__item p,
+.public-v2 .pv2-ui-choice-tile p {
+  color: var(--pv2-home-muted, var(--p-muted));
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.public-v2 .pv2-ui-choice-tile {
+  background: var(--pv2-home-surface, var(--p-surface));
+  color: var(--pv2-home-text, var(--p-text));
+  padding: 0.9rem;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.public-v2 .pv2-ui-choice-tile:hover {
+  border-color: rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.34);
+  transform: translateY(-1px);
+}
+
+.public-v2 .pv2-ui-choice-tile--soft,
+.public-v2 .pv2-ui-choice-tile.is-active {
+  background: rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.08);
+  border-color: rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.28);
+}
+
+.public-v2 .pv2-ui-choice-tile--flashy {
+  background: var(--pv2-accent, var(--p-accent));
+  border-color: color-mix(in srgb, var(--pv2-accent, var(--p-accent)) 76%, #000);
+  color: var(--pv2-accent-text, var(--p-accent-text));
+}
+
+.public-v2 .pv2-ui-choice-tile--flashy .pv2-ui-choice-tile__kicker,
+.public-v2 .pv2-ui-choice-tile--flashy strong,
+.public-v2 .pv2-ui-choice-tile--flashy p {
+  color: var(--pv2-accent-text, var(--p-accent-text));
+}
+
+.public-v2 .pv2-ui-section-shell,
+.public-v2 .pv2-ui-summary-box,
+.public-v2 .pv2-ui-icon-list__item,
+.public-v2 .pv2-ui-process-list__item,
+.public-v2 .pv2-ui-quote-intake,
+.public-v2 .pv2-ui-trust-cluster,
+.public-v2 .pv2-ui-trust-cluster__item,
+.public-v2 .pv2-ui-product-family-grid__item,
+.public-v2 .pv2-ui-comparison-strip__item,
+.public-v2 .pv2-ui-media-mosaic__item,
+.public-v2 .pv2-ui-faq-accordion__item {
+  border: 1px solid var(--pv2-home-border, var(--p-border));
+  border-radius: 6px;
+}
+
+.public-v2 .pv2-ui-section-shell,
+.public-v2 .pv2-ui-summary-box,
+.public-v2 .pv2-ui-quote-intake,
+.public-v2 .pv2-ui-trust-cluster {
+  background: var(--pv2-home-surface, var(--p-surface));
+  color: var(--pv2-home-text, var(--p-text));
+}
+
+.public-v2 .pv2-ui-section-shell--pad-none {
+  padding: 0;
+}
+
+.public-v2 .pv2-ui-section-shell--pad-sm {
+  padding: clamp(0.85rem, 2vw, 1rem);
+}
+
+.public-v2 .pv2-ui-section-shell--pad-md {
+  padding: clamp(1rem, 2.4vw, 1.35rem);
+}
+
+.public-v2 .pv2-ui-section-shell--pad-lg {
+  padding: clamp(1.2rem, 3vw, 1.75rem);
+}
+
+.public-v2 .pv2-ui-section-shell--soft,
+.public-v2 .pv2-ui-summary-box--soft,
+.public-v2 .pv2-ui-quote-intake--soft,
+.public-v2 .pv2-ui-trust-cluster--soft {
+  background:
+    linear-gradient(135deg, rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.08), transparent 38%),
+    var(--pv2-home-surface, var(--p-surface));
+  border-color: rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.2);
+}
+
+.public-v2 .pv2-ui-section-shell--outline,
+.public-v2 .pv2-ui-summary-box--outline {
+  background: transparent;
+}
+
+.public-v2 .pv2-ui-section-shell--tinted {
+  background: var(--pv2-home-bg-soft, var(--p-bg-soft));
+}
+
+.public-v2 .pv2-ui-section-shell--dark,
+.public-v2 .pv2-ui-summary-box--dark,
+.public-v2 .pv2-ui-trust-cluster--dark {
+  background: #111510;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #fffef7;
+}
+
+.public-v2 .pv2-ui-summary-box--flashy {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent 36%),
+    var(--pv2-accent, var(--p-accent));
+  border-color: color-mix(in srgb, var(--pv2-accent, var(--p-accent)) 76%, #000);
+  color: var(--pv2-accent-text, var(--p-accent-text));
+}
+
+.public-v2 .pv2-ui-section-shell__kicker,
+.public-v2 .pv2-ui-summary-box__kicker,
+.public-v2 .pv2-ui-icon-list__label,
+.public-v2 .pv2-ui-process-list__label,
+.public-v2 .pv2-ui-quote-intake__kicker,
+.public-v2 .pv2-ui-trust-cluster__kicker,
+.public-v2 .pv2-ui-product-family-grid__label,
+.public-v2 .pv2-ui-comparison-strip__label,
+.public-v2 .pv2-ui-media-mosaic__label,
+.public-v2 .pv2-ui-faq-accordion__label {
+  color: var(--pv2-accent, var(--p-accent));
+  font-family: var(--p-font-mono);
+  font-size: 0.64rem;
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 1.1;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.public-v2 .pv2-ui-summary-box--flashy .pv2-ui-summary-box__kicker {
+  color: var(--pv2-accent-text, var(--p-accent-text));
+  opacity: 0.72;
+}
+
+.public-v2 .pv2-ui-section-shell h2,
+.public-v2 .pv2-ui-summary-box h3,
+.public-v2 .pv2-ui-quote-intake h3,
+.public-v2 .pv2-ui-trust-cluster h3 {
+  color: inherit;
+  font-size: clamp(1.1rem, 2.2vw, 1.45rem);
+  font-weight: 930;
+  letter-spacing: 0;
+  line-height: 1.08;
+  margin: 0;
+}
+
+.public-v2 .pv2-ui-section-shell p,
+.public-v2 .pv2-ui-summary-box p,
+.public-v2 .pv2-ui-quote-intake p,
+.public-v2 .pv2-ui-trust-cluster p {
+  color: var(--pv2-home-muted, var(--p-muted));
+  font-size: 0.84rem;
+  font-weight: 650;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.public-v2 .pv2-ui-section-shell--dark p,
+.public-v2 .pv2-ui-summary-box--dark p,
+.public-v2 .pv2-ui-trust-cluster--dark p {
+  color: rgba(255, 254, 247, 0.68);
+}
+
+.public-v2 .pv2-ui-summary-box--flashy p,
+.public-v2 .pv2-ui-summary-box--flashy li {
+  color: color-mix(in srgb, var(--pv2-accent-text, var(--p-accent-text)) 78%, transparent);
+}
+
+.public-v2 .pv2-ui-summary-box__items,
+.public-v2 .pv2-ui-icon-list__items,
+.public-v2 .pv2-ui-process-list__items,
+.public-v2 .pv2-ui-quote-intake__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.public-v2 .pv2-ui-summary-box__items li {
+  border-top: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+  color: var(--pv2-home-muted, var(--p-muted));
+  font-size: 0.78rem;
+  font-weight: 720;
+  line-height: 1.42;
+  padding-top: 0.62rem;
+}
+
+.public-v2 .pv2-ui-icon-list__item,
+.public-v2 .pv2-ui-process-list__item,
+.public-v2 .pv2-ui-quote-intake__steps li,
+.public-v2 .pv2-ui-product-family-grid__item,
+.public-v2 .pv2-ui-comparison-strip__item,
+.public-v2 .pv2-ui-faq-accordion__item {
+  background: var(--pv2-home-surface, var(--p-surface));
+  padding: 0.85rem;
+}
+
+.public-v2 .pv2-ui-icon-list--soft .pv2-ui-icon-list__item,
+.public-v2 .pv2-ui-process-list--compact .pv2-ui-process-list__item,
+.public-v2 .pv2-ui-comparison-strip--soft .pv2-ui-comparison-strip__item,
+.public-v2 .pv2-ui-faq-accordion--soft .pv2-ui-faq-accordion__item {
+  background: rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.08);
+  border-color: rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.2);
+}
+
+.public-v2 .pv2-ui-icon-list__icon {
+  align-items: center;
+  background: rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.1);
+  border: 1px solid rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.22);
+  border-radius: 999px;
+  color: var(--pv2-accent, var(--p-accent));
+  display: inline-flex;
+  font-family: var(--p-font-mono);
+  font-size: 0.66rem;
+  font-weight: 950;
+  height: 2rem;
+  justify-content: center;
+  line-height: 1;
+  min-width: 2rem;
+}
+
+.public-v2 .pv2-ui-icon-list strong,
+.public-v2 .pv2-ui-process-list__item strong,
+.public-v2 .pv2-ui-quote-intake__steps strong,
+.public-v2 .pv2-ui-product-family-grid__item strong,
+.public-v2 .pv2-ui-comparison-strip__item strong,
+.public-v2 .pv2-ui-faq-accordion summary {
+  color: var(--pv2-home-text, var(--p-text));
+  font-size: 0.96rem;
+  font-weight: 930;
+  line-height: 1.12;
+}
+
+.public-v2 .pv2-ui-icon-list p,
+.public-v2 .pv2-ui-process-list__item p,
+.public-v2 .pv2-ui-process-list__item small,
+.public-v2 .pv2-ui-quote-intake__steps p,
+.public-v2 .pv2-ui-product-family-grid__item p,
+.public-v2 .pv2-ui-product-family-grid__item small,
+.public-v2 .pv2-ui-comparison-strip__item p,
+.public-v2 .pv2-ui-media-mosaic figcaption,
+.public-v2 .pv2-ui-faq-accordion__item p {
+  color: var(--pv2-home-muted, var(--p-muted));
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.public-v2 .pv2-ui-process-list--cards .pv2-ui-process-list__items,
+.public-v2 .pv2-ui-process-list--compact .pv2-ui-process-list__items,
+.public-v2 .pv2-ui-quote-intake__steps,
+.public-v2 .pv2-ui-trust-cluster__items,
+.public-v2 .pv2-ui-product-family-grid__items,
+.public-v2 .pv2-ui-comparison-strip__items {
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+}
+
+.public-v2 .pv2-ui-process-list--rail .pv2-ui-process-list__item,
+.public-v2 .pv2-ui-process-list--timeline .pv2-ui-process-list__item {
+  border-left: 3px solid var(--pv2-accent, var(--p-accent));
+}
+
+.public-v2 .pv2-ui-process-list__kicker,
+.public-v2 .pv2-ui-quote-intake__steps span,
+.public-v2 .pv2-ui-product-family-grid__item span,
+.public-v2 .pv2-ui-comparison-strip__item header span {
+  color: var(--pv2-accent, var(--p-accent));
+  font-family: var(--p-font-mono);
+  font-size: 0.62rem;
+  font-weight: 950;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.public-v2 .pv2-ui-quote-intake--compact .pv2-ui-quote-intake__steps {
+  grid-template-columns: 1fr;
+}
+
+.public-v2 .pv2-ui-trust-cluster__item {
+  background: var(--pv2-home-surface, var(--p-surface));
+  padding: 0.85rem;
+}
+
+.public-v2 .pv2-ui-trust-cluster--compact .pv2-ui-trust-cluster__item {
+  padding: 0.68rem;
+}
+
+.public-v2 .pv2-ui-trust-cluster--soft .pv2-ui-trust-cluster__item {
+  background: rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.08);
+  border-color: rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.2);
+}
+
+.public-v2 .pv2-ui-trust-cluster--dark .pv2-ui-trust-cluster__item {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.public-v2 .pv2-ui-trust-cluster__item strong {
+  color: inherit;
+  font-size: 1.08rem;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.public-v2 .pv2-ui-trust-cluster__item span {
+  color: var(--pv2-home-muted, var(--p-muted));
+  font-size: 0.74rem;
+  font-weight: 760;
+  line-height: 1.35;
+}
+
+.public-v2 .pv2-ui-trust-cluster--dark .pv2-ui-trust-cluster__item span {
+  color: rgba(255, 254, 247, 0.68);
+}
+
+.public-v2 .pv2-ui-product-family-grid__item {
+  color: var(--pv2-home-text, var(--p-text));
+  text-decoration: none;
+  transition: border-color 160ms ease, transform 160ms ease;
+}
+
+.public-v2 a.pv2-ui-product-family-grid__item:hover {
+  border-color: rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.34);
+  transform: translateY(-1px);
+}
+
+.public-v2 .pv2-ui-product-family-grid--soft .pv2-ui-product-family-grid__item,
+.public-v2 .pv2-ui-product-family-grid--editorial .pv2-ui-product-family-grid__item {
+  background: rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.06);
+  border-color: rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.18);
+}
+
+.public-v2 .pv2-ui-product-family-grid__media .pv2-ui-media {
+  height: 100%;
+  width: 100%;
+}
+
+.public-v2 .pv2-ui-comparison-strip__item ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.public-v2 .pv2-ui-comparison-strip__item li {
+  border: 1px solid var(--pv2-home-border, var(--p-border));
+  border-radius: 999px;
+  color: var(--pv2-home-muted, var(--p-muted));
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1;
+  padding: 0.38rem 0.5rem;
+}
+
+.public-v2 .pv2-ui-media-mosaic__items {
+  grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
+}
+
+.public-v2 .pv2-ui-media-mosaic__item {
+  background: var(--pv2-home-surface, var(--p-surface));
+  margin: 0;
+  padding: 0.35rem;
+}
+
+.public-v2 .pv2-ui-media-mosaic--feature .pv2-ui-media-mosaic__item.is-featured {
+  grid-column: span 2;
+}
+
+.public-v2 .pv2-ui-media-mosaic__item .pv2-ui-media {
+  border: 0;
+  border-radius: 4px;
+}
+
+.public-v2 .pv2-ui-faq-accordion__item {
+  color: var(--pv2-home-text, var(--p-text));
+}
+
+.public-v2 .pv2-ui-faq-accordion summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.public-v2 .pv2-ui-faq-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.public-v2 .pv2-ui-faq-accordion summary::after {
+  color: var(--pv2-accent, var(--p-accent));
+  content: "+";
+  float: right;
+  font-family: var(--p-font-mono);
+  font-weight: 950;
+}
+
+.public-v2 .pv2-ui-faq-accordion details[open] summary::after {
+  content: "-";
+}
+
+.public-v2 .pv2-ui-faq-accordion__item p {
+  margin-top: 0.65rem;
+}
+
+@media (max-width: 520px) {
+  .public-v2 .pv2-ui-media-mosaic--feature .pv2-ui-media-mosaic__item.is-featured {
+    grid-column: auto;
+  }
+}
+
 .public-v2 .pv2-ui-dropdown {
   position: relative;
 }

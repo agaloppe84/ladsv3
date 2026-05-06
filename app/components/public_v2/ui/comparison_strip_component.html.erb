@@ -1,0 +1,28 @@
+<section class="<%= component_classes %>" <%= debug_attributes %>>
+  <% if label.present? %>
+    <p class="pv2-ui-comparison-strip__label"><%= label %></p>
+  <% end %>
+
+  <div class="pv2-ui-comparison-strip__items grid min-w-0 gap-2">
+    <% items.each do |item| %>
+      <article class="pv2-ui-comparison-strip__item grid min-w-0 gap-2">
+        <header class="grid min-w-0 gap-1">
+          <% if item[:kicker].present? %>
+            <span><%= item[:kicker] %></span>
+          <% end %>
+          <strong><%= item[:title] %></strong>
+          <% if item[:text].present? %>
+            <p><%= item[:text] %></p>
+          <% end %>
+        </header>
+        <% if item[:points].present? %>
+          <ul class="flex min-w-0 flex-wrap gap-1.5">
+            <% item[:points].each do |point| %>
+              <li><%= point %></li>
+            <% end %>
+          </ul>
+        <% end %>
+      </article>
+    <% end %>
+  </div>
+</section>

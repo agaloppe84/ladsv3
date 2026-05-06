@@ -1,0 +1,36 @@
+<section class="<%= component_classes %>" <%= debug_attributes %>>
+  <header class="pv2-ui-quote-intake__head grid min-w-0 gap-2">
+    <% if kicker.present? %>
+      <p class="pv2-ui-quote-intake__kicker"><%= kicker %></p>
+    <% end %>
+    <h3><%= title %></h3>
+    <% if text.present? %>
+      <p><%= text %></p>
+    <% end %>
+  </header>
+
+  <% if steps.present? %>
+    <ol class="pv2-ui-quote-intake__steps grid min-w-0 gap-2">
+      <% steps.each_with_index do |step, index| %>
+        <li class="grid min-w-0 gap-1">
+          <span><%= step_kicker(step, index) %></span>
+          <strong><%= step[:title] %></strong>
+          <% if step[:text].present? %>
+            <p><%= step[:text] %></p>
+          <% end %>
+        </li>
+      <% end %>
+    </ol>
+  <% end %>
+
+  <% if render_actions? %>
+    <div class="pv2-ui-quote-intake__actions flex min-w-0 flex-wrap items-center gap-2">
+      <% if primary_label.present? %>
+        <%= render PublicV2::Ui::ButtonComponent.new(label: primary_label, path: primary_path, variant: :primary, size: :sm) %>
+      <% end %>
+      <% if secondary_label.present? %>
+        <%= render PublicV2::Ui::ButtonComponent.new(label: secondary_label, path: secondary_path, variant: :secondary, size: :sm) %>
+      <% end %>
+    </div>
+  <% end %>
+</section>

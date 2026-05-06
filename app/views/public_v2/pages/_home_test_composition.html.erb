@@ -1,9 +1,11 @@
 <% composition = local_assigns.fetch(:composition) %>
+<% recipe_rows = @home_test.recipe_rows(composition) %>
+<% recipe_bricks = @home_test.recipe_bricks(composition) %>
 
 <article id="home-test-<%= composition.code.downcase %>" class="grid min-w-0 gap-4 overflow-hidden rounded-lg border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-4 shadow-sm min-[821px]:p-5">
   <header class="grid min-w-0 gap-3 min-[821px]:grid-cols-[minmax(0,1fr)_auto] min-[821px]:items-start">
     <div class="grid min-w-0 gap-1">
-      <p class="pv2-eyebrow"><%= composition.code %> · <%= composition.intent %></p>
+      <p class="pv2-eyebrow"><%= composition.code %> - <%= composition.intent %></p>
       <h2 class="m-0 text-[1.15rem] font-black leading-tight min-[821px]:text-[1.35rem]"><%= composition.name %></h2>
       <p class="m-0 max-w-[86ch] text-[0.86rem] font-semibold leading-6 text-[var(--pv2-home-muted)]"><%= composition.strategy %></p>
     </div>
@@ -15,6 +17,23 @@
     </div>
   </header>
 
+  <section class="grid min-w-0 gap-3 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-3 min-[1121px]:grid-cols-[minmax(0,1fr)_minmax(260px,.34fr)]">
+    <div class="grid min-w-0 gap-2 min-[821px]:grid-cols-3">
+      <% recipe_rows.each do |label, value| %>
+        <div class="min-w-0">
+          <span class="block font-mono text-[0.62rem] font-black uppercase leading-4 text-[var(--pv2-accent)]"><%= label %></span>
+          <strong class="mt-1 block text-[0.78rem] font-extrabold leading-5 text-[var(--pv2-home-text)]"><%= value %></strong>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="flex min-w-0 flex-wrap content-start gap-2">
+      <% recipe_bricks.each do |brick| %>
+        <span class="rounded-full border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] px-2.5 py-1 text-[0.66rem] font-extrabold leading-5 text-[var(--pv2-home-muted)]"><%= brick %></span>
+      <% end %>
+    </div>
+  </section>
+
   <% case composition.pattern %>
   <% when :compact_command %>
     <div class="grid min-w-0 gap-4 min-[1121px]:grid-cols-[minmax(0,1fr)_minmax(280px,.42fr)]">
@@ -25,36 +44,44 @@
           <p class="m-0 max-w-[36ch] text-[0.96rem] font-semibold leading-7 text-[var(--pv2-home-muted)]"><%= composition.text %></p>
         </div>
 
-        <div class="grid min-w-0 gap-3 min-[821px]:grid-cols-3">
-          <% composition.facts.each do |fact| %>
-            <div class="rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-3">
-              <strong class="block text-[1.02rem] font-black leading-none"><%= fact[:value] %></strong>
-              <span class="mt-2 block text-[0.7rem] font-bold leading-4 text-[var(--pv2-home-muted)]"><%= fact[:label] %></span>
-            </div>
-          <% end %>
-        </div>
+        <%= render PublicV2::Ui::ProofRailComponent.new(items: composition.facts, variant: :compact) %>
 
-        <div class="flex flex-wrap gap-2">
-          <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: public_v2_new_quote_path, variant: :primary, size: :md) %>
-          <%= render PublicV2::Ui::ButtonComponent.new(label: "Voir les produits", path: public_v2_categories_path, variant: :secondary, size: :md) %>
-        </div>
+        <%= render PublicV2::Ui::ActionDockComponent.new(
+          kicker: "Action",
+          title: "Devis rapide.",
+          text: "Produit, contexte, contact.",
+          primary_label: "Demander un devis",
+          primary_path: public_v2_new_quote_path,
+          secondary_label: "Voir les produits",
+          secondary_path: public_v2_categories_path,
+          variant: :soft
+        ) %>
       </section>
 
       <aside class="grid min-w-0 gap-3">
         <div class="pv2-home-mini-media h-[160px]">
           <%= render PublicV2::Ui::MediaFrameComponent.new(image: composition.image, alt: composition.image_alt, ratio: :category, loading: "eager", classes: "h-full min-h-full") %>
         </div>
-        <%= render PublicV2::Ui::PanelComponent.new(kicker: "48h", title: "Premier retour.", variant: :flashy, padding: :sm) do %>
-          <p>Base courte, suite claire.</p>
-        <% end %>
+        <%= render PublicV2::Ui::SpotlightPanelComponent.new(
+          kicker: "48h",
+          title: "Premier retour.",
+          text: "Base courte, suite claire.",
+          variant: :flashy,
+          size: :md
+        ) %>
       </aside>
     </div>
 
     <div class="grid min-w-0 gap-3 min-[821px]:grid-cols-3">
-      <% composition.panels.each do |panel| %>
-        <%= render PublicV2::Ui::PanelComponent.new(kicker: panel[:kicker], title: panel[:title], variant: :outline, padding: :sm, classes: "h-full") do %>
-          <p><%= panel[:text] %></p>
-        <% end %>
+      <% composition.panels.each_with_index do |panel, index| %>
+        <%= render PublicV2::Ui::ChoiceTileComponent.new(
+          kicker: panel[:kicker],
+          title: panel[:title],
+          text: panel[:text],
+          active: index.zero?,
+          variant: index.zero? ? :soft : :default,
+          classes: "h-full"
+        ) %>
       <% end %>
     </div>
   <% when :quote_dock %>
@@ -63,14 +90,7 @@
         <div class="pv2-home-mini-media h-[150px]">
           <%= render PublicV2::Ui::MediaFrameComponent.new(image: composition.image, alt: composition.image_alt, ratio: :category, loading: "eager", classes: "h-full min-h-full") %>
         </div>
-        <div class="grid grid-cols-3 gap-2 min-[1121px]:grid-cols-1">
-          <% composition.facts.each do |fact| %>
-            <div class="rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-3">
-              <strong class="block text-[0.88rem] font-black leading-4"><%= fact[:value] %></strong>
-              <span class="mt-1 block text-[0.66rem] font-bold leading-4 text-[var(--pv2-home-muted)]"><%= fact[:label] %></span>
-            </div>
-          <% end %>
-        </div>
+        <%= render PublicV2::Ui::ProofRailComponent.new(items: composition.facts, variant: :compact) %>
       </aside>
 
       <section class="grid min-w-0 content-between gap-5 rounded-lg border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface-strong)] p-[clamp(1.25rem,3vw,2.1rem)]">
@@ -80,12 +100,14 @@
           <p class="m-0 max-w-[36ch] text-[0.96rem] font-semibold leading-7 text-[var(--pv2-home-muted)]"><%= composition.text %></p>
         </div>
 
-        <div class="grid min-w-0 gap-3 min-[821px]:grid-cols-[minmax(0,1fr)_auto] min-[821px]:items-end">
-          <%= render PublicV2::Ui::PanelComponent.new(kicker: "Devis", title: "Dock rapide.", variant: :flashy, padding: :sm) do %>
-            <p>Produit, lieu, contact.</p>
-          <% end %>
-          <%= render PublicV2::Ui::ButtonComponent.new(label: "Etre rappele", path: public_v2_new_quote_path, variant: :primary, size: :md, classes: "w-fit") %>
-        </div>
+        <%= render PublicV2::Ui::ActionDockComponent.new(
+          kicker: "Devis",
+          title: "Dock rapide.",
+          text: "Produit, lieu, contact.",
+          primary_label: "Etre rappele",
+          primary_path: public_v2_new_quote_path,
+          variant: :flashy
+        ) %>
       </section>
     </div>
 
@@ -112,13 +134,18 @@
       </div>
 
       <%= render PublicV2::Ui::PanelComponent.new(kicker: "48h", title: "Retour devis.", variant: :flashy, padding: :sm, classes: "h-full") do %>
-        <p>Un signal visible, pas un pavé.</p>
+        <p>Un signal visible, pas un pave.</p>
       <% end %>
 
-      <% composition.panels.each do |panel| %>
-        <%= render PublicV2::Ui::PanelComponent.new(kicker: panel[:kicker], title: panel[:title], variant: :outline, padding: :sm, classes: "h-full") do %>
-          <p><%= panel[:text] %></p>
-        <% end %>
+      <% composition.panels.each_with_index do |panel, index| %>
+        <%= render PublicV2::Ui::ChoiceTileComponent.new(
+          kicker: panel[:kicker],
+          title: panel[:title],
+          text: panel[:text],
+          active: index.zero?,
+          variant: index.zero? ? :soft : :default,
+          classes: "h-full"
+        ) %>
       <% end %>
     </div>
   <% when :selection_board %>
@@ -134,12 +161,15 @@
         </div>
 
         <div class="grid min-w-0 gap-3 min-[821px]:grid-cols-3">
-          <% composition.panels.each do |panel| %>
-            <div class="grid min-w-0 gap-3 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-3">
-              <span class="w-fit rounded-full bg-[var(--pv2-accent)] px-2 py-1 font-mono text-[0.62rem] font-black uppercase text-[var(--pv2-accent-text)]"><%= panel[:kicker] %></span>
-              <strong class="block text-[1.02rem] font-black leading-5"><%= panel[:title] %></strong>
-              <p class="m-0 text-[0.78rem] font-semibold leading-5 text-[var(--pv2-home-muted)]"><%= panel[:text] %></p>
-            </div>
+          <% composition.panels.each_with_index do |panel, index| %>
+            <%= render PublicV2::Ui::ChoiceTileComponent.new(
+              kicker: panel[:kicker],
+              title: panel[:title],
+              text: panel[:text],
+              active: index.zero?,
+              variant: index.zero? ? :flashy : :default,
+              classes: "h-full"
+            ) %>
           <% end %>
         </div>
       </section>
@@ -148,9 +178,14 @@
         <div class="pv2-home-mini-media h-[120px]">
           <%= render PublicV2::Ui::MediaFrameComponent.new(image: composition.image, alt: composition.image_alt, ratio: :wide, loading: "eager", classes: "h-full min-h-full") %>
         </div>
-        <%= render PublicV2::Ui::PanelComponent.new(kicker: "Devis", title: "Apres le choix.", variant: :soft, padding: :sm) do %>
-          <p>La demande part mieux.</p>
-        <% end %>
+        <%= render PublicV2::Ui::ActionDockComponent.new(
+          kicker: "Devis",
+          title: "Apres le choix.",
+          text: "La demande part mieux.",
+          primary_label: "Chiffrer",
+          primary_path: public_v2_new_quote_path,
+          variant: :soft
+        ) %>
       </div>
     </div>
   <% when :studio_notes %>
@@ -173,11 +208,7 @@
       </section>
 
       <section class="grid min-w-0 gap-3">
-        <% composition.panels.each do |panel| %>
-          <%= render PublicV2::Ui::PanelComponent.new(kicker: panel[:kicker], title: panel[:title], variant: :outline, padding: :sm) do %>
-            <p><%= panel[:text] %></p>
-          <% end %>
-        <% end %>
+        <%= render PublicV2::Ui::StepRailComponent.new(steps: composition.panels, variant: :rail, label: "Notes projet") %>
 
         <div class="flex flex-wrap gap-2">
           <%= render PublicV2::Ui::ButtonComponent.new(label: "Cadrer le projet", path: public_v2_new_quote_path, variant: :primary, size: :md) %>
@@ -194,22 +225,18 @@
           <p class="m-0 max-w-[34ch] text-[0.96rem] font-semibold leading-7 text-[var(--pv2-home-muted)]"><%= composition.text %></p>
         </div>
 
-        <div class="grid min-w-0 gap-3">
-          <% composition.panels.each do |panel| %>
-            <%= render PublicV2::Ui::PanelComponent.new(kicker: panel[:kicker], title: panel[:title], variant: :rail, padding: :sm) do %>
-              <p><%= panel[:text] %></p>
-            <% end %>
-          <% end %>
-        </div>
+        <%= render PublicV2::Ui::StepRailComponent.new(steps: composition.panels, variant: :rail, label: "Devis en 3 infos") %>
       </section>
 
       <aside class="grid min-w-0 content-between gap-3">
-        <%= render PublicV2::Ui::PanelComponent.new(kicker: "Action", title: "Lancer le devis.", variant: :flashy, padding: :sm) do %>
-          <p>Simple, court, visible.</p>
-          <div class="mt-2">
-            <%= render PublicV2::Ui::ButtonComponent.new(label: "Continuer", path: public_v2_new_quote_path, variant: :inverse, size: :sm) %>
-          </div>
-        <% end %>
+        <%= render PublicV2::Ui::ActionDockComponent.new(
+          kicker: "Action",
+          title: "Lancer le devis.",
+          text: "Simple, court, visible.",
+          primary_label: "Continuer",
+          primary_path: public_v2_new_quote_path,
+          variant: :flashy
+        ) %>
         <div class="pv2-home-mini-media h-[150px]">
           <%= render PublicV2::Ui::MediaFrameComponent.new(image: composition.image, alt: composition.image_alt, ratio: :category, loading: "eager", classes: "h-full min-h-full") %>
         </div>
@@ -234,14 +261,7 @@
         </div>
       </section>
 
-      <div class="grid min-w-0 gap-3 min-[821px]:grid-cols-3">
-        <% composition.facts.each do |fact| %>
-          <div class="rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4">
-            <strong class="block text-[1.2rem] font-black leading-none"><%= fact[:value] %></strong>
-            <span class="mt-2 block text-[0.76rem] font-bold leading-5 text-[var(--pv2-home-muted)]"><%= fact[:label] %></span>
-          </div>
-        <% end %>
-      </div>
+      <%= render PublicV2::Ui::ProofRailComponent.new(items: composition.facts, variant: :soft, label: "Preuves courtes") %>
     </div>
   <% when :modular_catalog %>
     <div class="grid min-w-0 gap-4 min-[1121px]:grid-cols-[minmax(0,1fr)_minmax(260px,.34fr)]">
@@ -253,12 +273,14 @@
         </div>
 
         <div class="grid min-w-0 gap-3 min-[821px]:grid-cols-3">
-          <% composition.panels.each do |panel| %>
-            <div class="rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4">
-              <span class="font-mono text-[0.64rem] font-black uppercase text-[var(--pv2-accent)]"><%= panel[:kicker] %></span>
-              <strong class="mt-3 block text-[1.08rem] font-black leading-5"><%= panel[:title] %></strong>
-              <p class="mt-2 text-[0.78rem] font-semibold leading-5 text-[var(--pv2-home-muted)]"><%= panel[:text] %></p>
-            </div>
+          <% composition.panels.each_with_index do |panel, index| %>
+            <%= render PublicV2::Ui::ChoiceTileComponent.new(
+              kicker: panel[:kicker],
+              title: panel[:title],
+              text: panel[:text],
+              variant: index == 1 ? :soft : :default,
+              classes: "h-full"
+            ) %>
           <% end %>
         </div>
       </section>
@@ -267,9 +289,14 @@
         <div class="pv2-home-mini-media h-[150px]">
           <%= render PublicV2::Ui::MediaFrameComponent.new(image: composition.image, alt: composition.image_alt, ratio: :category, loading: "eager", classes: "h-full min-h-full") %>
         </div>
-        <%= render PublicV2::Ui::PanelComponent.new(kicker: "Devis", title: "Bonne entree.", variant: :flashy, padding: :sm) do %>
-          <p>Le besoin est deja trie.</p>
-        <% end %>
+        <%= render PublicV2::Ui::ActionDockComponent.new(
+          kicker: "Devis",
+          title: "Bonne entree.",
+          text: "Le besoin est deja trie.",
+          primary_label: "Demander",
+          primary_path: public_v2_new_quote_path,
+          variant: :flashy
+        ) %>
         <%= render PublicV2::Ui::ButtonComponent.new(label: "Voir les familles", path: public_v2_categories_path, variant: :secondary, size: :md, full_width: true) %>
       </aside>
     </div>
@@ -297,10 +324,14 @@
         <div class="pv2-home-mini-media h-[150px] border-white/10 bg-white/[0.04]">
           <%= render PublicV2::Ui::MediaFrameComponent.new(image: composition.image, alt: composition.image_alt, ratio: :category, loading: "eager", classes: "h-full min-h-full") %>
         </div>
-        <%= render PublicV2::Ui::PanelComponent.new(kicker: "48h", title: "Devis compact.", variant: :flashy, padding: :sm) do %>
-          <p>Un point de depart net.</p>
-        <% end %>
-        <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: public_v2_new_quote_path, variant: :primary, size: :md, full_width: true) %>
+        <%= render PublicV2::Ui::ActionDockComponent.new(
+          kicker: "48h",
+          title: "Devis compact.",
+          text: "Un point de depart net.",
+          primary_label: "Demander un devis",
+          primary_path: public_v2_new_quote_path,
+          variant: :dark
+        ) %>
       </aside>
     </div>
   <% when :calm_intake %>
@@ -329,18 +360,17 @@
           <div class="pv2-home-mini-media h-[96px]">
             <%= render PublicV2::Ui::MediaFrameComponent.new(image: composition.image, alt: composition.image_alt, ratio: :square, loading: "eager", classes: "h-full min-h-full") %>
           </div>
-          <%= render PublicV2::Ui::PanelComponent.new(kicker: "48h", title: "Retour simple.", variant: :flashy, padding: :sm) do %>
-            <p>Un rappel pour cadrer.</p>
-          <% end %>
+          <%= render PublicV2::Ui::ActionDockComponent.new(
+            kicker: "48h",
+            title: "Retour simple.",
+            text: "Un rappel pour cadrer.",
+            primary_label: "Demarrer",
+            primary_path: public_v2_new_quote_path,
+            variant: :flashy
+          ) %>
         </div>
 
-        <div class="grid min-w-0 gap-3 min-[821px]:grid-cols-3">
-          <% composition.panels.each do |panel| %>
-            <%= render PublicV2::Ui::PanelComponent.new(kicker: panel[:kicker], title: panel[:title], variant: :outline, padding: :sm, classes: "h-full") do %>
-              <p><%= panel[:text] %></p>
-            <% end %>
-          <% end %>
-        </div>
+        <%= render PublicV2::Ui::StepRailComponent.new(steps: composition.panels, variant: :compact, label: "Demande guidee") %>
       </section>
     </div>
   <% end %>

@@ -1,0 +1,16 @@
+<section class="<%= component_classes %>" <%= debug_attributes %>>
+  <% if label.present? %>
+    <p class="pv2-ui-media-mosaic__label"><%= label %></p>
+  <% end %>
+
+  <div class="pv2-ui-media-mosaic__items grid min-w-0 gap-2">
+    <% items.each_with_index do |item, index| %>
+      <figure class="pv2-ui-media-mosaic__item grid min-w-0 gap-2 <%= "is-featured" if index.zero? %>">
+        <%= render PublicV2::Ui::MediaFrameComponent.new(image: item[:image], alt: item[:alt].presence || item[:caption].to_s, ratio: item[:ratio].presence || :category) %>
+        <% if item[:caption].present? %>
+          <figcaption><%= item[:caption] %></figcaption>
+        <% end %>
+      </figure>
+    <% end %>
+  </div>
+</section>

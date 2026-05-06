@@ -19,6 +19,116 @@ class PublicV2::HomeTestPage
     keyword_init: true
   )
 
+  FullComposition = Struct.new(
+    :code,
+    :name,
+    :intent,
+    :strategy,
+    :pattern,
+    :hero_title,
+    :hero_text,
+    :accent,
+    :media_level,
+    :quote_pressure,
+    :layout_codes,
+    :bricks,
+    :section_order,
+    keyword_init: true
+  )
+
+  RECIPE_DETAILS = {
+    compact_command: {
+      global: "Command center compact",
+      section: "Hero texte + support media",
+      micro: "Proof rail + CTA dock",
+      bricks: ["Spotlight flashy", "ProofRail", "ActionDock", "MediaFrame"],
+      accent: "Fort mais contenu",
+      media: "Photo secondaire",
+      quote: "Directe"
+    },
+    quote_dock: {
+      global: "Dock devis lateral",
+      section: "Texte principal + colonne preuves",
+      micro: "Action dock + stats compactes",
+      bricks: ["ActionDock", "ProofRail", "Panel outline", "MediaFrame"],
+      accent: "Moyen",
+      media: "Photo preuve courte",
+      quote: "Tres visible"
+    },
+    soft_bento: {
+      global: "Bento premium clair",
+      section: "Promesse + modules courts",
+      micro: "Choice tiles + accent compact",
+      bricks: ["ChoiceTile", "Panel soft", "Panel flashy", "MediaFrame"],
+      accent: "Faible avec pic flashy",
+      media: "Module image",
+      quote: "Visible"
+    },
+    selection_board: {
+      global: "Board de selection",
+      section: "Choix produit avant CTA",
+      micro: "Tiles decisionnelles",
+      bricks: ["ChoiceTile", "ActionDock", "MediaFrame"],
+      accent: "Moyen",
+      media: "Bande support",
+      quote: "Apres choix"
+    },
+    studio_notes: {
+      global: "Studio notes",
+      section: "Conseil + notes projet",
+      micro: "Step rail editorial",
+      bricks: ["StepRail", "Panel outline", "Panel flashy", "MediaFrame"],
+      accent: "Faible",
+      media: "Timbre image",
+      quote: "Douce"
+    },
+    conversion_rail: {
+      global: "Rail de conversion",
+      section: "Parcours devis en 3 blocs",
+      micro: "Step rail vertical + action dock",
+      bricks: ["StepRail", "ActionDock", "MediaFrame"],
+      accent: "Fort controle",
+      media: "Photo en bas de rail",
+      quote: "Prioritaire"
+    },
+    proof_stack: {
+      global: "Stack confiance",
+      section: "Preuves locales avant action",
+      micro: "Proof cluster + CTA compact",
+      bricks: ["ProofRail", "Panel flashy", "MediaFrame"],
+      accent: "Faible avec CTA vert",
+      media: "Mini photo locale",
+      quote: "Rassurante"
+    },
+    modular_catalog: {
+      global: "Catalogue modulaire",
+      section: "Familles produit + demande",
+      micro: "Choice tiles + dock secondaire",
+      bricks: ["ChoiceTile", "ActionDock", "MediaFrame"],
+      accent: "Moyen",
+      media: "Vignette catalogue",
+      quote: "Contextuelle"
+    },
+    graphite_desk: {
+      global: "Desk graphite",
+      section: "Ambiance atelier sombre",
+      micro: "Cartes techniques + dock devis",
+      bricks: ["Dark cards", "ActionDock", "MediaFrame"],
+      accent: "Fin et premium",
+      media: "Detail matiere",
+      quote: "Nette"
+    },
+    calm_intake: {
+      global: "Intake calme",
+      section: "Demande guidee sans formulaire lourd",
+      micro: "Step rail compact + action dock",
+      bricks: ["StepRail", "ActionDock", "Panel outline", "MediaFrame"],
+      accent: "Doux",
+      media: "Image discrete",
+      quote: "Progressive"
+    }
+  }.freeze
+
   COMPOSITIONS = [
     Composition.new(
       code: "H01",
@@ -28,7 +138,7 @@ class PublicV2::HomeTestPage
       pattern: :compact_command,
       image: "magasin-04.jpeg",
       image_alt: "Showroom Les Artisans du Store avec stores et finitions exposees",
-      kicker: "Showroom · projet · devis",
+      kicker: "Showroom - projet - devis",
       title: "Cadrez vite. Chiffrez juste.",
       text: "Une home qui ressemble a un poste de pilotage simple.",
       layout_codes: %w[G46 S49 S60],
@@ -172,7 +282,7 @@ class PublicV2::HomeTestPage
       pattern: :proof_stack,
       image: "magasin-01.jpeg",
       image_alt: "Facade et vehicules de pose Les Artisans du Store",
-      kicker: "L'Arbresle · Rhone",
+      kicker: "L'Arbresle - Rhone",
       title: "Du local, pas un tunnel anonyme.",
       text: "Une home plus humaine, mais toujours tres nette.",
       layout_codes: %w[G24 S50 S23],
@@ -262,7 +372,95 @@ class PublicV2::HomeTestPage
     )
   ].freeze
 
+  FULL_COMPOSITIONS = [
+    FullComposition.new(
+      code: "F01",
+      name: "Devis studio compact",
+      intent: "Premium sobre + devis rapide",
+      strategy: "La page met le cadrage devis au centre, avec une photo courte et des preuves proches de l'action.",
+      pattern: :quote_studio,
+      hero_title: "Un projet bien cadre. Un devis plus clair.",
+      hero_text: "Besoin, contexte, retour. La home avance comme un premier rendez-vous.",
+      accent: "Fort mais compact",
+      media_level: "Photo courte",
+      quote_pressure: "Prioritaire",
+      layout_codes: %w[G29 S49 M18],
+      bricks: ["SummaryBox", "QuoteIntake", "TrustCluster", "ProductFamilyGrid", "ActionDock"],
+      section_order: ["Hero devis", "Preuves", "Besoins", "Familles", "Showroom", "CTA final"]
+    ),
+    FullComposition.new(
+      code: "F02",
+      name: "Showroom editorial",
+      intent: "Design magazine + choix rassure",
+      strategy: "La page installe une ambiance plus premium, puis transforme le showroom en preuve et en aide au devis.",
+      pattern: :showroom_editorial,
+      hero_title: "Voir, choisir, chiffrer sans flou.",
+      hero_text: "Une home plus visuelle, mais la photo reste un repere de confiance.",
+      accent: "Moyen",
+      media_level: "Mosaic controlee",
+      quote_pressure: "Visible",
+      layout_codes: %w[G18 S73 M33],
+      bricks: ["MediaMosaic", "Panel flashy", "ComparisonStrip", "ProcessList", "QuoteIntake"],
+      section_order: ["Hero editorial", "Showroom", "Comparaison", "Produits", "Parcours", "CTA final"]
+    ),
+    FullComposition.new(
+      code: "F03",
+      name: "Concierge produit",
+      intent: "Guidage client + demande courte",
+      strategy: "La page commence par le besoin client, puis relie produit, conseil, pose et devis sans tunnel lourd.",
+      pattern: :choice_concierge,
+      hero_title: "Choisir le bon point de depart.",
+      hero_text: "Stores, volets, pergolas ou confort quotidien : chaque entree mene vers un devis plus utile.",
+      accent: "Faible avec pics",
+      media_level: "Photo en support",
+      quote_pressure: "Progressive",
+      layout_codes: %w[G14 S11 M42],
+      bricks: ["ChoiceTile", "IconList", "ProcessList", "FaqAccordion", "ActionDock"],
+      section_order: ["Choix besoin", "Familles", "Preuves", "Pose", "Objections", "CTA final"]
+    )
+  ].freeze
+
   def compositions
     COMPOSITIONS
+  end
+
+  def full_compositions
+    FULL_COMPOSITIONS
+  end
+
+  def blueprint
+    @blueprint ||= PublicV2::HomeContentBlueprint.new
+  end
+
+  def recipe_for(composition)
+    RECIPE_DETAILS.fetch(composition.pattern)
+  end
+
+  def recipe_rows(composition)
+    recipe = recipe_for(composition)
+
+    [
+      ["Layout global", recipe.fetch(:global)],
+      ["Layout section", recipe.fetch(:section)],
+      ["Micro-layout", recipe.fetch(:micro)],
+      ["Accent", recipe.fetch(:accent)],
+      ["Photo", recipe.fetch(:media)],
+      ["Pression devis", recipe.fetch(:quote)]
+    ]
+  end
+
+  def recipe_bricks(composition)
+    recipe_for(composition).fetch(:bricks)
+  end
+
+  def full_recipe_rows(composition)
+    [
+      ["Layout global", composition.intent],
+      ["Layout section", composition.strategy],
+      ["Accent", composition.accent],
+      ["Photo", composition.media_level],
+      ["Pression devis", composition.quote_pressure],
+      ["Ordre", composition.section_order.join(" -> ")]
+    ]
   end
 end

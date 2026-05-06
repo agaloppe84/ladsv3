@@ -1,0 +1,26 @@
+<%= tag.section id: id, class: component_classes, data: component_data do %>
+  <% if render_header? %>
+    <header class="pv2-ui-section-shell__head grid min-w-0 gap-3 min-[821px]:grid-cols-[minmax(0,1fr)_auto] min-[821px]:items-end">
+      <div class="grid min-w-0 gap-2">
+        <% if kicker.present? %>
+          <p class="pv2-ui-section-shell__kicker"><%= kicker %></p>
+        <% end %>
+        <% if title.present? %>
+          <h2><%= title %></h2>
+        <% end %>
+        <% if text.present? %>
+          <p><%= text %></p>
+        <% end %>
+      </div>
+      <% if actions? %>
+        <div class="pv2-ui-section-shell__actions flex min-w-0 flex-wrap items-center gap-2">
+          <%= actions %>
+        </div>
+      <% end %>
+    </header>
+  <% end %>
+
+  <div class="pv2-ui-section-shell__body grid min-w-0 gap-3">
+    <%= content %>
+  </div>
+<% end %>

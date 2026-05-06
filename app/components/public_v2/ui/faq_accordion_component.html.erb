@@ -1,0 +1,14 @@
+<section class="<%= component_classes %>" <%= debug_attributes %>>
+  <% if label.present? %>
+    <p class="pv2-ui-faq-accordion__label"><%= label %></p>
+  <% end %>
+
+  <div class="pv2-ui-faq-accordion__items grid min-w-0 gap-2">
+    <% items.each_with_index do |item, index| %>
+      <details class="pv2-ui-faq-accordion__item" <%= "open" if index.zero? %>>
+        <summary><%= item[:question] %></summary>
+        <p><%= item[:answer] %></p>
+      </details>
+    <% end %>
+  </div>
+</section>

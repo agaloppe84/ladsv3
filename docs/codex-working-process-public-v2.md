@@ -88,9 +88,22 @@ La vue `/public-v2/layouts-test` sert de reference de composition. Elle contient
 - une couche "Composer intelligent" pour guider les generations ;
 - des axes parametriques : orientation, densite, accent, nombre de colonnes, ordre mobile et rythme ;
 - des presets de composition pour transformer une intention en selection de global layout, sections, micro-layouts et variantes ;
+- des briques UI cibles pour passer du wireframe a la vraie vue TEST : `ActionDockComponent`, `ProofRailComponent`, `StepRailComponent`, `ChoiceTileComponent`, `PanelComponent`, `SpotlightPanelComponent`, `MediaFrameComponent`, `BadgeComponent` ;
+- des recettes de generation qui combinent intention, layouts, micro-layouts, composants cibles, poids et regles de rejet ;
+- des facettes de prompt pour forcer une demande plus precise : objectif, presence photo, pression devis, micro-layout, contraintes ;
 - des regles de rejet pour eviter les compositions incoherentes.
 
 Quand l'utilisateur demande une page test "aleatoire", Codex doit reformuler l'intention et proposer une composition guidee. Le hasard peut servir a varier une direction, mais la decision finale doit etre argumentee par l'objectif UX, le contenu disponible et la coherence responsive.
+
+Prompt recommande pour une generation layout :
+
+- objectif UX : home premium devis, page produit technique, categorie inspiration, contact local compact ;
+- presence photo : aucune, vignette, module secondaire, photo forte, hero media ;
+- pression devis : douce, visible, directe, formulaire court, appel prioritaire ;
+- micro-layouts preferes : dock, rail, bento, choice tiles, step rail, proof cluster ;
+- contraintes : textes courts, flashy petit, mobile promesse d'abord, max trois choix, pas de grande photo.
+
+Codex doit transformer ce prompt en recette avant de coder : selection des layouts, selection des composants cibles, variantes, rejets, puis seulement creation ou mise a jour de la vue `*_test`.
 
 Elle documente :
 
@@ -143,6 +156,7 @@ Structure et composants crees et utilises :
 - `PublicV2::Quotes::HeroSectionComponent`, `FormSectionComponent` ;
 - `PublicV2::Contact::HeroSectionComponent`, `DetailsSectionComponent`, `ShowroomSectionComponent`, `CtaSectionComponent` ;
 - `PublicV2::Ui::PanelComponent`, `SpotlightPanelComponent`, `DropdownComponent`, `BadgeComponent`, `ButtonComponent`, `MediaFrameComponent`, `NotificationBannerComponent`, `EmptyStateComponent`, `BreadcrumbComponent`, `StatCardComponent` ;
+- `PublicV2::Ui::ActionDockComponent`, `ProofRailComponent`, `StepRailComponent`, `ChoiceTileComponent` pour les micro-layouts de generation ;
 - `PublicV2::Products::CategoryBlockComponent`, `ProductCardComponent`, `HeroComponent` ;
 - `PublicV2::Forms::FieldComponent`, `QuoteFormComponent`.
 

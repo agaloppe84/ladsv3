@@ -9,8 +9,9 @@
         Reference visuelle pour assembler les pages.
       </h1>
       <p class="m-0 max-w-[76ch] text-[0.94rem] font-semibold leading-7 text-[#5f665b]">
-        Cette page sert aux experimentations de layouts globaux, de sections et de micro-compositions, avec <%= @layouts_test.layout_count %> schemas filaires.
-        Les schemas sont volontairement abstraits : uniquement des blocs Tailwind, sans theme switch et sans composants metier. La couche composer guide les choix avant toute generation aleatoire.
+        Cette page sert aux experimentations de layouts globaux, de sections et de micro-compositions, avec <%= @layouts_test.layout_count %> schemas filaires,
+        <%= @layouts_test.component_bricks.size %> briques UI cibles et <%= @layouts_test.generation_recipes.size %> recettes de generation.
+        Les schemas restent abstraits : Tailwind pur ici, puis composants reels dans le design-system.
       </p>
     </div>
 
@@ -33,7 +34,7 @@
           Piocher avec intention, pas au hasard brut.
         </h2>
         <p class="m-0 max-w-[82ch] text-[0.86rem] font-semibold leading-6 text-[#5f665b]">
-          Les <%= @layouts_test.layout_count %> bases restent le vocabulaire. Les variantes parametriques multiplient les directions possibles
+          Les <%= @layouts_test.layout_count %> bases restent le vocabulaire. Les briques UI cibles et les variantes parametriques multiplient les directions possibles
           sans allonger la bibliotheque : environ <%= number_with_delimiter(@layouts_test.estimated_combination_count, delimiter: " ") %> combinaisons candidates,
           filtrees par intention, contenu disponible et coherence mobile.
         </p>
@@ -69,6 +70,27 @@
 
     <div class="grid min-w-0 gap-3 rounded-md border border-[#d8dccf] bg-[#f7f8f1] p-3">
       <div class="grid min-w-0 gap-1">
+        <p class="m-0 font-mono text-[0.62rem] font-black uppercase text-[#5ca800]">Briques UI cibles</p>
+        <h3 class="m-0 text-[1rem] font-black leading-tight">La sortie attendue apres le wireframe</h3>
+        <p class="m-0 max-w-[82ch] text-[0.78rem] font-semibold leading-5 text-[#5f665b]">
+          `layouts-test` ne rend pas ces ViewComponents, mais chaque generation doit maintenant choisir les briques qui porteront les micro-layouts dans une vraie vue TEST.
+        </p>
+      </div>
+
+      <div class="grid min-w-0 gap-2 min-[721px]:grid-cols-2 min-[1121px]:grid-cols-4">
+        <% @layouts_test.component_bricks.each do |brick| %>
+          <article class="grid min-w-0 gap-2 rounded-md border border-[#d8dccf] bg-white p-3">
+            <p class="m-0 font-mono text-[0.6rem] font-black uppercase text-[#5ca800]"><%= brick.code %> · <%= brick.role %></p>
+            <h4 class="m-0 text-[0.9rem] font-black leading-tight"><%= brick.name %></h4>
+            <code class="truncate rounded bg-[#f7f8f1] px-2 py-1 font-mono text-[0.65rem] font-black text-[#5f665b]"><%= brick.component %></code>
+            <p class="m-0 text-[0.72rem] font-semibold leading-5 text-[#5f665b]"><%= brick.best_for %></p>
+          </article>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="grid min-w-0 gap-3 rounded-md border border-[#d8dccf] bg-[#f7f8f1] p-3">
+      <div class="grid min-w-0 gap-1">
         <p class="m-0 font-mono text-[0.62rem] font-black uppercase text-[#5ca800]">Process</p>
         <h3 class="m-0 text-[1rem] font-black leading-tight">Generation guidee</h3>
       </div>
@@ -82,6 +104,77 @@
           </li>
         <% end %>
       </ol>
+    </div>
+
+    <div class="grid min-w-0 gap-3">
+      <div class="grid min-w-0 gap-1">
+        <p class="m-0 font-mono text-[0.62rem] font-black uppercase text-[#5ca800]">Recettes</p>
+        <h3 class="m-0 text-[1rem] font-black leading-tight">Compositions intelligentes pre-filtrees</h3>
+      </div>
+
+      <div class="grid min-w-0 gap-3 min-[961px]:grid-cols-2">
+        <% @layouts_test.generation_recipes.each do |recipe| %>
+          <article class="grid min-w-0 gap-3 rounded-md border border-[#d8dccf] bg-[#fbfcf7] p-3">
+            <div class="grid min-w-0 gap-1">
+              <p class="m-0 font-mono text-[0.62rem] font-black uppercase text-[#5ca800]"><%= recipe.code %> · score <%= @layouts_test.recipe_score(recipe) %></p>
+              <h4 class="m-0 text-[1rem] font-black leading-tight"><%= recipe.name %></h4>
+              <p class="m-0 text-[0.78rem] font-semibold leading-5 text-[#5f665b]"><%= recipe.intent %></p>
+            </div>
+
+            <p class="m-0 rounded-md border border-[#d8dccf] bg-white p-3 font-mono text-[0.7rem] font-black leading-5 text-[#111510]"><%= recipe.prompt %></p>
+
+            <div class="grid min-w-0 gap-2 min-[641px]:grid-cols-2">
+              <div class="grid gap-1">
+                <p class="m-0 font-mono text-[0.58rem] font-black uppercase text-[#5ca800]">Layouts</p>
+                <div class="flex flex-wrap gap-1.5">
+                  <% (recipe.global_codes + recipe.section_codes + recipe.micro_codes).each do |code| %>
+                    <span class="rounded border border-[#d8dccf] bg-white px-2 py-1 text-[0.66rem] font-extrabold text-[#5f665b]"><%= code %></span>
+                  <% end %>
+                </div>
+              </div>
+
+              <div class="grid gap-1">
+                <p class="m-0 font-mono text-[0.58rem] font-black uppercase text-[#5ca800]">Briques</p>
+                <div class="flex flex-wrap gap-1.5">
+                  <% @layouts_test.recipe_components(recipe).each do |brick| %>
+                    <span class="rounded border border-[#d8dccf] bg-white px-2 py-1 text-[0.66rem] font-extrabold text-[#5f665b]" title="<%= brick.component %>"><%= brick.code %> · <%= brick.name %></span>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid min-w-0 gap-2 rounded-md border border-[#d8dccf] bg-white p-3">
+              <p class="m-0 font-mono text-[0.58rem] font-black uppercase text-[#5ca800]">Rejet automatique</p>
+              <ul class="m-0 grid gap-1 p-0 text-[0.7rem] font-bold leading-5 text-[#5f665b] [list-style:none]">
+                <% recipe.reject.each do |rule| %>
+                  <li><%= rule %></li>
+                <% end %>
+              </ul>
+            </div>
+          </article>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="grid min-w-0 gap-3 rounded-md border border-[#d8dccf] bg-[#111510] p-3 text-white">
+      <div class="grid min-w-0 gap-1">
+        <p class="m-0 font-mono text-[0.62rem] font-black uppercase text-[#84cc16]">Prompt builder</p>
+        <h3 class="m-0 text-[1rem] font-black leading-tight">Les champs a preciser pour varier intelligemment</h3>
+      </div>
+
+      <div class="grid min-w-0 gap-2 min-[721px]:grid-cols-2 min-[1121px]:grid-cols-5">
+        <% @layouts_test.prompt_facets.each do |facet| %>
+          <article class="grid min-w-0 gap-2 rounded-md border border-white/10 bg-white/[0.04] p-3">
+            <p class="m-0 font-mono text-[0.58rem] font-black uppercase text-[#84cc16]"><%= facet.key %></p>
+            <h4 class="m-0 text-[0.86rem] font-black leading-tight"><%= facet.name %></h4>
+            <div class="flex flex-wrap gap-1.5">
+              <% facet.examples.each do |example| %>
+                <span class="rounded-full border border-white/10 bg-white/[0.06] px-2 py-1 text-[0.64rem] font-bold leading-4 text-white/68"><%= example %></span>
+              <% end %>
+            </div>
+          </article>
+        <% end %>
+      </div>
     </div>
 
     <div class="grid min-w-0 gap-3">

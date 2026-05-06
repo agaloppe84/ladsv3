@@ -1,0 +1,20 @@
+<section class="<%= component_classes %>" <%= debug_attributes %>>
+  <% if label.present? %>
+    <p class="pv2-ui-process-list__label"><%= label %></p>
+  <% end %>
+
+  <ol class="pv2-ui-process-list__items grid min-w-0 gap-2">
+    <% steps.each_with_index do |step, index| %>
+      <li class="pv2-ui-process-list__item grid min-w-0 gap-2">
+        <span class="pv2-ui-process-list__kicker"><%= step_kicker(step, index) %></span>
+        <strong><%= step[:title] %></strong>
+        <% if step[:text].present? %>
+          <p><%= step[:text] %></p>
+        <% end %>
+        <% if step[:meta].present? %>
+          <small><%= step[:meta] %></small>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
+</section>

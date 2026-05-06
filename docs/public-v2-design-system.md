@@ -140,6 +140,8 @@ UI kit actif Atelier Graphite :
 - breadcrumb, dropdown custom, facts, badges services, swatches coloris, galerie, empty state ;
 - liste options produit en rail compact : index carres, ligne verticale masquee derriere les index, liaisons horizontales courtes et texte mono uppercase en couleur accent ;
 - panels expressifs `SpotlightPanelComponent` en variantes soft et flashy pour les messages forts ;
+- micro-briques UI pour varier les compositions sans grossir les pages :
+  `ActionDockComponent`, `ProofRailComponent`, `StepRailComponent` et `ChoiceTileComponent` ;
 - formulaires custom : labels mono, inputs, select, textarea, erreur, consentement, submit ;
 - interactions : hover leger, focus ring accent, transitions courtes.
 
@@ -158,9 +160,20 @@ Structure actuelle :
 - 80 micro layouts ;
 - une zone `Composer intelligent` ;
 - axes de variantes : orientation, densite, accent, colonnes, ordre mobile et rythme ;
+- briques UI cibles : action dock, proof rail, step rail, choice tile, panel, spotlight, media frame et badge cluster ;
+- recettes de generation pre-filtrees pour home devis moderne, bento conseil, catalogue vers devis, confiance locale compacte et diagnostic guide ;
+- prompt facets pour cadrer objectif, presence photo, pression devis, micro-layout souhaite et contraintes ;
 - presets de composition pour home premium, devis rapide, produit technique, inspiration categorie, confiance showroom et support local compact.
 
 Regle de design system : au-dela de ces 240 bases, preferer les variantes parametriques et les presets guides plutot que l'ajout de nouveaux layouts isoles. Une generation de page test doit toujours partir d'une intention UX, puis choisir les layouts et variantes compatibles. Le random brut est interdit comme logique principale ; il peut seulement varier une direction deja coherente.
+
+Pour obtenir des resultats plus diversifies, une demande de generation doit idealement preciser :
+
+- l'objectif UX ;
+- la presence photo souhaitee ;
+- le niveau de pression devis ;
+- les micro-layouts preferes ;
+- les contraintes de texte, accent, densite et ordre mobile.
 
 ## Layout Global
 

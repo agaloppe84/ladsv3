@@ -1,0 +1,27 @@
+<section class="<%= component_classes %>" <%= debug_attributes %>>
+  <% if render_header? %>
+    <header class="pv2-ui-trust-cluster__head grid min-w-0 gap-2">
+      <% if kicker.present? %>
+        <p class="pv2-ui-trust-cluster__kicker"><%= kicker %></p>
+      <% end %>
+      <% if title.present? %>
+        <h3><%= title %></h3>
+      <% end %>
+      <% if text.present? %>
+        <p><%= text %></p>
+      <% end %>
+    </header>
+  <% end %>
+
+  <div class="pv2-ui-trust-cluster__items grid min-w-0 gap-2">
+    <% items.each do |item| %>
+      <article class="pv2-ui-trust-cluster__item grid min-w-0 gap-1">
+        <strong><%= item[:value] %></strong>
+        <span><%= item[:label] %></span>
+        <% if item[:text].present? %>
+          <p><%= item[:text] %></p>
+        <% end %>
+      </article>
+    <% end %>
+  </div>
+</section>

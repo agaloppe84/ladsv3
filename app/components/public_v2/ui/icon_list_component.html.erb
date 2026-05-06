@@ -1,0 +1,19 @@
+<section class="<%= component_classes %>" <%= debug_attributes %>>
+  <% if label.present? %>
+    <p class="pv2-ui-icon-list__label"><%= label %></p>
+  <% end %>
+
+  <ul class="pv2-ui-icon-list__items grid min-w-0 gap-2">
+    <% items.each_with_index do |item, index| %>
+      <li class="pv2-ui-icon-list__item grid min-w-0 grid-cols-[auto_minmax(0,1fr)] gap-3">
+        <span class="pv2-ui-icon-list__icon"><%= item_icon(item, index) %></span>
+        <span class="grid min-w-0 gap-1">
+          <strong><%= item[:title] %></strong>
+          <% if item[:text].present? %>
+            <p><%= item[:text] %></p>
+          <% end %>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+</section>

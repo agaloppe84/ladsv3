@@ -6,6 +6,9 @@ class PublicV2::LayoutsTestPage
   VariantAxis = Struct.new(:key, :name, :description, :values, keyword_init: true)
   ComposerStep = Struct.new(:number, :title, :description, keyword_init: true)
   ComposerPreset = Struct.new(:code, :name, :intent, :brief, :global_code, :section_codes, :micro_codes, :variants, :avoid, keyword_init: true)
+  ComponentBrick = Struct.new(:code, :name, :component, :role, :best_for, :avoid, keyword_init: true)
+  GenerationRecipe = Struct.new(:code, :name, :intent, :prompt, :global_codes, :section_codes, :micro_codes, :component_codes, :variants, :weights, :reject, keyword_init: true)
+  PromptFacet = Struct.new(:key, :name, :examples, keyword_init: true)
 
   SECTIONS = [
     Section.new(
@@ -460,6 +463,169 @@ class PublicV2::LayoutsTestPage
     )
   ].freeze
 
+  COMPONENT_BRICKS = [
+    ComponentBrick.new(
+      code: "B01",
+      name: "Action dock",
+      component: "PublicV2::Ui::ActionDockComponent",
+      role: "conversion",
+      best_for: "CTA devis compact, hero moderne, sidebar, bento.",
+      avoid: "Remplacer une section entiere par un dock trop gros."
+    ),
+    ComponentBrick.new(
+      code: "B02",
+      name: "Proof rail",
+      component: "PublicV2::Ui::ProofRailComponent",
+      role: "preuve",
+      best_for: "Chiffres, labels, garanties, signaux locaux.",
+      avoid: "Empiler plus de quatre preuves sans hierarchie."
+    ),
+    ComponentBrick.new(
+      code: "B03",
+      name: "Step rail",
+      component: "PublicV2::Ui::StepRailComponent",
+      role: "process",
+      best_for: "Parcours devis, pose, accompagnement, diagnostic.",
+      avoid: "Ajouter des etapes vagues qui ne changent pas l'action."
+    ),
+    ComponentBrick.new(
+      code: "B04",
+      name: "Choice tile",
+      component: "PublicV2::Ui::ChoiceTileComponent",
+      role: "decision",
+      best_for: "Entrees produit, besoins, usages, options.",
+      avoid: "Trop de choix equivalents au-dessus de la ligne de flottaison."
+    ),
+    ComponentBrick.new(
+      code: "B05",
+      name: "Panel variants",
+      component: "PublicV2::Ui::PanelComponent",
+      role: "surface",
+      best_for: "Bloc calme, rail, soft, outline ou flashy compact.",
+      avoid: "Utiliser flashy comme fond principal de page."
+    ),
+    ComponentBrick.new(
+      code: "B06",
+      name: "Spotlight panel",
+      component: "PublicV2::Ui::SpotlightPanelComponent",
+      role: "signal",
+      best_for: "Promesse courte, preuve forte, bloc premium.",
+      avoid: "Multiplier les spotlights dans la meme section."
+    ),
+    ComponentBrick.new(
+      code: "B07",
+      name: "Media frame",
+      component: "PublicV2::Ui::MediaFrameComponent",
+      role: "media",
+      best_for: "Photo module, vignette, preuve showroom.",
+      avoid: "Photo hero par defaut quand le brief demande une ambiance interface."
+    ),
+    ComponentBrick.new(
+      code: "B08",
+      name: "Badge cluster",
+      component: "PublicV2::Ui::BadgeComponent",
+      role: "meta",
+      best_for: "Tags, services, labels, categories rapides.",
+      avoid: "Faire porter toute la comprehension aux badges."
+    )
+  ].freeze
+
+  GENERATION_RECIPES = [
+    GenerationRecipe.new(
+      code: "R01",
+      name: "Premium devis moderne",
+      intent: "Home design, conversion lisible, photo secondaire.",
+      prompt: "Premium/design moderne, oriente devis, photo max 25%, flashy seulement en dock ou badge.",
+      global_codes: %w[G40 G46 G70],
+      section_codes: %w[S49 S60 S69 S79],
+      micro_codes: %w[M26 M62 M70 M77],
+      component_codes: %w[B01 B02 B03 B07],
+      variants: { density: :balanced, accent: :balanced, mobile_order: :action_first, rhythm: :technical },
+      weights: { conversion: 5, premium: 4, media: 2, complexity: 3 },
+      reject: ["Photo hero dominante", "Titre long", "Plus d'un bloc flashy"]
+    ),
+    GenerationRecipe.new(
+      code: "R02",
+      name: "Bento conseil",
+      intent: "Rassurer, guider, puis convertir.",
+      prompt: "Bento calme avec preuves, choix produits et action devis compacte.",
+      global_codes: %w[G09 G24 G27],
+      section_codes: %w[S43 S48 S51 S64],
+      micro_codes: %w[M36 M42 M59 M70],
+      component_codes: %w[B01 B02 B04 B05],
+      variants: { density: :balanced, accent: :soft, mobile_order: :proof_first, rhythm: :quiet },
+      weights: { conversion: 3, premium: 5, media: 2, complexity: 3 },
+      reject: ["CTA avant toute reassurance", "Bento trop symetrique", "Grille sans priorite"]
+    ),
+    GenerationRecipe.new(
+      code: "R03",
+      name: "Catalogue vers devis",
+      intent: "Faire choisir une famille avant le formulaire.",
+      prompt: "Entrees produits nettes, micro choix, photo discrete, devis proche.",
+      global_codes: %w[G14 G22 G57],
+      section_codes: %w[S13 S25 S45 S60],
+      micro_codes: %w[M22 M32 M44 M79],
+      component_codes: %w[B01 B04 B05 B08],
+      variants: { density: :compact, accent: :balanced, mobile_order: :promise_first, rhythm: :commercial },
+      weights: { conversion: 4, premium: 3, media: 1, complexity: 2 },
+      reject: ["Trop de categories visibles", "Photo produit plus forte que le choix", "CTA cache"]
+    ),
+    GenerationRecipe.new(
+      code: "R04",
+      name: "Confiance locale compacte",
+      intent: "Prouver l'ancrage local sans page vitrine.",
+      prompt: "Preuves locales, showroom en vignette, contact direct et demande devis courte.",
+      global_codes: %w[G13 G25 G62],
+      section_codes: %w[S22 S50 S55 S64],
+      micro_codes: %w[M47 M48 M70 M73],
+      component_codes: %w[B01 B02 B07 B08],
+      variants: { density: :compact, accent: :soft, mobile_order: :proof_first, rhythm: :quiet },
+      weights: { conversion: 3, premium: 4, media: 2, complexity: 2 },
+      reject: ["Carte ou photo trop grande", "Texte institutionnel", "Preuves redondantes"]
+    ),
+    GenerationRecipe.new(
+      code: "R05",
+      name: "Diagnostic guide",
+      intent: "Partir du besoin et reduire l'incertitude.",
+      prompt: "Diagnostic court, trois choix maximum, etapes visibles, action devis en fin de bloc.",
+      global_codes: %w[G42 G67 G75],
+      section_codes: %w[S11 S18 S25 S69],
+      micro_codes: %w[M18 M26 M44 M77],
+      component_codes: %w[B01 B03 B04 B05],
+      variants: { density: :balanced, accent: :balanced, mobile_order: :promise_first, rhythm: :technical },
+      weights: { conversion: 5, premium: 3, media: 1, complexity: 4 },
+      reject: ["Plus de trois choix initiaux", "Etapes non actionnables", "Formulaire complet en hero"]
+    )
+  ].freeze
+
+  PROMPT_FACETS = [
+    PromptFacet.new(
+      key: :objective,
+      name: "Objectif",
+      examples: ["home premium orientee devis", "page produit technique", "categorie inspiration", "contact local compact"]
+    ),
+    PromptFacet.new(
+      key: :media_presence,
+      name: "Presence photo",
+      examples: ["aucune", "vignette", "module secondaire", "photo forte", "hero media"]
+    ),
+    PromptFacet.new(
+      key: :conversion_pressure,
+      name: "Pression devis",
+      examples: ["douce", "visible", "directe", "formulaire court", "appel prioritaire"]
+    ),
+    PromptFacet.new(
+      key: :micro_layout,
+      name: "Micro-layout souhaite",
+      examples: ["dock", "rail", "bento", "choice tiles", "step rail", "proof cluster"]
+    ),
+    PromptFacet.new(
+      key: :constraints,
+      name: "Contraintes",
+      examples: ["textes courts", "flashy petit", "mobile promesse d'abord", "max trois choix", "pas de grande photo"]
+    )
+  ].freeze
+
   def sections
     SECTIONS
   end
@@ -492,6 +658,18 @@ class PublicV2::LayoutsTestPage
     COMPOSER_PRESETS
   end
 
+  def component_bricks
+    COMPONENT_BRICKS
+  end
+
+  def generation_recipes
+    GENERATION_RECIPES
+  end
+
+  def prompt_facets
+    PROMPT_FACETS
+  end
+
   def layout_by_code(code)
     layouts_by_code.fetch(code.to_s)
   end
@@ -512,9 +690,21 @@ class PublicV2::LayoutsTestPage
     end
   end
 
+  def recipe_components(recipe)
+    recipe.component_codes.map { |code| component_bricks_by_code.fetch(code) }
+  end
+
+  def recipe_score(recipe)
+    recipe.weights.values.sum
+  end
+
   private
 
   def layouts_by_code
     @layouts_by_code ||= random_pool.to_h { |layout| [layout.code, layout] }
+  end
+
+  def component_bricks_by_code
+    @component_bricks_by_code ||= component_bricks.to_h { |brick| [brick.code, brick] }
   end
 end

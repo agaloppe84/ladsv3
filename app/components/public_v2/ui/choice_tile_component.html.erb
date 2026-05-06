@@ -1,0 +1,17 @@
+<% content_block = capture do %>
+  <span class="pv2-ui-choice-tile__kicker"><%= kicker %></span>
+  <strong><%= title %></strong>
+  <% if text.present? %>
+    <p><%= text %></p>
+  <% end %>
+<% end %>
+
+<% if path.present? %>
+  <%= link_to path, class: component_classes, data: with_debug_data({}) do %>
+    <%= content_block %>
+  <% end %>
+<% else %>
+  <article class="<%= component_classes %>" <%= debug_attributes %>>
+    <%= content_block %>
+  </article>
+<% end %>

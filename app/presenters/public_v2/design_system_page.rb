@@ -55,6 +55,44 @@ class PublicV2::DesignSystemPage
     }
   ].freeze
 
+  MICRO_UI_SAMPLES = {
+    icon_items: [
+      { icon: "C", title: "Conseil", text: "Besoin, usage et contraintes." },
+      { icon: "P", title: "Pose", text: "Prise de cotes et installation." },
+      { icon: "S", title: "SAV", text: "Suivi local apres chantier." }
+    ],
+    process_steps: [
+      { kicker: "01", title: "Cadrer", text: "Produit, lieu, dimensions.", meta: "Demande courte" },
+      { kicker: "02", title: "Comparer", text: "Options utiles et contraintes.", meta: "Conseil" },
+      { kicker: "03", title: "Chiffrer", text: "Retour clair pour decider.", meta: "Devis" }
+    ],
+    quote_steps: [
+      { title: "Produit", text: "Store, volet, pergola." },
+      { title: "Contexte", text: "Photo ou dimensions." },
+      { title: "Contact", text: "Rappel rapide." }
+    ],
+    trust_items: [
+      { value: "35 ans", label: "Metier", text: "Experience locale." },
+      { value: "RGE", label: "Signal", text: "Preuve visible." },
+      { value: "200m2", label: "Showroom", text: "Comparer avant devis." }
+    ],
+    comparison_items: [
+      { kicker: "Ombre", title: "Stores", text: "Terrasse et baies.", points: ["Soleil", "Toile", "Motorisation"] },
+      { kicker: "Fermeture", title: "Volets", text: "Confort et securite.", points: ["Isolation", "Tablier", "Pose"] },
+      { kicker: "Exterieur", title: "Pergolas", text: "Piece de vie dehors.", points: ["Structure", "Lames", "Eclairage"] }
+    ],
+    faq_items: [
+      { question: "Quelles infos pour un premier devis ?", answer: "Le produit vise, le lieu, une photo ou quelques dimensions suffisent pour cadrer." },
+      { question: "Faut-il passer au showroom ?", answer: "Ce n'est pas obligatoire, mais utile pour comparer les toiles, mecanismes et finitions." },
+      { question: "Qui pose les produits ?", answer: "L'equipe locale accompagne le projet de la prise de cotes au suivi." }
+    ],
+    media_items: [
+      { image: "magasin-04.jpeg", alt: "Showroom Les Artisans du Store", caption: "Showroom technique", ratio: :category },
+      { image: "magasin-06.jpeg", alt: "Finitions et echantillons", caption: "Finitions", ratio: :square },
+      { image: "magasin-01.jpeg", alt: "Facade Les Artisans du Store", caption: "L'Arbresle", ratio: :category }
+    ]
+  }.freeze
+
   COMPONENT_INVENTORY = [
     ["Layout Rails", "app/views/layouts/public_v2.html.erb", "Shell global Public V2 avec tokens, navbar, event banner, contenu et footer."],
     ["Service", "PublicV2::ContactInfo", "Source unique des coordonnees, liens contact, preuve footer, horaires et map showroom."],
@@ -94,6 +132,20 @@ class PublicV2::DesignSystemPage
     ["Feedback", "PublicV2::Ui::EmptyStateComponent", "Etat vide avec action optionnelle."],
     ["UI", "PublicV2::Ui::PanelComponent", "Surface full-width avec header, actions, body, padding et variantes default, accent, soft, rail, elevated, outline, inset, flashy."],
     ["UI", "PublicV2::Ui::SpotlightPanelComponent", "Panel expressif soft ou flashy pour preuves fortes, contrats et CTA premium."],
+    ["UI", "PublicV2::Ui::ActionDockComponent", "Dock CTA compact pour conversion, rappel devis ou action locale."],
+    ["UI", "PublicV2::Ui::ProofRailComponent", "Rail de preuves compactes : chiffres, labels, reassurance."],
+    ["UI", "PublicV2::Ui::StepRailComponent", "Etapes compactes pour process, devis ou parcours guide."],
+    ["UI", "PublicV2::Ui::ChoiceTileComponent", "Tuile de decision pour familles, besoins ou entrees de parcours."],
+    ["UI", "PublicV2::Ui::SectionShellComponent", "Primitive de section avec header, actions, variantes de surface et contenu slotte."],
+    ["UI", "PublicV2::Ui::SummaryBoxComponent", "Encart de synthese pour messages a retenir, objections, preuves ou cadrage."],
+    ["UI", "PublicV2::Ui::IconListComponent", "Liste courte avec marqueurs visuels pour benefices, services ou points de controle."],
+    ["UI", "PublicV2::Ui::ProcessListComponent", "Process plus riche que StepRail : etapes avec meta, rail, timeline ou cards."],
+    ["UI", "PublicV2::Ui::QuoteIntakeComponent", "Mini parcours devis visuel avec etapes et actions compactes."],
+    ["UI", "PublicV2::Ui::TrustClusterComponent", "Cluster de preuves : experience, RGE, showroom, local, SAV."],
+    ["UI", "PublicV2::Ui::ProductFamilyGridComponent", "Grille de familles/besoins avec image optionnelle, meta et lien."],
+    ["UI", "PublicV2::Ui::ComparisonStripComponent", "Comparaison compacte de familles, options ou usages."],
+    ["UI", "PublicV2::Ui::MediaMosaicComponent", "Mosaic media controlee pour showroom, details et preuves visuelles."],
+    ["UI", "PublicV2::Ui::FaqAccordionComponent", "Accordeon FAQ pour objections client et points devis."],
     ["UI", "PublicV2::Ui::DropdownComponent", "Dropdown custom reutilisable avec trigger, contenu slotte et controller Stimulus Public V2."],
     ["UI", "PublicV2::Ui::ButtonComponent", "Boutons et liens avec variants, tailles, formes, full-width et debug frame optionnel."],
     ["UI", "PublicV2::Ui::BadgeComponent", "Badges RGE, sur mesure, destockage et services."],
@@ -123,6 +175,10 @@ class PublicV2::DesignSystemPage
 
   def option_list_concepts
     OPTION_LIST_CONCEPTS
+  end
+
+  def micro_ui_samples
+    MICRO_UI_SAMPLES
   end
 
   def featured_product

@@ -307,6 +307,142 @@
             </div>
           </article>
 
+          <article class="min-w-0 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4 min-[1121px]:col-span-3">
+            <span class="mb-3 block font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">Micro-layout primitives</span>
+            <div class="grid gap-4 min-[1121px]:grid-cols-2">
+              <%= render PublicV2::Ui::ActionDockComponent.new(
+                kicker: "Devis rapide",
+                title: "Cadrez le projet.",
+                text: "Action courte a placer dans un hero, une sidebar ou un bento.",
+                primary_label: "Demander un devis",
+                primary_path: public_v2_new_quote_path,
+                secondary_label: "Contact",
+                secondary_path: public_v2_contact_path,
+                meta: "Bloc compact, pas un grand CTA de section.",
+                variant: :soft
+              ) %>
+
+              <%= render PublicV2::Ui::ProofRailComponent.new(
+                label: "ProofRailComponent",
+                variant: :soft,
+                items: [
+                  { value: "48h", label: "Premier retour", text: "Devis cadre." },
+                  { value: "35 ans", label: "Metier", text: "Experience locale." },
+                  { value: "RGE", label: "Signal", text: "Preuve visible." }
+                ]
+              ) %>
+
+              <%= render PublicV2::Ui::StepRailComponent.new(
+                label: "StepRailComponent",
+                variant: :cards,
+                steps: [
+                  { kicker: "01", title: "Besoin", text: "Famille produit." },
+                  { kicker: "02", title: "Contexte", text: "Lieu et usage." },
+                  { kicker: "03", title: "Retour", text: "Suite claire." }
+                ]
+              ) %>
+
+              <div class="grid min-w-0 gap-3 min-[721px]:grid-cols-3">
+                <%= render PublicV2::Ui::ChoiceTileComponent.new(kicker: "A", title: "Stores", text: "Ombre et terrasse.", active: true) %>
+                <%= render PublicV2::Ui::ChoiceTileComponent.new(kicker: "B", title: "Volets", text: "Confort et fermeture.", variant: :soft) %>
+                <%= render PublicV2::Ui::ChoiceTileComponent.new(kicker: "C", title: "Pergolas", text: "Exterieur.", path: public_v2_categories_path) %>
+              </div>
+            </div>
+          </article>
+
+          <article class="min-w-0 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4 min-[1121px]:col-span-3">
+            <span class="mb-3 block font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">Section-generation primitives</span>
+            <div class="grid gap-4">
+              <%= render PublicV2::Ui::SectionShellComponent.new(
+                kicker: "SectionShellComponent",
+                title: "Une section reusable avec header et actions.",
+                text: "Le parent choisit la grille. Le composant cadre seulement l'en-tete, la surface et le contenu.",
+                variant: :soft,
+                padding: :md
+              ) do |section| %>
+                <% section.with_actions do %>
+                  <%= render PublicV2::Ui::ButtonComponent.new(label: "Action", path: "#", variant: :secondary, size: :sm) %>
+                <% end %>
+
+                <div class="grid gap-3 min-[821px]:grid-cols-[minmax(0,.42fr)_minmax(0,.58fr)]">
+                  <%= render PublicV2::Ui::SummaryBoxComponent.new(
+                    kicker: "SummaryBoxComponent",
+                    title: "Message a retenir.",
+                    text: "Encart court pour synthese, objection ou preuve.",
+                    items: ["Phrase courte.", "Preuve claire.", "Action proche."],
+                    variant: :outline
+                  ) %>
+
+                  <%= render PublicV2::Ui::IconListComponent.new(
+                    label: "IconListComponent",
+                    variant: :soft,
+                    items: @design_system.micro_ui_samples[:icon_items]
+                  ) %>
+                </div>
+              <% end %>
+
+              <div class="grid gap-4 min-[1121px]:grid-cols-2">
+                <%= render PublicV2::Ui::ProcessListComponent.new(
+                  label: "ProcessListComponent",
+                  variant: :timeline,
+                  steps: @design_system.micro_ui_samples[:process_steps]
+                ) %>
+
+                <%= render PublicV2::Ui::QuoteIntakeComponent.new(
+                  kicker: "QuoteIntakeComponent",
+                  title: "Devis en trois infos.",
+                  text: "Un mini parcours visuel avant le vrai formulaire.",
+                  steps: @design_system.micro_ui_samples[:quote_steps],
+                  primary_label: "Demander",
+                  primary_path: public_v2_new_quote_path,
+                  secondary_label: "Contact",
+                  secondary_path: public_v2_contact_path,
+                  variant: :soft
+                ) %>
+              </div>
+
+              <div class="grid gap-4 min-[1121px]:grid-cols-[minmax(0,.42fr)_minmax(0,.58fr)]">
+                <%= render PublicV2::Ui::TrustClusterComponent.new(
+                  kicker: "TrustClusterComponent",
+                  title: "Preuves compactes.",
+                  text: "A utiliser pour reassurance, local, showroom et experience.",
+                  items: @design_system.micro_ui_samples[:trust_items],
+                  variant: :soft
+                ) %>
+
+                <%= render PublicV2::Ui::ProductFamilyGridComponent.new(
+                  label: "ProductFamilyGridComponent",
+                  variant: :editorial,
+                  families: [
+                    { kicker: "01", title: "Stores", text: "Ombre et terrasse.", image: "magasin-02.jpeg", path: public_v2_categories_path, meta: "Protection solaire" },
+                    { kicker: "02", title: "Volets", text: "Fermeture et confort.", image: "magasin-01.jpeg", path: public_v2_categories_path, meta: "Maison" },
+                    { kicker: "03", title: "Pergolas", text: "Exterieur structure.", image: "magasin-06.jpeg", path: public_v2_categories_path, meta: "Terrasse" }
+                  ]
+                ) %>
+              </div>
+
+              <%= render PublicV2::Ui::ComparisonStripComponent.new(
+                label: "ComparisonStripComponent",
+                variant: :soft,
+                items: @design_system.micro_ui_samples[:comparison_items]
+              ) %>
+
+              <div class="grid gap-4 min-[1121px]:grid-cols-[minmax(0,.52fr)_minmax(0,.48fr)]">
+                <%= render PublicV2::Ui::MediaMosaicComponent.new(
+                  label: "MediaMosaicComponent",
+                  variant: :feature,
+                  items: @design_system.micro_ui_samples[:media_items]
+                ) %>
+
+                <%= render PublicV2::Ui::FaqAccordionComponent.new(
+                  label: "FaqAccordionComponent",
+                  variant: :soft,
+                  items: @design_system.micro_ui_samples[:faq_items]
+                ) %>
+              </div>
+            </div>
+          </article>
+
           <%= render PublicV2::Content::InfoCardComponent.new(
             label: "Contact card",
             title: "35 Rue des Martinets",
