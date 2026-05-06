@@ -1,0 +1,9 @@
+<div class="<%= component_classes %>" <%= debug_attributes %>>
+  <div class="<%= intro_classes %>">
+    <p class="pv2-eyebrow"><%= kicker %></p>
+    <%= content_tag(heading_tag, title) %>
+  </div>
+  <% if text.present? %>
+    <p class="<%= text_classes %>"><%= text %></p>
+  <% end %>
+</div>

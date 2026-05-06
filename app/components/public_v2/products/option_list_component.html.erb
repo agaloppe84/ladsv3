@@ -1,0 +1,102 @@
+<%= tag.section class: component_classes, data: component_data do %>
+  <% if render_header? %>
+    <header class="pv2-product-options-list__header grid gap-1">
+      <% if kicker.present? %>
+        <p class="pv2-eyebrow"><%= kicker %></p>
+      <% end %>
+      <% if title.present? %>
+        <h3><%= title %></h3>
+      <% end %>
+      <% if text.present? %>
+        <p><%= text %></p>
+      <% end %>
+    </header>
+  <% end %>
+
+  <% case variant %>
+  <% when :rail %>
+    <ol class="pv2-product-options-list__rail">
+      <% option_items.each do |item| %>
+        <li>
+          <span><%= item[:number] %></span>
+          <p><%= item[:content] %></p>
+        </li>
+      <% end %>
+    </ol>
+  <% when :chips %>
+    <ol class="pv2-product-options-list__chips">
+      <% option_items.each do |item| %>
+        <li>
+          <span><%= item[:number] %></span>
+          <p><%= item[:content] %></p>
+        </li>
+      <% end %>
+    </ol>
+  <% when :focus %>
+    <div class="pv2-product-options-list__focus">
+      <div class="pv2-product-options-list__focus-nav" role="tablist" aria-label="Options produit">
+        <% option_items.each_with_index do |item, index| %>
+          <button
+            type="button"
+            role="tab"
+            aria-selected="<%= active_panel?(index) ? "true" : "false" %>"
+            data-option-list-target="trigger"
+            data-option-list-index-param="<%= index %>"
+            data-action="option-list#select">
+            <%= item[:number] %>
+          </button>
+        <% end %>
+      </div>
+      <div class="pv2-product-options-list__focus-panels">
+        <% option_items.each_with_index do |item, index| %>
+          <article
+            data-option-list-target="panel"
+            data-option-list-index="<%= index %>"
+            role="tabpanel"
+            <%= "hidden" unless active_panel?(index) %>>
+            <span><%= item[:number] %></span>
+            <p><%= item[:content] %></p>
+          </article>
+        <% end %>
+      </div>
+    </div>
+  <% when :blueprint %>
+    <div class="pv2-product-options-list__blueprint">
+      <div class="pv2-product-options-list__blueprint-core">
+        <span>Configuration</span>
+        <strong><%= option_items.size %> points</strong>
+        <p>Lecture technique compacte.</p>
+      </div>
+      <ol>
+        <% option_items.each do |item| %>
+          <li>
+            <span><%= item[:number] %></span>
+            <p><%= item[:content] %></p>
+          </li>
+        <% end %>
+      </ol>
+    </div>
+  <% when :accordion %>
+    <ol class="pv2-product-options-list__accordion">
+      <% option_items.each_with_index do |item, index| %>
+        <li>
+          <button
+            type="button"
+            aria-expanded="<%= active_panel?(index) ? "true" : "false" %>"
+            data-option-list-target="accordionTrigger"
+            data-option-list-index-param="<%= index %>"
+            data-action="option-list#toggle">
+            <span><%= item[:number] %></span>
+            <strong><%= truncate(item[:content], length: 54) %></strong>
+          </button>
+          <p
+            data-option-list-target="accordionPanel"
+            data-option-list-index="<%= index %>"
+            <%= "hidden" unless active_panel?(index) %>>
+            <%= item[:content] %>
+          </p>
+        </li>
+      <% end %>
+    </ol>
+  <% end %>
+<% end %>

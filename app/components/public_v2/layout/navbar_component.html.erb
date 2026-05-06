@@ -1,0 +1,98 @@
+<header class="<%= component_classes %>">
+  <div class="pv2-public-nav__inner flex min-h-[74px] items-center gap-4 max-[820px]:flex-wrap">
+    <%= link_to public_v2_home_path, class: "pv2-public-brand inline-flex min-w-0 flex-none items-center gap-[0.68rem]", aria: { label: "Accueil Les Artisans du Store" } do %>
+      <span class="pv2-public-brand__mark inline-flex h-[42px] w-[42px] items-center justify-center max-[560px]:h-[38px] max-[560px]:w-[38px]">
+        <%= inline_svg_tag("logos/ads-without-text.svg", class: "pv2-public-brand__logo h-[26px] w-[26px]") %>
+      </span>
+      <span>
+        <strong>Les Artisans du Store</strong>
+        <small>L'Arbresle · Rhône</small>
+      </span>
+    <% end %>
+
+    <nav class="pv2-public-nav__links ml-auto hidden items-center gap-[0.12rem] min-[1121px]:flex" aria-label="Navigation principale">
+      <% items.each do |item| %>
+        <%= link_to item[:label], item[:path], class: link_classes(item), aria: link_aria(item) %>
+      <% end %>
+    </nav>
+
+    <div class="pv2-public-nav__actions ml-auto flex flex-none items-center gap-[0.48rem] min-[1121px]:ml-0">
+      <% if phone.present? %>
+        <%= link_to phone, phone_href, class: "pv2-public-phone hidden min-[1121px]:inline-flex" %>
+      <% end %>
+
+      <% if show_theme %>
+        <%= render PublicV2::Ui::DropdownComponent.new(label: "Préférences visuelles", width: :theme, classes: "pv2-public-theme-dropdown") do |dropdown| %>
+          <% dropdown.with_trigger do %>
+            <span class="sr-only">Préférences visuelles</span>
+            <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" />
+              <path d="M9 6a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM19 12a2 2 0 1 0-4 0 2 2 0 0 0 4 0ZM12 18a2 2 0 1 0-4 0 2 2 0 0 0 4 0Z" fill="var(--pv2-accent)" />
+            </svg>
+          <% end %>
+
+          <% dropdown.with_panel do %>
+            <div class="pv2-public-theme-menu grid gap-4">
+              <section class="grid gap-2" aria-label="Mode couleur">
+                <p>Mode</p>
+                <div class="pv2-public-theme-menu__segmented grid grid-cols-2 gap-1">
+                  <button type="button" class="is-selected" data-theme-target="modeButton" data-action="theme#selectMode" data-mode="light" aria-pressed="true">Clair</button>
+                  <button type="button" data-theme-target="modeButton" data-action="theme#selectMode" data-mode="dark" aria-pressed="false">Sombre</button>
+                </div>
+              </section>
+
+              <% accent_groups.each do |group| %>
+                <section class="grid gap-2" aria-label="Accents <%= group[:label] %>">
+                  <p><%= group[:label] %></p>
+                  <div class="pv2-public-theme-menu__swatches grid grid-cols-2 gap-2">
+                    <% group[:accents].each do |accent| %>
+                      <button
+                        type="button"
+                        class="<%= "is-selected" if selected_accent?(accent) %>"
+                        title="<%= accent[:label] %>"
+                        data-theme-target="accentButton"
+                        data-action="theme#selectAccent"
+                        data-label="<%= accent[:label] %>"
+                        data-kind="<%= accent[:group] %>"
+                        data-rgb="<%= accent[:rgb] %>"
+                        data-hex="<%= accent[:hex] %>"
+                        data-text="<%= accent[:text] %>"
+                        aria-pressed="<%= selected_accent?(accent) ? "true" : "false" %>">
+                        <span style="background:<%= accent[:hex] %>"></span>
+                        <em><%= accent[:label] %></em>
+                      </button>
+                    <% end %>
+                  </div>
+                </section>
+              <% end %>
+
+              <section class="grid gap-2" aria-label="Typographie">
+                <p>Typographie</p>
+                <div class="pv2-public-theme-menu__segmented grid grid-cols-2 gap-1">
+                  <button type="button" class="is-selected" data-theme-target="fontButton" data-action="theme#selectFont" data-font="sans" aria-pressed="true">Sans</button>
+                  <button type="button" data-theme-target="fontButton" data-action="theme#selectFont" data-font="mono" aria-pressed="false">Mono</button>
+                </div>
+              </section>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <details class="pv2-public-mobile-nav relative block min-[1121px]:hidden">
+      <summary class="grid h-[42px] w-[42px] cursor-pointer items-center justify-center gap-1" aria-label="Ouvrir la navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </summary>
+      <div>
+        <% items.each do |item| %>
+          <%= link_to item[:label], item[:path], class: link_classes(item), aria: link_aria(item) %>
+        <% end %>
+        <% if phone.present? %>
+          <%= link_to "Appeler", phone_href %>
+        <% end %>
+      </div>
+    </details>
+  </div>
+</header>

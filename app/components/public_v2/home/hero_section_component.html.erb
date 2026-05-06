@@ -1,0 +1,30 @@
+<section class="pv2-home-graphite__hero grid w-full min-w-0 grid-cols-1 items-stretch gap-4 min-[1121px]:grid-cols-[minmax(0,.95fr)_minmax(380px,1fr)]">
+  <div class="pv2-home-graphite__copy min-[1121px]:self-center">
+    <p class="pv2-eyebrow">Stores · Volets · Fermetures · Pose</p>
+    <h1>Protection solaire et fermetures sur mesure.</h1>
+    <p>
+      Les Artisans du Store accompagnent les projets de stores, volets roulants,
+      portes de garage, moustiquaires et pergolas dans le Rhône, du conseil au SAV.
+    </p>
+    <div class="pv2-home-actions mt-5 flex flex-wrap gap-3 max-[560px]:w-full max-[560px]:[&_.pv2-home-cta]:w-full">
+      <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: "#devis", variant: :primary, classes: "pv2-home-cta") %>
+      <%= render PublicV2::Ui::ButtonComponent.new(label: "Voir les familles", path: "#produits", variant: :secondary, classes: "pv2-home-cta pv2-home-cta--ghost") %>
+    </div>
+    <dl class="pv2-home-proofline mt-7 grid grid-cols-1 gap-3 min-[821px]:grid-cols-3">
+      <div><dt>35 ans</dt><dd>experience terrain</dd></div>
+      <div><dt>48h</dt><dd>premier retour devis</dd></div>
+      <div><dt>RGE</dt><dd>expertise reconnue</dd></div>
+    </dl>
+  </div>
+
+  <div class="pv2-home-graphite__media grid min-w-0 grid-cols-1 gap-3 min-[1121px]:grid-cols-[minmax(0,1fr)_220px]">
+    <div class="pv2-home-media">
+      <%= render PublicV2::Ui::MediaFrameComponent.new(image: home_page.featured_image || "magasin-01.jpeg", alt: featured_alt, loading: "eager") %>
+    </div>
+    <aside class="grid gap-3 min-[1121px]:self-end">
+      <span>Produit mis en avant</span>
+      <strong><%= featured_product_name %></strong>
+      <p><%= featured_category_name %> · conseil, fourniture, pose et suivi.</p>
+    </aside>
+  </div>
+</section>

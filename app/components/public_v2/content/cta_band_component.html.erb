@@ -1,0 +1,15 @@
+<aside class="<%= component_classes %>">
+  <div>
+    <p class="pv2-eyebrow"><%= kicker %></p>
+    <h2><%= title %></h2>
+    <% if text.present? %>
+      <p><%= text %></p>
+    <% end %>
+  </div>
+  <div class="pv2-ui-cta-band__actions flex flex-wrap items-center gap-[0.65rem] min-[821px]:justify-end">
+    <%= render PublicV2::Ui::ButtonComponent.new(label: action_label, path: action_path, variant: :primary) %>
+    <% if secondary_label.present? && secondary_path.present? %>
+      <%= render PublicV2::Ui::ButtonComponent.new(label: secondary_label, path: secondary_path, variant: :inverse) %>
+    <% end %>
+  </div>
+</aside>

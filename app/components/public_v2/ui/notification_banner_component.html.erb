@@ -1,0 +1,11 @@
+<aside class="<%= component_classes %>">
+  <span class="pv2-ui-notice__icon"><%= icon %></span>
+  <div>
+    <% if title_text.present? %>
+      <strong><%= title_text %></strong>
+    <% end %>
+    <% if message_text.present? %>
+      <p><%= message_text %></p>
+    <% end %>
+  </div>
+</aside>

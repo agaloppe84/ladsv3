@@ -1,0 +1,7 @@
+<figure class="<%= component_classes %>" <%= debug_attributes %>>
+  <% if cloudinary_image? %>
+    <%= cl_image_tag(image.key, crop: :scale, **image_options) %>
+  <% else %>
+    <%= image_tag(asset_image, **image_options) %>
+  <% end %>
+</figure>

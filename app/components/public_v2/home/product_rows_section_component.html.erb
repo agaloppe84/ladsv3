@@ -1,0 +1,18 @@
+<section id="realisations" class="pv2-home-section pv2-home-graphite__specs grid w-full min-w-0 gap-5">
+  <%= render PublicV2::Content::SectionHeaderComponent.new(
+    kicker: "Catalogue",
+    title: "Une selection produit pour entrer dans le detail.",
+    variant: :home
+  ) %>
+
+  <div class="pv2-home-spec-table">
+    <% products.each do |product| %>
+      <article class="grid grid-cols-1 items-start gap-3 p-4 min-[821px]:grid-cols-[minmax(0,1.2fr)_minmax(120px,.45fr)_minmax(120px,.45fr)_auto] min-[821px]:items-center">
+        <strong><%= product.name %></strong>
+        <span><%= product.category&.name || "Produit" %></span>
+        <span><%= product.manufacturers.first&.name || "Sur mesure" %></span>
+        <%= link_to "Voir", public_v2_product_path(slug: product.slug) %>
+      </article>
+    <% end %>
+  </div>
+</section>

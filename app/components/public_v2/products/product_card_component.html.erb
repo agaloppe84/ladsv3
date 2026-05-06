@@ -1,0 +1,23 @@
+<% if path.present? %>
+  <%= link_to path, class: component_classes, data: debug_data do %>
+    <span class="pv2-category-product__media block">
+      <%= render PublicV2::Ui::MediaFrameComponent.new(image: image, fallback: fallback, alt: title, ratio: :product, debug: debug?) %>
+    </span>
+    <span class="pv2-category-product__body grid gap-[0.38rem] px-[0.82rem] pb-[0.82rem]">
+      <small><%= category_name %></small>
+      <strong><%= title %></strong>
+      <em><%= description_text %></em>
+    </span>
+  <% end %>
+<% else %>
+  <article class="<%= component_classes %>" <%= debug_attributes %>>
+    <span class="pv2-category-product__media block">
+      <%= render PublicV2::Ui::MediaFrameComponent.new(image: image, fallback: fallback, alt: title, ratio: :product, debug: debug?) %>
+    </span>
+    <span class="pv2-category-product__body grid gap-[0.38rem] px-[0.82rem] pb-[0.82rem]">
+      <small><%= category_name %></small>
+      <strong><%= title %></strong>
+      <em><%= description_text %></em>
+    </span>
+  </article>
+<% end %>

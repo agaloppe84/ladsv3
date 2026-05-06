@@ -1,0 +1,36 @@
+<%= tag.public_send(html_tag, id: id, class: component_classes, data: data) do %>
+  <% if render_header? %>
+    <header class="pv2-ui-spotlight-panel__head grid gap-4">
+      <% if kicker.present? %>
+        <p class="pv2-ui-spotlight-panel__kicker"><%= kicker %></p>
+      <% end %>
+      <% if title.present? %>
+        <h2><%= title %></h2>
+      <% end %>
+      <% if text.present? %>
+        <p><%= text %></p>
+      <% end %>
+    </header>
+  <% end %>
+
+  <% if render_body? %>
+    <div class="pv2-ui-spotlight-panel__body grid gap-3">
+      <%= content %>
+    </div>
+  <% end %>
+
+  <% if actions? || footer? %>
+    <footer class="pv2-ui-spotlight-panel__footer flex flex-wrap items-center gap-3">
+      <% if actions? %>
+        <div class="pv2-ui-spotlight-panel__actions flex flex-wrap items-center gap-2">
+          <%= actions %>
+        </div>
+      <% end %>
+      <% if footer? %>
+        <div class="pv2-ui-spotlight-panel__meta">
+          <%= footer %>
+        </div>
+      <% end %>
+    </footer>
+  <% end %>
+<% end %>

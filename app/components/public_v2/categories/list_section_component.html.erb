@@ -1,0 +1,17 @@
+<section id="produits" class="pv2-public-index__categories grid w-full min-w-0 gap-5">
+  <% sections.each do |section| %>
+    <%= render PublicV2::Products::CategoryBlockComponent.new(
+      category: section.category,
+      products: section.products,
+      image: section.cover_image,
+      title: section.title,
+      text: section.text,
+      kicker: section.kicker,
+      tags: section.tags,
+      product_paths: section.product_paths,
+      product_images: section.product_images,
+      empty_message: section.empty_message,
+      classes: "pv2-category-block--index"
+    ) %>
+  <% end %>
+</section>

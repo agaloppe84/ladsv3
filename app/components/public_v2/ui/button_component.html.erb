@@ -1,0 +1,9 @@
+<% if path.present? %>
+  <%= link_to path, class: component_classes, data: link_data do %>
+    <%= button_content %>
+  <% end %>
+<% else %>
+  <%= button_tag type: type, class: component_classes, data: button_data do %>
+    <%= button_content %>
+  <% end %>
+<% end %>

@@ -1,0 +1,19 @@
+<section class="pv2-contact-showroom grid w-full min-w-0 grid-cols-1 items-center gap-4 p-4 min-[1121px]:grid-cols-[minmax(360px,.72fr)_minmax(0,1fr)]">
+  <div class="pv2-home-media">
+    <%= render PublicV2::Ui::MediaFrameComponent.new(image: "magasin-04.jpeg", alt: "Showroom Les Artisans du Store") %>
+  </div>
+  <div>
+    <p class="pv2-eyebrow">Avant le devis</p>
+    <h2>Un lieu utile pour choisir sans se tromper.</h2>
+    <p>
+      Les produits de fermeture et de protection solaire ont beaucoup de details
+      invisibles en ligne : motorisation, toile, coffre, pose, exposition, vent,
+      passage et entretien. Le showroom aide a valider ces points avant le chiffrage.
+    </p>
+    <ul>
+      <% showroom_points.each do |point| %>
+        <li><%= point %></li>
+      <% end %>
+    </ul>
+  </div>
+</section>

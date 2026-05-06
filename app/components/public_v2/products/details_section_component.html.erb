@@ -1,0 +1,95 @@
+<section class="<%= component_classes %>" <%= debug_attributes %>>
+  <aside class="pv2-product-side grid gap-3 min-[1121px]:sticky min-[1121px]:top-[92px]">
+    <%= render PublicV2::Ui::PanelComponent.new(kicker: "Devis", title: "Un produit vous interesse ?", classes: "pv2-product-side__card", debug: debug?) do %>
+      <p>Envoyez une demande avec ce produit preselectionne. L'equipe vous recontacte pour cadrer dimensions et contraintes.</p>
+      <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: product_page.quote_path, variant: :primary, debug: debug?) %>
+    <% end %>
+
+    <% if product_page.brand_panel? %>
+      <%= render PublicV2::Ui::PanelComponent.new(kicker: "Marques et motorisations", classes: "pv2-product-side__card", debug: debug?) do %>
+        <% if product_page.manufacturers_text.present? %>
+          <h3>Fabricants</h3>
+          <p><%= product_page.manufacturers_text %></p>
+        <% end %>
+        <% if product_page.motorists_text.present? %>
+          <h3>Motorisations</h3>
+          <p><%= product_page.motorists_text %></p>
+        <% end %>
+      <% end %>
+    <% end %>
+  </aside>
+
+  <div class="pv2-product-content grid min-w-0 gap-4">
+    <%= render PublicV2::Ui::PanelComponent.new(kicker: "Informations", title: "Ce qu'il faut savoir avant devis.", classes: "pv2-product-panel", debug: debug?) do %>
+      <div class="pv2-product-info-grid grid grid-cols-1 gap-3 min-[821px]:grid-cols-2">
+        <% product_page.information_items.each do |item| %>
+          <article>
+            <span><%= item.label %></span>
+            <p><%= item.text %></p>
+          </article>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if product_page.option_items.any? %>
+      <%= render PublicV2::Ui::PanelComponent.new(kicker: "Options", title: "Configurations et details disponibles.", classes: "pv2-product-panel", debug: debug?) do %>
+        <%= render PublicV2::Products::OptionListComponent.new(
+          items: product_page.option_items,
+          variant: :rail,
+          debug: debug?
+        ) %>
+      <% end %>
+    <% end %>
+
+    <% if product_page.palette_sections.any? %>
+      <%= render PublicV2::Ui::PanelComponent.new(kicker: "Coloris et finitions", title: "Palettes configurees pour ce produit.", classes: "pv2-product-panel", debug: debug?) do %>
+        <div class="pv2-product-palettes grid grid-cols-1 gap-3 min-[821px]:grid-cols-2">
+          <% product_page.palette_sections.each do |palette| %>
+            <article>
+              <header>
+                <span><%= palette.code %></span>
+                <h3><%= palette.label %></h3>
+                <p><%= palette.name %> · <%= palette.count %> coloris</p>
+              </header>
+              <div class="pv2-product-swatches mt-3 flex flex-wrap gap-[0.42rem]">
+                <% palette.swatches.each do |swatch| %>
+                  <span title="<%= swatch.title %>" style="background-color:<%= swatch.color %>"></span>
+                <% end %>
+              </div>
+            </article>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <% if product_page.service_items.any? %>
+      <%= render PublicV2::Ui::PanelComponent.new(kicker: "Services", title: "Accompagnement autour du produit.", classes: "pv2-product-panel", debug: debug?) do %>
+        <div class="pv2-product-services flex flex-wrap gap-[0.45rem]">
+          <% product_page.service_items.each do |item| %>
+            <span class="<%= "is-enabled" if item.enabled %>"><%= item.label %></span>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <% if product_page.gallery_images.any? %>
+      <%= render PublicV2::Ui::PanelComponent.new(kicker: "Galerie", title: "Photos du produit.", classes: "pv2-product-panel", debug: debug?) do %>
+        <div class="pv2-product-gallery grid grid-cols-2 gap-3 min-[821px]:grid-cols-4">
+          <% product_page.gallery_images.first(8).each do |image| %>
+            <%= render PublicV2::Ui::MediaFrameComponent.new(image: image, alt: product_page.product.name, ratio: :product, debug: debug?) %>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <% if product_page.product.documentations.attached? %>
+      <%= render PublicV2::Ui::PanelComponent.new(kicker: "Documents", title: "Documentation disponible.", classes: "pv2-product-panel", debug: debug?) do %>
+        <div class="pv2-product-docs grid gap-2">
+          <% product_page.product.documentations.each do |documentation| %>
+            <%= link_to documentation.filename.to_s, rails_blob_path(documentation, disposition: "attachment") %>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</section>

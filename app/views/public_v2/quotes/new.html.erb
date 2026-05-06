@@ -1,0 +1,7 @@
+<% title "Demande de devis - Public V2" %>
+<% description "Demander un devis aux Artisans du Store pour stores, volets, portes de garage, moustiquaires, pergolas et protections solaires." %>
+
+<main class="pv2-public-page pv2-quote-page grid gap-12">
+  <%= render PublicV2::Quotes::HeroSectionComponent.new %>
+  <%= render PublicV2::Quotes::FormSectionComponent.new(quote_page: @quote_page) %>
+</main>

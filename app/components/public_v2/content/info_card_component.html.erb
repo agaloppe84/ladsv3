@@ -1,0 +1,17 @@
+<% if path.present? %>
+  <%= link_to path, class: component_classes do %>
+    <span><%= label %></span>
+    <strong><%= title %></strong>
+    <% if text.present? %>
+      <p><%= text %></p>
+    <% end %>
+  <% end %>
+<% else %>
+  <article class="<%= component_classes %>">
+    <span><%= label %></span>
+    <strong><%= title %></strong>
+    <% if text.present? %>
+      <p><%= text %></p>
+    <% end %>
+  </article>
+<% end %>

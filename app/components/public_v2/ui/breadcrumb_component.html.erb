@@ -1,0 +1,12 @@
+<nav class="<%= component_classes %>" aria-label="<%= label %>" <%= debug_attributes %>>
+  <% items.each_with_index do |item, index| %>
+    <% if item_path(item).present? && !last_item?(index) %>
+      <%= link_to item_label(item), item_path(item) %>
+    <% else %>
+      <span><%= item_label(item) %></span>
+    <% end %>
+    <% unless last_item?(index) %>
+      <span>/</span>
+    <% end %>
+  <% end %>
+</nav>

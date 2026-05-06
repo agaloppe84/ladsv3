@@ -52,6 +52,16 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :public_v2, path: "public-v2" do
+    get "home", to: "pages#home"
+    get "categories", to: "categories#index", as: :categories
+    get "produits/:slug", to: "products#show", as: :product
+    get "devis", to: "quotes#new", as: :new_quote
+    post "devis", to: "quotes#create", as: :quotes
+    get "contact", to: "pages#contact", as: :contact
+    get "design-system", to: "pages#design_system", as: :design_system
+  end
+
   namespace :admin do
     resources :categories
     resources :options

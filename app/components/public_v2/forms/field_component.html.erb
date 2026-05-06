@@ -1,0 +1,23 @@
+<label class="<%= component_classes %>" for="<%= input_id %>">
+  <span><%= label %></span>
+
+  <% case type.to_sym %>
+  <% when :textarea %>
+    <%= tag.textarea(value, **common_options.except(:value), rows: rows) %>
+  <% when :select %>
+    <%= tag.select(**common_options.except(:value)) do %>
+      <% normalized_options.each do |option_label, option_value| %>
+        <option value="<%= option_value %>" <%= "selected" if selected_option?(option_value) %>><%= option_label %></option>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= tag.input(type: type, **common_options) %>
+  <% end %>
+
+  <% if hint.present? %>
+    <small><%= hint %></small>
+  <% end %>
+  <% if error.present? %>
+    <em><%= error %></em>
+  <% end %>
+</label>

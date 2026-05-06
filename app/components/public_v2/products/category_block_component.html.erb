@@ -1,0 +1,35 @@
+<article class="<%= component_classes %>">
+  <header class="pv2-category-block__header grid grid-cols-1 items-stretch gap-4 min-[821px]:grid-cols-[minmax(0,1fr)_240px]">
+    <div>
+      <p class="pv2-eyebrow"><%= kicker_text %></p>
+      <h2><%= category_name %></h2>
+      <p><%= description_text %></p>
+    </div>
+    <div class="pv2-category-block__media">
+      <%= render PublicV2::Ui::MediaFrameComponent.new(image: image, alt: category_name, ratio: :category) %>
+    </div>
+  </header>
+
+  <% if tag_labels.any? %>
+    <div class="pv2-category-tags flex flex-wrap gap-[0.42rem]">
+      <% tag_labels.each do |tag| %>
+        <span><%= tag %></span>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if products.any? %>
+    <div class="pv2-category-products grid grid-cols-1 gap-3 min-[821px]:grid-cols-2 min-[1121px]:grid-cols-3">
+      <% products.each do |product| %>
+        <%= render PublicV2::Products::ProductCardComponent.new(
+          product: product,
+          path: product_path_for(product),
+          image: product_image_for(product),
+          eyebrow: product_eyebrow(product)
+        ) %>
+      <% end %>
+    </div>
+  <% elsif empty_message.present? %>
+    <%= render PublicV2::Ui::EmptyStateComponent.new(message: empty_message) %>
+  <% end %>
+</article>

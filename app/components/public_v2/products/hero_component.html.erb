@@ -1,0 +1,22 @@
+<section class="<%= component_classes %>" <%= debug_attributes %>>
+  <div class="pv2-product-hero__copy min-[1121px]:self-center">
+    <p class="pv2-eyebrow"><%= category.name %></p>
+    <h1><%= product.name %></h1>
+    <p><%= description_text %></p>
+
+    <div class="pv2-product-hero__actions mt-5 flex flex-wrap gap-[0.65rem]">
+      <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: quote_path, variant: :primary, debug: debug?) %>
+      <%= render PublicV2::Ui::ButtonComponent.new(label: "Retour catalogue", path: catalog_path, variant: :secondary, debug: debug?) %>
+    </div>
+
+    <dl class="pv2-product-facts mt-6 grid grid-cols-1 gap-3 min-[821px]:grid-cols-3">
+      <div><dt>Categorie</dt><dd><%= category.name %></dd></div>
+      <div><dt>Options</dt><dd><%= product.options.size %></dd></div>
+      <div><dt>Coloris</dt><dd><%= color_count %></dd></div>
+    </dl>
+  </div>
+
+  <div class="pv2-product-hero__media">
+    <%= render PublicV2::Ui::MediaFrameComponent.new(image: image, fallback: "placeholder.jpg", alt: product.name, ratio: :wide, loading: "eager", debug: debug?) %>
+  </div>
+</section>

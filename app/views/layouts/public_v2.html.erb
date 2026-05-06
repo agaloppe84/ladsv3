@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= favicon_link_tag "favicon.ico" %>
+    <%= display_meta_tags site: "Les artisans du store" %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "public_v2", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags "public_v2/application" %>
+  </head>
+
+  <body
+    class="public-v2"
+    data-controller="theme"
+    data-public-v2-mode="light"
+    data-public-v2-font="sans"
+    data-public-v2-accent-kind="<%= @public_v2_theme[:accent_kind] %>"
+    style="--p-accent: <%= @public_v2_theme[:accent] %>; --p-accent-rgb: <%= @public_v2_theme[:accent_rgb] %>; --p-accent-text: <%= @public_v2_theme[:accent_text] %>; --pv2-accent: <%= @public_v2_theme[:accent] %>; --pv2-accent-rgb: <%= @public_v2_theme[:accent_rgb] %>; --pv2-accent-text: <%= @public_v2_theme[:accent_text] %>;"
+  >
+    <% if flash.any? %>
+      <aside class="pv2-flashes" aria-live="polite">
+        <% flash.each do |level, message| %>
+          <p class="pv2-flash pv2-flash--<%= level %>"><%= message %></p>
+        <% end %>
+      </aside>
+    <% end %>
+
+    <div
+      id="top"
+      class="pv2-shell pv2-shell--<%= @public_v2_theme[:slug] %>"
+      style="--pv2-accent: <%= @public_v2_theme[:accent] %>; --pv2-accent-rgb: <%= @public_v2_theme[:accent_rgb] %>; --pv2-accent-text: <%= @public_v2_theme[:accent_text] %>;"
+    >
+      <%= render PublicV2::Layout::NavbarComponent.new(
+        theme: @public_v2_theme,
+        active_key: @public_v2_active_nav_key,
+        show_theme: @public_v2_show_theme
+      ) %>
+
+      <% if @event.present? %>
+        <aside class="pv2-public-event" aria-label="Information importante">
+          <div class="pv2-public-event__inner">
+            <span>Info</span>
+            <strong><%= @event.title.to_s.squish.presence || "Information importante" %></strong>
+            <p><%= @event.content.to_s.squish %></p>
+          </div>
+        </aside>
+      <% end %>
+
+      <%= yield %>
+
+      <%= render PublicV2::Layout::FooterComponent.new(categories: @public_v2_footer_categories) %>
+    </div>
+  </body>
+</html>

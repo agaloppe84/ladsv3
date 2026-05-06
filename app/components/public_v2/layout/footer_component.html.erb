@@ -1,0 +1,45 @@
+<footer class="<%= component_classes %>" id="contact">
+  <div class="pv2-public-footer__main grid grid-cols-1 items-stretch gap-[1.45rem] p-4 min-[821px]:p-[1.6rem] min-[1121px]:grid-cols-[minmax(0,.9fr)_minmax(320px,.5fr)] min-[1121px]:gap-[1.2rem]">
+    <div class="pv2-public-footer__intro grid w-full min-w-0 gap-[0.58rem]">
+      <p class="pv2-eyebrow"><%= eyebrow %></p>
+      <h2><%= title %></h2>
+      <p><%= text %></p>
+      <div class="pv2-public-footer__proofs grid grid-cols-2 gap-[0.46rem] min-[561px]:flex min-[561px]:flex-wrap min-[561px]:items-center" aria-label="Accompagnement">
+        <% proof_items.each do |proof_item| %>
+          <span class="inline-flex min-h-[38px] w-full items-center justify-center px-2 py-1 text-center min-[561px]:min-h-9 min-[561px]:w-auto min-[561px]:px-[0.7rem]"><%= proof_item %></span>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="pv2-public-footer__contact-grid grid w-full max-w-none justify-self-stretch gap-4 min-[821px]:gap-[0.82rem] min-[1121px]:w-[min(100%,430px)] min-[1121px]:max-w-[430px] min-[1121px]:justify-self-end min-[1121px]:self-center" aria-label="Coordonnées">
+      <%= link_to phone_href, class: "pv2-public-footer__contact-card grid w-full content-start gap-[0.28rem] py-[0.05rem] pl-[0.82rem] min-[821px]:gap-[0.2rem] min-[821px]:py-[0.12rem] min-[821px]:pl-[0.78rem]" do %>
+        <span>Téléphone</span>
+        <strong><%= phone %></strong>
+        <em>Appel showroom</em>
+      <% end %>
+
+      <%= link_to mail_href, class: "pv2-public-footer__contact-card grid w-full content-start gap-[0.28rem] py-[0.05rem] pl-[0.82rem] min-[821px]:gap-[0.2rem] min-[821px]:py-[0.12rem] min-[821px]:pl-[0.78rem]" do %>
+        <span>Email</span>
+        <strong><%= email %></strong>
+        <em>Réponse devis</em>
+      <% end %>
+
+      <%= link_to public_v2_contact_path, class: "pv2-public-footer__contact-card pv2-public-footer__contact-card--wide grid w-full content-start gap-[0.28rem] py-[0.05rem] pl-[0.82rem] min-[821px]:gap-[0.2rem] min-[821px]:py-[0.12rem] min-[821px]:pl-[0.78rem]" do %>
+        <span>Showroom</span>
+        <strong><%= address %></strong>
+        <em><%= city %></em>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="pv2-public-footer__bottom flex flex-col items-start gap-4 pt-4 min-[821px]:flex-row min-[821px]:items-center min-[821px]:justify-between">
+    <span>Les Artisans du Store</span>
+    <nav class="flex flex-wrap gap-[0.55rem] min-[821px]:justify-end" aria-label="Familles produits">
+      <% categories.first(5).each do |category| %>
+        <%= link_to category.name, public_v2_categories_path(anchor: "categorie-#{category.id}") %>
+      <% end %>
+      <%= link_to "Contact", public_v2_contact_path %>
+      <%= link_to "Demande de devis", public_v2_new_quote_path %>
+    </nav>
+  </div>
+</footer>

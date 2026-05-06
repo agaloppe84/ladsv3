@@ -1,0 +1,40 @@
+<section class="pv2-quote-layout grid w-full min-w-0 grid-cols-1 items-start gap-4 min-[1121px]:grid-cols-[minmax(0,1fr)_360px]">
+  <%= render PublicV2::Ui::PanelComponent.new(kicker: "Formulaire", title: "Vos coordonnees et le besoin.", classes: "pv2-quote-form-card") do %>
+    <%= render PublicV2::Forms::QuoteFormComponent.new(
+      quote: quote_page.quote,
+      products: quote_page.products,
+      url: form_url
+    ) %>
+  <% end %>
+
+  <aside class="pv2-quote-side grid min-w-0 gap-3 min-[1121px]:sticky min-[1121px]:top-[92px]">
+    <% if quote_page.selected_product? %>
+      <article class="pv2-quote-selected grid w-full min-w-0 gap-[0.78rem] p-4">
+        <div class="pv2-home-mini-media">
+          <%= render PublicV2::Ui::MediaFrameComponent.new(image: quote_page.selected_product_image, alt: quote_page.selected_product.name, ratio: :product) %>
+        </div>
+        <span>Produit selectionne</span>
+        <strong><%= quote_page.selected_product.name %></strong>
+        <p><%= quote_page.selected_product_category_name %></p>
+      </article>
+    <% end %>
+
+    <%= render PublicV2::Ui::PanelComponent.new(kicker: "Comment ca se passe ?", classes: "pv2-quote-side__card") do %>
+      <ol class="grid gap-3">
+        <% step_items.each.with_index(1) do |item, index| %>
+          <li class="grid grid-cols-[auto_minmax(0,1fr)] gap-2"><strong><%= index %>.</strong><span><%= item %></span></li>
+        <% end %>
+      </ol>
+    <% end %>
+
+    <%= render PublicV2::Ui::PanelComponent.new(kicker: "Contact direct", classes: "pv2-quote-side__card") do %>
+      <% contact_items.each do |item| %>
+        <% if item[:path].present? %>
+          <a href="<%= item[:path] %>"><%= item[:value] %></a>
+        <% else %>
+          <span><%= item[:value] %></span>
+        <% end %>
+      <% end %>
+    <% end %>
+  </aside>
+</section>

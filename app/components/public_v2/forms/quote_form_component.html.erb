@@ -1,0 +1,45 @@
+<%= form_with model: quote, url: url, class: "pv2-quote-form grid w-full min-w-0 gap-4", data: { turbo: false } do |form| %>
+  <% if quote.errors.any? %>
+    <div class="pv2-quote-errors">
+      <strong>Certains champs sont a completer.</strong>
+      <p><%= quote.errors.full_messages.to_sentence %></p>
+    </div>
+  <% end %>
+
+  <div class="pv2-quote-form__grid grid grid-cols-1 gap-3 min-[821px]:grid-cols-2">
+    <label class="pv2-ui-field">
+      <span>Nom</span>
+      <%= form.text_field :lastname, autocomplete: "name", required: true, placeholder: "Votre nom" %>
+    </label>
+    <label class="pv2-ui-field">
+      <span>Email</span>
+      <%= form.email_field :email, autocomplete: "email", required: true, placeholder: "vous@email.fr" %>
+    </label>
+    <label class="pv2-ui-field">
+      <span>Telephone</span>
+      <%= form.telephone_field :phone, autocomplete: "tel", required: true, placeholder: "04..." %>
+    </label>
+    <label class="pv2-ui-field">
+      <span>Ville</span>
+      <%= form.text_field :city, autocomplete: "address-level2", required: true, placeholder: "Votre ville" %>
+    </label>
+    <label class="pv2-ui-field pv2-quote-form__full min-[821px]:col-span-2">
+      <span>Adresse</span>
+      <%= form.text_field :address, autocomplete: "street-address", required: true, placeholder: "Adresse du projet" %>
+    </label>
+    <label class="pv2-ui-field pv2-quote-form__full min-[821px]:col-span-2">
+      <span>Produit</span>
+      <%= form.select :product,
+            options_for_select(product_options, quote.product),
+            { include_blank: "A definir avec l'equipe" },
+            required: true %>
+    </label>
+    <label class="pv2-ui-field pv2-quote-form__full min-[821px]:col-span-2">
+      <span>Message</span>
+      <%= form.text_area :message, rows: 7, required: true, placeholder: "Dimensions, exposition, type de pose, delai souhaite, photos disponibles..." %>
+    </label>
+  </div>
+
+  <%= render PublicV2::Ui::ButtonComponent.new(label: "Envoyer la demande", type: "submit", variant: :primary) %>
+  <p class="pv2-quote-consent">En envoyant ce formulaire, vous acceptez d'etre recontacte au sujet de votre projet.</p>
+<% end %>

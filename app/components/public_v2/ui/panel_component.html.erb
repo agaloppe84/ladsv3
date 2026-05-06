@@ -1,0 +1,26 @@
+<%= tag.section id: id, data: component_data, class: component_classes do %>
+  <% if render_header? %>
+    <header class="pv2-ui-panel__head flex items-start justify-between gap-4">
+      <div>
+        <% if kicker.present? %>
+          <p class="pv2-eyebrow"><%= kicker %></p>
+        <% end %>
+        <% if title.present? %>
+          <h2><%= title %></h2>
+        <% end %>
+        <% if text.present? %>
+          <p><%= text %></p>
+        <% end %>
+      </div>
+      <% if actions? %>
+        <div class="pv2-ui-panel__actions flex flex-shrink-0 items-center gap-[0.45rem]">
+          <%= actions %>
+        </div>
+      <% end %>
+    </header>
+  <% end %>
+
+  <div class="pv2-ui-panel__body grid gap-[0.78rem]">
+    <%= content %>
+  </div>
+<% end %>

@@ -1,0 +1,33 @@
+<section class="<%= component_classes %>">
+  <div>
+    <p class="pv2-eyebrow"><%= kicker %></p>
+    <h1><%= title %></h1>
+    <p><%= text %></p>
+
+    <% if actions.any? %>
+      <div class="pv2-ui-hero__actions mt-5 flex flex-wrap items-center gap-[0.65rem]">
+        <% actions.each do |action| %>
+          <%= render PublicV2::Ui::ButtonComponent.new(
+            label: action[:label],
+            path: action[:path],
+            variant: action.fetch(:variant, :primary)
+          ) %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if render_panel? %>
+    <aside class="pv2-public-hero__panel">
+      <% if panel_label.present? %>
+        <span><%= panel_label %></span>
+      <% end %>
+      <% if panel_value.present? %>
+        <strong><%= panel_value %></strong>
+      <% end %>
+      <% if panel_text.present? %>
+        <p><%= panel_text %></p>
+      <% end %>
+    </aside>
+  <% end %>
+</section>

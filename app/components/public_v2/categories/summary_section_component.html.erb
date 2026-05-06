@@ -1,0 +1,5 @@
+<section class="pv2-public-index__summary grid w-full min-w-0 grid-cols-1 gap-3 min-[821px]:grid-cols-3" aria-label="Synthese catalogue">
+  <% stats.each do |label, value, text| %>
+    <%= render PublicV2::Ui::StatCardComponent.new(label: label, value: value, text: text) %>
+  <% end %>
+</section>

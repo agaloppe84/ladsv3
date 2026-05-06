@@ -1,0 +1,27 @@
+<%= tag.div id: id, class: component_classes, data: component_data do %>
+  <button
+    type="button"
+    class="<%= trigger_button_classes %>"
+    data-dropdown-target="trigger"
+    data-action="dropdown#toggle"
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    aria-controls="<%= panel_id %>"
+    aria-label="<%= label %>">
+    <% if trigger? %>
+      <%= trigger %>
+    <% else %>
+      <span><%= label %></span>
+    <% end %>
+  </button>
+
+  <div
+    id="<%= panel_id %>"
+    class="<%= menu_classes %>"
+    data-dropdown-target="panel"
+    role="dialog"
+    aria-label="<%= label %>"
+    hidden>
+    <%= panel %>
+  </div>
+<% end %>
