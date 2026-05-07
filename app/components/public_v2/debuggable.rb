@@ -4,7 +4,7 @@ module PublicV2::Debuggable
   private
 
   def debug?
-    defined?(@debug) && @debug.present?
+    (defined?(@debug) && @debug.present?) || global_public_v2_debug?
   end
 
   def debug_class
@@ -29,5 +29,9 @@ module PublicV2::Debuggable
 
   def debug_component_name
     self.class.name.delete_prefix("PublicV2::")
+  end
+
+  def global_public_v2_debug?
+    helpers.respond_to?(:public_v2_debug?) && helpers.public_v2_debug?
   end
 end

@@ -1,4 +1,4 @@
-<article class="<%= component_classes %>">
+<%= tag.article class: component_classes, data: debug_data do %>
   <% if title.present? %>
     <strong><%= title %></strong>
   <% end %>
@@ -6,4 +6,4 @@
   <% if action_label.present? && action_path.present? %>
     <%= render PublicV2::Ui::ButtonComponent.new(label: action_label, path: action_path, variant: :secondary) %>
   <% end %>
-</article>
+<% end %>

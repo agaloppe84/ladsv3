@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PublicV2::Content::CtaBandComponent < ViewComponent::Base
+  include PublicV2::Debuggable
+
   def initialize(kicker:, title:, text: nil, action_label:, action_path:, secondary_label: nil, secondary_path: nil, classes: nil)
     @kicker = kicker
     @title = title
@@ -21,6 +23,7 @@ class PublicV2::Content::CtaBandComponent < ViewComponent::Base
       "pv2-public-cta",
       "pv2-ui-cta-band",
       "grid w-full min-w-0 grid-cols-1 gap-4 p-[1.2rem] min-[821px]:grid-cols-[minmax(0,1fr)_auto] min-[821px]:items-center",
+      debug_class,
       classes
     ].compact.join(" ")
   end

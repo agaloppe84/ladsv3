@@ -1,4 +1,4 @@
-<section class="pv2-quote-layout grid w-full min-w-0 grid-cols-1 items-start gap-4 min-[1121px]:grid-cols-[minmax(0,1fr)_360px]">
+<%= tag.section class: component_classes, data: debug_data do %>
   <%= render PublicV2::Ui::PanelComponent.new(kicker: "Formulaire", title: "Vos coordonnees et le besoin.", classes: "pv2-quote-form-card") do %>
     <%= render PublicV2::Forms::QuoteFormComponent.new(
       quote: quote_page.quote,
@@ -37,4 +37,4 @@
       <% end %>
     <% end %>
   </aside>
-</section>
+<% end %>

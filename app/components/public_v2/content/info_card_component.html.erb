@@ -1,5 +1,5 @@
 <% if path.present? %>
-  <%= link_to path, class: component_classes do %>
+  <%= link_to path, class: component_classes, data: debug_data do %>
     <span><%= label %></span>
     <strong><%= title %></strong>
     <% if text.present? %>
@@ -7,11 +7,11 @@
     <% end %>
   <% end %>
 <% else %>
-  <article class="<%= component_classes %>">
+  <%= tag.article class: component_classes, data: debug_data do %>
     <span><%= label %></span>
     <strong><%= title %></strong>
     <% if text.present? %>
       <p><%= text %></p>
     <% end %>
-  </article>
+  <% end %>
 <% end %>

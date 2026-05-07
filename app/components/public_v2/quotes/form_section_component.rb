@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PublicV2::Quotes::FormSectionComponent < ViewComponent::Base
+  include PublicV2::Debuggable
+
   STEP_ITEMS = [
     "Vous envoyez le besoin et le produit repere si disponible.",
     "L'equipe vous rappelle pour valider dimensions et contraintes.",
@@ -26,5 +28,13 @@ class PublicV2::Quotes::FormSectionComponent < ViewComponent::Base
 
   def form_url
     url.presence || public_v2_quotes_path
+  end
+
+  def component_classes
+    [
+      "pv2-quote-layout",
+      "grid w-full min-w-0 grid-cols-1 items-start gap-4 min-[1121px]:grid-cols-[minmax(0,1fr)_360px]",
+      debug_class
+    ].compact.join(" ")
   end
 end

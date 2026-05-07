@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PublicV2::Forms::FieldComponent < ViewComponent::Base
+  include PublicV2::Debuggable
+
   def initialize(label:, name:, type: :text, value: nil, placeholder: nil, options: [], rows: 4, hint: nil, error: nil, required: false, disabled: false, readonly: false, classes: nil)
     @label = label
     @name = name
@@ -30,6 +32,7 @@ class PublicV2::Forms::FieldComponent < ViewComponent::Base
       "pv2-ui-field",
       ("pv2-ui-field--invalid" if error.present?),
       "grid w-full min-w-0 gap-[0.35rem]",
+      debug_class,
       classes
     ].compact.join(" ")
   end

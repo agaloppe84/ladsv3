@@ -3,6 +3,8 @@
 require "securerandom"
 
 class PublicV2::Ui::DropdownComponent < ViewComponent::Base
+  include PublicV2::Debuggable
+
   renders_one :trigger
   renders_one :panel
 
@@ -32,6 +34,7 @@ class PublicV2::Ui::DropdownComponent < ViewComponent::Base
     [
       "pv2-ui-dropdown",
       "pv2-ui-dropdown--#{align}",
+      debug_class,
       classes
     ].compact.join(" ")
   end
@@ -54,7 +57,7 @@ class PublicV2::Ui::DropdownComponent < ViewComponent::Base
   end
 
   def component_data
-    data.merge(
+    with_debug_data(data).merge(
       controller: [data[:controller], "dropdown"].compact.join(" "),
       action: [data[:action], "keydown.escape@window->dropdown#close click@window->dropdown#closeOnOutsideClick"].compact.join(" ")
     )

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PublicV2::Ui::EmptyStateComponent < ViewComponent::Base
+  include PublicV2::Debuggable
+
   def initialize(message:, title: nil, action_label: nil, action_path: nil, classes: nil)
     @title = title
     @message = message
@@ -14,6 +16,6 @@ class PublicV2::Ui::EmptyStateComponent < ViewComponent::Base
   attr_reader :title, :message, :action_label, :action_path, :classes
 
   def component_classes
-    ["pv2-public-empty", "pv2-ui-empty", "grid w-full min-w-0 gap-2", classes].compact.join(" ")
+    ["pv2-public-empty", "pv2-ui-empty", "grid w-full min-w-0 gap-2", debug_class, classes].compact.join(" ")
   end
 end

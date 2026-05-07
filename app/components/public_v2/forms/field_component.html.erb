@@ -1,4 +1,4 @@
-<label class="<%= component_classes %>" for="<%= input_id %>">
+<%= tag.label class: component_classes, for: input_id, data: debug_data do %>
   <span><%= label %></span>
 
   <% case type.to_sym %>
@@ -20,4 +20,4 @@
   <% if error.present? %>
     <em><%= error %></em>
   <% end %>
-</label>
+<% end %>

@@ -1,4 +1,4 @@
-<section class="pv2-contact-layout grid w-full min-w-0 grid-cols-1 items-stretch gap-4 min-[1121px]:grid-cols-[minmax(0,.74fr)_minmax(420px,1fr)]" aria-label="Coordonnees et acces">
+<%= tag.section class: component_classes, data: debug_data, aria: { label: "Coordonnees et acces" } do %>
   <div class="pv2-contact-cards grid min-w-0 grid-cols-1 gap-3 min-[821px]:grid-cols-2">
     <% contact_cards.each do |card| %>
       <%= render PublicV2::Content::InfoCardComponent.new(
@@ -22,4 +22,4 @@
       title="Carte Les Artisans du Store a L'Arbresle"
     ></iframe>
   </div>
-</section>
+<% end %>

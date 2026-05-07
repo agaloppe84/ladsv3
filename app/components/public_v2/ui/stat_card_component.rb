@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PublicV2::Ui::StatCardComponent < ViewComponent::Base
+  include PublicV2::Debuggable
+
   def initialize(label:, value:, text: nil, variant: :default, classes: nil)
     @label = label
     @value = value
@@ -18,6 +20,7 @@ class PublicV2::Ui::StatCardComponent < ViewComponent::Base
       "pv2-ui-stat",
       "pv2-ui-stat--#{variant}",
       "grid w-full min-w-0 gap-[0.45rem] p-4",
+      debug_class,
       classes
     ].compact.join(" ")
   end

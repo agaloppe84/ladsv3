@@ -1,4 +1,4 @@
-<aside class="<%= component_classes %>">
+<%= tag.aside class: component_classes, data: debug_data do %>
   <div>
     <p class="pv2-eyebrow"><%= kicker %></p>
     <h2><%= title %></h2>
@@ -12,4 +12,4 @@
       <%= render PublicV2::Ui::ButtonComponent.new(label: secondary_label, path: secondary_path, variant: :inverse) %>
     <% end %>
   </div>
-</aside>
+<% end %>

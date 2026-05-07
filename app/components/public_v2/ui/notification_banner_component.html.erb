@@ -1,4 +1,4 @@
-<aside class="<%= component_classes %>">
+<%= tag.aside class: component_classes, data: debug_data do %>
   <span class="pv2-ui-notice__icon"><%= icon %></span>
   <div>
     <% if title_text.present? %>
@@ -8,4 +8,4 @@
       <p><%= message_text %></p>
     <% end %>
   </div>
-</aside>
+<% end %>

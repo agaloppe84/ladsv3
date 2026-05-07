@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PublicV2::Ui::BadgeComponent < ViewComponent::Base
+  include PublicV2::Debuggable
+
   def initialize(label:, variant: :neutral, size: :md, classes: nil)
     @label = label
     @variant = variant
@@ -18,6 +20,7 @@ class PublicV2::Ui::BadgeComponent < ViewComponent::Base
       "pv2-ui-badge--#{variant}",
       "pv2-ui-badge--#{size}",
       "inline-flex shrink-0 items-center justify-center whitespace-nowrap text-center",
+      debug_class,
       classes
     ].compact.join(" ")
   end

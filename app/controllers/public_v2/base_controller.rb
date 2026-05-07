@@ -3,7 +3,7 @@ class PublicV2::BaseController < ApplicationController
 
   before_action :load_public_v2_shell_context
 
-  helper_method :public_v2_primary_image
+  helper_method :public_v2_primary_image, :public_v2_debug?
 
   private
 
@@ -91,14 +91,19 @@ class PublicV2::BaseController < ApplicationController
 
   def load_public_v2_shell_context
     @public_v2_theme = public_v2_graphite_theme
+    @public_v2_debug = true
     @event = active_event
     @public_v2_footer_categories = public_categories.limit(5).to_a
     @public_v2_active_nav_key = public_v2_active_nav_key
     @public_v2_show_theme = true
   end
 
+  def public_v2_debug?
+    @public_v2_debug == true
+  end
+
   def public_v2_active_nav_key
-    return :home if controller_name == "pages" && action_name.in?(%w[home home_test])
+    return :home if controller_name == "pages" && action_name == "home"
     return :contact if controller_name == "pages" && action_name == "contact"
     return :products if controller_name.in?(%w[categories products])
     return :quote if controller_name == "quotes"

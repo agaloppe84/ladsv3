@@ -1,4 +1,4 @@
-<section class="<%= component_classes %>">
+<%= tag.section class: component_classes, data: debug_data do %>
   <div>
     <p class="pv2-eyebrow"><%= kicker %></p>
     <h1><%= title %></h1>
@@ -30,4 +30,4 @@
       <% end %>
     </aside>
   <% end %>
-</section>
+<% end %>

@@ -3,15 +3,6 @@ class PublicV2::PagesController < PublicV2::BaseController
     @home_page = build_home_page
   end
 
-  def home_test
-    @home_test = PublicV2::HomeTestPage.new
-  end
-
-  def layouts_test
-    @public_v2_show_theme = false
-    @layouts_test = PublicV2::LayoutsTestPage.new
-  end
-
   def design_system
     categories = public_categories.limit(8).to_a
     products = public_product_cards.order(updated_at: :desc).limit(8).to_a
@@ -65,4 +56,5 @@ class PublicV2::PagesController < PublicV2::BaseController
       primary_image_resolver: method(:public_v2_primary_image)
     )
   end
+
 end

@@ -54,8 +54,6 @@ Rails.application.routes.draw do
 
   namespace :public_v2, path: "public-v2" do
     get "home", to: "pages#home"
-    get "home-test", to: "pages#home_test", as: :home_test
-    get "layouts-test", to: "pages#layouts_test", as: :layouts_test
     get "categories", to: "categories#index", as: :categories
     get "produits/:slug", to: "products#show", as: :product
     get "devis", to: "quotes#new", as: :new_quote

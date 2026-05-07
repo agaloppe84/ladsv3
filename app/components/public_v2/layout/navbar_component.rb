@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PublicV2::Layout::NavbarComponent < ViewComponent::Base
+  include PublicV2::Debuggable
+
   def initialize(theme:, items: nil, phone: "04 74 01 05 11", show_theme: true, active_key: nil, classes: nil)
     @theme = theme
     @items = items
@@ -15,7 +17,7 @@ class PublicV2::Layout::NavbarComponent < ViewComponent::Base
   attr_reader :theme, :phone, :show_theme, :active_key, :classes
 
   def component_classes
-    ["pv2-public-nav", "pv2-ui-navbar", "w-full min-w-0", classes].compact.join(" ")
+    ["pv2-public-nav", "pv2-ui-navbar", "w-full min-w-0", debug_class, classes].compact.join(" ")
   end
 
   def items

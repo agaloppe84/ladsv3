@@ -1,4 +1,4 @@
-<header class="<%= component_classes %>">
+<%= tag.header class: component_classes, data: debug_data do %>
   <div class="pv2-public-nav__inner flex min-h-[74px] items-center gap-4 max-[820px]:flex-wrap">
     <%= link_to public_v2_home_path, class: "pv2-public-brand inline-flex min-w-0 flex-none items-center gap-[0.68rem]", aria: { label: "Accueil Les Artisans du Store" } do %>
       <span class="pv2-public-brand__mark inline-flex h-[42px] w-[42px] items-center justify-center max-[560px]:h-[38px] max-[560px]:w-[38px]">
@@ -95,4 +95,4 @@
       </div>
     </details>
   </div>
-</header>
+<% end %>
