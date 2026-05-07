@@ -3,6 +3,9 @@
 class PublicV2::Ui::PanelComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
+  VARIANTS = %i[default accent soft rail elevated outline inset flashy].freeze
+  PADDINGS = %i[sm md lg].freeze
+
   renders_one :actions
 
   def initialize(kicker: nil, title: nil, text: nil, id: nil, variant: :default, data: {}, classes: nil, padding: :md, debug: false)
@@ -10,10 +13,10 @@ class PublicV2::Ui::PanelComponent < ViewComponent::Base
     @title = title
     @text = text
     @id = id
-    @variant = variant
+    @variant = normalize_option(variant, VARIANTS, :default)
     @data = data
     @classes = classes
-    @padding = padding
+    @padding = normalize_option(padding, PADDINGS, :md)
     @debug = debug
   end
 
@@ -38,5 +41,10 @@ class PublicV2::Ui::PanelComponent < ViewComponent::Base
 
   def render_header?
     kicker.present? || title.present? || text.present? || actions?
+  end
+
+  def normalize_option(value, allowed_values, fallback)
+    normalized_value = value.to_s.to_sym
+    allowed_values.include?(normalized_value) ? normalized_value : fallback
   end
 end

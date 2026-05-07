@@ -3,16 +3,20 @@
 class PublicV2::Ui::ButtonComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
+  VARIANTS = %i[primary secondary ghost inverse danger].freeze
+  SIZES = %i[sm md lg].freeze
+  SHAPES = %i[soft sharp pill].freeze
+
   def initialize(label: nil, path: nil, variant: :primary, type: "button", data: {}, method: nil, classes: nil, size: :md, shape: :soft, full_width: false, debug: false)
     @label = label
     @path = path
-    @variant = variant
+    @variant = normalize_option(variant, VARIANTS, :primary)
     @type = type
     @data = data
     @method = method
     @classes = classes
-    @size = size
-    @shape = shape
+    @size = normalize_option(size, SIZES, :md)
+    @shape = normalize_option(shape, SHAPES, :soft)
     @full_width = full_width
     @debug = debug
   end
@@ -46,5 +50,10 @@ class PublicV2::Ui::ButtonComponent < ViewComponent::Base
 
   def button_content
     label.presence || content
+  end
+
+  def normalize_option(value, allowed_values, fallback)
+    normalized_value = value.to_s.to_sym
+    allowed_values.include?(normalized_value) ? normalized_value : fallback
   end
 end

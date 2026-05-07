@@ -99,6 +99,20 @@ Regles Rails Public V2 :
 - les chemins et images derives passent par presenter ou helper selon le niveau de responsabilite ;
 - le CSS Public V2 reste scope sous `.public-v2`.
 
+## UI Kit Warm System
+
+Les primitives UI Kit stabilisees doivent servir de briques reutilisables :
+
+- `ButtonComponent` : variantes, tailles et formes normalisees ;
+- `PanelComponent` : surfaces `default`, `accent`, `soft`, `rail`, `elevated`, `outline`, `inset`, `flashy` ;
+- `BadgeComponent` : statuts courts et lisibles ;
+- `StatCardComponent` : chiffres, preuves et infos compactes ;
+- `MediaFrameComponent` : medias avec ratios stables ;
+- `DropdownComponent`, `BreadcrumbComponent`, `NotificationBannerComponent`, `EmptyStateComponent` : navigation et feedback ;
+- les composants doivent refuser silencieusement les variantes inconnues en revenant a une variante par defaut.
+
+Les noms publics du systeme doivent parler de **Warm System**. Les anciens noms de direction visuelle ne doivent pas rester dans les composants Public V2.
+
 ## Debug Components
 
 Le debug de layout est un outil officiel pendant la reconstruction Public V2.

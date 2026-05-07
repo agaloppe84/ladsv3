@@ -1,7 +1,7 @@
 <% title "Les Artisans du Store - Public V2" %>
 <% description "Les Artisans du Store a L'Arbresle : protections solaires, stores, volets, portes de garage, moustiquaires et devis sur mesure." %>
 
-<main class="pv2-home-page pv2-home-graphite grid gap-14 pb-20 pt-8 min-[821px]:gap-20">
+<main class="pv2-home-page pv2-home-warm grid gap-14 pb-20 pt-8 min-[821px]:gap-20">
   <%= render PublicV2::Home::HeroSectionComponent.new(home_page: @home_page) %>
   <%= render PublicV2::Home::ExpertiseSectionComponent.new %>
   <%= render PublicV2::Home::CategoryGridSectionComponent.new(category_cards: @home_page.category_cards) %>

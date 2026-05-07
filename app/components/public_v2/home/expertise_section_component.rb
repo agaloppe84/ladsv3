@@ -21,7 +21,7 @@ class PublicV2::Home::ExpertiseSectionComponent < ViewComponent::Base
 
   def component_classes
     [
-      "pv2-home-section pv2-home-graphite__matrix",
+      "pv2-home-section pv2-home-warm__matrix",
       "grid w-full min-w-0 gap-5",
       debug_class
     ].compact.join(" ")

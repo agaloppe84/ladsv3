@@ -14,7 +14,7 @@ class PublicV2::Home::CategoryGridSectionComponent < ViewComponent::Base
 
   def component_classes
     [
-      "pv2-home-section pv2-home-graphite__catalog",
+      "pv2-home-section pv2-home-warm__catalog",
       "grid w-full min-w-0 gap-5",
       debug_class
     ].compact.join(" ")

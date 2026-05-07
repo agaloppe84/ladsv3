@@ -1204,6 +1204,16 @@
   border-radius: 6px;
 }
 
+.public-v2 .pv2-ui-stat--accent {
+  background: var(--p-accent-soft);
+  border-color: var(--p-accent-border);
+}
+
+.public-v2 .pv2-ui-stat--soft {
+  background: color-mix(in srgb, var(--pv2-home-surface, var(--p-surface)) 82%, var(--p-accent-soft));
+  border-color: rgba(var(--pv2-accent-rgb, var(--p-accent-rgb)), 0.2);
+}
+
 .public-v2 .pv2-ui-stat span {
   color: var(--pv2-accent, var(--p-accent));
   font-family: var(--p-font-mono);
@@ -1355,19 +1365,19 @@
   }
 }
 
-/* Public V2 shell and Graphite page */
+/* Public V2 shell and Warm System page */
 
 .public-v2 .pv2-shell {
-  --pv2-home-bg: #f7f7f1;
-  --pv2-home-bg-soft: #eceee6;
-  --pv2-home-surface: #fffef8;
+  --pv2-home-bg: var(--p-bg);
+  --pv2-home-bg-soft: var(--p-bg-soft);
+  --pv2-home-surface: var(--p-surface);
   --pv2-home-surface-strong: #ffffff;
-  --pv2-home-text: #141712;
-  --pv2-home-muted: #5f665b;
-  --pv2-home-subtle: #8a9185;
-  --pv2-home-border: rgba(20, 23, 18, 0.12);
-  --pv2-home-border-strong: rgba(20, 23, 18, 0.2);
-  --pv2-home-shadow: 0 24px 70px rgba(20, 23, 18, 0.1);
+  --pv2-home-text: var(--p-text);
+  --pv2-home-muted: var(--p-muted);
+  --pv2-home-subtle: var(--p-subtle);
+  --pv2-home-border: var(--p-border);
+  --pv2-home-border-strong: var(--p-border-strong);
+  --pv2-home-shadow: 0 24px 70px rgba(36, 31, 25, 0.1);
   --pv2-home-radius: 8px;
   --pv2-home-radius-lg: 18px;
   background: var(--pv2-home-bg);
@@ -1378,15 +1388,17 @@
 }
 
 .public-v2 .pv2-shell--warm-system {
-  --pv2-home-bg: #f5f6ef;
-  --pv2-home-bg-soft: #e8ebe0;
-  --pv2-home-surface: #ffffff;
-  --pv2-home-text: #111510;
-  --pv2-home-muted: #5b6256;
-  --pv2-home-subtle: #7c8476;
+  --pv2-home-bg: #fbf7ef;
+  --pv2-home-bg-soft: #f2e8da;
+  --pv2-home-surface: #fffdf7;
+  --pv2-home-text: #1a1815;
+  --pv2-home-muted: #625f58;
+  --pv2-home-subtle: #878177;
+  --pv2-home-border: rgba(36, 31, 25, 0.1);
+  --pv2-home-border-strong: rgba(36, 31, 25, 0.18);
   background:
-    linear-gradient(90deg, rgba(var(--pv2-accent-rgb), 0.08) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(var(--pv2-accent-rgb), 0.06), transparent 28rem),
+    linear-gradient(90deg, rgba(var(--pv2-accent-rgb), 0.055) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(var(--pv2-accent-rgb), 0.07), transparent 28rem),
     var(--pv2-home-bg);
   background-size: 54px 54px, auto, auto;
 }
@@ -1404,13 +1416,13 @@
 }
 
 .public-v2[data-public-v2-mode="dark"] .pv2-shell {
-  --pv2-home-bg: #0d1012;
-  --pv2-home-bg-soft: #15191d;
-  --pv2-home-surface: #171c21;
-  --pv2-home-surface-strong: #1e242a;
-  --pv2-home-text: #f5f6f1;
-  --pv2-home-muted: #b6bdae;
-  --pv2-home-subtle: #899283;
+  --pv2-home-bg: var(--p-bg);
+  --pv2-home-bg-soft: var(--p-bg-soft);
+  --pv2-home-surface: var(--p-surface);
+  --pv2-home-surface-strong: var(--p-surface-raised);
+  --pv2-home-text: var(--p-text);
+  --pv2-home-muted: var(--p-muted);
+  --pv2-home-subtle: var(--p-subtle);
   --pv2-home-border: rgba(255, 255, 255, 0.09);
   --pv2-home-border-strong: rgba(255, 255, 255, 0.18);
   --pv2-home-shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
@@ -1420,7 +1432,7 @@
   background:
     linear-gradient(90deg, rgba(var(--pv2-accent-rgb), 0.1) 1px, transparent 1px),
     linear-gradient(180deg, rgba(var(--pv2-accent-rgb), 0.12), transparent 28rem),
-    #0d1110;
+    #17120f;
   background-size: 54px 54px, auto, auto;
 }
 
@@ -1701,7 +1713,7 @@
 }
 
 .public-v2 .pv2-home-proofline div,
-.public-v2 .pv2-home-graphite__tracks article,
+.public-v2 .pv2-home-warm__tracks article,
 .public-v2 .pv2-home-quote-panel,
 .public-v2 .pv2-home-form {
   background: var(--pv2-home-surface);
@@ -1937,17 +1949,17 @@
   font-family: var(--p-font-mono);
 }
 
-.public-v2 .pv2-home-graphite .pv2-home-section {
+.public-v2 .pv2-home-warm .pv2-home-section {
   border-left: 1px solid rgba(var(--pv2-accent-rgb), 0.28);
   padding-left: 1rem;
 }
 
-.public-v2 .pv2-home-graphite .pv2-home-section__head {
+.public-v2 .pv2-home-warm .pv2-home-section__head {
   border-top: 1px solid var(--pv2-home-border);
   padding-top: 0.9rem;
 }
 
-.public-v2 .pv2-home-graphite .pv2-home-graphite__copy h1 {
+.public-v2 .pv2-home-warm .pv2-home-warm__copy h1 {
   color: var(--pv2-home-text);
   font-size: 2rem;
   font-weight: 940;
@@ -1957,7 +1969,7 @@
   max-width: 17ch;
 }
 
-.public-v2 .pv2-home-graphite__copy > p:not(.pv2-eyebrow) {
+.public-v2 .pv2-home-warm__copy > p:not(.pv2-eyebrow) {
   color: var(--pv2-home-muted);
   font-size: 0.98rem;
   font-weight: 650;
@@ -1966,11 +1978,11 @@
   max-width: 56ch;
 }
 
-.public-v2 .pv2-home-graphite__media .pv2-home-media {
+.public-v2 .pv2-home-warm__media .pv2-home-media {
   min-height: 520px;
 }
 
-.public-v2 .pv2-home-graphite__media aside {
+.public-v2 .pv2-home-warm__media aside {
   background: #151914;
   border: 1px solid rgba(var(--pv2-accent-rgb), 0.36);
   border-radius: var(--pv2-home-radius-lg);
@@ -1978,8 +1990,8 @@
   padding: 1.2rem;
 }
 
-.public-v2 .pv2-home-graphite__media aside span,
-.public-v2 .pv2-home-graphite__media aside p {
+.public-v2 .pv2-home-warm__media aside span,
+.public-v2 .pv2-home-warm__media aside p {
   color: rgba(245, 246, 239, 0.68);
   font-size: 0.78rem;
   font-weight: 760;
@@ -1987,20 +1999,20 @@
   margin: 0;
 }
 
-.public-v2 .pv2-home-graphite__media aside strong {
+.public-v2 .pv2-home-warm__media aside strong {
   font-size: 1.35rem;
   font-weight: 930;
   line-height: 1.05;
 }
 
-.public-v2 .pv2-home-graphite__tracks span {
+.public-v2 .pv2-home-warm__tracks span {
   color: var(--pv2-accent);
   font-family: var(--p-font-mono);
   font-size: 0.72rem;
   font-weight: 900;
 }
 
-.public-v2 .pv2-home-graphite__tracks h3 {
+.public-v2 .pv2-home-warm__tracks h3 {
   color: var(--pv2-home-text);
   font-size: 1rem;
   font-weight: 900;
@@ -2008,21 +2020,21 @@
   margin: 0;
 }
 
-.public-v2 .pv2-home-graphite__category-grid article {
+.public-v2 .pv2-home-warm__category-grid article {
   background: var(--pv2-home-surface);
   border: 1px solid var(--pv2-home-border);
   border-radius: var(--pv2-home-radius-lg);
 }
 
-.public-v2 .pv2-home-graphite__category-grid span,
-.public-v2 .pv2-home-graphite__category-grid small {
+.public-v2 .pv2-home-warm__category-grid span,
+.public-v2 .pv2-home-warm__category-grid small {
   color: var(--pv2-home-subtle);
   font-family: var(--p-font-mono);
   font-size: 0.68rem;
   font-weight: 850;
 }
 
-.public-v2 .pv2-home-graphite__category-grid h3 {
+.public-v2 .pv2-home-warm__category-grid h3 {
   color: var(--pv2-home-text);
   font-size: 1rem;
   font-weight: 900;
@@ -2063,11 +2075,11 @@
   color: var(--pv2-accent);
 }
 
-.public-v2 .pv2-home-graphite__showroom .pv2-eyebrow {
+.public-v2 .pv2-home-warm__showroom .pv2-eyebrow {
   color: rgba(var(--pv2-accent-rgb), 0.72);
 }
 
-.public-v2 .pv2-home-graphite__showroom h2 {
+.public-v2 .pv2-home-warm__showroom h2 {
   font-size: 1.12rem;
   line-height: 1.12;
   max-width: 29ch;
@@ -2142,15 +2154,15 @@
   text-transform: uppercase;
 }
 
-.public-v2 .pv2-home-graphite {
+.public-v2 .pv2-home-warm {
   padding-top: 2.6rem;
 }
 
-.public-v2 .pv2-home-graphite .pv2-home-graphite__category-grid article {
+.public-v2 .pv2-home-warm .pv2-home-warm__category-grid article {
   transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
 }
 
-.public-v2 .pv2-home-graphite .pv2-home-graphite__category-grid article:hover {
+.public-v2 .pv2-home-warm .pv2-home-warm__category-grid article:hover {
   border-color: rgba(var(--pv2-accent-rgb), 0.38);
   box-shadow: 0 18px 42px rgba(20, 23, 18, 0.1);
   transform: translateY(-1px);
@@ -3011,7 +3023,7 @@
     padding-top: 1.2rem;
   }
 
-  .public-v2 .pv2-home-graphite .pv2-home-graphite__copy h1 {
+  .public-v2 .pv2-home-warm .pv2-home-warm__copy h1 {
     font-size: 1.82rem;
   }
 
@@ -3020,7 +3032,7 @@
     font-size: 1.12rem;
   }
 
-  .public-v2 .pv2-home-graphite__media .pv2-home-media {
+  .public-v2 .pv2-home-warm__media .pv2-home-media {
     min-height: 270px;
   }
 
@@ -3039,7 +3051,7 @@
     font-size: 0.62rem;
   }
 
-  .public-v2 .pv2-home-graphite .pv2-home-graphite__copy h1 {
+  .public-v2 .pv2-home-warm .pv2-home-warm__copy h1 {
     font-size: 1.62rem;
   }
 

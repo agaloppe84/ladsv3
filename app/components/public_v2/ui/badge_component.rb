@@ -3,10 +3,13 @@
 class PublicV2::Ui::BadgeComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
+  VARIANTS = %i[neutral accent service success warning destock danger].freeze
+  SIZES = %i[sm md lg].freeze
+
   def initialize(label:, variant: :neutral, size: :md, classes: nil)
     @label = label
-    @variant = variant
-    @size = size
+    @variant = normalize_option(variant, VARIANTS, :neutral)
+    @size = normalize_option(size, SIZES, :md)
     @classes = classes
   end
 
@@ -23,5 +26,10 @@ class PublicV2::Ui::BadgeComponent < ViewComponent::Base
       debug_class,
       classes
     ].compact.join(" ")
+  end
+
+  def normalize_option(value, allowed_values, fallback)
+    normalized_value = value.to_s.to_sym
+    allowed_values.include?(normalized_value) ? normalized_value : fallback
   end
 end

@@ -11,7 +11,7 @@ class PublicV2::Home::ShowroomSectionComponent < ViewComponent::Base
 
   def component_classes
     [
-      "pv2-home-section pv2-home-graphite__showroom",
+      "pv2-home-section pv2-home-warm__showroom",
       "grid w-full min-w-0 grid-cols-1 items-center gap-4 min-[1121px]:grid-cols-[minmax(0,.8fr)_minmax(320px,.7fr)]",
       debug_class
     ].compact.join(" ")

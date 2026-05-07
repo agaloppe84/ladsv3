@@ -18,7 +18,7 @@ class PublicV2::Home::ProductRowsSectionComponent < ViewComponent::Base
 
   def component_classes
     [
-      "pv2-home-section pv2-home-graphite__specs",
+      "pv2-home-section pv2-home-warm__specs",
       "grid w-full min-w-0 gap-5",
       debug_class
     ].compact.join(" ")
