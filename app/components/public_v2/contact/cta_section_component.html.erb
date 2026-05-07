@@ -1,6 +1,23 @@
-<%= render PublicV2::Content::CtaBandComponent.new(
-  kicker: "Projet deja identifie ?",
-  title: "Envoyez les premieres informations, l'equipe reprend contact.",
-  action_label: "Demander un devis",
-  action_path: public_v2_new_quote_path
-) %>
+<%= tag.section class: component_classes, data: debug_data do %>
+  <%= render PublicV2::Ui::ActionDockComponent.new(
+    kicker: "Projet deja identifie ?",
+    title: "Envoyez les premieres infos, on reprend le cadrage.",
+    text: "Une photo, une dimension ou un produit repere suffit pour demarrer une demande utile.",
+    primary_label: "Demander un devis",
+    primary_path: public_v2_new_quote_path,
+    secondary_label: "Appeler",
+    secondary_path: contact_page.contact_info.phone_href,
+    meta: "Stores, volets, portes de garage, moustiquaires, pergolas et protections solaires.",
+    variant: :flashy,
+    debug: debug?
+  ) %>
+
+  <%= render PublicV2::Ui::SummaryBoxComponent.new(
+    kicker: "Familles traitees",
+    title: "Du conseil au suivi.",
+    text: "Le showroom et l'equipe terrain couvrent les grandes familles du catalogue.",
+    items: contact_page.family_names,
+    variant: :outline,
+    debug: debug?
+  ) %>
+<% end %>

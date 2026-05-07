@@ -3,22 +3,19 @@
 class PublicV2::Contact::ShowroomSectionComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
-  SHOWROOM_POINTS = [
-    "Comparer les familles produits et les niveaux de finition.",
-    "Voir les materiaux, les coloris et les mecanismes.",
-    "Preparer une demande de devis avec les bonnes informations."
-  ].freeze
+  def initialize(contact_page:, debug: false)
+    @contact_page = contact_page
+    @debug = debug
+  end
 
   private
 
-  def showroom_points
-    SHOWROOM_POINTS
-  end
+  attr_reader :contact_page
 
   def component_classes
     [
-      "pv2-contact-showroom",
-      "grid w-full min-w-0 grid-cols-1 items-center gap-4 p-4 min-[1121px]:grid-cols-[minmax(360px,.72fr)_minmax(0,1fr)]",
+      "pv2-contact-showroom pv2-contact-showroom-v2",
+      "grid w-full min-w-0 grid-cols-1 items-stretch gap-4 min-[1121px]:grid-cols-[minmax(360px,.62fr)_minmax(0,.82fr)]",
       debug_class
     ].compact.join(" ")
   end

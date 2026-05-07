@@ -1,25 +1,54 @@
 <%= tag.section class: component_classes, data: debug_data, aria: { label: "Coordonnees et acces" } do %>
-  <div class="pv2-contact-cards grid min-w-0 grid-cols-1 gap-3 min-[821px]:grid-cols-2">
-    <% contact_cards.each do |card| %>
-      <%= render PublicV2::Content::InfoCardComponent.new(
-        label: card[:label],
-        title: card[:title],
-        text: card[:text],
-        path: card[:path]
-      ) %>
+  <div class="grid min-w-0 gap-4">
+    <%= render PublicV2::Ui::PanelComponent.new(
+      kicker: "Coordonnees",
+      title: "Les bons canaux selon votre besoin.",
+      text: "Telephone pour cadrer vite, email pour envoyer des photos, showroom pour comparer les solutions avant decision.",
+      variant: :outline,
+      classes: "pv2-contact-details-v2__panel",
+      debug: debug?
+    ) do %>
+      <div class="pv2-contact-cards grid min-w-0 grid-cols-1 gap-3 min-[721px]:grid-cols-2">
+        <% contact_page.contact_cards.each do |card| %>
+          <%= render PublicV2::Content::InfoCardComponent.new(
+            label: card[:label],
+            title: card[:title],
+            text: card[:text],
+            path: card[:path]
+          ) %>
+        <% end %>
+      </div>
     <% end %>
+
+    <%= render PublicV2::Ui::StepRailComponent.new(
+      steps: contact_page.visit_steps,
+      label: "Parcours contact",
+      variant: :compact,
+      classes: "pv2-contact-details-v2__steps",
+      debug: debug?
+    ) %>
   </div>
 
-  <div class="pv2-contact-map">
-    <iframe
-      src="<%= map_src %>"
-      width="100%"
-      height="100%"
-      style="border:0;"
-      allowfullscreen=""
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"
-      title="Carte Les Artisans du Store a L'Arbresle"
-    ></iframe>
-  </div>
+  <aside class="grid min-w-0 gap-3">
+    <div class="pv2-contact-map <%= debug_class %>" <%= debug_attributes %>>
+      <iframe
+        src="<%= contact_page.map_src %>"
+        width="100%"
+        height="100%"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Carte Les Artisans du Store a L'Arbresle"
+      ></iframe>
+    </div>
+
+    <%= render PublicV2::Ui::IconListComponent.new(
+      items: contact_page.visit_items,
+      label: "Avant de passer",
+      variant: :soft,
+      classes: "pv2-contact-details-v2__prep",
+      debug: debug?
+    ) %>
+  </aside>
 <% end %>

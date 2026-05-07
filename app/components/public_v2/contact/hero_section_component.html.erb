@@ -1,9 +1,54 @@
-<%= render PublicV2::Content::HeroComponent.new(
-  kicker: "Contact showroom",
-  title: "Voir les solutions, parler du projet, cadrer le devis.",
-  text: "Le showroom de L'Arbresle permet de comparer les produits, les mecanismes, les toiles et les finitions avant de lancer une demande.",
-  panel_label: "Contact direct",
-  panel_value: contact_info.phone,
-  panel_text: contact_info.hours_text,
-  classes: "pv2-contact-hero"
-) %>
+<%= tag.section class: component_classes, data: debug_data do %>
+  <div class="pv2-contact-hero-v2__layout grid min-w-0 items-stretch gap-4 min-[1121px]:grid-cols-[minmax(0,0.72fr)_minmax(330px,0.52fr)]">
+    <div class="grid min-w-0 gap-3">
+      <%= render PublicV2::Ui::SpotlightPanelComponent.new(
+        kicker: "Contact et showroom",
+        title: "Parler du projet avant de figer le devis.",
+        text: "Le showroom de L'Arbresle sert a voir les produits, comparer les finitions et cadrer les contraintes avec une equipe terrain.",
+        variant: :soft,
+        size: :md,
+        classes: "pv2-contact-hero-v2__lead",
+        debug: debug?
+      ) do %>
+        <div class="flex flex-wrap gap-2">
+          <%= render PublicV2::Ui::ButtonComponent.new(label: "Appeler", path: contact_page.contact_info.phone_href, variant: :primary, size: :sm, debug: debug?) %>
+          <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: public_v2_new_quote_path, variant: :secondary, size: :sm, debug: debug?) %>
+        </div>
+      <% end %>
+
+      <%= render PublicV2::Ui::ProofRailComponent.new(
+        items: contact_page.hero_proof_items,
+        label: "Contact utile",
+        variant: :soft,
+        debug: debug?
+      ) %>
+    </div>
+
+    <aside class="grid min-w-0 gap-3">
+      <div class="pv2-contact-hero-v2__media">
+        <%= render PublicV2::Ui::MediaFrameComponent.new(
+          image: contact_page.hero_image,
+          alt: "Showroom Les Artisans du Store",
+          ratio: :wide,
+          loading: "eager",
+          classes: "h-full min-h-full",
+          debug: debug?
+        ) %>
+      </div>
+
+      <%= render PublicV2::Ui::ActionDockComponent.new(
+        kicker: "Showroom L'Arbresle",
+        title: contact_page.contact_info.phone,
+        text: contact_page.contact_info.hours_text,
+        primary_label: "Telephone",
+        primary_path: contact_page.contact_info.phone_href,
+        secondary_label: "Email",
+        secondary_path: contact_page.contact_info.email_href,
+        meta: contact_page.contact_info.full_address,
+        variant: :soft,
+        classes: "pv2-contact-hero-v2__dock",
+        debug: debug?
+      ) %>
+    </aside>
+  </div>
+<% end %>

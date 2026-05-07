@@ -1,19 +1,34 @@
 <%= tag.section class: component_classes, data: debug_data do %>
-  <div class="pv2-home-media">
-    <%= render PublicV2::Ui::MediaFrameComponent.new(image: "magasin-04.jpeg", alt: "Showroom Les Artisans du Store") %>
+  <div class="pv2-contact-showroom-v2__media">
+    <%= render PublicV2::Ui::MediaFrameComponent.new(
+      image: contact_page.showroom_image,
+      alt: "Showroom technique Les Artisans du Store",
+      ratio: :wide,
+      classes: "h-full min-h-full",
+      debug: debug?
+    ) %>
   </div>
-  <div>
-    <p class="pv2-eyebrow">Avant le devis</p>
-    <h2>Un lieu utile pour choisir sans se tromper.</h2>
-    <p>
-      Les produits de fermeture et de protection solaire ont beaucoup de details
-      invisibles en ligne : motorisation, toile, coffre, pose, exposition, vent,
-      passage et entretien. Le showroom aide a valider ces points avant le chiffrage.
-    </p>
-    <ul>
-      <% showroom_points.each do |point| %>
-        <li><%= point %></li>
-      <% end %>
-    </ul>
-  </div>
+
+  <%= render PublicV2::Ui::PanelComponent.new(
+    kicker: "Showroom technique",
+    title: "Voir les details qui changent le devis.",
+    text: "Motorisation, toile, coffre, rail, tablier, exposition, pose : le showroom rend visibles les choix qui comptent vraiment.",
+    variant: :soft,
+    padding: :lg,
+    classes: "pv2-contact-showroom-v2__copy h-full",
+    debug: debug?
+  ) do %>
+    <%= render PublicV2::Ui::ComparisonStripComponent.new(
+      items: contact_page.showroom_context_items,
+      label: "A comparer sur place",
+      variant: :compact,
+      debug: debug?
+    ) %>
+
+    <%= render PublicV2::Ui::TrustClusterComponent.new(
+      items: contact_page.trust_items,
+      variant: :compact,
+      debug: debug?
+    ) %>
+  <% end %>
 <% end %>

@@ -23,6 +23,7 @@ class PublicV2::PagesController < PublicV2::BaseController
   end
 
   def contact
+    @contact_page = build_contact_page
   end
 
   private
@@ -54,6 +55,13 @@ class PublicV2::PagesController < PublicV2::BaseController
       category_product_counts: product_counts_for(category_ids),
       category_cover_products: category_cover_products_for(category_ids),
       primary_image_resolver: method(:public_v2_primary_image)
+    )
+  end
+
+  def build_contact_page
+    PublicV2::ContactPage.new(
+      categories: public_categories.limit(8).to_a,
+      product_count: public_products.count + public_destock_products.count
     )
   end
 

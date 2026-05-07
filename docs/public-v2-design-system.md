@@ -660,4 +660,5 @@ Pages deja reconstruites sur Warm System :
 - home ;
 - categories/index ;
 - product/show ;
-- devis.
+- devis ;
+- contact.
