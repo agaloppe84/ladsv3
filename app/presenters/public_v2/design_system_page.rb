@@ -12,13 +12,13 @@ class PublicV2::DesignSystemPage
 
   KIT_SECTIONS = [
     { id: "public-v2-kit-foundations", label: "Fondations", number: "01" },
-    { id: "public-v2-kit-layout", label: "Layout", number: "02" },
+    { id: "public-v2-kit-primitives", label: "Primitives", number: "02" },
     { id: "public-v2-kit-navigation", label: "Navigation", number: "03" },
     { id: "public-v2-kit-content", label: "Contenu", number: "04" },
-    { id: "public-v2-kit-products", label: "Produits", number: "05" },
-    { id: "public-v2-kit-forms", label: "Formulaires", number: "06" },
-    { id: "public-v2-kit-feedback", label: "Etats", number: "07" },
-    { id: "public-v2-kit-motion", label: "Motion", number: "08" },
+    { id: "public-v2-kit-business", label: "Metier", number: "05" },
+    { id: "public-v2-kit-products", label: "Produits", number: "06" },
+    { id: "public-v2-kit-forms", label: "Formulaires", number: "07" },
+    { id: "public-v2-kit-feedback", label: "Etats", number: "08" },
     { id: "public-v2-kit-components", label: "ViewComponents", number: "09" }
   ].freeze
 
@@ -96,7 +96,7 @@ class PublicV2::DesignSystemPage
   COMPONENT_INVENTORY = [
     ["Layout Rails", "app/views/layouts/public_v2.html.erb", "Shell global Public V2 avec tokens, navbar, event banner, contenu et footer."],
     ["Service", "PublicV2::ContactInfo", "Source unique des coordonnees, liens contact, preuve footer, horaires et map showroom."],
-    ["Layout", "PublicV2::Layout::NavbarComponent", "Logo, liens, telephone, menu mobile, etat actif et controles theme."],
+    ["Layout", "PublicV2::Layout::NavbarComponent", "Logo, liens, telephone, menu mobile, etat actif et controle clair/sombre."],
     ["Layout", "PublicV2::Layout::FooterComponent", "Coordonnees, horaires, preuves et liens utiles."],
     ["Content", "PublicV2::Content::HeroComponent", "Kicker, H1, lead, panel preuve et actions."],
     ["Content", "PublicV2::Content::SectionHeaderComponent", "En-tetes de sections home et standard."],
@@ -201,6 +201,21 @@ class PublicV2::DesignSystemPage
     categories.first(4)
   end
 
+  def product_family_samples
+    source_categories = sample_categories
+    return fallback_product_families if source_categories.blank?
+
+    source_categories.each_with_index.map do |category, index|
+      {
+        kicker: format("%02d", index + 1),
+        title: category.name,
+        text: category.description.to_s.squish.presence || "Comparer les usages, options et contraintes avant devis.",
+        meta: "Famille produit",
+        path: path_builder.call(:categories)
+      }
+    end
+  end
+
   def sample_option_items
     source_options = featured_product&.options.to_a
     source_options = fallback_option_texts.map { |content| OptionPreview.new(content: content) } if source_options.blank?
@@ -258,6 +273,15 @@ class PublicV2::DesignSystemPage
       "Manoeuvre manuelle ou motorisation radio.",
       "Largeur sur mesure apres prise de cotes.",
       "Options : eclairage, automatisme vent/soleil, domotique."
+    ]
+  end
+
+  def fallback_product_families
+    [
+      { kicker: "01", title: "Stores", text: "Protection solaire, toile, motorisation.", meta: "Terrasse et baie", path: path_builder.call(:categories) },
+      { kicker: "02", title: "Volets", text: "Fermeture, confort, securite.", meta: "Habitat", path: path_builder.call(:categories) },
+      { kicker: "03", title: "Pergolas", text: "Structure, ombre, usage exterieur.", meta: "Exterieur", path: path_builder.call(:categories) },
+      { kicker: "04", title: "Moustiquaires", text: "Ventilation, confort, discret.", meta: "Fenetre", path: path_builder.call(:categories) }
     ]
   end
 end
