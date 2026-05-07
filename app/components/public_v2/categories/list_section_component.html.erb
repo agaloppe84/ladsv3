@@ -1,4 +1,12 @@
 <%= tag.section id: "produits", class: component_classes, data: debug_data do %>
+  <%= render PublicV2::Content::SectionHeaderComponent.new(
+    kicker: "Catalogue",
+    title: "Les familles a comparer.",
+    text: "Chaque bloc garde les produits visibles, les usages courants et une image repere pour passer rapidement du catalogue au devis.",
+    variant: :home,
+    debug: debug?
+  ) %>
+
   <% sections.each do |section| %>
     <%= render PublicV2::Products::CategoryBlockComponent.new(
       category: section.category,
@@ -11,7 +19,7 @@
       product_paths: section.product_paths,
       product_images: section.product_images,
       empty_message: section.empty_message,
-      classes: "pv2-category-block--index"
+      classes: "pv2-category-block--index pv2-category-block--premium"
     ) %>
   <% end %>
 <% end %>

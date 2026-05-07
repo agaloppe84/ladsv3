@@ -1,9 +1,50 @@
-<%= render PublicV2::Content::HeroComponent.new(
-  kicker: category_index_page.hero_kicker,
-  title: category_index_page.hero_title,
-  text: category_index_page.hero_text,
-  panel_label: category_index_page.hero_panel_label,
-  panel_value: category_index_page.category_count,
-  panel_text: category_index_page.hero_panel_text,
-  classes: "pv2-public-index__hero"
-) %>
+<%= tag.section class: component_classes, data: debug_data do %>
+  <div class="pv2-public-index-hero-v2__layout grid min-w-0 items-stretch gap-4 min-[1121px]:grid-cols-[minmax(0,0.78fr)_minmax(320px,0.52fr)]">
+    <div class="grid min-w-0 gap-3">
+      <%= render PublicV2::Ui::SpotlightPanelComponent.new(
+        kicker: category_index_page.hero_kicker,
+        title: category_index_page.hero_title,
+        text: category_index_page.hero_text,
+        variant: :soft,
+        size: :md,
+        classes: "pv2-public-index-hero-v2__lead",
+        debug: debug?
+      ) do %>
+        <div class="flex flex-wrap gap-2">
+          <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: public_v2_new_quote_path, variant: :primary, size: :sm, debug: debug?) %>
+          <%= render PublicV2::Ui::ButtonComponent.new(label: "Voir les familles", path: "#produits", variant: :secondary, size: :sm, debug: debug?) %>
+        </div>
+      <% end %>
+
+      <%= render PublicV2::Ui::ProofRailComponent.new(
+        items: category_index_page.hero_proof_items,
+        label: category_index_page.hero_panel_label,
+        variant: :soft,
+        debug: debug?
+      ) %>
+    </div>
+
+    <aside class="grid min-w-0 gap-3">
+      <div class="pv2-public-index-hero-v2__media">
+        <%= render PublicV2::Ui::MediaFrameComponent.new(
+          image: category_index_page.hero_image,
+          alt: category_index_page.hero_alt,
+          ratio: :wide,
+          loading: "eager",
+          classes: "h-full min-h-full",
+          debug: debug?
+        ) %>
+      </div>
+
+      <%= render PublicV2::Ui::PanelComponent.new(
+        kicker: "Conseil showroom",
+        title: "Partir de l'usage, pas seulement du produit.",
+        variant: :outline,
+        padding: :sm,
+        debug: debug?
+      ) do %>
+        <p><%= category_index_page.hero_panel_text %></p>
+      <% end %>
+    </aside>
+  </div>
+<% end %>

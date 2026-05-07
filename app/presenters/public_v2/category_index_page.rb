@@ -54,23 +54,63 @@ class PublicV2::CategoryIndexPage
   end
 
   def hero_title
-    "Choisir la bonne solution."
+    "Comparer les familles avant devis."
   end
 
   def hero_text
-    "Stores, volets, portes, moustiquaires et pergolas : les familles sont regroupees pour comparer les usages, les produits et les options utiles."
+    "Stores, volets, portes, moustiquaires et pergolas : chaque famille aide a cadrer l'usage, la pose et les options utiles avant de demander un prix."
   end
 
   def hero_panel_label
-    "Familles"
+    "Catalogue guide"
   end
 
   def hero_panel_text
-    "Des solutions visibles au showroom, avec conseil et pose."
+    "Des familles lisibles, des produits reperes et un conseil showroom pour eviter le mauvais choix."
   end
 
   def cta_title
-    "Parlez-nous du projet."
+    "Un doute entre deux familles ?"
+  end
+
+  def hero_image
+    sections.find { |section| section.cover_image.present? }&.cover_image || "magasin-04.jpeg"
+  end
+
+  def hero_alt
+    "Showroom Les Artisans du Store"
+  end
+
+  def hero_proof_items
+    [
+      { value: category_count, label: "Familles", text: "Pour partir du bon usage." },
+      { value: "48h", label: "Retour devis", text: "Premier cadrage commercial." },
+      { value: "200m2", label: "Showroom", text: "Comparer les solutions." }
+    ]
+  end
+
+  def guide_steps
+    [
+      { kicker: "01", title: "Usage", text: "Soleil, fermeture, confort ou securite." },
+      { kicker: "02", title: "Contrainte", text: "Pose, dimensions, exposition, existant." },
+      { kicker: "03", title: "Solution", text: "Produit, options et niveau de devis." }
+    ]
+  end
+
+  def trust_items
+    [
+      { value: "Conseil", label: "Lecture metier", text: "On part du besoin reel." },
+      { value: "Pose", label: "Equipe terrain", text: "La solution reste installable." },
+      { value: "SAV", label: "Suivi local", text: "Un interlocuteur apres chantier." }
+    ]
+  end
+
+  def comparison_items
+    [
+      { kicker: "Exterieur", title: "Ombre et chaleur", text: "Stores, pergolas, screens.", points: ["Terrasse", "Baie", "Soleil"] },
+      { kicker: "Habitat", title: "Fermer et isoler", text: "Volets et portes de garage.", points: ["Securite", "Confort", "Moteur"] },
+      { kicker: "Quotidien", title: "Ventiler et proteger", text: "Moustiquaires et stores interieurs.", points: ["Fenetre", "Lumiere", "Discret"] }
+    ]
   end
 
   def sections

@@ -3,7 +3,7 @@
 
 <main class="pv2-public-page pv2-public-index grid gap-12">
   <%= render PublicV2::Categories::HeroSectionComponent.new(category_index_page: @category_index_page) %>
-  <%= render PublicV2::Categories::SummarySectionComponent.new %>
-  <%= render PublicV2::Categories::ListSectionComponent.new(sections: @category_index_page.sections) %>
+  <%= render PublicV2::Categories::SummarySectionComponent.new(category_index_page: @category_index_page) %>
+  <%= render PublicV2::Categories::ListSectionComponent.new(sections: @category_index_page.sections, category_index_page: @category_index_page) %>
   <%= render PublicV2::Categories::CtaSectionComponent.new(category_index_page: @category_index_page) %>
 </main>

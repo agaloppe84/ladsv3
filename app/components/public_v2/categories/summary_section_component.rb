@@ -3,22 +3,18 @@
 class PublicV2::Categories::SummarySectionComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
-  STATS = [
-    ["Showroom", "200m2", "Voir les mecanismes, les toiles et les finitions avant de choisir."],
-    ["Devis", "48h", "Premier retour pour cadrer produit, dimensions et contraintes."],
-    ["Pose", "35 ans", "Experience terrain, prise de cotes, installation et SAV."]
-  ].freeze
+  def initialize(category_index_page:)
+    @category_index_page = category_index_page
+  end
 
   private
 
-  def stats
-    STATS
-  end
+  attr_reader :category_index_page
 
   def component_classes
     [
       "pv2-public-index__summary",
-      "grid w-full min-w-0 grid-cols-1 gap-3 min-[821px]:grid-cols-3",
+      "grid w-full min-w-0 gap-4 min-[1121px]:grid-cols-[minmax(0,0.65fr)_minmax(0,0.55fr)]",
       debug_class
     ].compact.join(" ")
   end

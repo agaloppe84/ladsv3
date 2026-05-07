@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class PublicV2::Categories::HeroSectionComponent < ViewComponent::Base
+  include PublicV2::Debuggable
+
   def initialize(category_index_page:)
     @category_index_page = category_index_page
   end
@@ -8,4 +10,12 @@ class PublicV2::Categories::HeroSectionComponent < ViewComponent::Base
   private
 
   attr_reader :category_index_page
+
+  def component_classes
+    [
+      "pv2-public-index__hero pv2-public-index-hero-v2",
+      "grid w-full min-w-0 gap-4",
+      debug_class
+    ].compact.join(" ")
+  end
 end

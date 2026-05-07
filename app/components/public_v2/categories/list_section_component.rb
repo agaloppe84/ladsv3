@@ -3,13 +3,14 @@
 class PublicV2::Categories::ListSectionComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
-  def initialize(sections:)
+  def initialize(sections:, category_index_page:)
     @sections = sections
+    @category_index_page = category_index_page
   end
 
   private
 
-  attr_reader :sections
+  attr_reader :sections, :category_index_page
 
   def component_classes
     [

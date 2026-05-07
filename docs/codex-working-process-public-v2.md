@@ -71,6 +71,7 @@ Structure actuelle :
 - CSS dedie `app/assets/stylesheets/public_v2.css` ;
 - entree JS `app/javascript/public_v2/application.js`.
 - home Public V2 reconstruite sur Warm System avec hero devis compact, preuves, parcours client, familles produit et CTA devis factorises.
+- categories/index reconstruite sur Warm System avec hero catalogue guide, comparaison par besoin, methode de choix, blocs familles et CTA devis.
 
 Routes Public V2 actives :
 

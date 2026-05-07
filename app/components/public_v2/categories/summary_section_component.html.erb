@@ -1,5 +1,23 @@
 <%= tag.section class: component_classes, data: debug_data, aria: { label: "Synthese catalogue" } do %>
-  <% stats.each do |label, value, text| %>
-    <%= render PublicV2::Ui::StatCardComponent.new(label: label, value: value, text: text) %>
-  <% end %>
+  <%= render PublicV2::Ui::ComparisonStripComponent.new(
+    items: category_index_page.comparison_items,
+    label: "Entrer par besoin",
+    variant: :soft,
+    debug: debug?
+  ) %>
+
+  <div class="grid min-w-0 gap-3">
+    <%= render PublicV2::Ui::StepRailComponent.new(
+      steps: category_index_page.guide_steps,
+      label: "Methode de choix",
+      variant: :rail,
+      debug: debug?
+    ) %>
+
+    <%= render PublicV2::Ui::TrustClusterComponent.new(
+      items: category_index_page.trust_items,
+      variant: :compact,
+      debug: debug?
+    ) %>
+  </div>
 <% end %>

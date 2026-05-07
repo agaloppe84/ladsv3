@@ -1,6 +1,21 @@
-<%= render PublicV2::Content::CtaBandComponent.new(
-  kicker: "Besoin d'aide pour choisir ?",
-  title: category_index_page.cta_title,
-  action_label: "Demander un devis",
-  action_path: public_v2_new_quote_path
-) %>
+<%= tag.section class: component_classes, data: debug_data do %>
+  <%= render PublicV2::Ui::ActionDockComponent.new(
+    kicker: "Aide au choix",
+    title: category_index_page.cta_title,
+    text: "Envoyez quelques infos sur le projet : l'equipe vous aide a choisir la bonne famille, puis le bon niveau d'options.",
+    primary_label: "Demander un devis",
+    primary_path: public_v2_new_quote_path,
+    secondary_label: "Voir le showroom",
+    secondary_path: public_v2_contact_path,
+    meta: "Un premier retour permet de cadrer le produit avant d'affiner.",
+    variant: :soft,
+    debug: debug?
+  ) %>
+
+  <%= render PublicV2::Ui::ProofRailComponent.new(
+    items: category_index_page.hero_proof_items,
+    label: "Pour avancer",
+    variant: :compact,
+    debug: debug?
+  ) %>
+<% end %>
