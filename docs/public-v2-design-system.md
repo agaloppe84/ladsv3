@@ -284,6 +284,8 @@ Regles :
 - pas de selection de palette ;
 - pas de selection de police ;
 - CTA visible mais mesure ;
+- pression devis compacte avec signal `48h` ;
+- centre de navigation lisible sur desktop ;
 - mobile simple et stable.
 
 ### FooterComponent
@@ -294,11 +296,13 @@ Role :
 - reassurance ;
 - navigation secondaire ;
 - ancrage local.
+- relance devis en bas de page.
 
 Regles :
 
 - reutilisable en page reelle et dans la reference UI Kit ;
 - `id:` configurable pour eviter les doublons quand le footer est rendu dans une demo.
+- garder une zone devis, une zone preuves, une zone familles et une zone contact.
 
 ### BreadcrumbComponent
 

@@ -3,7 +3,7 @@
 class PublicV2::Layout::NavbarComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
-  def initialize(items: nil, phone: "04 74 01 05 11", show_mode_toggle: true, active_key: nil, classes: nil)
+  def initialize(items: nil, phone: PublicV2::ContactInfo.phone, show_mode_toggle: true, active_key: nil, classes: nil)
     @items = items
     @phone = phone
     @show_mode_toggle = show_mode_toggle
@@ -63,5 +63,17 @@ class PublicV2::Layout::NavbarComponent < ViewComponent::Base
 
   def phone_href
     "tel:#{phone.to_s.delete(" ")}"
+  end
+
+  def quote_path
+    helpers.public_v2_new_quote_path
+  end
+
+  def mobile_contact_items
+    [
+      { label: "Appeler", value: phone, path: phone_href },
+      { label: "Showroom", value: "L'Arbresle", path: helpers.public_v2_contact_path },
+      { label: "Devis", value: "Premier retour 48h", path: quote_path }
+    ]
   end
 end

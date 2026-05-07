@@ -38,6 +38,7 @@ Documents a lire au debut d'un nouveau chat Codex sur Public V2 :
 - Les tests de layouts et explorations temporaires ne doivent pas rester dans le code applicatif final. Si une exploration est necessaire, elle doit etre isolee, nommee explicitement, puis supprimee apres validation.
 - Le mode debug des composants est conserve sur toutes les pages Public V2 pendant la reconstruction.
 - Le debug doit pouvoir s'activer globalement depuis le shell Public V2, sans repasser `debug: true` dans chaque vue.
+- Le shell Public V2 utilise une navbar et un footer Warm System, avec pression devis compacte, mode clair/sombre et zones contact/preuves/familles.
 - Pas de modification DB pour ce chantier.
 - Ne jamais toucher au site public classique ni a l'Admin V2 dans ce sprint.
 

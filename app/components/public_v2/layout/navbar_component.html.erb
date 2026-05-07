@@ -1,24 +1,32 @@
 <%= tag.header class: component_classes, data: debug_data do %>
-  <div class="pv2-public-nav__inner flex min-h-[74px] items-center gap-4 max-[820px]:flex-wrap">
-    <%= link_to public_v2_home_path, class: "pv2-public-brand inline-flex min-w-0 flex-none items-center gap-[0.68rem]", aria: { label: "Accueil Les Artisans du Store" } do %>
+  <div class="pv2-public-nav__inner grid min-h-[76px] grid-cols-[auto_1fr_auto] items-center gap-3 max-[720px]:grid-cols-[1fr_auto]">
+    <%= link_to public_v2_home_path, class: "pv2-public-brand inline-flex min-w-0 items-center gap-[0.68rem]", aria: { label: "Accueil Les Artisans du Store" } do %>
       <span class="pv2-public-brand__mark inline-flex h-[42px] w-[42px] items-center justify-center max-[560px]:h-[38px] max-[560px]:w-[38px]">
         <%= inline_svg_tag("logos/ads-without-text.svg", class: "pv2-public-brand__logo h-[26px] w-[26px]") %>
       </span>
-      <span>
+      <span class="min-w-0">
         <strong>Les Artisans du Store</strong>
         <small>L'Arbresle · Rhône</small>
       </span>
     <% end %>
 
-    <nav class="pv2-public-nav__links ml-auto hidden items-center gap-[0.12rem] min-[1121px]:flex" aria-label="Navigation principale">
-      <% items.each do |item| %>
-        <%= link_to item[:label], item[:path], class: link_classes(item), aria: link_aria(item) %>
-      <% end %>
-    </nav>
+    <div class="pv2-public-nav__center hidden min-w-0 items-center justify-center gap-3 min-[1121px]:flex">
+      <p>Conseil, pose et devis local</p>
+      <nav class="pv2-public-nav__links flex items-center gap-[0.16rem]" aria-label="Navigation principale">
+        <% items.each do |item| %>
+          <%= link_to item[:label], item[:path], class: link_classes(item), aria: link_aria(item) %>
+        <% end %>
+      </nav>
+    </div>
 
-    <div class="pv2-public-nav__actions ml-auto flex flex-none items-center gap-[0.48rem] min-[1121px]:ml-0">
+    <div class="pv2-public-nav__actions flex flex-none items-center justify-end gap-[0.48rem]">
+      <%= link_to quote_path, class: "pv2-public-nav__quote hidden min-[821px]:inline-flex" do %>
+        <span>Devis</span>
+        <strong>48h</strong>
+      <% end %>
+
       <% if phone.present? %>
-        <%= link_to phone, phone_href, class: "pv2-public-phone hidden min-[1121px]:inline-flex" %>
+        <%= link_to phone, phone_href, class: "pv2-public-phone hidden min-[1121px]:inline-flex", aria: { label: "Appeler le showroom au #{phone}" } %>
       <% end %>
 
       <% if show_mode_toggle %>
@@ -26,8 +34,9 @@
           <% dropdown.with_trigger do %>
             <span class="sr-only">Mode d'affichage</span>
             <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 3v2.5M12 18.5V21M4.42 4.42 6.2 6.2M17.8 17.8l1.78 1.78M3 12h2.5M18.5 12H21M4.42 19.58 6.2 17.8M17.8 6.2l1.78-1.78" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.8" />
-              <circle cx="12" cy="12" r="4.2" fill="var(--pv2-accent)" />
+              <path d="M12 3.25v2.4M12 18.35v2.4M5.64 5.64l1.7 1.7M16.66 16.66l1.7 1.7M3.25 12h2.4M18.35 12h2.4M5.64 18.36l1.7-1.7M16.66 7.34l1.7-1.7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.7" />
+              <circle cx="12" cy="12" r="4.15" fill="none" stroke="currentColor" stroke-width="1.7" />
+              <path d="M12 7.85a4.15 4.15 0 0 1 0 8.3Z" fill="var(--pv2-accent)" />
             </svg>
           <% end %>
 
@@ -44,22 +53,30 @@
           <% end %>
         <% end %>
       <% end %>
-    </div>
 
-    <details class="pv2-public-mobile-nav relative block min-[1121px]:hidden">
-      <summary class="grid h-[42px] w-[42px] cursor-pointer items-center justify-center gap-1" aria-label="Ouvrir la navigation">
-        <span></span>
-        <span></span>
-        <span></span>
-      </summary>
-      <div>
-        <% items.each do |item| %>
-          <%= link_to item[:label], item[:path], class: link_classes(item), aria: link_aria(item) %>
-        <% end %>
-        <% if phone.present? %>
-          <%= link_to "Appeler", phone_href %>
-        <% end %>
-      </div>
-    </details>
+      <details class="pv2-public-mobile-nav relative block min-[1121px]:hidden">
+        <summary class="grid h-[42px] w-[42px] cursor-pointer items-center justify-center gap-1" aria-label="Ouvrir la navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </summary>
+        <div>
+          <nav class="grid gap-1" aria-label="Navigation mobile">
+            <% items.each do |item| %>
+              <%= link_to item[:label], item[:path], class: link_classes(item), aria: link_aria(item) %>
+            <% end %>
+          </nav>
+
+          <div class="pv2-public-mobile-nav__cards grid gap-2">
+            <% mobile_contact_items.each do |item| %>
+              <%= link_to item[:path], class: "pv2-public-mobile-nav__card" do %>
+                <span><%= item[:label] %></span>
+                <strong><%= item[:value] %></strong>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </details>
+    </div>
   </div>
 <% end %>
