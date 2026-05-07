@@ -7,7 +7,7 @@ class PublicV2::Products::OptionListComponent < ViewComponent::Base
 
   def initialize(items:, variant: :rail, kicker: nil, title: nil, text: nil, classes: nil, debug: false)
     @items = items
-    @variant = VARIANTS.include?(variant.to_sym) ? variant.to_sym : :rail
+    @variant = normalize_option(variant, VARIANTS, :rail)
     @kicker = kicker
     @title = title
     @text = text
@@ -24,13 +24,13 @@ class PublicV2::Products::OptionListComponent < ViewComponent::Base
   attr_reader :items, :variant, :kicker, :title, :text, :classes
 
   def component_classes
-    [
+    component_class_names(
       "pv2-product-options-list",
       "pv2-product-options-list--#{variant}",
       "grid w-full min-w-0 gap-3",
       debug_class,
       classes
-    ].compact.join(" ")
+    )
   end
 
   def component_data

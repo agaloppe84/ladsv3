@@ -27,10 +27,10 @@ class PublicV2::Home::CategoryGridSectionComponent < ViewComponent::Base
   end
 
   def component_classes
-    [
+    component_class_names(
       "pv2-home-section pv2-home-warm__catalog",
       "grid w-full min-w-0 gap-5",
       debug_class
-    ].compact.join(" ")
+    )
   end
 end

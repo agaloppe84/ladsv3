@@ -15,7 +15,7 @@ class PublicV2::Ui::BreadcrumbComponent < ViewComponent::Base
   attr_reader :items, :label, :classes
 
   def component_classes
-    ["pv2-public-breadcrumb", "pv2-ui-breadcrumb", "flex w-full min-w-0 flex-wrap items-center gap-[0.42rem]", debug_class, classes].compact.join(" ")
+    component_class_names("pv2-public-breadcrumb", "pv2-ui-breadcrumb", "flex w-full min-w-0 flex-wrap items-center gap-[0.42rem]", debug_class, classes)
   end
 
   def last_item?(index)

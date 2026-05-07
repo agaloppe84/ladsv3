@@ -3,10 +3,10 @@
 class PublicV2::Forms::FieldComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
-  def initialize(label:, name:, type: :text, value: nil, placeholder: nil, options: [], rows: 4, hint: nil, error: nil, required: false, disabled: false, readonly: false, classes: nil)
+  def initialize(label:, name:, type: :text, value: nil, placeholder: nil, options: [], rows: 4, hint: nil, error: nil, required: false, disabled: false, readonly: false, classes: nil, debug: false)
     @label = label
     @name = name
-    @type = type
+    @type = type.to_s.presence || "text"
     @value = value
     @placeholder = placeholder
     @options = options
@@ -17,6 +17,7 @@ class PublicV2::Forms::FieldComponent < ViewComponent::Base
     @disabled = disabled
     @readonly = readonly
     @classes = classes
+    @debug = debug
   end
 
   private
@@ -28,13 +29,17 @@ class PublicV2::Forms::FieldComponent < ViewComponent::Base
   end
 
   def component_classes
-    [
+    component_class_names(
       "pv2-ui-field",
       ("pv2-ui-field--invalid" if error.present?),
       "grid w-full min-w-0 gap-[0.35rem]",
       debug_class,
       classes
-    ].compact.join(" ")
+    )
+  end
+
+  def field_kind
+    normalize_option(type, %i[select textarea], :input)
   end
 
   def common_options

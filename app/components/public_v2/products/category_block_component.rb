@@ -3,7 +3,7 @@
 class PublicV2::Products::CategoryBlockComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
-  def initialize(category:, products: [], image: nil, title: nil, text: nil, kicker: nil, tags: [], product_paths: {}, product_images: {}, empty_message: nil, classes: nil)
+  def initialize(category:, products: [], image: nil, title: nil, text: nil, kicker: nil, tags: [], product_paths: {}, product_images: {}, empty_message: nil, classes: nil, debug: false)
     @category = category
     @products = products
     @image = image
@@ -15,6 +15,7 @@ class PublicV2::Products::CategoryBlockComponent < ViewComponent::Base
     @product_images = product_images
     @empty_message = empty_message
     @classes = classes
+    @debug = debug
   end
 
   private
@@ -22,7 +23,7 @@ class PublicV2::Products::CategoryBlockComponent < ViewComponent::Base
   attr_reader :category, :products, :image, :title, :text, :kicker, :tags, :product_paths, :product_images, :empty_message, :classes
 
   def component_classes
-    ["pv2-category-block", "pv2-ui-category-block", "grid w-full min-w-0 gap-4 p-4", debug_class, classes].compact.join(" ")
+    component_class_names("pv2-category-block", "pv2-ui-category-block", "grid w-full min-w-0 gap-4 p-4", debug_class, classes)
   end
 
   def category_name

@@ -7,19 +7,25 @@ export default class extends Controller {
 
   connect() {
     const mode = this.storedMode || this.element.dataset.publicV2Mode || "light"
-    this.applyMode(mode)
-    this.syncModeButtons(mode)
+    const normalizedMode = this.applyMode(mode)
+    this.syncModeButtons(normalizedMode)
   }
 
   selectMode(event) {
     const mode = event.currentTarget.dataset.mode
-    this.applyMode(mode)
-    this.storeMode(mode)
-    this.syncModeButtons(mode)
+    const normalizedMode = this.applyMode(mode)
+    this.storeMode(normalizedMode)
+    this.syncModeButtons(normalizedMode)
   }
 
   applyMode(mode) {
-    this.element.dataset.publicV2Mode = mode === "dark" ? "dark" : "light"
+    const normalizedMode = mode === "dark" ? "dark" : "light"
+
+    this.element.dataset.publicV2Mode = normalizedMode
+    this.element.classList.toggle("dark", normalizedMode === "dark")
+    this.element.style.colorScheme = normalizedMode
+
+    return normalizedMode
   }
 
   syncModeButtons(mode) {
@@ -34,7 +40,7 @@ export default class extends Controller {
 
   storeMode(mode) {
     try {
-      window.localStorage.setItem(this.constructor.storageKey, mode)
+      window.localStorage.setItem(this.constructor.storageKey, mode === "dark" ? "dark" : "light")
     } catch (_error) {
       // Local storage can be unavailable in private contexts.
     }

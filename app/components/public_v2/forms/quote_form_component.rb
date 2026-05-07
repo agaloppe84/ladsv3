@@ -19,7 +19,7 @@ class PublicV2::Forms::QuoteFormComponent < ViewComponent::Base
   end
 
   def component_classes
-    ["pv2-quote-form", "grid w-full min-w-0 gap-4", debug_class].compact.join(" ")
+    component_class_names("pv2-quote-form", "grid w-full min-w-0 gap-4", debug_class)
   end
 
   def component_data

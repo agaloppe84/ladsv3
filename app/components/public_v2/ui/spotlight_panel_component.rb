@@ -15,9 +15,9 @@ class PublicV2::Ui::SpotlightPanelComponent < ViewComponent::Base
     @title = title
     @text = text
     @id = id
-    @variant = VARIANTS.include?(variant.to_sym) ? variant.to_sym : :soft
-    @size = SIZES.include?(size.to_sym) ? size.to_sym : :md
-    @html_tag = TAGS.include?(tag.to_sym) ? tag.to_sym : :section
+    @variant = normalize_option(variant, VARIANTS, :soft)
+    @size = normalize_option(size, SIZES, :md)
+    @html_tag = normalize_option(tag, TAGS, :section)
     @data = data
     @classes = classes
     @debug = debug
@@ -28,14 +28,14 @@ class PublicV2::Ui::SpotlightPanelComponent < ViewComponent::Base
   attr_reader :kicker, :title, :text, :id, :variant, :size, :html_tag, :data, :classes
 
   def component_classes
-    [
+    component_class_names(
       "pv2-ui-spotlight-panel",
       "pv2-ui-spotlight-panel--#{variant}",
       "pv2-ui-spotlight-panel--#{size}",
       "grid w-full min-w-0",
       debug_class,
       classes
-    ].compact.join(" ")
+    )
   end
 
   def component_data

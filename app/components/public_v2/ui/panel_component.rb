@@ -25,14 +25,14 @@ class PublicV2::Ui::PanelComponent < ViewComponent::Base
   attr_reader :kicker, :title, :text, :id, :variant, :data, :classes, :padding
 
   def component_classes
-    [
+    component_class_names(
       "pv2-ui-panel",
       "pv2-ui-panel--#{variant}",
       "pv2-ui-panel--pad-#{padding}",
       "grid w-full min-w-0 gap-[0.78rem]",
       debug_class,
       classes
-    ].compact.join(" ")
+    )
   end
 
   def component_data
@@ -41,10 +41,5 @@ class PublicV2::Ui::PanelComponent < ViewComponent::Base
 
   def render_header?
     kicker.present? || title.present? || text.present? || actions?
-  end
-
-  def normalize_option(value, allowed_values, fallback)
-    normalized_value = value.to_s.to_sym
-    allowed_values.include?(normalized_value) ? normalized_value : fallback
   end
 end

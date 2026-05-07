@@ -50,10 +50,10 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
   end
 
   def component_classes
-    [
+    component_class_names(
       "pv2-home-warm__hero pv2-home-hero-v2",
       "grid w-full min-w-0 gap-4",
       debug_class
-    ].compact.join(" ")
+    )
   end
 end

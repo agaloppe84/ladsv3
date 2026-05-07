@@ -13,10 +13,10 @@ class PublicV2::Contact::CtaSectionComponent < ViewComponent::Base
   attr_reader :contact_page
 
   def component_classes
-    [
+    component_class_names(
       "pv2-contact-cta-v2",
       "grid w-full min-w-0 grid-cols-1 items-start gap-4 min-[1121px]:grid-cols-[minmax(0,.68fr)_minmax(320px,.48fr)]",
       debug_class
-    ].compact.join(" ")
+    )
   end
 end

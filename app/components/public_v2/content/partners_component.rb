@@ -35,6 +35,6 @@ class PublicV2::Content::PartnersComponent < ViewComponent::Base
   attr_reader :title, :text, :partners, :classes
 
   def component_classes
-    ["pv2-partners", "grid w-full min-w-0 gap-6 p-[1.35rem]", debug_class, classes].compact.join(" ")
+    component_class_names("pv2-partners", "grid w-full min-w-0 gap-6 p-[1.35rem]", debug_class, classes)
   end
 end

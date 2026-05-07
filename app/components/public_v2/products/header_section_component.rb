@@ -13,6 +13,6 @@ class PublicV2::Products::HeaderSectionComponent < ViewComponent::Base
   attr_reader :product_page
 
   def component_classes
-    ["pv2-product-header", "grid w-full min-w-0 gap-4", debug_class].compact.join(" ")
+    component_class_names("pv2-product-header", "grid w-full min-w-0 gap-4", debug_class)
   end
 end

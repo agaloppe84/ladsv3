@@ -19,7 +19,7 @@ class PublicV2::Products::ProductCardComponent < ViewComponent::Base
   attr_reader :product, :path, :image, :fallback, :eyebrow, :description, :classes
 
   def component_classes
-    ["pv2-category-product", "pv2-ui-product-card", "grid w-full min-w-0 gap-[0.72rem]", debug_class, classes].compact.join(" ")
+    component_class_names("pv2-category-product", "pv2-ui-product-card", "grid w-full min-w-0 gap-[0.72rem]", debug_class, classes)
   end
 
   def title

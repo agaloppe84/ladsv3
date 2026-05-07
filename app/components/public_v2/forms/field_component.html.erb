@@ -1,7 +1,7 @@
 <%= tag.label class: component_classes, for: input_id, data: debug_data do %>
   <span><%= label %></span>
 
-  <% case type.to_sym %>
+  <% case field_kind %>
   <% when :textarea %>
     <%= tag.textarea(value, **common_options.except(:value), rows: rows) %>
   <% when :select %>

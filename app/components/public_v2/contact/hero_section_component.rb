@@ -13,10 +13,10 @@ class PublicV2::Contact::HeroSectionComponent < ViewComponent::Base
   attr_reader :contact_page
 
   def component_classes
-    [
+    component_class_names(
       "pv2-contact-hero pv2-contact-hero-v2",
       "grid w-full min-w-0 gap-4",
       debug_class
-    ].compact.join(" ")
+    )
   end
 end

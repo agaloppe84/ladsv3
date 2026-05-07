@@ -60,6 +60,79 @@ Il n'y a plus de selection dynamique d'accent, de palette ou de police dans les 
 
 Le changement clair/sombre est porte par le layout Public V2 et par le `NavbarComponent`.
 
+Implementation :
+
+- `config/tailwind.config.js` active `darkMode: "class"` pour rendre les variantes `dark:` disponibles ;
+- la classe `dark` est ajoutee uniquement sur le `<body class="public-v2">` par le controller Stimulus Public V2 ;
+- `data-public-v2-mode="light|dark"` reste conserve pour compatibilite avec les styles existants ;
+- les variables CSS de `public_v2.css` restent la source de verite des couleurs ;
+- les pages public classique et admin-v2 ne doivent pas dependre des tokens `pv2-*`.
+
+### Tokens Tailwind Public V2
+
+Tailwind expose des tokens semantiques `pv2-*` branches sur les variables CSS Public V2.
+
+Usage recommande :
+
+- `bg-pv2-bg`
+- `bg-pv2-bg-soft`
+- `bg-pv2-surface`
+- `bg-pv2-surface-strong`
+- `text-pv2-text`
+- `text-pv2-muted`
+- `text-pv2-subtle`
+- `text-pv2-accent`
+- `bg-pv2-accent-soft`
+- `border-pv2-accent-border`
+- `border-pv2-border`
+- `border-pv2-border-strong`
+- `rounded-pv2`
+- `rounded-pv2-lg`
+- `shadow-pv2`
+
+Variables CSS canoniques :
+
+- `--pv2-bg`
+- `--pv2-bg-soft`
+- `--pv2-surface`
+- `--pv2-surface-strong`
+- `--pv2-text`
+- `--pv2-muted`
+- `--pv2-subtle`
+- `--pv2-accent-soft`
+- `--pv2-accent-border`
+- `--pv2-border`
+- `--pv2-border-strong`
+- `--pv2-radius`
+- `--pv2-radius-lg`
+- `--pv2-shadow`
+
+Regles :
+
+- utiliser ces tokens dans les nouvelles vues et composants Public V2 ;
+- migrer progressivement les classes arbitraires `var(--pv2-*)` vers ces tokens quand le composant est stabilise ;
+- ne pas introduire de nouveaux tokens nommes pour une page specifique quand la valeur sert a tout le systeme ;
+- les anciens alias `--pv2-home-*` restent seulement une compatibilite pour les builds deja generes ;
+- garder le CSS custom pour les composants visuels complexes, gradients, overlays et etats specifiques ;
+- ne pas convertir massivement tout le CSS en utilitaires Tailwind.
+
+### Support Components
+
+Les composants Public V2 partagent un petit support commun via `PublicV2::ComponentSupport`.
+
+Responsabilites :
+
+- normaliser les options publiques (`variant`, `size`, `padding`, `shape`, etc.) avec fallback documente ;
+- composer les classes CSS via `component_class_names` pour eviter les tableaux `.compact.join(" ")` dupliques ;
+- rendre les composants tolerants aux valeurs `nil`, string ou symbol sans erreur.
+
+Regles :
+
+- les composants UI doivent utiliser `normalize_option(value, ALLOWED_VALUES, fallback)` ;
+- une valeur inconnue doit retomber silencieusement sur le fallback ;
+- les variantes disponibles restent documentees dans la constante du composant ;
+- ne pas ajouter de logique metier dans ce support.
+
 ### Accent
 
 Accent principal :
@@ -559,7 +632,7 @@ Role :
 
 ## Debug Components
 
-Le mode debug doit rester disponible sur toutes les pages Public V2.
+Le mode debug doit rester disponible sur toutes les pages Public V2, mais il est desactive par defaut sur les vues integrees.
 
 Objectif :
 

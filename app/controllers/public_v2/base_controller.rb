@@ -79,7 +79,7 @@ class PublicV2::BaseController < ApplicationController
   end
 
   def load_public_v2_shell_context
-    @public_v2_debug = true
+    @public_v2_debug = false
     @event = active_event
     @public_v2_footer_categories = public_categories.limit(5).to_a
     @public_v2_active_nav_key = public_v2_active_nav_key

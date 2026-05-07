@@ -36,7 +36,7 @@ Documents a lire au debut d'un nouveau chat Codex sur Public V2 :
 - La navbar publique ne garde qu'un controle de mode clair/sombre.
 - Le design-system doit redevenir une reference propre du UI Kit et des composants, pas un espace de prototypes de pages.
 - Les tests de layouts et explorations temporaires ne doivent pas rester dans le code applicatif final. Si une exploration est necessaire, elle doit etre isolee, nommee explicitement, puis supprimee apres validation.
-- Le mode debug des composants est conserve sur toutes les pages Public V2 pendant la reconstruction.
+- Le mode debug des composants est conserve sur toutes les pages Public V2, mais desactive par defaut apres integration des vues reelles.
 - Le debug doit pouvoir s'activer globalement depuis le shell Public V2, sans repasser `debug: true` dans chaque vue.
 - Le shell Public V2 utilise une navbar et un footer Warm System, avec pression devis compacte, mode clair/sombre et zones contact/preuves/familles.
 - Pas de modification DB pour ce chantier.
@@ -105,6 +105,24 @@ Regles Rails Public V2 :
 - les chemins et images derives passent par presenter ou helper selon le niveau de responsabilite ;
 - le CSS Public V2 reste scope sous `.public-v2`.
 
+Regles composants Public V2 :
+
+- utiliser `PublicV2::ComponentSupport` via `PublicV2::Debuggable` pour les helpers communs ;
+- normaliser les options publiques avec `normalize_option(value, ALLOWED_VALUES, fallback)` ;
+- composer les classes internes avec `component_class_names` quand un composant assemble plusieurs tokens ;
+- une variante inconnue ou `nil` doit retomber sur une valeur stable, sans erreur ;
+- garder les constantes de variantes proches du composant qui les expose.
+
+Regles Tailwind / dark mode :
+
+- Tailwind peut exposer des tokens Public V2 via `pv2-*`, branches sur les variables CSS Public V2 ;
+- le mode sombre Tailwind utilise `darkMode: "class"` ;
+- la classe `dark` ne doit etre ajoutee que dans le shell Public V2 ;
+- `data-public-v2-mode` reste conserve tant que les styles existants s'en servent ;
+- les tokens systeme doivent rester neutres (`--pv2-bg`, `--pv2-surface`, `--pv2-text`, etc.), sans nom de page ;
+- les alias historiques `--pv2-home-*` ne servent qu'a ne pas casser un build deja genere ;
+- ne jamais introduire de dependance `pv2-*`, `.public-v2` ou `dark` Public V2 dans le public classique ou admin-v2.
+
 ## UI Kit Warm System
 
 Les primitives UI Kit stabilisees doivent servir de briques reutilisables :
@@ -129,7 +147,7 @@ Regles :
 - `public_v2_debug?` est expose comme helper.
 - `PublicV2::Debuggable` lit ce helper et ajoute les classes/data attributes de debug.
 - Les vues reelles ne doivent pas repasser `debug: true` a chaque composant.
-- Pour couper le debug partout, changer uniquement la ligne d'activation globale dans `PublicV2::BaseController`.
+- Pour activer ou couper le debug partout, changer uniquement la ligne d'activation globale dans `PublicV2::BaseController`.
 - Un composant compatible debug doit utiliser `debug_class`, `debug_data` ou `with_debug_data`.
 - Le rendu debug doit rester purement visuel, sans modifier la logique metier.
 

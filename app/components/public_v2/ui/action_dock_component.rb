@@ -14,7 +14,7 @@ class PublicV2::Ui::ActionDockComponent < ViewComponent::Base
     @secondary_label = secondary_label
     @secondary_path = secondary_path
     @meta = meta
-    @variant = VARIANTS.include?(variant.to_sym) ? variant.to_sym : :default
+    @variant = normalize_option(variant, VARIANTS, :default)
     @classes = classes
     @debug = debug
   end
@@ -24,13 +24,13 @@ class PublicV2::Ui::ActionDockComponent < ViewComponent::Base
   attr_reader :kicker, :title, :text, :primary_label, :primary_path, :secondary_label, :secondary_path, :meta, :variant, :classes
 
   def component_classes
-    [
+    component_class_names(
       "pv2-ui-action-dock",
       "pv2-ui-action-dock--#{variant}",
       "grid w-full min-w-0 gap-3",
       debug_class,
       classes
-    ].compact.join(" ")
+    )
   end
 
   def render_actions?

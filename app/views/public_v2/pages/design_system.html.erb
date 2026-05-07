@@ -1,15 +1,15 @@
 <% title "Public V2 - Design System Warm System" %>
 <% description "Design system Public V2 Warm System V9 : fondations, UI Kit, composants reels et regles de construction." %>
 
-<main class="mx-auto w-full max-w-[1440px] px-[var(--p-shell-x)] py-8 pb-20 text-[var(--pv2-home-text)]">
+<main class="mx-auto w-full max-w-[1440px] px-[var(--p-shell-x)] py-8 pb-20 text-pv2-text">
   <div class="grid gap-6 xl:grid-cols-[230px_minmax(0,1fr)] xl:items-start">
     <aside class="hidden xl:block xl:sticky xl:top-[96px]">
-      <div class="rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-3 shadow-sm">
-        <p class="mb-3 font-[var(--p-font-mono)] text-[0.66rem] font-black uppercase text-[var(--pv2-accent)]">Warm System</p>
+      <div class="rounded-pv2 border border-pv2-border bg-pv2-surface p-3 shadow-sm">
+        <p class="mb-3 text-[0.66rem] font-black uppercase text-pv2-accent">Warm System</p>
         <nav class="grid gap-1" aria-label="Sections du design system">
           <% @design_system.kit_sections.each do |section| %>
-            <a class="grid grid-cols-[2rem_minmax(0,1fr)] items-center gap-2 rounded px-2 py-2 text-[0.78rem] font-bold text-[var(--pv2-home-muted)] transition hover:bg-[rgba(var(--pv2-accent-rgb),0.1)] hover:text-[var(--pv2-home-text)]" href="#<%= section[:id] %>">
-              <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black text-[var(--pv2-accent)]"><%= section[:number] %></span>
+            <a class="grid grid-cols-[2rem_minmax(0,1fr)] items-center gap-2 rounded px-2 py-2 text-[0.78rem] font-bold text-pv2-muted transition hover:bg-pv2-accent-soft hover:text-pv2-text" href="#<%= section[:id] %>">
+              <span class="text-[0.62rem] font-black text-pv2-accent"><%= section[:number] %></span>
               <span><%= section[:label] %></span>
             </a>
           <% end %>
@@ -18,11 +18,11 @@
     </aside>
 
     <div class="grid min-w-0 gap-7">
-      <header class="grid gap-5 rounded-lg border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-5 min-[821px]:grid-cols-[minmax(0,1fr)_minmax(300px,0.36fr)] min-[821px]:items-center min-[1121px]:p-7">
+      <header class="grid gap-5 rounded-pv2-lg border border-pv2-border bg-pv2-surface p-5 min-[821px]:grid-cols-[minmax(0,1fr)_minmax(300px,0.36fr)] min-[821px]:items-center min-[1121px]:p-7">
         <div class="grid gap-3">
-          <p class="font-[var(--p-font-mono)] text-[0.68rem] font-black uppercase text-[var(--pv2-accent)]">Public V2 / Warm System V9</p>
+          <p class="text-[0.68rem] font-black uppercase text-pv2-accent">Public V2 / Warm System V9</p>
           <h1 class="max-w-[15ch] text-[1.9rem] font-black leading-[1.02] tracking-normal min-[821px]:text-[2.35rem]">UI Kit propre, composants reels.</h1>
-          <p class="max-w-[72ch] text-[0.94rem] font-semibold leading-7 text-[var(--pv2-home-muted)]">
+          <p class="max-w-[72ch] text-[0.94rem] font-semibold leading-7 text-pv2-muted">
             Cette page sert de reference stable pour construire Public V2. Elle montre les fondations, les primitives et les composants
             sans prototypes de pages, sans bibliotheque de layouts et sans selection dynamique d'accent ou de police.
           </p>
@@ -36,37 +36,37 @@
         ) %>
       </header>
 
-      <nav class="sticky top-[82px] z-20 flex gap-2 overflow-x-auto rounded-md border border-[var(--pv2-home-border)] bg-[color-mix(in_srgb,var(--pv2-home-surface)_92%,transparent)] p-2 backdrop-blur xl:hidden" aria-label="Sections du design system">
+      <nav class="sticky top-[82px] z-20 flex gap-2 overflow-x-auto rounded-pv2 border border-pv2-border bg-pv2-surface p-2 backdrop-blur xl:hidden" aria-label="Sections du design system">
         <% @design_system.kit_sections.each do |section| %>
-          <a class="shrink-0 rounded-full border border-[var(--pv2-home-border)] px-3 py-2 text-[0.72rem] font-extrabold text-[var(--pv2-home-muted)] hover:border-[rgba(var(--pv2-accent-rgb),0.34)] hover:text-[var(--pv2-home-text)]" href="#<%= section[:id] %>"><%= section[:label] %></a>
+          <a class="shrink-0 rounded-full border border-pv2-border px-3 py-2 text-[0.72rem] font-extrabold text-pv2-muted hover:border-pv2-accent-border hover:text-pv2-text" href="#<%= section[:id] %>"><%= section[:label] %></a>
         <% end %>
       </nav>
 
-      <section id="public-v2-kit-foundations" class="scroll-mt-28 rounded-lg border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-4 min-[821px]:p-5">
+      <section id="public-v2-kit-foundations" class="scroll-mt-28 rounded-pv2-lg border border-pv2-border bg-pv2-surface p-4 min-[821px]:p-5">
         <div class="mb-5 grid gap-2">
-          <p class="font-[var(--p-font-mono)] text-[0.64rem] font-black uppercase text-[var(--pv2-accent)]">01 / Fondations</p>
+          <p class="text-[0.64rem] font-black uppercase text-pv2-accent">01 / Fondations</p>
           <h2 class="text-[1.15rem] font-black leading-tight">Tokens, palette, typo et regles.</h2>
-          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">
+          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-pv2-muted">
             Warm System V9 utilise un accent chaud fixe, des nuances naturelles claires, un dark mode chaud et des dimensions stables.
           </p>
         </div>
 
         <div class="grid gap-3 min-[821px]:grid-cols-2 min-[1121px]:grid-cols-4">
-          <article class="grid gap-3 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4">
-            <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">Light</span>
+          <article class="grid gap-3 rounded-pv2 border border-pv2-border bg-pv2-bg p-4">
+            <span class="text-[0.62rem] font-black uppercase text-pv2-accent">Light</span>
             <strong class="text-[0.98rem] font-black">Nuances naturelles.</strong>
             <div class="flex flex-wrap gap-2">
-              <i class="h-8 w-8 rounded-full border border-[var(--pv2-home-border-strong)]" style="background:#fbf7ef"></i>
-              <i class="h-8 w-8 rounded-full border border-[var(--pv2-home-border-strong)]" style="background:#fffdf7"></i>
-              <i class="h-8 w-8 rounded-full border border-[var(--pv2-home-border-strong)]" style="background:#f2e8da"></i>
-              <i class="h-8 w-8 rounded-full border border-[var(--pv2-home-border-strong)]" style="background:#1a1815"></i>
-              <i class="h-8 w-8 rounded-full border border-[var(--pv2-home-border-strong)]" style="background:#ff3d12"></i>
+              <i class="h-8 w-8 rounded-full border border-pv2-border-strong" style="background:#fbf7ef"></i>
+              <i class="h-8 w-8 rounded-full border border-pv2-border-strong" style="background:#fffdf7"></i>
+              <i class="h-8 w-8 rounded-full border border-pv2-border-strong" style="background:#f2e8da"></i>
+              <i class="h-8 w-8 rounded-full border border-pv2-border-strong" style="background:#1a1815"></i>
+              <i class="h-8 w-8 rounded-full border border-pv2-border-strong" style="background:#ff3d12"></i>
             </div>
-            <p class="text-[0.82rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">Fond doux, texte chaud, surfaces claires, accent visible mais dose.</p>
+            <p class="text-[0.82rem] font-semibold leading-6 text-pv2-muted">Fond doux, texte chaud, surfaces claires, accent visible mais dose.</p>
           </article>
 
-          <article class="grid gap-3 rounded-md border border-white/10 bg-[#17120f] p-4 text-[#fff9f1]">
-            <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[#ff6b45]">Dark</span>
+          <article class="grid gap-3 rounded-pv2 border border-white/10 bg-[#17120f] p-4 text-[#fff9f1]">
+            <span class="text-[0.62rem] font-black uppercase text-[#ff6b45]">Dark</span>
             <strong class="text-[0.98rem] font-black">Sombre chaud.</strong>
             <div class="flex flex-wrap gap-2">
               <i class="h-8 w-8 rounded-full border border-white/15" style="background:#17120f"></i>
@@ -78,16 +78,16 @@
             <p class="text-[0.82rem] font-semibold leading-6 text-white/70">Contraste lisible, ambiance premium, pas d'effet dashboard froid.</p>
           </article>
 
-          <article class="grid gap-3 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4">
-            <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">Typo</span>
+          <article class="grid gap-3 rounded-pv2 border border-pv2-border bg-pv2-bg p-4">
+            <span class="text-[0.62rem] font-black uppercase text-pv2-accent">Typo</span>
             <strong class="text-[1.35rem] font-black leading-tight">Titre compact</strong>
             <b class="text-[1.02rem] font-black leading-tight">Sous-titre solide</b>
-            <p class="text-[0.82rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">Police unique, variations par taille, graisse et couleur. Letter-spacing a 0.</p>
+            <p class="text-[0.82rem] font-semibold leading-6 text-pv2-muted">Police unique, variations par taille, graisse et couleur. Letter-spacing a 0.</p>
           </article>
 
-          <article class="grid gap-3 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4">
-            <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">Regles</span>
-            <ul class="m-0 grid gap-2 pl-4 text-[0.8rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">
+          <article class="grid gap-3 rounded-pv2 border border-pv2-border bg-pv2-bg p-4">
+            <span class="text-[0.62rem] font-black uppercase text-pv2-accent">Regles</span>
+            <ul class="m-0 grid gap-2 pl-4 text-[0.8rem] font-semibold leading-6 text-pv2-muted">
               <li>Mode clair/sombre uniquement.</li>
               <li>Accent chaud fixe.</li>
               <li>Angles courts, pas de boutons enormes.</li>
@@ -98,16 +98,16 @@
         </div>
       </section>
 
-      <section id="public-v2-kit-primitives" class="scroll-mt-28 rounded-lg border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-4 min-[821px]:p-5">
+      <section id="public-v2-kit-primitives" class="scroll-mt-28 rounded-pv2-lg border border-pv2-border bg-pv2-surface p-4 min-[821px]:p-5">
         <div class="mb-5 grid gap-2">
-          <p class="font-[var(--p-font-mono)] text-[0.64rem] font-black uppercase text-[var(--pv2-accent)]">02 / Primitives</p>
+          <p class="text-[0.64rem] font-black uppercase text-pv2-accent">02 / Primitives</p>
           <h2 class="text-[1.15rem] font-black leading-tight">Boutons, panels, badges et stats.</h2>
-          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">Ces briques doivent rester predictibles : variantes bornees, tailles stables et fallback sur la variante par defaut.</p>
+          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-pv2-muted">Ces briques doivent rester predictibles : variantes bornees, tailles stables et fallback sur la variante par defaut.</p>
         </div>
 
         <div class="grid gap-4">
-          <article class="grid gap-3 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4">
-            <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">ButtonComponent</span>
+          <article class="grid gap-3 rounded-pv2 border border-pv2-border bg-pv2-bg p-4">
+            <span class="text-[0.62rem] font-black uppercase text-pv2-accent">ButtonComponent</span>
             <div class="flex flex-wrap items-center gap-2">
               <%= render PublicV2::Ui::ButtonComponent.new(label: "Primaire", path: public_v2_new_quote_path, variant: :primary) %>
               <%= render PublicV2::Ui::ButtonComponent.new(label: "Secondaire", path: public_v2_categories_path, variant: :secondary) %>
@@ -118,8 +118,8 @@
             </div>
           </article>
 
-          <article class="grid gap-3 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4">
-            <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">PanelComponent</span>
+          <article class="grid gap-3 rounded-pv2 border border-pv2-border bg-pv2-bg p-4">
+            <span class="text-[0.62rem] font-black uppercase text-pv2-accent">PanelComponent</span>
             <div class="grid gap-3 min-[821px]:grid-cols-2 min-[1121px]:grid-cols-4">
               <% [
                 [:default, "Default", "Surface standard."],
@@ -137,8 +137,8 @@
           </article>
 
           <div class="grid gap-4 min-[821px]:grid-cols-2">
-            <article class="grid gap-3 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4">
-              <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">BadgeComponent</span>
+            <article class="grid gap-3 rounded-pv2 border border-pv2-border bg-pv2-bg p-4">
+              <span class="text-[0.62rem] font-black uppercase text-pv2-accent">BadgeComponent</span>
               <div class="flex flex-wrap items-center gap-2">
                 <%= render PublicV2::Ui::BadgeComponent.new(label: "RGE", variant: :success) %>
                 <%= render PublicV2::Ui::BadgeComponent.new(label: "Sur mesure", variant: :accent) %>
@@ -148,8 +148,8 @@
               </div>
             </article>
 
-            <article class="grid gap-3 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4">
-              <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">StatCardComponent</span>
+            <article class="grid gap-3 rounded-pv2 border border-pv2-border bg-pv2-bg p-4">
+              <span class="text-[0.62rem] font-black uppercase text-pv2-accent">StatCardComponent</span>
               <div class="grid gap-3 min-[560px]:grid-cols-3">
                 <%= render PublicV2::Ui::StatCardComponent.new(label: "Showroom", value: "200m2", text: "Comparer les finitions.", variant: :default) %>
                 <%= render PublicV2::Ui::StatCardComponent.new(label: "Metier", value: "35 ans", text: "Conseil et pose.", variant: :soft) %>
@@ -160,28 +160,28 @@
         </div>
       </section>
 
-      <section id="public-v2-kit-navigation" class="scroll-mt-28 rounded-lg border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-4 min-[821px]:p-5">
+      <section id="public-v2-kit-navigation" class="scroll-mt-28 rounded-pv2-lg border border-pv2-border bg-pv2-surface p-4 min-[821px]:p-5">
         <div class="mb-5 grid gap-2">
-          <p class="font-[var(--p-font-mono)] text-[0.64rem] font-black uppercase text-[var(--pv2-accent)]">03 / Navigation</p>
+          <p class="text-[0.64rem] font-black uppercase text-pv2-accent">03 / Navigation</p>
           <h2 class="text-[1.15rem] font-black leading-tight">Navbar, breadcrumb, dropdown.</h2>
-          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">La navigation publique expose les liens essentiels, le telephone, le menu mobile et le toggle clair/sombre.</p>
+          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-pv2-muted">La navigation publique expose les liens essentiels, le telephone, le menu mobile et le toggle clair/sombre.</p>
         </div>
 
         <div class="grid gap-4">
-          <article class="min-w-0 overflow-visible rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-3">
-            <span class="mb-3 block font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">NavbarComponent</span>
+          <article class="min-w-0 overflow-visible rounded-pv2 border border-pv2-border bg-pv2-bg p-3">
+            <span class="mb-3 block text-[0.62rem] font-black uppercase text-pv2-accent">NavbarComponent</span>
             <%= render PublicV2::Layout::NavbarComponent.new(
               items: @design_system.nav_items,
               phone: "04 74 01 05 11",
               show_mode_toggle: false,
               active_key: :products,
-              classes: "!static rounded-md border border-[var(--pv2-home-border)]"
+              classes: "!static rounded-pv2 border border-pv2-border"
             ) %>
           </article>
 
           <div class="grid gap-4 min-[821px]:grid-cols-3">
-            <article class="min-w-0 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4">
-              <span class="mb-3 block font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">BreadcrumbComponent</span>
+            <article class="min-w-0 rounded-pv2 border border-pv2-border bg-pv2-bg p-4">
+              <span class="mb-3 block text-[0.62rem] font-black uppercase text-pv2-accent">BreadcrumbComponent</span>
               <%= render PublicV2::Ui::BreadcrumbComponent.new(
                 items: [
                   { label: "Accueil", path: public_v2_home_path },
@@ -192,24 +192,24 @@
               ) %>
             </article>
 
-            <article class="grid min-w-0 gap-3 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4">
-              <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">DropdownComponent</span>
+            <article class="grid min-w-0 gap-3 rounded-pv2 border border-pv2-border bg-pv2-bg p-4">
+              <span class="text-[0.62rem] font-black uppercase text-pv2-accent">DropdownComponent</span>
               <%= render PublicV2::Ui::DropdownComponent.new(label: "Actions exemple", align: :left, width: :sm, trigger_classes: "min-w-[128px] gap-2 px-3") do |dropdown| %>
                 <% dropdown.with_trigger do %>
                   <span>Actions</span>
                   <span aria-hidden="true">+</span>
                 <% end %>
                 <% dropdown.with_panel do %>
-                  <div class="grid gap-2 text-[0.82rem] font-bold text-[var(--pv2-home-muted)]">
-                    <%= link_to "Voir les produits", public_v2_categories_path, class: "rounded border border-[var(--pv2-home-border)] px-3 py-2 hover:border-[rgba(var(--pv2-accent-rgb),0.34)] hover:text-[var(--pv2-home-text)]" %>
-                    <%= link_to "Preparer un devis", public_v2_new_quote_path, class: "rounded border border-[var(--pv2-home-border)] px-3 py-2 hover:border-[rgba(var(--pv2-accent-rgb),0.34)] hover:text-[var(--pv2-home-text)]" %>
+                  <div class="grid gap-2 text-[0.82rem] font-bold text-pv2-muted">
+                    <%= link_to "Voir les produits", public_v2_categories_path, class: "rounded border border-pv2-border px-3 py-2 hover:border-pv2-accent-border hover:text-pv2-text" %>
+                    <%= link_to "Preparer un devis", public_v2_new_quote_path, class: "rounded border border-pv2-border px-3 py-2 hover:border-pv2-accent-border hover:text-pv2-text" %>
                   </div>
                 <% end %>
               <% end %>
             </article>
 
-            <article class="grid min-w-0 gap-3 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4">
-              <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">Mode toggle</span>
+            <article class="grid min-w-0 gap-3 rounded-pv2 border border-pv2-border bg-pv2-bg p-4">
+              <span class="text-[0.62rem] font-black uppercase text-pv2-accent">Mode toggle</span>
               <div class="pv2-public-theme-menu grid gap-2">
                 <div class="pv2-public-theme-menu__segmented grid grid-cols-2 gap-1">
                   <button type="button" class="is-selected">Clair</button>
@@ -221,16 +221,16 @@
         </div>
       </section>
 
-      <section id="public-v2-kit-content" class="scroll-mt-28 rounded-lg border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-4 min-[821px]:p-5">
+      <section id="public-v2-kit-content" class="scroll-mt-28 rounded-pv2-lg border border-pv2-border bg-pv2-surface p-4 min-[821px]:p-5">
         <div class="mb-5 grid gap-2">
-          <p class="font-[var(--p-font-mono)] text-[0.64rem] font-black uppercase text-[var(--pv2-accent)]">04 / Contenu</p>
+          <p class="text-[0.64rem] font-black uppercase text-pv2-accent">04 / Contenu</p>
           <h2 class="text-[1.15rem] font-black leading-tight">Hero, sections, media, CTA et footer.</h2>
-          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">Les composants de contenu structurent les messages publics sans transformer la page en landing generique.</p>
+          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-pv2-muted">Les composants de contenu structurent les messages publics sans transformer la page en landing generique.</p>
         </div>
 
         <div class="grid gap-4">
-          <article class="min-w-0 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-3 min-[821px]:p-4">
-            <span class="mb-3 block font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">HeroComponent</span>
+          <article class="min-w-0 rounded-pv2 border border-pv2-border bg-pv2-bg p-3 min-[821px]:p-4">
+            <span class="mb-3 block text-[0.62rem] font-black uppercase text-pv2-accent">HeroComponent</span>
             <%= render PublicV2::Content::HeroComponent.new(
               kicker: @design_system.featured_category&.name || @design_system.fallback_category_name,
               title: @design_system.featured_product&.name || @design_system.fallback_product_name,
@@ -242,22 +242,22 @@
           </article>
 
           <div class="grid gap-4 min-[1121px]:grid-cols-2">
-            <article class="min-w-0 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-3 min-[821px]:p-4">
-              <span class="mb-3 block font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">MediaFrameComponent</span>
+            <article class="min-w-0 rounded-pv2 border border-pv2-border bg-pv2-bg p-3 min-[821px]:p-4">
+              <span class="mb-3 block text-[0.62rem] font-black uppercase text-pv2-accent">MediaFrameComponent</span>
               <div class="grid gap-4 min-[821px]:grid-cols-[minmax(0,0.58fr)_minmax(0,0.42fr)] min-[821px]:items-center">
-                <div class="min-h-[220px] overflow-hidden rounded-md">
+                <div class="min-h-[220px] overflow-hidden rounded-pv2">
                   <%= render PublicV2::Ui::MediaFrameComponent.new(image: @design_system.featured_image, fallback: "magasin-04.jpeg", alt: "Showroom Les Artisans du Store") %>
                 </div>
                 <div class="grid gap-2">
                   <p class="pv2-eyebrow">Showroom</p>
                   <h3 class="text-[1rem] font-black">Voir, toucher, comparer.</h3>
-                  <p class="text-[0.84rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">Image utile, non dominante, toujours dans un ratio stable.</p>
+                  <p class="text-[0.84rem] font-semibold leading-6 text-pv2-muted">Image utile, non dominante, toujours dans un ratio stable.</p>
                 </div>
               </div>
             </article>
 
-            <article class="min-w-0 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-3 min-[821px]:p-4">
-              <span class="mb-3 block font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">SectionShellComponent</span>
+            <article class="min-w-0 rounded-pv2 border border-pv2-border bg-pv2-bg p-3 min-[821px]:p-4">
+              <span class="mb-3 block text-[0.62rem] font-black uppercase text-pv2-accent">SectionShellComponent</span>
               <%= render PublicV2::Ui::SectionShellComponent.new(
                 kicker: "Section",
                 title: "Un cadre reutilisable.",
@@ -290,8 +290,8 @@
             ) %>
           </div>
 
-          <article class="min-w-0 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-3 min-[821px]:p-4">
-            <span class="mb-3 block font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">FooterComponent</span>
+          <article class="min-w-0 rounded-pv2 border border-pv2-border bg-pv2-bg p-3 min-[821px]:p-4">
+            <span class="mb-3 block text-[0.62rem] font-black uppercase text-pv2-accent">FooterComponent</span>
             <%= render PublicV2::Layout::FooterComponent.new(
               id: "public-v2-footer-demo",
               eyebrow: "Les Artisans du Store",
@@ -302,11 +302,11 @@
         </div>
       </section>
 
-      <section id="public-v2-kit-business" class="scroll-mt-28 rounded-lg border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-4 min-[821px]:p-5">
+      <section id="public-v2-kit-business" class="scroll-mt-28 rounded-pv2-lg border border-pv2-border bg-pv2-surface p-4 min-[821px]:p-5">
         <div class="mb-5 grid gap-2">
-          <p class="font-[var(--p-font-mono)] text-[0.64rem] font-black uppercase text-[var(--pv2-accent)]">05 / Metier</p>
+          <p class="text-[0.64rem] font-black uppercase text-pv2-accent">05 / Metier</p>
           <h2 class="text-[1.15rem] font-black leading-tight">Devis, preuves, etapes et choix.</h2>
-          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">Ces micro-composants servent a construire des parcours courts : comprendre, choisir, demander un devis.</p>
+          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-pv2-muted">Ces micro-composants servent a construire des parcours courts : comprendre, choisir, demander un devis.</p>
         </div>
 
         <div class="grid gap-4">
@@ -347,11 +347,11 @@
         </div>
       </section>
 
-      <section id="public-v2-kit-products" class="scroll-mt-28 rounded-lg border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-4 min-[821px]:p-5">
+      <section id="public-v2-kit-products" class="scroll-mt-28 rounded-pv2-lg border border-pv2-border bg-pv2-surface p-4 min-[821px]:p-5">
         <div class="mb-5 grid gap-2">
-          <p class="font-[var(--p-font-mono)] text-[0.64rem] font-black uppercase text-[var(--pv2-accent)]">06 / Produits</p>
+          <p class="text-[0.64rem] font-black uppercase text-pv2-accent">06 / Produits</p>
           <h2 class="text-[1.15rem] font-black leading-tight">Catalogue, cards, categorie et options.</h2>
-          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">La page produit sera riche, mais les composants doivent rester scannables et modulaires.</p>
+          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-pv2-muted">La page produit sera riche, mais les composants doivent rester scannables et modulaires.</p>
         </div>
 
         <div class="grid gap-4">
@@ -382,15 +382,15 @@
             <% end %>
           </div>
 
-          <article class="grid min-w-0 gap-4 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4">
+          <article class="grid min-w-0 gap-4 rounded-pv2 border border-pv2-border bg-pv2-bg p-4">
             <div class="grid gap-2">
-              <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">OptionListComponent</span>
-              <p class="m-0 max-w-[82ch] text-[0.82rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">Cinq lectures compactes pour les options produit, a choisir selon la densite de la fiche.</p>
+              <span class="text-[0.62rem] font-black uppercase text-pv2-accent">OptionListComponent</span>
+              <p class="m-0 max-w-[82ch] text-[0.82rem] font-semibold leading-6 text-pv2-muted">Cinq lectures compactes pour les options produit, a choisir selon la densite de la fiche.</p>
             </div>
 
             <div class="grid gap-4 min-[1121px]:grid-cols-2">
               <% @design_system.option_list_concepts.each do |concept| %>
-                <div class="min-w-0 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-3">
+                <div class="min-w-0 rounded-pv2 border border-pv2-border bg-pv2-surface p-3">
                   <%= render PublicV2::Products::OptionListComponent.new(
                     items: @design_system.sample_option_items,
                     variant: concept[:variant],
@@ -405,11 +405,11 @@
         </div>
       </section>
 
-      <section id="public-v2-kit-forms" class="scroll-mt-28 rounded-lg border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-4 min-[821px]:p-5">
+      <section id="public-v2-kit-forms" class="scroll-mt-28 rounded-pv2-lg border border-pv2-border bg-pv2-surface p-4 min-[821px]:p-5">
         <div class="mb-5 grid gap-2">
-          <p class="font-[var(--p-font-mono)] text-[0.64rem] font-black uppercase text-[var(--pv2-accent)]">07 / Formulaires</p>
+          <p class="text-[0.64rem] font-black uppercase text-pv2-accent">07 / Formulaires</p>
           <h2 class="text-[1.15rem] font-black leading-tight">Champs et formulaire devis.</h2>
-          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">Les formulaires doivent rester clairs, courts en perception, et rassurants sur mobile.</p>
+          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-pv2-muted">Les formulaires doivent rester clairs, courts en perception, et rassurants sur mobile.</p>
         </div>
 
         <div class="grid items-start gap-4 min-[1121px]:grid-cols-[minmax(0,1fr)_360px]">
@@ -421,8 +421,8 @@
             ) %>
           <% end %>
 
-          <article class="grid min-w-0 gap-4 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4">
-            <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">FieldComponent</span>
+          <article class="grid min-w-0 gap-4 rounded-pv2 border border-pv2-border bg-pv2-bg p-4">
+            <span class="text-[0.62rem] font-black uppercase text-pv2-accent">FieldComponent</span>
             <%= render PublicV2::Forms::FieldComponent.new(label: "Nom", name: "demo_lastname", value: "Durand", readonly: true) %>
             <%= render PublicV2::Forms::FieldComponent.new(label: "Besoin", name: "demo_need", type: :select, value: "Protection solaire", options: ["Protection solaire", "Fermeture", "Moustiquaire"], disabled: true) %>
             <%= render PublicV2::Forms::FieldComponent.new(label: "Message", name: "demo_message", type: :textarea, value: "Dimensions, exposition, delai souhaite...", readonly: true, hint: "Hint court, utile et lisible.") %>
@@ -430,25 +430,25 @@
         </div>
       </section>
 
-      <section id="public-v2-kit-feedback" class="scroll-mt-28 rounded-lg border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-4 min-[821px]:p-5">
+      <section id="public-v2-kit-feedback" class="scroll-mt-28 rounded-pv2-lg border border-pv2-border bg-pv2-surface p-4 min-[821px]:p-5">
         <div class="mb-5 grid gap-2">
-          <p class="font-[var(--p-font-mono)] text-[0.64rem] font-black uppercase text-[var(--pv2-accent)]">08 / Etats</p>
+          <p class="text-[0.64rem] font-black uppercase text-pv2-accent">08 / Etats</p>
           <h2 class="text-[1.15rem] font-black leading-tight">Feedback, vide, FAQ et media mosaic.</h2>
-          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">Les etats ne doivent pas dominer l'ecran : ils guident, rassurent ou expliquent le manque de contenu.</p>
+          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-pv2-muted">Les etats ne doivent pas dominer l'ecran : ils guident, rassurent ou expliquent le manque de contenu.</p>
         </div>
 
         <div class="grid gap-4">
           <div class="grid gap-4 min-[821px]:grid-cols-2 min-[1121px]:grid-cols-4">
             <%= render PublicV2::Ui::NotificationBannerComponent.new(title: "Information", message: "Produit ajoute au devis.", icon: "i") %>
             <%= render PublicV2::Ui::EmptyStateComponent.new(message: "Aucun resultat pour ce filtre.", title: "Etat vide") %>
-            <article class="grid gap-2 rounded-md border border-red-500/25 bg-red-500/10 p-4">
+            <article class="grid gap-2 rounded-pv2 border border-red-500/25 bg-red-500/10 p-4">
               <strong class="text-[0.86rem] font-black">Erreur form</strong>
-              <p class="m-0 text-[0.82rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">Certains champs sont a completer.</p>
+              <p class="m-0 text-[0.82rem] font-semibold leading-6 text-pv2-muted">Certains champs sont a completer.</p>
             </article>
-            <article class="grid gap-3 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4">
-              <i class="h-3 animate-pulse rounded-full bg-[var(--pv2-home-border)]"></i>
-              <i class="h-3 w-3/4 animate-pulse rounded-full bg-[var(--pv2-home-border)]"></i>
-              <i class="h-3 w-1/2 animate-pulse rounded-full bg-[var(--pv2-home-border)]"></i>
+            <article class="grid gap-3 rounded-pv2 border border-pv2-border bg-pv2-bg p-4">
+              <i class="h-3 animate-pulse rounded-full bg-pv2-border"></i>
+              <i class="h-3 w-3/4 animate-pulse rounded-full bg-pv2-border"></i>
+              <i class="h-3 w-1/2 animate-pulse rounded-full bg-pv2-border"></i>
             </article>
           </div>
 
@@ -459,19 +459,19 @@
         </div>
       </section>
 
-      <section id="public-v2-kit-components" class="scroll-mt-28 rounded-lg border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-4 min-[821px]:p-5">
+      <section id="public-v2-kit-components" class="scroll-mt-28 rounded-pv2-lg border border-pv2-border bg-pv2-surface p-4 min-[821px]:p-5">
         <div class="mb-5 grid gap-2">
-          <p class="font-[var(--p-font-mono)] text-[0.64rem] font-black uppercase text-[var(--pv2-accent)]">09 / ViewComponents</p>
+          <p class="text-[0.64rem] font-black uppercase text-pv2-accent">09 / ViewComponents</p>
           <h2 class="text-[1.15rem] font-black leading-tight">Inventaire de reference.</h2>
-          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">Les composants ci-dessous forment la base reusable avant reconstruction des pages reelles.</p>
+          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-pv2-muted">Les composants ci-dessous forment la base reusable avant reconstruction des pages reelles.</p>
         </div>
 
         <div class="grid gap-3 min-[821px]:grid-cols-2 min-[1121px]:grid-cols-3">
           <% @design_system.component_inventory.each do |group, name, text| %>
-            <article class="grid min-w-0 gap-2 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4 transition hover:-translate-y-px hover:border-[rgba(var(--pv2-accent-rgb),0.38)]">
-              <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]"><%= group %></span>
+            <article class="grid min-w-0 gap-2 rounded-pv2 border border-pv2-border bg-pv2-bg p-4 transition hover:-translate-y-px hover:border-pv2-accent-border">
+              <span class="text-[0.62rem] font-black uppercase text-pv2-accent"><%= group %></span>
               <strong class="[overflow-wrap:anywhere] text-[0.9rem] font-black leading-6"><%= name %></strong>
-              <p class="text-[0.82rem] font-semibold leading-6 text-[var(--pv2-home-muted)]"><%= text %></p>
+              <p class="text-[0.82rem] font-semibold leading-6 text-pv2-muted"><%= text %></p>
             </article>
           <% end %>
         </div>

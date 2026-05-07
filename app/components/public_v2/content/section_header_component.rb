@@ -3,12 +3,14 @@
 class PublicV2::Content::SectionHeaderComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
+  VARIANTS = %i[default home].freeze
+
   def initialize(kicker:, title:, text: nil, level: 2, variant: :default, classes: nil, debug: false)
     @kicker = kicker
     @title = title
     @text = text
     @level = level
-    @variant = variant
+    @variant = normalize_option(variant, VARIANTS, :default)
     @classes = classes
     @debug = debug
   end
@@ -18,12 +20,12 @@ class PublicV2::Content::SectionHeaderComponent < ViewComponent::Base
   attr_reader :kicker, :title, :text, :level, :variant, :classes
 
   def component_classes
-    [
+    component_class_names(
       section_header_class,
       "pv2-ui-section-header",
       debug_class,
       classes
-    ].compact.join(" ")
+    )
   end
 
   def heading_tag

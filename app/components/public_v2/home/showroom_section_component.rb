@@ -13,10 +13,10 @@ class PublicV2::Home::ShowroomSectionComponent < ViewComponent::Base
   attr_reader :home_page
 
   def component_classes
-    [
+    component_class_names(
       "pv2-home-section pv2-home-warm__showroom",
       "grid w-full min-w-0 grid-cols-1 items-stretch gap-4 min-[1121px]:grid-cols-[minmax(0,.58fr)_minmax(320px,.72fr)]",
       debug_class
-    ].compact.join(" ")
+    )
   end
 end

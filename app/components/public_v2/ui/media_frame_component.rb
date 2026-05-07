@@ -18,13 +18,13 @@ class PublicV2::Ui::MediaFrameComponent < ViewComponent::Base
   attr_reader :image, :fallback, :alt, :ratio, :loading, :classes
 
   def component_classes
-    [
+    component_class_names(
       "pv2-ui-media",
       "pv2-ui-media--#{ratio}",
       "w-full min-w-0 overflow-hidden",
       debug_class,
       classes
-    ].compact.join(" ")
+    )
   end
 
   def cloudinary_image?

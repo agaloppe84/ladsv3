@@ -26,7 +26,7 @@ class PublicV2::Ui::ButtonComponent < ViewComponent::Base
   attr_reader :label, :path, :variant, :type, :data, :method, :classes, :size, :shape, :full_width
 
   def component_classes
-    [
+    component_class_names(
       "pv2-ui-button",
       "pv2-ui-button--#{variant}",
       "pv2-ui-button--#{size}",
@@ -35,7 +35,7 @@ class PublicV2::Ui::ButtonComponent < ViewComponent::Base
       "inline-flex items-center justify-center gap-[0.42rem]",
       debug_class,
       classes
-    ].compact.join(" ")
+    )
   end
 
   def link_data
@@ -50,10 +50,5 @@ class PublicV2::Ui::ButtonComponent < ViewComponent::Base
 
   def button_content
     label.presence || content
-  end
-
-  def normalize_option(value, allowed_values, fallback)
-    normalized_value = value.to_s.to_sym
-    allowed_values.include?(normalized_value) ? normalized_value : fallback
   end
 end

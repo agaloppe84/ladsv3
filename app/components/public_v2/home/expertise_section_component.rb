@@ -13,10 +13,10 @@ class PublicV2::Home::ExpertiseSectionComponent < ViewComponent::Base
   attr_reader :home_page
 
   def component_classes
-    [
+    component_class_names(
       "pv2-home-section pv2-home-warm__matrix",
       "grid w-full min-w-0 gap-5",
       debug_class
-    ].compact.join(" ")
+    )
   end
 end

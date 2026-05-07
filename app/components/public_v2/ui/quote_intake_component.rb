@@ -14,7 +14,7 @@ class PublicV2::Ui::QuoteIntakeComponent < ViewComponent::Base
     @primary_path = primary_path
     @secondary_label = secondary_label
     @secondary_path = secondary_path
-    @variant = normalize_variant(variant)
+    @variant = normalize_option(variant, VARIANTS, :default)
     @classes = classes
     @debug = debug
   end
@@ -24,13 +24,13 @@ class PublicV2::Ui::QuoteIntakeComponent < ViewComponent::Base
   attr_reader :kicker, :title, :text, :steps, :primary_label, :primary_path, :secondary_label, :secondary_path, :variant, :classes
 
   def component_classes
-    [
+    component_class_names(
       "pv2-ui-quote-intake",
       "pv2-ui-quote-intake--#{variant}",
       "grid w-full min-w-0 gap-4",
       debug_class,
       classes
-    ].compact.join(" ")
+    )
   end
 
   def render_actions?
@@ -39,10 +39,5 @@ class PublicV2::Ui::QuoteIntakeComponent < ViewComponent::Base
 
   def step_kicker(step, index)
     step[:kicker].presence || Kernel.format("%02d", index + 1)
-  end
-
-  def normalize_variant(value)
-    candidate = value.to_sym
-    VARIANTS.include?(candidate) ? candidate : :default
   end
 end

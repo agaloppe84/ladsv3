@@ -3,7 +3,7 @@
 class PublicV2::Content::CtaBandComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
-  def initialize(kicker:, title:, text: nil, action_label:, action_path:, secondary_label: nil, secondary_path: nil, classes: nil)
+  def initialize(kicker:, title:, text: nil, action_label:, action_path:, secondary_label: nil, secondary_path: nil, classes: nil, debug: false)
     @kicker = kicker
     @title = title
     @text = text
@@ -12,6 +12,7 @@ class PublicV2::Content::CtaBandComponent < ViewComponent::Base
     @secondary_label = secondary_label
     @secondary_path = secondary_path
     @classes = classes
+    @debug = debug
   end
 
   private
@@ -19,12 +20,12 @@ class PublicV2::Content::CtaBandComponent < ViewComponent::Base
   attr_reader :kicker, :title, :text, :action_label, :action_path, :secondary_label, :secondary_path, :classes
 
   def component_classes
-    [
+    component_class_names(
       "pv2-public-cta",
       "pv2-ui-cta-band",
       "grid w-full min-w-0 grid-cols-1 gap-4 p-[1.2rem] min-[821px]:grid-cols-[minmax(0,1fr)_auto] min-[821px]:items-center",
       debug_class,
       classes
-    ].compact.join(" ")
+    )
   end
 end

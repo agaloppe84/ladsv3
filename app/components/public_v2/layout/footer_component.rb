@@ -15,7 +15,8 @@ class PublicV2::Layout::FooterComponent < ViewComponent::Base
     hours: PublicV2::ContactInfo.hours_text,
     proof_items: PublicV2::ContactInfo.proof_items,
     id: "contact",
-    classes: nil
+    classes: nil,
+    debug: false
   )
     @categories = categories
     @title = title
@@ -29,6 +30,7 @@ class PublicV2::Layout::FooterComponent < ViewComponent::Base
     @proof_items = proof_items.presence || PublicV2::ContactInfo.proof_items
     @id = id
     @classes = classes
+    @debug = debug
   end
 
   private
@@ -36,7 +38,7 @@ class PublicV2::Layout::FooterComponent < ViewComponent::Base
   attr_reader :categories, :title, :text, :phone, :email, :eyebrow, :address, :city, :hours, :proof_items, :id, :classes
 
   def component_classes
-    ["pv2-public-footer", "pv2-ui-footer", "grid w-full min-w-0 gap-4", debug_class, classes].compact.join(" ")
+    component_class_names("pv2-public-footer", "pv2-ui-footer", "grid w-full min-w-0 gap-4", debug_class, classes)
   end
 
   def phone_href

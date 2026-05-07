@@ -13,10 +13,10 @@ class PublicV2::Quotes::HeroSectionComponent < ViewComponent::Base
   attr_reader :quote_page
 
   def component_classes
-    [
+    component_class_names(
       "pv2-quote-hero pv2-quote-hero-v2",
       "grid w-full min-w-0 gap-4",
       debug_class
-    ].compact.join(" ")
+    )
   end
 end
