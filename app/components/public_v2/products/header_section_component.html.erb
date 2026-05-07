@@ -5,13 +5,5 @@
     debug: debug?
   ) %>
 
-  <%= render PublicV2::Products::HeroComponent.new(
-    product: product_page.product,
-    category: product_page.category,
-    image: product_page.hero_image,
-    color_count: product_page.color_count,
-    quote_path: product_page.quote_path,
-    catalog_path: product_page.catalog_path,
-    debug: debug?
-  ) %>
+  <%= render PublicV2::Products::HeroComponent.new(product_page: product_page, debug: debug?) %>
 </section>

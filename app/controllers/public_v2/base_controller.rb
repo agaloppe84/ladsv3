@@ -53,6 +53,7 @@ class PublicV2::BaseController < ApplicationController
       :manufacturers,
       :motorists,
       :options,
+      :rals,
       :service,
       { images_attachments: :blob },
       { documentations_attachments: :blob }
