@@ -3,10 +3,11 @@
 class PublicV2::Forms::QuoteFormComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
-  def initialize(quote:, products:, url:)
+  def initialize(quote:, products:, url:, debug: false)
     @quote = quote
     @products = products
     @url = url
+    @debug = debug
   end
 
   private

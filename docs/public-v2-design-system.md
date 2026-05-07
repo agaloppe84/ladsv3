@@ -510,6 +510,7 @@ Regles :
 - champs utiles seulement ;
 - messages d'aide courts ;
 - parcours mobile confortable.
+- ne pas POSTer automatiquement la page devis pendant les validations techniques.
 
 ### FieldComponent
 
@@ -653,3 +654,10 @@ Les pages reelles Public V2 doivent progressivement etre reconstruites avec :
 - mode clair/sombre uniquement ;
 - debug factorise ;
 - wording premium, metier et oriente devis.
+
+Pages deja reconstruites sur Warm System :
+
+- home ;
+- categories/index ;
+- product/show ;
+- devis.

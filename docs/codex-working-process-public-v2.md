@@ -73,6 +73,7 @@ Structure actuelle :
 - home Public V2 reconstruite sur Warm System avec hero devis compact, preuves, parcours client, familles produit et CTA devis factorises.
 - categories/index reconstruite sur Warm System avec hero catalogue guide, comparaison par besoin, methode de choix, blocs familles et CTA devis.
 - product/show reconstruite comme vitrine produit et fiche technique complete : options, services, marques, motorisations, RAL, palettes, galerie, documentations et produits lies.
+- devis Public V2 reconstruite comme parcours de cadrage premium : hero court, preuves, etapes, formulaire guide, produit selectionne et contact direct.
 
 Routes Public V2 actives :
 

@@ -3513,6 +3513,50 @@
   text-transform: uppercase;
 }
 
+.public-v2 .pv2-quote-page {
+  max-width: 1320px;
+}
+
+.public-v2 .pv2-quote-hero-v2__lead h2,
+.public-v2 .pv2-quote-hero-v2__lead p:not(.pv2-ui-spotlight-panel__kicker) {
+  font-family: var(--p-font-family);
+}
+
+.public-v2 .pv2-quote-hero-v2__lead h2 {
+  font-size: clamp(1.5rem, 3vw, 2.42rem);
+  max-width: 18ch;
+}
+
+.public-v2 .pv2-quote-hero-v2__lead p:not(.pv2-ui-spotlight-panel__kicker) {
+  font-size: clamp(0.9rem, 1.2vw, 1rem);
+  font-weight: 700;
+  max-width: 44ch;
+}
+
+.public-v2 .pv2-quote-hero-v2 .pv2-ui-proof-rail__items {
+  grid-template-columns: repeat(auto-fit, minmax(min(130px, 100%), 1fr));
+}
+
+.public-v2 .pv2-quote-hero-v2 .pv2-ui-step-rail--rail .pv2-ui-step-rail__items {
+  grid-template-columns: 1fr;
+}
+
+.public-v2 .pv2-quote-form-card {
+  background:
+    linear-gradient(135deg, rgba(var(--pv2-accent-rgb), 0.07), transparent 20rem),
+    var(--pv2-home-surface);
+  border-color: rgba(var(--pv2-accent-rgb), 0.2);
+  border-radius: 10px;
+}
+
+.public-v2 .pv2-quote-form-card > .pv2-ui-panel__body {
+  gap: 1rem;
+}
+
+.public-v2 .pv2-quote-form-card .pv2-ui-proof-rail__items {
+  grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
+}
+
 .public-v2 .pv2-quote-form input,
 .public-v2 .pv2-quote-form select,
 .public-v2 .pv2-quote-form textarea {
@@ -3536,15 +3580,7 @@
 }
 
 .public-v2 .pv2-quote-form button {
-  background: var(--pv2-accent);
-  border: 0;
-  border-radius: 999px;
-  color: var(--pv2-accent-text, var(--p-accent-text));
   cursor: pointer;
-  font-size: 0.88rem;
-  font-weight: 900;
-  min-height: 46px;
-  padding: 0.85rem 1rem;
 }
 
 .public-v2 .pv2-quote-consent {
@@ -3577,13 +3613,35 @@
 }
 
 .public-v2 .pv2-quote-selected p,
+.public-v2 .pv2-quote-selected em,
 .public-v2 .pv2-quote-side__card span,
 .public-v2 .pv2-quote-side__card li span {
   color: var(--pv2-home-muted);
   font-size: 0.82rem;
+  font-style: normal;
   font-weight: 650;
   line-height: 1.5;
   margin: 0;
+}
+
+.public-v2 .pv2-quote-selected {
+  background:
+    linear-gradient(135deg, rgba(var(--pv2-accent-rgb), 0.1), transparent 50%),
+    var(--pv2-home-surface);
+  border-color: rgba(var(--pv2-accent-rgb), 0.22);
+  border-radius: 10px;
+}
+
+.public-v2 .pv2-quote-selected .pv2-home-mini-media {
+  border-radius: 8px;
+}
+
+.public-v2 .pv2-quote-side__card {
+  border-color: rgba(var(--pv2-accent-rgb), 0.18);
+}
+
+.public-v2 .pv2-quote-side .pv2-ui-step-rail__items {
+  grid-template-columns: 1fr;
 }
 
 .public-v2 .pv2-quote-side__card ol {
@@ -3601,6 +3659,35 @@
   color: var(--pv2-home-text);
   font-size: 0.84rem;
   font-weight: 850;
+}
+
+.public-v2 .pv2-quote-contact-list a,
+.public-v2 .pv2-quote-contact-list article {
+  background: color-mix(in srgb, var(--pv2-home-bg) 72%, var(--pv2-home-surface));
+  border: 1px solid var(--pv2-home-border);
+  border-radius: 7px;
+  display: grid;
+  gap: 0.22rem;
+  padding: 0.68rem 0.75rem;
+}
+
+.public-v2 .pv2-quote-contact-list a:hover {
+  border-color: rgba(var(--pv2-accent-rgb), 0.36);
+}
+
+.public-v2 .pv2-quote-contact-list span {
+  color: var(--pv2-accent);
+  font-family: var(--p-font-mono);
+  font-size: 0.62rem;
+  font-weight: 920;
+  text-transform: uppercase;
+}
+
+.public-v2 .pv2-quote-contact-list strong {
+  color: var(--pv2-home-text);
+  font-size: 0.82rem;
+  font-weight: 860;
+  overflow-wrap: anywhere;
 }
 
 .public-v2 .pv2-contact-card {

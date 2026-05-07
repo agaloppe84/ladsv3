@@ -1,40 +1,71 @@
-<%= tag.section class: component_classes, data: debug_data do %>
-  <%= render PublicV2::Ui::PanelComponent.new(kicker: "Formulaire", title: "Vos coordonnees et le besoin.", classes: "pv2-quote-form-card") do %>
+<%= tag.section id: "formulaire", class: component_classes, data: debug_data do %>
+  <%= render PublicV2::Ui::PanelComponent.new(kicker: "Formulaire", title: "Les infos utiles pour cadrer.", text: "Le formulaire reste volontairement court : produit, coordonnees, adresse du projet et message libre.", classes: "pv2-quote-form-card", debug: debug?) do %>
+    <%= render PublicV2::Ui::ProofRailComponent.new(
+      items: quote_page.form_focus_items,
+      label: "A renseigner",
+      variant: :compact,
+      debug: debug?
+    ) %>
+
     <%= render PublicV2::Forms::QuoteFormComponent.new(
       quote: quote_page.quote,
       products: quote_page.products,
-      url: form_url
+      url: form_url,
+      debug: debug?
     ) %>
   <% end %>
 
   <aside class="pv2-quote-side grid min-w-0 gap-3 min-[1121px]:sticky min-[1121px]:top-[92px]">
     <% if quote_page.selected_product? %>
-      <article class="pv2-quote-selected grid w-full min-w-0 gap-[0.78rem] p-4">
+      <article class="pv2-quote-selected grid w-full min-w-0 gap-[0.78rem] p-4 <%= debug_class %>" <%= debug_attributes %>>
         <div class="pv2-home-mini-media">
-          <%= render PublicV2::Ui::MediaFrameComponent.new(image: quote_page.selected_product_image, alt: quote_page.selected_product.name, ratio: :product) %>
+          <%= render PublicV2::Ui::MediaFrameComponent.new(image: quote_page.selected_product_image, alt: quote_page.selected_product.name, ratio: :product, debug: debug?) %>
         </div>
         <span>Produit selectionne</span>
         <strong><%= quote_page.selected_product.name %></strong>
         <p><%= quote_page.selected_product_category_name %></p>
+        <em><%= quote_page.selected_product_description %></em>
       </article>
     <% end %>
 
-    <%= render PublicV2::Ui::PanelComponent.new(kicker: "Comment ca se passe ?", classes: "pv2-quote-side__card") do %>
-      <ol class="grid gap-3">
-        <% step_items.each.with_index(1) do |item, index| %>
-          <li class="grid grid-cols-[auto_minmax(0,1fr)] gap-2"><strong><%= index %>.</strong><span><%= item %></span></li>
-        <% end %>
-      </ol>
-    <% end %>
+    <%= render PublicV2::Ui::StepRailComponent.new(
+      steps: quote_page.guide_steps,
+      label: "Apres envoi",
+      variant: :compact,
+      classes: "pv2-quote-side__card",
+      debug: debug?
+    ) %>
 
-    <%= render PublicV2::Ui::PanelComponent.new(kicker: "Contact direct", classes: "pv2-quote-side__card") do %>
-      <% contact_items.each do |item| %>
-        <% if item[:path].present? %>
-          <a href="<%= item[:path] %>"><%= item[:value] %></a>
-        <% else %>
-          <span><%= item[:value] %></span>
+    <%= render PublicV2::Ui::ActionDockComponent.new(
+      kicker: "Contact direct",
+      title: "Besoin d'un avis rapide ?",
+      text: "Le showroom peut aussi cadrer votre demande par telephone ou email.",
+      primary_label: "Appeler",
+      primary_path: PublicV2::ContactInfo.phone_href,
+      secondary_label: "Email",
+      secondary_path: PublicV2::ContactInfo.email_href,
+      meta: PublicV2::ContactInfo.full_address,
+      variant: :soft,
+      classes: "pv2-quote-side__card",
+      debug: debug?
+    ) %>
+
+    <%= render PublicV2::Ui::PanelComponent.new(kicker: "Coordonnees", title: "Showroom et contacts.", classes: "pv2-quote-side__card", debug: debug?) do %>
+      <div class="pv2-quote-contact-list grid gap-2">
+        <% quote_page.contact_items.each do |item| %>
+          <% if item.path.present? %>
+            <%= link_to item.path do %>
+              <span><%= item.label %></span>
+              <strong><%= item.value %></strong>
+            <% end %>
+          <% else %>
+            <article>
+              <span><%= item.label %></span>
+              <strong><%= item.value %></strong>
+            </article>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
     <% end %>
   </aside>
 <% end %>

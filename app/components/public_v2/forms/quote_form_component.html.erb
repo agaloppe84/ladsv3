@@ -40,6 +40,6 @@
     </label>
   </div>
 
-  <%= render PublicV2::Ui::ButtonComponent.new(label: "Envoyer la demande", type: "submit", variant: :primary) %>
-  <p class="pv2-quote-consent">En envoyant ce formulaire, vous acceptez d'etre recontacte au sujet de votre projet.</p>
+  <%= render PublicV2::Ui::ButtonComponent.new(label: "Envoyer ma demande", type: "submit", variant: :primary, full_width: true, debug: debug?) %>
+  <p class="pv2-quote-consent">En envoyant ce formulaire, vous acceptez d'etre recontacte au sujet de votre projet. Aucun paiement ni engagement en ligne.</p>
 <% end %>
