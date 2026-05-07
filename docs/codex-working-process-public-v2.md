@@ -32,7 +32,8 @@ Documents a lire au debut d'un nouveau chat Codex sur Public V2 :
 - Les anciennes vues de test et de lab Public V2 ont ete supprimees de la base applicative.
 - Le design valide est **Warm System V9**.
 - Le Public V2 final doit garder uniquement le mode clair/sombre.
-- Supprimer la logique de selection dynamique de couleur, d'accent et de police dans les prochaines etapes de refonte.
+- La logique de selection dynamique de couleur, d'accent et de police est retiree de Public V2.
+- La navbar publique ne garde qu'un controle de mode clair/sombre.
 - Le design-system doit redevenir une reference propre du UI Kit et des composants, pas un espace de prototypes de pages.
 - Les tests de layouts et explorations temporaires ne doivent pas rester dans le code applicatif final. Si une exploration est necessaire, elle doit etre isolee, nommee explicitement, puis supprimee apres validation.
 - Le mode debug des composants est conserve sur toutes les pages Public V2 pendant la reconstruction.

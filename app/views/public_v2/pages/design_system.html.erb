@@ -97,23 +97,25 @@
 
         <div class="mt-4 grid gap-3 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-4">
           <div class="grid gap-1">
-            <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">Accents dynamiques</span>
-            <p class="m-0 max-w-[70ch] text-[0.82rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">Les accents restent des choix de theme, pas des directions graphiques differentes. Chaque couleur fournit aussi un texte de contraste pour les panneaux flashy et les CTA.</p>
+            <span class="font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">Accent fixe</span>
+            <p class="m-0 max-w-[70ch] text-[0.82rem] font-semibold leading-6 text-[var(--pv2-home-muted)]">Warm System V9 garde un accent chaud unique. Les variantes viennent maintenant de la densite, des surfaces, des composants et du mode clair/sombre.</p>
           </div>
-          <div class="grid gap-3 min-[821px]:grid-cols-2">
-            <% @design_system.accent_groups.each do |group| %>
-              <article class="grid gap-3 rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-3">
-                <strong class="font-[var(--p-font-mono)] text-[0.68rem] font-black uppercase text-[var(--pv2-home-text)]"><%= group[:label] %></strong>
-                <div class="grid grid-cols-2 gap-2 min-[560px]:grid-cols-3">
-                  <% group[:accents].each do |accent| %>
-                    <span class="grid gap-2 rounded border border-[var(--pv2-home-border)] p-2 text-[0.72rem] font-extrabold text-[var(--pv2-home-muted)]">
-                      <i class="h-8 rounded" style="background:<%= accent[:hex] %>"></i>
-                      <em class="not-italic"><%= accent[:label] %></em>
-                    </span>
-                  <% end %>
-                </div>
-              </article>
-            <% end %>
+          <div class="grid gap-3 min-[821px]:grid-cols-3">
+            <span class="grid gap-2 rounded border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-3 text-[0.72rem] font-extrabold text-[var(--pv2-home-muted)]">
+              <i class="h-10 rounded" style="background:var(--pv2-accent)"></i>
+              <em class="not-italic">Accent chaud</em>
+              <strong class="font-[var(--p-font-mono)] text-[0.68rem] uppercase text-[var(--pv2-home-text)]">#ff3d12</strong>
+            </span>
+            <span class="grid gap-2 rounded border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-3 text-[0.72rem] font-extrabold text-[var(--pv2-home-muted)]">
+              <i class="h-10 rounded border border-[var(--pv2-accent)]" style="background:var(--p-accent-soft)"></i>
+              <em class="not-italic">Accent attenue</em>
+              <strong class="font-[var(--p-font-mono)] text-[0.68rem] uppercase text-[var(--pv2-home-text)]">#fff0e8</strong>
+            </span>
+            <span class="grid gap-2 rounded border border-[var(--pv2-home-border)] bg-[var(--pv2-home-surface)] p-3 text-[0.72rem] font-extrabold text-[var(--pv2-home-muted)]">
+              <i class="h-10 rounded border" style="background:var(--pv2-home-bg); border-color:var(--p-accent-border)"></i>
+              <em class="not-italic">Bord accent</em>
+              <strong class="font-[var(--p-font-mono)] text-[0.68rem] uppercase text-[var(--pv2-home-text)]">#ffc3ad</strong>
+            </span>
           </div>
         </div>
       </section>
@@ -191,10 +193,9 @@
           <article class="min-w-0 overflow-visible rounded-md border border-[var(--pv2-home-border)] bg-[var(--pv2-home-bg)] p-3 min-[1121px]:col-span-3">
             <span class="mb-3 block font-[var(--p-font-mono)] text-[0.62rem] font-black uppercase text-[var(--pv2-accent)]">NavbarComponent</span>
             <%= render PublicV2::Layout::NavbarComponent.new(
-              theme: @public_v2_theme,
               items: @design_system.nav_items,
               phone: "04 74 01 05 11",
-              show_theme: false,
+              show_mode_toggle: false,
               active_key: :products,
               classes: "!static rounded-md border border-[var(--pv2-home-border)]"
             ) %>

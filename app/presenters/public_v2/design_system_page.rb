@@ -216,10 +216,6 @@ class PublicV2::DesignSystemPage
     end
   end
 
-  def accent_groups
-    PublicV2::ThemePalette.groups
-  end
-
   def quote_preview
     Quote.new(product: featured_product&.name)
   end

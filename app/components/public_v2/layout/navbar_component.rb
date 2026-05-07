@@ -3,18 +3,17 @@
 class PublicV2::Layout::NavbarComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
-  def initialize(theme:, items: nil, phone: "04 74 01 05 11", show_theme: true, active_key: nil, classes: nil)
-    @theme = theme
+  def initialize(items: nil, phone: "04 74 01 05 11", show_mode_toggle: true, active_key: nil, classes: nil)
     @items = items
     @phone = phone
-    @show_theme = show_theme
+    @show_mode_toggle = show_mode_toggle
     @active_key = active_key
     @classes = classes
   end
 
   private
 
-  attr_reader :theme, :phone, :show_theme, :active_key, :classes
+  attr_reader :phone, :show_mode_toggle, :active_key, :classes
 
   def component_classes
     ["pv2-public-nav", "pv2-ui-navbar", "w-full min-w-0", debug_class, classes].compact.join(" ")
@@ -27,18 +26,6 @@ class PublicV2::Layout::NavbarComponent < ViewComponent::Base
       { key: :quote, label: "Devis", path: helpers.public_v2_new_quote_path },
       { key: :contact, label: "Contact", path: helpers.public_v2_contact_path }
     ]
-  end
-
-  def selected_accent
-    theme[:accent].to_s.downcase
-  end
-
-  def accent_groups
-    PublicV2::ThemePalette.groups
-  end
-
-  def selected_accent?(accent)
-    accent[:hex].to_s.downcase == selected_accent
   end
 
   def active_item?(item)

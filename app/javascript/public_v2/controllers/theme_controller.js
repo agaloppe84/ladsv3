@@ -1,63 +1,50 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["modeButton", "accentButton", "fontButton"]
+  static targets = ["modeButton"]
+
+  static storageKey = "public-v2-mode"
 
   connect() {
-    this.applyMode(this.element.dataset.publicV2Mode || "light")
-    this.applyFont(this.element.dataset.publicV2Font || "sans")
+    const mode = this.storedMode || this.element.dataset.publicV2Mode || "light"
+    this.applyMode(mode)
+    this.syncModeButtons(mode)
   }
 
   selectMode(event) {
-    this.applyMode(event.currentTarget.dataset.mode)
-    this.markSelected(this.modeButtonTargets, event.currentTarget)
-  }
-
-  selectAccent(event) {
-    const button = event.currentTarget
-    this.element.style.setProperty("--p-accent-rgb", button.dataset.rgb)
-    if (button.dataset.hex) {
-      this.element.style.setProperty("--p-accent", button.dataset.hex)
-    }
-    this.element.style.setProperty("--p-accent-text", button.dataset.text)
-    this.element.style.setProperty("--pv2-accent-rgb", button.dataset.rgb)
-    if (button.dataset.hex) {
-      this.element.style.setProperty("--pv2-accent", button.dataset.hex)
-    }
-    this.element.style.setProperty("--pv2-accent-text", button.dataset.text)
-    if (button.dataset.kind) {
-      this.element.dataset.publicV2AccentKind = button.dataset.kind
-    }
-    this.element.querySelectorAll(".pv2-shell").forEach((shell) => {
-      shell.style.setProperty("--pv2-accent-rgb", button.dataset.rgb)
-      if (button.dataset.hex) {
-        shell.style.setProperty("--pv2-accent", button.dataset.hex)
-      }
-      shell.style.setProperty("--pv2-accent-text", button.dataset.text)
-    })
-    this.markSelected(this.accentButtonTargets, button)
-  }
-
-  selectFont(event) {
-    this.applyFont(event.currentTarget.dataset.font)
-    this.markSelected(this.fontButtonTargets, event.currentTarget)
+    const mode = event.currentTarget.dataset.mode
+    this.applyMode(mode)
+    this.storeMode(mode)
+    this.syncModeButtons(mode)
   }
 
   applyMode(mode) {
-    this.element.dataset.publicV2Mode = mode
+    this.element.dataset.publicV2Mode = mode === "dark" ? "dark" : "light"
   }
 
-  applyFont(font) {
-    this.element.dataset.publicV2Font = font
-    const variable = font === "mono" ? "var(--p-font-mono)" : "var(--p-font-sans)"
-    this.element.style.setProperty("--p-font-family", variable)
-  }
+  syncModeButtons(mode) {
+    const normalizedMode = mode === "dark" ? "dark" : "light"
 
-  markSelected(buttons, selectedButton) {
-    buttons.forEach((button) => {
-      const selected = button === selectedButton
+    this.modeButtonTargets.forEach((button) => {
+      const selected = button.dataset.mode === normalizedMode
       button.classList.toggle("is-selected", selected)
       button.setAttribute("aria-pressed", selected ? "true" : "false")
     })
+  }
+
+  storeMode(mode) {
+    try {
+      window.localStorage.setItem(this.constructor.storageKey, mode)
+    } catch (_error) {
+      // Local storage can be unavailable in private contexts.
+    }
+  }
+
+  get storedMode() {
+    try {
+      return window.localStorage.getItem(this.constructor.storageKey)
+    } catch (_error) {
+      return null
+    }
   }
 }

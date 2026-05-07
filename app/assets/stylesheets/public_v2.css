@@ -1,28 +1,28 @@
 .public-v2 {
-  --p-bg: #f8f7f2;
-  --p-bg-soft: #efeee7;
-  --p-surface: #fffef9;
+  --p-bg: #fbf7ef;
+  --p-bg-soft: #f2e8da;
+  --p-surface: #fffdf7;
   --p-surface-raised: #ffffff;
-  --p-surface-inset: #f0eee6;
-  --p-border: rgba(32, 37, 29, 0.1);
-  --p-border-strong: rgba(32, 37, 29, 0.18);
-  --p-text: #161913;
-  --p-muted: #5f665b;
-  --p-subtle: #81887d;
-  --p-faint: #b4baae;
-  --p-accent-rgb: 132, 204, 22;
-  --p-accent: rgb(var(--p-accent-rgb));
-  --p-accent-soft: rgba(var(--p-accent-rgb), 0.14);
-  --p-accent-border: rgba(var(--p-accent-rgb), 0.34);
-  --p-accent-hover: rgba(var(--p-accent-rgb), 0.22);
-  --p-accent-text: #1d2a08;
+  --p-surface-inset: #f4eadf;
+  --p-border: rgba(36, 31, 25, 0.1);
+  --p-border-strong: rgba(36, 31, 25, 0.18);
+  --p-text: #1a1815;
+  --p-muted: #625f58;
+  --p-subtle: #878177;
+  --p-faint: #c6bdb0;
+  --p-accent-rgb: 255, 61, 18;
+  --p-accent: #ff3d12;
+  --p-accent-soft: #fff0e8;
+  --p-accent-border: #ffc3ad;
+  --p-accent-hover: rgba(var(--p-accent-rgb), 0.18);
+  --p-accent-text: #fffaf6;
   --pv2-accent-rgb: var(--p-accent-rgb);
   --pv2-accent: var(--p-accent);
   --pv2-accent-text: var(--p-accent-text);
   --p-success: #16a34a;
   --p-warning: #d97706;
   --p-danger: #dc2626;
-  --p-font-sans: "Inter var", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --p-font-sans: "Plus Jakarta Sans", "DM Sans", "Avenir Next", "Inter var", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   --p-font-mono: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   --p-font-family: var(--p-font-sans);
   --p-shell-x: clamp(1rem, 4vw, 3rem);
@@ -30,7 +30,7 @@
   --p-radius: 18px;
   --p-radius-lg: 28px;
   background:
-    linear-gradient(180deg, rgba(var(--p-accent-rgb), 0.08), transparent 22rem),
+    linear-gradient(180deg, rgba(var(--p-accent-rgb), 0.07), transparent 22rem),
     linear-gradient(180deg, var(--p-bg) 0%, #ffffff 48%, var(--p-bg) 100%);
   color: var(--p-text);
   font-family: var(--p-font-family);
@@ -40,20 +40,20 @@
 }
 
 .public-v2[data-public-v2-mode="dark"] {
-  --p-bg: #0c0f12;
-  --p-bg-soft: #11151a;
-  --p-surface: #171c22;
-  --p-surface-raised: #1c222a;
-  --p-surface-inset: #101419;
+  --p-bg: #17120f;
+  --p-bg-soft: #211914;
+  --p-surface: #241b16;
+  --p-surface-raised: #2b211a;
+  --p-surface-inset: #140f0d;
   --p-border: rgba(255, 255, 255, 0.085);
   --p-border-strong: rgba(255, 255, 255, 0.16);
-  --p-text: #f5f6f1;
-  --p-muted: #b5bbae;
-  --p-subtle: #858e82;
-  --p-faint: #5f675e;
+  --p-text: #fff9f1;
+  --p-muted: #c9bdb2;
+  --p-subtle: #9b8f84;
+  --p-faint: #6d5f55;
   background:
-    linear-gradient(180deg, rgba(var(--p-accent-rgb), 0.11), transparent 24rem),
-    linear-gradient(180deg, #11151a 0%, var(--p-bg) 54%, #0d1014 100%);
+    linear-gradient(180deg, rgba(var(--p-accent-rgb), 0.12), transparent 24rem),
+    linear-gradient(180deg, #211914 0%, var(--p-bg) 54%, #120d0b 100%);
 }
 
 .public-v2 * {
@@ -1377,7 +1377,7 @@
   position: relative;
 }
 
-.public-v2 .pv2-shell--graphite {
+.public-v2 .pv2-shell--warm-system {
   --pv2-home-bg: #f5f6ef;
   --pv2-home-bg-soft: #e8ebe0;
   --pv2-home-surface: #ffffff;
@@ -1391,7 +1391,7 @@
   background-size: 54px 54px, auto, auto;
 }
 
-.public-v2 .pv2-shell--graphite::before {
+.public-v2 .pv2-shell--warm-system::before {
   background: rgba(var(--pv2-accent-rgb), 0.46);
   content: "";
   height: 100%;
@@ -1416,7 +1416,7 @@
   --pv2-home-shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
 }
 
-.public-v2[data-public-v2-mode="dark"] .pv2-shell--graphite {
+.public-v2[data-public-v2-mode="dark"] .pv2-shell--warm-system {
   background:
     linear-gradient(90deg, rgba(var(--pv2-accent-rgb), 0.1) 1px, transparent 1px),
     linear-gradient(180deg, rgba(var(--pv2-accent-rgb), 0.12), transparent 28rem),
@@ -1524,45 +1524,22 @@
   color: var(--pv2-accent-text, var(--p-accent-text));
 }
 
-.public-v2 .pv2-public-theme-menu__swatches button {
-  align-items: center;
-  display: grid;
-  gap: 0.46rem;
-  grid-template-columns: 16px minmax(0, 1fr);
-  justify-content: start;
-  text-align: left;
-}
-
-.public-v2 .pv2-public-theme-menu__swatches span {
-  border-radius: 999px;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16);
-  height: 16px;
-  width: 16px;
-}
-
-.public-v2 .pv2-public-theme-menu__swatches em {
-  font-style: normal;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.public-v2 .pv2-shell--graphite .pv2-public-nav {
+.public-v2 .pv2-shell--warm-system .pv2-public-nav {
   background: color-mix(in srgb, var(--pv2-home-bg) 92%, transparent);
   border-bottom-color: rgba(var(--pv2-accent-rgb), 0.26);
 }
 
-.public-v2 .pv2-shell--graphite .pv2-public-nav__inner {
+.public-v2 .pv2-shell--warm-system .pv2-public-nav__inner {
   max-width: 1340px;
 }
 
-.public-v2 .pv2-shell--graphite .pv2-public-brand__mark,
-.public-v2 .pv2-shell--graphite .pv2-ui-dropdown__trigger,
-.public-v2 .pv2-shell--graphite .pv2-public-mobile-nav summary {
+.public-v2 .pv2-shell--warm-system .pv2-public-brand__mark,
+.public-v2 .pv2-shell--warm-system .pv2-ui-dropdown__trigger,
+.public-v2 .pv2-shell--warm-system .pv2-public-mobile-nav summary {
   border-radius: 6px;
 }
 
-.public-v2 .pv2-shell--graphite .pv2-public-nav__links a {
+.public-v2 .pv2-shell--warm-system .pv2-public-nav__links a {
   border-radius: 6px;
   font-family: var(--p-font-mono);
 }
@@ -1951,11 +1928,11 @@
     linear-gradient(180deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
 }
 
-.public-v2 .pv2-shell--graphite .pv2-public-footer__main {
+.public-v2 .pv2-shell--warm-system .pv2-public-footer__main {
   border-radius: 6px;
 }
 
-.public-v2 .pv2-shell--graphite .pv2-public-footer__bottom {
+.public-v2 .pv2-shell--warm-system .pv2-public-footer__bottom {
   border-top-color: rgba(var(--pv2-accent-rgb), 0.28);
   font-family: var(--p-font-mono);
 }

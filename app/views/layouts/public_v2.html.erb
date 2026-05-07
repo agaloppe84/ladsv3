@@ -15,10 +15,7 @@
     class="public-v2"
     data-controller="theme"
     data-public-v2-mode="light"
-    data-public-v2-font="sans"
     data-public-v2-debug="<%= public_v2_debug? %>"
-    data-public-v2-accent-kind="<%= @public_v2_theme[:accent_kind] %>"
-    style="--p-accent: <%= @public_v2_theme[:accent] %>; --p-accent-rgb: <%= @public_v2_theme[:accent_rgb] %>; --p-accent-text: <%= @public_v2_theme[:accent_text] %>; --pv2-accent: <%= @public_v2_theme[:accent] %>; --pv2-accent-rgb: <%= @public_v2_theme[:accent_rgb] %>; --pv2-accent-text: <%= @public_v2_theme[:accent_text] %>;"
   >
     <% if flash.any? %>
       <aside class="pv2-flashes" aria-live="polite">
@@ -30,13 +27,11 @@
 
     <div
       id="top"
-      class="pv2-shell pv2-shell--<%= @public_v2_theme[:slug] %>"
-      style="--pv2-accent: <%= @public_v2_theme[:accent] %>; --pv2-accent-rgb: <%= @public_v2_theme[:accent_rgb] %>; --pv2-accent-text: <%= @public_v2_theme[:accent_text] %>;"
+      class="pv2-shell pv2-shell--warm-system"
     >
       <%= render PublicV2::Layout::NavbarComponent.new(
-        theme: @public_v2_theme,
         active_key: @public_v2_active_nav_key,
-        show_theme: @public_v2_show_theme
+        show_mode_toggle: @public_v2_show_mode_toggle
       ) %>
 
       <% if @event.present? %>

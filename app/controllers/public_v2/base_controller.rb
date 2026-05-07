@@ -27,18 +27,6 @@ class PublicV2::BaseController < ApplicationController
          .first
   end
 
-  def public_v2_graphite_theme
-    accent = PublicV2::ThemePalette.default_accent
-
-    {
-      slug: "graphite",
-      accent: accent[:hex],
-      accent_rgb: accent[:rgb],
-      accent_text: accent[:text],
-      accent_kind: accent[:group]
-    }
-  end
-
   def public_products
     Product.joins(:category).merge(Category.published).where(type: nil)
   end
@@ -90,12 +78,11 @@ class PublicV2::BaseController < ApplicationController
   end
 
   def load_public_v2_shell_context
-    @public_v2_theme = public_v2_graphite_theme
     @public_v2_debug = true
     @event = active_event
     @public_v2_footer_categories = public_categories.limit(5).to_a
     @public_v2_active_nav_key = public_v2_active_nav_key
-    @public_v2_show_theme = true
+    @public_v2_show_mode_toggle = true
   end
 
   def public_v2_debug?
