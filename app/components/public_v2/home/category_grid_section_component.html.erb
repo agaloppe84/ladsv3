@@ -1,22 +1,16 @@
 <section id="produits" class="<%= component_classes %>" <%= debug_attributes %>>
   <%= render PublicV2::Content::SectionHeaderComponent.new(
     kicker: "Familles produits",
-    title: "Les categories disponibles dans le catalogue.",
+    title: "Entrer par usage, puis affiner avec l'equipe.",
     variant: :home,
     debug: debug?
   ) %>
 
-  <div class="pv2-home-warm__category-grid grid grid-cols-1 gap-3 min-[821px]:grid-cols-2 min-[1121px]:grid-cols-3">
-    <% category_cards.each do |card| %>
-      <article class="grid gap-2 p-3">
-        <div class="pv2-home-mini-media">
-          <%= render PublicV2::Ui::MediaFrameComponent.new(image: card.cover_image, alt: card.category.name, ratio: :product, debug: debug?) %>
-        </div>
-        <span><%= card.number %></span>
-        <h3><%= card.category.name %></h3>
-        <p><%= truncate(card.description, length: 92) %></p>
-        <small><%= card.product_count %> produits references</small>
-      </article>
-    <% end %>
-  </div>
+  <%= render PublicV2::Ui::ProductFamilyGridComponent.new(
+    families: family_items,
+    label: "Catalogue guide",
+    variant: :editorial,
+    classes: "pv2-home-warm__category-grid",
+    debug: debug?
+  ) %>
 </section>

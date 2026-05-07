@@ -1,18 +1,24 @@
 <section id="solutions" class="<%= component_classes %>" <%= debug_attributes %>>
   <%= render PublicV2::Content::SectionHeaderComponent.new(
-    kicker: "Expertise",
-    title: "Trois besoins principaux, une lecture rapide.",
+    kicker: "Lecture projet",
+    title: "Choisir la bonne solution avant de parler prix.",
     variant: :home,
     debug: debug?
   ) %>
 
-  <div class="pv2-home-warm__tracks grid grid-cols-1 gap-3 min-[821px]:grid-cols-3">
-    <% tracks.each do |number, title, text| %>
-      <article class="grid gap-2 p-4">
-        <span><%= number %></span>
-        <h3><%= title %></h3>
-        <p><%= text %></p>
-      </article>
-    <% end %>
+  <div class="pv2-home-warm__tracks grid grid-cols-1 gap-4 min-[1121px]:grid-cols-[minmax(0,0.7fr)_minmax(0,0.55fr)]">
+    <%= render PublicV2::Ui::ComparisonStripComponent.new(
+      items: home_page.comparison_items,
+      label: "Besoins frequents",
+      variant: :soft,
+      debug: debug?
+    ) %>
+
+    <%= render PublicV2::Ui::StepRailComponent.new(
+      steps: home_page.project_steps,
+      label: "Parcours devis",
+      variant: :rail,
+      debug: debug?
+    ) %>
   </div>
 </section>

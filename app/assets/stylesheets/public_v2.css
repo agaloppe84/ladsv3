@@ -2494,6 +2494,93 @@
   padding-top: 2.6rem;
 }
 
+.public-v2 .pv2-home-hero-v2 {
+  padding-top: 0.4rem;
+}
+
+.public-v2 .pv2-home-hero-v2__lead {
+  min-height: 100%;
+}
+
+.public-v2 .pv2-home-hero-v2__lead h2,
+.public-v2 .pv2-home-hero-v2__lead p:not(.pv2-ui-spotlight-panel__kicker) {
+  font-family: var(--p-font-family);
+}
+
+.public-v2 .pv2-home-hero-v2__lead h2 {
+  font-size: clamp(1.55rem, 3.3vw, 2.62rem);
+  max-width: 16ch;
+}
+
+.public-v2 .pv2-home-hero-v2__lead p:not(.pv2-ui-spotlight-panel__kicker) {
+  font-size: clamp(0.9rem, 1.25vw, 1rem);
+  font-weight: 700;
+  max-width: 40ch;
+}
+
+.public-v2 .pv2-home-hero-v2__actions {
+  margin-top: 0.1rem;
+}
+
+.public-v2 .pv2-home-hero-v2__panels .pv2-ui-panel {
+  min-height: 128px;
+}
+
+.public-v2 .pv2-home-hero-v2__panels .pv2-ui-panel__head h2 {
+  font-size: 0.95rem;
+}
+
+.public-v2 .pv2-home-hero-v2__panels .pv2-ui-panel__body p {
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.public-v2 .pv2-home-hero-v2__media-col {
+  align-content: stretch;
+}
+
+.public-v2 .pv2-home-hero-v2__media {
+  min-height: 300px;
+}
+
+.public-v2 .pv2-home-hero-v2__media .pv2-ui-media {
+  height: 100%;
+  min-height: 100%;
+}
+
+.public-v2 .pv2-home-hero-v2 .pv2-ui-proof-rail__items {
+  grid-template-columns: repeat(auto-fit, minmax(min(130px, 100%), 1fr));
+}
+
+.public-v2 .pv2-home-warm__matrix .pv2-ui-comparison-strip__items {
+  grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+}
+
+.public-v2 .pv2-home-warm__matrix .pv2-ui-step-rail--rail .pv2-ui-step-rail__items {
+  grid-template-columns: 1fr;
+}
+
+.public-v2 .pv2-home-warm__catalog .pv2-ui-product-family-grid__items {
+  grid-template-columns: repeat(auto-fit, minmax(min(255px, 100%), 1fr));
+}
+
+.public-v2 .pv2-home-warm__catalog .pv2-ui-product-family-grid__media {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.public-v2 .pv2-home-warm__showroom .pv2-ui-panel {
+  align-content: center;
+}
+
+.public-v2 .pv2-home-warm__showroom .pv2-ui-trust-cluster__items {
+  grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+}
+
+.public-v2 .pv2-home-quote-panel .pv2-ui-step-rail__items {
+  grid-template-columns: repeat(auto-fit, minmax(min(145px, 100%), 1fr));
+}
+
 .public-v2 .pv2-home-warm .pv2-home-warm__category-grid article {
   transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
 }

@@ -5,24 +5,22 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
 
   SUPPORT_PANELS = [
     {
-      kicker: "Conseil",
-      title: "Showroom",
-      text: "Besoin, dimensions et contraintes."
+      kicker: "Devis",
+      title: "Retour 48h",
+      text: "Un premier cadrage pour avancer vite.",
+      variant: :flashy
     },
     {
-      kicker: "Selection",
-      title: "Sur mesure",
-      text: "Confort, protection et tenue."
+      kicker: "Metier",
+      title: "Lecture terrain",
+      text: "Exposition, dimensions, usage et contraintes.",
+      variant: :outline
     },
     {
       kicker: "Pose",
-      title: "Equipe terrain",
-      text: "Fourniture et installation locale."
-    },
-    {
-      kicker: "SAV",
-      title: "Suivi local",
-      text: "Accompagnement apres la pose."
+      title: "Equipe locale",
+      text: "Conseil, installation et suivi SAV.",
+      variant: :soft
     }
   ].freeze
 
@@ -43,9 +41,17 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
     SUPPORT_PANELS
   end
 
+  def hero_image
+    home_page.featured_image || "magasin-01.jpeg"
+  end
+
+  def proof_items
+    home_page.hero_proof_items
+  end
+
   def component_classes
     [
-      "pv2-home-warm__hero",
+      "pv2-home-warm__hero pv2-home-hero-v2",
       "grid w-full min-w-0 gap-4",
       debug_class
     ].compact.join(" ")

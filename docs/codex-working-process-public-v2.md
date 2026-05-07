@@ -70,6 +70,7 @@ Structure actuelle :
 - presenters dans `app/presenters/public_v2` ;
 - CSS dedie `app/assets/stylesheets/public_v2.css` ;
 - entree JS `app/javascript/public_v2/application.js`.
+- home Public V2 reconstruite sur Warm System avec hero devis compact, preuves, parcours client, familles produit et CTA devis factorises.
 
 Routes Public V2 actives :
 

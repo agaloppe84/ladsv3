@@ -54,6 +54,38 @@ class PublicV2::HomePage
     products.first(6)
   end
 
+  def hero_proof_items
+    [
+      { value: "48h", label: "Premier retour devis", text: "Un cadrage rapide pour avancer." },
+      { value: "200m2", label: "Showroom technique", text: "Comparer toiles, moteurs et finitions." },
+      { value: "Local", label: "Conseil + pose", text: "Une equipe terrain dans le Rhone." }
+    ]
+  end
+
+  def project_steps
+    [
+      { kicker: "01", title: "Cadrer", text: "Produit, exposition, contraintes." },
+      { kicker: "02", title: "Comparer", text: "Options utiles, finitions, pose." },
+      { kicker: "03", title: "Chiffrer", text: "Retour clair avant decision." }
+    ]
+  end
+
+  def comparison_items
+    [
+      { kicker: "Soleil", title: "Stores et pergolas", text: "Ombre, chaleur, terrasse.", points: ["Toile", "Structure", "Motorisation"] },
+      { kicker: "Fermeture", title: "Volets et garage", text: "Confort, securite, usage quotidien.", points: ["Isolation", "Tablier", "Commande"] },
+      { kicker: "Confort", title: "Moustiquaires", text: "Ventiler sans subir les nuisibles.", points: ["Discretion", "Pose", "Entretien"] }
+    ]
+  end
+
+  def trust_items
+    [
+      { value: "35 ans", label: "Experience metier", text: "Des projets suivis localement." },
+      { value: "RGE", label: "Expertise visible", text: "Un signal clair de confiance." },
+      { value: "SAV", label: "Suivi apres pose", text: "Une equipe joignable." }
+    ]
+  end
+
   private
 
   attr_reader :destock_products, :primary_image_resolver

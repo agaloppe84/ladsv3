@@ -1,9 +1,20 @@
 <section id="showroom" class="<%= component_classes %>" <%= debug_attributes %>>
-  <div class="grid gap-2">
-    <p class="pv2-eyebrow">Showroom technique</p>
-    <h2>200m2 pour comparer les mecanismes, toiles et finitions.</h2>
-    <p>Le showroom de L'Arbresle permet de voir les produits, comprendre les options et valider les contraintes avant devis.</p>
-  </div>
+  <%= render PublicV2::Ui::PanelComponent.new(
+    kicker: "Showroom technique",
+    title: "Voir les solutions avant de figer le devis.",
+    text: "Le showroom de L'Arbresle sert a comparer les mecanismes, toiles, motorisations et finitions avec un conseil metier.",
+    variant: :soft,
+    padding: :lg,
+    classes: "h-full",
+    debug: debug?
+  ) do %>
+    <%= render PublicV2::Ui::TrustClusterComponent.new(
+      items: home_page.trust_items,
+      variant: :compact,
+      debug: debug?
+    ) %>
+  <% end %>
+
   <div class="pv2-home-media">
     <%= render PublicV2::Ui::MediaFrameComponent.new(image: "magasin-06.jpeg", alt: "Showroom Les Artisans du Store", debug: debug?) %>
   </div>

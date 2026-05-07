@@ -3,21 +3,14 @@
 class PublicV2::Home::ExpertiseSectionComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
-  TRACKS = [
-    ["01", "Se proteger du soleil", "Stores bannes, screens, pergolas, toiles et solutions pour gerer chaleur et luminosite."],
-    ["02", "Fermer et securiser", "Volets roulants, volets battants, portes de garage et motorisations adaptees au quotidien."],
-    ["03", "Gagner en confort", "Moustiquaires, stores interieurs, SAV et conseils pour les contraintes de pose."]
-  ].freeze
-
-  def initialize(debug: false)
+  def initialize(home_page:, debug: false)
+    @home_page = home_page
     @debug = debug
   end
 
   private
 
-  def tracks
-    TRACKS
-  end
+  attr_reader :home_page
 
   def component_classes
     [

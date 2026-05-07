@@ -12,6 +12,20 @@ class PublicV2::Home::CategoryGridSectionComponent < ViewComponent::Base
 
   attr_reader :category_cards
 
+  def family_items
+    category_cards.map do |card|
+      {
+        kicker: card.number,
+        title: card.category.name,
+        text: card.description,
+        meta: "#{card.product_count} produits references",
+        image: card.cover_image,
+        alt: card.category.name,
+        path: helpers.public_v2_categories_path(anchor: "categorie-#{card.category.id}")
+      }
+    end
+  end
+
   def component_classes
     [
       "pv2-home-section pv2-home-warm__catalog",
