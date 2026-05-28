@@ -1,0 +1,64 @@
+<%= tag.section id: id, class: component_classes, data: component_data do %>
+  <% if render_header? %>
+    <header class="pv2-ui-showcase-carousel__head grid gap-2">
+      <% if label.present? %>
+        <p class="pv2-ui-showcase-carousel__label"><%= label %></p>
+      <% end %>
+      <% if title.present? %>
+        <h2><%= title %></h2>
+      <% end %>
+      <% if text.present? %>
+        <p><%= text %></p>
+      <% end %>
+    </header>
+  <% end %>
+
+  <div class="pv2-ui-showcase-carousel__viewport">
+    <div
+      class="pv2-ui-showcase-carousel__track"
+      data-showcase-carousel-target="track"
+      data-action="scroll->showcase-carousel#queueSync keydown.left->showcase-carousel#previous keydown.right->showcase-carousel#next"
+      tabindex="0"
+      role="list"
+      aria-label="<%= track_label %>">
+      <% slide_components.each_with_index do |slide, index| %>
+        <div
+          class="pv2-ui-showcase-carousel__slide"
+          data-showcase-carousel-target="slide"
+          role="listitem"
+          aria-label="<%= "#{index + 1} / #{slide_components.size}" %>">
+          <%= render slide %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <% if render_pagination? %>
+    <nav class="pv2-ui-showcase-carousel__pagination" aria-label="Navigation du carousel">
+      <% slide_components.each_with_index do |_slide, index| %>
+        <button
+          type="button"
+          class="pv2-ui-showcase-carousel__dot"
+          data-showcase-carousel-target="dot"
+          data-action="showcase-carousel#scrollTo"
+          data-showcase-carousel-index-param="<%= index %>"
+          aria-label="<%= "Aller a l'element #{index + 1}" %>">
+        </button>
+      <% end %>
+    </nav>
+  <% end %>
+
+  <div
+    class="pv2-ui-showcase-carousel__modal hidden opacity-0"
+    data-showcase-carousel-target="modal"
+    data-action="click->showcase-carousel#backdropClose"
+    role="dialog"
+    aria-modal="true"
+    aria-label="<%= modal_label %>">
+    <div class="pv2-ui-showcase-carousel__modal-panel opacity-0 scale-95 translate-y-2" data-showcase-carousel-target="modalPanel">
+      <button type="button" class="pv2-ui-showcase-carousel__modal-close" data-action="showcase-carousel#closeModal" aria-label="Fermer l'apercu">Fermer</button>
+      <img class="pv2-ui-showcase-carousel__modal-image" data-showcase-carousel-target="modalImage" alt="">
+      <p class="pv2-ui-showcase-carousel__modal-caption" data-showcase-carousel-target="modalCaption"></p>
+    </div>
+  </div>
+<% end %>

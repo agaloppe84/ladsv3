@@ -272,6 +272,18 @@
             </article>
           </div>
 
+          <article class="min-w-0 rounded-pv2 border border-pv2-border bg-pv2-bg p-3 min-[821px]:p-4">
+            <span class="mb-3 block text-[0.62rem] font-black uppercase text-pv2-accent">ShowcaseCarouselComponent</span>
+            <%= render PublicV2::Ui::ShowcaseCarouselComponent.new(
+              items: @design_system.showcase_samples,
+              label: "Carousel showcase",
+              title: "Collection fluide et reutilisable.",
+              text: "Une brique pour photos, familles produits ou selections cliquables, avec pagination compacte.",
+              variant: :soft,
+              size: :compact
+            ) %>
+          </article>
+
           <div class="grid gap-4 min-[1121px]:grid-cols-2">
             <%= render PublicV2::Content::CtaBandComponent.new(
               kicker: "Besoin d'aide ?",

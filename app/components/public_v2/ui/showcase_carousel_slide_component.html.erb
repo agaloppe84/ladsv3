@@ -1,0 +1,44 @@
+<% slide_body = capture do %>
+  <div class="pv2-ui-showcase-slide__media" aria-hidden="<%= image_source.blank? %>">
+    <% if cloudinary_image? %>
+      <%= cl_image_tag(image_source.key, crop: :scale, **image_options) %>
+    <% else %>
+      <%= image_tag(image_source, **image_options) %>
+    <% end %>
+  </div>
+
+  <div class="pv2-ui-showcase-slide__overlay"></div>
+
+  <div class="pv2-ui-showcase-slide__content grid min-w-0 gap-2">
+    <% if content.present? %>
+      <%= content %>
+    <% else %>
+      <% if kicker.present? %>
+        <span class="pv2-ui-showcase-slide__kicker"><%= kicker %></span>
+      <% end %>
+      <% if title.present? %>
+        <strong><%= title %></strong>
+      <% end %>
+      <% if text.present? %>
+        <p><%= text %></p>
+      <% end %>
+      <% if meta.present? %>
+        <small><%= meta %></small>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<% if link? %>
+  <%= link_to path, class: component_classes, data: component_data do %>
+    <%= slide_body %>
+  <% end %>
+<% elsif modal? || button? %>
+  <%= button_tag type: "button", class: component_classes, data: component_data do %>
+    <%= slide_body %>
+  <% end %>
+<% else %>
+  <article class="<%= component_classes %>" <%= tag.attributes(data: component_data) %>>
+    <%= slide_body %>
+  </article>
+<% end %>

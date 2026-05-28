@@ -6,11 +6,12 @@
     debug: debug?
   ) %>
 
-  <%= render PublicV2::Ui::ProductFamilyGridComponent.new(
-    families: family_items,
-    label: "Catalogue guide",
-    variant: :editorial,
-    classes: "pv2-home-warm__category-grid",
+  <%= render PublicV2::Ui::ShowcaseCarouselComponent.new(
+    items: family_items,
+    aria_label: "Familles produits Les Artisans du Store",
+    variant: :soft,
+    size: :wide,
+    classes: "pv2-home-warm__category-carousel",
     debug: debug?
   ) %>
 </section>

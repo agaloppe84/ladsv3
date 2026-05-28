@@ -530,6 +530,23 @@ Role :
 - orienter vers categories ;
 - composer une entree catalogue premium.
 
+### ShowcaseCarouselComponent
+
+Role :
+
+- afficher une collection media ou produit avec une lecture premium ;
+- laisser voir les elements voisins pour inciter au scroll ;
+- supporter des slides cliquables, non cliquables ou ouvrant une modale ;
+- garder une pagination compacte centree.
+
+Contraintes :
+
+- scroll horizontal natif avec snap ;
+- controller Stimulus limite aux dots, a l'etat actif, au clavier et a la modale ;
+- pas de bouton play ;
+- responsive mobile obligatoire avec hauteur contenue ;
+- contenu de slide court et lisible.
+
 ### ComparisonStripComponent
 
 Role :

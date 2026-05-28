@@ -47,7 +47,7 @@ Documents a lire au debut d'un nouveau chat Codex sur Public V2 :
 La direction validee sert de reference visuelle pour la suite :
 
 - ambiance : premium, design, moderne, structuree, chaleureuse, orientee devis ;
-- typographie cible : police moderne et sobre proche de `Plus Jakarta Sans`, `DM Sans`, `Avenir Next`, Inter ;
+- typographie cible : stack sans-serif par defaut de Tailwind, via les tokens Public V2, sans police custom ;
 - accent principal : chaud et visible, autour de `#ff3d12` ;
 - accent attenue : surfaces claires chaudes type `#fff0e8`, bordures type `#ffc3ad` ;
 - fonds clairs : nuances naturelles tres claires, par exemple `#fbf7ef`, `#fffdf7`, `#f2e8da` ;
@@ -132,6 +132,7 @@ Les primitives UI Kit stabilisees doivent servir de briques reutilisables :
 - `BadgeComponent` : statuts courts et lisibles ;
 - `StatCardComponent` : chiffres, preuves et infos compactes ;
 - `MediaFrameComponent` : medias avec ratios stables ;
+- `ShowcaseCarouselComponent` : collections media/listes avec scroll fluide, slides modulaires, pagination compacte et actions optionnelles ;
 - `DropdownComponent`, `BreadcrumbComponent`, `NotificationBannerComponent`, `EmptyStateComponent` : navigation et feedback ;
 - les composants doivent refuser silencieusement les variantes inconnues en revenant a une variante par defaut.
 

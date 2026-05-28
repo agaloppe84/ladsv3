@@ -105,7 +105,7 @@ class PublicV2::DesignSystemPage
     ["Content", "PublicV2::Content::PartnersComponent", "Logo wall partenaires avec hover accent."],
     ["Home", "PublicV2::Home::HeroSectionComponent", "Hero home reel : spotlight principal, media aligne et panels de preuves."],
     ["Home", "PublicV2::Home::ExpertiseSectionComponent", "Section besoins metier : soleil, fermeture, confort."],
-    ["Home", "PublicV2::Home::CategoryGridSectionComponent", "Grille familles produits de la home."],
+    ["Home", "PublicV2::Home::CategoryGridSectionComponent", "Carousel familles produits de la home."],
     ["Home", "PublicV2::Home::ProductRowsSectionComponent", "Selection catalogue en lignes comparables."],
     ["Home", "PublicV2::Home::ShowroomSectionComponent", "Bloc showroom image + texte."],
     ["Home", "PublicV2::Home::QuoteShortcutSectionComponent", "Raccourci devis avec produit preselectionnable."],
@@ -143,6 +143,7 @@ class PublicV2::DesignSystemPage
     ["UI", "PublicV2::Ui::QuoteIntakeComponent", "Mini parcours devis visuel avec etapes et actions compactes."],
     ["UI", "PublicV2::Ui::TrustClusterComponent", "Cluster de preuves : experience, RGE, showroom, local, SAV."],
     ["UI", "PublicV2::Ui::ProductFamilyGridComponent", "Grille de familles/besoins avec image optionnelle, meta et lien."],
+    ["UI", "PublicV2::Ui::ShowcaseCarouselComponent", "Carousel media/listes avec scroll fluide, pagination compacte, liens ou actions modales."],
     ["UI", "PublicV2::Ui::ComparisonStripComponent", "Comparaison compacte de familles, options ou usages."],
     ["UI", "PublicV2::Ui::MediaMosaicComponent", "Mosaic media controlee pour showroom, details et preuves visuelles."],
     ["UI", "PublicV2::Ui::FaqAccordionComponent", "Accordeon FAQ pour objections client et points devis."],
@@ -216,6 +217,30 @@ class PublicV2::DesignSystemPage
     end
   end
 
+  def showcase_samples
+    source_categories = sample_categories
+    return fallback_showcase_items if source_categories.blank?
+
+    source_categories.each_with_index.map do |category, index|
+      modal_demo = index.zero?
+      fallback_image = fallback_showcase_images[index % fallback_showcase_images.size]
+
+      {
+        kicker: format("%02d", index + 1),
+        title: category.name,
+        text: category.description.to_s.squish.presence || "Comparer les usages, contraintes et options avant devis.",
+        meta: "Entree catalogue",
+        image: index.zero? ? featured_image : nil,
+        fallback: fallback_image,
+        alt: category.name,
+        action: (modal_demo ? :modal : nil),
+        modal_image: (modal_demo ? featured_image || fallback_image : nil),
+        modal_caption: (modal_demo ? "Apercu media #{category.name}" : nil),
+        path: (modal_demo ? nil : path_builder.call(:categories))
+      }
+    end
+  end
+
   def sample_option_items
     source_options = featured_product&.options.to_a
     source_options = fallback_option_texts.map { |content| OptionPreview.new(content: content) } if source_options.blank?
@@ -283,5 +308,25 @@ class PublicV2::DesignSystemPage
       { kicker: "03", title: "Pergolas", text: "Structure, ombre, usage exterieur.", meta: "Exterieur", path: path_builder.call(:categories) },
       { kicker: "04", title: "Moustiquaires", text: "Ventilation, confort, discret.", meta: "Fenetre", path: path_builder.call(:categories) }
     ]
+  end
+
+  def fallback_showcase_items
+    fallback_product_families.each_with_index.map do |family, index|
+      modal_demo = index.zero?
+      fallback_image = fallback_showcase_images[index % fallback_showcase_images.size]
+
+      family.merge(
+        image: fallback_image,
+        alt: family[:title],
+        action: (modal_demo ? :modal : nil),
+        modal_image: (modal_demo ? fallback_image : nil),
+        modal_caption: (modal_demo ? "Apercu media #{family[:title]}" : nil),
+        path: (modal_demo ? nil : family[:path])
+      )
+    end
+  end
+
+  def fallback_showcase_images
+    ["magasin-04.jpeg", "magasin-06.jpeg", "magasin-01.jpeg", "placeholder.jpg"]
   end
 end
