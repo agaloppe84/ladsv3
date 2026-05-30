@@ -1,50 +1,93 @@
 <section class="<%= component_classes %>" <%= debug_attributes %>>
-  <div class="pv2-home-hero-v2__layout grid w-full min-w-0 items-stretch gap-4 min-[1121px]:grid-cols-[minmax(0,0.95fr)_minmax(360px,0.72fr)]">
-    <div class="pv2-home-hero-v2__copy grid min-w-0 gap-3">
-      <%= render PublicV2::Ui::SpotlightPanelComponent.new(
-        kicker: "Stores / volets / fermetures",
-        title: "Un projet cadre vite, un devis plus clair.",
-        text: "Conseil showroom, lecture technique et pose locale pour stores, volets, portes de garage, moustiquaires et pergolas.",
-        variant: :soft,
-        size: :md,
-        classes: "pv2-home-hero-v2__lead",
-        debug: debug?
-      ) do %>
-        <div class="pv2-home-hero-v2__actions flex flex-wrap gap-2">
-          <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: public_v2_new_quote_path, variant: :primary, size: :sm, debug: debug?) %>
-          <%= render PublicV2::Ui::ButtonComponent.new(label: "Voir les produits", path: public_v2_categories_path, variant: :secondary, size: :sm, debug: debug?) %>
-        </div>
-      <% end %>
+  <header class="pv2-home-hero-v2__intro">
+    <h1>
+      <span>Choisir juste</span>
+      <span>Devis clair</span>
+    </h1>
+  </header>
 
-      <div class="pv2-home-hero-v2__panels grid min-w-0 gap-3 min-[641px]:grid-cols-3">
-        <% support_panels.each do |panel| %>
-          <%= render PublicV2::Ui::PanelComponent.new(
-            kicker: panel[:kicker],
-            title: panel[:title],
-            variant: panel[:variant],
-            padding: :sm,
-            classes: "h-full",
-            debug: debug?
-          ) do %>
-            <p><%= panel[:text] %></p>
-          <% end %>
+  <div class="pv2-home-hero-v2__stage">
+    <div class="pv2-home-hero-v2__left-stack">
+      <article class="pv2-home-hero-v2__card">
+        <strong>Devis clair <span>Vite</span></strong>
+        <p>On verifie l'usage, l'exposition, les dimensions et les contraintes avant de chiffrer.</p>
+
+        <div class="pv2-home-hero-v2__actions">
+          <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: public_v2_new_quote_path, variant: :primary, size: :md, shape: :pill, classes: "pv2-home-hero-v2__quote-button", debug: debug?) %>
+        </div>
+      </article>
+
+      <aside class="pv2-home-hero-v2__facts-card" aria-label="Preuves utiles">
+        <% hero_fact_items.each do |item| %>
+          <article class="pv2-home-hero-v2__fact-card pv2-home-hero-v2__fact-card--<%= item[:variant] %>">
+            <strong>
+              <% if item[:value] == "200m2" %>
+                200m<sup>2</sup>
+              <% else %>
+                <%= item[:value] %>
+              <% end %>
+            </strong>
+            <p><%= item[:text] %></p>
+          </article>
         <% end %>
-      </div>
+      </aside>
     </div>
 
-    <aside class="pv2-home-hero-v2__media-col grid min-w-0 gap-3">
-      <div class="pv2-home-media pv2-home-hero-v2__media">
-        <%= render PublicV2::Ui::MediaFrameComponent.new(
-          image: hero_image,
-          alt: featured_alt,
-          loading: "eager",
-          ratio: :wide,
-          classes: "h-full min-h-full",
-          debug: debug?
-        ) %>
+    <div
+      class="pv2-home-hero-v2__media-card"
+      data-controller="hero-product-slider"
+      data-hero-product-slider-initial-index-value="<%= hero_product_initial_index %>"
+      data-action="keydown.left->hero-product-slider#previous keydown.right->hero-product-slider#next"
+      role="region"
+      aria-label="Produits en situation"
+      tabindex="0"
+      style="--pv2-hero-media-accent: <%= hero_product_initial_card[:accent] %>;"
+    >
+      <div class="pv2-home-hero-v2__media-viewport">
+        <div
+          class="pv2-home-hero-v2__media-track"
+          data-hero-product-slider-target="track"
+        >
+          <% hero_product_cards.each_with_index do |card, index| %>
+            <% is_active = index == hero_product_initial_index %>
+            <article
+              class="pv2-home-hero-v2__product-slide <%= "is-active" if is_active %>"
+              data-hero-product-slider-target="slide"
+              aria-label="<%= card[:label] %>"
+              aria-current="<%= is_active ? "true" : "false" %>"
+              aria-hidden="<%= is_active ? "false" : "true" %>"
+              style="--pv2-hero-media-accent: <%= card[:accent] %>;"
+            >
+              <%= image_tag(
+                card[:image],
+                alt: card[:alt],
+                loading: is_active ? "eager" : "lazy",
+                decoding: "async",
+                class: "pv2-cover-image"
+              ) %>
+              <div class="pv2-home-hero-v2__media-caption">
+                <span><%= card[:kicker] %></span>
+                <strong><%= card[:title] %> <em><%= card[:accent_title] %></em></strong>
+              </div>
+            </article>
+          <% end %>
+        </div>
       </div>
 
-      <%= render PublicV2::Ui::ProofRailComponent.new(items: proof_items, label: "Preuves utiles", variant: :compact, debug: debug?) %>
-    </aside>
+      <nav class="pv2-home-hero-v2__media-dots" aria-label="Changer de produit">
+        <% hero_product_cards.each_with_index do |card, index| %>
+          <% is_active = index == hero_product_initial_index %>
+          <button
+            type="button"
+            class="pv2-home-hero-v2__media-dot <%= "is-active" if is_active %>"
+            data-hero-product-slider-target="dot"
+            data-action="hero-product-slider#goTo"
+            data-hero-product-slider-index-param="<%= index %>"
+            aria-current="<%= is_active ? "true" : "false" %>"
+            aria-label="Afficher <%= card[:label] %>"
+          ></button>
+        <% end %>
+      </nav>
+    </div>
   </div>
 </section>

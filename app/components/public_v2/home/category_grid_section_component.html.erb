@@ -1,16 +1,15 @@
 <section id="produits" class="<%= component_classes %>" <%= debug_attributes %>>
-  <%= render PublicV2::Content::SectionHeaderComponent.new(
-    kicker: "Familles produits",
-    title: "Entrer par usage, puis affiner avec l'equipe.",
-    variant: :home,
-    debug: debug?
-  ) %>
+  <h2 class="pv2-home-category-title">
+    <span>Solutions</span>
+    <span class="pv2-home-category-title__accent">sur mesure.</span>
+  </h2>
 
   <%= render PublicV2::Ui::ShowcaseCarouselComponent.new(
-    items: family_items,
+    items: category_feature_cards,
     aria_label: "Familles produits Les Artisans du Store",
     variant: :soft,
-    size: :wide,
+    size: :content,
+    initial_index: initial_category_index,
     classes: "pv2-home-warm__category-carousel",
     debug: debug?
   ) %>

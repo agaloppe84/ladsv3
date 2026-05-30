@@ -40,7 +40,7 @@ class PublicV2::HomePage
   end
 
   def category_cards
-    @category_cards ||= categories.first(6).map.with_index do |category, index|
+    @category_cards ||= categories.map.with_index do |category, index|
       CategoryCard.new(
         category: category,
         index: index,

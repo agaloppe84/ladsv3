@@ -3,24 +3,64 @@
 class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
-  SUPPORT_PANELS = [
+  HERO_PRODUCT_CARDS = [
     {
-      kicker: "Devis",
-      title: "Retour 48h",
-      text: "Un premier cadrage pour avancer vite.",
-      variant: :flashy
+      key: "interior-blind",
+      label: "Store interieur",
+      image: "public_v2/hero-interior-blind-closeup-cgi.png",
+      alt: "Store interieur premium type Duette en gros plan sur fond blanc",
+      kicker: "Store interieur",
+      title: "Lumiere",
+      accent_title: "maitrisee",
+      accent: "#ff3b30"
     },
     {
-      kicker: "Metier",
-      title: "Lecture terrain",
-      text: "Exposition, dimensions, usage et contraintes.",
-      variant: :outline
+      key: "pergola",
+      label: "Pergola",
+      image: "public_v2/hero-pergola-closeup-cgi.png",
+      alt: "Pergola bioclimatique premium en gros plan vue de dessus sur fond blanc",
+      kicker: "Pergola",
+      title: "Ombre",
+      accent_title: "precise",
+      accent: "#00a7ff"
     },
     {
-      kicker: "Pose",
-      title: "Equipe locale",
-      text: "Conseil, installation et suivi SAV.",
-      variant: :soft
+      key: "mosquito-screen",
+      label: "Moustiquaire",
+      image: "public_v2/hero-mosquito-screen-closeup-cgi.png",
+      alt: "Moustiquaire premium en gros plan vue de face sur fond blanc",
+      kicker: "Moustiquaire",
+      title: "Air frais",
+      accent_title: "protege",
+      accent: "#34c759"
+    },
+    {
+      key: "awning-box",
+      label: "Store coffre",
+      image: "public_v2/hero-awning-box-closeup-cgi.png",
+      alt: "Store banne coffre premium en gros plan vue de dessus sur fond blanc",
+      kicker: "Store coffre",
+      title: "Terrasse",
+      accent_title: "ombragee",
+      accent: "#ff9f0a"
+    }
+  ].freeze
+  HERO_PRODUCT_INITIAL_KEY = "awning-box"
+  HERO_FACT_ITEMS = [
+    {
+      variant: :accent,
+      value: "48h",
+      text: "Premier retour"
+    },
+    {
+      variant: :contrast,
+      value: "200m2",
+      text: "Showroom"
+    },
+    {
+      variant: :plain,
+      value: "Expert RGE",
+      text: "Pose suivie"
     }
   ].freeze
 
@@ -33,20 +73,20 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
 
   attr_reader :home_page
 
-  def featured_alt
-    home_page.featured_product&.name || "Showroom Les Artisans du Store"
+  def hero_product_cards
+    HERO_PRODUCT_CARDS
   end
 
-  def support_panels
-    SUPPORT_PANELS
+  def hero_product_initial_index
+    HERO_PRODUCT_CARDS.index { |card| card[:key] == HERO_PRODUCT_INITIAL_KEY } || 0
   end
 
-  def hero_image
-    home_page.featured_image || "magasin-01.jpeg"
+  def hero_product_initial_card
+    HERO_PRODUCT_CARDS[hero_product_initial_index]
   end
 
-  def proof_items
-    home_page.hero_proof_items
+  def hero_fact_items
+    HERO_FACT_ITEMS
   end
 
   def component_classes

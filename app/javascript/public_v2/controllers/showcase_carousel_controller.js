@@ -2,6 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["track", "slide", "dot", "modal", "modalPanel", "modalImage", "modalCaption"]
+  static values = { initialIndex: Number }
 
   connect() {
     this.activeIndex = 0
@@ -10,7 +11,12 @@ export default class extends Controller {
     this.resizeHandler = () => this.queueSync()
 
     window.addEventListener("resize", this.resizeHandler)
-    this.queueSync()
+    this.syncFrame = requestAnimationFrame(() => {
+      this.syncFrame = null
+      this.syncEdges()
+      this.scrollToIndex(this.initialIndex, { behavior: "auto" })
+      this.sync()
+    })
   }
 
   disconnect() {
@@ -25,6 +31,7 @@ export default class extends Controller {
 
     this.syncFrame = requestAnimationFrame(() => {
       this.syncFrame = null
+      this.syncEdges()
       this.sync()
     })
   }
@@ -113,12 +120,25 @@ export default class extends Controller {
     this.setActive(closestIndex)
   }
 
-  scrollToIndex(index) {
+  syncEdges() {
+    if (!this.hasTrackTarget || this.slideTargets.length === 0) return
+    if (!this.element.classList.contains("pv2-ui-showcase-carousel--content")) return
+
+    const trackWidth = this.trackTarget.clientWidth
+    const firstWidth = this.slideTargets[0].getBoundingClientRect().width
+    const lastWidth = this.slideTargets[this.slideTargets.length - 1].getBoundingClientRect().width
+    const minimumEdge = 12
+
+    this.trackTarget.style.setProperty("--pv2-showcase-start-edge", `${Math.max(minimumEdge, (trackWidth - firstWidth) / 2)}px`)
+    this.trackTarget.style.setProperty("--pv2-showcase-end-edge", `${Math.max(minimumEdge, (trackWidth - lastWidth) / 2)}px`)
+  }
+
+  scrollToIndex(index, options = {}) {
     const slide = this.slideTargets[index]
     if (!slide) return
 
     slide.scrollIntoView({
-      behavior: this.motionAllowed ? "smooth" : "auto",
+      behavior: options.behavior || (this.motionAllowed ? "smooth" : "auto"),
       block: "nearest",
       inline: "center"
     })
@@ -144,5 +164,11 @@ export default class extends Controller {
 
   get motionAllowed() {
     return !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  }
+
+  get initialIndex() {
+    if (this.slideTargets.length === 0) return 0
+
+    return Math.min(Math.max(this.initialIndexValue || 0, 0), this.slideTargets.length - 1)
   }
 }

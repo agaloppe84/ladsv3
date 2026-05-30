@@ -1,21 +1,35 @@
 <section id="showroom" class="<%= component_classes %>" <%= debug_attributes %>>
-  <%= render PublicV2::Ui::PanelComponent.new(
-    kicker: "Showroom technique",
-    title: "Voir les solutions avant de figer le devis.",
-    text: "Le showroom de L'Arbresle sert a comparer les mecanismes, toiles, motorisations et finitions avec un conseil metier.",
-    variant: :soft,
-    padding: :lg,
-    classes: "h-full",
-    debug: debug?
-  ) do %>
-    <%= render PublicV2::Ui::TrustClusterComponent.new(
-      items: home_page.trust_items,
-      variant: :compact,
-      debug: debug?
-    ) %>
-  <% end %>
+  <header class="pv2-home-showroom-story__head">
+    <h2>
+      <span>Comparer</span>
+      <span class="pv2-home-showroom-story__accent">Choisir juste</span>
+    </h2>
+    <p>Au showroom de L'Arbresle, les produits deviennent concrets : toiles, moteurs, finitions et contraintes de pose se comparent avant le devis.</p>
+  </header>
 
-  <div class="pv2-home-media">
-    <%= render PublicV2::Ui::MediaFrameComponent.new(image: "magasin-06.jpeg", alt: "Showroom Les Artisans du Store", debug: debug?) %>
+  <div class="pv2-home-showroom-story__layout">
+    <article class="pv2-home-showroom-story__card">
+      <strong>Voir les bons détails</strong>
+      <p>Une équipe métier vous aide à choisir ce qui compte vraiment : usage quotidien, exposition, intégration en façade et confort après pose.</p>
+
+      <div class="pv2-home-showroom-story__focus-grid">
+        <% focus_items.each do |item| %>
+          <div>
+            <span>
+              <%= inline_svg_tag(item[:icon], class: "pv2-home-showroom-story__icon") %>
+              <%= item[:label] %>
+            </span>
+            <p><%= item[:text] %></p>
+          </div>
+        <% end %>
+      </div>
+    </article>
+
+    <figure class="pv2-home-showroom-story__media" aria-label="Showroom Les Artisans du Store">
+      <%= image_tag("public_v2/showroom-textile-catalog-cgi.png", alt: "Catalogue de toiles et finitions textile Les Artisans du Store", loading: "lazy", decoding: "async", class: "pv2-cover-image") %>
+      <figcaption>
+        <span>200m<sup>2</sup></span>
+      </figcaption>
+    </figure>
   </div>
 </section>

@@ -8,9 +8,9 @@ class PublicV2::Ui::ShowcaseCarouselComponent < ViewComponent::Base
   renders_many :slides, PublicV2::Ui::ShowcaseCarouselSlideComponent
 
   VARIANTS = %i[default soft].freeze
-  SIZES = %i[compact md wide].freeze
+  SIZES = %i[compact md wide content].freeze
 
-  def initialize(items: [], label: nil, title: nil, text: nil, id: nil, aria_label: nil, variant: :default, size: :md, show_pagination: true, classes: nil, data: {}, debug: false)
+  def initialize(items: [], label: nil, title: nil, text: nil, id: nil, aria_label: nil, variant: :default, size: :md, initial_index: 0, show_pagination: true, classes: nil, data: {}, debug: false)
     @items = Array(items)
     @label = label
     @title = title
@@ -19,6 +19,7 @@ class PublicV2::Ui::ShowcaseCarouselComponent < ViewComponent::Base
     @aria_label = aria_label
     @variant = normalize_option(variant, VARIANTS, :default)
     @size = normalize_option(size, SIZES, :md)
+    @initial_index = initial_index.to_i
     @show_pagination = show_pagination
     @classes = classes
     @data = data
@@ -31,7 +32,7 @@ class PublicV2::Ui::ShowcaseCarouselComponent < ViewComponent::Base
 
   private
 
-  attr_reader :items, :label, :title, :text, :id, :aria_label, :variant, :size, :show_pagination, :classes, :data
+  attr_reader :items, :label, :title, :text, :id, :aria_label, :variant, :size, :initial_index, :show_pagination, :classes, :data
 
   def slide_components
     @slide_components ||= item_slide_components + slides
@@ -39,6 +40,8 @@ class PublicV2::Ui::ShowcaseCarouselComponent < ViewComponent::Base
 
   def item_slide_components
     items.map do |item|
+      next item if item.respond_to?(:render_in)
+
       PublicV2::Ui::ShowcaseCarouselSlideComponent.new(**item.to_h.symbolize_keys, debug: debug?)
     end
   end
@@ -56,7 +59,8 @@ class PublicV2::Ui::ShowcaseCarouselComponent < ViewComponent::Base
 
   def component_data
     with_debug_data(data).merge(
-      controller: [data[:controller], "showcase-carousel"].compact.join(" ")
+      controller: [data[:controller], "showcase-carousel"].compact.join(" "),
+      showcase_carousel_initial_index_value: initial_index
     )
   end
 

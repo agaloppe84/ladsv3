@@ -1,0 +1,26 @@
+<% card_body = capture do %>
+  <span class="pv2-ui-category-feature-card__eyebrow"><%= eyebrow %></span>
+
+  <strong class="pv2-ui-category-feature-card__title">
+    <span class="pv2-ui-category-feature-card__title-accent"><%= title %></span>
+    <span class="pv2-ui-category-feature-card__title-line"><%= title_suffix %></span>
+  </strong>
+
+  <p class="pv2-ui-category-feature-card__text"><%= text %></p>
+
+  <span class="pv2-ui-category-feature-card__plus" aria-hidden="true">
+    <svg viewBox="0 0 24 24" role="img" focusable="false">
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  </span>
+<% end %>
+
+<% if link? %>
+  <%= link_to path, class: component_classes, style: component_style, data: component_data, aria: { label: link_label } do %>
+    <%= card_body %>
+  <% end %>
+<% else %>
+  <article class="<%= component_classes %>" style="<%= component_style %>" <%= tag.attributes(data: component_data) %>>
+    <%= card_body %>
+  </article>
+<% end %>
