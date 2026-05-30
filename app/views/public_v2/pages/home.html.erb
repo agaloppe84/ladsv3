@@ -3,9 +3,7 @@
 
 <main class="pv2-home-page pv2-home-warm grid gap-14 pb-20 pt-8 min-[821px]:gap-20">
   <%= render PublicV2::Home::HeroSectionComponent.new(home_page: @home_page) %>
-  <%= render PublicV2::Home::ExpertiseSectionComponent.new(home_page: @home_page) %>
   <%= render PublicV2::Home::CategoryGridSectionComponent.new(category_cards: @home_page.category_cards) %>
-  <%= render PublicV2::Home::ProductRowsSectionComponent.new(products: @home_page.product_rows) %>
   <%= render PublicV2::Home::ShowroomSectionComponent.new(home_page: @home_page) %>
   <%= render PublicV2::Content::PartnersComponent.new %>
   <%= render PublicV2::Home::QuoteShortcutSectionComponent.new(product_options: @home_page.quote_product_options, selected_product_id: @home_page.quote_product_selected_id, home_page: @home_page) %>

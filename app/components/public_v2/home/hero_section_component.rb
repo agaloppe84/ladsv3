@@ -59,8 +59,8 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
     },
     {
       variant: :plain,
-      value: "Expert RGE",
-      text: "Pose suivie"
+      value: "RGE",
+      text: "Expert"
     }
   ].freeze
 
