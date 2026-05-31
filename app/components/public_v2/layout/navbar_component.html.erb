@@ -1,82 +1,64 @@
 <%= tag.header class: component_classes, data: debug_data do %>
-  <div class="pv2-public-nav__inner grid min-h-[76px] grid-cols-[auto_1fr_auto] items-center gap-3 max-[720px]:grid-cols-[1fr_auto]">
-    <%= link_to public_v2_home_path, class: "pv2-public-brand inline-flex min-w-0 items-center gap-[0.68rem]", aria: { label: "Accueil Les Artisans du Store" } do %>
-      <span class="pv2-public-brand__mark inline-flex h-[42px] w-[42px] items-center justify-center max-[560px]:h-[38px] max-[560px]:w-[38px]">
-        <%= inline_svg_tag("logos/ads-without-text.svg", class: "pv2-public-brand__logo h-[26px] w-[26px]") %>
-      </span>
-      <span class="min-w-0">
-        <strong>Les Artisans du Store</strong>
-        <small>L'Arbresle · Rhône</small>
-      </span>
-    <% end %>
+  <div class="pv2-public-nav__inner grid min-h-[68px] grid-cols-[1fr_auto] items-center gap-3">
+    <div class="pv2-public-nav__left flex min-w-0 items-center gap-5">
+      <%= link_to public_v2_home_path, class: "pv2-public-brand inline-flex min-w-0 items-center gap-[0.68rem]", aria: { label: "Accueil Les Artisans du Store" } do %>
+        <span class="pv2-public-brand__mark inline-flex h-[40px] w-[40px] items-center justify-center max-[560px]:h-[38px] max-[560px]:w-[38px]">
+          <%= inline_svg_tag("logos/ads-without-text.svg", class: "pv2-public-brand__logo h-[25px] w-[25px]") %>
+        </span>
+      <% end %>
 
-    <div class="pv2-public-nav__center hidden min-w-0 items-center justify-center gap-3 min-[1121px]:flex">
-      <p>Conseil, pose et devis local</p>
-      <nav class="pv2-public-nav__links flex items-center gap-[0.16rem]" aria-label="Navigation principale">
+      <nav class="pv2-public-nav__links hidden min-w-0 items-center gap-[1.2rem] min-[821px]:flex" aria-label="Navigation principale">
         <% items.each do |item| %>
           <%= link_to item[:label], item[:path], class: link_classes(item), aria: link_aria(item) %>
         <% end %>
       </nav>
     </div>
 
-    <div class="pv2-public-nav__actions flex flex-none items-center justify-end gap-[0.48rem]">
-      <%= link_to quote_path, class: "pv2-public-nav__quote hidden min-[821px]:inline-flex" do %>
-        <span>Devis</span>
-        <strong>48h</strong>
-      <% end %>
-
-      <% if phone.present? %>
-        <%= link_to phone, phone_href, class: "pv2-public-phone hidden min-[1121px]:inline-flex", aria: { label: "Appeler le showroom au #{phone}" } %>
-      <% end %>
-
+    <div class="pv2-public-nav__actions flex flex-none items-center justify-end gap-[0.5rem]">
       <% if show_mode_toggle %>
-        <%= render PublicV2::Ui::DropdownComponent.new(label: "Mode d'affichage", width: :sm, classes: "pv2-public-theme-dropdown") do |dropdown| %>
-          <% dropdown.with_trigger do %>
-            <span class="sr-only">Mode d'affichage</span>
-            <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 3.25v2.4M12 18.35v2.4M5.64 5.64l1.7 1.7M16.66 16.66l1.7 1.7M3.25 12h2.4M18.35 12h2.4M5.64 18.36l1.7-1.7M16.66 7.34l1.7-1.7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.7" />
-              <circle cx="12" cy="12" r="4.15" fill="none" stroke="currentColor" stroke-width="1.7" />
-              <path d="M12 7.85a4.15 4.15 0 0 1 0 8.3Z" fill="var(--pv2-accent)" />
+        <button
+          type="button"
+          class="pv2-public-theme-switch"
+          data-theme-target="switch"
+          data-action="theme#toggleMode"
+          aria-label="Activer le mode sombre"
+          aria-pressed="false">
+          <span class="pv2-public-theme-switch__icon pv2-public-theme-switch__icon--sun" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 3.75a1.05 1.05 0 0 1 1.05 1.05v.58a1.05 1.05 0 1 1-2.1 0V4.8A1.05 1.05 0 0 1 12 3.75Zm0 13.82a1.05 1.05 0 0 1 1.05 1.05v.58a1.05 1.05 0 1 1-2.1 0v-.58A1.05 1.05 0 0 1 12 17.57ZM5.25 12a1.05 1.05 0 0 1-1.05 1.05h-.58a1.05 1.05 0 1 1 0-2.1h.58A1.05 1.05 0 0 1 5.25 12Zm15.13 0a1.05 1.05 0 0 1-1.05 1.05h-.58a1.05 1.05 0 1 1 0-2.1h.58A1.05 1.05 0 0 1 20.38 12ZM7.2 7.2a1.05 1.05 0 0 1-1.49 0l-.42-.42a1.05 1.05 0 0 1 1.49-1.49l.42.42a1.05 1.05 0 0 1 0 1.49Zm11.51 11.51a1.05 1.05 0 0 1-1.49 0l-.42-.42a1.05 1.05 0 0 1 1.49-1.49l.42.42a1.05 1.05 0 0 1 0 1.49Zm-11.51-1.5a1.05 1.05 0 0 1 0 1.5l-.42.41a1.05 1.05 0 1 1-1.49-1.48l.42-.43a1.05 1.05 0 0 1 1.49 0Zm11.51-11.5a1.05 1.05 0 0 1 0 1.49l-.42.42a1.05 1.05 0 0 1-1.49-1.49l.42-.42a1.05 1.05 0 0 1 1.49 0ZM12 7.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Z" />
             </svg>
-          <% end %>
-
-          <% dropdown.with_panel do %>
-            <div class="pv2-public-theme-menu grid gap-3">
-              <section class="grid gap-2" aria-label="Mode couleur">
-                <p>Mode</p>
-                <div class="pv2-public-theme-menu__segmented grid grid-cols-2 gap-1">
-                  <button type="button" class="is-selected" data-theme-target="modeButton" data-action="theme#selectMode" data-mode="light" aria-pressed="true">Clair</button>
-                  <button type="button" data-theme-target="modeButton" data-action="theme#selectMode" data-mode="dark" aria-pressed="false">Sombre</button>
-                </div>
-              </section>
-            </div>
-          <% end %>
-        <% end %>
+          </span>
+          <span class="pv2-public-theme-switch__icon pv2-public-theme-switch__icon--moon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M18.9 14.42A7.25 7.25 0 0 1 9.58 5.1a.92.92 0 0 0-1.02-1.28A9.2 9.2 0 1 0 20.18 15.44a.92.92 0 0 0-1.28-1.02Z" />
+            </svg>
+          </span>
+          <span class="pv2-public-theme-switch__thumb" aria-hidden="true"></span>
+        </button>
       <% end %>
 
-      <details class="pv2-public-mobile-nav relative block min-[1121px]:hidden">
-        <summary class="grid h-[42px] w-[42px] cursor-pointer items-center justify-center gap-1" aria-label="Ouvrir la navigation">
-          <span></span>
-          <span></span>
-          <span></span>
-        </summary>
-        <div>
+      <%= render PublicV2::Ui::DropdownComponent.new(
+        label: "Navigation",
+        width: :sm,
+        classes: "pv2-public-mobile-nav relative block min-[821px]:hidden",
+        trigger_classes: "pv2-public-mobile-nav__trigger",
+        panel_classes: "pv2-public-mobile-nav__panel"
+      ) do |dropdown| %>
+        <% dropdown.with_trigger do %>
+          <span class="pv2-public-mobile-nav__icon" aria-hidden="true">
+            <span></span>
+            <span></span>
+          </span>
+        <% end %>
+
+        <% dropdown.with_panel do %>
           <nav class="grid gap-1" aria-label="Navigation mobile">
             <% items.each do |item| %>
               <%= link_to item[:label], item[:path], class: link_classes(item), aria: link_aria(item) %>
             <% end %>
           </nav>
-
-          <div class="pv2-public-mobile-nav__cards grid gap-2">
-            <% mobile_contact_items.each do |item| %>
-              <%= link_to item[:path], class: "pv2-public-mobile-nav__card" do %>
-                <span><%= item[:label] %></span>
-                <strong><%= item[:value] %></strong>
-              <% end %>
-            <% end %>
-          </div>
-        </div>
-      </details>
+        <% end %>
+      <% end %>
     </div>
   </div>
 <% end %>

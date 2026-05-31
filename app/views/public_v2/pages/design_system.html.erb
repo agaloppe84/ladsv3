@@ -164,7 +164,7 @@
         <div class="mb-5 grid gap-2">
           <p class="text-[0.64rem] font-black uppercase text-pv2-accent">03 / Navigation</p>
           <h2 class="text-[1.15rem] font-black leading-tight">Navbar, breadcrumb, dropdown.</h2>
-          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-pv2-muted">La navigation publique expose les liens essentiels, le telephone, le menu mobile et le toggle clair/sombre.</p>
+          <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-pv2-muted">La navigation publique expose le logo, les liens essentiels, le menu mobile et le toggle clair/sombre.</p>
         </div>
 
         <div class="grid gap-4">
@@ -172,10 +172,9 @@
             <span class="mb-3 block text-[0.62rem] font-black uppercase text-pv2-accent">NavbarComponent</span>
             <%= render PublicV2::Layout::NavbarComponent.new(
               items: @design_system.nav_items,
-              phone: "04 74 01 05 11",
               show_mode_toggle: false,
               active_key: :products,
-              classes: "!static rounded-pv2 border border-pv2-border"
+              classes: "!static rounded-pv2"
             ) %>
           </article>
 
@@ -210,12 +209,25 @@
 
             <article class="grid min-w-0 gap-3 rounded-pv2 border border-pv2-border bg-pv2-bg p-4">
               <span class="text-[0.62rem] font-black uppercase text-pv2-accent">Mode toggle</span>
-              <div class="pv2-public-theme-menu grid gap-2">
-                <div class="pv2-public-theme-menu__segmented grid grid-cols-2 gap-1">
-                  <button type="button" class="is-selected">Clair</button>
-                  <button type="button">Sombre</button>
-                </div>
-              </div>
+              <button
+                type="button"
+                class="pv2-public-theme-switch"
+                data-theme-target="switch"
+                data-action="theme#toggleMode"
+                aria-label="Activer le mode sombre"
+                aria-pressed="false">
+                <span class="pv2-public-theme-switch__icon pv2-public-theme-switch__icon--sun" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 3.75a1.05 1.05 0 0 1 1.05 1.05v.58a1.05 1.05 0 1 1-2.1 0V4.8A1.05 1.05 0 0 1 12 3.75Zm0 13.82a1.05 1.05 0 0 1 1.05 1.05v.58a1.05 1.05 0 1 1-2.1 0v-.58A1.05 1.05 0 0 1 12 17.57ZM5.25 12a1.05 1.05 0 0 1-1.05 1.05h-.58a1.05 1.05 0 1 1 0-2.1h.58A1.05 1.05 0 0 1 5.25 12Zm15.13 0a1.05 1.05 0 0 1-1.05 1.05h-.58a1.05 1.05 0 1 1 0-2.1h.58A1.05 1.05 0 0 1 20.38 12ZM7.2 7.2a1.05 1.05 0 0 1-1.49 0l-.42-.42a1.05 1.05 0 0 1 1.49-1.49l.42.42a1.05 1.05 0 0 1 0 1.49Zm11.51 11.51a1.05 1.05 0 0 1-1.49 0l-.42-.42a1.05 1.05 0 0 1 1.49-1.49l.42.42a1.05 1.05 0 0 1 0 1.49Zm-11.51-1.5a1.05 1.05 0 0 1 0 1.5l-.42.41a1.05 1.05 0 1 1-1.49-1.48l.42-.43a1.05 1.05 0 0 1 1.49 0Zm11.51-11.5a1.05 1.05 0 0 1 0 1.49l-.42.42a1.05 1.05 0 0 1-1.49-1.49l.42-.42a1.05 1.05 0 0 1 1.49 0ZM12 7.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Z" />
+                  </svg>
+                </span>
+                <span class="pv2-public-theme-switch__icon pv2-public-theme-switch__icon--moon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M18.9 14.42A7.25 7.25 0 0 1 9.58 5.1a.92.92 0 0 0-1.02-1.28A9.2 9.2 0 1 0 20.18 15.44a.92.92 0 0 0-1.28-1.02Z" />
+                  </svg>
+                </span>
+                <span class="pv2-public-theme-switch__thumb" aria-hidden="true"></span>
+              </button>
             </article>
           </div>
         </div>

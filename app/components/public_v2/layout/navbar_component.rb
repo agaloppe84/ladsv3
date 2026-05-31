@@ -3,9 +3,8 @@
 class PublicV2::Layout::NavbarComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
-  def initialize(items: nil, phone: PublicV2::ContactInfo.phone, show_mode_toggle: true, active_key: nil, classes: nil, debug: false)
+  def initialize(items: nil, phone: nil, show_mode_toggle: true, active_key: nil, classes: nil, debug: false)
     @items = items
-    @phone = phone
     @show_mode_toggle = show_mode_toggle
     @active_key = active_key
     @classes = classes
@@ -14,7 +13,7 @@ class PublicV2::Layout::NavbarComponent < ViewComponent::Base
 
   private
 
-  attr_reader :phone, :show_mode_toggle, :active_key, :classes
+  attr_reader :show_mode_toggle, :active_key, :classes
 
   def component_classes
     component_class_names("pv2-public-nav", "pv2-ui-navbar", "w-full min-w-0", debug_class, classes)
@@ -60,21 +59,5 @@ class PublicV2::Layout::NavbarComponent < ViewComponent::Base
 
   def product_path_prefix
     helpers.public_v2_product_path(slug: "__slug__").delete_suffix("__slug__")
-  end
-
-  def phone_href
-    "tel:#{phone.to_s.delete(" ")}"
-  end
-
-  def quote_path
-    helpers.public_v2_new_quote_path
-  end
-
-  def mobile_contact_items
-    [
-      { label: "Appeler", value: phone, path: phone_href },
-      { label: "Showroom", value: "L'Arbresle", path: helpers.public_v2_contact_path },
-      { label: "Devis", value: "Premier retour 48h", path: quote_path }
-    ]
   end
 end
