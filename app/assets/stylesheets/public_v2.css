@@ -3641,6 +3641,7 @@
   background: color-mix(in srgb, var(--pv2-surface) 82%, transparent);
   border: 1px solid var(--pv2-border);
   border-radius: 8px;
+  scroll-margin-top: calc(68px + 1.25rem);
 }
 
 .public-v2 .pv2-category-block__header h2,

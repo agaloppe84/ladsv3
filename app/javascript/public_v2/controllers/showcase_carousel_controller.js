@@ -135,12 +135,19 @@ export default class extends Controller {
 
   scrollToIndex(index, options = {}) {
     const slide = this.slideTargets[index]
-    if (!slide) return
+    if (!slide || !this.hasTrackTarget) return
 
-    slide.scrollIntoView({
-      behavior: options.behavior || (this.motionAllowed ? "smooth" : "auto"),
-      block: "nearest",
-      inline: "center"
+    const trackRect = this.trackTarget.getBoundingClientRect()
+    const slideRect = slide.getBoundingClientRect()
+    const targetLeft = this.trackTarget.scrollLeft +
+      slideRect.left -
+      trackRect.left -
+      ((trackRect.width - slideRect.width) / 2)
+    const maxLeft = Math.max(this.trackTarget.scrollWidth - this.trackTarget.clientWidth, 0)
+
+    this.trackTarget.scrollTo({
+      left: Math.min(Math.max(targetLeft, 0), maxLeft),
+      behavior: options.behavior || (this.motionAllowed ? "smooth" : "auto")
     })
 
     this.setActive(index)

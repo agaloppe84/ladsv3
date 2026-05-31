@@ -45,7 +45,7 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
       accent: "#ff9f0a"
     }
   ].freeze
-  HERO_PRODUCT_INITIAL_KEY = "awning-box"
+  HERO_PRODUCT_INITIAL_KEY = "interior-blind"
   HERO_FACT_ITEMS = [
     {
       variant: :accent,

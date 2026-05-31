@@ -14,7 +14,9 @@ export default class extends Controller {
     window.addEventListener("resize", this.resizeHandler)
 
     this.setActive(this.activeIndex)
-    requestAnimationFrame(() => this.scrollToIndex(this.activeIndex, { behavior: "auto" }))
+    if (this.activeIndex > 0) {
+      requestAnimationFrame(() => this.scrollToIndex(this.activeIndex, { behavior: "auto" }))
+    }
   }
 
   disconnect() {
