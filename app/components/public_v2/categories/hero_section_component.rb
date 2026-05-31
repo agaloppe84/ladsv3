@@ -19,4 +19,8 @@ class PublicV2::Categories::HeroSectionComponent < ViewComponent::Base
       debug_class
     )
   end
+
+  def proof_variant(index)
+    %w[accent contrast plain][index % 3]
+  end
 end

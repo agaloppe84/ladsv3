@@ -12,7 +12,7 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
       kicker: "Store interieur",
       title: "Lumiere",
       accent_title: "maitrisee",
-      accent: "#ff3b30"
+      accent: "var(--pv2-style-accent-4)"
     },
     {
       key: "pergola",
@@ -22,7 +22,7 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
       kicker: "Pergola",
       title: "Ombre",
       accent_title: "precise",
-      accent: "#00a7ff"
+      accent: "var(--pv2-style-accent-1)"
     },
     {
       key: "mosquito-screen",
@@ -32,7 +32,7 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
       kicker: "Moustiquaire",
       title: "Air frais",
       accent_title: "protege",
-      accent: "#34c759"
+      accent: "var(--pv2-style-accent-3)"
     },
     {
       key: "awning-box",
@@ -42,7 +42,7 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
       kicker: "Store coffre",
       title: "Terrasse",
       accent_title: "ombragee",
-      accent: "#ff9f0a"
+      accent: "var(--pv2-style-accent-6)"
     }
   ].freeze
   HERO_PRODUCT_INITIAL_KEY = "interior-blind"

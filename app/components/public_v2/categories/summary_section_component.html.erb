@@ -1,23 +1,11 @@
-<%= tag.section class: component_classes, data: debug_data, aria: { label: "Synthese catalogue" } do %>
-  <%= render PublicV2::Ui::ComparisonStripComponent.new(
-    items: category_index_page.comparison_items,
-    label: "Entrer par besoin",
-    variant: :soft,
+<%= tag.section class: component_classes, data: debug_data, aria: { label: "Orientation catalogue" } do %>
+  <%= render PublicV2::Ui::AnchorRailComponent.new(
+    items: category_index_page.anchor_items,
+    kicker: category_index_page.anchor_rail_kicker,
+    title: category_index_page.anchor_rail_title,
+    text: category_index_page.anchor_rail_text,
+    label: "Navigation des familles produits",
+    variant: :minimal,
     debug: debug?
   ) %>
-
-  <div class="grid min-w-0 gap-3">
-    <%= render PublicV2::Ui::StepRailComponent.new(
-      steps: category_index_page.guide_steps,
-      label: "Methode de choix",
-      variant: :rail,
-      debug: debug?
-    ) %>
-
-    <%= render PublicV2::Ui::TrustClusterComponent.new(
-      items: category_index_page.trust_items,
-      variant: :compact,
-      debug: debug?
-    ) %>
-  </div>
 <% end %>

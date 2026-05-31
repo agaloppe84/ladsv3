@@ -1,0 +1,24 @@
+<% card_body = capture do %>
+  <% if kicker.present? %>
+    <span class="pv2-ui-product-slider-card__eyebrow"><%= kicker %></span>
+  <% end %>
+
+  <strong class="pv2-ui-product-slider-card__title"><%= title %></strong>
+  <p class="pv2-ui-product-slider-card__text"><%= description_text %></p>
+
+  <span class="pv2-ui-product-slider-card__plus" aria-hidden="true">
+    <svg viewBox="0 0 24 24" role="img" focusable="false">
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  </span>
+<% end %>
+
+<% if link? %>
+  <%= link_to path, class: component_classes, aria: { label: link_label }, data: debug_data do %>
+    <%= card_body %>
+  <% end %>
+<% else %>
+  <article class="<%= component_classes %>" <%= debug_attributes %>>
+    <%= card_body %>
+  </article>
+<% end %>

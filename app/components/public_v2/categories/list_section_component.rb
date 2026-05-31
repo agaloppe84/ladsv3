@@ -16,7 +16,7 @@ class PublicV2::Categories::ListSectionComponent < ViewComponent::Base
   def component_classes
     component_class_names(
       "pv2-public-index__categories",
-      "grid w-full min-w-0 gap-5",
+      "grid w-full min-w-0 gap-12",
       debug_class
     )
   end

@@ -10,7 +10,7 @@ class PublicV2::Ui::ShowcaseCarouselComponent < ViewComponent::Base
   VARIANTS = %i[default soft].freeze
   SIZES = %i[compact md wide content].freeze
 
-  def initialize(items: [], label: nil, title: nil, text: nil, id: nil, aria_label: nil, variant: :default, size: :md, initial_index: 0, show_pagination: true, classes: nil, data: {}, debug: false)
+  def initialize(items: [], label: nil, title: nil, text: nil, id: nil, aria_label: nil, variant: :default, size: :md, initial_index: 0, show_pagination: true, show_modal: true, classes: nil, data: {}, debug: false)
     @items = Array(items)
     @label = label
     @title = title
@@ -21,6 +21,7 @@ class PublicV2::Ui::ShowcaseCarouselComponent < ViewComponent::Base
     @size = normalize_option(size, SIZES, :md)
     @initial_index = initial_index.to_i
     @show_pagination = show_pagination
+    @show_modal = show_modal
     @classes = classes
     @data = data
     @debug = debug
@@ -32,7 +33,7 @@ class PublicV2::Ui::ShowcaseCarouselComponent < ViewComponent::Base
 
   private
 
-  attr_reader :items, :label, :title, :text, :id, :aria_label, :variant, :size, :initial_index, :show_pagination, :classes, :data
+  attr_reader :items, :label, :title, :text, :id, :aria_label, :variant, :size, :initial_index, :show_pagination, :show_modal, :classes, :data
 
   def slide_components
     @slide_components ||= item_slide_components + slides
@@ -70,6 +71,10 @@ class PublicV2::Ui::ShowcaseCarouselComponent < ViewComponent::Base
 
   def render_pagination?
     show_pagination && slide_components.size > 1
+  end
+
+  def render_modal?
+    show_modal
   end
 
   def modal_label

@@ -1,0 +1,99 @@
+<%= tag.article id: section.anchor_id, class: component_classes, data: debug_data do %>
+  <div class="pv2-family-showcase__layout">
+    <aside class="pv2-family-showcase__media-card">
+      <%= render PublicV2::Ui::MediaFrameComponent.new(
+        image: section.cover_image,
+        alt: section.editorial_title,
+        ratio: :square,
+        classes: "pv2-family-showcase__media",
+        debug: debug?
+      ) %>
+
+      <div class="pv2-family-showcase__media-caption">
+        <span><%= section.need_label %></span>
+        <strong><%= section.short_title %></strong>
+      </div>
+    </aside>
+
+    <div class="pv2-family-showcase__content">
+      <header class="pv2-family-showcase__header">
+        <p><%= section.kicker %></p>
+        <h2><%= section.editorial_title %></h2>
+        <span><%= section.editorial_text %></span>
+      </header>
+
+      <div class="pv2-family-showcase__chips" aria-label="Usages courants">
+        <% section.use_cases.each do |use_case| %>
+          <span><%= use_case %></span>
+        <% end %>
+      </div>
+
+      <div class="pv2-family-showcase__insights">
+        <section>
+          <p>Ce que ca apporte</p>
+          <ul>
+            <% section.benefits.each do |benefit| %>
+              <li><%= benefit %></li>
+            <% end %>
+          </ul>
+        </section>
+
+        <section>
+          <p>A verifier</p>
+          <ul>
+            <% section.decision_points.each do |point| %>
+              <li><%= point %></li>
+            <% end %>
+          </ul>
+        </section>
+      </div>
+
+      <section class="pv2-family-showcase__products" aria-label="Produits reperes <%= section.short_title %>">
+        <header>
+          <strong>Produits reperes</strong>
+          <span><%= remaining_text %></span>
+        </header>
+
+        <% if section.featured_products.any? %>
+          <div class="pv2-family-showcase__product-rail">
+            <% section.featured_products.each do |product| %>
+              <% product_path = product_path_for(product) %>
+              <% product_content = capture do %>
+                <span class="pv2-family-showcase-product__media">
+                  <%= render PublicV2::Ui::MediaFrameComponent.new(
+                    image: product_image_for(product),
+                    fallback: "placeholder.jpg",
+                    alt: product.name,
+                    ratio: :product,
+                    debug: debug?
+                  ) %>
+                </span>
+                <span class="pv2-family-showcase-product__body">
+                  <small><%= product_eyebrow(product) %></small>
+                  <strong><%= product.name %></strong>
+                  <em><%= product_description(product) %></em>
+                </span>
+              <% end %>
+
+              <% if product_path.present? %>
+                <%= link_to product_path, class: "pv2-family-showcase-product" do %>
+                  <%= product_content %>
+                <% end %>
+              <% else %>
+                <article class="pv2-family-showcase-product">
+                  <%= product_content %>
+                </article>
+              <% end %>
+            <% end %>
+          </div>
+        <% elsif section.empty_message.present? %>
+          <%= render PublicV2::Ui::EmptyStateComponent.new(message: section.empty_message, debug: debug?) %>
+        <% end %>
+      </section>
+
+      <div class="pv2-family-showcase__actions">
+        <%= render PublicV2::Ui::ButtonComponent.new(label: section.cta_label, path: cta_path, variant: :primary, size: :sm, shape: :pill, classes: "pv2-family-showcase__quote-button", debug: debug?) %>
+      </div>
+    </div>
+  </div>
+<% end %>

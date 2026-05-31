@@ -7,14 +7,16 @@ export default class extends Controller {
   connect() {
     this.activeIndex = 0
     this.syncFrame = null
+    this.layoutFrame = null
     this.modalTimeout = null
-    this.resizeHandler = () => this.queueSync()
+    this.resizeHandler = () => this.queueLayoutSync()
 
     window.addEventListener("resize", this.resizeHandler)
+    this.setActive(this.initialIndex)
     this.syncFrame = requestAnimationFrame(() => {
       this.syncFrame = null
       this.syncEdges()
-      this.scrollToIndex(this.initialIndex, { behavior: "auto" })
+      if (this.initialIndex > 0) this.scrollToIndex(this.initialIndex, { behavior: "auto" })
       this.sync()
     })
   }
@@ -22,6 +24,7 @@ export default class extends Controller {
   disconnect() {
     window.removeEventListener("resize", this.resizeHandler)
     if (this.syncFrame) cancelAnimationFrame(this.syncFrame)
+    if (this.layoutFrame) cancelAnimationFrame(this.layoutFrame)
     if (this.modalTimeout) clearTimeout(this.modalTimeout)
     document.body.classList.remove("overflow-hidden")
   }
@@ -31,8 +34,22 @@ export default class extends Controller {
 
     this.syncFrame = requestAnimationFrame(() => {
       this.syncFrame = null
-      this.syncEdges()
       this.sync()
+    })
+  }
+
+  queueLayoutSync() {
+    if (this.layoutFrame) cancelAnimationFrame(this.layoutFrame)
+
+    this.layoutFrame = requestAnimationFrame(() => {
+      this.layoutFrame = null
+      this.syncEdges()
+
+      if (this.activeIndex > 0) {
+        this.scrollToIndex(this.activeIndex, { behavior: "auto" })
+      } else {
+        this.sync()
+      }
     })
   }
 

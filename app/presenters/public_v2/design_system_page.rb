@@ -22,6 +22,51 @@ class PublicV2::DesignSystemPage
     { id: "public-v2-kit-components", label: "ViewComponents", number: "09" }
   ].freeze
 
+  STYLE_ACCENTS = [
+    {
+      number: "01",
+      name: "Blue",
+      token: "--pv2-style-accent-1",
+      hex: "#6E86D8",
+      usage: "Titre editorial, signal principal, lien avec la home v2."
+    },
+    {
+      number: "02",
+      name: "Lime",
+      token: "--pv2-style-accent-2",
+      hex: "#D7FF3F",
+      usage: "Preuve courte, chiffre fort, surface tres ponctuelle."
+    },
+    {
+      number: "03",
+      name: "Mint",
+      token: "--pv2-style-accent-3",
+      hex: "#54D6C5",
+      usage: "Confort, air, service calme, complements froids."
+    },
+    {
+      number: "04",
+      name: "Rose",
+      token: "--pv2-style-accent-4",
+      hex: "#FF8AB7",
+      usage: "Interieur, lumiere, detail doux, contraste editorial."
+    },
+    {
+      number: "05",
+      name: "Yellow",
+      token: "--pv2-style-accent-5",
+      hex: "#FFD84D",
+      usage: "Attention positive, information courte, jamais en grand fond."
+    },
+    {
+      number: "06",
+      name: "Orange",
+      token: "--pv2-style-accent-6",
+      hex: "#FF8A2A",
+      usage: "Soleil, chaleur, action secondaire ou media accent."
+    }
+  ].freeze
+
   OPTION_LIST_CONCEPTS = [
     {
       variant: :rail,
@@ -142,6 +187,10 @@ class PublicV2::DesignSystemPage
     ["UI", "PublicV2::Ui::ProcessListComponent", "Process plus riche que StepRail : etapes avec meta, rail, timeline ou cards."],
     ["UI", "PublicV2::Ui::QuoteIntakeComponent", "Mini parcours devis visuel avec etapes et actions compactes."],
     ["UI", "PublicV2::Ui::TrustClusterComponent", "Cluster de preuves : experience, RGE, showroom, local, SAV."],
+    ["UI", "PublicV2::Ui::AnchorRailComponent", "Rail d'ancres sticky/horizontal pour naviguer entre sections stables."],
+    ["UI", "PublicV2::Ui::NeedGridComponent", "Grille de besoins editoriale avec accents Public V2 et liens contextuels."],
+    ["UI", "PublicV2::Ui::FamilyShowcaseComponent", "Showcase de famille produit : media, usages, criteres et produits reperes."],
+    ["UI", "PublicV2::Ui::ProductSliderCardComponent", "Card texte pour sliders produits avec nom, description et action plus."],
     ["UI", "PublicV2::Ui::ProductFamilyGridComponent", "Grille de familles/besoins avec image optionnelle, meta et lien."],
     ["UI", "PublicV2::Ui::ShowcaseCarouselComponent", "Carousel media/listes avec scroll fluide, pagination compacte, liens ou actions modales."],
     ["UI", "PublicV2::Ui::ComparisonStripComponent", "Comparaison compacte de familles, options ou usages."],
@@ -168,6 +217,10 @@ class PublicV2::DesignSystemPage
 
   def kit_sections
     KIT_SECTIONS
+  end
+
+  def style_accents
+    STYLE_ACCENTS
   end
 
   def component_inventory

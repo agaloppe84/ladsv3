@@ -1,7 +1,7 @@
 <% title "Public V2 - Design System Warm System" %>
 <% description "Design system Public V2 Warm System V9 : fondations, UI Kit, composants reels et regles de construction." %>
 
-<main class="mx-auto w-full max-w-[1440px] px-[var(--p-shell-x)] py-8 pb-20 text-pv2-text">
+<main class="pv2-design-system-page mx-auto w-full px-[var(--p-shell-x)] py-8 pb-20 text-pv2-text">
   <div class="grid gap-6 xl:grid-cols-[230px_minmax(0,1fr)] xl:items-start">
     <aside class="hidden xl:block xl:sticky xl:top-[96px]">
       <div class="rounded-pv2 border border-pv2-border bg-pv2-surface p-3 shadow-sm">
@@ -18,25 +18,26 @@
     </aside>
 
     <div class="grid min-w-0 gap-7">
-      <header class="grid gap-5 rounded-pv2-lg border border-pv2-border bg-pv2-surface p-5 min-[821px]:grid-cols-[minmax(0,1fr)_minmax(300px,0.36fr)] min-[821px]:items-center min-[1121px]:p-7">
-        <div class="grid gap-3">
+      <header class="grid min-w-0 gap-5 overflow-hidden rounded-pv2-lg border border-pv2-border bg-pv2-surface p-5 min-[821px]:grid-cols-[minmax(0,1fr)_minmax(300px,0.36fr)] min-[821px]:items-center min-[1121px]:p-7">
+        <div class="grid min-w-0 gap-3">
           <p class="text-[0.68rem] font-black uppercase text-pv2-accent">Public V2 / Warm System V9</p>
           <h1 class="max-w-[15ch] text-[1.9rem] font-black leading-[1.02] tracking-normal min-[821px]:text-[2.35rem]">UI Kit propre, composants reels.</h1>
           <p class="max-w-[72ch] text-[0.94rem] font-semibold leading-7 text-pv2-muted">
             Cette page sert de reference stable pour construire Public V2. Elle montre les fondations, les primitives et les composants
-            sans prototypes de pages, sans bibliotheque de layouts et sans selection dynamique d'accent ou de police.
+            sans prototypes de pages, sans bibliotheque de layouts et avec une palette editoriale bornee.
           </p>
         </div>
 
         <%= render PublicV2::Ui::SpotlightPanelComponent.new(
           kicker: "Contrat systeme",
-          title: "Clair, sombre, accent fixe.",
-          text: "Les variations viennent des composants, des surfaces, de la densite et du responsive.",
-          size: :md
+          title: "Clair, sombre, accents doses.",
+          text: "Les variations viennent des composants, des surfaces, de la densite, du responsive et de quelques accents nommes.",
+          size: :md,
+          classes: "max-w-full min-w-0"
         ) %>
       </header>
 
-      <nav class="sticky top-[82px] z-20 flex gap-2 overflow-x-auto rounded-pv2 border border-pv2-border bg-pv2-surface p-2 backdrop-blur xl:hidden" aria-label="Sections du design system">
+      <nav class="sticky top-[82px] z-20 flex min-w-0 max-w-full gap-2 overflow-x-auto rounded-pv2 border border-pv2-border bg-pv2-surface p-2 backdrop-blur xl:hidden" aria-label="Sections du design system">
         <% @design_system.kit_sections.each do |section| %>
           <a class="shrink-0 rounded-full border border-pv2-border px-3 py-2 text-[0.72rem] font-extrabold text-pv2-muted hover:border-pv2-accent-border hover:text-pv2-text" href="#<%= section[:id] %>"><%= section[:label] %></a>
         <% end %>
@@ -47,9 +48,35 @@
           <p class="text-[0.64rem] font-black uppercase text-pv2-accent">01 / Fondations</p>
           <h2 class="text-[1.15rem] font-black leading-tight">Tokens, palette, typo et regles.</h2>
           <p class="max-w-[74ch] text-[0.86rem] font-semibold leading-6 text-pv2-muted">
-            Warm System V9 utilise un accent chaud fixe, des nuances naturelles claires, un dark mode chaud et des dimensions stables.
+            Public V2 utilise des surfaces neutres, un dark mode calme, des dimensions stables et six accents editoriaux limites.
           </p>
         </div>
+
+        <div class="mb-4 grid gap-3 min-[821px]:grid-cols-2 min-[1121px]:grid-cols-3">
+          <% @design_system.style_accents.each do |accent| %>
+            <article class="grid min-w-0 gap-3 rounded-pv2 border border-pv2-border bg-pv2-bg p-4">
+              <div class="flex items-start justify-between gap-3">
+                <div class="grid min-w-0 gap-1">
+                  <span class="text-[0.62rem] font-black uppercase text-pv2-muted">Accent <%= accent[:number] %></span>
+                  <strong class="text-[1rem] font-black leading-tight"><%= accent[:name] %></strong>
+                </div>
+                <i class="h-12 w-12 shrink-0 rounded-full border border-pv2-border-strong" style="background: var(<%= accent[:token] %>);"></i>
+              </div>
+              <code class="text-[0.74rem] font-black text-pv2-muted"><%= accent[:token] %> / <%= accent[:hex] %></code>
+              <p class="m-0 text-[0.82rem] font-semibold leading-6 text-pv2-muted"><%= accent[:usage] %></p>
+            </article>
+          <% end %>
+        </div>
+
+        <article class="mb-4 grid gap-2 rounded-pv2 border border-pv2-border bg-pv2-bg p-4">
+          <span class="text-[0.62rem] font-black uppercase text-pv2-accent">Regles accents</span>
+          <ul class="m-0 grid gap-2 pl-4 text-[0.82rem] font-semibold leading-6 text-pv2-muted min-[821px]:grid-cols-2">
+            <li>Accent 1 reste le signal principal des grands titres editoriaux.</li>
+            <li>Accent 2 sert aux chiffres, preuves ou surfaces tres courtes.</li>
+            <li>Accents 3 et 4 enrichissent les etats secondaires sans remplacer le bleu.</li>
+            <li>Accents 5 et 6 sont chauds et ponctuels : pas de grand aplat dominant.</li>
+          </ul>
+        </article>
 
         <div class="grid gap-3 min-[821px]:grid-cols-2 min-[1121px]:grid-cols-4">
           <article class="grid gap-3 rounded-pv2 border border-pv2-border bg-pv2-bg p-4">
@@ -89,7 +116,7 @@
             <span class="text-[0.62rem] font-black uppercase text-pv2-accent">Regles</span>
             <ul class="m-0 grid gap-2 pl-4 text-[0.8rem] font-semibold leading-6 text-pv2-muted">
               <li>Mode clair/sombre uniquement.</li>
-              <li>Accent chaud fixe.</li>
+              <li>Accents nommes et bornes.</li>
               <li>Angles courts, pas de boutons enormes.</li>
               <li>Medias en ratios stables.</li>
               <li>Debug global conserve.</li>

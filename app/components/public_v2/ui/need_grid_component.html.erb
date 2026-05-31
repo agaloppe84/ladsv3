@@ -1,0 +1,35 @@
+<%= tag.section class: component_classes, aria: { label: label }, data: debug_data do %>
+  <header class="pv2-category-needs__head">
+    <p><%= kicker %></p>
+    <h2><%= title %></h2>
+    <span><%= text %></span>
+  </header>
+
+  <div class="pv2-category-needs__grid">
+    <% items.each do |item| %>
+      <article class="<%= item_classes(item) %>">
+        <header>
+          <span><%= item.kicker %></span>
+          <strong><%= item.title %></strong>
+          <p><%= item.text %></p>
+        </header>
+
+        <ul class="pv2-category-needs__points">
+          <% item.points.each do |point| %>
+            <li><%= point %></li>
+          <% end %>
+        </ul>
+
+        <div class="pv2-category-needs__links">
+          <% item_links(item).each do |link_label, href| %>
+            <% if href.present? %>
+              <a href="<%= href %>"><%= link_label %></a>
+            <% else %>
+              <span><%= link_label %></span>
+            <% end %>
+          <% end %>
+        </div>
+      </article>
+    <% end %>
+  </div>
+<% end %>

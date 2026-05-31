@@ -1,26 +1,5 @@
-<%= tag.section id: "produits", class: component_classes, data: debug_data do %>
-  <%= render PublicV2::Content::SectionHeaderComponent.new(
-    kicker: "Catalogue",
-    title: "Les familles a comparer.",
-    text: "Chaque bloc garde les produits visibles, les usages courants et une image repere pour passer rapidement du catalogue au devis.",
-    variant: :home,
-    debug: debug?
-  ) %>
-
+<%= tag.section id: "produits", class: component_classes, data: debug_data, aria: { label: "Produits par categorie" } do %>
   <% sections.each do |section| %>
-    <%= render PublicV2::Products::CategoryBlockComponent.new(
-      category: section.category,
-      products: section.products,
-      image: section.cover_image,
-      title: section.title,
-      text: section.text,
-      kicker: section.kicker,
-      tags: section.tags,
-      product_paths: section.product_paths,
-      product_images: section.product_images,
-      empty_message: section.empty_message,
-      anchor_id: "categorie-#{section.category.id}",
-      classes: "pv2-category-block--index pv2-category-block--premium"
-    ) %>
+    <%= render PublicV2::Categories::ProductSliderSectionComponent.new(section: section, debug: debug?) %>
   <% end %>
 <% end %>

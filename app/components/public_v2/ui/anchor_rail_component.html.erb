@@ -1,0 +1,34 @@
+<%= tag.nav class: component_classes, aria: { label: label }, data: debug_data do %>
+  <% unless minimal? %>
+    <header class="pv2-category-anchor-rail__head">
+      <p><%= kicker %></p>
+      <div>
+        <strong><%= title %></strong>
+        <span><%= text %></span>
+      </div>
+    </header>
+  <% end %>
+
+  <div class="pv2-category-anchor-rail__track">
+    <% items.each_with_index do |item, index| %>
+      <% if minimal? %>
+        <%= link_to item.href,
+          class: item_classes(item, active: index.zero?),
+          aria: { current: ("location" if index.zero?) },
+          data: {
+            action: "category-scrollspy#activateFromClick",
+            category_scrollspy_target: "link"
+          } do %>
+          <span class="pv2-category-anchor-rail__label"><%= item.label %></span>
+        <% end %>
+      <% else %>
+        <a class="<%= item_classes(item) %>" href="<%= item.href %>">
+          <span><%= Kernel.format("%02d", index + 1) %></span>
+          <strong><%= item.label %></strong>
+          <small><%= item.text %></small>
+          <em><%= pluralize(item.product_count, "produit") %></em>
+        </a>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
