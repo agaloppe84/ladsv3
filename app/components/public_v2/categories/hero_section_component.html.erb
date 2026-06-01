@@ -1,51 +1,19 @@
 <%= tag.section class: component_classes, data: debug_data do %>
-  <header class="pv2-public-index-hero-v2__intro">
-    <p class="pv2-public-index-hero-v2__eyebrow"><%= category_index_page.hero_kicker %></p>
-    <h1>
-      <% category_index_page.hero_title_lines.each do |line| %>
-        <span><%= line %></span>
-      <% end %>
-    </h1>
-    <p><%= category_index_page.hero_text %></p>
-  </header>
-
-  <div class="pv2-public-index-hero-v2__stage">
-    <div class="pv2-public-index-hero-v2__left-stack">
-      <article class="pv2-public-index-hero-v2__card">
-        <span><%= category_index_page.hero_panel_label %></span>
-        <strong><%= category_index_page.hero_card_title %></strong>
-        <p><%= category_index_page.hero_card_text %></p>
-
-        <div class="pv2-public-index-hero-v2__actions">
-          <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: public_v2_new_quote_path, variant: :primary, size: :md, shape: :pill, classes: "pv2-public-index-hero-v2__quote-button", debug: debug?) %>
-          <%= render PublicV2::Ui::ButtonComponent.new(label: "Voir les familles", path: "#produits", variant: :secondary, size: :md, shape: :pill, classes: "pv2-public-index-hero-v2__families-button", debug: debug?) %>
-        </div>
-      </article>
-
-      <aside class="pv2-public-index-hero-v2__facts" aria-label="Reperes catalogue">
-        <% category_index_page.hero_proof_items.each_with_index do |item, index| %>
-          <article class="pv2-public-index-hero-v2__fact pv2-public-index-hero-v2__fact--<%= proof_variant(index) %>">
-            <strong><%= item[:value] %></strong>
-            <p><%= item[:text] %></p>
-          </article>
+  <div class="pv2-public-index-hero-v2__catalog">
+    <header class="pv2-public-index-hero-v2__intro">
+      <h1>
+        <% category_index_page.hero_title_lines.each do |line| %>
+          <span><%= line %></span>
         <% end %>
-      </aside>
-    </div>
+      </h1>
+      <p><%= category_index_page.hero_text %></p>
+    </header>
 
-    <aside class="pv2-public-index-hero-v2__media-card" aria-label="Showroom et familles produits">
-      <%= render PublicV2::Ui::MediaFrameComponent.new(
-        image: category_index_page.hero_image,
-        alt: category_index_page.hero_alt,
-        ratio: :square,
-        loading: "eager",
-        classes: "pv2-public-index-hero-v2__media",
-        debug: debug?
-      ) %>
-
-      <div class="pv2-public-index-hero-v2__media-caption">
-        <span>Showroom</span>
-        <strong>Comparer les familles avant de choisir les options.</strong>
-      </div>
-    </aside>
   </div>
+
+  <nav class="pv2-category-anchor-strip" aria-label="Aller a une categorie">
+    <% category_index_page.anchor_items.each do |item| %>
+      <%= link_to item.label, item.href, class: "pv2-category-anchor-strip__item" %>
+    <% end %>
+  </nav>
 <% end %>

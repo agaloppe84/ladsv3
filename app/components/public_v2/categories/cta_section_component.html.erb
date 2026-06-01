@@ -1,13 +1,13 @@
 <%= tag.section class: component_classes, data: debug_data do %>
   <%= render PublicV2::Ui::ActionDockComponent.new(
-    kicker: "Aide au choix",
+    kicker: "Projet",
     title: category_index_page.cta_title,
-    text: "Envoyez quelques infos sur le projet : l'equipe vous aide a choisir la bonne famille, puis le bon niveau d'options.",
+    text: "Partagez les dimensions, l'usage et les contraintes : l'equipe vous oriente vers le produit et les options adaptes.",
     primary_label: "Demander un devis",
     primary_path: public_v2_new_quote_path,
     secondary_label: "Voir le showroom",
     secondary_path: public_v2_contact_path,
-    meta: "Un premier retour permet de cadrer le produit avant d'affiner.",
+    meta: "Un premier echange suffit pour cadrer la bonne solution.",
     variant: :soft,
     debug: debug?
   ) %>

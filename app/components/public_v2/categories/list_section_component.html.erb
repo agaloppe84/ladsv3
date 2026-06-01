@@ -1,5 +1,5 @@
 <%= tag.section id: "produits", class: component_classes, data: debug_data, aria: { label: "Produits par categorie" } do %>
   <% sections.each do |section| %>
-    <%= render PublicV2::Categories::ProductSliderSectionComponent.new(section: section, debug: debug?) %>
+    <%= render PublicV2::Categories::CategorySectionComponent.new(section: section, debug: debug?) %>
   <% end %>
 <% end %>

@@ -1,0 +1,18 @@
+<%= tag.article id: section.anchor_id, class: component_classes, data: debug_data do %>
+  <header class="pv2-category-catalog-section__head">
+    <div class="pv2-category-catalog-section__copy">
+      <h2><%= section.title %></h2>
+      <span><%= section.text %></span>
+    </div>
+  </header>
+
+  <% if section.product_cards.any? %>
+    <div class="pv2-category-product-grid">
+      <% section.product_cards.each do |card| %>
+        <%= render PublicV2::Categories::ProductCardComponent.new(card: card, debug: debug?) %>
+      <% end %>
+    </div>
+  <% elsif section.empty_message.present? %>
+    <%= render PublicV2::Ui::EmptyStateComponent.new(message: section.empty_message, debug: debug?) %>
+  <% end %>
+<% end %>

@@ -3,7 +3,7 @@ class PublicV2::CategoriesController < PublicV2::BaseController
     categories = public_categories.to_a
 
     category_ids = categories.map(&:id)
-    products_by_category_id = public_product_cards
+    products_by_category_id = public_category_index_products
                               .where(category_id: category_ids)
                               .order(:name)
                               .to_a
@@ -16,6 +16,16 @@ class PublicV2::CategoriesController < PublicV2::BaseController
       products_by_category_id: products_by_category_id,
       primary_image_resolver: method(:public_v2_primary_image),
       product_path_builder: ->(product) { public_v2_product_path(slug: product.slug) }
+    )
+  end
+
+  private
+
+  def public_category_index_products
+    public_products.includes(
+      :category,
+      :manufacturers,
+      { images_attachments: :blob }
     )
   end
 end

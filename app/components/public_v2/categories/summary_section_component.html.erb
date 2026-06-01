@@ -1,11 +1,7 @@
 <%= tag.section class: component_classes, data: debug_data, aria: { label: "Orientation catalogue" } do %>
-  <%= render PublicV2::Ui::AnchorRailComponent.new(
-    items: category_index_page.anchor_items,
-    kicker: category_index_page.anchor_rail_kicker,
-    title: category_index_page.anchor_rail_title,
-    text: category_index_page.anchor_rail_text,
-    label: "Navigation des familles produits",
-    variant: :minimal,
-    debug: debug?
-  ) %>
+  <nav class="pv2-category-anchor-strip" aria-label="Navigation des familles produits">
+    <% category_index_page.anchor_items.each do |item| %>
+      <%= link_to item.label, item.href, class: "pv2-category-anchor-strip__item" %>
+    <% end %>
+  </nav>
 <% end %>

@@ -1,11 +1,8 @@
-<% title "Produits - Les Artisans du Store" %>
-<% description "Toutes les familles de produits Les Artisans du Store : stores, volets roulants, portes de garage, moustiquaires, pergolas et protections solaires." %>
+<% title "Produits par catégorie - Les Artisans du Store" %>
+<% description "Catalogue Public V2 Les Artisans du Store : tous les produits visibles par catégorie, avec photos, garanties, options et fiches détaillées." %>
 
 <main class="pv2-public-page pv2-public-index grid gap-12">
   <%= render PublicV2::Categories::HeroSectionComponent.new(category_index_page: @category_index_page) %>
-  <div class="pv2-category-index-layout" data-controller="category-scrollspy">
-    <%= render PublicV2::Categories::SummarySectionComponent.new(category_index_page: @category_index_page) %>
-    <%= render PublicV2::Categories::ListSectionComponent.new(sections: @category_index_page.sections, category_index_page: @category_index_page) %>
-  </div>
+  <%= render PublicV2::Categories::ListSectionComponent.new(sections: @category_index_page.sections, category_index_page: @category_index_page) %>
   <%= render PublicV2::Categories::CtaSectionComponent.new(category_index_page: @category_index_page) %>
 </main>
