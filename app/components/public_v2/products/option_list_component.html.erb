@@ -76,6 +76,15 @@
         <% end %>
       </ol>
     </div>
+  <% when :list %>
+    <ol class="pv2-product-options-list__list">
+      <% option_items.each do |item| %>
+        <li>
+          <span aria-hidden="true"></span>
+          <p><%= item[:content] %></p>
+        </li>
+      <% end %>
+    </ol>
   <% when :accordion %>
     <ol class="pv2-product-options-list__accordion">
       <% option_items.each_with_index do |item, index| %>

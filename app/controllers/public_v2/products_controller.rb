@@ -21,7 +21,8 @@ class PublicV2::ProductsController < PublicV2::BaseController
       product_path_builder: ->(related_product) { public_v2_product_path(slug: related_product.slug) },
       home_path: public_v2_home_path,
       catalog_path: public_v2_categories_path,
-      quote_path: public_v2_new_quote_path(product_id: product.id)
+      quote_path: public_v2_new_quote_path(product_id: product.id),
+      dickson_configurator_path: canvas_selector_product_path(slug: product.slug)
     )
   end
 end

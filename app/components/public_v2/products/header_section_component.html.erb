@@ -1,9 +1,3 @@
 <section class="<%= component_classes %>" <%= debug_attributes %>>
-  <%= render PublicV2::Ui::BreadcrumbComponent.new(
-    items: product_page.breadcrumb_items,
-    label: "Fil d'ariane",
-    debug: debug?
-  ) %>
-
   <%= render PublicV2::Products::HeroComponent.new(product_page: product_page, debug: debug?) %>
 </section>

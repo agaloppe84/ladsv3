@@ -3,7 +3,7 @@
 class PublicV2::Products::OptionListComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
-  VARIANTS = %i[rail chips focus blueprint accordion].freeze
+  VARIANTS = %i[rail chips focus blueprint accordion list].freeze
 
   def initialize(items:, variant: :rail, kicker: nil, title: nil, text: nil, classes: nil, debug: false)
     @items = items

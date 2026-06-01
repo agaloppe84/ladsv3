@@ -1,39 +1,35 @@
 <section class="<%= component_classes %>" <%= debug_attributes %>>
-  <div class="pv2-product-hero-v2__copy grid min-w-0 gap-3 min-[1121px]:self-center">
-    <%= render PublicV2::Ui::SpotlightPanelComponent.new(
-      kicker: category.name,
-      title: product.name,
-      text: description_text,
-      variant: :soft,
-      size: :md,
-      classes: "pv2-product-hero-v2__lead",
-      debug: debug?
-    ) do %>
-      <div class="pv2-product-hero-v2__actions flex flex-wrap gap-2">
-        <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: quote_path, variant: :primary, size: :sm, debug: debug?) %>
-        <%= render PublicV2::Ui::ButtonComponent.new(label: "Retour catalogue", path: catalog_path, variant: :secondary, size: :sm, debug: debug?) %>
-      </div>
-    <% end %>
+  <div class="pv2-product-hero-v2__copy">
+    <article class="pv2-product-hero-v2__lead">
+      <h1><%= product.name %></h1>
+      <span><%= description_text %></span>
 
-    <dl class="pv2-product-facts grid grid-cols-2 gap-2 min-[821px]:grid-cols-4">
-      <% product_page.hero_fact_items.each do |item| %>
-        <div>
-          <dt><%= item[:label] %></dt>
-          <dd><%= item[:value] %></dd>
-        </div>
-      <% end %>
-    </dl>
+      <div class="pv2-product-hero-v2__actions flex flex-wrap gap-2">
+        <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: quote_path, variant: :primary, size: :sm, shape: :pill, classes: "pv2-product-hero-v2__quote-button", debug: debug?) %>
+        <%= render PublicV2::Ui::ButtonComponent.new(label: "Retour catalogue", path: catalog_path, variant: :secondary, size: :sm, shape: :pill, classes: "pv2-product-hero-v2__catalog-button", debug: debug?) %>
+      </div>
+    </article>
+
+    <% if product_page.service_items.any? %>
+      <section class="pv2-product-hero-v2__services pv2-product-service-grid" aria-label="Engagements produit">
+        <% product_page.service_items.each do |item| %>
+          <article class="<%= ["pv2-product-service-card", "pv2-product-service-card--#{item.accent_role}"].join(" ") %>">
+            <strong><%= item.value %></strong>
+            <span><%= item.label %></span>
+          </article>
+        <% end %>
+      </section>
+    <% end %>
   </div>
 
-  <aside class="pv2-product-hero-v2__showcase grid min-w-0 gap-3">
-    <div class="pv2-product-hero__media">
-      <%= render PublicV2::Ui::MediaFrameComponent.new(image: image, fallback: "placeholder.jpg", alt: product.name, ratio: :wide, loading: "eager", classes: "h-full min-h-full", debug: debug?) %>
-    </div>
-
-    <%= render PublicV2::Ui::ProofRailComponent.new(
-      items: product_page.hero_proof_items,
-      label: "Ressources produit",
-      variant: :soft,
+  <aside class="pv2-product-hero-v2__showcase">
+    <%= render PublicV2::Ui::ShowcaseCarouselComponent.new(
+      items: gallery_items,
+      aria_label: "Photos #{product.name}",
+      variant: :default,
+      size: :wide,
+      show_modal: gallery_modal?,
+      classes: "pv2-product-hero-v2__carousel",
       debug: debug?
     ) %>
   </aside>
