@@ -4,7 +4,7 @@ class PublicV2::Ui::ButtonComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
   VARIANTS = %i[primary secondary ghost inverse danger].freeze
-  SIZES = %i[sm md lg].freeze
+  SIZES = %i[sm md lg side_card].freeze
   SHAPES = %i[soft sharp pill].freeze
 
   def initialize(label: nil, path: nil, variant: :primary, type: "button", data: {}, method: nil, classes: nil, size: :md, shape: :soft, full_width: false, debug: false)

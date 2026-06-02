@@ -1,30 +1,19 @@
 <section class="<%= component_classes %>" <%= debug_attributes %>>
   <aside class="pv2-product-side grid gap-5 min-[1121px]:sticky min-[1121px]:top-[92px]">
-    <% if product_page.warranty_card_value.present? %>
-      <section class="pv2-product-warranty-card pv2-product-side__card" aria-label="Garantie produit">
-        <div class="pv2-product-warranty-card__content">
-          <strong>Garantie <span><%= product_page.warranty_card_value %></span></strong>
-          <% product_page.warranty_card_details.each do |detail| %>
-            <p><%= detail %></p>
-          <% end %>
-        </div>
-      </section>
-    <% end %>
-
     <% if product_page.dickson_configurator? && product_page.dickson_configurator_path.present? %>
-      <%= link_to product_page.dickson_configurator_path, class: "pv2-product-dickson-card pv2-product-side__card" do %>
+      <section class="pv2-product-dickson-card pv2-product-side__card">
         <strong>Configurer la toile</strong>
         <p>Ouvrir le selecteur Dickson pour comparer les tissus et affiner la demande.</p>
-        <em>Ouvrir</em>
+        <%= render PublicV2::Ui::ButtonComponent.new(label: "Ouvrir", path: product_page.dickson_configurator_path, variant: :primary, size: :side_card, shape: :pill, classes: "pv2-product-side-card-button", debug: debug?) %>
         <%= image_tag "public_v2/dickson-fabric-rolls-cgi.png", class: "pv2-product-dickson-card__image", alt: "", aria: { hidden: true }, width: 637, height: 980, loading: "eager", decoding: "async" %>
-      <% end %>
+      </section>
     <% end %>
 
     <section class="pv2-product-quote-card pv2-product-side__card">
       <strong>Devis gratuit</strong>
       <p>Dimensions, pose, options.</p>
       <div>
-        <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: product_page.quote_path, variant: :primary, size: :sm, shape: :pill, classes: "pv2-product-quote-card__primary", debug: debug?) %>
+        <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: product_page.quote_path, variant: :primary, size: :side_card, shape: :pill, classes: "pv2-product-side-card-button", debug: debug?) %>
       </div>
       <%= image_tag "public_v2/product-quote-notepad-isometric-cgi.png", class: "pv2-product-quote-card__image", alt: "", aria: { hidden: true }, loading: "lazy" %>
     </section>
@@ -35,9 +24,28 @@
         <% if product_page.brand_names_text.present? %>
           <p class="pv2-product-brand-names"><%= product_page.brand_names_text %></p>
         <% end %>
-        <%= link_to "Nos partenaires", product_page.partners_path, class: "pv2-product-brand-card__button" %>
+        <%= render PublicV2::Ui::ButtonComponent.new(label: "Nos partenaires", path: product_page.partners_path, variant: :primary, size: :side_card, shape: :pill, classes: "pv2-product-side-card-button pv2-product-brand-card__button", debug: debug?) %>
         <%= image_tag "public_v2/somfy-tubular-motor-cgi.png", class: "pv2-product-brand-card__image", alt: "", aria: { hidden: true }, width: 680, height: 980, loading: "eager", decoding: "async" %>
       </section>
+    <% end %>
+
+    <% animated_service_cards = product_page.animated_service_cards %>
+    <% if product_page.made_in_france? || animated_service_cards.any? %>
+      <div class="pv2-product-side__text-cards">
+        <% if product_page.made_in_france? %>
+          <section class="pv2-product-origin-card pv2-product-side__card" aria-label="Fabriqué en France">
+            <span class="pv2-product-origin-card__label">
+              <span class="pv2-product-origin-card__blue">Fabriqué</span>
+              <span class="pv2-product-origin-card__middle">en</span>
+              <span class="pv2-product-origin-card__red">France</span>
+            </span>
+          </section>
+        <% end %>
+
+        <% animated_service_cards.each do |animated_service_card| %>
+          <%= render PublicV2::Products::AnimatedServiceCardComponent.new(item: animated_service_card, debug: debug?) %>
+        <% end %>
+      </div>
     <% end %>
   </aside>
 
@@ -68,7 +76,7 @@
         <header class="pv2-product-finishes-block__header">
           <h2 id="pv2-product-finishes-title">Finitions</h2>
         </header>
-        <%= image_tag "public_v2/product-finishes-palette-cgi.png", class: "pv2-product-finishes-block__image", alt: "", aria: { hidden: true }, width: 482, height: 760, loading: "eager", decoding: "async" %>
+        <%= image_tag "public_v2/product-finishes-technical-palette-cgi.png", class: "pv2-product-finishes-block__image", alt: "", aria: { hidden: true }, width: 1039, height: 856, loading: "eager", decoding: "async" %>
 
         <% if palette_sections.many? %>
           <div class="pv2-product-palette-tabs" role="tablist" aria-label="Parties du produit">

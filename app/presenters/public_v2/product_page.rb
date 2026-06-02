@@ -7,7 +7,8 @@ class PublicV2::ProductPage
   OptionItem = Struct.new(:number, :content, keyword_init: true)
   Swatch = Struct.new(:title, :color, :meta, :ref, :name, :finish_label, :paid_option, keyword_init: true)
   PaletteSection = Struct.new(:code, :label, :name, :count, :swatches, :preview_swatches, :hidden_swatch_count, :modal_title, keyword_init: true)
-  ServiceItem = Struct.new(:label, :enabled, :value, :text, :accent_role, keyword_init: true)
+  ServiceItem = Struct.new(:key, :label, :icon, keyword_init: true)
+  AnimatedServiceCard = Struct.new(:key, :label, :variant, keyword_init: true)
   GallerySlide = Struct.new(:image, :alt, :caption, :position, keyword_init: true)
   RelatedProduct = Struct.new(:product, :path, :image, keyword_init: true)
   BrandItem = Struct.new(:name, :kind, keyword_init: true)
@@ -120,18 +121,6 @@ class PublicV2::ProductPage
     brand_items.map(&:name).join(" / ")
   end
 
-  def warranty_card_value
-    warranty_value.to_s.squish.sub(/\bans?\z/i) { |unit| unit.capitalize }.presence
-  end
-
-  def warranty_card_details
-    service = product.service
-    [
-      ("Made in France" if service&.made_in_france),
-      ("Dimensions sur mesure" if service&.custom_dimensions)
-    ].compact
-  end
-
   def dickson_configurator?
     product.manufacturers.any? { |manufacturer| manufacturer.name.to_s.match?(/dickson/i) }
   end
@@ -179,7 +168,27 @@ class PublicV2::ProductPage
     @service_items ||= service_item_definitions.filter_map do |definition|
       next unless definition[:enabled]
 
-      ServiceItem.new(**definition)
+      ServiceItem.new(
+        key: definition[:key],
+        label: definition[:label],
+        icon: definition[:icon]
+      )
+    end
+  end
+
+  def made_in_france?
+    product.service&.made_in_france?
+  end
+
+  def animated_service_cards
+    @animated_service_cards ||= animated_service_card_definitions.filter_map do |definition|
+      next unless definition[:enabled]
+
+      AnimatedServiceCard.new(
+        key: definition[:key],
+        label: definition[:label],
+        variant: definition[:variant]
+      )
     end
   end
 
@@ -214,15 +223,24 @@ class PublicV2::ProductPage
   attr_reader :color_parts, :primary_image_resolver, :product_path_builder, :home_path
 
   def warranty_text
-    product.warranty.to_s.squish.presence || product.service&.warranty.to_s.squish.presence
+    normalized_warranty_text(product.warranty).presence || normalized_warranty_text(product.service&.warranty).presence
   end
 
   def warranty_value
     value = warranty_text
     return if value.blank?
-    return value if value.match?(/ans?\z/i)
+    return value if value.match?(/\bans?\z/i)
 
-    "#{value} ans"
+    unit = value == "1" ? "an" : "ans"
+    "#{value} #{unit}"
+  end
+
+  def normalized_warranty_text(value)
+    text = value.to_s.squish
+    return if text.blank?
+    return if %w[0 false].include?(text.downcase)
+
+    text
   end
 
   def price_items
@@ -283,60 +301,65 @@ class PublicV2::ProductPage
 
     [
       {
-        label: "Garantie",
-        value: warranty_value,
-        text: "Couverture produit",
-        enabled: warranty_text.present?,
-        accent_role: :accent_5
+        key: :warranty,
+        label: "Garantie #{warranty_value}",
+        icon: "public_v2/services/warranty.svg",
+        enabled: warranty_value.present?
       },
       {
+        key: :custom_dimensions,
         label: "Sur mesure",
-        value: "Oui",
-        text: "Dimensions adaptees",
-        enabled: service&.custom_dimensions,
-        accent_role: :accent_1
+        icon: "public_v2/services/custom-dimensions.svg",
+        enabled: service&.custom_dimensions
       },
       {
+        key: :free_quote,
         label: "Devis gratuit",
-        value: "0 EUR",
-        text: "Premier cadrage",
-        enabled: service&.free_quote,
-        accent_role: :accent_3
+        icon: "public_v2/services/free-quote.svg",
+        enabled: service&.free_quote
       },
       {
+        key: :anti_fire,
         label: "Anti feu",
-        value: "Feu",
-        text: "Protection specifique",
-        enabled: service&.anti_fire,
-        accent_role: :accent_6
+        icon: "public_v2/services/anti-fire.svg",
+        enabled: service&.anti_fire
       },
       {
-        label: "Made in",
-        value: "France",
-        text: "Selon produit",
-        enabled: service&.made_in_france,
-        accent_role: :accent_2
-      },
-      {
+        key: :anti_uv,
         label: "Anti UV",
-        value: "UV",
-        text: "Protection solaire",
-        enabled: service&.anti_uv,
-        accent_role: :accent_4
+        icon: "public_v2/services/anti-uv.svg",
+        enabled: service&.anti_uv
       },
       {
+        key: :rge,
         label: "RGE",
-        value: "RGE",
-        text: "Qualification",
-        enabled: service&.rge,
-        accent_role: :accent_3
+        icon: "public_v2/services/rge.svg",
+        enabled: service&.rge
       },
       {
-        label: "Resistance au vent",
-        value: "Vent",
-        text: "Tenue renforcee",
-        enabled: service&.wind_resistance,
-        accent_role: :accent_1
+        key: :wind_resistance,
+        label: "Tenue au vent",
+        icon: "public_v2/services/wind-resistance.svg",
+        enabled: service&.wind_resistance
+      }
+    ]
+  end
+
+  def animated_service_card_definitions
+    service = product.service
+
+    [
+      {
+        key: :wind_resistance,
+        label: "Résistance au vent",
+        variant: :wind,
+        enabled: service&.wind_resistance
+      },
+      {
+        key: :anti_uv,
+        label: "Protection UV",
+        variant: :uv,
+        enabled: service&.anti_uv
       }
     ]
   end
