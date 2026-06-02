@@ -10,6 +10,7 @@ class PublicV2::ProductPage
   ServiceItem = Struct.new(:label, :enabled, :value, :text, :accent_role, keyword_init: true)
   GallerySlide = Struct.new(:image, :alt, :caption, :position, keyword_init: true)
   RelatedProduct = Struct.new(:product, :path, :image, keyword_init: true)
+  BrandItem = Struct.new(:name, :kind, keyword_init: true)
 
   def initialize(product:, category:, color_parts:, related_products:, primary_image_resolver:, product_path_builder:, home_path:, catalog_path:, quote_path:, dickson_configurator_path: nil)
     @product = product
@@ -96,7 +97,7 @@ class PublicV2::ProductPage
   end
 
   def brand_panel?
-    product.manufacturers.any? || product.motorists.any?
+    brand_items.any?
   end
 
   def manufacturers_text
@@ -105,6 +106,30 @@ class PublicV2::ProductPage
 
   def motorists_text
     product.motorists.map(&:name).to_sentence
+  end
+
+  def brand_items
+    @brand_items ||= begin
+      brands = product.manufacturers.map { |manufacturer| brand_item_for(manufacturer, :manufacturer) }
+      brands += product.motorists.map { |motorist| brand_item_for(motorist, :motorist) }
+      brands.compact.uniq { |brand| normalize_brand_key(brand.name) }
+    end
+  end
+
+  def brand_names_text
+    brand_items.map(&:name).join(" / ")
+  end
+
+  def warranty_card_value
+    warranty_value.to_s.squish.sub(/\bans?\z/i) { |unit| unit.capitalize }.presence
+  end
+
+  def warranty_card_details
+    service = product.service
+    [
+      ("Made in France" if service&.made_in_france),
+      ("Dimensions sur mesure" if service&.custom_dimensions)
+    ].compact
   end
 
   def dickson_configurator?
@@ -178,6 +203,10 @@ class PublicV2::ProductPage
       { label: "Produits", path: catalog_path },
       { label: category.name }
     ]
+  end
+
+  def partners_path
+    "#{home_path}#public-v2-partners-title"
   end
 
   private
@@ -314,6 +343,17 @@ class PublicV2::ProductPage
 
   def primary_image_for(product)
     primary_image_resolver.call(product) if product.present?
+  end
+
+  def brand_item_for(brand, kind)
+    name = brand.name.to_s.squish
+    return if name.blank?
+
+    BrandItem.new(name: name, kind: kind)
+  end
+
+  def normalize_brand_key(name)
+    I18n.transliterate(name.to_s).downcase.gsub(/[^a-z0-9]+/, " ").squish
   end
 
   def ordered_options

@@ -1,5 +1,25 @@
 <section class="<%= component_classes %>" <%= debug_attributes %>>
-  <aside class="pv2-product-side grid gap-3 min-[1121px]:sticky min-[1121px]:top-[92px]">
+  <aside class="pv2-product-side grid gap-5 min-[1121px]:sticky min-[1121px]:top-[92px]">
+    <% if product_page.warranty_card_value.present? %>
+      <section class="pv2-product-warranty-card pv2-product-side__card" aria-label="Garantie produit">
+        <div class="pv2-product-warranty-card__content">
+          <strong>Garantie <span><%= product_page.warranty_card_value %></span></strong>
+          <% product_page.warranty_card_details.each do |detail| %>
+            <p><%= detail %></p>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+
+    <% if product_page.dickson_configurator? && product_page.dickson_configurator_path.present? %>
+      <%= link_to product_page.dickson_configurator_path, class: "pv2-product-dickson-card pv2-product-side__card" do %>
+        <strong>Configurer la toile</strong>
+        <p>Ouvrir le selecteur Dickson pour comparer les tissus et affiner la demande.</p>
+        <em>Ouvrir</em>
+        <%= image_tag "public_v2/dickson-fabric-rolls-cgi.png", class: "pv2-product-dickson-card__image", alt: "", aria: { hidden: true }, width: 637, height: 980, loading: "eager", decoding: "async" %>
+      <% end %>
+    <% end %>
+
     <section class="pv2-product-quote-card pv2-product-side__card">
       <strong>Devis gratuit</strong>
       <p>Dimensions, pose, options.</p>
@@ -9,30 +29,14 @@
       <%= image_tag "public_v2/product-quote-notepad-isometric-cgi.png", class: "pv2-product-quote-card__image", alt: "", aria: { hidden: true }, loading: "lazy" %>
     </section>
 
-    <% if product_page.dickson_configurator? && product_page.dickson_configurator_path.present? %>
-      <%= link_to product_page.dickson_configurator_path, class: "pv2-product-dickson-card pv2-product-side__card" do %>
-        <strong>Configurer la toile</strong>
-        <p>Ouvrir le selecteur Dickson pour comparer les tissus et affiner la demande.</p>
-        <em>Ouvrir</em>
-        <%= image_tag "public_v2/dickson-fabric-rolls-cgi.png", class: "pv2-product-dickson-card__image", alt: "", aria: { hidden: true }, loading: "lazy" %>
-      <% end %>
-    <% end %>
-
     <% if product_page.brand_panel? %>
       <section class="pv2-product-brand-card pv2-product-side__card">
-        <strong>Fabricants et moteurs</strong>
-        <% if product_page.manufacturers_text.present? %>
-          <dl>
-            <dt>Fabricants</dt>
-            <dd><%= product_page.manufacturers_text %></dd>
-          </dl>
+        <strong>Fabricants</strong>
+        <% if product_page.brand_names_text.present? %>
+          <p class="pv2-product-brand-names"><%= product_page.brand_names_text %></p>
         <% end %>
-        <% if product_page.motorists_text.present? %>
-          <dl>
-            <dt>Motorisations</dt>
-            <dd><%= product_page.motorists_text %></dd>
-          </dl>
-        <% end %>
+        <%= link_to "Nos partenaires", product_page.partners_path, class: "pv2-product-brand-card__button" %>
+        <%= image_tag "public_v2/somfy-tubular-motor-cgi.png", class: "pv2-product-brand-card__image", alt: "", aria: { hidden: true }, width: 680, height: 980, loading: "eager", decoding: "async" %>
       </section>
     <% end %>
   </aside>
@@ -64,6 +68,7 @@
         <header class="pv2-product-finishes-block__header">
           <h2 id="pv2-product-finishes-title">Finitions</h2>
         </header>
+        <%= image_tag "public_v2/product-finishes-palette-cgi.png", class: "pv2-product-finishes-block__image", alt: "", aria: { hidden: true }, width: 482, height: 760, loading: "eager", decoding: "async" %>
 
         <% if palette_sections.many? %>
           <div class="pv2-product-palette-tabs" role="tablist" aria-label="Parties du produit">
@@ -128,7 +133,7 @@
                       <div>
                         <h3><%= palette.modal_title %></h3>
                       </div>
-                      <button type="button" data-action="palette-modal#close" aria-label="Fermer les coloris">Fermer</button>
+                      <button type="button" data-action="palette-modal#close" data-palette-modal-close aria-label="Fermer les coloris">Fermer</button>
                     </header>
 
                     <div class="pv2-product-palette-modal__grid">
