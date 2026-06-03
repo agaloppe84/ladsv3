@@ -10,6 +10,7 @@ class PublicV2::ContactInfo
   SUMMARY_TEXT = "Showroom de 200m2 a L'Arbresle, conseil technique, prise de cotes, pose et suivi SAV pour les projets de protection solaire et fermeture."
   PROOF_ITEMS = ["Conseil technique", "Prise de cotes", "Pose soignée", "Suivi SAV"].freeze
   MAP_SRC = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2780.2835652333556!2d4.604221976642868!3d45.82560487108219!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f48b472a3cbe87%3A0xb8e782d7f52576e0!2sLes%20Artisans%20du%20Store!5e0!3m2!1sfr!2sfr!4v1742294949861!5m2!1sfr!2sfr"
+  MAP_HREF = "https://www.google.com/maps/search/?api=1&query=Les%20Artisans%20du%20Store%2C%2035%20Rue%20des%20Martinets%2069210%20L%27Arbresle"
 
   class << self
     def phone
@@ -58,6 +59,10 @@ class PublicV2::ContactInfo
 
     def map_src
       MAP_SRC
+    end
+
+    def map_href
+      MAP_HREF
     end
 
     def contact_cards

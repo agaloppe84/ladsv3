@@ -1,0 +1,191 @@
+<%= tag.article class: component_classes, data: debug_data, aria: { label: "Carte du showroom Les Artisans du Store" } do %>
+  <div class="pv2-contact-map-card__canvas">
+    <svg viewBox="0 0 920 620" role="img" aria-labelledby="<%= svg_id(:title) %> <%= svg_id(:description) %>" preserveAspectRatio="xMidYMid slice">
+      <title id="<%= svg_id(:title) %>">Carte stylisée de L'Arbresle</title>
+      <desc id="<%= svg_id(:description) %>">Carte minimale de L'Arbresle localisant le showroom Les Artisans du Store au 35 Rue des Martinets.</desc>
+
+      <defs>
+        <radialGradient id="<%= svg_id(:spotlight) %>" cx="57%" cy="42%" r="74%">
+          <stop offset="0%" style="stop-color: var(--pv2-map-spotlight-1)" />
+          <stop offset="52%" style="stop-color: var(--pv2-map-spotlight-2)" />
+          <stop offset="100%" style="stop-color: var(--pv2-map-bg)" />
+        </radialGradient>
+
+        <linearGradient id="<%= svg_id(:river_gradient) %>" x1="0%" y1="20%" x2="100%" y2="85%">
+          <stop offset="0%" style="stop-color: var(--pv2-map-water-start)" />
+          <stop offset="100%" style="stop-color: var(--pv2-map-water-end)" />
+        </linearGradient>
+
+        <linearGradient id="<%= svg_id(:route_gradient) %>" x1="18%" y1="88%" x2="66%" y2="24%">
+          <stop offset="0%" style="stop-color: var(--pv2-map-route-start)" />
+          <stop offset="100%" style="stop-color: var(--pv2-map-route-end)" />
+        </linearGradient>
+
+        <filter id="<%= svg_id(:building_shadow) %>" x="-30%" y="-30%" width="160%" height="180%">
+          <feDropShadow dx="0" dy="9" stdDeviation="9" style="flood-color: var(--pv2-map-showroom-shadow)" flood-opacity="0.22" />
+        </filter>
+
+        <pattern id="<%= svg_id(:grid) %>" width="52" height="52" patternUnits="userSpaceOnUse">
+          <path d="M52 0H0V52" fill="none" style="stroke: var(--pv2-map-grid)" stroke-width="1" />
+        </pattern>
+
+        <symbol id="<%= svg_id(:icon_shop) %>" viewBox="0 0 24 24">
+          <path d="M5 9H19L18 20H6Z" />
+          <path d="M7 9L9 4H15L17 9" />
+        </symbol>
+
+        <symbol id="<%= svg_id(:icon_river) %>" viewBox="0 0 24 24">
+          <path d="M4 8C8 4 12 12 16 8C18 6 20 6 22 8" />
+          <path d="M2 15C6 11 10 19 14 15C17 12 20 12 22 15" />
+        </symbol>
+
+        <symbol id="<%= svg_id(:icon_showroom) %>" viewBox="0 0 24 24">
+          <path d="M4 20V8L12 4L20 8V20Z" />
+          <path d="M9 20V13H15V20" />
+          <path d="M8 9H16" />
+        </symbol>
+      </defs>
+
+      <rect width="920" height="620" fill="<%= svg_url(:spotlight) %>" />
+      <rect width="920" height="620" fill="<%= svg_url(:grid) %>" opacity="0.7" />
+
+      <g class="pv2-contact-map-card__zones">
+        <path d="M-44 112C78 34 206 52 306 126C398 194 500 162 594 94C694 22 798 46 964 84V-40H-44Z" />
+        <path d="M-36 514C116 472 162 394 276 410C390 426 452 536 572 510C676 486 714 408 822 428C900 442 936 496 960 568V660H-36Z" />
+        <path d="M582 176C672 118 782 138 832 220C886 310 824 390 706 382C612 376 546 294 562 226C566 206 574 190 582 176Z" />
+      </g>
+
+      <g class="pv2-contact-map-card__waterways">
+        <path class="pv2-contact-map-card__waterway" d="M124.3 224L130 219.1L154.3 211.6L180.2 209.5L198.9 212.7L224.6 226.8L252.2 232.3L270.2 232.9L283 235.3L294.4 240.7L313.9 249.6L333 256.1L343.2 269.2" />
+        <path class="pv2-contact-map-card__waterway" d="M343.2 269.2L355.1 282.1L357.3 290.5L367.2 299.8" />
+        <path class="pv2-contact-map-card__waterway" d="M218.3 362L232.9 352.4L260.7 341.1L271.7 334L277.7 333L286.4 321L292.5 315.8L304.9 313.5L328.6 299.5L334.4 294.2L336.6 279.6L343.2 269.2" />
+        <path class="pv2-contact-map-card__waterway pv2-contact-map-card__waterway--main" style="stroke: <%= svg_url(:river_gradient) %>" d="M505.3 633.3L513.8 598.8L526.5 553.6L548.6 514.6L576.3 481.4L606.2 451.9L639.1 426.5L678.5 401.4L695.5 385.6" />
+        <path class="pv2-contact-map-card__waterway pv2-contact-map-card__waterway--main" style="stroke: <%= svg_url(:river_gradient) %>" d="M498.3 802L508.9 785.8L515.9 770.4L519.6 755.4L520.2 742.4L515.2 720L512.1 696.5L510.9 678.2L505.3 633.3" />
+        <path class="pv2-contact-map-card__waterway" d="M781.3 247.7L768.1 241.1" />
+        <path class="pv2-contact-map-card__waterway" d="M841.5 294.1L781.3 247.7" />
+      </g>
+
+      <g class="pv2-contact-map-card__railways">
+        <path class="pv2-contact-map-card__railway" d="M1068.5 32.3L1042.7 63.2L936.5 177.3L913.3 202.3L893.5 223.8L794.4 332.2L744.6 378.3L645.9 449.5L606.4 482L581.4 507.3L560.8 534.2L547.5 563L535.9 593.9L531.9 625.9L531.8 659.7" />
+      </g>
+
+      <g class="pv2-contact-map-card__roads pv2-contact-map-card__roads--local">
+        <path class="pv2-contact-map-card__road-local" d="M470.8 467.1L473.1 467.4L479.1 468.4L491 467L509 464.1L522.1 458.4L525.3 450.3L524.7 443.2L528.5 438.3L533.7 434L538 430.9L545.2 427.2L550.8 424.3L558 420.9L566.8 416.2L568.9 414.7L570.2 412.4L571.5 410.5" />
+        <path class="pv2-contact-map-card__road-local" d="M575.9 393.6L620.3 412.7L622.8 416.4L614.9 422.4L604.9 428.2L592.9 437.1L581.9 444.4L575 449L570.5 449.8L533.7 434" />
+        <path class="pv2-contact-map-card__road-local" d="M399.8 207.2L325.3 165.1" />
+        <path class="pv2-contact-map-card__road-local" d="M405.9 253L393.7 243.9L388.2 232.5L390.6 219.2L399.8 207.2L414.1 188.3L421.6 175.7L426.4 157.1L427.7 146.4L438.3 129.4" />
+        <path class="pv2-contact-map-card__road-local" d="M392.3 105.2L381.1 102.2L368.8 103.3L359.3 108.4L351.1 115.5L341.6 119L334.1 118.2L326.6 112.6L320.8 104L318.6 100.7" />
+        <path class="pv2-contact-map-card__road-local" d="M444.6 317.1L425.9 307.2L421.4 314.1L418.2 318.3L418.7 320.7L434.2 330" />
+        <path class="pv2-contact-map-card__road-local" d="M421.4 314.1L428.4 317.6" />
+        <path class="pv2-contact-map-card__road-local" d="M604.5 341.5L600.3 337.6L595.7 335.9L591.6 334.8L587.7 335.5L584.1 337.7L569.5 358.9L544.5 396.5L554.2 401.3L566.5 406.9L568.3 407.8" />
+        <path class="pv2-contact-map-card__road-local" d="M592 349.2L588.4 351L580.5 363.6L554.2 401.3" />
+        <path class="pv2-contact-map-card__road-local" d="M569.5 358.9L580.5 363.6L592.4 368.3" />
+        <path class="pv2-contact-map-card__road-local" d="M572 404L614.9 422.4" />
+        <path class="pv2-contact-map-card__road-local" d="M568.9 414.7L604.9 428.2" />
+        <path class="pv2-contact-map-card__road-local" d="M558 420.9L592.9 437.1" />
+        <path class="pv2-contact-map-card__road-local" d="M545.2 427.2L581.9 444.4" />
+        <path class="pv2-contact-map-card__road-local" d="M475.7 341.1L482.6 333.1L514.2 349.4L507.8 358.8" />
+        <path class="pv2-contact-map-card__road-local" d="M514.2 349.4L522.8 351.9L533.1 351.6L540.6 349.4L547.3 346.2L560.5 327.2" />
+        <path class="pv2-contact-map-card__road-local" d="M474.5 545.6L457.3 548L446.5 549.9L444 549.6L440.2 548.8L437.6 541.9L431.8 522.9L429.5 514.5" />
+      </g>
+
+      <g class="pv2-contact-map-card__roads pv2-contact-map-card__roads--secondary">
+        <path class="pv2-contact-map-card__road-secondary" d="M347.5 82.2L332.8 80.9L329.4 79.3L322.9 76.1L315.1 65.7L314.1 63.8L312.9 61.6" />
+        <path class="pv2-contact-map-card__road-secondary" d="M310.8 88.6L309 85.3L308.2 81L308.3 74.9L310.4 69.2L312.9 61.6" />
+        <path class="pv2-contact-map-card__road-secondary" d="M350.1 27.8L325.6 40L311.2 49.3L304.3 57.4L301.8 62.2L300.3 70.7L304.6 86.5L305.1 88.6L305.8 91.4" />
+        <path class="pv2-contact-map-card__road-secondary" d="M312.9 61.6L318.3 50.6L350.1 27.8" />
+        <path class="pv2-contact-map-card__road-secondary" d="M347.5 82.2L362.9 78.1L379.5 75.6L395.2 75.5L411.6 78.6L424.8 84.3L436.3 90.4L445.3 96.5L453.3 104.8L458.8 112.7L461.7 118.2L464.2 123.1L466.4 134.5L461.2 160.5L416.9 233.8L405.9 253L370.6 314.7L351.6 356.4L329.3 414.4" />
+        <path class="pv2-contact-map-card__road-secondary" d="M290.7 113.9L269.8 125.4L249.2 132.1L165.5 147.8L146.1 154.2L127.2 163.4L104.7 180L53.5 221.4L34.5 235.3L31.9 236.9" />
+        <path class="pv2-contact-map-card__road-secondary" d="M349.5 466.8L341.9 465.1L336.7 463.2L333.5 461.1L330.7 458.2L328.9 455L327.3 450.3L326.7 444.7L326.7 438.1L327.3 433.5L328.9 425.3L329.3 414.4" />
+        <path class="pv2-contact-map-card__road-secondary" d="M329.3 414.4L322.9 424.6L320.9 430.6L319.4 436.1L318.7 441.2L318.4 444.8L318.1 449L318.2 454.1L318.6 459.4L319.2 463.3L320.4 466.6L322.7 469.6L325.7 472.2L329.5 474.2L335.6 477.3L337.6 479L342.1 481.3" />
+        <path class="pv2-contact-map-card__road-secondary" d="M491.5 438.1L501.5 426.8L543.2 372.1L557.2 350.3L570.6 332L573.4 328.9L575.9 327.2" />
+        <path class="pv2-contact-map-card__road-secondary" d="M590.8 312.9L594.1 310.8L600.2 306.7L676.5 263.6L693 254.4L704.7 242.3L713.3 233.5L734.1 205.7" />
+        <path class="pv2-contact-map-card__road-secondary" d="M734.1 205.7L751.4 178.3" />
+        <path class="pv2-contact-map-card__road-secondary" d="M751.4 178.3L763.4 217L782.8 225L804.7 226.8L814.5 224.9L820.7 223.2L826.5 221.1L837.9 215.8L854.4 207.5L863 204.1L873.9 201.2L883.7 200.2L892 200.2L900.4 200.6L913.3 202.3L930.5 203.6" />
+        <path class="pv2-contact-map-card__road-secondary" d="M801 342.6L799.6 336.3L804.4 329.2L899.9 226.8L908.2 223.9L918.6 222.6L924.9 218.2L927.4 212.7L930.5 203.6" />
+        <path class="pv2-contact-map-card__road-secondary" d="M801 342.6L806.9 345.1L814.9 345.1L845.9 341.8L861.9 339.9L882.9 341.4L893.3 343.8L904.3 348.8L924 362.3L946.2 388L966.9 413.2" />
+        <path class="pv2-contact-map-card__road-secondary pv2-contact-map-card__road-martinets" d="M543.2 372.1L507.8 358.8L475.7 341.1L473.2 339.7L441 321.5" />
+      </g>
+
+      <g class="pv2-contact-map-card__roads pv2-contact-map-card__roads--primary">
+        <path class="pv2-contact-map-card__road-primary" d="M618.1 119.5L614.3 127.2L592.6 152.9L565.8 185.1L563.6 187.5L557 194.8L481.9 278.4L444.6 317.1L441 321.5L434.2 330L422 347.4L393.5 388.2L387.2 398L382.7 406.6" />
+        <path class="pv2-contact-map-card__road-primary" d="M382.7 406.6L379.8 411L378 415L376.6 418.3L364.2 456.7L362.7 460L360.2 462.8L354.7 465.3" />
+        <path class="pv2-contact-map-card__road-primary" d="M370.6 470.1L369 464.2L368.5 460.8L369 457.5L380.3 419.4L381.4 415.7L382.6 411.7L382.7 406.6" />
+        <path class="pv2-contact-map-card__road-primary" d="M354.7 465.3L349.5 466.8L345.4 469.5L342.6 473.1L341.5 477.1L342.1 481.3L344.1 484.8L347.4 487.6L351.1 489.4L355.2 490.3L359.5 490.4L363.7 489.6L368.8 487L371.3 484.6L373.2 481.4L373.9 477.9L373.3 474.4L372.2 472.2L370.6 470.1" />
+        <path class="pv2-contact-map-card__road-primary" d="M347.4 487.6L349.5 490.4L351 492.2L352.3 494.4L353.3 496.7L353.6 499L353.8 506.8L353.8 508.6L356 511.4L356.4 515.4L358.7 545.4L366.6 580.1L376.6 613L388.9 649" />
+        <path class="pv2-contact-map-card__road-primary" d="M356 511.4L358.2 508.4L358.2 506.7L358.5 500.8L358.6 499L359 497.4L360.1 495L361.4 492.9L363.7 489.6" />
+      </g>
+
+      <g class="pv2-contact-map-card__route" aria-hidden="true">
+        <path class="pv2-contact-map-card__route-track" d="M356.4 515.4L356 511.4L353.8 508.6L353.8 506.8L353.6 499L353.3 496.7L352.3 494.4L351 492.2L349.5 490.4L347.4 487.6L344.1 484.8L342.1 481.3L341.5 477.1L342.6 473.1L345.4 469.5L349.5 466.8L354.7 465.3L360.2 462.8L362.7 460L364.2 456.7L376.6 418.3L378 415L379.8 411L382.7 406.6L393.5 388.2L422 347.4L434.2 330L441 321.5L473.2 339.7L475.7 341.1L482.6 333.1L486.1 303.9" />
+        <path class="pv2-contact-map-card__route-flow" style="stroke: <%= svg_url(:route_gradient) %>" d="M356.4 515.4L356 511.4L353.8 508.6L353.8 506.8L353.6 499L353.3 496.7L352.3 494.4L351 492.2L349.5 490.4L347.4 487.6L344.1 484.8L342.1 481.3L341.5 477.1L342.6 473.1L345.4 469.5L349.5 466.8L354.7 465.3L360.2 462.8L362.7 460L364.2 456.7L376.6 418.3L378 415L379.8 411L382.7 406.6L393.5 388.2L422 347.4L434.2 330L441 321.5L473.2 339.7L475.7 341.1L482.6 333.1L486.1 303.9" />
+      </g>
+
+      <g class="pv2-contact-map-card__buildings">
+        <path class="pv2-contact-map-card__building" d="M104.7 347.2L99.9 320.7L72.5 323.8L73.9 331.3L70.9 331.6L72.4 340.1L70.5 341.4L73.2 344.1L73.6 346.7L76.6 346.4L77.3 350.3L104.7 347.2Z" />
+        <path class="pv2-contact-map-card__building" d="M56.9 395.4L81.7 399.8L82.5 396.9L91 367.4L70.7 363.8L71 362.9L59 360.8L58.8 361.7L51.6 360.4L42.4 358.7L33.9 388.3L42.8 389.9L57.7 392.5L56.9 395.4Z" />
+        <path class="pv2-contact-map-card__building" d="M607.1 254.4L612.2 245.1L612 245L613.3 242.7L591.2 234.9L573.1 228.8L571.5 231.7L570.1 231.2L564.7 240.2L607.1 254.4Z" />
+        <path class="pv2-contact-map-card__building" d="M543.4 238.9L539 247.6L548.7 250.6L547.1 253.9L573 262.3L579.4 250.1L571.2 247.6L567.4 246.4L556.8 243.1L558 240.8L553.6 239.3L552.4 241.7L543.4 238.9Z" />
+        <path class="pv2-contact-map-card__building" d="M430.1 404.3L445.6 411.5L441.1 417.3L469.2 430.5L503.1 386.4L502.1 385.9L482.1 376.4L474.6 372.9L466.6 383.3L460.3 380.2L459 381.9L456.5 380.6L439.8 402.8L437.5 401.6L438.6 400.6L434.4 398.7L430.1 404.3Z" />
+        <path class="pv2-contact-map-card__building" d="M410.3 403.6L402.8 442.4L394.2 441.4L393.8 443.3L434.7 448.4L435.2 445.8L440.3 420.7L433.9 420L434.2 418L422.1 416.5L422.9 412.6L423.5 409.6L410.3 403.6Z" />
+        <path class="pv2-contact-map-card__building" d="M409 293.3L404.2 301.8L402.8 301.3L396.2 312.9L397.2 313.3L394.3 318.8L410.1 324L416.3 312.8L419.3 307.1L422.1 301.9L417.7 300.4L419.6 296.8L416.8 295.8L409 293.3Z" />
+        <path class="pv2-contact-map-card__building" d="M399.5 354.3L404 342.1L399.3 341.1L400 339.1L402.7 338.4L403.5 336.3L401.3 334.7L398.5 335.2L395.6 334.6L396.5 332.1L388.4 330.3L388.1 331.2L381.6 329.7L379.4 335.8L381.5 336.3L384.1 336.9L384.9 336.9L385.4 336.7L385.8 336.4L386 336L386 335.5L388.6 336.1L388.7 337.8L389.4 340.5L390.1 341.6L387.2 342.6L384.9 349.1L390.8 350.3L390.2 352.1L399.5 354.3Z" />
+        <path class="pv2-contact-map-card__building" d="M456.4 255.9L478.5 267.6L489.8 254.3L476.4 247.3L473.3 250.9L468.5 248.4L466 251.3L462 249.3L456.4 255.9Z" />
+        <path class="pv2-contact-map-card__building" d="M546 263.8L516.8 255.7L505.4 278.6L534.8 287L546 263.8Z" />
+        <path class="pv2-contact-map-card__building" d="M534.8 287L550.5 292.3L550.2 293L556 294.8L556.3 294.1L567.5 297.5L579 273.4L546 263.8L534.8 287Z" />
+        <path class="pv2-contact-map-card__building" d="M528 316L503.9 307.8L487.7 329.9L509.7 340.5L510.5 339.5L528 316Z" />
+        <path class="pv2-contact-map-card__building" d="M510.5 339.5L517.1 342.8L519.4 343.7L523.4 345L525.6 342.3L527.9 339.1L535.5 342.6L538.4 344L555.6 321.8L530.1 314L528 316L510.5 339.5Z" />
+        <path class="pv2-contact-map-card__building" d="M588.9 296.7L613.9 283.4L607.3 275.8L591.3 284.6L586.1 293.5L588.9 296.7Z" />
+        <path class="pv2-contact-map-card__building" d="M612.7 199.5L589.8 229.6L594.2 231.8L617.2 201.6L612.7 199.5Z" />
+        <path class="pv2-contact-map-card__building" d="M577.8 208.4L567.2 222.3L581.9 227.6L592.5 213.7L577.8 208.4Z" />
+      </g>
+
+      <g class="pv2-contact-map-card__showroom" transform="translate(0 0)" filter="<%= svg_url(:building_shadow) %>">
+        <path class="pv2-contact-map-card__showroom-campus" d="M474.5 324.5L485.3 310.6L482.1 309.1L484.6 305.9L486.1 303.9L488.9 300.4L476.8 296.6L464.1 312.9L466.9 314.2L471 316.2L470.3 317L467.2 321L470.1 322.5L470.5 322L471.9 322.7L471.5 323.1L474.5 324.5Z" />
+        <path class="pv2-contact-map-card__showroom-building" d="M485.7 306.4L487.2 304.4L486.1 303.9L484.6 305.9L485.7 306.4Z" />
+      </g>
+
+      <g class="pv2-contact-map-card__labels" aria-hidden="true">
+        <text class="pv2-contact-map-card__label pv2-contact-map-card__label--road" x="492" y="347" transform="rotate(25 492 347)">Rue des Martinets</text>
+        <text class="pv2-contact-map-card__label pv2-contact-map-card__label--road pv2-contact-map-card__desktop-label" x="446" y="270" transform="rotate(-47 446 270)">Route de Sain Bel</text>
+        <text class="pv2-contact-map-card__label pv2-contact-map-card__label--water pv2-contact-map-card__desktop-label" x="596" y="506" transform="rotate(-41 596 506)">La Brevenne</text>
+        <text class="pv2-contact-map-card__label pv2-contact-map-card__label--area pv2-contact-map-card__desktop-label" x="126" y="262">Centre-ville</text>
+        <text class="pv2-contact-map-card__label pv2-contact-map-card__label--showroom" x="504" y="300">Les Artisans du Store</text>
+      </g>
+
+      <g class="pv2-contact-map-card__poi pv2-contact-map-card__poi--showroom" transform="translate(486 306)" aria-hidden="true">
+        <circle class="pv2-contact-map-card__poi-ring" r="18" />
+        <circle class="pv2-contact-map-card__poi-dot" r="5.5" />
+        <use href="#<%= svg_id(:icon_showroom) %>" x="-8" y="-32" width="16" height="16" />
+      </g>
+
+      <g class="pv2-contact-map-card__poi pv2-contact-map-card__desktop-label" transform="translate(508 322)" aria-hidden="true">
+        <circle r="8" />
+        <use href="#<%= svg_id(:icon_shop) %>" x="-5" y="-5" width="10" height="10" />
+        <text x="14" y="4">Intersport</text>
+      </g>
+
+      <g class="pv2-contact-map-card__poi pv2-contact-map-card__desktop-label" transform="translate(362 396)" aria-hidden="true">
+        <circle r="8" />
+        <use href="#<%= svg_id(:icon_shop) %>" x="-5" y="-5" width="10" height="10" />
+        <text x="14" y="4">Optical Center</text>
+      </g>
+
+      <g class="pv2-contact-map-card__poi pv2-contact-map-card__desktop-label" transform="translate(650 450)" aria-hidden="true">
+        <circle r="8" />
+        <use href="#<%= svg_id(:icon_river) %>" x="-6" y="-6" width="12" height="12" />
+        <text x="14" y="4">Riviere</text>
+      </g>
+
+    </svg>
+  </div>
+
+  <div class="pv2-contact-map-card__city-overlay" aria-hidden="true"><%= city_label %></div>
+
+  <%= link_to "Itinéraire",
+    contact_info.map_href,
+    class: "pv2-contact-map-card__route-link",
+    target: "_blank",
+    rel: "noopener",
+    aria: { label: "Ouvrir l'itinéraire vers le showroom dans Google Maps" } %>
+<% end %>

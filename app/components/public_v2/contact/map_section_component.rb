@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PublicV2::Contact::DetailsSectionComponent < ViewComponent::Base
+class PublicV2::Contact::MapSectionComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
   def initialize(contact_page:, debug: false)
@@ -14,8 +14,8 @@ class PublicV2::Contact::DetailsSectionComponent < ViewComponent::Base
 
   def component_classes
     component_class_names(
-      "pv2-contact-layout pv2-contact-details-v2",
-      "grid w-full min-w-0 grid-cols-1 items-start gap-4 min-[1121px]:grid-cols-[minmax(0,.68fr)_minmax(520px,.86fr)]",
+      "pv2-contact-map-section",
+      "grid w-full min-w-0",
       debug_class
     )
   end

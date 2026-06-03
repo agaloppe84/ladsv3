@@ -1,0 +1,18 @@
+<%= tag.section class: component_classes, data: debug_data, aria: { labelledby: "pv2-contact-visit-guide-title" } do %>
+  <div class="pv2-contact-visit-guide__head grid min-w-0">
+    <h2 id="pv2-contact-visit-guide-title">Préparer la visite</h2>
+    <p>Quelques repères rendent le conseil plus précis, sans transformer le premier contact en dossier technique.</p>
+  </div>
+
+  <div class="pv2-contact-visit-guide__grid grid min-w-0 grid-cols-1 gap-3 min-[721px]:grid-cols-2 min-[1121px]:grid-cols-4">
+    <% cards.each do |card| %>
+      <article class="pv2-contact-visit-guide__card grid min-w-0">
+        <div class="pv2-contact-visit-guide__card-head">
+          <h3><%= card[:title] %></h3>
+          <%= card_icon(card[:key]) %>
+        </div>
+        <p><%= card[:text] %></p>
+      </article>
+    <% end %>
+  </div>
+<% end %>

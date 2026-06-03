@@ -30,18 +30,7 @@
   </div>
 
   <aside class="grid min-w-0 gap-3">
-    <div class="pv2-contact-map <%= debug_class %>" <%= debug_attributes %>>
-      <iframe
-        src="<%= contact_page.map_src %>"
-        width="100%"
-        height="100%"
-        style="border:0;"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        title="Carte Les Artisans du Store a L'Arbresle"
-      ></iframe>
-    </div>
+    <%= render PublicV2::Contact::MapCardComponent.new(contact_page: contact_page, debug: debug?) %>
 
     <%= render PublicV2::Ui::IconListComponent.new(
       items: contact_page.visit_items,

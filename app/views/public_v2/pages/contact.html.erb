@@ -1,9 +1,7 @@
 <% title "Contact - Public V2" %>
 <% description "Contacter Les Artisans du Store a L'Arbresle : showroom, telephone, email, horaires et acces." %>
 
-<main class="pv2-public-page pv2-contact-page grid gap-12">
-  <%= render PublicV2::Contact::HeroSectionComponent.new(contact_page: @contact_page) %>
-  <%= render PublicV2::Contact::DetailsSectionComponent.new(contact_page: @contact_page) %>
-  <%= render PublicV2::Contact::ShowroomSectionComponent.new(contact_page: @contact_page) %>
-  <%= render PublicV2::Contact::CtaSectionComponent.new(contact_page: @contact_page) %>
+<main class="pv2-public-page pv2-contact-page pv2-contact-page-v3 grid">
+  <%= render PublicV2::Contact::MapSectionComponent.new(contact_page: @contact_page) %>
+  <%= render PublicV2::Contact::VisitGuideComponent.new(contact_page: @contact_page) %>
 </main>
