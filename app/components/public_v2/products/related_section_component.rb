@@ -17,6 +17,10 @@ class PublicV2::Products::RelatedSectionComponent < ViewComponent::Base
   attr_reader :product_page
 
   def component_classes
-    component_class_names("pv2-product-related", "grid w-full min-w-0 gap-4", debug_class)
+    component_class_names("pv2-product-related", "grid w-full min-w-0", debug_class)
+  end
+
+  def related_cards
+    product_page.related_cards
   end
 end

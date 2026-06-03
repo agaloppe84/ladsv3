@@ -1,18 +1,13 @@
 <section class="<%= component_classes %>" <%= debug_attributes %>>
-  <%= render PublicV2::Content::SectionHeaderComponent.new(
-    kicker: "Meme categorie",
-    title: "Produits proches a comparer.",
-    debug: debug?
-  ) %>
-  <div class="pv2-category-products grid grid-cols-1 gap-3 min-[821px]:grid-cols-2 min-[1121px]:grid-cols-3">
-    <% product_page.related_cards.each do |card| %>
-      <%= render PublicV2::Products::ProductCardComponent.new(
-        product: card.product,
-        path: card.path,
-        image: card.image,
-        description: "Voir la fiche",
-        debug: debug?
-      ) %>
+  <header class="pv2-product-related__header">
+    <div class="pv2-product-related__copy">
+      <h2>Produits similaires</h2>
+    </div>
+  </header>
+
+  <div class="pv2-product-related__grid">
+    <% related_cards.each do |card| %>
+      <%= render PublicV2::Products::RelatedProductCardComponent.new(card: card, debug: debug?) %>
     <% end %>
   </div>
 </section>

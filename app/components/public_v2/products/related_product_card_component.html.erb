@@ -1,0 +1,23 @@
+<%= link_to path, class: component_classes, data: debug_data, aria: { label: link_label } do %>
+  <span class="pv2-product-related-card__media" aria-hidden="true">
+    <%= render PublicV2::Ui::MediaFrameComponent.new(
+      image: image,
+      fallback: "public_v2/product-placeholder.png",
+      alt: "",
+      ratio: :wide,
+      debug: debug?
+    ) %>
+  </span>
+
+  <span class="pv2-product-related-card__body">
+    <span class="pv2-product-related-card__eyebrow"><%= category_name %></span>
+    <strong class="pv2-product-related-card__title"><%= title %></strong>
+    <em class="pv2-product-related-card__text"><%= description_text %></em>
+  </span>
+
+  <span class="pv2-product-related-card__action" aria-hidden="true">
+    <svg viewBox="0 0 24 24" focusable="false">
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  </span>
+<% end %>
