@@ -1,0 +1,47 @@
+<div
+  class="<%= component_classes %>"
+  data-controller="quote-product-select"
+  data-quote-product-select-placeholder-value="<%= placeholder %>"
+  <%= debug_attributes %>>
+  <label id="<%= label_id %>" class="pv2-quote-field__label" for="<%= input_id %>"><%= label %></label>
+
+  <%= hidden_field_tag name, selected_option ? value : "", id: input_id, data: input_data %>
+
+  <button
+    type="button"
+    class="pv2-quote-product-select__button"
+    data-quote-product-select-target="button"
+    data-action="quote-product-select#toggle"
+    aria-expanded="false"
+    aria-labelledby="<%= label_id %>">
+    <span class="pv2-quote-product-select__copy">
+      <strong data-quote-product-select-target="label"><%= selected_label %></strong>
+      <em data-quote-product-select-target="meta" class="<%= "is-hidden" if selected_meta.blank? %>"><%= selected_meta %></em>
+    </span>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 9.5 12 14l5-4.5" />
+    </svg>
+  </button>
+
+  <em class="pv2-quote-field__error" data-quote-form-field-error><%= error %></em>
+
+  <div class="pv2-quote-product-select__panel" data-quote-product-select-target="panel" hidden>
+    <div class="pv2-quote-product-select__options">
+      <% normalized_options.each do |option| %>
+        <button
+          type="button"
+          data-quote-product-select-target="option"
+          data-action="quote-product-select#select"
+          data-value="<%= option[:value] %>"
+          data-label="<%= option[:label] %>"
+          data-meta="<%= option[:meta] %>"
+          data-keywords="<%= option[:keywords] %>">
+          <span><%= option[:label] %></span>
+          <% if option[:meta].present? %>
+            <em><%= option[:meta] %></em>
+          <% end %>
+        </button>
+      <% end %>
+    </div>
+  </div>
+</div>

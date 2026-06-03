@@ -1,0 +1,8 @@
+<article id="pv2_quote_form_panel" class="<%= component_classes %>" <%= debug_attributes %>>
+  <%= render PublicV2::Forms::QuoteFormComponent.new(
+    quote: quote_page.quote,
+    product_options: quote_page.product_options,
+    url: form_url,
+    debug: debug?
+  ) %>
+</article>

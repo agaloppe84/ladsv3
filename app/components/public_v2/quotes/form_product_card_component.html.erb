@@ -1,0 +1,35 @@
+<% card_content = capture do %>
+  <span class="pv2-quote-form-product-card__media" aria-hidden="true">
+    <%= render PublicV2::Ui::MediaFrameComponent.new(
+      image: image,
+      fallback: "public_v2/product-placeholder.png",
+      alt: "",
+      ratio: :wide,
+      debug: debug?
+    ) %>
+  </span>
+
+  <span class="pv2-quote-form-product-card__body">
+    <span class="pv2-quote-form-product-card__eyebrow"><%= category_name %></span>
+    <strong class="pv2-quote-form-product-card__title"><%= title %></strong>
+    <em class="pv2-quote-form-product-card__text"><%= description_text %></em>
+  </span>
+
+  <% if product_path.present? %>
+    <span class="pv2-quote-form-product-card__action" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        <path d="M12 5v14M5 12h14" />
+      </svg>
+    </span>
+  <% end %>
+<% end %>
+
+<% if product_path.present? %>
+  <%= link_to product_path, class: component_classes, data: debug_data, aria: { label: link_label } do %>
+    <%= card_content %>
+  <% end %>
+<% else %>
+  <article class="<%= component_classes %>" <%= debug_attributes %>>
+    <%= card_content %>
+  </article>
+<% end %>

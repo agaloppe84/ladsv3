@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PublicV2::Quotes::FormSectionComponent < ViewComponent::Base
+class PublicV2::Quotes::FormPanelComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
   def initialize(quote_page:, url: nil, debug: false)
@@ -18,10 +18,6 @@ class PublicV2::Quotes::FormSectionComponent < ViewComponent::Base
   end
 
   def component_classes
-    component_class_names(
-      "pv2-quote-section",
-      "grid w-full min-w-0 gap-6",
-      debug_class
-    )
+    component_class_names("pv2-quote-form-panel", debug_class)
   end
 end

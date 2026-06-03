@@ -1,45 +1,63 @@
-<%= form_with model: quote, url: url, class: component_classes, data: component_data do |form| %>
+<%= form_with model: quote, url: url, class: component_classes, data: component_data, novalidate: true do |form| %>
   <% if quote.errors.any? %>
-    <div class="pv2-quote-errors">
-      <strong>Certains champs sont a completer.</strong>
-      <p><%= quote.errors.full_messages.to_sentence %></p>
+    <div class="pv2-quote-errors" role="alert">
+      <strong>Il manque quelques informations.</strong>
+      <p><%= error_summary %></p>
     </div>
   <% end %>
 
-  <div class="pv2-quote-form__grid grid grid-cols-1 gap-3 min-[821px]:grid-cols-2">
-    <label class="pv2-ui-field">
-      <span>Nom</span>
-      <%= form.text_field :lastname, autocomplete: "name", required: true, placeholder: "Votre nom" %>
+  <div class="pv2-quote-form__grid">
+    <div class="pv2-quote-form__full">
+      <%= render PublicV2::Forms::ProductSelectComponent.new(
+        name: "quote[product]",
+        value: quote.product,
+        options: product_options,
+        error: field_error(:product),
+        debug: debug?
+      ) %>
+    </div>
+
+    <label class="<%= field_classes(:lastname) %>">
+      <span><%= field_label(:lastname) %></span>
+      <%= form.text_field :lastname, autocomplete: "name", placeholder: "Nom", data: field_data(:lastname) %>
+      <em class="pv2-quote-field__error" data-quote-form-field-error><%= field_error(:lastname) %></em>
     </label>
-    <label class="pv2-ui-field">
-      <span>Email</span>
-      <%= form.email_field :email, autocomplete: "email", required: true, placeholder: "vous@email.fr" %>
+
+    <label class="<%= field_classes(:phone) %>">
+      <span><%= field_label(:phone) %></span>
+      <%= form.telephone_field :phone, autocomplete: "tel", placeholder: "Téléphone", data: field_data(:phone, kind: "phone") %>
+      <em class="pv2-quote-field__error" data-quote-form-field-error><%= field_error(:phone) %></em>
     </label>
-    <label class="pv2-ui-field">
-      <span>Telephone</span>
-      <%= form.telephone_field :phone, autocomplete: "tel", required: true, placeholder: "04..." %>
+
+    <label class="<%= field_classes(:email, "pv2-quote-form__full") %>">
+      <span><%= field_label(:email) %></span>
+      <%= form.email_field :email, autocomplete: "email", placeholder: "Email", data: field_data(:email, kind: "email") %>
+      <em class="pv2-quote-field__error" data-quote-form-field-error><%= field_error(:email) %></em>
     </label>
-    <label class="pv2-ui-field">
-      <span>Ville</span>
-      <%= form.text_field :city, autocomplete: "address-level2", required: true, placeholder: "Votre ville" %>
+
+    <label class="<%= field_classes(:city) %>">
+      <span><%= field_label(:city) %></span>
+      <%= form.text_field :city, autocomplete: "address-level2", placeholder: "Ville", data: field_data(:city) %>
+      <em class="pv2-quote-field__error" data-quote-form-field-error><%= field_error(:city) %></em>
     </label>
-    <label class="pv2-ui-field pv2-quote-form__full min-[821px]:col-span-2">
-      <span>Adresse</span>
-      <%= form.text_field :address, autocomplete: "street-address", required: true, placeholder: "Adresse du projet" %>
+
+    <label class="<%= field_classes(:address) %>">
+      <span><%= field_label(:address) %></span>
+      <%= form.text_field :address, autocomplete: "street-address", placeholder: "Adresse", data: field_data(:address) %>
+      <em class="pv2-quote-field__error" data-quote-form-field-error><%= field_error(:address) %></em>
     </label>
-    <label class="pv2-ui-field pv2-quote-form__full min-[821px]:col-span-2">
-      <span>Produit</span>
-      <%= form.select :product,
-            options_for_select(product_options, quote.product),
-            { include_blank: "A definir avec l'equipe" },
-            required: true %>
-    </label>
-    <label class="pv2-ui-field pv2-quote-form__full min-[821px]:col-span-2">
-      <span>Message</span>
-      <%= form.text_area :message, rows: 7, required: true, placeholder: "Dimensions, exposition, type de pose, delai souhaite, photos disponibles..." %>
+
+    <label class="<%= field_classes(:message, "pv2-quote-form__full") %>">
+      <span><%= field_label(:message) %></span>
+      <%= form.text_area :message, rows: 7, placeholder: "Dimensions, exposition, contrainte de pose, delai souhaite...", data: field_data(:message) %>
+      <em class="pv2-quote-field__error" data-quote-form-field-error><%= field_error(:message) %></em>
     </label>
   </div>
 
-  <%= render PublicV2::Ui::ButtonComponent.new(label: "Envoyer ma demande", type: "submit", variant: :primary, full_width: true, debug: debug?) %>
-  <p class="pv2-quote-consent">En envoyant ce formulaire, vous acceptez d'etre recontacte au sujet de votre projet. Aucun paiement ni engagement en ligne.</p>
+  <div class="pv2-quote-form__actions">
+    <button type="submit" class="pv2-quote-submit pv2-ui-button pv2-ui-button--primary pv2-ui-button--pill" data-quote-form-target="submit">
+      <span data-quote-form-target="submitLabel">Envoyer ma demande</span>
+    </button>
+    <p data-quote-form-target="status">Completez les champs requis.</p>
+  </div>
 <% end %>

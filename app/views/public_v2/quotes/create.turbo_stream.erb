@@ -1,0 +1,9 @@
+<% if @quote_page.present? %>
+  <%= turbo_stream.replace "pv2_quote_form_panel" do %>
+    <%= render PublicV2::Quotes::FormPanelComponent.new(quote_page: @quote_page) %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.replace "pv2_quote_form_panel" do %>
+    <%= render PublicV2::Quotes::SuccessComponent.new %>
+  <% end %>
+<% end %>

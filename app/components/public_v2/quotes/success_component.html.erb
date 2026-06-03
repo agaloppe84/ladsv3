@@ -1,0 +1,18 @@
+<article id="pv2_quote_form_panel" class="<%= component_classes %>" <%= debug_attributes %>>
+  <div class="pv2-quote-success__headline">
+    <span class="pv2-quote-success__mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <path d="M5 12.5 10 17l9-10" />
+      </svg>
+    </span>
+
+    <h2>Demande reçue</h2>
+  </div>
+
+  <p>L'equipe revient vers vous pour valider les dimensions, la pose et les options utiles.</p>
+
+  <div class="pv2-quote-success__actions">
+    <%= render PublicV2::Ui::ButtonComponent.new(label: "Retour accueil", path: public_v2_home_path, variant: :primary, shape: :pill, debug: debug?) %>
+    <%= render PublicV2::Ui::ButtonComponent.new(label: "Voir les produits", path: public_v2_categories_path, variant: :secondary, shape: :pill, debug: debug?) %>
+  </div>
+</article>

@@ -10,11 +10,20 @@ class PublicV2::QuotesController < PublicV2::BaseController
     quote = Quote.new(quote_params)
 
     if quote.save
-      redirect_to public_v2_home_path, notice: "Demande de devis envoyee avec succes."
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to public_v2_home_path, notice: "Demande de devis envoyee avec succes." }
+      end
     else
       @quote_page = build_quote_page(quote)
-      flash.now.alert = "Veuillez remplir les champs obligatoires."
-      render :new, status: :unprocessable_entity
+
+      respond_to do |format|
+        format.turbo_stream { render :create, status: :unprocessable_entity }
+        format.html do
+          flash.now.alert = "Veuillez remplir les champs obligatoires."
+          render :new, status: :unprocessable_entity
+        end
+      end
     end
   end
 
@@ -32,12 +41,20 @@ class PublicV2::QuotesController < PublicV2::BaseController
   end
 
   def build_quote_page(quote)
+    selected_product = @selected_product || product_matching_quote(quote)
+
     PublicV2::QuotePage.new(
       quote: quote,
       products: @quote_products,
-      selected_product: @selected_product,
-      selected_product_image: public_v2_primary_image(@selected_product)
+      selected_product: selected_product,
+      selected_product_image: public_v2_primary_image(selected_product)
     )
+  end
+
+  def product_matching_quote(quote)
+    return if quote.product.blank?
+
+    @quote_products.find { |product| product.name.to_s == quote.product.to_s }
   end
 
   def quote_params

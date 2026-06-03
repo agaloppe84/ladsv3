@@ -1,71 +1,42 @@
 <%= tag.section id: "formulaire", class: component_classes, data: debug_data do %>
-  <%= render PublicV2::Ui::PanelComponent.new(kicker: "Formulaire", title: "Les infos utiles pour cadrer.", text: "Le formulaire reste volontairement court : produit, coordonnees, adresse du projet et message libre.", classes: "pv2-quote-form-card", debug: debug?) do %>
-    <%= render PublicV2::Ui::ProofRailComponent.new(
-      items: quote_page.form_focus_items,
-      label: "A renseigner",
-      variant: :compact,
-      debug: debug?
-    ) %>
+  <header class="pv2-quote-intro">
+    <h1>Demande de devis</h1>
+    <p>Quelques infos suffisent. On vous rappelle pour valider les dimensions, la pose et les options utiles.</p>
+  </header>
 
-    <%= render PublicV2::Forms::QuoteFormComponent.new(
-      quote: quote_page.quote,
-      products: quote_page.products,
+  <div class="pv2-quote-board">
+    <%= render PublicV2::Quotes::FormPanelComponent.new(
+      quote_page: quote_page,
       url: form_url,
       debug: debug?
     ) %>
-  <% end %>
 
-  <aside class="pv2-quote-side grid min-w-0 gap-3 min-[1121px]:sticky min-[1121px]:top-[92px]">
-    <% if quote_page.selected_product? %>
-      <article class="pv2-quote-selected grid w-full min-w-0 gap-[0.78rem] p-4 <%= debug_class %>" <%= debug_attributes %>>
-        <div class="pv2-home-mini-media">
-          <%= render PublicV2::Ui::MediaFrameComponent.new(image: quote_page.selected_product_image, alt: quote_page.selected_product.name, ratio: :product, debug: debug?) %>
-        </div>
-        <span>Produit selectionne</span>
-        <strong><%= quote_page.selected_product.name %></strong>
-        <p><%= quote_page.selected_product_category_name %></p>
-        <em><%= quote_page.selected_product_description %></em>
+    <aside class="pv2-quote-context" aria-label="Informations utiles">
+      <% if quote_page.selected_product? %>
+        <%= render PublicV2::Quotes::FormProductCardComponent.new(
+          product: quote_page.selected_product,
+          image: quote_page.selected_product_image,
+          debug: debug?
+        ) %>
+      <% end %>
+
+      <article class="pv2-quote-context__panel pv2-quote-context__panel--steps <%= debug_class %>" <%= debug_attributes %>>
+        <ol>
+          <li>
+            <strong>1. Cadrage</strong>
+            <p>On verifie le produit, les dimensions et les contraintes.</p>
+          </li>
+          <li>
+            <strong>2. Conseil</strong>
+            <p>L'equipe vous oriente vers la bonne solution.</p>
+          </li>
+          <li>
+            <strong>3. Devis</strong>
+            <p>Retour clair pour decider.</p>
+          </li>
+        </ol>
       </article>
-    <% end %>
 
-    <%= render PublicV2::Ui::StepRailComponent.new(
-      steps: quote_page.guide_steps,
-      label: "Apres envoi",
-      variant: :compact,
-      classes: "pv2-quote-side__card",
-      debug: debug?
-    ) %>
-
-    <%= render PublicV2::Ui::ActionDockComponent.new(
-      kicker: "Contact direct",
-      title: "Besoin d'un avis rapide ?",
-      text: "Le showroom peut aussi cadrer votre demande par telephone ou email.",
-      primary_label: "Appeler",
-      primary_path: PublicV2::ContactInfo.phone_href,
-      secondary_label: "Email",
-      secondary_path: PublicV2::ContactInfo.email_href,
-      meta: PublicV2::ContactInfo.full_address,
-      variant: :soft,
-      classes: "pv2-quote-side__card",
-      debug: debug?
-    ) %>
-
-    <%= render PublicV2::Ui::PanelComponent.new(kicker: "Coordonnees", title: "Showroom et contacts.", classes: "pv2-quote-side__card", debug: debug?) do %>
-      <div class="pv2-quote-contact-list grid gap-2">
-        <% quote_page.contact_items.each do |item| %>
-          <% if item.path.present? %>
-            <%= link_to item.path do %>
-              <span><%= item.label %></span>
-              <strong><%= item.value %></strong>
-            <% end %>
-          <% else %>
-            <article>
-              <span><%= item.label %></span>
-              <strong><%= item.value %></strong>
-            </article>
-          <% end %>
-        <% end %>
-      </div>
-    <% end %>
-  </aside>
+    </aside>
+  </div>
 <% end %>

@@ -56,11 +56,52 @@ class PublicV2::QuotePage
     end
   end
 
+  def product_options
+    base_options = products.filter_map do |product|
+      next if product.name.blank?
+
+      {
+        value: product.name.to_s,
+        label: product.name.to_s,
+        meta: product_option_meta(product),
+        keywords: [
+          product.name,
+          product_option_meta(product),
+          product.class.name
+        ].compact.join(" ")
+      }
+    end
+
+    options = [
+      {
+        value: "A definir avec l'equipe",
+        label: "Je ne sais pas encore",
+        meta: "L'equipe vous orientera",
+        keywords: "a definir equipe conseil produit"
+      }
+    ] + base_options.uniq { |option| option[:value] }
+
+    if quote.product.present? && options.none? { |option| option[:value] == quote.product.to_s }
+      options.unshift(
+        value: quote.product.to_s,
+        label: quote.product.to_s,
+        meta: "Produit saisi",
+        keywords: quote.product.to_s
+      )
+    end
+
+    options
+  end
+
   def product_count
     products.size
   end
 
   private
+
+  def product_option_meta(product)
+    product.category&.name.presence || "Catalogue"
+  end
 
   def product_attribute(attribute_name)
     return unless selected_product.respond_to?(attribute_name)
