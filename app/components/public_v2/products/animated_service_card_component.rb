@@ -3,7 +3,7 @@
 class PublicV2::Products::AnimatedServiceCardComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
-  VARIANTS = %i[wind uv].freeze
+  VARIANTS = %i[fire rge uv warranty wind].freeze
 
   def initialize(item:, debug: false)
     @item = item
@@ -21,27 +21,18 @@ class PublicV2::Products::AnimatedServiceCardComponent < ViewComponent::Base
     :wind
   end
 
-  def wind?
-    variant == :wind
-  end
-
-  def uv?
-    variant == :uv
-  end
-
   def protected_label
-    wind? ? "Résistance au" : "Protection"
+    item.protected_label.to_s.squish
   end
 
   def impact_label
-    wind? ? "Vent" : "UV"
+    item.impact_label.to_s.squish
   end
 
   def component_classes
     component_class_names(
       "pv2-product-animated-service-card",
       "pv2-product-animated-service-card--#{variant}",
-      "pv2-product-side__card",
       debug_class
     )
   end

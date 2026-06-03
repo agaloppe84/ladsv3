@@ -3,13 +3,6 @@
     <article class="pv2-product-hero-v2__lead">
       <div class="pv2-product-hero-v2__title-stack">
         <h1><%= product.name %></h1>
-        <% if product_page.made_in_france? %>
-          <span class="pv2-product-hero-v2__made-in-france" aria-label="Fabriqué en France">
-            <span class="pv2-product-hero-v2__made-in-france-blue">Fabriqué</span>
-            <span class="pv2-product-hero-v2__made-in-france-middle">en</span>
-            <span class="pv2-product-hero-v2__made-in-france-red">France</span>
-          </span>
-        <% end %>
       </div>
       <span><%= description_text %></span>
 
@@ -18,14 +11,6 @@
         <%= render PublicV2::Ui::ButtonComponent.new(label: "Retour catalogue", path: catalog_path, variant: :secondary, size: :sm, shape: :pill, classes: "pv2-product-hero-v2__catalog-button", debug: debug?) %>
       </div>
     </article>
-
-    <% if product_page.service_items.any? %>
-      <section class="pv2-product-hero-v2__services pv2-product-service-list" aria-label="Engagements produit">
-        <% product_page.service_items.each do |item| %>
-          <%= render PublicV2::Products::ServiceFeatureComponent.new(item: item, debug: debug?) %>
-        <% end %>
-      </section>
-    <% end %>
   </div>
 
   <aside class="pv2-product-hero-v2__showcase">

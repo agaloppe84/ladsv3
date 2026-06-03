@@ -7,8 +7,7 @@ class PublicV2::ProductPage
   OptionItem = Struct.new(:number, :content, keyword_init: true)
   Swatch = Struct.new(:title, :color, :meta, :ref, :name, :finish_label, :paid_option, keyword_init: true)
   PaletteSection = Struct.new(:code, :label, :name, :count, :swatches, :preview_swatches, :hidden_swatch_count, :modal_title, keyword_init: true)
-  ServiceItem = Struct.new(:key, :label, :icon, keyword_init: true)
-  AnimatedServiceCard = Struct.new(:key, :label, :variant, keyword_init: true)
+  AnimatedServiceCard = Struct.new(:key, :label, :protected_label, :impact_label, :variant, keyword_init: true)
   GallerySlide = Struct.new(:image, :alt, :caption, :position, keyword_init: true)
   RelatedProduct = Struct.new(:product, :path, :image, keyword_init: true)
   BrandItem = Struct.new(:name, :kind, keyword_init: true)
@@ -164,18 +163,6 @@ class PublicV2::ProductPage
     end
   end
 
-  def service_items
-    @service_items ||= service_item_definitions.filter_map do |definition|
-      next unless definition[:enabled]
-
-      ServiceItem.new(
-        key: definition[:key],
-        label: definition[:label],
-        icon: definition[:icon]
-      )
-    end
-  end
-
   def made_in_france?
     product.service&.made_in_france?
   end
@@ -187,6 +174,8 @@ class PublicV2::ProductPage
       AnimatedServiceCard.new(
         key: definition[:key],
         label: definition[:label],
+        protected_label: definition[:protected_label],
+        impact_label: definition[:impact_label],
         variant: definition[:variant]
       )
     end
@@ -296,68 +285,47 @@ class PublicV2::ProductPage
     "#d8d8d8"
   end
 
-  def service_item_definitions
+  def animated_service_card_definitions
     service = product.service
 
     [
       {
         key: :warranty,
         label: "Garantie #{warranty_value}",
-        icon: "public_v2/services/warranty.svg",
+        protected_label: "Garantie",
+        impact_label: warranty_value,
+        variant: :warranty,
         enabled: warranty_value.present?
       },
       {
-        key: :custom_dimensions,
-        label: "Sur mesure",
-        icon: "public_v2/services/custom-dimensions.svg",
-        enabled: service&.custom_dimensions
-      },
-      {
-        key: :free_quote,
-        label: "Devis gratuit",
-        icon: "public_v2/services/free-quote.svg",
-        enabled: service&.free_quote
-      },
-      {
         key: :anti_fire,
-        label: "Anti feu",
-        icon: "public_v2/services/anti-fire.svg",
+        label: "Protection Feu",
+        protected_label: "Protection",
+        impact_label: "Feu",
+        variant: :fire,
         enabled: service&.anti_fire
       },
       {
-        key: :anti_uv,
-        label: "Anti UV",
-        icon: "public_v2/services/anti-uv.svg",
-        enabled: service&.anti_uv
-      },
-      {
         key: :rge,
-        label: "RGE",
-        icon: "public_v2/services/rge.svg",
+        label: "Certifié RGE",
+        protected_label: "Certifié",
+        impact_label: "RGE",
+        variant: :rge,
         enabled: service&.rge
       },
       {
         key: :wind_resistance,
-        label: "Tenue au vent",
-        icon: "public_v2/services/wind-resistance.svg",
-        enabled: service&.wind_resistance
-      }
-    ]
-  end
-
-  def animated_service_card_definitions
-    service = product.service
-
-    [
-      {
-        key: :wind_resistance,
-        label: "Résistance au vent",
+        label: "Protection Vent",
+        protected_label: "Protection",
+        impact_label: "Vent",
         variant: :wind,
         enabled: service&.wind_resistance
       },
       {
         key: :anti_uv,
         label: "Protection UV",
+        protected_label: "Protection",
+        impact_label: "UV",
         variant: :uv,
         enabled: service&.anti_uv
       }

@@ -1,4 +1,7 @@
 <section class="<%= component_classes %>" <%= debug_attributes %>>
+  <% animated_service_cards = product_page.animated_service_cards %>
+  <% documentation_items = product_page.documentation_items %>
+
   <aside class="pv2-product-side grid gap-5 min-[1121px]:sticky min-[1121px]:top-[92px]">
     <% if product_page.dickson_configurator? && product_page.dickson_configurator_path.present? %>
       <section class="pv2-product-dickson-card pv2-product-side__card">
@@ -29,22 +32,15 @@
       </section>
     <% end %>
 
-    <% animated_service_cards = product_page.animated_service_cards %>
-    <% if product_page.made_in_france? || animated_service_cards.any? %>
+    <% if product_page.made_in_france? %>
       <div class="pv2-product-side__text-cards">
-        <% if product_page.made_in_france? %>
-          <section class="pv2-product-origin-card pv2-product-side__card" aria-label="Fabriqué en France">
-            <span class="pv2-product-origin-card__label">
-              <span class="pv2-product-origin-card__blue">Fabriqué</span>
-              <span class="pv2-product-origin-card__middle">en</span>
-              <span class="pv2-product-origin-card__red">France</span>
-            </span>
-          </section>
-        <% end %>
-
-        <% animated_service_cards.each do |animated_service_card| %>
-          <%= render PublicV2::Products::AnimatedServiceCardComponent.new(item: animated_service_card, debug: debug?) %>
-        <% end %>
+        <section class="pv2-product-origin-card pv2-product-side__card" aria-label="Fabriqué en France">
+          <span class="pv2-product-origin-card__label">
+            <span class="pv2-product-origin-card__blue">Fabriqué</span>
+            <span class="pv2-product-origin-card__middle">en</span>
+            <span class="pv2-product-origin-card__red">France</span>
+          </span>
+        </section>
       </div>
     <% end %>
   </aside>
@@ -64,6 +60,7 @@
           variant: :list,
           debug: debug?
         ) if product_page.option_items.any? %>
+
       </section>
     <% end %>
 
@@ -161,17 +158,41 @@
       </section>
     <% end %>
 
-    <% if product_page.documentation_items.any? %>
-      <%= render PublicV2::Ui::PanelComponent.new(kicker: "Documents", title: "Fichiers a telecharger.", text: "Notices, fiches techniques et documents associes au produit.", classes: "pv2-product-panel", debug: debug?) do %>
-        <div class="pv2-product-docs grid gap-2">
-          <% product_page.documentation_items.each do |documentation| %>
-            <%= link_to rails_blob_path(documentation, disposition: "attachment") do %>
-              <span><%= documentation.filename.to_s %></span>
-              <em>Telecharger</em>
-            <% end %>
-          <% end %>
-        </div>
-      <% end %>
+    <% if documentation_items.any? || animated_service_cards.any? %>
+      <div class="<%= support_grid_classes(documentation_items, animated_service_cards) %>">
+        <% if documentation_items.any? %>
+          <section class="pv2-product-support-card pv2-product-support-card--documentation pv2-product-side__card" aria-labelledby="pv2-product-documentation-title">
+            <header>
+              <strong id="pv2-product-documentation-title">Documentation</strong>
+            </header>
+
+            <div class="pv2-product-docs">
+              <% documentation_items.each do |documentation| %>
+                <div class="pv2-product-docs__item">
+                  <span><%= documentation.filename.to_s %></span>
+                  <%= link_to rails_blob_path(documentation, disposition: "inline"), target: "_blank", rel: "noopener", aria: { label: "Ouvrir #{documentation.filename} dans un nouvel onglet" } do %>
+                    <em aria-hidden="true">+</em>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </section>
+        <% end %>
+
+        <% if animated_service_cards.any? %>
+          <section class="pv2-product-support-card pv2-product-support-card--services pv2-product-side__card" aria-labelledby="pv2-product-services-title">
+            <header>
+              <strong id="pv2-product-services-title">Protections</strong>
+            </header>
+
+            <div class="pv2-product-support-services">
+              <% animated_service_cards.each do |animated_service_card| %>
+                <%= render PublicV2::Products::AnimatedServiceCardComponent.new(item: animated_service_card, debug: debug?) %>
+              <% end %>
+            </div>
+          </section>
+        <% end %>
+      </div>
     <% end %>
   </div>
 </section>

@@ -24,6 +24,13 @@ class PublicV2::Products::DetailsSectionComponent < ViewComponent::Base
     product_page.information_items.find { |item| item.label == "Infos techniques" }
   end
 
+  def support_grid_classes(documentation_items, service_cards)
+    component_class_names(
+      "pv2-product-support-grid",
+      ("pv2-product-support-grid--single" unless documentation_items.any? && service_cards.any?)
+    )
+  end
+
   def palette_modal_id(index)
     "pv2-product-palette-modal-#{index + 1}"
   end
