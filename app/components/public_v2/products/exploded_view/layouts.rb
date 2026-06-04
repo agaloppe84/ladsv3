@@ -337,6 +337,102 @@ module PublicV2
           callouts[part_id.to_s]
         end
       end
+
+      EnrollableCassetteLayout = Struct.new(:hit, :body, :roll, :marker, :screw_points, keyword_init: true) do
+        def outline_path
+          rounded_box_path(body)
+        end
+
+        def roll_path
+          rounded_box_path(roll)
+        end
+
+        private
+
+        def rounded_box_path(box)
+          "M#{box.x + box.rx} #{box.y}H#{box.right - box.rx}" \
+            "Q#{box.right} #{box.y} #{box.right} #{box.y + box.rx}" \
+            "V#{box.bottom - box.rx}Q#{box.right} #{box.bottom} #{box.right - box.rx} #{box.bottom}" \
+            "H#{box.x + box.rx}Q#{box.x} #{box.bottom} #{box.x} #{box.bottom - box.rx}" \
+            "V#{box.y + box.rx}Q#{box.x} #{box.y} #{box.x + box.rx} #{box.y}Z"
+        end
+      end
+
+      EnrollableRailPairLayout = Struct.new(:hit, :left, :right, :marker, :slot_ys, keyword_init: true) do
+        def outline_path(box)
+          "M#{box.x + box.rx} #{box.y}H#{box.right - box.rx}" \
+            "Q#{box.right} #{box.y} #{box.right} #{box.y + box.rx}" \
+            "V#{box.bottom - box.rx}Q#{box.right} #{box.bottom} #{box.right - box.rx} #{box.bottom}" \
+            "H#{box.x + box.rx}Q#{box.x} #{box.bottom} #{box.x} #{box.bottom - box.rx}" \
+            "V#{box.y + box.rx}Q#{box.x} #{box.y} #{box.x + box.rx} #{box.y}Z"
+        end
+
+        def inner_path(box)
+          "M#{box.x + 68} #{box.y + 108}V#{box.bottom - 108}" \
+            "M#{box.right - 68} #{box.y + 108}V#{box.bottom - 108}" \
+            "M#{box.center_x} #{box.y + 176}V#{box.bottom - 176}"
+        end
+      end
+
+      EnrollableFabricLayout = Struct.new(:hit, :body, :marker, :vertical_lines, :horizontal_lines, :edge_fastener_ys, :edge_fastener_radius, keyword_init: true) do
+        def grid_path
+          [
+            vertical_lines.map { |x| "M#{x} #{body.y}V#{body.bottom}" },
+            horizontal_lines.map { |y| "M#{body.x} #{y}H#{body.right}" }
+          ].flatten.join
+        end
+
+        def left_fastener_path(y)
+          "M#{body.x} #{y - edge_fastener_radius}" \
+            "A#{edge_fastener_radius} #{edge_fastener_radius} 0 0 1 #{body.x} #{y + edge_fastener_radius}" \
+            "L#{body.x} #{y - edge_fastener_radius}Z"
+        end
+
+        def right_fastener_path(y)
+          "M#{body.right} #{y - edge_fastener_radius}" \
+            "A#{edge_fastener_radius} #{edge_fastener_radius} 0 0 0 #{body.right} #{y + edge_fastener_radius}" \
+            "L#{body.right} #{y - edge_fastener_radius}Z"
+        end
+      end
+
+      EnrollableBottomBarLayout = Struct.new(:hit, :body, :marker, :grip, :magnet_points, keyword_init: true) do
+        def detail_path
+          "M#{body.x + 190} #{body.center_y}H#{body.right - 190}"
+        end
+      end
+
+      EnrollableLockLayout = Struct.new(:hit, :marker, :receiver_points, :radius, keyword_init: true) do
+        def receiver_path(point)
+          "M#{point.x - radius} #{point.y}A#{radius} #{radius} 0 0 0 #{point.x + radius} #{point.y}" \
+            "M#{point.x - (radius + 42)} #{point.y + 58}H#{point.x + radius + 42}"
+        end
+      end
+
+      EnrollableBavetteLayout = Struct.new(:hit, :left, :right, :marker, :bristle_ys, keyword_init: true) do
+        def bristle_paths(box)
+          bristle_ys.map do |y|
+            "M#{box.x + 46} #{y - 34}L#{box.x + 105} #{y}" \
+              "M#{box.right - 46} #{y - 34}L#{box.right - 105} #{y}"
+          end
+        end
+      end
+
+      EnrollableDrawingLayout = Struct.new(
+        :svg_width,
+        :svg_height,
+        :cassette,
+        :rails,
+        :fabric,
+        :bottom_bar,
+        :lock,
+        :bavettes,
+        :callouts,
+        keyword_init: true
+      ) do
+        def callout(part_id)
+          callouts[part_id.to_s]
+        end
+      end
     end
   end
 end

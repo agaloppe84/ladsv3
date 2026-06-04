@@ -1,0 +1,159 @@
+<svg
+  class="pv2-product-exploded__svg"
+  viewBox="0 0 <%= layout.svg_width %> <%= layout.svg_height %>"
+  role="img"
+  aria-labelledby="<%= title_id %> <%= svg_description_id %>"
+  shape-rendering="geometricPrecision"
+  text-rendering="geometricPrecision">
+  <desc id="<%= svg_description_id %>"><%= svg_description %></desc>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--enroulable-caisson <%= active_part_class("caisson") %>"
+    data-exploded-view-target="part"
+    data-part-id="caisson"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("caisson") %>"
+    aria-label="Caisson KISS 50">
+    <rect x="<%= layout.cassette.hit.x %>" y="<%= layout.cassette.hit.y %>" width="<%= layout.cassette.hit.width %>" height="<%= layout.cassette.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <path d="<%= layout.cassette.outline_path %>" class="pv2-product-exploded__outline" />
+    <path d="<%= layout.cassette.roll_path %>" class="pv2-product-exploded__profile" />
+    <% layout.cassette.screw_points.each do |point| %>
+      <circle cx="<%= point.x %>" cy="<%= point.y %>" r="22" class="pv2-product-exploded__fill" />
+    <% end %>
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.cassette.marker.x %> <%= layout.cassette.marker.y %>)">
+      <circle r="68" />
+      <text y="25">1</text>
+    </g>
+    <%= callout_for("caisson") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--enroulable-coulisse pv2-product-exploded__part--enroulable-coulisse-left <%= active_part_class("double-coulisse") %>"
+    data-exploded-view-target="part"
+    data-part-id="double-coulisse"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("double-coulisse") %>"
+    aria-label="Double coulisse gauche">
+    <rect x="<%= layout.rails.hit.x %>" y="<%= layout.rails.hit.y %>" width="<%= layout.rails.hit.width %>" height="<%= layout.rails.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <path d="<%= layout.rails.outline_path(layout.rails.left) %>" class="pv2-product-exploded__outline" />
+    <path d="<%= layout.rails.inner_path(layout.rails.left) %>" class="pv2-product-exploded__profile" />
+    <% layout.rails.slot_ys.each do |y| %>
+      <circle cx="<%= layout.rails.left.center_x %>" cy="<%= y %>" r="18" class="pv2-product-exploded__fill" />
+    <% end %>
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.rails.marker.x %> <%= layout.rails.marker.y %>)">
+      <circle r="68" />
+      <text y="25">2</text>
+    </g>
+    <%= callout_for("double-coulisse") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--enroulable-coulisse pv2-product-exploded__part--enroulable-coulisse-right <%= active_part_class("double-coulisse") %>"
+    data-exploded-view-target="part"
+    data-part-id="double-coulisse"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("double-coulisse") %>"
+    aria-label="Double coulisse droite">
+    <rect x="<%= layout.rails.right.x - 80 %>" y="<%= layout.rails.hit.y %>" width="<%= layout.rails.hit.width %>" height="<%= layout.rails.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <path d="<%= layout.rails.outline_path(layout.rails.right) %>" class="pv2-product-exploded__outline" />
+    <path d="<%= layout.rails.inner_path(layout.rails.right) %>" class="pv2-product-exploded__profile" />
+    <% layout.rails.slot_ys.each do |y| %>
+      <circle cx="<%= layout.rails.right.center_x %>" cy="<%= y %>" r="18" class="pv2-product-exploded__fill" />
+    <% end %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--enroulable-toile <%= active_part_class("toile-bordee") %>"
+    data-exploded-view-target="part"
+    data-part-id="toile-bordee"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("toile-bordee") %>"
+    aria-label="Toile bordée">
+    <rect x="<%= layout.fabric.hit.x %>" y="<%= layout.fabric.hit.y %>" width="<%= layout.fabric.hit.width %>" height="<%= layout.fabric.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <path d="<%= layout.fabric.grid_path %>" class="pv2-product-exploded__fabric-grid" shape-rendering="crispEdges" />
+    <rect x="<%= layout.fabric.body.x %>" y="<%= layout.fabric.body.y %>" width="<%= layout.fabric.body.width %>" height="<%= layout.fabric.body.height %>" rx="<%= layout.fabric.body.rx %>" class="pv2-product-exploded__outline" />
+    <% layout.fabric.edge_fastener_ys.each do |y| %>
+      <path d="<%= layout.fabric.left_fastener_path(y) %>" class="pv2-product-exploded__fill" />
+      <path d="<%= layout.fabric.right_fastener_path(y) %>" class="pv2-product-exploded__fill" />
+    <% end %>
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.fabric.marker.x %> <%= layout.fabric.marker.y %>)">
+      <circle r="68" />
+      <text y="25">3</text>
+    </g>
+    <%= callout_for("toile-bordee") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--enroulable-barre <%= active_part_class("barre-charge") %>"
+    data-exploded-view-target="part"
+    data-part-id="barre-charge"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("barre-charge") %>"
+    aria-label="Barre de charge">
+    <rect x="<%= layout.bottom_bar.hit.x %>" y="<%= layout.bottom_bar.hit.y %>" width="<%= layout.bottom_bar.hit.width %>" height="<%= layout.bottom_bar.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <rect x="<%= layout.bottom_bar.body.x %>" y="<%= layout.bottom_bar.body.y %>" width="<%= layout.bottom_bar.body.width %>" height="<%= layout.bottom_bar.body.height %>" rx="<%= layout.bottom_bar.body.rx %>" class="pv2-product-exploded__outline" />
+    <path d="<%= layout.bottom_bar.detail_path %>" class="pv2-product-exploded__detail" />
+    <rect x="<%= layout.bottom_bar.grip.x %>" y="<%= layout.bottom_bar.grip.y %>" width="<%= layout.bottom_bar.grip.width %>" height="<%= layout.bottom_bar.grip.height %>" rx="<%= layout.bottom_bar.grip.rx %>" class="pv2-product-exploded__fill" />
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.bottom_bar.marker.x %> <%= layout.bottom_bar.marker.y %>)">
+      <circle r="68" />
+      <text y="25">4</text>
+    </g>
+    <%= callout_for("barre-charge") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--enroulable-lock <%= active_part_class("fermeture-magnetique") %>"
+    data-exploded-view-target="part"
+    data-part-id="fermeture-magnetique"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("fermeture-magnetique") %>"
+    aria-label="Fermeture magnétique">
+    <rect x="<%= layout.lock.hit.x %>" y="<%= layout.lock.hit.y %>" width="<%= layout.lock.hit.width %>" height="<%= layout.lock.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <% layout.lock.receiver_points.each do |point| %>
+      <path d="<%= layout.lock.receiver_path(point) %>" class="pv2-product-exploded__profile" />
+      <circle cx="<%= point.x %>" cy="<%= point.y %>" r="22" class="pv2-product-exploded__fill" />
+    <% end %>
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.lock.marker.x %> <%= layout.lock.marker.y %>)">
+      <circle r="68" />
+      <text y="25">5</text>
+    </g>
+    <%= callout_for("fermeture-magnetique") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--enroulable-bavettes <%= active_part_class("bavettes") %>"
+    data-exploded-view-target="part"
+    data-part-id="bavettes"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("bavettes") %>"
+    aria-label="Bavettes anti-intrusion">
+    <rect x="<%= layout.bavettes.hit.x %>" y="<%= layout.bavettes.hit.y %>" width="<%= layout.bavettes.hit.width %>" height="<%= layout.bavettes.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <path d="<%= layout.rails.outline_path(layout.bavettes.left) %>" class="pv2-product-exploded__hairline pv2-product-exploded__hairline--quiet" />
+    <path d="<%= layout.rails.outline_path(layout.bavettes.right) %>" class="pv2-product-exploded__hairline pv2-product-exploded__hairline--quiet" />
+    <% layout.bavettes.bristle_paths(layout.bavettes.left).each do |path| %>
+      <path d="<%= path %>" class="pv2-product-exploded__detail" />
+    <% end %>
+    <% layout.bavettes.bristle_paths(layout.bavettes.right).each do |path| %>
+      <path d="<%= path %>" class="pv2-product-exploded__detail" />
+    <% end %>
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.bavettes.marker.x %> <%= layout.bavettes.marker.y %>)">
+      <circle r="68" />
+      <text y="25">6</text>
+    </g>
+    <%= callout_for("bavettes") %>
+  </g>
+</svg>

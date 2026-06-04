@@ -9129,6 +9129,7 @@
 .public-v2 .pv2-product-exploded__detail,
 .public-v2 .pv2-product-exploded__hairline,
 .public-v2 .pv2-product-exploded__fabric-line,
+.public-v2 .pv2-product-exploded__fabric-grid,
 .public-v2 .pv2-product-exploded__fabric-thread,
 .public-v2 .pv2-product-exploded__zip-track {
   fill: none;
@@ -9165,6 +9166,14 @@
 .public-v2 .pv2-product-exploded__fabric-line {
   stroke: var(--pv2-exploded-line);
   stroke-width: 0.7;
+}
+
+.public-v2 .pv2-product-exploded__fabric-grid {
+  opacity: 0.58;
+  shape-rendering: crispEdges;
+  stroke: var(--pv2-exploded-faint);
+  stroke-linecap: butt;
+  stroke-width: 0.66;
 }
 
 .public-v2 .pv2-product-exploded__fabric-thread {
@@ -9254,9 +9263,14 @@
 .public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__detail,
 .public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__hairline,
 .public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__fabric-line,
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__fabric-grid,
 .public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__fabric-thread,
 .public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__zip-track {
   stroke: var(--pv2-exploded-accent);
+}
+
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__fabric-grid {
+  opacity: 0.72;
 }
 
 .public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__fabric-thread {
@@ -9285,6 +9299,7 @@
 .public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__detail,
 .public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__hairline,
 .public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__fabric-line,
+.public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__fabric-grid,
 .public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__fabric-thread,
 .public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__zip-track {
   stroke: rgba(var(--pv2-exploded-accent-rgb), 0.52);
@@ -9344,6 +9359,22 @@
 
 .public-v2 .pv2-product-exploded__part--plissee-seuil-bas.is-active {
   transform: translateY(20px);
+}
+
+.public-v2 .pv2-product-exploded__part--enroulable-caisson.is-active,
+.public-v2 .pv2-product-exploded__part--enroulable-coulisse-left.is-active,
+.public-v2 .pv2-product-exploded__part--enroulable-coulisse-right.is-active,
+.public-v2 .pv2-product-exploded__part--enroulable-toile.is-active {
+  transform: none;
+}
+
+.public-v2 .pv2-product-exploded__part--enroulable-barre.is-active,
+.public-v2 .pv2-product-exploded__part--enroulable-lock.is-active {
+  transform: none;
+}
+
+.public-v2 .pv2-product-exploded__part--enroulable-bavettes.is-active {
+  transform: none;
 }
 
 .public-v2 .pv2-product-exploded__part:focus-visible .pv2-product-exploded__outline,
