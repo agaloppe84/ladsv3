@@ -1,0 +1,100 @@
+# frozen_string_literal: true
+
+require_relative "exploded_view/moustiquaire_plissee_drawing_component"
+require_relative "exploded_view/store_vertical_zippe_drawing_component"
+require_relative "exploded_view/blueprints/moustiquaire_plissee"
+require_relative "exploded_view/blueprints/store_vertical_zippe"
+
+class PublicV2::Products::ExplodedViewExperimentComponent < ViewComponent::Base
+  include PublicV2::Debuggable
+
+  DEFAULT_BLUEPRINTS = [
+    PublicV2::Products::ExplodedView::Blueprints::MoustiquairePlissee,
+    PublicV2::Products::ExplodedView::Blueprints::StoreVerticalZippe
+  ].freeze
+
+  def initialize(product_page:, debug: false, blueprint: nil)
+    @product_page = product_page
+    @debug = debug
+    @blueprint = blueprint || default_blueprint
+  end
+
+  def render?
+    blueprint.render_for?(product_page)
+  end
+
+  private
+
+  attr_reader :product_page, :blueprint
+
+  def default_blueprint
+    DEFAULT_BLUEPRINTS.map(&:new).find { |candidate| candidate.render_for?(product_page) } ||
+      PublicV2::Products::ExplodedView::Blueprints::StoreVerticalZippe.new
+  end
+
+  def component_classes
+    component_class_names(
+      "pv2-product-exploded",
+      "grid w-full min-w-0",
+      debug_class
+    )
+  end
+
+  def component_attributes
+    attributes = { data: component_data }
+    attributes[:style] = blueprint.css_style unless blueprint.css_style.empty?
+
+    tag.attributes(attributes)
+  end
+
+  def component_data
+    with_debug_data(
+      controller: "exploded-view",
+      exploded_view_active_id_value: active_part_id
+    )
+  end
+
+  def parts
+    blueprint.parts
+  end
+
+  def metrics
+    blueprint.metrics
+  end
+
+  def exploded_layout
+    blueprint.layout
+  end
+
+  def drawing_component
+    blueprint.drawing_component
+  end
+
+  def eyebrow
+    blueprint.eyebrow
+  end
+
+  def introduction
+    blueprint.introduction
+  end
+
+  def svg_description
+    blueprint.svg_description
+  end
+
+  def active_part_id
+    parts.first.id
+  end
+
+  def title_id
+    "pv2-product-exploded-title"
+  end
+
+  def svg_description_id
+    "pv2-product-exploded-description"
+  end
+
+  def panel_id(part)
+    "pv2-product-exploded-panel-#{part.id}"
+  end
+end

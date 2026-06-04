@@ -1,0 +1,188 @@
+<svg
+  class="pv2-product-exploded__svg"
+  viewBox="0 0 <%= layout.svg_width %> <%= layout.svg_height %>"
+  role="img"
+  aria-labelledby="<%= title_id %> <%= svg_description_id %>"
+  shape-rendering="geometricPrecision"
+  text-rendering="geometricPrecision">
+  <desc id="<%= svg_description_id %>"><%= svg_description %></desc>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--supports <%= active_part_class("supports") %>"
+    data-exploded-view-target="part"
+    data-part-id="supports"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("supports") %>"
+    aria-label="Supports et pose">
+    <rect x="1120" y="90" width="5560" height="430" class="pv2-product-exploded__hit-area" />
+
+    <g class="pv2-product-exploded__mirror-unit">
+      <path d="M1284 144H1616Q1658 144 1658 186V424Q1658 466 1616 466H1284Q1242 466 1242 424V186Q1242 144 1284 144Z" class="pv2-product-exploded__outline" />
+      <path d="M1318 198H1582M1318 412H1582M1340 244H1560M1340 366H1560" class="pv2-product-exploded__detail" />
+      <circle cx="1450" cy="305" r="54" class="pv2-product-exploded__profile" />
+      <circle cx="1338" cy="305" r="22" class="pv2-product-exploded__fill" />
+      <circle cx="1562" cy="305" r="22" class="pv2-product-exploded__fill" />
+      <path d="M1390 144V104M1510 144V104M1370 466V506M1530 466V506" class="pv2-product-exploded__hairline" />
+      <path d="M1370 260Q1450 220 1530 260M1370 350Q1450 390 1530 350" class="pv2-product-exploded__hairline" />
+    </g>
+
+    <g class="pv2-product-exploded__mirror-unit" transform="translate(7800 0) scale(-1 1)">
+      <path d="M1284 144H1616Q1658 144 1658 186V424Q1658 466 1616 466H1284Q1242 466 1242 424V186Q1242 144 1284 144Z" class="pv2-product-exploded__outline" />
+      <path d="M1318 198H1582M1318 412H1582M1340 244H1560M1340 366H1560" class="pv2-product-exploded__detail" />
+      <circle cx="1450" cy="305" r="54" class="pv2-product-exploded__profile" />
+      <circle cx="1338" cy="305" r="22" class="pv2-product-exploded__fill" />
+      <circle cx="1562" cy="305" r="22" class="pv2-product-exploded__fill" />
+      <path d="M1390 144V104M1510 144V104M1370 466V506M1530 466V506" class="pv2-product-exploded__hairline" />
+      <path d="M1370 260Q1450 220 1530 260M1370 350Q1450 390 1530 350" class="pv2-product-exploded__hairline" />
+    </g>
+
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.support_marker.x %> <%= layout.support_marker.y %>)">
+      <circle r="68" />
+      <text y="25">6</text>
+    </g>
+    <%= callout_for("supports") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--motorisation <%= active_part_class("motorisation") %>"
+    data-exploded-view-target="part"
+    data-part-id="motorisation"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("motorisation") %>"
+    aria-label="Motorisation">
+    <rect x="<%= layout.motor.hit.x %>" y="<%= layout.motor.hit.y %>" width="<%= layout.motor.hit.width %>" height="<%= layout.motor.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <path d="<%= layout.motor.tube_cap_path %>" class="pv2-product-exploded__fill" />
+    <path d="<%= layout.motor.tube_path %>" class="pv2-product-exploded__outline" />
+    <path d="<%= layout.motor.detail_path %>" class="pv2-product-exploded__detail" />
+    <path d="<%= layout.motor.head_path %>" class="pv2-product-exploded__outline" />
+    <circle cx="<%= layout.motor.large_hole.x %>" cy="<%= layout.motor.large_hole.y %>" r="45" class="pv2-product-exploded__fill" />
+    <% layout.motor.small_holes.each do |hole| %>
+      <circle cx="<%= hole.x %>" cy="<%= hole.y %>" r="18" class="pv2-product-exploded__fill" />
+    <% end %>
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.motor.marker.x %> <%= layout.motor.marker.y %>)">
+      <circle r="68" />
+      <text y="25">5</text>
+    </g>
+    <%= callout_for("motorisation") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--coffre <%= active_part_class("coffre") %>"
+    data-exploded-view-target="part"
+    data-part-id="coffre"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("coffre") %>"
+    aria-label="Coffre extrudé">
+    <rect x="<%= layout.coffre.hit.x %>" y="<%= layout.coffre.hit.y %>" width="<%= layout.coffre.hit.width %>" height="<%= layout.coffre.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <rect x="<%= layout.coffre.body.x %>" y="<%= layout.coffre.body.y %>" width="<%= layout.coffre.body.width %>" height="<%= layout.coffre.body.height %>" rx="<%= layout.coffre.body.rx %>" class="pv2-product-exploded__outline" />
+    <% layout.coffre.holes.each do |hole| %>
+      <circle cx="<%= hole.x %>" cy="<%= hole.y %>" r="22" class="pv2-product-exploded__fill" />
+    <% end %>
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.coffre.marker.x %> <%= layout.coffre.marker.y %>)">
+      <circle r="68" />
+      <text y="25">1</text>
+    </g>
+    <%= callout_for("coffre") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--coulisses pv2-product-exploded__part--coulisse-left <%= active_part_class("coulisses") %>"
+    data-exploded-view-target="part"
+    data-part-id="coulisses"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("coulisses") %>"
+    aria-label="Coulisse latérale gauche">
+    <rect x="<%= layout.coulisse.hit.x %>" y="<%= layout.coulisse.hit.y %>" width="<%= layout.coulisse.hit.width %>" height="<%= layout.coulisse.hit.height %>" class="pv2-product-exploded__hit-area" />
+
+    <g class="pv2-product-exploded__mirror-unit">
+      <path d="<%= layout.coulisse.outline_path %>" class="pv2-product-exploded__outline" />
+      <path d="<%= layout.coulisse.profile_path %>" class="pv2-product-exploded__profile" />
+      <% layout.fabric.tick_ys.each do |y| %>
+        <rect x="748" y="<%= y - 16 %>" width="64" height="32" rx="7" class="pv2-product-exploded__fill" />
+      <% end %>
+      <% layout.fabric.tick_ys.each do |y| %>
+        <circle cx="658" cy="<%= y %>" r="16" class="pv2-product-exploded__fill" />
+      <% end %>
+    </g>
+
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.coulisse.marker.x %> <%= layout.coulisse.marker.y %>)">
+      <circle r="68" />
+      <text y="25">2</text>
+    </g>
+    <%= callout_for("coulisses") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--coulisses pv2-product-exploded__part--coulisse-right <%= active_part_class("coulisses") %>"
+    data-exploded-view-target="part"
+    data-part-id="coulisses"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("coulisses") %>"
+    aria-label="Coulisse latérale droite">
+    <rect x="7030" y="<%= layout.coulisse.hit.y %>" width="<%= layout.coulisse.hit.width %>" height="<%= layout.coulisse.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <g class="pv2-product-exploded__mirror-unit" transform="translate(7800 0) scale(-1 1)">
+      <path d="<%= layout.coulisse.outline_path %>" class="pv2-product-exploded__outline" />
+      <path d="<%= layout.coulisse.profile_path %>" class="pv2-product-exploded__profile" />
+      <% layout.fabric.tick_ys.each do |y| %>
+        <rect x="748" y="<%= y - 16 %>" width="64" height="32" rx="7" class="pv2-product-exploded__fill" />
+      <% end %>
+      <% layout.fabric.tick_ys.each do |y| %>
+        <circle cx="658" cy="<%= y %>" r="16" class="pv2-product-exploded__fill" />
+      <% end %>
+    </g>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--toile <%= active_part_class("toile") %>"
+    data-exploded-view-target="part"
+    data-part-id="toile"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("toile") %>"
+    aria-label="Toile zippée">
+    <rect x="<%= layout.fabric.hit.x %>" y="<%= layout.fabric.hit.y %>" width="<%= layout.fabric.hit.width %>" height="<%= layout.fabric.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <rect x="<%= layout.fabric.body.x %>" y="<%= layout.fabric.body.y %>" width="<%= layout.fabric.body.width %>" height="<%= layout.fabric.body.height %>" rx="<%= layout.fabric.body.rx %>" class="pv2-product-exploded__outline" />
+    <% layout.fabric.line_ys.each do |y| %>
+      <path d="M<%= layout.fabric.body.x + 75 %> <%= y %>H<%= layout.fabric.body.right - 75 %>" class="pv2-product-exploded__fabric-line" />
+    <% end %>
+    <% layout.fabric.tick_ys.each do |y| %>
+      <path d="M<%= layout.fabric.body.x %> <%= y %>H<%= layout.fabric.body.x + 150 %>M<%= layout.fabric.body.right %> <%= y %>H<%= layout.fabric.body.right - 150 %>" class="pv2-product-exploded__hairline" />
+    <% end %>
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.fabric.marker.x %> <%= layout.fabric.marker.y %>)">
+      <circle r="68" />
+      <text y="25">3</text>
+    </g>
+    <%= callout_for("toile") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--barre-charge <%= active_part_class("barre-charge") %>"
+    data-exploded-view-target="part"
+    data-part-id="barre-charge"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("barre-charge") %>"
+    aria-label="Barre de charge">
+    <rect x="<%= layout.barre.hit.x %>" y="<%= layout.barre.hit.y %>" width="<%= layout.barre.hit.width %>" height="<%= layout.barre.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <path d="<%= layout.barre.outline_path %>" class="pv2-product-exploded__outline" />
+    <rect x="<%= layout.barre.handle.x %>" y="<%= layout.barre.handle.y %>" width="<%= layout.barre.handle.width %>" height="<%= layout.barre.handle.height %>" rx="<%= layout.barre.handle.rx %>" class="pv2-product-exploded__fill" />
+    <path d="<%= layout.barre.detail_path %>" class="pv2-product-exploded__detail" />
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.barre.marker.x %> <%= layout.barre.marker.y %>)">
+      <circle r="68" />
+      <text y="25">4</text>
+    </g>
+    <%= callout_for("barre-charge") %>
+  </g>
+</svg>

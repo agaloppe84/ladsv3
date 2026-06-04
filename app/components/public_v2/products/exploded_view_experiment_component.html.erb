@@ -1,0 +1,67 @@
+<section class="<%= component_classes %>" aria-labelledby="<%= title_id %>" <%= component_attributes %>>
+  <header class="pv2-product-exploded__header">
+    <p class="pv2-product-exploded__eyebrow"><%= eyebrow %></p>
+    <div class="pv2-product-exploded__heading">
+      <h2 id="<%= title_id %>">Vue éclatée interactive</h2>
+      <p><%= introduction %></p>
+    </div>
+  </header>
+
+  <dl class="pv2-product-exploded__metrics" aria-label="Données techniques utilisées">
+    <% metrics.each do |metric| %>
+      <div>
+        <dt><%= metric.label %></dt>
+        <dd><%= metric.value %></dd>
+        <span><%= metric.note %></span>
+      </div>
+    <% end %>
+  </dl>
+
+  <div class="pv2-product-exploded__body">
+    <figure class="pv2-product-exploded__canvas">
+      <%= render drawing_component.new(
+        layout: exploded_layout,
+        title_id: title_id,
+        svg_description_id: svg_description_id,
+        active_part_id: active_part_id,
+        svg_description: svg_description
+      ) %>
+    </figure>
+
+    <aside class="pv2-product-exploded__legend" aria-label="Légende de la vue éclatée">
+      <div class="pv2-product-exploded__legend-list">
+        <% parts.each do |part| %>
+          <% active = part.id == active_part_id %>
+          <button
+            type="button"
+            class="pv2-product-exploded__legend-button <%= "is-active" if active %>"
+            data-exploded-view-target="trigger"
+            data-part-id="<%= part.id %>"
+            data-action="click->exploded-view#select focus->exploded-view#select"
+            aria-controls="<%= panel_id(part) %>"
+            aria-pressed="<%= active %>">
+            <span><%= part.number %></span>
+            <strong><%= part.label %></strong>
+          </button>
+        <% end %>
+      </div>
+
+      <div class="pv2-product-exploded__panels">
+        <% parts.each do |part| %>
+          <% active = part.id == active_part_id %>
+          <article
+            id="<%= panel_id(part) %>"
+            class="pv2-product-exploded__panel <%= "is-active" if active %>"
+            data-exploded-view-target="panel"
+            data-part-id="<%= part.id %>"
+            aria-hidden="<%= !active %>"
+            <%= "hidden" unless active %>>
+            <span><%= part.measurement %></span>
+            <h3><%= part.label %></h3>
+            <p><%= part.detail %></p>
+          </article>
+        <% end %>
+      </div>
+    </aside>
+  </div>
+</section>

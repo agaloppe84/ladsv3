@@ -8975,6 +8975,573 @@
   }
 }
 
+/* Public V2 product show - exploded view experiment */
+
+.public-v2 .pv2-product-exploded {
+  --pv2-exploded-bg: #ffffff;
+  --pv2-exploded-bg-soft: #f5f5f7;
+  --pv2-exploded-bg-quiet: #fbfbfd;
+  --pv2-exploded-border: #dedee3;
+  --pv2-exploded-border-strong: #c8c9cf;
+  --pv2-exploded-ink: #111111;
+  --pv2-exploded-muted: #5f636b;
+  --pv2-exploded-faint: #2c3035;
+  --pv2-exploded-line: #111417;
+  --pv2-exploded-line-mid: #171b1f;
+  --pv2-exploded-line-fine: #22272c;
+  --pv2-exploded-guide: #171b1f;
+  --pv2-exploded-echo: #9fa6ad;
+  --pv2-exploded-accent: #009e96;
+  --pv2-exploded-accent-rgb: 0, 158, 150;
+  --pv2-exploded-accent-ink: #ffffff;
+  --pv2-exploded-accent-soft: rgba(var(--pv2-exploded-accent-rgb), 0.1);
+  color: var(--pv2-exploded-ink);
+  gap: clamp(1rem, 2.4vw, 1.45rem);
+  scroll-margin-top: 92px;
+}
+
+.public-v2 .pv2-product-exploded__header {
+  align-items: end;
+  display: grid;
+  gap: clamp(0.8rem, 2vw, 1.2rem);
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.public-v2 .pv2-product-exploded__heading {
+  display: grid;
+  gap: 0.52rem;
+  max-width: 54rem;
+  min-width: 0;
+}
+
+.public-v2 .pv2-product-exploded__eyebrow {
+  align-self: start;
+  color: var(--pv2-exploded-muted);
+  font-size: 0.78rem;
+  font-weight: 760;
+  line-height: 1.1;
+  margin: 0;
+  order: 2;
+  text-align: right;
+}
+
+.public-v2 .pv2-product-exploded__heading h2 {
+  color: var(--pv2-exploded-ink);
+  font-size: clamp(1.55rem, 3vw, 2.45rem);
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1.02;
+  margin: 0;
+}
+
+.public-v2 .pv2-product-exploded__heading p {
+  color: var(--pv2-exploded-muted);
+  font-size: clamp(0.94rem, 1.4vw, 1.04rem);
+  font-weight: 560;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 48rem;
+}
+
+.public-v2 .pv2-product-exploded__metrics {
+  display: grid;
+  gap: 0.72rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.public-v2 .pv2-product-exploded__metrics div {
+  background: var(--pv2-exploded-bg);
+  border: 1px solid var(--pv2-exploded-border);
+  border-radius: 1.05rem;
+  display: grid;
+  gap: 0.36rem;
+  min-width: 0;
+  padding: 0.92rem 1rem;
+}
+
+.public-v2 .pv2-product-exploded__metrics dt {
+  color: var(--pv2-exploded-muted);
+  font-size: 0.72rem;
+  font-weight: 760;
+  line-height: 1.08;
+}
+
+.public-v2 .pv2-product-exploded__metrics dd {
+  color: var(--pv2-exploded-ink);
+  font-size: clamp(1.12rem, 2.2vw, 1.55rem);
+  font-weight: 820;
+  line-height: 1;
+  margin: 0;
+}
+
+.public-v2 .pv2-product-exploded__metrics span {
+  color: var(--pv2-exploded-faint);
+  font-size: 0.68rem;
+  font-weight: 650;
+  line-height: 1.22;
+}
+
+.public-v2 .pv2-product-exploded__body {
+  align-items: start;
+  display: grid;
+  gap: clamp(0.9rem, 2vw, 1.25rem);
+  grid-template-columns: minmax(0, 1fr) minmax(11.75rem, 13.75rem);
+  min-width: 0;
+}
+
+.public-v2 .pv2-product-exploded__canvas {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  display: block;
+  margin: 0;
+  min-width: 0;
+  overflow: auto;
+  padding: 0;
+}
+
+.public-v2 .pv2-product-exploded__svg {
+  aspect-ratio: var(--pv2-exploded-svg-ratio, 7800 / 4620);
+  color: var(--pv2-exploded-line);
+  display: block;
+  height: auto;
+  min-width: 620px;
+  width: 100%;
+}
+
+.public-v2 .pv2-product-exploded__part {
+  cursor: pointer;
+  outline: none;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: filter 220ms ease, opacity 220ms ease, transform 260ms ease;
+}
+
+.public-v2 .pv2-product-exploded__hit-area {
+  fill: transparent;
+  pointer-events: all;
+  stroke: transparent;
+}
+
+.public-v2 .pv2-product-exploded__outline,
+.public-v2 .pv2-product-exploded__profile,
+.public-v2 .pv2-product-exploded__detail,
+.public-v2 .pv2-product-exploded__hairline,
+.public-v2 .pv2-product-exploded__fabric-line,
+.public-v2 .pv2-product-exploded__fabric-thread,
+.public-v2 .pv2-product-exploded__zip-track {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.public-v2 .pv2-product-exploded__outline {
+  stroke: var(--pv2-exploded-line);
+  stroke-width: 1.38;
+}
+
+.public-v2 .pv2-product-exploded__profile {
+  stroke: var(--pv2-exploded-line-mid);
+  stroke-width: 1.02;
+}
+
+.public-v2 .pv2-product-exploded__detail,
+.public-v2 .pv2-product-exploded__zip-track {
+  stroke: var(--pv2-exploded-line-fine);
+  stroke-width: 0.78;
+}
+
+.public-v2 .pv2-product-exploded__hairline {
+  stroke: var(--pv2-exploded-faint);
+  stroke-width: 0.64;
+}
+
+.public-v2 .pv2-product-exploded__hairline--quiet {
+  opacity: 0.52;
+}
+
+.public-v2 .pv2-product-exploded__fabric-line {
+  stroke: var(--pv2-exploded-line);
+  stroke-width: 0.7;
+}
+
+.public-v2 .pv2-product-exploded__fabric-thread {
+  opacity: 0.46;
+  stroke: var(--pv2-exploded-faint);
+  stroke-width: 0.48;
+}
+
+.public-v2 .pv2-product-exploded__echo {
+  fill: none;
+  opacity: 0.78;
+  stroke: var(--pv2-exploded-echo);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 0.62;
+  vector-effect: non-scaling-stroke;
+}
+
+.public-v2 .pv2-product-exploded__fill {
+  fill: var(--pv2-exploded-line);
+  stroke: none;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: fill 180ms ease;
+  vector-effect: non-scaling-stroke;
+}
+
+.public-v2 .pv2-product-exploded__marker {
+  pointer-events: none;
+}
+
+.public-v2 .pv2-product-exploded__marker circle {
+  fill: var(--pv2-exploded-line);
+  stroke: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.public-v2 .pv2-product-exploded__marker text {
+  fill: var(--pv2-exploded-bg);
+  font-family: var(--p-font-family);
+  font-size: 72px;
+  font-weight: 820;
+  letter-spacing: 0;
+  pointer-events: none;
+  text-anchor: middle;
+}
+
+.public-v2 .pv2-product-exploded__callout {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 220ms ease;
+}
+
+.public-v2 .pv2-product-exploded__callout-line {
+  fill: none;
+  stroke: var(--pv2-exploded-accent);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 0.92;
+  vector-effect: non-scaling-stroke;
+}
+
+.public-v2 .pv2-product-exploded__callout-dot {
+  fill: var(--pv2-exploded-accent);
+  stroke: none;
+}
+
+.public-v2 .pv2-product-exploded__callout-label {
+  fill: var(--pv2-exploded-accent);
+  font-family: var(--p-font-family);
+  font-size: 108px;
+  font-weight: 600;
+  letter-spacing: 0;
+  pointer-events: none;
+}
+
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__callout {
+  opacity: 1;
+}
+
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__outline {
+  stroke: var(--pv2-exploded-accent);
+  stroke-width: 1.62;
+}
+
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__profile,
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__detail,
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__hairline,
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__fabric-line,
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__fabric-thread,
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__zip-track {
+  stroke: var(--pv2-exploded-accent);
+}
+
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__fabric-thread {
+  opacity: 0.5;
+}
+
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__echo {
+  opacity: 1;
+  stroke: var(--pv2-exploded-accent);
+}
+
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__fill {
+  fill: var(--pv2-exploded-accent);
+}
+
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__marker circle {
+  fill: var(--pv2-exploded-accent);
+}
+
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__marker text {
+  fill: var(--pv2-exploded-accent-ink);
+}
+
+.public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__outline,
+.public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__profile,
+.public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__detail,
+.public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__hairline,
+.public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__fabric-line,
+.public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__fabric-thread,
+.public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__zip-track {
+  stroke: rgba(var(--pv2-exploded-accent-rgb), 0.52);
+}
+
+.public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__fill {
+  fill: rgba(var(--pv2-exploded-accent-rgb), 0.52);
+}
+
+.public-v2 .pv2-product-exploded__part--coffre.is-active {
+  transform: translateY(-16px);
+}
+
+.public-v2 .pv2-product-exploded__part--motorisation.is-active {
+  transform: translateY(-22px);
+}
+
+.public-v2 .pv2-product-exploded__part--supports.is-active {
+  transform: translateY(-20px);
+}
+
+.public-v2 .pv2-product-exploded__part--coulisse-left.is-active {
+  transform: translateX(-24px);
+}
+
+.public-v2 .pv2-product-exploded__part--coulisse-right.is-active {
+  transform: translateX(24px);
+}
+
+.public-v2 .pv2-product-exploded__part--toile.is-active {
+  transform: scale(1.006);
+}
+
+.public-v2 .pv2-product-exploded__part--barre-charge.is-active {
+  transform: translateY(24px);
+}
+
+.public-v2 .pv2-product-exploded__part--plissee-guide-haut.is-active {
+  transform: translateY(-18px);
+}
+
+.public-v2 .pv2-product-exploded__part--plissee-profils-left.is-active {
+  transform: translateX(-22px);
+}
+
+.public-v2 .pv2-product-exploded__part--plissee-profils-right.is-active {
+  transform: translateX(22px);
+}
+
+.public-v2 .pv2-product-exploded__part--plissee-toile.is-active {
+  transform: scale(1.006);
+}
+
+.public-v2 .pv2-product-exploded__part--plissee-barre-poignee.is-active {
+  transform: translateX(22px);
+}
+
+.public-v2 .pv2-product-exploded__part--plissee-seuil-bas.is-active {
+  transform: translateY(20px);
+}
+
+.public-v2 .pv2-product-exploded__part:focus-visible .pv2-product-exploded__outline,
+.public-v2 .pv2-product-exploded__part:focus-visible .pv2-product-exploded__profile {
+  stroke: var(--pv2-exploded-accent);
+}
+
+.public-v2 .pv2-product-exploded__legend {
+  align-content: start;
+  display: grid;
+  gap: 0.8rem;
+  min-width: 0;
+}
+
+.public-v2 .pv2-product-exploded__legend-list {
+  display: grid;
+  gap: 0.22rem;
+}
+
+.public-v2 .pv2-product-exploded__legend-button {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  color: var(--pv2-exploded-ink);
+  display: grid;
+  gap: 0 0.56rem;
+  grid-template-columns: 1.08rem minmax(0, 1fr);
+  min-height: 1.72rem;
+  min-width: 0;
+  padding: 0.16rem 0;
+  text-align: left;
+  transition: color 180ms ease, opacity 180ms ease;
+  width: 100%;
+}
+
+.public-v2 .pv2-product-exploded__legend-button span {
+  align-items: center;
+  background: var(--pv2-exploded-line);
+  border-radius: 999px;
+  color: var(--pv2-exploded-bg);
+  display: inline-flex;
+  font-size: 0.56rem;
+  font-weight: 760;
+  height: 1.08rem;
+  justify-content: center;
+  line-height: 1;
+  width: 1.08rem;
+}
+
+.public-v2 .pv2-product-exploded__legend-button strong {
+  color: inherit;
+  font-size: 0.78rem;
+  font-weight: 660;
+  line-height: 1.12;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.public-v2 .pv2-product-exploded__legend-button:hover,
+.public-v2 .pv2-product-exploded__legend-button.is-active {
+  color: var(--pv2-exploded-accent);
+}
+
+.public-v2 .pv2-product-exploded__legend-button.is-active span {
+  background: var(--pv2-exploded-accent);
+  color: var(--pv2-exploded-accent-ink);
+}
+
+.public-v2 .pv2-product-exploded__legend-button:focus-visible {
+  outline: 3px solid rgba(var(--pv2-exploded-accent-rgb), 0.2);
+  outline-offset: 2px;
+}
+
+.public-v2 .pv2-product-exploded__panels {
+  min-width: 0;
+}
+
+.public-v2 .pv2-product-exploded__panel {
+  background: var(--pv2-exploded-bg-soft);
+  border-radius: 1.05rem;
+  color: var(--pv2-exploded-ink);
+  display: grid;
+  gap: 0.48rem;
+  min-height: 9.4rem;
+  padding: 1rem;
+}
+
+.public-v2 .pv2-product-exploded__panel[hidden] {
+  display: none;
+}
+
+.public-v2 .pv2-product-exploded__panel span {
+  color: var(--pv2-exploded-accent);
+  font-size: 0.72rem;
+  font-weight: 780;
+  line-height: 1.1;
+}
+
+.public-v2 .pv2-product-exploded__panel h3 {
+  color: inherit;
+  font-size: 1.22rem;
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1.05;
+  margin: 0;
+}
+
+.public-v2 .pv2-product-exploded__panel p {
+  color: var(--pv2-exploded-muted);
+  font-size: 0.88rem;
+  font-weight: 560;
+  line-height: 1.48;
+  margin: 0;
+}
+
+.public-v2[data-public-v2-mode="dark"] .pv2-product-exploded,
+.public-v2.dark .pv2-product-exploded {
+  --pv2-exploded-bg: #161618;
+  --pv2-exploded-bg-soft: #202024;
+  --pv2-exploded-bg-quiet: #111114;
+  --pv2-exploded-border: #2d2d32;
+  --pv2-exploded-border-strong: #3a3b41;
+  --pv2-exploded-ink: #ffffff;
+  --pv2-exploded-muted: #b8b8bf;
+  --pv2-exploded-faint: #d8dddc;
+  --pv2-exploded-line: #f2f5f4;
+  --pv2-exploded-line-mid: #eaf0ef;
+  --pv2-exploded-line-fine: #dfe7e5;
+  --pv2-exploded-guide: #eaf0ef;
+  --pv2-exploded-echo: #7b828a;
+  --pv2-exploded-accent: #39d6ca;
+  --pv2-exploded-accent-rgb: 57, 214, 202;
+  --pv2-exploded-accent-ink: #061716;
+}
+
+@media (max-width: 1120px) {
+  .public-v2 .pv2-product-exploded__body {
+    grid-template-columns: 1fr;
+  }
+
+  .public-v2 .pv2-product-exploded__legend {
+    grid-template-columns: minmax(0, 1.2fr) minmax(11.75rem, 0.52fr);
+  }
+}
+
+@media (max-width: 780px) {
+  .public-v2 .pv2-product-exploded__header {
+    align-items: start;
+    grid-template-columns: 1fr;
+  }
+
+  .public-v2 .pv2-product-exploded__eyebrow {
+    order: -1;
+    text-align: left;
+  }
+
+  .public-v2 .pv2-product-exploded__metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .public-v2 .pv2-product-exploded__legend {
+    grid-template-columns: 1fr;
+  }
+
+  .public-v2 .pv2-product-exploded__legend-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .public-v2 .pv2-product-exploded__canvas {
+    border-radius: 0;
+    padding: 0;
+  }
+
+  .public-v2 .pv2-product-exploded__svg {
+    min-width: 580px;
+  }
+
+  .public-v2 .pv2-product-exploded__legend-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .public-v2 .pv2-product-exploded__part,
+  .public-v2 .pv2-product-exploded__legend-button,
+  .public-v2 .pv2-product-exploded__callout {
+    transition: none;
+  }
+
+  .public-v2 .pv2-product-exploded__part.is-active {
+    transform: none;
+  }
+}
+
 /* Public V2 product show - business cards */
 
 .public-v2 .pv2-product-layout {
