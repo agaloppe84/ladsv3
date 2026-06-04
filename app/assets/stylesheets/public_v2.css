@@ -8681,25 +8681,26 @@
 }
 
 .public-v2 .pv2-product-hero-v2__lead {
-  align-content: start;
-  background: #ffffff;
+  align-content: center;
+  background: transparent;
+  border: 1.5px solid #dedee3;
   border-radius: var(--pv2-product-hero-radius);
   color: #111111;
   display: grid;
   gap: clamp(0.95rem, 2vw, 1.45rem);
   min-height: 0;
-  overflow: hidden;
+  overflow: visible;
   padding: clamp(1.55rem, 3vw, 2.55rem);
 }
 
 .public-v2 .pv2-product-hero-v2__lead h1 {
   color: inherit;
-  font-size: var(--pv2-home-section-title-size);
+  font-size: clamp(1.42rem, 2.25vw, 2.35rem);
   font-weight: 820;
   letter-spacing: 0;
-  line-height: 0.98;
+  line-height: 1.03;
   margin: 0;
-  max-width: 12ch;
+  max-width: 18ch;
   overflow-wrap: anywhere;
 }
 
@@ -8710,7 +8711,7 @@
 }
 
 .public-v2 .pv2-product-hero-v2__lead > span {
-  color: #55575f;
+  color: #111111;
   display: block;
   font-size: var(--pv2-home-card-text-size);
   font-weight: 560;
@@ -8909,13 +8910,13 @@
 
 .public-v2[data-public-v2-mode="dark"] .pv2-product-hero-v2__lead,
 .public-v2.dark .pv2-product-hero-v2__lead {
-  background: #161618;
+  border-color: #2d2d32;
   color: #ffffff;
 }
 
 .public-v2[data-public-v2-mode="dark"] .pv2-product-hero-v2__lead > span,
 .public-v2.dark .pv2-product-hero-v2__lead > span {
-  color: #b8b8bf;
+  color: #ffffff;
 }
 
 .public-v2[data-public-v2-mode="dark"] .pv2-product-hero-v2__quote-button.pv2-ui-button,

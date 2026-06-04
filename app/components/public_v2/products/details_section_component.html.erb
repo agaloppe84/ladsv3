@@ -47,13 +47,12 @@
 
   <div class="pv2-product-content grid min-w-0 gap-4">
     <% if technical_info_item.present? || product_page.option_items.any? %>
-      <section class="pv2-product-spec-block" aria-labelledby="pv2-product-spec-title">
-        <header class="pv2-product-spec-block__header">
-          <h2 id="pv2-product-spec-title"><%= product_page.product.name %></h2>
-          <% if technical_info_item.present? %>
+      <section class="pv2-product-spec-block" aria-label="Informations techniques">
+        <% if technical_info_item.present? %>
+          <header class="pv2-product-spec-block__header">
             <p><%= technical_info_item.text %></p>
-          <% end %>
-        </header>
+          </header>
+        <% end %>
 
         <%= render PublicV2::Products::OptionListComponent.new(
           items: product_page.option_items,
