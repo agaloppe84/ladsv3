@@ -44,8 +44,8 @@ module PublicV2
             fabric_width: 4_640,
             fabric_height: 1_920,
             fabric_radius: 18,
-            fabric_vertical_count: 30,
-            fabric_horizontal_count: 13,
+            fabric_vertical_count: 59,
+            fabric_horizontal_count: 25,
             rail_gap: 310,
             rail_width: 240,
             rail_extra_top: 180,
@@ -260,7 +260,7 @@ module PublicV2
             horizontal_step = body.height / (layout_config.fetch(:fabric_horizontal_count) - 1)
             vertical_lines = (1...(layout_config.fetch(:fabric_vertical_count) - 1)).map { |index| body.x + (index * vertical_step) }
             horizontal_lines = (1...(layout_config.fetch(:fabric_horizontal_count) - 1)).map { |index| body.y + (index * horizontal_step) }
-            edge_fastener_ys = [3, 5, 7, 9].map { |index| body.y + (index * horizontal_step) }
+            edge_fastener_ys = [6, 10, 14, 18].map { |index| body.y + (index * horizontal_step) }
 
             EnrollableFabricLayout.new(
               hit: Box.new(x: body.x - 90, y: body.y - 75, width: body.width + 180, height: body.height + 150),
@@ -333,17 +333,29 @@ module PublicV2
           end
 
           def build_bavette_layout(rails:)
-            height = 560
-            left = Box.new(x: rails.left.x + 28, y: rails.left.bottom - height - 120, width: rails.left.width - 56, height:, rx: 18)
-            right = Box.new(x: rails.right.x + 28, y: rails.right.bottom - height - 120, width: rails.right.width - 56, height:, rx: 18)
-            step = height / 6
+            inset_width = 52
+            inset_height = 142
+            bottom_gap = 56
+            left = Box.new(
+              x: rails.left.center_x - (inset_width / 2),
+              y: rails.left.bottom - bottom_gap - inset_height,
+              width: inset_width,
+              height: inset_height,
+              rx: 18
+            )
+            right = Box.new(
+              x: rails.right.center_x - (inset_width / 2),
+              y: rails.right.bottom - bottom_gap - inset_height,
+              width: inset_width,
+              height: inset_height,
+              rx: 18
+            )
 
             EnrollableBavetteLayout.new(
               hit: Box.new(x: right.x - 70, y: right.y - 70, width: right.width + 140, height: right.height + 140),
               left:,
               right:,
-              marker: Point.new(x: rails.right.right + layout_config.fetch(:marker_gap), y: right.center_y),
-              bristle_ys: Array.new(5) { |index| right.y + step + (index * step) }
+              marker: Point.new(x: rails.right.right + layout_config.fetch(:marker_gap), y: right.center_y)
             )
           end
         end

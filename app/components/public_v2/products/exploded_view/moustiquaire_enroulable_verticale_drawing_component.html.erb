@@ -142,14 +142,8 @@
     aria-pressed="<%= aria_pressed("bavettes") %>"
     aria-label="Bavettes anti-intrusion">
     <rect x="<%= layout.bavettes.hit.x %>" y="<%= layout.bavettes.hit.y %>" width="<%= layout.bavettes.hit.width %>" height="<%= layout.bavettes.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <path d="<%= layout.rails.outline_path(layout.bavettes.left) %>" class="pv2-product-exploded__hairline pv2-product-exploded__hairline--quiet" />
-    <path d="<%= layout.rails.outline_path(layout.bavettes.right) %>" class="pv2-product-exploded__hairline pv2-product-exploded__hairline--quiet" />
-    <% layout.bavettes.bristle_paths(layout.bavettes.left).each do |path| %>
-      <path d="<%= path %>" class="pv2-product-exploded__detail" />
-    <% end %>
-    <% layout.bavettes.bristle_paths(layout.bavettes.right).each do |path| %>
-      <path d="<%= path %>" class="pv2-product-exploded__detail" />
-    <% end %>
+    <rect x="<%= layout.bavettes.left.x %>" y="<%= layout.bavettes.left.y %>" width="<%= layout.bavettes.left.width %>" height="<%= layout.bavettes.left.height %>" rx="<%= layout.bavettes.left.rx %>" class="pv2-product-exploded__fill" />
+    <rect x="<%= layout.bavettes.right.x %>" y="<%= layout.bavettes.right.y %>" width="<%= layout.bavettes.right.width %>" height="<%= layout.bavettes.right.height %>" rx="<%= layout.bavettes.right.rx %>" class="pv2-product-exploded__fill" />
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.bavettes.marker.x %> <%= layout.bavettes.marker.y %>)">
       <circle r="68" />
       <text y="25">6</text>

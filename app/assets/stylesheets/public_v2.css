@@ -9169,11 +9169,11 @@
 }
 
 .public-v2 .pv2-product-exploded__fabric-grid {
-  opacity: 0.58;
+  opacity: 0.36;
   shape-rendering: crispEdges;
   stroke: var(--pv2-exploded-faint);
   stroke-linecap: butt;
-  stroke-width: 0.66;
+  stroke-width: 0.54;
 }
 
 .public-v2 .pv2-product-exploded__fabric-thread {
@@ -9270,7 +9270,7 @@
 }
 
 .public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__fabric-grid {
-  opacity: 0.72;
+  opacity: 0.48;
 }
 
 .public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__fabric-thread {

@@ -367,10 +367,9 @@ module PublicV2
             "V#{box.y + box.rx}Q#{box.x} #{box.y} #{box.x + box.rx} #{box.y}Z"
         end
 
-        def inner_path(box)
-          "M#{box.x + 68} #{box.y + 108}V#{box.bottom - 108}" \
-            "M#{box.right - 68} #{box.y + 108}V#{box.bottom - 108}" \
-            "M#{box.center_x} #{box.y + 176}V#{box.bottom - 176}"
+        def inner_path(box, bottom_y = box.bottom)
+          "M#{box.x + 68} #{box.y}V#{bottom_y}" \
+            "M#{box.right - 68} #{box.y}V#{bottom_y}"
         end
       end
 
@@ -408,14 +407,7 @@ module PublicV2
         end
       end
 
-      EnrollableBavetteLayout = Struct.new(:hit, :left, :right, :marker, :bristle_ys, keyword_init: true) do
-        def bristle_paths(box)
-          bristle_ys.map do |y|
-            "M#{box.x + 46} #{y - 34}L#{box.x + 105} #{y}" \
-              "M#{box.right - 46} #{y - 34}L#{box.right - 105} #{y}"
-          end
-        end
-      end
+      EnrollableBavetteLayout = Struct.new(:hit, :left, :right, :marker, keyword_init: true)
 
       EnrollableDrawingLayout = Struct.new(
         :svg_width,
