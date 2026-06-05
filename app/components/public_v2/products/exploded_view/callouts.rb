@@ -21,6 +21,15 @@ module PublicV2
       end
 
       module CalloutRoute
+        SIDE_DIRECTIONS = {
+          top: :up,
+          right: :right,
+          bottom: :down,
+          left: :left,
+          up: :up,
+          down: :down
+        }.freeze
+
         PRESETS = {
           up_right: { start_direction: :up, turn_direction: :right },
           up_left: { start_direction: :up, turn_direction: :left },
@@ -42,6 +51,37 @@ module PublicV2
           return {} if route.nil?
 
           PRESETS.fetch(route.to_sym).dup
+        end
+
+        def from_sides(anchor_side:, label_side: anchor_side)
+          start_direction = direction_for(anchor_side)
+          finish_direction = direction_for(label_side)
+
+          return { start_direction: start_direction } if start_direction == finish_direction
+
+          { start_direction:, turn_direction: finish_direction }
+        end
+
+        def direction_for(side)
+          SIDE_DIRECTIONS.fetch(side.to_sym)
+        end
+      end
+
+      module CalloutMeasure
+        LENGTHS = {
+          xs: 140,
+          sm: 220,
+          md: 310,
+          lg: 430,
+          xl: 520
+        }.freeze
+
+        module_function
+
+        def resolve(value)
+          return value unless value.is_a?(Symbol)
+
+          LENGTHS.fetch(value)
         end
       end
 

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "geometry"
+require_relative "layout_primitives"
 require_relative "rails"
 
 module PublicV2
@@ -14,12 +15,7 @@ module PublicV2
         end
 
         def expanded_box(box, inset_x:, inset_y:)
-          Box.new(
-            x: box.x - inset_x,
-            y: box.y - inset_y,
-            width: box.width + (inset_x * 2),
-            height: box.height + (inset_y * 2)
-          )
+          LayoutRules.expand(box, inset_x:, inset_y:)
         end
 
         def inset_box(parent, inset_x:, y_offset:, height:, rx:)

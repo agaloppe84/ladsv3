@@ -52,6 +52,54 @@ module PublicV2
             )
           end
         end
+
+        def background_grid
+          return unless layout.respond_to?(:grid)
+
+          grid = layout.grid
+          return unless grid
+
+          clip_id = "#{svg_description_id}-layout-grid"
+          paths = [
+            tag.path(
+              d: grid.minor_path,
+              class: "pv2-product-exploded__layout-grid-line pv2-product-exploded__layout-grid-line--minor",
+              "clip-path": "url(##{clip_id})"
+            ),
+            tag.path(
+              d: grid.major_path,
+              class: "pv2-product-exploded__layout-grid-line pv2-product-exploded__layout-grid-line--major",
+              "clip-path": "url(##{clip_id})"
+            )
+          ]
+
+          tag.g(class: "pv2-product-exploded__layout-grid", aria: { hidden: "true" }) do
+            safe_join(
+              [
+                tag.defs do
+                  tag.clipPath(id: clip_id) do
+                    tag.rect(
+                      x: grid.frame.x,
+                      y: grid.frame.y,
+                      width: grid.frame.width,
+                      height: grid.frame.height,
+                      rx: grid.frame.rx
+                    )
+                  end
+                end,
+                tag.rect(
+                  x: grid.frame.x,
+                  y: grid.frame.y,
+                  width: grid.frame.width,
+                  height: grid.frame.height,
+                  rx: grid.frame.rx,
+                  class: "pv2-product-exploded__layout-grid-surface"
+                ),
+                *paths
+              ]
+            )
+          end
+        end
       end
     end
   end

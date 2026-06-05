@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "geometry"
+require_relative "layout_primitives"
 
 module PublicV2
   module Products
@@ -9,13 +10,7 @@ module PublicV2
         module_function
 
         def centered_box(center_x:, center_y:, width:, height:, rx:)
-          Box.new(
-            x: center_x - (width / 2),
-            y: center_y - (height / 2),
-            width:,
-            height:,
-            rx:
-          )
+          LayoutRules.centered_on(center_x:, center_y:, width:, height:, rx:)
         end
 
         def horizontal_center_line(box, inset_x:)

@@ -143,8 +143,9 @@ module PublicV2
               height: layout_config.fetch(:motor_head_height),
               rx: layout_config.fetch(:motor_head_radius)
             )
-            motor_tube = Box.new(
-              x: layout_config.fetch(:motor_tube_x),
+            motor_tube = LayoutRules.left_of(
+              motor_head,
+              gap: 0,
               y: motor_head.y + 40,
               width: motor_head.x - layout_config.fetch(:motor_tube_x),
               height: layout_config.fetch(:motor_tube_height),
@@ -163,11 +164,14 @@ module PublicV2
             coulisse = build_coulisse_layout(fabric:)
             barre = build_barre_layout(fabric:)
             support_marker = Point.new(x: drawing_right + marker_gap, y: 305)
-            callouts = build_callouts(support_marker:, motor:, coffre:, fabric:, coulisse:, barre:)
+            groups = build_groups(motor:, coffre:, fabric:, coulisse:, barre:)
+            callouts = build_callouts(support_marker:, motor:, coffre:, fabric:, coulisse:, barre:, groups:)
 
             DrawingLayout.new(
               svg_width: layout_config.fetch(:svg_width),
               svg_height: layout_config.fetch(:svg_height),
+              grid: layout_grid,
+              groups:,
               support_marker:,
               motor:,
               coffre:,
@@ -178,21 +182,32 @@ module PublicV2
             )
           end
 
-          def build_callouts(support_marker:, motor:, coffre:, fabric:, coulisse:, barre:)
+          def build_callouts(support_marker:, motor:, coffre:, fabric:, coulisse:, barre:, groups:)
             {
-              "coffre" => callout("coffre", marker: coffre.marker, route: :up_right, first_length: 225, second_length: 390, text_offset_x: 76),
-              "coulisses" => callout("coulisses", marker: coulisse.marker, route: :left_down, first_length: 285, second_length: 190),
-              "toile" => callout("toile", marker: fabric.marker, route: :up_right, first_length: 265, second_length: 390, text_offset_x: 76),
-              "barre-charge" => callout("barre-charge", marker: barre.marker, route: :down_left, first_length: 95, second_length: 500, text_offset_x: -72, text_anchor: "end"),
-              "motorisation" => callout("motorisation", marker: motor.marker, route: :up_left, first_length: 230, second_length: 380, text_offset_x: -72, text_anchor: "end"),
-              "supports" => callout("supports", marker: support_marker, route: :up_left, first_length: 180, second_length: 430, text_offset_x: -72, text_anchor: "end")
+              "coffre" => callout("coffre", marker: coffre.marker, anchor_side: :top, label_side: :right, first_length: 225, second_length: 390, text_offset_x: 76),
+              "coulisses" => callout("coulisses", marker: coulisse.marker, anchor_side: :left, label_side: :bottom, first_length: 285, second_length: 190),
+              "toile" => callout("toile", marker: fabric.marker, anchor_side: :top, label_side: :right, first_length: 265, second_length: 390, text_offset_x: 76),
+              "barre-charge" => callout("barre-charge", marker: barre.marker, anchor_side: :bottom, label_side: :left, first_length: 95, second_length: 500, text_offset_x: -72, text_anchor: "end"),
+              "motorisation" => callout("motorisation", marker: groups.fetch("motorisation").outside_anchor(side: :right, gap: layout_config.fetch(:marker_gap)), anchor_side: :top, label_side: :left, first_length: 230, second_length: 380, text_offset_x: -72, text_anchor: "end"),
+              "supports" => callout("supports", marker: support_marker, anchor_side: :top, label_side: :left, first_length: 180, second_length: 430, text_offset_x: -72, text_anchor: "end")
+            }
+          end
+
+          def build_groups(motor:, coffre:, fabric:, coulisse:, barre:)
+            right_coulisse_hit = LayoutRules.mirror_x(coulisse.hit, canvas_width: layout_config.fetch(:svg_width))
+
+            {
+              "motorisation" => LayoutGroup.new(id: "motorisation", boxes: [motor.tube, motor.head]),
+              "toile-coulisses" => LayoutGroup.new(id: "toile-coulisses", boxes: [fabric.body, coulisse.hit, right_coulisse_hit]),
+              "coffre-toile-barre" => LayoutGroup.new(id: "coffre-toile-barre", boxes: [coffre.body, fabric.body, barre.hit])
             }
           end
 
           def build_coffre_layout(motor:)
-            body = Box.new(
+            body = LayoutRules.below(
+              motor.head,
+              gap: layout_config.fetch(:gap_motor_coffre),
               x: layout_config.fetch(:coffre_x),
-              y: motor.head.bottom + layout_config.fetch(:gap_motor_coffre),
               width: layout_config.fetch(:coffre_width),
               height: layout_config.fetch(:coffre_height),
               rx: layout_config.fetch(:coffre_radius)
@@ -207,9 +222,10 @@ module PublicV2
           end
 
           def build_fabric_layout(coffre:)
-            body = Box.new(
+            body = LayoutRules.below(
+              coffre.body,
+              gap: layout_config.fetch(:gap_coffre_fabric),
               x: layout_config.fetch(:fabric_x),
-              y: coffre.body.bottom + layout_config.fetch(:gap_coffre_fabric),
               width: layout_config.fetch(:fabric_width),
               height: layout_config.fetch(:fabric_height),
               rx: layout_config.fetch(:fabric_radius)

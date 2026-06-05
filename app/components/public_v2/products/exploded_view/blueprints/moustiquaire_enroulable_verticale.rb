@@ -145,11 +145,14 @@ module PublicV2
             bottom_bar = build_bottom_bar_layout(fabric:)
             lock = build_lock_layout(bottom_bar:)
             bavettes = build_bavette_layout(rails:)
-            callouts = build_callouts(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:)
+            groups = build_groups(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:)
+            callouts = build_callouts(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:, groups:)
 
             EnrollableDrawingLayout.new(
               svg_width: layout_config.fetch(:svg_width),
               svg_height: layout_config.fetch(:svg_height),
+              grid: layout_grid,
+              groups:,
               cassette:,
               rails:,
               fabric:,
@@ -160,14 +163,23 @@ module PublicV2
             )
           end
 
-          def build_callouts(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:)
+          def build_callouts(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:, groups:)
             {
-              "caisson" => callout("caisson", marker: cassette.marker, route: :up_left, first_length: 230, second_length: 520),
-              "double-coulisse" => callout("double-coulisse", marker: rails.marker, route: :up_right, first_length: 260, second_length: 460),
-              "toile-bordee" => callout("toile-bordee", marker: fabric.marker, route: :up_right, first_length: 230, second_length: 430),
-              "barre-charge" => callout("barre-charge", marker: bottom_bar.marker, route: :down_left, first_length: 160, second_length: 430),
-              "fermeture-magnetique" => callout("fermeture-magnetique", marker: lock.marker, route: :left, first_length: 460),
-              "bavettes" => callout("bavettes", marker: bavettes.marker, route: :left, first_length: 430)
+              "caisson" => callout("caisson", marker: cassette.marker, anchor_side: :top, label_side: :left, first_length: 230, second_length: :xl),
+              "double-coulisse" => callout("double-coulisse", marker: rails.marker, anchor_side: :top, label_side: :right, first_length: 260, second_length: 460),
+              "toile-bordee" => callout("toile-bordee", marker: fabric.marker, anchor_side: :top, label_side: :right, first_length: 230, second_length: :lg),
+              "barre-charge" => callout("barre-charge", marker: bottom_bar.marker, anchor_side: :bottom, label_side: :left, first_length: 160, second_length: :lg),
+              "fermeture-magnetique" => callout("fermeture-magnetique", marker: lock.marker, anchor_side: :left, first_length: 460),
+              "bavettes" => callout("bavettes", marker: bavettes.marker, anchor_side: :left, first_length: :lg)
+            }
+          end
+
+          def build_groups(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:)
+            {
+              "caisson-toile" => LayoutGroup.new(id: "caisson-toile", boxes: [cassette.body, fabric.body]),
+              "toile-coulisses" => LayoutGroup.new(id: "toile-coulisses", boxes: [fabric.body, rails.left, rails.right]),
+              "fermeture-barre" => LayoutGroup.new(id: "fermeture-barre", boxes: [bottom_bar.body, lock.hit]),
+              "coulisses-bavettes" => LayoutGroup.new(id: "coulisses-bavettes", boxes: [rails.left, rails.right, bavettes.left, bavettes.right])
             }
           end
 
@@ -196,9 +208,10 @@ module PublicV2
           end
 
           def build_fabric_layout(cassette:)
-            body = Box.new(
+            body = LayoutRules.below(
+              cassette.body,
+              gap: layout_config.fetch(:gap_cassette_fabric),
               x: layout_config.fetch(:fabric_x),
-              y: cassette.body.bottom + layout_config.fetch(:gap_cassette_fabric),
               width: layout_config.fetch(:fabric_width),
               height: layout_config.fetch(:fabric_height),
               rx: layout_config.fetch(:fabric_radius)
@@ -217,7 +230,7 @@ module PublicV2
             )
 
             EnrollableFabricLayout.new(
-              hit: Box.new(x: body.x - 90, y: body.y - 75, width: body.width + 180, height: body.height + 150),
+              hit: LayoutRules.hit_box(body, inset_x: 90, inset_y: 75),
               body:,
               marker: CalloutAnchor.outside(body, side: :top, gap: 170),
               grid:,
@@ -229,22 +242,24 @@ module PublicV2
           def build_rail_layout(fabric:)
             top = fabric.body.y - layout_config.fetch(:rail_extra_top)
             height = fabric.body.height + layout_config.fetch(:rail_extra_top) + layout_config.fetch(:rail_extra_bottom)
-            left = Box.new(
-              x: fabric.body.x - layout_config.fetch(:rail_gap) - layout_config.fetch(:rail_width),
+            left = LayoutRules.left_of(
+              fabric.body,
+              gap: layout_config.fetch(:rail_gap),
               y: top,
               width: layout_config.fetch(:rail_width),
               height:,
               rx: layout_config.fetch(:rail_radius)
             )
-            right = Box.new(
-              x: fabric.body.right + layout_config.fetch(:rail_gap),
+            right = LayoutRules.right_of(
+              fabric.body,
+              gap: layout_config.fetch(:rail_gap),
               y: top,
               width: layout_config.fetch(:rail_width),
               height:,
               rx: layout_config.fetch(:rail_radius)
             )
             EnrollableRailPairLayout.new(
-              hit: Box.new(x: left.x - 80, y: left.y - 75, width: left.width + 160, height: left.height + 150),
+              hit: LayoutRules.hit_box(left, inset_x: 80, inset_y: 75),
               left:,
               right:,
               marker: CalloutAnchor.outside(left, side: :left, gap: layout_config.fetch(:marker_gap)),
@@ -253,16 +268,17 @@ module PublicV2
           end
 
           def build_bottom_bar_layout(fabric:)
-            body = Box.new(
+            body = LayoutRules.below(
+              fabric.body,
+              gap: layout_config.fetch(:bottom_bar_gap),
               x: fabric.body.x - 130,
-              y: fabric.body.bottom + layout_config.fetch(:bottom_bar_gap),
               width: fabric.body.width + 260,
               height: layout_config.fetch(:bottom_bar_height),
               rx: layout_config.fetch(:bottom_bar_radius)
             )
 
             EnrollableBottomBarLayout.new(
-              hit: Box.new(x: body.x - 100, y: body.y - 80, width: body.width + 200, height: body.height + 160),
+              hit: LayoutRules.hit_box(body, inset_x: 100, inset_y: 80),
               body:,
               marker: CalloutAnchor.outside(body, side: :right, gap: layout_config.fetch(:marker_gap)),
               grip: BarGeometry.centered_box(center_x: body.center_x, center_y: body.center_y, width: 340, height: 60, rx: 18),
@@ -283,23 +299,23 @@ module PublicV2
             inset_width = 52
             inset_height = 142
             bottom_gap = 56
-            left = Box.new(
-              x: rails.left.center_x - (inset_width / 2),
-              y: rails.left.bottom - bottom_gap - inset_height,
+            left = LayoutRules.inside_bottom_centered(
+              rails.left,
               width: inset_width,
               height: inset_height,
+              bottom_gap:,
               rx: 18
             )
-            right = Box.new(
-              x: rails.right.center_x - (inset_width / 2),
-              y: rails.right.bottom - bottom_gap - inset_height,
+            right = LayoutRules.inside_bottom_centered(
+              rails.right,
               width: inset_width,
               height: inset_height,
+              bottom_gap:,
               rx: 18
             )
 
             EnrollableBavetteLayout.new(
-              hit: Box.new(x: right.x - 70, y: right.y - 70, width: right.width + 140, height: right.height + 140),
+              hit: LayoutRules.hit_box(right, inset_x: 70, inset_y: 70),
               left:,
               right:,
               marker: Point.new(x: rails.right.right + layout_config.fetch(:marker_gap), y: right.center_y)

@@ -8991,6 +8991,9 @@
   --pv2-exploded-line-fine: #22272c;
   --pv2-exploded-guide: #171b1f;
   --pv2-exploded-echo: #9fa6ad;
+  --pv2-exploded-grid-surface: rgba(17, 20, 23, 0.012);
+  --pv2-exploded-grid-line: rgba(17, 20, 23, 0.055);
+  --pv2-exploded-grid-line-strong: rgba(17, 20, 23, 0.085);
   --pv2-exploded-accent: #009e96;
   --pv2-exploded-accent-rgb: 0, 158, 150;
   --pv2-exploded-accent-ink: #ffffff;
@@ -9108,6 +9111,34 @@
   height: auto;
   min-width: 620px;
   width: 100%;
+}
+
+.public-v2 .pv2-product-exploded__layout-grid {
+  pointer-events: none;
+}
+
+.public-v2 .pv2-product-exploded__layout-grid-surface {
+  fill: var(--pv2-exploded-grid-surface);
+  stroke: var(--pv2-exploded-grid-line-strong);
+  stroke-width: 0.72;
+  vector-effect: non-scaling-stroke;
+}
+
+.public-v2 .pv2-product-exploded__layout-grid-line {
+  fill: none;
+  shape-rendering: crispEdges;
+  stroke-linecap: butt;
+  vector-effect: non-scaling-stroke;
+}
+
+.public-v2 .pv2-product-exploded__layout-grid-line--minor {
+  stroke: var(--pv2-exploded-grid-line);
+  stroke-width: 0.46;
+}
+
+.public-v2 .pv2-product-exploded__layout-grid-line--major {
+  stroke: var(--pv2-exploded-grid-line-strong);
+  stroke-width: 0.58;
 }
 
 .public-v2 .pv2-product-exploded__part {
@@ -9437,6 +9468,9 @@
   --pv2-exploded-line-fine: #dfe7e5;
   --pv2-exploded-guide: #eaf0ef;
   --pv2-exploded-echo: #7b828a;
+  --pv2-exploded-grid-surface: rgba(242, 245, 244, 0.018);
+  --pv2-exploded-grid-line: rgba(242, 245, 244, 0.07);
+  --pv2-exploded-grid-line-strong: rgba(242, 245, 244, 0.105);
   --pv2-exploded-accent: #39d6ca;
   --pv2-exploded-accent-rgb: 57, 214, 202;
   --pv2-exploded-accent-ink: #061716;

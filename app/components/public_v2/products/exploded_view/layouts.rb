@@ -5,6 +5,7 @@ require_relative "callouts"
 require_relative "fabrics"
 require_relative "geometry"
 require_relative "housings"
+require_relative "layout_primitives"
 require_relative "rails"
 
 module PublicV2
@@ -94,6 +95,8 @@ module PublicV2
       DrawingLayout = Struct.new(
         :svg_width,
         :svg_height,
+        :grid,
+        :groups,
         :support_marker,
         :motor,
         :coffre,
@@ -190,6 +193,8 @@ module PublicV2
       PlisseeDrawingLayout = Struct.new(
         :svg_width,
         :svg_height,
+        :grid,
+        :groups,
         :guide,
         :profiles,
         :fabric,
@@ -260,6 +265,8 @@ module PublicV2
       EnrollableDrawingLayout = Struct.new(
         :svg_width,
         :svg_height,
+        :grid,
+        :groups,
         :cassette,
         :rails,
         :fabric,
