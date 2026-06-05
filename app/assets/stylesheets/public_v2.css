@@ -9113,9 +9113,7 @@
 .public-v2 .pv2-product-exploded__part {
   cursor: pointer;
   outline: none;
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: filter 220ms ease, opacity 220ms ease, transform 260ms ease;
+  transition: filter 220ms ease, opacity 220ms ease;
 }
 
 .public-v2 .pv2-product-exploded__hit-area {
@@ -9224,7 +9222,7 @@
 .public-v2 .pv2-product-exploded__callout {
   opacity: 0;
   pointer-events: none;
-  transition: opacity 180ms ease, transform 220ms ease;
+  transition: opacity 180ms ease;
 }
 
 .public-v2 .pv2-product-exploded__callout-line {
@@ -9307,74 +9305,6 @@
 
 .public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__fill {
   fill: rgba(var(--pv2-exploded-accent-rgb), 0.52);
-}
-
-.public-v2 .pv2-product-exploded__part--coffre.is-active {
-  transform: translateY(-16px);
-}
-
-.public-v2 .pv2-product-exploded__part--motorisation.is-active {
-  transform: translateY(-22px);
-}
-
-.public-v2 .pv2-product-exploded__part--supports.is-active {
-  transform: translateY(-20px);
-}
-
-.public-v2 .pv2-product-exploded__part--coulisse-left.is-active {
-  transform: translateX(-24px);
-}
-
-.public-v2 .pv2-product-exploded__part--coulisse-right.is-active {
-  transform: translateX(24px);
-}
-
-.public-v2 .pv2-product-exploded__part--toile.is-active {
-  transform: scale(1.006);
-}
-
-.public-v2 .pv2-product-exploded__part--barre-charge.is-active {
-  transform: translateY(24px);
-}
-
-.public-v2 .pv2-product-exploded__part--plissee-guide-haut.is-active {
-  transform: translateY(-18px);
-}
-
-.public-v2 .pv2-product-exploded__part--plissee-profils-left.is-active {
-  transform: translateX(-22px);
-}
-
-.public-v2 .pv2-product-exploded__part--plissee-profils-right.is-active {
-  transform: translateX(22px);
-}
-
-.public-v2 .pv2-product-exploded__part--plissee-toile.is-active {
-  transform: scale(1.006);
-}
-
-.public-v2 .pv2-product-exploded__part--plissee-barre-poignee.is-active {
-  transform: translateX(22px);
-}
-
-.public-v2 .pv2-product-exploded__part--plissee-seuil-bas.is-active {
-  transform: translateY(20px);
-}
-
-.public-v2 .pv2-product-exploded__part--enroulable-caisson.is-active,
-.public-v2 .pv2-product-exploded__part--enroulable-coulisse-left.is-active,
-.public-v2 .pv2-product-exploded__part--enroulable-coulisse-right.is-active,
-.public-v2 .pv2-product-exploded__part--enroulable-toile.is-active {
-  transform: none;
-}
-
-.public-v2 .pv2-product-exploded__part--enroulable-barre.is-active,
-.public-v2 .pv2-product-exploded__part--enroulable-lock.is-active {
-  transform: none;
-}
-
-.public-v2 .pv2-product-exploded__part--enroulable-bavettes.is-active {
-  transform: none;
 }
 
 .public-v2 .pv2-product-exploded__part:focus-visible .pv2-product-exploded__outline,
@@ -9566,10 +9496,6 @@
   .public-v2 .pv2-product-exploded__legend-button,
   .public-v2 .pv2-product-exploded__callout {
     transition: none;
-  }
-
-  .public-v2 .pv2-product-exploded__part.is-active {
-    transform: none;
   }
 }
 

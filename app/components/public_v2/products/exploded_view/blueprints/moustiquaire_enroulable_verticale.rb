@@ -3,12 +3,13 @@
 require_relative "../geometry"
 require_relative "../layouts"
 require_relative "../schema"
+require_relative "base"
 
 module PublicV2
   module Products
     module ExplodedView
       module Blueprints
-        class MoustiquaireEnroulableVerticale
+        class MoustiquaireEnroulableVerticale < Base
           TARGET_SLUGS = %w[moustiquaire-enroulable-verticale].freeze
           DEFAULT_PART_ORDER = %w[caisson double-coulisse toile-bordee barre-charge fermeture-magnetique bavettes].freeze
 
@@ -113,34 +114,10 @@ module PublicV2
             Metric.new(label: "Guidage", value: TECHNICAL_DATA.fetch(:rails), note: TECHNICAL_DATA.fetch(:anti_intrusion))
           ].freeze
 
-          attr_reader :layout_config, :part_order, :theme
-
-          def initialize(layout_overrides: {}, part_order: DEFAULT_PART_ORDER, theme: DEFAULT_THEME)
-            @layout_config = DEFAULT_LAYOUT.merge(layout_overrides)
-            @part_order = part_order.map(&:to_s)
-            @theme = theme
-          end
-
           def render_for?(product_page)
             product = product_page.product
 
             TARGET_SLUGS.include?(product.slug.to_s) || product.name.to_s.match?(/moustiquaire.*enroulable.*vertical/i)
-          end
-
-          def parts
-            part_order.filter_map { |part_id| PART_DEFINITIONS[part_id] }
-          end
-
-          def metrics
-            METRICS
-          end
-
-          def technical_data
-            TECHNICAL_DATA
-          end
-
-          def layout
-            @layout ||= build_layout
           end
 
           def eyebrow
@@ -157,13 +134,6 @@ module PublicV2
 
           def drawing_component
             PublicV2::Products::ExplodedView::MoustiquaireEnroulableVerticaleDrawingComponent
-          end
-
-          def css_style
-            [
-              theme.css_style,
-              "--pv2-exploded-svg-ratio: #{layout.svg_width} / #{layout.svg_height}"
-            ].reject(&:empty?).join("; ")
           end
 
           private
@@ -199,24 +169,6 @@ module PublicV2
               "fermeture-magnetique" => callout("fermeture-magnetique", marker: lock.marker, start_direction: :left, first_length: 460),
               "bavettes" => callout("bavettes", marker: bavettes.marker, start_direction: :left, first_length: 430)
             }
-          end
-
-          def callout(part_id, marker:, start_direction:, first_length:, turn_direction: nil, second_length: 0, text_offset_x: nil, text_offset_y: nil, text_anchor: nil, dominant_baseline: nil)
-            CalloutLayout.new(
-              label: PART_DEFINITIONS.fetch(part_id).label,
-              marker:,
-              start_direction:,
-              turn_direction:,
-              first_length:,
-              second_length:,
-              text_offset_x:,
-              text_offset_y:,
-              text_anchor:,
-              dominant_baseline:,
-              marker_radius: 58,
-              corner_radius: 46,
-              dot_radius: 18
-            )
           end
 
           def build_cassette_layout
@@ -256,10 +208,19 @@ module PublicV2
               height: layout_config.fetch(:fabric_height),
               rx: layout_config.fetch(:fabric_radius)
             )
-            vertical_step = body.width / (layout_config.fetch(:fabric_vertical_count) - 1)
             horizontal_step = body.height / (layout_config.fetch(:fabric_horizontal_count) - 1)
-            vertical_lines = (1...(layout_config.fetch(:fabric_vertical_count) - 1)).map { |index| body.x + (index * vertical_step) }
-            horizontal_lines = (1...(layout_config.fetch(:fabric_horizontal_count) - 1)).map { |index| body.y + (index * horizontal_step) }
+            vertical_lines = FabricGeometry.positions(
+              start: body.x,
+              finish: body.right,
+              count: layout_config.fetch(:fabric_vertical_count),
+              include_edges: false
+            )
+            horizontal_lines = FabricGeometry.positions(
+              start: body.y,
+              finish: body.bottom,
+              count: layout_config.fetch(:fabric_horizontal_count),
+              include_edges: false
+            )
             edge_fastener_ys = [6, 10, 14, 18].map { |index| body.y + (index * horizontal_step) }
 
             EnrollableFabricLayout.new(

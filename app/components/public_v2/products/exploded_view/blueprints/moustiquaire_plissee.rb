@@ -3,12 +3,13 @@
 require_relative "../geometry"
 require_relative "../layouts"
 require_relative "../schema"
+require_relative "base"
 
 module PublicV2
   module Products
     module ExplodedView
       module Blueprints
-        class MoustiquairePlissee
+        class MoustiquairePlissee < Base
           TARGET_SLUGS = %w[moustiquaire-plissee].freeze
           DEFAULT_PART_ORDER = %w[guide-haut profils-muraux toile-plissee barre-poignee seuil-bas verrouillage].freeze
 
@@ -107,34 +108,10 @@ module PublicV2
             Metric.new(label: "Seuil bas", value: "#{TECHNICAL_DATA.fetch(:threshold_height_mm)} mm", note: "guide au sol extra-plat")
           ].freeze
 
-          attr_reader :layout_config, :part_order, :theme
-
-          def initialize(layout_overrides: {}, part_order: DEFAULT_PART_ORDER, theme: DEFAULT_THEME)
-            @layout_config = DEFAULT_LAYOUT.merge(layout_overrides)
-            @part_order = part_order.map(&:to_s)
-            @theme = theme
-          end
-
           def render_for?(product_page)
             product = product_page.product
 
             TARGET_SLUGS.include?(product.slug.to_s) || product.name.to_s.match?(/moustiquaire.*pliss/i)
-          end
-
-          def parts
-            part_order.filter_map { |part_id| PART_DEFINITIONS[part_id] }
-          end
-
-          def metrics
-            METRICS
-          end
-
-          def technical_data
-            TECHNICAL_DATA
-          end
-
-          def layout
-            @layout ||= build_layout
           end
 
           def eyebrow
@@ -151,13 +128,6 @@ module PublicV2
 
           def drawing_component
             PublicV2::Products::ExplodedView::MoustiquairePlisseeDrawingComponent
-          end
-
-          def css_style
-            [
-              theme.css_style,
-              "--pv2-exploded-svg-ratio: #{layout.svg_width} / #{layout.svg_height}"
-            ].reject(&:empty?).join("; ")
           end
 
           private
@@ -195,24 +165,6 @@ module PublicV2
             }
           end
 
-          def callout(part_id, marker:, start_direction:, first_length:, turn_direction: nil, second_length: 0, text_offset_x: nil, text_offset_y: nil, text_anchor: nil, dominant_baseline: nil)
-            CalloutLayout.new(
-              label: PART_DEFINITIONS.fetch(part_id).label,
-              marker:,
-              start_direction:,
-              turn_direction:,
-              first_length:,
-              second_length:,
-              text_offset_x:,
-              text_offset_y:,
-              text_anchor:,
-              dominant_baseline:,
-              marker_radius: 58,
-              corner_radius: 46,
-              dot_radius: 18
-            )
-          end
-
           def build_guide_layout
             body = Box.new(
               x: layout_config.fetch(:guide_x),
@@ -237,14 +189,16 @@ module PublicV2
               height: layout_config.fetch(:fabric_height),
               rx: layout_config.fetch(:fabric_radius)
             )
-            pleat_count = layout_config.fetch(:pleat_count)
-            pleat_step = body.width / (pleat_count - 1)
 
             PlisseeFabricLayout.new(
               hit: Box.new(x: body.x - 85, y: body.y - 85, width: body.width + 170, height: body.height + 170),
               body:,
               marker: Point.new(x: body.center_x, y: body.y - 175),
-              pleat_xs: Array.new(pleat_count) { |index| body.x + (index * pleat_step) },
+              pleat_xs: FabricGeometry.positions(
+                start: body.x,
+                finish: body.right,
+                count: layout_config.fetch(:pleat_count)
+              ),
               thread_ys: [body.y + 310, body.center_y, body.bottom - 310]
             )
           end

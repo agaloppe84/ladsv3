@@ -3,12 +3,13 @@
 require_relative "../geometry"
 require_relative "../layouts"
 require_relative "../schema"
+require_relative "base"
 
 module PublicV2
   module Products
     module ExplodedView
       module Blueprints
-        class StoreVerticalZippe
+        class StoreVerticalZippe < Base
           TARGET_SLUGS = %w[store-vertical-zippe store-vertical].freeze
           DEFAULT_PART_ORDER = %w[coffre coulisses toile barre-charge motorisation supports].freeze
 
@@ -107,34 +108,10 @@ module PublicV2
             Metric.new(label: "Format POC", value: TECHNICAL_DATA.fetch(:reference_format), note: "reconstruction proportionnelle #{TECHNICAL_DATA.fetch(:max_surface)}")
           ].freeze
 
-          attr_reader :layout_config, :part_order, :theme
-
-          def initialize(layout_overrides: {}, part_order: DEFAULT_PART_ORDER, theme: DEFAULT_THEME)
-            @layout_config = DEFAULT_LAYOUT.merge(layout_overrides)
-            @part_order = part_order.map(&:to_s)
-            @theme = theme
-          end
-
           def render_for?(product_page)
             product = product_page.product
 
             TARGET_SLUGS.include?(product.slug.to_s) || product.name.to_s.match?(/store vertical(?: zipp)?/i)
-          end
-
-          def parts
-            part_order.filter_map { |part_id| PART_DEFINITIONS[part_id] }
-          end
-
-          def metrics
-            METRICS
-          end
-
-          def technical_data
-            TECHNICAL_DATA
-          end
-
-          def layout
-            @layout ||= build_layout
           end
 
           def eyebrow
@@ -151,13 +128,6 @@ module PublicV2
 
           def drawing_component
             PublicV2::Products::ExplodedView::StoreVerticalZippeDrawingComponent
-          end
-
-          def css_style
-            [
-              theme.css_style,
-              "--pv2-exploded-svg-ratio: #{layout.svg_width} / #{layout.svg_height}"
-            ].reject(&:empty?).join("; ")
           end
 
           private
@@ -219,24 +189,6 @@ module PublicV2
             }
           end
 
-          def callout(part_id, marker:, start_direction:, first_length:, turn_direction: nil, second_length: 0, text_offset_x: nil, text_offset_y: nil, text_anchor: nil, dominant_baseline: nil)
-            CalloutLayout.new(
-              label: PART_DEFINITIONS.fetch(part_id).label,
-              marker:,
-              start_direction:,
-              turn_direction:,
-              first_length:,
-              second_length:,
-              text_offset_x:,
-              text_offset_y:,
-              text_anchor:,
-              dominant_baseline:,
-              marker_radius: 58,
-              corner_radius: 46,
-              dot_radius: 18
-            )
-          end
-
           def build_coffre_layout(motor:)
             body = Box.new(
               x: layout_config.fetch(:coffre_x),
@@ -266,8 +218,11 @@ module PublicV2
               height: layout_config.fetch(:fabric_height),
               rx: layout_config.fetch(:fabric_radius)
             )
-            line_step = body.height / (layout_config.fetch(:fabric_line_count) - 1)
-            line_ys = Array.new(layout_config.fetch(:fabric_line_count)) { |index| body.y + (index * line_step) }
+            line_ys = FabricGeometry.positions(
+              start: body.y,
+              finish: body.bottom,
+              count: layout_config.fetch(:fabric_line_count)
+            )
 
             FabricLayout.new(
               hit: Box.new(x: 1_165, y: body.y - 55, width: 5_470, height: body.height + 112),

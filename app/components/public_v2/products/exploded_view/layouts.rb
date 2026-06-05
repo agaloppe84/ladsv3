@@ -130,6 +130,26 @@ module PublicV2
         end
       end
 
+      module FabricGeometry
+        module_function
+
+        def positions(start:, finish:, count:, include_edges: true)
+          raise ArgumentError, "count must be greater than 1" if count.to_i < 2
+
+          step = (finish - start) / (count - 1)
+          range = include_edges ? (0...count) : (1...(count - 1))
+
+          range.map { |index| start + (index * step) }
+        end
+
+        def grid_path(body:, verticals:, horizontals:)
+          [
+            verticals.map { |x| "M#{x} #{body.y}V#{body.bottom}" },
+            horizontals.map { |y| "M#{body.x} #{y}H#{body.right}" }
+          ].flatten.join
+        end
+      end
+
       MotorLayout = Struct.new(:hit, :tube, :tube_cap_width, :head, :marker, keyword_init: true) do
         def tube_cap_path
           cap_right = tube.x + tube_cap_width
@@ -375,10 +395,7 @@ module PublicV2
 
       EnrollableFabricLayout = Struct.new(:hit, :body, :marker, :vertical_lines, :horizontal_lines, :edge_fastener_ys, :edge_fastener_radius, keyword_init: true) do
         def grid_path
-          [
-            vertical_lines.map { |x| "M#{x} #{body.y}V#{body.bottom}" },
-            horizontal_lines.map { |y| "M#{body.x} #{y}H#{body.right}" }
-          ].flatten.join
+          FabricGeometry.grid_path(body:, verticals: vertical_lines, horizontals: horizontal_lines)
         end
 
         def left_fastener_path(y)
