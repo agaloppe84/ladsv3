@@ -84,7 +84,7 @@ module PublicV2
         end
 
         def handle
-          BarGeometry.centered_box(center_x: 3_900, center_y: top + 82, width: 430, height: 48, rx: 18)
+          BarGeometry.centered_box(center_x: 3_900, center_y: top + 85, width: 420, height: 50, rx: 18)
         end
 
         def detail_path
@@ -132,6 +132,16 @@ module PublicV2
       end
 
       PlisseeFabricLayout = Struct.new(:hit, :body, :marker, :pleat_xs, :thread_ys, keyword_init: true) do
+        def surface_path
+          top_points = pleat_points(body.y, 34).each_with_index.map do |point, index|
+            command = index.zero? ? "M" : "L"
+            "#{command}#{point.x} #{point.y}"
+          end
+          bottom_points = pleat_points(body.bottom, -34).reverse.map { |point| "L#{point.x} #{point.y}" }
+
+          "#{top_points.join}#{bottom_points.join}Z"
+        end
+
         def top_pleat_path
           pleat_edge_path(body.y, 34)
         end
@@ -154,12 +164,17 @@ module PublicV2
 
         private
 
-        def pleat_edge_path(origin_y, amplitude)
+        def pleat_points(origin_y, amplitude)
           pleat_xs.each_with_index.map do |x, index|
-            command = index.zero? ? "M" : "L"
-            y = pleat_y(origin_y, amplitude, index)
+            Point.new(x:, y: pleat_y(origin_y, amplitude, index))
+          end
+        end
 
-            "#{command}#{x} #{y}"
+        def pleat_edge_path(origin_y, amplitude)
+          pleat_points(origin_y, amplitude).each_with_index.map do |point, index|
+            command = index.zero? ? "M" : "L"
+
+            "#{command}#{point.x} #{point.y}"
           end.join
         end
 

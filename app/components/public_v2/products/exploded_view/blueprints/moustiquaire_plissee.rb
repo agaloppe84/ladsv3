@@ -28,6 +28,10 @@ module PublicV2
           DEFAULT_LAYOUT = {
             svg_width: 7_800,
             svg_height: 3_720,
+            grid_columns: 64,
+            grid_rows: 30,
+            grid_cell: 120,
+            grid_margin: 60,
             marker_gap: 165,
             guide_x: 1_080,
             guide_y: 470,
@@ -143,8 +147,8 @@ module PublicV2
             callouts = build_callouts(guide:, profiles:, fabric:, handle:, threshold:, lock:, groups:)
 
             PlisseeDrawingLayout.new(
-              svg_width: layout_config.fetch(:svg_width),
-              svg_height: layout_config.fetch(:svg_height),
+              svg_width: canvas_spec.svg_width,
+              svg_height: canvas_spec.svg_height,
               grid: layout_grid,
               groups:,
               guide:,
@@ -178,35 +182,35 @@ module PublicV2
           end
 
           def build_guide_layout
-            body = Box.new(
+            body = layout_box(Box.new(
               x: layout_config.fetch(:guide_x),
               y: layout_config.fetch(:guide_y),
               width: layout_config.fetch(:guide_width),
               height: layout_config.fetch(:guide_height),
               rx: layout_config.fetch(:guide_radius)
-            )
+            ))
 
             PlisseeRailLayout.new(
-              hit: LayoutRules.hit_box(body, inset_x: 120, inset_y: 95),
+              hit: layout_box(LayoutRules.hit_box(body, inset_x: 120, inset_y: 95)),
               body:,
-              marker: CalloutAnchor.outside(body, side: :right, gap: layout_config.fetch(:marker_gap))
+              marker: layout_anchor(body, side: :right, gap: layout_config.fetch(:marker_gap))
             )
           end
 
           def build_fabric_layout(guide:)
-            body = LayoutRules.below(
+            body = layout_box(LayoutRules.below(
               guide.body,
               gap: layout_config.fetch(:gap_guide_fabric),
               x: layout_config.fetch(:fabric_x),
               width: layout_config.fetch(:fabric_width),
               height: layout_config.fetch(:fabric_height),
               rx: layout_config.fetch(:fabric_radius)
-            )
+            ))
 
             PlisseeFabricLayout.new(
-              hit: LayoutRules.hit_box(body, inset_x: 85, inset_y: 85),
+              hit: layout_box(LayoutRules.hit_box(body, inset_x: 85, inset_y: 85)),
               body:,
-              marker: CalloutAnchor.outside(body, side: :top, gap: 175),
+              marker: layout_anchor(body, side: :top, gap: 175),
               pleat_xs: FabricGeometry.vertical_lines(
                 body:,
                 count: layout_config.fetch(:pleat_count)
@@ -218,66 +222,66 @@ module PublicV2
           def build_profile_layout(fabric:)
             height = fabric.body.height + 320
             top = fabric.body.y - 160
-            left = LayoutRules.left_of(
+            left = layout_box(LayoutRules.left_of(
               fabric.body,
               gap: layout_config.fetch(:profile_gap),
               y: top,
               width: layout_config.fetch(:profile_width),
               height:,
               rx: layout_config.fetch(:profile_radius)
-            )
-            right = LayoutRules.right_of(
+            ))
+            right = layout_box(LayoutRules.right_of(
               fabric.body,
               gap: layout_config.fetch(:handle_gap) + layout_config.fetch(:handle_width) + 620,
               y: top,
               width: layout_config.fetch(:profile_width),
               height:,
               rx: layout_config.fetch(:profile_radius)
-            )
+            ))
 
             slot_ys = RailGeometry.distributed_positions(start: top, finish: top + height, count: 4)
 
             PlisseeProfileLayout.new(
-              hit: LayoutRules.hit_box(left, inset_x: 80, inset_y: 75),
+              hit: layout_box(LayoutRules.hit_box(left, inset_x: 80, inset_y: 75)),
               left:,
               right:,
-              marker: CalloutAnchor.outside(left, side: :left, gap: layout_config.fetch(:marker_gap)),
+              marker: layout_anchor(left, side: :left, gap: layout_config.fetch(:marker_gap)),
               slot_ys:
             )
           end
 
           def build_handle_layout(fabric:, profiles:)
-            body = LayoutRules.right_of(
+            body = layout_box(LayoutRules.right_of(
               fabric.body,
               gap: 0,
               y: profiles.left.y + 90,
               width: layout_config.fetch(:handle_width),
               height: profiles.left.height - 180,
               rx: layout_config.fetch(:handle_radius)
-            )
+            ))
 
             PlisseeHandleLayout.new(
-              hit: LayoutRules.hit_box(body, inset_x: 80, inset_y: 85),
+              hit: layout_box(LayoutRules.hit_box(body, inset_x: 80, inset_y: 85)),
               body:,
-              marker: CalloutAnchor.outside(body, side: :right, gap: layout_config.fetch(:marker_gap)),
-              grip: BarGeometry.centered_box(center_x: body.center_x, center_y: body.center_y, width: 86, height: 250, rx: 28)
+              marker: layout_anchor(body, side: :right, gap: layout_config.fetch(:marker_gap)),
+              grip: layout_box(BarGeometry.centered_box(center_x: body.center_x, center_y: body.center_y, width: 86, height: 250, rx: 28))
             )
           end
 
           def build_threshold_layout(guide:, profiles:)
-            body = LayoutRules.below(
+            body = layout_box(LayoutRules.below(
               profiles.left,
               gap: layout_config.fetch(:threshold_gap),
               x: guide.body.x + 160,
               width: guide.body.width - 320,
               height: layout_config.fetch(:threshold_height),
               rx: layout_config.fetch(:threshold_radius)
-            )
+            ))
 
             PlisseeThresholdLayout.new(
-              hit: LayoutRules.hit_box(body, inset_x: 110, inset_y: 90),
+              hit: layout_box(LayoutRules.hit_box(body, inset_x: 110, inset_y: 90)),
               body:,
-              marker: CalloutAnchor.outside(body, side: :right, gap: layout_config.fetch(:marker_gap))
+              marker: layout_anchor(body, side: :right, gap: layout_config.fetch(:marker_gap))
             )
           end
 
@@ -291,8 +295,8 @@ module PublicV2
             ]
 
             PlisseeLockLayout.new(
-              hit: Box.new(x: flat_x - 42, y: handle.body.y - 85, width: 260, height: handle.body.height + 170),
-              marker: Point.new(x: flat_x + 390, y: handle.body.center_y - 230),
+              hit: layout_box(Box.new(x: flat_x - 42, y: handle.body.y - 85, width: 260, height: handle.body.height + 170)),
+              marker: layout_point(Point.new(x: flat_x + 390, y: handle.body.center_y - 230)),
               catches:,
               radius:
             )

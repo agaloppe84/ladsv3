@@ -9153,6 +9153,12 @@
   stroke: transparent;
 }
 
+.public-v2 .pv2-product-exploded__surface {
+  fill: var(--pv2-exploded-bg);
+  stroke: none;
+  vector-effect: non-scaling-stroke;
+}
+
 .public-v2 .pv2-product-exploded__outline,
 .public-v2 .pv2-product-exploded__profile,
 .public-v2 .pv2-product-exploded__detail,

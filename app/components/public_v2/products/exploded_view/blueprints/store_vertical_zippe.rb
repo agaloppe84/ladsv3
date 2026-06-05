@@ -27,7 +27,11 @@ module PublicV2
 
           DEFAULT_LAYOUT = {
             svg_width: 7_800,
-            svg_height: 4_620,
+            svg_height: 4_680,
+            grid_columns: 64,
+            grid_rows: 38,
+            grid_cell: 120,
+            grid_margin: 60,
             drawing_right: 6_550,
             marker_gap: 168,
             motor_head_width: 320,
@@ -136,40 +140,40 @@ module PublicV2
             drawing_right = layout_config.fetch(:drawing_right)
             marker_gap = layout_config.fetch(:marker_gap)
 
-            motor_head = Box.new(
+            motor_head = layout_box(Box.new(
               x: drawing_right - layout_config.fetch(:motor_head_width),
               y: 640,
               width: layout_config.fetch(:motor_head_width),
               height: layout_config.fetch(:motor_head_height),
               rx: layout_config.fetch(:motor_head_radius)
-            )
-            motor_tube = LayoutRules.left_of(
+            ))
+            motor_tube = layout_box(LayoutRules.left_of(
               motor_head,
               gap: 0,
               y: motor_head.y + 40,
               width: motor_head.x - layout_config.fetch(:motor_tube_x),
               height: layout_config.fetch(:motor_tube_height),
               rx: layout_config.fetch(:motor_tube_radius)
-            )
+            ))
             motor = MotorLayout.new(
-              hit: Box.new(x: 4_260, y: motor_head.y - 40, width: 2_580, height: 330),
+              hit: layout_box(Box.new(x: 4_260, y: motor_head.y - 40, width: 2_580, height: 330)),
               tube: motor_tube,
               tube_cap_width: layout_config.fetch(:motor_tube_cap_width),
               head: motor_head,
-              marker: CalloutAnchor.outside(motor_head, side: :right, gap: marker_gap)
+              marker: layout_anchor(motor_head, side: :right, gap: marker_gap)
             )
 
             coffre = build_coffre_layout(motor:)
             fabric = build_fabric_layout(coffre:)
             coulisse = build_coulisse_layout(fabric:)
             barre = build_barre_layout(fabric:)
-            support_marker = Point.new(x: drawing_right + marker_gap, y: 305)
+            support_marker = layout_point(Point.new(x: drawing_right + marker_gap, y: 305))
             groups = build_groups(motor:, coffre:, fabric:, coulisse:, barre:)
             callouts = build_callouts(support_marker:, motor:, coffre:, fabric:, coulisse:, barre:, groups:)
 
             DrawingLayout.new(
-              svg_width: layout_config.fetch(:svg_width),
-              svg_height: layout_config.fetch(:svg_height),
+              svg_width: canvas_spec.svg_width,
+              svg_height: canvas_spec.svg_height,
               grid: layout_grid,
               groups:,
               support_marker:,
@@ -194,7 +198,7 @@ module PublicV2
           end
 
           def build_groups(motor:, coffre:, fabric:, coulisse:, barre:)
-            right_coulisse_hit = LayoutRules.mirror_x(coulisse.hit, canvas_width: layout_config.fetch(:svg_width))
+            right_coulisse_hit = LayoutRules.mirror_x(coulisse.hit, canvas_width: canvas_spec.svg_width)
 
             {
               "motorisation" => LayoutGroup.new(id: "motorisation", boxes: [motor.tube, motor.head]),
@@ -204,41 +208,41 @@ module PublicV2
           end
 
           def build_coffre_layout(motor:)
-            body = LayoutRules.below(
+            body = layout_box(LayoutRules.below(
               motor.head,
               gap: layout_config.fetch(:gap_motor_coffre),
               x: layout_config.fetch(:coffre_x),
               width: layout_config.fetch(:coffre_width),
               height: layout_config.fetch(:coffre_height),
               rx: layout_config.fetch(:coffre_radius)
-            )
+            ))
 
             CoffreLayout.new(
-              hit: HousingGeometry.expanded_box(body, inset_x: 120, inset_y: 75),
+              hit: layout_box(HousingGeometry.expanded_box(body, inset_x: 120, inset_y: 75)),
               body:,
-              marker: CalloutAnchor.outside(body, side: :left, gap: 160),
+              marker: layout_anchor(body, side: :left, gap: 160),
               hole_pairs: HousingGeometry.symmetric_hole_pairs(body, offsets: [488, 712])
             )
           end
 
           def build_fabric_layout(coffre:)
-            body = LayoutRules.below(
+            body = layout_box(LayoutRules.below(
               coffre.body,
               gap: layout_config.fetch(:gap_coffre_fabric),
               x: layout_config.fetch(:fabric_x),
               width: layout_config.fetch(:fabric_width),
               height: layout_config.fetch(:fabric_height),
               rx: layout_config.fetch(:fabric_radius)
-            )
+            ))
             line_ys = FabricGeometry.horizontal_lines(
               body:,
               count: layout_config.fetch(:fabric_line_count)
             )
 
             FabricLayout.new(
-              hit: Box.new(x: 1_165, y: body.y - 55, width: 5_470, height: body.height + 112),
+              hit: layout_box(Box.new(x: 1_165, y: body.y - 55, width: 5_470, height: body.height + 112)),
               body:,
-              marker: CalloutAnchor.outside(body, side: :top, gap: 160),
+              marker: layout_anchor(body, side: :top, gap: 160),
               line_ys:,
               tick_ys: FabricGeometry.every(line_ys, step: 2)
             )
@@ -246,24 +250,24 @@ module PublicV2
 
           def build_coulisse_layout(fabric:)
             top = fabric.body.y - 140
-            bottom = fabric.body.bottom + 92
+            bottom = layout_y(fabric.body.bottom + layout_gap(92))
 
             CoulisseLayout.new(
               top:,
               bottom:,
-              hit: Box.new(x: 470, y: top - 75, width: 300, height: (bottom - top) + 165),
-              marker: Point.new(x: 410, y: top + ((bottom - top) / 2))
+              hit: layout_box(Box.new(x: 470, y: top - 75, width: 300, height: (bottom - top) + 165)),
+              marker: layout_point(Point.new(x: 410, y: top + ((bottom - top) / 2)))
             )
           end
 
           def build_barre_layout(fabric:)
-            top = fabric.body.bottom + layout_config.fetch(:gap_fabric_barre)
+            top = layout_y(fabric.body.bottom + layout_gap(layout_config.fetch(:gap_fabric_barre)))
 
             BarreLayout.new(
-              hit: Box.new(x: 1_035, y: top - 85, width: 5_740, height: 265),
+              hit: layout_box(Box.new(x: 1_035, y: top - 85, width: 5_740, height: 265)),
               top:,
-              height: 178,
-              marker: Point.new(x: 6_900, y: top + 90)
+              height: layout_size(178),
+              marker: layout_point(Point.new(x: 6_900, y: top + 90))
             )
           end
         end

@@ -29,7 +29,11 @@ module PublicV2
 
           DEFAULT_LAYOUT = {
             svg_width: 7_800,
-            svg_height: 4_250,
+            svg_height: 4_320,
+            grid_columns: 64,
+            grid_rows: 35,
+            grid_cell: 120,
+            grid_margin: 60,
             marker_gap: 168,
             cassette_x: 980,
             cassette_y: 520,
@@ -149,8 +153,8 @@ module PublicV2
             callouts = build_callouts(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:, groups:)
 
             EnrollableDrawingLayout.new(
-              svg_width: layout_config.fetch(:svg_width),
-              svg_height: layout_config.fetch(:svg_height),
+              svg_width: canvas_spec.svg_width,
+              svg_height: canvas_spec.svg_height,
               grid: layout_grid,
               groups:,
               cassette:,
@@ -184,38 +188,38 @@ module PublicV2
           end
 
           def build_cassette_layout
-            body = Box.new(
+            body = layout_box(Box.new(
               x: layout_config.fetch(:cassette_x),
               y: layout_config.fetch(:cassette_y),
               width: layout_config.fetch(:cassette_width),
               height: layout_config.fetch(:cassette_height),
               rx: layout_config.fetch(:cassette_radius)
-            )
+            ))
 
             EnrollableCassetteLayout.new(
-              hit: HousingGeometry.expanded_box(body, inset_x: 100, inset_y: 85),
+              hit: layout_box(HousingGeometry.expanded_box(body, inset_x: 100, inset_y: 85)),
               body:,
-              roll: HousingGeometry.inset_box(
+              roll: layout_box(HousingGeometry.inset_box(
                 body,
                 inset_x: layout_config.fetch(:roll_inset_x),
                 y_offset: layout_config.fetch(:roll_y_offset),
                 height: layout_config.fetch(:roll_height),
                 rx: layout_config.fetch(:roll_radius)
-              ),
-              marker: CalloutAnchor.outside(body, side: :right, gap: layout_config.fetch(:marker_gap)),
+              )),
+              marker: layout_anchor(body, side: :right, gap: layout_config.fetch(:marker_gap)),
               screw_points: HousingGeometry.centered_screw_points(body, side_inset: 690)
             )
           end
 
           def build_fabric_layout(cassette:)
-            body = LayoutRules.below(
+            body = layout_box(LayoutRules.below(
               cassette.body,
               gap: layout_config.fetch(:gap_cassette_fabric),
               x: layout_config.fetch(:fabric_x),
               width: layout_config.fetch(:fabric_width),
               height: layout_config.fetch(:fabric_height),
               rx: layout_config.fetch(:fabric_radius)
-            )
+            ))
             grid = FabricGeometry.grid(
               body:,
               vertical_count: layout_config.fetch(:fabric_vertical_count),
@@ -230,9 +234,9 @@ module PublicV2
             )
 
             EnrollableFabricLayout.new(
-              hit: LayoutRules.hit_box(body, inset_x: 90, inset_y: 75),
+              hit: layout_box(LayoutRules.hit_box(body, inset_x: 90, inset_y: 75)),
               body:,
-              marker: CalloutAnchor.outside(body, side: :top, gap: 170),
+              marker: layout_anchor(body, side: :top, gap: 170),
               grid:,
               edge_fastener_ys:,
               edge_fastener_radius: 22
@@ -242,54 +246,54 @@ module PublicV2
           def build_rail_layout(fabric:)
             top = fabric.body.y - layout_config.fetch(:rail_extra_top)
             height = fabric.body.height + layout_config.fetch(:rail_extra_top) + layout_config.fetch(:rail_extra_bottom)
-            left = LayoutRules.left_of(
+            left = layout_box(LayoutRules.left_of(
               fabric.body,
               gap: layout_config.fetch(:rail_gap),
               y: top,
               width: layout_config.fetch(:rail_width),
               height:,
               rx: layout_config.fetch(:rail_radius)
-            )
-            right = LayoutRules.right_of(
+            ))
+            right = layout_box(LayoutRules.right_of(
               fabric.body,
               gap: layout_config.fetch(:rail_gap),
               y: top,
               width: layout_config.fetch(:rail_width),
               height:,
               rx: layout_config.fetch(:rail_radius)
-            )
+            ))
             EnrollableRailPairLayout.new(
-              hit: LayoutRules.hit_box(left, inset_x: 80, inset_y: 75),
+              hit: layout_box(LayoutRules.hit_box(left, inset_x: 80, inset_y: 75)),
               left:,
               right:,
-              marker: CalloutAnchor.outside(left, side: :left, gap: layout_config.fetch(:marker_gap)),
+              marker: layout_anchor(left, side: :left, gap: layout_config.fetch(:marker_gap)),
               slot_ys: RailGeometry.distributed_positions(start: left.y, finish: left.bottom, count: 5)
             )
           end
 
           def build_bottom_bar_layout(fabric:)
-            body = LayoutRules.below(
+            body = layout_box(LayoutRules.below(
               fabric.body,
               gap: layout_config.fetch(:bottom_bar_gap),
               x: fabric.body.x - 130,
               width: fabric.body.width + 260,
               height: layout_config.fetch(:bottom_bar_height),
               rx: layout_config.fetch(:bottom_bar_radius)
-            )
+            ))
 
             EnrollableBottomBarLayout.new(
-              hit: LayoutRules.hit_box(body, inset_x: 100, inset_y: 80),
+              hit: layout_box(LayoutRules.hit_box(body, inset_x: 100, inset_y: 80)),
               body:,
-              marker: CalloutAnchor.outside(body, side: :right, gap: layout_config.fetch(:marker_gap)),
-              grip: BarGeometry.centered_box(center_x: body.center_x, center_y: body.center_y, width: 340, height: 60, rx: 18),
+              marker: layout_anchor(body, side: :right, gap: layout_config.fetch(:marker_gap)),
+              grip: layout_box(BarGeometry.centered_box(center_x: body.center_x, center_y: body.center_y, width: 340, height: 60, rx: 18)),
               magnet_points: BarGeometry.side_center_points(body, inset_x: 610)
             )
           end
 
           def build_lock_layout(bottom_bar:)
             EnrollableLockLayout.new(
-              hit: Box.new(x: bottom_bar.body.x + 360, y: bottom_bar.body.bottom - 40, width: bottom_bar.body.width - 720, height: 330),
-              marker: Point.new(x: bottom_bar.body.center_x, y: bottom_bar.body.bottom + 285),
+              hit: layout_box(Box.new(x: bottom_bar.body.x + 360, y: bottom_bar.body.bottom - 40, width: bottom_bar.body.width - 720, height: 330)),
+              marker: layout_point(Point.new(x: bottom_bar.body.center_x, y: bottom_bar.body.bottom + 285)),
               receiver_points: BarGeometry.translate_points(bottom_bar.magnet_points, y: bottom_bar.body.bottom + 118),
               radius: 42
             )
@@ -299,26 +303,26 @@ module PublicV2
             inset_width = 52
             inset_height = 142
             bottom_gap = 56
-            left = LayoutRules.inside_bottom_centered(
+            left = layout_box(LayoutRules.inside_bottom_centered(
               rails.left,
               width: inset_width,
               height: inset_height,
               bottom_gap:,
               rx: 18
-            )
-            right = LayoutRules.inside_bottom_centered(
+            ))
+            right = layout_box(LayoutRules.inside_bottom_centered(
               rails.right,
               width: inset_width,
               height: inset_height,
               bottom_gap:,
               rx: 18
-            )
+            ))
 
             EnrollableBavetteLayout.new(
-              hit: LayoutRules.hit_box(right, inset_x: 70, inset_y: 70),
+              hit: layout_box(LayoutRules.hit_box(right, inset_x: 70, inset_y: 70)),
               left:,
               right:,
-              marker: Point.new(x: rails.right.right + layout_config.fetch(:marker_gap), y: right.center_y)
+              marker: layout_point(Point.new(x: rails.right.right + layout_config.fetch(:marker_gap), y: right.center_y))
             )
           end
         end

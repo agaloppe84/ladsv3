@@ -7,6 +7,14 @@ module PublicV2
   module Products
     module ExplodedView
       CanvasGrid = Struct.new(:frame, :minor_step, :major_step, keyword_init: true) do
+        def columns
+          frame.width / minor_step
+        end
+
+        def rows
+          frame.height / minor_step
+        end
+
         def minor_path
           path_for(step: minor_step)
         end
@@ -40,6 +48,143 @@ module PublicV2
 
         def format_number(value)
           value.to_i == value ? value.to_i : value.round(2)
+        end
+      end
+
+      class CanvasSpec
+        DEFAULT_CELL = 120
+        DEFAULT_MARGIN = 60
+        DEFAULT_MAJOR_EVERY = 4
+        DEFAULT_RADIUS = 118
+        DEFAULT_SNAP_UNIT = 10
+
+        attr_reader :columns, :rows, :cell, :margin, :major_every, :radius, :snap_unit
+
+        def initialize(
+          columns:,
+          rows:,
+          cell: DEFAULT_CELL,
+          margin: DEFAULT_MARGIN,
+          major_every: DEFAULT_MAJOR_EVERY,
+          radius: DEFAULT_RADIUS,
+          snap_unit: DEFAULT_SNAP_UNIT
+        )
+          @columns = columns
+          @rows = rows
+          @cell = cell || DEFAULT_CELL
+          @margin = margin || DEFAULT_MARGIN
+          @major_every = major_every || DEFAULT_MAJOR_EVERY
+          @radius = radius || DEFAULT_RADIUS
+          @snap_unit = snap_unit || DEFAULT_SNAP_UNIT
+        end
+
+        def svg_width
+          grid_width + (margin * 2)
+        end
+
+        def svg_height
+          grid_height + (margin * 2)
+        end
+
+        def grid_width
+          columns * cell
+        end
+
+        def grid_height
+          rows * cell
+        end
+
+        def frame
+          Box.new(
+            x: margin,
+            y: margin,
+            width: columns * cell,
+            height: rows * cell,
+            rx: radius
+          )
+        end
+
+        def grid
+          CanvasGrid.new(
+            frame:,
+            minor_step: cell,
+            major_step: cell * major_every
+          )
+        end
+
+        def cell_x(column, offset: 0)
+          margin + (column * cell) + offset
+        end
+
+        def cell_y(row, offset: 0)
+          margin + (row * cell) + offset
+        end
+
+        def unit_x(index, offset: 0)
+          margin + (index * snap_unit) + offset
+        end
+
+        def unit_y(index, offset: 0)
+          margin + (index * snap_unit) + offset
+        end
+
+        def point(column:, row:, offset_x: 0, offset_y: 0)
+          Point.new(x: cell_x(column, offset: offset_x), y: cell_y(row, offset: offset_y))
+        end
+
+        def box(column:, row:, columns:, rows:, rx: nil, inset_x: 0, inset_y: 0)
+          Box.new(
+            x: cell_x(column, offset: inset_x),
+            y: cell_y(row, offset: inset_y),
+            width: (columns * cell) - (inset_x * 2),
+            height: (rows * cell) - (inset_y * 2),
+            rx:
+          )
+        end
+
+        def snap_x(value, step: snap_unit)
+          snap(value, step:, origin: margin)
+        end
+
+        def snap_y(value, step: snap_unit)
+          snap(value, step:, origin: margin)
+        end
+
+        def snap_length(value, step: snap_unit)
+          snap(value, step:, origin: 0)
+        end
+
+        def snap_point(point, step: snap_unit)
+          Point.new(x: snap_x(point.x, step:), y: snap_y(point.y, step:))
+        end
+
+        def snap_box(box, position_step: snap_unit, size_step: snap_unit, preserve_size: true)
+          Box.new(
+            x: snap_x(box.x, step: position_step),
+            y: snap_y(box.y, step: position_step),
+            width: preserve_size ? box.width : snap_length(box.width, step: size_step),
+            height: preserve_size ? box.height : snap_length(box.height, step: size_step),
+            rx: box.rx
+          )
+        end
+
+        def aligned_position?(point, step: snap_unit)
+          point.x == snap_x(point.x, step:) && point.y == snap_y(point.y, step:)
+        end
+
+        def aligned_box?(box, position_step: snap_unit, size_step: snap_unit, include_size: false)
+          position_aligned = aligned_position?(Point.new(x: box.x, y: box.y), step: position_step)
+          return position_aligned unless include_size
+
+          position_aligned &&
+            box.width == snap_length(box.width, step: size_step) &&
+            box.height == snap_length(box.height, step: size_step)
+        end
+
+        private
+
+        def snap(value, step:, origin:)
+          origin + (((value - origin).to_f / step).round * step)
         end
       end
 

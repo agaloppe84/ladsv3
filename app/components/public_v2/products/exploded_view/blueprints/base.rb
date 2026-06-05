@@ -90,21 +90,55 @@ module PublicV2
             )
           end
 
-          def layout_grid
-            margin_x = layout_config.fetch(:grid_margin_x, 260)
-            margin_y = layout_config.fetch(:grid_margin_y, 180)
+          def canvas_spec
+            @canvas_spec ||= begin
+              cell = layout_config.fetch(:grid_cell, CanvasSpec::DEFAULT_CELL)
+              margin = layout_config.fetch(:grid_margin, CanvasSpec::DEFAULT_MARGIN)
+              columns = layout_config.fetch(:grid_columns) do
+                (layout_config.fetch(:svg_width) - (margin * 2)) / cell
+              end
+              rows = layout_config.fetch(:grid_rows) do
+                (layout_config.fetch(:svg_height) - (margin * 2)) / cell
+              end
 
-            CanvasGrid.new(
-              frame: Box.new(
-                x: margin_x,
-                y: margin_y,
-                width: layout_config.fetch(:svg_width) - (margin_x * 2),
-                height: layout_config.fetch(:svg_height) - (margin_y * 2),
-                rx: layout_config.fetch(:grid_radius, 118)
-              ),
-              minor_step: layout_config.fetch(:grid_minor_step, 120),
-              major_step: layout_config.fetch(:grid_major_step, 480)
-            )
+              CanvasSpec.new(
+                columns:,
+                rows:,
+                cell:,
+                margin:,
+                major_every: layout_config.fetch(:grid_major_every, CanvasSpec::DEFAULT_MAJOR_EVERY),
+                radius: layout_config.fetch(:grid_radius, CanvasSpec::DEFAULT_RADIUS),
+                snap_unit: layout_config.fetch(:grid_snap_unit, CanvasSpec::DEFAULT_SNAP_UNIT)
+              )
+            end
+          end
+
+          def layout_grid
+            canvas_spec.grid
+          end
+
+          def layout_box(box, preserve_size: false)
+            canvas_spec.snap_box(box, preserve_size:)
+          end
+
+          def layout_size(value)
+            canvas_spec.snap_length(value)
+          end
+
+          def layout_gap(value)
+            layout_size(value)
+          end
+
+          def layout_y(value)
+            canvas_spec.snap_y(value)
+          end
+
+          def layout_point(point)
+            canvas_spec.snap_point(point)
+          end
+
+          def layout_anchor(box, side:, gap:)
+            layout_point(CalloutAnchor.outside(box, side:, gap:))
           end
         end
       end

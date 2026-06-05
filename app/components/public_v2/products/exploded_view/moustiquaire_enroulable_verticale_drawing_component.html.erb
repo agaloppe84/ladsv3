@@ -18,7 +18,9 @@
     aria-pressed="<%= aria_pressed("caisson") %>"
     aria-label="Caisson KISS 50">
     <rect x="<%= layout.cassette.hit.x %>" y="<%= layout.cassette.hit.y %>" width="<%= layout.cassette.hit.width %>" height="<%= layout.cassette.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <%= surface_path(layout.cassette.outline_path) %>
     <path d="<%= layout.cassette.outline_path %>" class="pv2-product-exploded__outline" />
+    <%= surface_path(layout.cassette.roll_path) %>
     <path d="<%= layout.cassette.roll_path %>" class="pv2-product-exploded__profile" />
     <% layout.cassette.screw_points.each do |point| %>
       <circle cx="<%= point.x %>" cy="<%= point.y %>" r="22" class="pv2-product-exploded__fill" />
@@ -40,6 +42,7 @@
     aria-pressed="<%= aria_pressed("double-coulisse") %>"
     aria-label="Double coulisse gauche">
     <rect x="<%= layout.rails.hit.x %>" y="<%= layout.rails.hit.y %>" width="<%= layout.rails.hit.width %>" height="<%= layout.rails.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <%= surface_path(layout.rails.outline_path(layout.rails.left)) %>
     <path d="<%= layout.rails.outline_path(layout.rails.left) %>" class="pv2-product-exploded__outline" />
     <path d="<%= layout.rails.inner_path(layout.rails.left) %>" class="pv2-product-exploded__profile" />
     <% layout.rails.slot_ys.each do |y| %>
@@ -62,6 +65,7 @@
     aria-pressed="<%= aria_pressed("double-coulisse") %>"
     aria-label="Double coulisse droite">
     <rect x="<%= layout.rails.right.x - 80 %>" y="<%= layout.rails.hit.y %>" width="<%= layout.rails.hit.width %>" height="<%= layout.rails.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <%= surface_path(layout.rails.outline_path(layout.rails.right)) %>
     <path d="<%= layout.rails.outline_path(layout.rails.right) %>" class="pv2-product-exploded__outline" />
     <path d="<%= layout.rails.inner_path(layout.rails.right) %>" class="pv2-product-exploded__profile" />
     <% layout.rails.slot_ys.each do |y| %>
@@ -79,6 +83,7 @@
     aria-pressed="<%= aria_pressed("toile-bordee") %>"
     aria-label="Toile bordée">
     <rect x="<%= layout.fabric.hit.x %>" y="<%= layout.fabric.hit.y %>" width="<%= layout.fabric.hit.width %>" height="<%= layout.fabric.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <%= surface_rect(layout.fabric.body) %>
     <path d="<%= layout.fabric.grid_path %>" class="pv2-product-exploded__fabric-grid" shape-rendering="crispEdges" />
     <rect x="<%= layout.fabric.body.x %>" y="<%= layout.fabric.body.y %>" width="<%= layout.fabric.body.width %>" height="<%= layout.fabric.body.height %>" rx="<%= layout.fabric.body.rx %>" class="pv2-product-exploded__outline" />
     <% layout.fabric.edge_fastener_ys.each do |y| %>
@@ -102,6 +107,7 @@
     aria-pressed="<%= aria_pressed("barre-charge") %>"
     aria-label="Barre de charge">
     <rect x="<%= layout.bottom_bar.hit.x %>" y="<%= layout.bottom_bar.hit.y %>" width="<%= layout.bottom_bar.hit.width %>" height="<%= layout.bottom_bar.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <%= surface_rect(layout.bottom_bar.body) %>
     <rect x="<%= layout.bottom_bar.body.x %>" y="<%= layout.bottom_bar.body.y %>" width="<%= layout.bottom_bar.body.width %>" height="<%= layout.bottom_bar.body.height %>" rx="<%= layout.bottom_bar.body.rx %>" class="pv2-product-exploded__outline" />
     <path d="<%= layout.bottom_bar.detail_path %>" class="pv2-product-exploded__detail" />
     <rect x="<%= layout.bottom_bar.grip.x %>" y="<%= layout.bottom_bar.grip.y %>" width="<%= layout.bottom_bar.grip.width %>" height="<%= layout.bottom_bar.grip.height %>" rx="<%= layout.bottom_bar.grip.rx %>" class="pv2-product-exploded__fill" />

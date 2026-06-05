@@ -100,6 +100,21 @@ module PublicV2
             )
           end
         end
+
+        def surface_rect(box)
+          tag.rect(
+            x: box.x,
+            y: box.y,
+            width: box.width,
+            height: box.height,
+            rx: box.rx,
+            class: "pv2-product-exploded__surface"
+          )
+        end
+
+        def surface_path(path)
+          tag.path(d: path, class: "pv2-product-exploded__surface")
+        end
       end
     end
   end
