@@ -38,6 +38,150 @@ module PublicV2
           points.map { |point| Point.new(x: point.x, y:) }
         end
       end
+
+      class BarElement
+        VARIANTS = %i[zipped_load_bar vertical_handle threshold bottom_bar].freeze
+
+        attr_reader(
+          :variant,
+          :hit,
+          :body,
+          :top,
+          :height,
+          :marker,
+          :grip,
+          :magnet_points,
+          :detail_inset_x,
+          :tick_inset_x,
+          :tick_inset_y
+        )
+
+        def self.zipped_load_bar(hit:, top:, height:, marker:)
+          new(
+            variant: :zipped_load_bar,
+            hit:,
+            top:,
+            height:,
+            marker:
+          )
+        end
+
+        def self.vertical_handle(hit:, body:, marker:, grip:)
+          new(
+            variant: :vertical_handle,
+            hit:,
+            body:,
+            marker:,
+            grip:
+          )
+        end
+
+        def self.threshold(hit:, body:, marker:, detail_inset_x: 180, tick_inset_x: 520, tick_inset_y: 24)
+          new(
+            variant: :threshold,
+            hit:,
+            body:,
+            marker:,
+            detail_inset_x:,
+            tick_inset_x:,
+            tick_inset_y:
+          )
+        end
+
+        def self.bottom_bar(hit:, body:, marker:, grip:, magnet_points:, detail_inset_x: 190)
+          new(
+            variant: :bottom_bar,
+            hit:,
+            body:,
+            marker:,
+            grip:,
+            magnet_points:,
+            detail_inset_x:
+          )
+        end
+
+        def initialize(
+          variant:,
+          hit:,
+          marker:,
+          body: nil,
+          top: nil,
+          height: nil,
+          grip: nil,
+          magnet_points: [],
+          detail_inset_x: nil,
+          tick_inset_x: nil,
+          tick_inset_y: nil
+        )
+          @variant = variant.to_sym
+          raise ArgumentError, "Unknown bar variant: #{variant}" unless VARIANTS.include?(@variant)
+
+          @hit = hit
+          @body = body
+          @top = top
+          @height = height
+          @marker = marker
+          @grip = grip
+          @magnet_points = magnet_points
+          @detail_inset_x = detail_inset_x
+          @tick_inset_x = tick_inset_x
+          @tick_inset_y = tick_inset_y
+        end
+
+        def bottom
+          return top + height if top && height
+
+          require_option(:body).bottom
+        end
+
+        def outline_path
+          require_variant(:zipped_load_bar, "outline_path")
+
+          "M1165 #{top}H6635Q6685 #{top} 6710 #{top + 48}" \
+            "L6740 #{top + 108}Q6762 #{top + 154} 6718 #{bottom}" \
+            "H1082Q1038 #{bottom} 1060 #{top + 108}" \
+            "L1090 #{top + 48}Q1115 #{top} 1165 #{top}Z"
+        end
+
+        def handle
+          require_variant(:zipped_load_bar, "handle")
+
+          BarGeometry.centered_box(center_x: 3_900, center_y: top + 85, width: 420, height: 50, rx: 18)
+        end
+
+        def detail_path
+          case variant
+          when :zipped_load_bar
+            "M1260 #{top}V#{bottom}M6540 #{top}V#{bottom}M1430 #{top + 50}V#{top + 136}M6370 #{top + 50}V#{top + 136}"
+          when :threshold
+            BarGeometry.threshold_detail_path(
+              body,
+              line_inset_x: require_option(:detail_inset_x),
+              tick_inset_x: require_option(:tick_inset_x),
+              tick_inset_y: require_option(:tick_inset_y)
+            )
+          when :bottom_bar
+            BarGeometry.horizontal_center_line(body, inset_x: require_option(:detail_inset_x))
+          else
+            raise ArgumentError, "#{variant} bar does not define detail_path"
+          end
+        end
+
+        private
+
+        def require_option(name)
+          value = public_send(name)
+          raise ArgumentError, "#{variant} bar requires #{name}" if value.nil?
+
+          value
+        end
+
+        def require_variant(expected_variant, method_name)
+          return if variant == expected_variant
+
+          raise ArgumentError, "#{variant} bar does not define #{method_name}"
+        end
+      end
     end
   end
 end

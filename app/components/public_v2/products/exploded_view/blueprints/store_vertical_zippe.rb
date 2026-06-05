@@ -155,7 +155,7 @@ module PublicV2
               height: layout_config.fetch(:motor_tube_height),
               rx: layout_config.fetch(:motor_tube_radius)
             ))
-            motor = MotorLayout.new(
+            motor = MotorElement.tubular(
               hit: layout_box(Box.new(x: 4_260, y: motor_head.y - 40, width: 2_580, height: 330)),
               tube: motor_tube,
               tube_cap_width: layout_config.fetch(:motor_tube_cap_width),
@@ -217,7 +217,7 @@ module PublicV2
               rx: layout_config.fetch(:coffre_radius)
             ))
 
-            CoffreLayout.new(
+            HousingElement.zipped_coffre(
               hit: layout_box(HousingGeometry.expanded_box(body, inset_x: 120, inset_y: 75)),
               body:,
               marker: layout_anchor(body, side: :left, gap: 160),
@@ -234,17 +234,12 @@ module PublicV2
               height: layout_config.fetch(:fabric_height),
               rx: layout_config.fetch(:fabric_radius)
             ))
-            line_ys = FabricGeometry.horizontal_lines(
-              body:,
-              count: layout_config.fetch(:fabric_line_count)
-            )
-
-            FabricLayout.new(
+            FabricElement.zipped(
               hit: layout_box(Box.new(x: 1_165, y: body.y - 55, width: 5_470, height: body.height + 112)),
               body:,
               marker: layout_anchor(body, side: :top, gap: 160),
-              line_ys:,
-              tick_ys: FabricGeometry.every(line_ys, step: 2)
+              line_count: layout_config.fetch(:fabric_line_count),
+              tick_step: 2
             )
           end
 
@@ -252,7 +247,7 @@ module PublicV2
             top = fabric.body.y - 140
             bottom = layout_y(fabric.body.bottom + layout_gap(92))
 
-            CoulisseLayout.new(
+            RailElement.zipped_coulisse(
               top:,
               bottom:,
               hit: layout_box(Box.new(x: 470, y: top - 75, width: 300, height: (bottom - top) + 165)),
@@ -263,7 +258,7 @@ module PublicV2
           def build_barre_layout(fabric:)
             top = layout_y(fabric.body.bottom + layout_gap(layout_config.fetch(:gap_fabric_barre)))
 
-            BarreLayout.new(
+            BarElement.zipped_load_bar(
               hit: layout_box(Box.new(x: 1_035, y: top - 85, width: 5_740, height: 265)),
               top:,
               height: layout_size(178),

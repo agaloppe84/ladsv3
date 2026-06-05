@@ -190,7 +190,7 @@ module PublicV2
               rx: layout_config.fetch(:guide_radius)
             ))
 
-            PlisseeRailLayout.new(
+            RailElement.horizontal_guide(
               hit: layout_box(LayoutRules.hit_box(body, inset_x: 120, inset_y: 95)),
               body:,
               marker: layout_anchor(body, side: :right, gap: layout_config.fetch(:marker_gap))
@@ -207,15 +207,12 @@ module PublicV2
               rx: layout_config.fetch(:fabric_radius)
             ))
 
-            PlisseeFabricLayout.new(
+            FabricElement.pleated(
               hit: layout_box(LayoutRules.hit_box(body, inset_x: 85, inset_y: 85)),
               body:,
               marker: layout_anchor(body, side: :top, gap: 175),
-              pleat_xs: FabricGeometry.vertical_lines(
-                body:,
-                count: layout_config.fetch(:pleat_count)
-              ),
-              thread_ys: [body.y + 310, body.center_y, body.bottom - 310]
+              pleat_count: layout_config.fetch(:pleat_count),
+              thread_offsets: [310, :center, -310]
             )
           end
 
@@ -241,12 +238,15 @@ module PublicV2
 
             slot_ys = RailGeometry.distributed_positions(start: top, finish: top + height, count: 4)
 
-            PlisseeProfileLayout.new(
+            RailElement.vertical_pair(
               hit: layout_box(LayoutRules.hit_box(left, inset_x: 80, inset_y: 75)),
               left:,
               right:,
               marker: layout_anchor(left, side: :left, gap: layout_config.fetch(:marker_gap)),
-              slot_ys:
+              slot_ys:,
+              inner_inset_x: 74,
+              inner_top_inset: 90,
+              inner_bottom_inset: 90
             )
           end
 
@@ -260,7 +260,7 @@ module PublicV2
               rx: layout_config.fetch(:handle_radius)
             ))
 
-            PlisseeHandleLayout.new(
+            BarElement.vertical_handle(
               hit: layout_box(LayoutRules.hit_box(body, inset_x: 80, inset_y: 85)),
               body:,
               marker: layout_anchor(body, side: :right, gap: layout_config.fetch(:marker_gap)),
@@ -278,7 +278,7 @@ module PublicV2
               rx: layout_config.fetch(:threshold_radius)
             ))
 
-            PlisseeThresholdLayout.new(
+            BarElement.threshold(
               hit: layout_box(LayoutRules.hit_box(body, inset_x: 110, inset_y: 90)),
               body:,
               marker: layout_anchor(body, side: :right, gap: layout_config.fetch(:marker_gap))
@@ -294,7 +294,7 @@ module PublicV2
               Point.new(x: flat_x, y: handle.body.bottom - catch_step)
             ]
 
-            PlisseeLockLayout.new(
+            ClosureElement.plissee_lock(
               hit: layout_box(Box.new(x: flat_x - 42, y: handle.body.y - 85, width: 260, height: handle.body.height + 170)),
               marker: layout_point(Point.new(x: flat_x + 390, y: handle.body.center_y - 230)),
               catches:,

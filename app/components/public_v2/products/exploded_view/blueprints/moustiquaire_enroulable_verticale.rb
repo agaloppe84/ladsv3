@@ -196,7 +196,7 @@ module PublicV2
               rx: layout_config.fetch(:cassette_radius)
             ))
 
-            EnrollableCassetteLayout.new(
+            HousingElement.cassette(
               hit: layout_box(HousingGeometry.expanded_box(body, inset_x: 100, inset_y: 85)),
               body:,
               roll: layout_box(HousingGeometry.inset_box(
@@ -220,25 +220,13 @@ module PublicV2
               height: layout_config.fetch(:fabric_height),
               rx: layout_config.fetch(:fabric_radius)
             ))
-            grid = FabricGeometry.grid(
-              body:,
-              vertical_count: layout_config.fetch(:fabric_vertical_count),
-              horizontal_count: layout_config.fetch(:fabric_horizontal_count),
-              include_edges: false
-            )
-            edge_fastener_ys = FabricGeometry.indexed_positions(
-              start: body.y,
-              finish: body.bottom,
-              count: layout_config.fetch(:fabric_horizontal_count),
-              indexes: [6, 10, 14, 18]
-            )
-
-            EnrollableFabricLayout.new(
+            FabricElement.bordered_grid(
               hit: layout_box(LayoutRules.hit_box(body, inset_x: 90, inset_y: 75)),
               body:,
               marker: layout_anchor(body, side: :top, gap: 170),
-              grid:,
-              edge_fastener_ys:,
+              vertical_count: layout_config.fetch(:fabric_vertical_count),
+              horizontal_count: layout_config.fetch(:fabric_horizontal_count),
+              edge_fastener_indexes: [6, 10, 14, 18],
               edge_fastener_radius: 22
             )
           end
@@ -262,12 +250,13 @@ module PublicV2
               height:,
               rx: layout_config.fetch(:rail_radius)
             ))
-            EnrollableRailPairLayout.new(
+            RailElement.vertical_pair(
               hit: layout_box(LayoutRules.hit_box(left, inset_x: 80, inset_y: 75)),
               left:,
               right:,
               marker: layout_anchor(left, side: :left, gap: layout_config.fetch(:marker_gap)),
-              slot_ys: RailGeometry.distributed_positions(start: left.y, finish: left.bottom, count: 5)
+              slot_ys: RailGeometry.distributed_positions(start: left.y, finish: left.bottom, count: 5),
+              inner_inset_x: 68
             )
           end
 
@@ -281,7 +270,7 @@ module PublicV2
               rx: layout_config.fetch(:bottom_bar_radius)
             ))
 
-            EnrollableBottomBarLayout.new(
+            BarElement.bottom_bar(
               hit: layout_box(LayoutRules.hit_box(body, inset_x: 100, inset_y: 80)),
               body:,
               marker: layout_anchor(body, side: :right, gap: layout_config.fetch(:marker_gap)),
@@ -291,7 +280,7 @@ module PublicV2
           end
 
           def build_lock_layout(bottom_bar:)
-            EnrollableLockLayout.new(
+            ClosureElement.magnetic_receivers(
               hit: layout_box(Box.new(x: bottom_bar.body.x + 360, y: bottom_bar.body.bottom - 40, width: bottom_bar.body.width - 720, height: 330)),
               marker: layout_point(Point.new(x: bottom_bar.body.center_x, y: bottom_bar.body.bottom + 285)),
               receiver_points: BarGeometry.translate_points(bottom_bar.magnet_points, y: bottom_bar.body.bottom + 118),
@@ -318,7 +307,7 @@ module PublicV2
               rx: 18
             ))
 
-            EnrollableBavetteLayout.new(
+            ClosureElement.rail_bavettes(
               hit: layout_box(LayoutRules.hit_box(right, inset_x: 70, inset_y: 70)),
               left:,
               right:,
