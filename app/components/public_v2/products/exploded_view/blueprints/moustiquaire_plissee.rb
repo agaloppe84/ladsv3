@@ -156,12 +156,12 @@ module PublicV2
 
           def build_callouts(guide:, profiles:, fabric:, handle:, threshold:, lock:)
             {
-              "guide-haut" => callout("guide-haut", marker: guide.marker, start_direction: :up, turn_direction: :left, first_length: 250, second_length: 430, text_offset_x: -72, text_anchor: "end"),
-              "profils-muraux" => callout("profils-muraux", marker: profiles.marker, start_direction: :left, turn_direction: :down, first_length: 310, second_length: 180),
-              "toile-plissee" => callout("toile-plissee", marker: fabric.marker, start_direction: :right, first_length: 430),
-              "barre-poignee" => callout("barre-poignee", marker: handle.marker, start_direction: :up, turn_direction: :left, first_length: 230, second_length: 330, text_offset_x: -72, text_anchor: "end"),
-              "seuil-bas" => callout("seuil-bas", marker: threshold.marker, start_direction: :down, turn_direction: :left, first_length: 230, second_length: 430, text_offset_x: -72, text_anchor: "end"),
-              "verrouillage" => callout("verrouillage", marker: lock.marker, start_direction: :right, turn_direction: :up, first_length: 290, second_length: 170)
+              "guide-haut" => callout("guide-haut", marker: guide.marker, route: :up_left, first_length: 250, second_length: 430, text_offset_x: -72, text_anchor: "end"),
+              "profils-muraux" => callout("profils-muraux", marker: profiles.marker, route: :left_down, first_length: 310, second_length: 180),
+              "toile-plissee" => callout("toile-plissee", marker: fabric.marker, route: :right, first_length: 430),
+              "barre-poignee" => callout("barre-poignee", marker: handle.marker, route: :up_left, first_length: 230, second_length: 330, text_offset_x: -72, text_anchor: "end"),
+              "seuil-bas" => callout("seuil-bas", marker: threshold.marker, route: :down_left, first_length: 230, second_length: 430, text_offset_x: -72, text_anchor: "end"),
+              "verrouillage" => callout("verrouillage", marker: lock.marker, route: :right_up, first_length: 290, second_length: 170)
             }
           end
 
@@ -177,7 +177,7 @@ module PublicV2
             PlisseeRailLayout.new(
               hit: Box.new(x: body.x - 120, y: body.y - 95, width: body.width + 240, height: body.height + 190),
               body:,
-              marker: Point.new(x: body.right + layout_config.fetch(:marker_gap), y: body.center_y)
+              marker: CalloutAnchor.outside(body, side: :right, gap: layout_config.fetch(:marker_gap))
             )
           end
 
@@ -193,10 +193,9 @@ module PublicV2
             PlisseeFabricLayout.new(
               hit: Box.new(x: body.x - 85, y: body.y - 85, width: body.width + 170, height: body.height + 170),
               body:,
-              marker: Point.new(x: body.center_x, y: body.y - 175),
-              pleat_xs: FabricGeometry.positions(
-                start: body.x,
-                finish: body.right,
+              marker: CalloutAnchor.outside(body, side: :top, gap: 175),
+              pleat_xs: FabricGeometry.vertical_lines(
+                body:,
                 count: layout_config.fetch(:pleat_count)
               ),
               thread_ys: [body.y + 310, body.center_y, body.bottom - 310]
@@ -221,14 +220,13 @@ module PublicV2
               rx: layout_config.fetch(:profile_radius)
             )
 
-            slot_step = height / 5
-            slot_ys = Array.new(4) { |index| top + slot_step + (index * slot_step) }
+            slot_ys = RailGeometry.distributed_positions(start: top, finish: top + height, count: 4)
 
             PlisseeProfileLayout.new(
               hit: Box.new(x: left.x - 80, y: left.y - 75, width: left.width + 160, height: left.height + 150),
               left:,
               right:,
-              marker: Point.new(x: left.x - layout_config.fetch(:marker_gap), y: left.center_y),
+              marker: CalloutAnchor.outside(left, side: :left, gap: layout_config.fetch(:marker_gap)),
               slot_ys:
             )
           end
@@ -241,14 +239,12 @@ module PublicV2
               height: profiles.left.height - 180,
               rx: layout_config.fetch(:handle_radius)
             )
-            grip_height = 250
-            grip_width = 86
 
             PlisseeHandleLayout.new(
               hit: Box.new(x: body.x - 80, y: body.y - 85, width: body.width + 160, height: body.height + 170),
               body:,
-              marker: Point.new(x: body.right + layout_config.fetch(:marker_gap), y: body.center_y),
-              grip: Box.new(x: body.center_x - (grip_width / 2), y: body.center_y - (grip_height / 2), width: grip_width, height: grip_height, rx: 28)
+              marker: CalloutAnchor.outside(body, side: :right, gap: layout_config.fetch(:marker_gap)),
+              grip: BarGeometry.centered_box(center_x: body.center_x, center_y: body.center_y, width: 86, height: 250, rx: 28)
             )
           end
 
@@ -264,7 +260,7 @@ module PublicV2
             PlisseeThresholdLayout.new(
               hit: Box.new(x: body.x - 110, y: body.y - 90, width: body.width + 220, height: body.height + 180),
               body:,
-              marker: Point.new(x: body.right + layout_config.fetch(:marker_gap), y: body.center_y)
+              marker: CalloutAnchor.outside(body, side: :right, gap: layout_config.fetch(:marker_gap))
             )
           end
 

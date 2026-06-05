@@ -47,8 +47,9 @@ module PublicV2
           def callout(
             part_id,
             marker:,
-            start_direction:,
             first_length:,
+            route: nil,
+            start_direction: nil,
             turn_direction: nil,
             second_length: 0,
             text_offset_x: nil,
@@ -59,20 +60,25 @@ module PublicV2
             corner_radius: 46,
             dot_radius: 18
           )
-            CalloutLayout.new(
-              label: part_definitions.fetch(part_id).label,
-              marker:,
+            route_options = CalloutRoute.resolve(route)
+            direction_options = {
               start_direction:,
               turn_direction:,
-              first_length:,
-              second_length:,
               text_offset_x:,
               text_offset_y:,
               text_anchor:,
-              dominant_baseline:,
+              dominant_baseline:
+            }.compact
+
+            CalloutLayout.new(
+              label: part_definitions.fetch(part_id).label,
+              marker:,
+              first_length:,
+              second_length:,
               marker_radius:,
               corner_radius:,
-              dot_radius:
+              dot_radius:,
+              **route_options.merge(direction_options)
             )
           end
         end

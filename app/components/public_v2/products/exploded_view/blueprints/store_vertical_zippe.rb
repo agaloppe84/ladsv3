@@ -155,7 +155,7 @@ module PublicV2
               tube: motor_tube,
               tube_cap_width: layout_config.fetch(:motor_tube_cap_width),
               head: motor_head,
-              marker: Point.new(x: drawing_right + marker_gap, y: motor_head.center_y)
+              marker: CalloutAnchor.outside(motor_head, side: :right, gap: marker_gap)
             )
 
             coffre = build_coffre_layout(motor:)
@@ -180,12 +180,12 @@ module PublicV2
 
           def build_callouts(support_marker:, motor:, coffre:, fabric:, coulisse:, barre:)
             {
-              "coffre" => callout("coffre", marker: coffre.marker, start_direction: :up, turn_direction: :right, first_length: 225, second_length: 390, text_offset_x: 76),
-              "coulisses" => callout("coulisses", marker: coulisse.marker, start_direction: :left, turn_direction: :down, first_length: 285, second_length: 190),
-              "toile" => callout("toile", marker: fabric.marker, start_direction: :up, turn_direction: :right, first_length: 265, second_length: 390, text_offset_x: 76),
-              "barre-charge" => callout("barre-charge", marker: barre.marker, start_direction: :down, turn_direction: :left, first_length: 95, second_length: 500, text_offset_x: -72, text_anchor: "end"),
-              "motorisation" => callout("motorisation", marker: motor.marker, start_direction: :up, turn_direction: :left, first_length: 230, second_length: 380, text_offset_x: -72, text_anchor: "end"),
-              "supports" => callout("supports", marker: support_marker, start_direction: :up, turn_direction: :left, first_length: 180, second_length: 430, text_offset_x: -72, text_anchor: "end")
+              "coffre" => callout("coffre", marker: coffre.marker, route: :up_right, first_length: 225, second_length: 390, text_offset_x: 76),
+              "coulisses" => callout("coulisses", marker: coulisse.marker, route: :left_down, first_length: 285, second_length: 190),
+              "toile" => callout("toile", marker: fabric.marker, route: :up_right, first_length: 265, second_length: 390, text_offset_x: 76),
+              "barre-charge" => callout("barre-charge", marker: barre.marker, route: :down_left, first_length: 95, second_length: 500, text_offset_x: -72, text_anchor: "end"),
+              "motorisation" => callout("motorisation", marker: motor.marker, route: :up_left, first_length: 230, second_length: 380, text_offset_x: -72, text_anchor: "end"),
+              "supports" => callout("supports", marker: support_marker, route: :up_left, first_length: 180, second_length: 430, text_offset_x: -72, text_anchor: "end")
             }
           end
 
@@ -198,15 +198,11 @@ module PublicV2
               rx: layout_config.fetch(:coffre_radius)
             )
 
-            center_y = body.center_y
-            left_holes = [Point.new(x: 1_338, y: center_y), Point.new(x: 1_562, y: center_y)]
-            right_holes = [Point.new(x: 6_238, y: center_y), Point.new(x: 6_462, y: center_y)]
-
             CoffreLayout.new(
-              hit: Box.new(x: 730, y: body.y - 75, width: 6_340, height: body.height + 150),
+              hit: HousingGeometry.expanded_box(body, inset_x: 120, inset_y: 75),
               body:,
-              marker: Point.new(x: body.x - 160, y: center_y),
-              hole_pairs: [left_holes, right_holes]
+              marker: CalloutAnchor.outside(body, side: :left, gap: 160),
+              hole_pairs: HousingGeometry.symmetric_hole_pairs(body, offsets: [488, 712])
             )
           end
 
@@ -218,18 +214,17 @@ module PublicV2
               height: layout_config.fetch(:fabric_height),
               rx: layout_config.fetch(:fabric_radius)
             )
-            line_ys = FabricGeometry.positions(
-              start: body.y,
-              finish: body.bottom,
+            line_ys = FabricGeometry.horizontal_lines(
+              body:,
               count: layout_config.fetch(:fabric_line_count)
             )
 
             FabricLayout.new(
               hit: Box.new(x: 1_165, y: body.y - 55, width: 5_470, height: body.height + 112),
               body:,
-              marker: Point.new(x: body.center_x, y: body.y - 160),
+              marker: CalloutAnchor.outside(body, side: :top, gap: 160),
               line_ys:,
-              tick_ys: line_ys.values_at(0, 2, 4, 6, 8, 10, 12, 14, 16)
+              tick_ys: FabricGeometry.every(line_ys, step: 2)
             )
           end
 

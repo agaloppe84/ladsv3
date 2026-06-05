@@ -162,12 +162,12 @@ module PublicV2
 
           def build_callouts(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:)
             {
-              "caisson" => callout("caisson", marker: cassette.marker, start_direction: :up, turn_direction: :left, first_length: 230, second_length: 520),
-              "double-coulisse" => callout("double-coulisse", marker: rails.marker, start_direction: :up, turn_direction: :right, first_length: 260, second_length: 460),
-              "toile-bordee" => callout("toile-bordee", marker: fabric.marker, start_direction: :up, turn_direction: :right, first_length: 230, second_length: 430),
-              "barre-charge" => callout("barre-charge", marker: bottom_bar.marker, start_direction: :down, turn_direction: :left, first_length: 160, second_length: 430),
-              "fermeture-magnetique" => callout("fermeture-magnetique", marker: lock.marker, start_direction: :left, first_length: 460),
-              "bavettes" => callout("bavettes", marker: bavettes.marker, start_direction: :left, first_length: 430)
+              "caisson" => callout("caisson", marker: cassette.marker, route: :up_left, first_length: 230, second_length: 520),
+              "double-coulisse" => callout("double-coulisse", marker: rails.marker, route: :up_right, first_length: 260, second_length: 460),
+              "toile-bordee" => callout("toile-bordee", marker: fabric.marker, route: :up_right, first_length: 230, second_length: 430),
+              "barre-charge" => callout("barre-charge", marker: bottom_bar.marker, route: :down_left, first_length: 160, second_length: 430),
+              "fermeture-magnetique" => callout("fermeture-magnetique", marker: lock.marker, route: :left, first_length: 460),
+              "bavettes" => callout("bavettes", marker: bavettes.marker, route: :left, first_length: 430)
             }
           end
 
@@ -179,24 +179,19 @@ module PublicV2
               height: layout_config.fetch(:cassette_height),
               rx: layout_config.fetch(:cassette_radius)
             )
-            roll = Box.new(
-              x: body.x + layout_config.fetch(:roll_inset_x),
-              y: body.y + layout_config.fetch(:roll_y_offset),
-              width: body.width - (layout_config.fetch(:roll_inset_x) * 2),
-              height: layout_config.fetch(:roll_height),
-              rx: layout_config.fetch(:roll_radius)
-            )
 
             EnrollableCassetteLayout.new(
-              hit: Box.new(x: body.x - 100, y: body.y - 85, width: body.width + 200, height: body.height + 170),
+              hit: HousingGeometry.expanded_box(body, inset_x: 100, inset_y: 85),
               body:,
-              roll:,
-              marker: Point.new(x: body.right + layout_config.fetch(:marker_gap), y: body.center_y),
-              screw_points: [
-                Point.new(x: body.x + 690, y: body.center_y),
-                Point.new(x: body.center_x, y: body.center_y),
-                Point.new(x: body.right - 690, y: body.center_y)
-              ]
+              roll: HousingGeometry.inset_box(
+                body,
+                inset_x: layout_config.fetch(:roll_inset_x),
+                y_offset: layout_config.fetch(:roll_y_offset),
+                height: layout_config.fetch(:roll_height),
+                rx: layout_config.fetch(:roll_radius)
+              ),
+              marker: CalloutAnchor.outside(body, side: :right, gap: layout_config.fetch(:marker_gap)),
+              screw_points: HousingGeometry.centered_screw_points(body, side_inset: 690)
             )
           end
 
@@ -208,27 +203,24 @@ module PublicV2
               height: layout_config.fetch(:fabric_height),
               rx: layout_config.fetch(:fabric_radius)
             )
-            horizontal_step = body.height / (layout_config.fetch(:fabric_horizontal_count) - 1)
-            vertical_lines = FabricGeometry.positions(
-              start: body.x,
-              finish: body.right,
-              count: layout_config.fetch(:fabric_vertical_count),
+            grid = FabricGeometry.grid(
+              body:,
+              vertical_count: layout_config.fetch(:fabric_vertical_count),
+              horizontal_count: layout_config.fetch(:fabric_horizontal_count),
               include_edges: false
             )
-            horizontal_lines = FabricGeometry.positions(
+            edge_fastener_ys = FabricGeometry.indexed_positions(
               start: body.y,
               finish: body.bottom,
               count: layout_config.fetch(:fabric_horizontal_count),
-              include_edges: false
+              indexes: [6, 10, 14, 18]
             )
-            edge_fastener_ys = [6, 10, 14, 18].map { |index| body.y + (index * horizontal_step) }
 
             EnrollableFabricLayout.new(
               hit: Box.new(x: body.x - 90, y: body.y - 75, width: body.width + 180, height: body.height + 150),
               body:,
-              marker: Point.new(x: body.center_x, y: body.y - 170),
-              vertical_lines:,
-              horizontal_lines:,
+              marker: CalloutAnchor.outside(body, side: :top, gap: 170),
+              grid:,
               edge_fastener_ys:,
               edge_fastener_radius: 22
             )
@@ -251,14 +243,12 @@ module PublicV2
               height:,
               rx: layout_config.fetch(:rail_radius)
             )
-            slot_step = height / 6
-
             EnrollableRailPairLayout.new(
               hit: Box.new(x: left.x - 80, y: left.y - 75, width: left.width + 160, height: left.height + 150),
               left:,
               right:,
-              marker: Point.new(x: left.x - layout_config.fetch(:marker_gap), y: left.center_y),
-              slot_ys: Array.new(5) { |index| left.y + slot_step + (index * slot_step) }
+              marker: CalloutAnchor.outside(left, side: :left, gap: layout_config.fetch(:marker_gap)),
+              slot_ys: RailGeometry.distributed_positions(start: left.y, finish: left.bottom, count: 5)
             )
           end
 
@@ -270,17 +260,13 @@ module PublicV2
               height: layout_config.fetch(:bottom_bar_height),
               rx: layout_config.fetch(:bottom_bar_radius)
             )
-            grip = Box.new(x: body.center_x - 170, y: body.center_y - 30, width: 340, height: 60, rx: 18)
 
             EnrollableBottomBarLayout.new(
               hit: Box.new(x: body.x - 100, y: body.y - 80, width: body.width + 200, height: body.height + 160),
               body:,
-              marker: Point.new(x: body.right + layout_config.fetch(:marker_gap), y: body.center_y),
-              grip:,
-              magnet_points: [
-                Point.new(x: body.x + 610, y: body.center_y),
-                Point.new(x: body.right - 610, y: body.center_y)
-              ]
+              marker: CalloutAnchor.outside(body, side: :right, gap: layout_config.fetch(:marker_gap)),
+              grip: BarGeometry.centered_box(center_x: body.center_x, center_y: body.center_y, width: 340, height: 60, rx: 18),
+              magnet_points: BarGeometry.side_center_points(body, inset_x: 610)
             )
           end
 
@@ -288,7 +274,7 @@ module PublicV2
             EnrollableLockLayout.new(
               hit: Box.new(x: bottom_bar.body.x + 360, y: bottom_bar.body.bottom - 40, width: bottom_bar.body.width - 720, height: 330),
               marker: Point.new(x: bottom_bar.body.center_x, y: bottom_bar.body.bottom + 285),
-              receiver_points: bottom_bar.magnet_points.map { |point| Point.new(x: point.x, y: bottom_bar.body.bottom + 118) },
+              receiver_points: BarGeometry.translate_points(bottom_bar.magnet_points, y: bottom_bar.body.bottom + 118),
               radius: 42
             )
           end

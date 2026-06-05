@@ -1,155 +1,15 @@
 # frozen_string_literal: true
 
+require_relative "bars"
+require_relative "callouts"
+require_relative "fabrics"
 require_relative "geometry"
+require_relative "housings"
+require_relative "rails"
 
 module PublicV2
   module Products
     module ExplodedView
-      CalloutLayout = Struct.new(
-        :label,
-        :marker,
-        :start_direction,
-        :turn_direction,
-        :first_length,
-        :second_length,
-        :text_offset_x,
-        :text_offset_y,
-        :text_anchor,
-        :dominant_baseline,
-        :marker_radius,
-        :corner_radius,
-        :dot_radius,
-        keyword_init: true
-      ) do
-        def path
-          start_vector = direction_vector(start_direction)
-          start = point_from(marker, start_vector, marker_radius || 68)
-
-          return straight_path(start, point_from(start, start_vector, first_length)) unless bent?
-
-          turn_vector = direction_vector(turn_direction)
-          bend = [corner_radius || 42, first_length.abs, second_length.abs].min
-          corner = point_from(start, start_vector, first_length)
-          before_corner = point_from(corner, start_vector, -bend)
-          after_corner = point_from(corner, turn_vector, bend)
-          finish = point_from(corner, turn_vector, second_length)
-
-          "M#{format_number(start.x)} #{format_number(start.y)}" \
-            "L#{format_number(before_corner.x)} #{format_number(before_corner.y)}" \
-            "Q#{format_number(corner.x)} #{format_number(corner.y)} #{format_number(after_corner.x)} #{format_number(after_corner.y)}" \
-            "L#{format_number(finish.x)} #{format_number(finish.y)}"
-        end
-
-        def dot
-          start_vector = direction_vector(start_direction)
-          start = point_from(marker, start_vector, marker_radius || 68)
-
-          return point_from(start, start_vector, first_length) unless bent?
-
-          turn_vector = direction_vector(turn_direction)
-          corner = point_from(start, start_vector, first_length)
-
-          point_from(corner, turn_vector, second_length)
-        end
-
-        def text
-          Point.new(
-            x: dot.x + resolved_text_offset_x,
-            y: dot.y + resolved_text_offset_y
-          )
-        end
-
-        def resolved_text_anchor
-          text_anchor || (vertical_final_direction? ? "middle" : horizontal_text_anchor)
-        end
-
-        def resolved_dominant_baseline
-          dominant_baseline || "middle"
-        end
-
-        private
-
-        def bent?
-          !turn_direction.nil? && second_length.to_f != 0.0
-        end
-
-        def final_direction
-          (bent? ? turn_direction : start_direction).to_sym
-        end
-
-        def vertical_final_direction?
-          %i[up down].include?(final_direction)
-        end
-
-        def horizontal_text_anchor
-          final_direction == :left ? "end" : "start"
-        end
-
-        def resolved_text_offset_x
-          return text_offset_x unless text_offset_x.nil?
-
-          vertical_final_direction? ? 0 : horizontal_text_offset_x
-        end
-
-        def resolved_text_offset_y
-          return text_offset_y unless text_offset_y.nil?
-
-          case final_direction
-          when :up then -92
-          when :down then 92
-          else 0
-          end
-        end
-
-        def horizontal_text_offset_x
-          final_direction == :left ? -76 : 76
-        end
-
-        def direction_vector(direction)
-          case direction.to_sym
-          when :right then Point.new(x: 1, y: 0)
-          when :left then Point.new(x: -1, y: 0)
-          when :down then Point.new(x: 0, y: 1)
-          when :up then Point.new(x: 0, y: -1)
-          else
-            raise ArgumentError, "Unknown callout direction: #{direction}"
-          end
-        end
-
-        def point_from(origin, vector, distance)
-          Point.new(x: origin.x + (vector.x * distance), y: origin.y + (vector.y * distance))
-        end
-
-        def straight_path(start, finish)
-          "M#{format_number(start.x)} #{format_number(start.y)}" \
-            "L#{format_number(finish.x)} #{format_number(finish.y)}"
-        end
-
-        def format_number(value)
-          value.to_i == value ? value.to_i : value.round(2)
-        end
-      end
-
-      module FabricGeometry
-        module_function
-
-        def positions(start:, finish:, count:, include_edges: true)
-          raise ArgumentError, "count must be greater than 1" if count.to_i < 2
-
-          step = (finish - start) / (count - 1)
-          range = include_edges ? (0...count) : (1...(count - 1))
-
-          range.map { |index| start + (index * step) }
-        end
-
-        def grid_path(body:, verticals:, horizontals:)
-          [
-            verticals.map { |x| "M#{x} #{body.y}V#{body.bottom}" },
-            horizontals.map { |y| "M#{body.x} #{y}H#{body.right}" }
-          ].flatten.join
-        end
-      end
-
       MotorLayout = Struct.new(:hit, :tube, :tube_cap_width, :head, :marker, keyword_init: true) do
         def tube_cap_path
           cap_right = tube.x + tube_cap_width
@@ -223,7 +83,7 @@ module PublicV2
         end
 
         def handle
-          Box.new(x: 3685, y: top + 58, width: 430, height: 48, rx: 18)
+          BarGeometry.centered_box(center_x: 3_900, center_y: top + 82, width: 430, height: 48, rx: 18)
         end
 
         def detail_path
@@ -250,33 +110,21 @@ module PublicV2
 
       PlisseeRailLayout = Struct.new(:hit, :body, :marker, keyword_init: true) do
         def inner_path
-          inset_y = 58
-
-          "M#{body.x} #{body.y + inset_y}H#{body.right}" \
-            "M#{body.x} #{body.bottom - inset_y}H#{body.right}"
+          RailGeometry.horizontal_inner_path(body, inset_y: 58)
         end
 
         def screw_points
-          [
-            Point.new(x: body.x + 680, y: body.center_y),
-            Point.new(x: body.center_x, y: body.center_y),
-            Point.new(x: body.right - 680, y: body.center_y)
-          ]
+          RailGeometry.centered_screw_points(body, side_inset: 680)
         end
       end
 
       PlisseeProfileLayout = Struct.new(:hit, :left, :right, :marker, :slot_ys, keyword_init: true) do
         def outline_path(box)
-          "M#{box.x + box.rx} #{box.y}H#{box.right - box.rx}" \
-            "Q#{box.right} #{box.y} #{box.right} #{box.y + box.rx}" \
-            "V#{box.bottom - box.rx}Q#{box.right} #{box.bottom} #{box.right - box.rx} #{box.bottom}" \
-            "H#{box.x + box.rx}Q#{box.x} #{box.bottom} #{box.x} #{box.bottom - box.rx}" \
-            "V#{box.y + box.rx}Q#{box.x} #{box.y} #{box.x + box.rx} #{box.y}Z"
+          RailGeometry.rounded_box_path(box)
         end
 
         def inner_path(box)
-          "M#{box.x + 74} #{box.y + 90}V#{box.bottom - 90}" \
-            "M#{box.right - 74} #{box.y + 90}V#{box.bottom - 90}"
+          RailGeometry.vertical_inner_path(box, inset_x: 74, top: box.y + 90, bottom: box.bottom - 90)
         end
       end
 
@@ -320,9 +168,7 @@ module PublicV2
 
       PlisseeThresholdLayout = Struct.new(:hit, :body, :marker, keyword_init: true) do
         def detail_path
-          "M#{body.x + 180} #{body.center_y}H#{body.right - 180}" \
-            "M#{body.x + 520} #{body.y + 24}V#{body.bottom - 24}" \
-            "M#{body.right - 520} #{body.y + 24}V#{body.bottom - 24}"
+          BarGeometry.threshold_detail_path(body, line_inset_x: 180, tick_inset_x: 520, tick_inset_y: 24)
         end
       end
 
@@ -360,42 +206,27 @@ module PublicV2
 
       EnrollableCassetteLayout = Struct.new(:hit, :body, :roll, :marker, :screw_points, keyword_init: true) do
         def outline_path
-          rounded_box_path(body)
+          HousingGeometry.rounded_box_path(body)
         end
 
         def roll_path
-          rounded_box_path(roll)
-        end
-
-        private
-
-        def rounded_box_path(box)
-          "M#{box.x + box.rx} #{box.y}H#{box.right - box.rx}" \
-            "Q#{box.right} #{box.y} #{box.right} #{box.y + box.rx}" \
-            "V#{box.bottom - box.rx}Q#{box.right} #{box.bottom} #{box.right - box.rx} #{box.bottom}" \
-            "H#{box.x + box.rx}Q#{box.x} #{box.bottom} #{box.x} #{box.bottom - box.rx}" \
-            "V#{box.y + box.rx}Q#{box.x} #{box.y} #{box.x + box.rx} #{box.y}Z"
+          HousingGeometry.rounded_box_path(roll)
         end
       end
 
       EnrollableRailPairLayout = Struct.new(:hit, :left, :right, :marker, :slot_ys, keyword_init: true) do
         def outline_path(box)
-          "M#{box.x + box.rx} #{box.y}H#{box.right - box.rx}" \
-            "Q#{box.right} #{box.y} #{box.right} #{box.y + box.rx}" \
-            "V#{box.bottom - box.rx}Q#{box.right} #{box.bottom} #{box.right - box.rx} #{box.bottom}" \
-            "H#{box.x + box.rx}Q#{box.x} #{box.bottom} #{box.x} #{box.bottom - box.rx}" \
-            "V#{box.y + box.rx}Q#{box.x} #{box.y} #{box.x + box.rx} #{box.y}Z"
+          RailGeometry.rounded_box_path(box)
         end
 
         def inner_path(box, bottom_y = box.bottom)
-          "M#{box.x + 68} #{box.y}V#{bottom_y}" \
-            "M#{box.right - 68} #{box.y}V#{bottom_y}"
+          RailGeometry.vertical_inner_path(box, inset_x: 68, bottom: bottom_y)
         end
       end
 
-      EnrollableFabricLayout = Struct.new(:hit, :body, :marker, :vertical_lines, :horizontal_lines, :edge_fastener_ys, :edge_fastener_radius, keyword_init: true) do
+      EnrollableFabricLayout = Struct.new(:hit, :body, :marker, :grid, :edge_fastener_ys, :edge_fastener_radius, keyword_init: true) do
         def grid_path
-          FabricGeometry.grid_path(body:, verticals: vertical_lines, horizontals: horizontal_lines)
+          grid.path
         end
 
         def left_fastener_path(y)
@@ -413,7 +244,7 @@ module PublicV2
 
       EnrollableBottomBarLayout = Struct.new(:hit, :body, :marker, :grip, :magnet_points, keyword_init: true) do
         def detail_path
-          "M#{body.x + 190} #{body.center_y}H#{body.right - 190}"
+          BarGeometry.horizontal_center_line(body, inset_x: 190)
         end
       end
 
