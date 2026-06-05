@@ -3,9 +3,11 @@
 require_relative "exploded_view/moustiquaire_plissee_drawing_component"
 require_relative "exploded_view/moustiquaire_enroulable_verticale_drawing_component"
 require_relative "exploded_view/store_vertical_zippe_drawing_component"
+require_relative "exploded_view/store_venitien_drawing_component"
 require_relative "exploded_view/blueprints/moustiquaire_plissee"
 require_relative "exploded_view/blueprints/moustiquaire_enroulable_verticale"
 require_relative "exploded_view/blueprints/store_vertical_zippe"
+require_relative "exploded_view/blueprints/store_venitien"
 
 class PublicV2::Products::ExplodedViewExperimentComponent < ViewComponent::Base
   include PublicV2::Debuggable
@@ -13,6 +15,7 @@ class PublicV2::Products::ExplodedViewExperimentComponent < ViewComponent::Base
   DEFAULT_BLUEPRINTS = [
     PublicV2::Products::ExplodedView::Blueprints::MoustiquairePlissee,
     PublicV2::Products::ExplodedView::Blueprints::MoustiquaireEnroulableVerticale,
+    PublicV2::Products::ExplodedView::Blueprints::StoreVenitien,
     PublicV2::Products::ExplodedView::Blueprints::StoreVerticalZippe
   ].freeze
 

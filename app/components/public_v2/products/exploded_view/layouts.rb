@@ -2,6 +2,7 @@
 
 require_relative "bars"
 require_relative "callouts"
+require_relative "controls"
 require_relative "closures"
 require_relative "fabrics"
 require_relative "geometry"
@@ -9,6 +10,7 @@ require_relative "housings"
 require_relative "layout_primitives"
 require_relative "motors"
 require_relative "rails"
+require_relative "slats"
 
 module PublicV2
   module Products
@@ -62,6 +64,32 @@ module PublicV2
         :bottom_bar,
         :lock,
         :bavettes,
+        :callouts,
+        keyword_init: true
+      ) do
+        def callout(part_id)
+          callouts[part_id.to_s]
+        end
+      end
+
+      VenetianSupportPair = Struct.new(
+        :hit,
+        :left,
+        :right,
+        :marker,
+        keyword_init: true
+      )
+
+      VenetianDrawingLayout = Struct.new(
+        :svg_width,
+        :svg_height,
+        :grid,
+        :groups,
+        :headrail,
+        :slats,
+        :bottom_bar,
+        :control,
+        :supports,
         :callouts,
         keyword_init: true
       ) do

@@ -1,0 +1,143 @@
+<svg
+  class="pv2-product-exploded__svg"
+  viewBox="0 0 <%= layout.svg_width %> <%= layout.svg_height %>"
+  role="img"
+  aria-labelledby="<%= title_id %> <%= svg_description_id %>"
+  shape-rendering="geometricPrecision"
+  text-rendering="geometricPrecision">
+  <desc id="<%= svg_description_id %>"><%= svg_description %></desc>
+  <%= background_grid %>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--venitien-boitier <%= active_part_class("boitier-haut") %>"
+    data-exploded-view-target="part"
+    data-part-id="boitier-haut"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("boitier-haut") %>"
+    aria-label="Boîtier haut">
+    <rect x="<%= layout.headrail.hit.x %>" y="<%= layout.headrail.hit.y %>" width="<%= layout.headrail.hit.width %>" height="<%= layout.headrail.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <%= surface_rect(layout.headrail.body) %>
+    <rect x="<%= layout.headrail.body.x %>" y="<%= layout.headrail.body.y %>" width="<%= layout.headrail.body.width %>" height="<%= layout.headrail.body.height %>" rx="<%= layout.headrail.body.rx %>" class="pv2-product-exploded__outline" />
+    <path d="<%= layout.headrail.inner_path %>" class="pv2-product-exploded__detail" />
+    <% layout.headrail.screw_points.each do |point| %>
+      <circle cx="<%= point.x %>" cy="<%= point.y %>" r="24" class="pv2-product-exploded__fill" />
+    <% end %>
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.headrail.marker.x %> <%= layout.headrail.marker.y %>)">
+      <circle r="68" />
+      <text y="25">1</text>
+    </g>
+    <%= callout_for("boitier-haut") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--venitien-supports <%= active_part_class("supports-pose") %>"
+    data-exploded-view-target="part"
+    data-part-id="supports-pose"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("supports-pose") %>"
+    aria-label="Supports de pose">
+    <rect x="<%= layout.supports.hit.x %>" y="<%= layout.supports.hit.y %>" width="<%= layout.supports.hit.width %>" height="<%= layout.supports.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <% [layout.supports.left, layout.supports.right].each do |support| %>
+      <%= surface_rect(support) %>
+      <rect x="<%= support.x %>" y="<%= support.y %>" width="<%= support.width %>" height="<%= support.height %>" rx="<%= support.rx %>" class="pv2-product-exploded__outline" />
+      <path d="M<%= support.x + 40 %> <%= support.y + 62 %>H<%= support.right - 40 %>M<%= support.x + 40 %> <%= support.bottom - 62 %>H<%= support.right - 40 %>" class="pv2-product-exploded__detail" />
+      <circle cx="<%= support.x + 96 %>" cy="<%= support.center_y %>" r="20" class="pv2-product-exploded__fill" />
+      <circle cx="<%= support.right - 96 %>" cy="<%= support.center_y %>" r="20" class="pv2-product-exploded__fill" />
+    <% end %>
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.supports.marker.x %> <%= layout.supports.marker.y %>)">
+      <circle r="68" />
+      <text y="25">6</text>
+    </g>
+    <%= callout_for("supports-pose") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--venitien-lames <%= active_part_class("lames-orientables") %>"
+    data-exploded-view-target="part"
+    data-part-id="lames-orientables"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("lames-orientables") %>"
+    aria-label="Lames orientables">
+    <rect x="<%= layout.slats.hit.x %>" y="<%= layout.slats.hit.y %>" width="<%= layout.slats.hit.width %>" height="<%= layout.slats.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <% layout.slats.slat_centers.each do |center_y| %>
+      <%= surface_path(layout.slats.slat_path(center_y)) %>
+      <path d="<%= layout.slats.slat_path(center_y) %>" class="pv2-product-exploded__outline" />
+    <% end %>
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.slats.marker.x %> <%= layout.slats.marker.y %>)">
+      <circle r="68" />
+      <text y="25">2</text>
+    </g>
+    <%= callout_for("lames-orientables") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--venitien-cordons <%= active_part_class("cordons-echelles") %>"
+    data-exploded-view-target="part"
+    data-part-id="cordons-echelles"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("cordons-echelles") %>"
+    aria-label="Cordons et échelles">
+    <% layout.slats.cord_xs.each do |x| %>
+      <rect x="<%= x - 74 %>" y="<%= layout.slats.cord_top - 90 %>" width="148" height="<%= layout.slats.cord_bottom - layout.slats.cord_top + 180 %>" class="pv2-product-exploded__hit-area" />
+    <% end %>
+    <path d="<%= layout.slats.cord_path %>" class="pv2-product-exploded__profile pv2-product-exploded__venetian-cord" />
+    <% layout.slats.cord_points.each do |point| %>
+      <circle cx="<%= point.x %>" cy="<%= point.y %>" r="17" class="pv2-product-exploded__fill pv2-product-exploded__venetian-cord-dot" />
+    <% end %>
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.slats.cord_xs.first - 170 %> <%= layout.slats.body.center_y %>)">
+      <circle r="68" />
+      <text y="25">3</text>
+    </g>
+    <%= callout_for("cordons-echelles") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--venitien-barre <%= active_part_class("barre-finale") %>"
+    data-exploded-view-target="part"
+    data-part-id="barre-finale"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("barre-finale") %>"
+    aria-label="Barre finale">
+    <rect x="<%= layout.bottom_bar.hit.x %>" y="<%= layout.bottom_bar.hit.y %>" width="<%= layout.bottom_bar.hit.width %>" height="<%= layout.bottom_bar.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <%= surface_rect(layout.bottom_bar.body) %>
+    <rect x="<%= layout.bottom_bar.body.x %>" y="<%= layout.bottom_bar.body.y %>" width="<%= layout.bottom_bar.body.width %>" height="<%= layout.bottom_bar.body.height %>" rx="<%= layout.bottom_bar.body.rx %>" class="pv2-product-exploded__outline" />
+    <path d="<%= layout.bottom_bar.detail_path %>" class="pv2-product-exploded__detail" />
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.bottom_bar.marker.x %> <%= layout.bottom_bar.marker.y %>)">
+      <circle r="68" />
+      <text y="25">4</text>
+    </g>
+    <%= callout_for("barre-finale") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--venitien-commande <%= active_part_class("commande") %>"
+    data-exploded-view-target="part"
+    data-part-id="commande"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("commande") %>"
+    aria-label="Commande">
+    <rect x="<%= layout.control.hit.x %>" y="<%= layout.control.hit.y %>" width="<%= layout.control.hit.width %>" height="<%= layout.control.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <rect x="<%= layout.control.body.x %>" y="<%= layout.control.body.y %>" width="<%= layout.control.body.width %>" height="<%= layout.control.body.height %>" rx="<%= layout.control.body.rx %>" class="pv2-product-exploded__fill pv2-product-exploded__venetian-wand" />
+    <path d="<%= layout.control.cord_path %>" class="pv2-product-exploded__profile pv2-product-exploded__venetian-command-cord" />
+    <% layout.control.bead_points.each do |point| %>
+      <circle cx="<%= point.x %>" cy="<%= point.y %>" r="20" class="pv2-product-exploded__fill pv2-product-exploded__venetian-command-bead" />
+    <% end %>
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.control.marker.x %> <%= layout.control.marker.y %>)">
+      <circle r="68" />
+      <text y="25">5</text>
+    </g>
+    <%= callout_for("commande") %>
+  </g>
+</svg>

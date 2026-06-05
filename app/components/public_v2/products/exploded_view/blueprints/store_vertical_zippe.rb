@@ -34,25 +34,19 @@ module PublicV2
             grid_margin: 60,
             drawing_right: 6_550,
             marker_gap: 168,
-            motor_head_width: 320,
-            motor_head_height: 248,
-            motor_head_radius: 40,
+            motor_head_preset: :motor_tubular_head,
             motor_tube_x: 4_400,
-            motor_tube_height: 168,
-            motor_tube_radius: 36,
+            motor_tube_preset: :motor_tubular_tube,
             motor_tube_cap_width: 180,
-            gap_motor_coffre: 420,
+            gap_motor_coffre: :exploded_lg,
             coffre_x: 850,
-            coffre_width: 6_100,
-            coffre_height: 260,
-            coffre_radius: 38,
-            gap_coffre_fabric: 420,
+            coffre_preset: :housing_zipped_coffre,
+            gap_coffre_fabric: :exploded_lg,
             fabric_x: 1_250,
-            fabric_width: 5_300,
-            fabric_height: 2_048,
-            fabric_radius: 22,
+            fabric_preset: :fabric_zipped,
             fabric_line_count: 17,
-            gap_fabric_barre: 282
+            gap_fabric_barre: :fabric_to_load_bar,
+            barre_preset: :bar_zipped_load
           }.freeze
 
           DEFAULT_THEME = Theme.new(
@@ -140,27 +134,24 @@ module PublicV2
             drawing_right = layout_config.fetch(:drawing_right)
             marker_gap = layout_config.fetch(:marker_gap)
 
-            motor_head = layout_box(Box.new(
-              x: drawing_right - layout_config.fetch(:motor_head_width),
+            motor = tubular_motor_element(
+              drawing_right:,
               y: 640,
-              width: layout_config.fetch(:motor_head_width),
-              height: layout_config.fetch(:motor_head_height),
-              rx: layout_config.fetch(:motor_head_radius)
-            ))
-            motor_tube = layout_box(LayoutRules.left_of(
-              motor_head,
-              gap: 0,
-              y: motor_head.y + 40,
-              width: motor_head.x - layout_config.fetch(:motor_tube_x),
-              height: layout_config.fetch(:motor_tube_height),
-              rx: layout_config.fetch(:motor_tube_radius)
-            ))
-            motor = MotorElement.tubular(
-              hit: layout_box(Box.new(x: 4_260, y: motor_head.y - 40, width: 2_580, height: 330)),
-              tube: motor_tube,
+              head_preset: layout_config.fetch(:motor_head_preset),
+              tube_preset: layout_config.fetch(:motor_tube_preset),
+              tube_x: layout_config.fetch(:motor_tube_x),
               tube_cap_width: layout_config.fetch(:motor_tube_cap_width),
-              head: motor_head,
-              marker: layout_anchor(motor_head, side: :right, gap: marker_gap)
+              marker_gap:,
+              hit_x: 4_260,
+              hit_y_offset: -40,
+              hit_width: 2_580,
+              hit_height: 330,
+              tube_y_offset: 40,
+              head_width: layout_config[:motor_head_width],
+              head_height: layout_config[:motor_head_height],
+              head_rx: layout_config[:motor_head_radius],
+              tube_height: layout_config[:motor_tube_height],
+              tube_rx: layout_config[:motor_tube_radius]
             )
 
             coffre = build_coffre_layout(motor:)
@@ -188,12 +179,12 @@ module PublicV2
 
           def build_callouts(support_marker:, motor:, coffre:, fabric:, coulisse:, barre:, groups:)
             {
-              "coffre" => callout("coffre", marker: coffre.marker, anchor_side: :top, label_side: :right, first_length: 225, second_length: 390, text_offset_x: 76),
-              "coulisses" => callout("coulisses", marker: coulisse.marker, anchor_side: :left, label_side: :bottom, first_length: 285, second_length: 190),
-              "toile" => callout("toile", marker: fabric.marker, anchor_side: :top, label_side: :right, first_length: 265, second_length: 390, text_offset_x: 76),
-              "barre-charge" => callout("barre-charge", marker: barre.marker, anchor_side: :bottom, label_side: :left, first_length: 95, second_length: 500, text_offset_x: -72, text_anchor: "end"),
-              "motorisation" => callout("motorisation", marker: groups.fetch("motorisation").outside_anchor(side: :right, gap: layout_config.fetch(:marker_gap)), anchor_side: :top, label_side: :left, first_length: 230, second_length: 380, text_offset_x: -72, text_anchor: "end"),
-              "supports" => callout("supports", marker: support_marker, anchor_side: :top, label_side: :left, first_length: 180, second_length: 430, text_offset_x: -72, text_anchor: "end")
+              "coffre" => callout("coffre", marker: coffre.marker, placement: :top_housing, label_side: :right, first_length: 225, second_length: 390, text_offset_x: 76),
+              "coulisses" => callout("coulisses", marker: coulisse.marker, placement: :left_vertical_pair, first_length: 285, second_length: 190),
+              "toile" => callout("toile", marker: fabric.marker, placement: :center_fabric, label_side: :right, first_length: 265, second_length: 390, text_offset_x: 76),
+              "barre-charge" => callout("barre-charge", marker: barre.marker, placement: :bottom_bar, first_length: 95, second_length: 500, text_offset_x: -72, text_anchor: "end"),
+              "motorisation" => callout("motorisation", marker: groups.fetch("motorisation").outside_anchor(side: :right, gap: layout_config.fetch(:marker_gap)), placement: :top_housing, second_length: 380, text_offset_x: -72, text_anchor: "end"),
+              "supports" => callout("supports", marker: support_marker, placement: :top_rail, first_length: 180, text_offset_x: -72, text_anchor: "end")
             }
           end
 
@@ -201,43 +192,41 @@ module PublicV2
             right_coulisse_hit = LayoutRules.mirror_x(coulisse.hit, canvas_width: canvas_spec.svg_width)
 
             {
-              "motorisation" => LayoutGroup.new(id: "motorisation", boxes: [motor.tube, motor.head]),
+              "motorisation" => LayoutGroup.attached(id: "motorisation", boxes: [motor.tube, motor.head]),
               "toile-coulisses" => LayoutGroup.new(id: "toile-coulisses", boxes: [fabric.body, coulisse.hit, right_coulisse_hit]),
               "coffre-toile-barre" => LayoutGroup.new(id: "coffre-toile-barre", boxes: [coffre.body, fabric.body, barre.hit])
             }
           end
 
           def build_coffre_layout(motor:)
-            body = layout_box(LayoutRules.below(
-              motor.head,
+            zipped_coffre_element(
+              reference: motor.head,
+              preset: layout_config.fetch(:coffre_preset),
               gap: layout_config.fetch(:gap_motor_coffre),
               x: layout_config.fetch(:coffre_x),
-              width: layout_config.fetch(:coffre_width),
-              height: layout_config.fetch(:coffre_height),
-              rx: layout_config.fetch(:coffre_radius)
-            ))
-
-            HousingElement.zipped_coffre(
-              hit: layout_box(HousingGeometry.expanded_box(body, inset_x: 120, inset_y: 75)),
-              body:,
-              marker: layout_anchor(body, side: :left, gap: 160),
-              hole_pairs: HousingGeometry.symmetric_hole_pairs(body, offsets: [488, 712])
+              width: layout_config[:coffre_width],
+              height: layout_config[:coffre_height],
+              rx: layout_config[:coffre_radius],
+              marker_gap: 160,
+              hit_inset_x: 120,
+              hit_inset_y: 75,
+              hole_offsets: [488, 712]
             )
           end
 
           def build_fabric_layout(coffre:)
-            body = layout_box(LayoutRules.below(
-              coffre.body,
+            fabric_element(
+              variant: :zipped,
+              reference: coffre.body,
+              preset: layout_config.fetch(:fabric_preset),
               gap: layout_config.fetch(:gap_coffre_fabric),
               x: layout_config.fetch(:fabric_x),
-              width: layout_config.fetch(:fabric_width),
-              height: layout_config.fetch(:fabric_height),
-              rx: layout_config.fetch(:fabric_radius)
-            ))
-            FabricElement.zipped(
-              hit: layout_box(Box.new(x: 1_165, y: body.y - 55, width: 5_470, height: body.height + 112)),
-              body:,
-              marker: layout_anchor(body, side: :top, gap: 160),
+              width: layout_config[:fabric_width],
+              height: layout_config[:fabric_height],
+              rx: layout_config[:fabric_radius],
+              marker_gap: 160,
+              hit_inset_x: 85,
+              hit_inset_y: 55,
               line_count: layout_config.fetch(:fabric_line_count),
               tick_step: 2
             )
@@ -247,22 +236,23 @@ module PublicV2
             top = fabric.body.y - 140
             bottom = layout_y(fabric.body.bottom + layout_gap(92))
 
-            RailElement.zipped_coulisse(
+            zipped_coulisse_element(
               top:,
               bottom:,
-              hit: layout_box(Box.new(x: 470, y: top - 75, width: 300, height: (bottom - top) + 165)),
-              marker: layout_point(Point.new(x: 410, y: top + ((bottom - top) / 2)))
+              hit: Box.new(x: 470, y: top - 75, width: 300, height: (bottom - top) + 165),
+              marker: Point.new(x: 410, y: top + ((bottom - top) / 2))
             )
           end
 
           def build_barre_layout(fabric:)
             top = layout_y(fabric.body.bottom + layout_gap(layout_config.fetch(:gap_fabric_barre)))
 
-            BarElement.zipped_load_bar(
-              hit: layout_box(Box.new(x: 1_035, y: top - 85, width: 5_740, height: 265)),
+            zipped_load_bar_element(
               top:,
-              height: layout_size(178),
-              marker: layout_point(Point.new(x: 6_900, y: top + 90))
+              preset: layout_config.fetch(:barre_preset),
+              hit: Box.new(x: 1_035, y: top - 85, width: 5_740, height: 265),
+              height: layout_config[:barre_height],
+              marker: Point.new(x: 6_900, y: top + 90)
             )
           end
         end

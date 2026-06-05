@@ -47,6 +47,34 @@ module PublicV2
           )
         end
 
+        def self.build(variant:, **options)
+          case variant.to_sym
+          when :plissee_lock
+            plissee_lock(
+              hit: options.fetch(:hit),
+              marker: options.fetch(:marker),
+              catches: options.fetch(:catches),
+              radius: options.fetch(:radius)
+            )
+          when :magnetic_receivers
+            magnetic_receivers(
+              hit: options.fetch(:hit),
+              marker: options.fetch(:marker),
+              receiver_points: options.fetch(:receiver_points),
+              radius: options.fetch(:radius)
+            )
+          when :rail_bavettes
+            rail_bavettes(
+              hit: options.fetch(:hit),
+              left: options.fetch(:left),
+              right: options.fetch(:right),
+              marker: options.fetch(:marker)
+            )
+          else
+            raise ArgumentError, "Unknown closure variant: #{variant}"
+          end
+        end
+
         def initialize(
           variant:,
           hit:,

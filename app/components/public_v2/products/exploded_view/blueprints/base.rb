@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 require_relative "../layouts"
+require_relative "element_builder_helpers"
 
 module PublicV2
   module Products
     module ExplodedView
       module Blueprints
         class Base
+          include ElementBuilderHelpers
+
           attr_reader :layout_config, :part_order, :theme
 
           def initialize(layout_overrides: {}, part_order: self.class::DEFAULT_PART_ORDER, theme: self.class::DEFAULT_THEME)
@@ -47,47 +50,102 @@ module PublicV2
           def callout(
             part_id,
             marker:,
-            first_length:,
+            first_length: nil,
             route: nil,
             anchor_side: nil,
             label_side: nil,
+            placement: nil,
             start_direction: nil,
             turn_direction: nil,
-            second_length: 0,
+            second_length: nil,
             text_offset_x: nil,
             text_offset_y: nil,
             text_anchor: nil,
             dominant_baseline: nil,
-            marker_radius: 58,
-            corner_radius: 46,
-            dot_radius: 18
+            marker_radius: nil,
+            corner_radius: nil,
+            dot_radius: nil,
+            animation_profile: nil,
+            label_reveal_direction: nil
           )
+            callout_options = CalloutPlacement.preset_options(placement).merge(
+              {
+                route:,
+                anchor_side:,
+                label_side:,
+                start_direction:,
+                turn_direction:,
+                first_length:,
+                second_length:,
+                text_offset_x:,
+                text_offset_y:,
+                text_anchor:,
+                dominant_baseline:,
+                marker_radius:,
+                corner_radius:,
+                dot_radius:,
+                animation_profile:,
+                label_reveal_direction:
+              }.compact
+            )
+            resolved_first_length = CalloutMeasure.resolve(
+              callout_options.fetch(:first_length) do
+                raise ArgumentError, "Callout #{part_id.inspect} needs first_length or a placement preset"
+              end
+            )
+            resolved_second_length = CalloutMeasure.resolve(callout_options.fetch(:second_length, 0))
+            resolved_marker = layout_point(marker)
+            route = callout_options[:route]
+            anchor_side = callout_options[:anchor_side]
+            label_side = callout_options[:label_side]
             route_options = if route
-                              CalloutRoute.resolve(route)
+                              if route.to_sym == :auto
+                                auto_callout_route(marker: resolved_marker, anchor_side:, label_side:, second_length: resolved_second_length)
+                              else
+                                CalloutRoute.resolve(route)
+                              end
+                            elsif placement&.to_sym == :auto || auto_callout_side?(anchor_side) || auto_callout_side?(label_side)
+                              auto_callout_route(marker: resolved_marker, anchor_side:, label_side:, second_length: resolved_second_length)
                             elsif anchor_side
                               CalloutRoute.from_sides(anchor_side:, label_side: label_side || anchor_side)
                             else
                               {}
                             end
             direction_options = {
-              start_direction:,
-              turn_direction:,
-              text_offset_x:,
-              text_offset_y:,
-              text_anchor:,
-              dominant_baseline:
+              start_direction: callout_options[:start_direction],
+              turn_direction: callout_options[:turn_direction],
+              text_offset_x: callout_options[:text_offset_x],
+              text_offset_y: callout_options[:text_offset_y],
+              text_anchor: callout_options[:text_anchor],
+              dominant_baseline: callout_options[:dominant_baseline]
             }.compact
 
             CalloutLayout.new(
               label: part_definitions.fetch(part_id).label,
-              marker:,
-              first_length: CalloutMeasure.resolve(first_length),
-              second_length: CalloutMeasure.resolve(second_length),
-              marker_radius:,
-              corner_radius:,
-              dot_radius:,
+              marker: resolved_marker,
+              first_length: resolved_first_length,
+              second_length: resolved_second_length,
+              marker_radius: callout_options.fetch(:marker_radius, 58),
+              corner_radius: callout_options.fetch(:corner_radius, 46),
+              dot_radius: callout_options.fetch(:dot_radius, 18),
+              animation_profile: callout_options.fetch(:animation_profile, :draw),
+              label_reveal_direction: callout_options.fetch(:label_reveal_direction, :left_to_right),
               **route_options.merge(direction_options)
             )
+          end
+
+          def auto_callout_route(marker:, anchor_side:, label_side:, second_length:)
+            CalloutPlacement.resolve(
+              marker:,
+              frame: canvas_spec.frame,
+              anchor_side:,
+              label_side:,
+              second_length:
+            )
+          end
+
+          def auto_callout_side?(side)
+            side&.to_sym == :auto
           end
 
           def canvas_spec
@@ -126,7 +184,7 @@ module PublicV2
           end
 
           def layout_gap(value)
-            layout_size(value)
+            layout_size(LayoutStandards.resolve_gap(value))
           end
 
           def layout_y(value)

@@ -51,6 +51,85 @@ module PublicV2
         end
       end
 
+      ElementSpec = Struct.new(:family, :variant, :width, :height, :rx, keyword_init: true) do
+        def box(x:, y:, width: nil, height: nil, rx: nil)
+          Box.new(
+            x:,
+            y:,
+            width: width || require_dimension(:width),
+            height: height || require_dimension(:height),
+            rx: rx || self.rx
+          )
+        end
+
+        def dimension(name, override: nil)
+          return override unless override.nil?
+
+          require_dimension(name)
+        end
+
+        private
+
+        def require_dimension(name)
+          value = public_send(name)
+          raise ArgumentError, "#{family}.#{variant} does not define #{name}" if value.nil?
+
+          value
+        end
+      end
+
+      module LayoutStandards
+        ELEMENTS = {
+          housing_zipped_coffre: ElementSpec.new(family: :housing, variant: :zipped_coffre, width: 6_100, height: 260, rx: 38),
+          housing_kiss_50: ElementSpec.new(family: :housing, variant: :kiss_50, width: 5_840, height: 340, rx: 86),
+          motor_tubular_head: ElementSpec.new(family: :motor, variant: :tubular_head, width: 320, height: 250, rx: 40),
+          motor_tubular_tube: ElementSpec.new(family: :motor, variant: :tubular_tube, height: 170, rx: 36),
+          fabric_zipped: ElementSpec.new(family: :fabric, variant: :zipped, width: 5_300, height: 2_050, rx: 22),
+          fabric_pleated: ElementSpec.new(family: :fabric, variant: :pleated, width: 4_050, height: 1_540, rx: 18),
+          fabric_bordered: ElementSpec.new(family: :fabric, variant: :bordered, width: 4_640, height: 1_920, rx: 18),
+          rail_horizontal_guide: ElementSpec.new(family: :rail, variant: :horizontal_guide, width: 5_640, height: 260, rx: 42),
+          rail_venetian_head: ElementSpec.new(family: :rail, variant: :venetian_head, width: 5_460, height: 230, rx: 40),
+          rail_profile_pair: ElementSpec.new(family: :rail, variant: :profile_pair, width: 190, rx: 34),
+          rail_double_coulisse: ElementSpec.new(family: :rail, variant: :double_coulisse, width: 240, rx: 42),
+          slat_venetian_pack: ElementSpec.new(family: :slat, variant: :venetian_pack, width: 5_080, height: 1_920, rx: 14),
+          bar_zipped_load: ElementSpec.new(family: :bar, variant: :zipped_load, height: 180),
+          bar_vertical_handle: ElementSpec.new(family: :bar, variant: :vertical_handle, width: 300, rx: 42),
+          bar_threshold: ElementSpec.new(family: :bar, variant: :threshold, height: 105, rx: 26),
+          bar_bottom_charge: ElementSpec.new(family: :bar, variant: :bottom_charge, height: 150, rx: 34),
+          bar_venetian_bottom: ElementSpec.new(family: :bar, variant: :venetian_bottom, width: 5_080, height: 140, rx: 30),
+          control_venetian_wand: ElementSpec.new(family: :control, variant: :venetian_wand, width: 90, height: 1_220, rx: 34)
+        }.freeze
+
+        GAPS = {
+          attached: 0,
+          exploded_sm: 180,
+          exploded_md: 300,
+          exploded_lg: 420,
+          exploded_xl: 500,
+          guide_to_fabric: 520,
+          fabric_to_load_bar: 280,
+          rail_to_fabric: 310,
+          profile_to_fabric: 470,
+          handle_to_fabric: 340,
+          headrail_to_slats: 420,
+          slats_to_bottom_bar: 300
+        }.freeze
+
+        module_function
+
+        def element(key)
+          ELEMENTS.fetch(key.to_sym)
+        end
+
+        def gap(key)
+          GAPS.fetch(key.to_sym)
+        end
+
+        def resolve_gap(value)
+          value.is_a?(Symbol) ? gap(value) : value
+        end
+      end
+
       class CanvasSpec
         DEFAULT_CELL = 120
         DEFAULT_MARGIN = 60
@@ -188,9 +267,17 @@ module PublicV2
         end
       end
 
-      LayoutGroup = Struct.new(:id, :boxes, keyword_init: true) do
+      LayoutGroup = Struct.new(:id, :boxes, :spacing_mode, keyword_init: true) do
+        def self.attached(id:, boxes:)
+          new(id:, boxes:, spacing_mode: :attached)
+        end
+
         def bounds
           Box.union(boxes)
+        end
+
+        def attached?
+          spacing_mode&.to_sym == :attached
         end
 
         def outside_anchor(side:, gap:)

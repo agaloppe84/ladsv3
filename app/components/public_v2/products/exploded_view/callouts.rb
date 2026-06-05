@@ -85,6 +85,118 @@ module PublicV2
         end
       end
 
+      module CalloutPlacement
+        AUTO = :auto
+        ANCHOR_SIDES = %i[top right bottom left].freeze
+
+        PRESETS = {
+          top_housing: {
+            anchor_side: :top,
+            label_side: :auto,
+            first_length: 230,
+            second_length: :xl
+          },
+          top_rail: {
+            anchor_side: :top,
+            label_side: :auto,
+            first_length: 250,
+            second_length: :lg
+          },
+          bottom_rail: {
+            anchor_side: :bottom,
+            label_side: :auto,
+            first_length: 230,
+            second_length: :lg
+          },
+          bottom_bar: {
+            anchor_side: :bottom,
+            label_side: :auto,
+            first_length: 160,
+            second_length: :lg
+          },
+          left_vertical_pair: {
+            anchor_side: :left,
+            label_side: :bottom,
+            first_length: 310,
+            second_length: 180
+          },
+          side_fabric: {
+            anchor_side: :right,
+            first_length: :lg
+          },
+          center_fabric: {
+            anchor_side: :top,
+            label_side: :auto,
+            first_length: 230,
+            second_length: :lg
+          },
+          right_attached_panel: {
+            anchor_side: :top,
+            label_side: :left,
+            first_length: 230,
+            second_length: 330
+          },
+          right_detail_up: {
+            anchor_side: :right,
+            label_side: :top,
+            first_length: 290,
+            second_length: 170
+          },
+          left_detail: {
+            anchor_side: :left,
+            first_length: :lg
+          }
+        }.freeze
+
+        module_function
+
+        def preset_options(placement)
+          return {} if placement.nil? || placement.to_sym == AUTO
+
+          PRESETS.fetch(placement.to_sym).dup
+        end
+
+        def resolve(marker:, frame:, anchor_side:, label_side:, second_length:)
+          resolved_anchor_side = resolve_anchor_side(marker:, frame:, anchor_side:)
+          resolved_label_side = resolve_label_side(
+            marker:,
+            frame:,
+            anchor_side: resolved_anchor_side,
+            label_side:,
+            second_length:
+          )
+
+          CalloutRoute.from_sides(anchor_side: resolved_anchor_side, label_side: resolved_label_side)
+        end
+
+        def auto?(value)
+          value.nil? || value.to_sym == AUTO
+        end
+
+        def resolve_anchor_side(marker:, frame:, anchor_side:)
+          return anchor_side.to_sym unless auto?(anchor_side)
+
+          {
+            left: (marker.x - frame.x).abs,
+            right: (frame.right - marker.x).abs,
+            top: (marker.y - frame.y).abs,
+            bottom: (frame.bottom - marker.y).abs
+          }.min_by { |_side, distance| distance }.first
+        end
+
+        def resolve_label_side(marker:, frame:, anchor_side:, label_side:, second_length:)
+          return anchor_side if second_length.to_f.zero?
+          return label_side.to_sym unless auto?(label_side)
+
+          case anchor_side.to_sym
+          when :top, :bottom then marker.x <= frame.center_x ? :right : :left
+          when :left, :right then marker.y <= frame.center_y ? :down : :up
+          else
+            raise ArgumentError, "Unknown callout anchor side: #{anchor_side}"
+          end
+        end
+      end
+
       CalloutLayout = Struct.new(
         :label,
         :marker,
@@ -99,8 +211,13 @@ module PublicV2
         :marker_radius,
         :corner_radius,
         :dot_radius,
+        :animation_profile,
+        :label_reveal_direction,
         keyword_init: true
       ) do
+        DEFAULT_ANIMATION_PROFILE = :draw
+        DEFAULT_LABEL_REVEAL_DIRECTION = :left_to_right
+
         def path
           start_vector = direction_vector(start_direction)
           start = point_from(marker, start_vector, marker_radius || 68)
@@ -147,15 +264,48 @@ module PublicV2
           dominant_baseline || "middle"
         end
 
-        private
-
         def bent?
           !turn_direction.nil? && second_length.to_f != 0.0
+        end
+
+        def route_kind
+          bent? ? :bent : :straight
         end
 
         def final_direction
           (bent? ? turn_direction : start_direction).to_sym
         end
+
+        def final_axis
+          vertical_final_direction? ? :vertical : :horizontal
+        end
+
+        def resolved_animation_profile
+          (animation_profile || DEFAULT_ANIMATION_PROFILE).to_sym
+        end
+
+        def resolved_label_reveal_direction
+          (label_reveal_direction || DEFAULT_LABEL_REVEAL_DIRECTION).to_sym
+        end
+
+        def css_class
+          [
+            "pv2-product-exploded__callout",
+            "pv2-product-exploded__callout--#{css_token(route_kind)}",
+            "pv2-product-exploded__callout--final-#{css_token(final_direction)}",
+            "pv2-product-exploded__callout--axis-#{css_token(final_axis)}",
+            "pv2-product-exploded__callout--animation-#{css_token(resolved_animation_profile)}"
+          ].join(" ")
+        end
+
+        def label_reveal_class
+          [
+            "pv2-product-exploded__callout-label-reveal",
+            "pv2-product-exploded__callout-label-reveal--#{css_token(resolved_label_reveal_direction)}"
+          ].join(" ")
+        end
+
+        private
 
         def vertical_final_direction?
           %i[up down].include?(final_direction)
@@ -207,6 +357,10 @@ module PublicV2
 
         def format_number(value)
           value.to_i == value ? value.to_i : value.round(2)
+        end
+
+        def css_token(value)
+          value.to_s.tr("_", "-")
         end
       end
     end

@@ -28,6 +28,21 @@ module PublicV2
           )
         end
 
+        def self.build(variant:, **options)
+          case variant.to_sym
+          when :tubular
+            tubular(
+              hit: options.fetch(:hit),
+              tube: options.fetch(:tube),
+              tube_cap_width: options.fetch(:tube_cap_width),
+              head: options.fetch(:head),
+              marker: options.fetch(:marker)
+            )
+          else
+            raise ArgumentError, "Unknown motor variant: #{variant}"
+          end
+        end
+
         def initialize(variant:, hit:, tube:, tube_cap_width:, head:, marker:)
           @variant = variant.to_sym
           raise ArgumentError, "Unknown motor variant: #{variant}" unless VARIANTS.include?(@variant)

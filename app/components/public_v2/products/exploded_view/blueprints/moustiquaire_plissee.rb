@@ -35,24 +35,17 @@ module PublicV2
             marker_gap: 165,
             guide_x: 1_080,
             guide_y: 470,
-            guide_width: 5_640,
-            guide_height: 260,
-            guide_radius: 42,
-            gap_guide_fabric: 520,
+            guide_preset: :rail_horizontal_guide,
+            gap_guide_fabric: :guide_to_fabric,
             fabric_x: 1_420,
-            fabric_width: 4_050,
-            fabric_height: 1_540,
-            fabric_radius: 18,
+            fabric_preset: :fabric_pleated,
             pleat_count: 31,
-            profile_gap: 470,
-            profile_width: 190,
-            profile_radius: 34,
-            handle_gap: 340,
-            handle_width: 300,
-            handle_radius: 42,
-            threshold_gap: 300,
-            threshold_height: 105,
-            threshold_radius: 26
+            profile_gap: :profile_to_fabric,
+            profile_preset: :rail_profile_pair,
+            handle_gap: :handle_to_fabric,
+            handle_preset: :bar_vertical_handle,
+            threshold_gap: :exploded_md,
+            threshold_preset: :bar_threshold
           }.freeze
 
           DEFAULT_THEME = Theme.new(
@@ -165,85 +158,76 @@ module PublicV2
             moving_panel = groups.fetch("toile-poignee")
 
             {
-              "guide-haut" => callout("guide-haut", marker: guide.marker, anchor_side: :top, label_side: :left, first_length: 250, second_length: 430, text_offset_x: -72, text_anchor: "end"),
-              "profils-muraux" => callout("profils-muraux", marker: profiles.marker, anchor_side: :left, label_side: :bottom, first_length: 310, second_length: 180),
-              "toile-plissee" => callout("toile-plissee", marker: fabric.marker, anchor_side: :right, first_length: :lg),
-              "barre-poignee" => callout("barre-poignee", marker: moving_panel.outside_anchor(side: :right, gap: layout_config.fetch(:marker_gap)), anchor_side: :top, label_side: :left, first_length: 230, second_length: 330, text_offset_x: -72, text_anchor: "end"),
-              "seuil-bas" => callout("seuil-bas", marker: threshold.marker, anchor_side: :bottom, label_side: :left, first_length: 230, second_length: 430, text_offset_x: -72, text_anchor: "end"),
-              "verrouillage" => callout("verrouillage", marker: lock.marker, anchor_side: :right, label_side: :top, first_length: 290, second_length: 170)
+              "guide-haut" => callout("guide-haut", marker: guide.marker, placement: :top_rail),
+              "profils-muraux" => callout("profils-muraux", marker: profiles.marker, placement: :left_vertical_pair),
+              "toile-plissee" => callout("toile-plissee", marker: fabric.marker, placement: :side_fabric),
+              "barre-poignee" => callout("barre-poignee", marker: moving_panel.outside_anchor(side: :right, gap: layout_config.fetch(:marker_gap)), placement: :right_attached_panel),
+              "seuil-bas" => callout("seuil-bas", marker: threshold.marker, placement: :bottom_rail),
+              "verrouillage" => callout("verrouillage", marker: lock.marker, placement: :right_detail_up)
             }
           end
 
           def build_groups(fabric:, handle:, lock:)
             {
-              "toile-poignee" => LayoutGroup.new(id: "toile-poignee", boxes: [fabric.body, handle.body]),
-              "poignee-verrouillage" => LayoutGroup.new(id: "poignee-verrouillage", boxes: [handle.body, lock.hit])
+              "toile-poignee" => LayoutGroup.attached(id: "toile-poignee", boxes: [fabric.body, handle.body]),
+              "poignee-verrouillage" => LayoutGroup.attached(id: "poignee-verrouillage", boxes: [handle.body, lock.hit])
             }
           end
 
           def build_guide_layout
-            body = layout_box(Box.new(
+            horizontal_rail_element(
+              preset: layout_config.fetch(:guide_preset),
               x: layout_config.fetch(:guide_x),
               y: layout_config.fetch(:guide_y),
-              width: layout_config.fetch(:guide_width),
-              height: layout_config.fetch(:guide_height),
-              rx: layout_config.fetch(:guide_radius)
-            ))
-
-            RailElement.horizontal_guide(
-              hit: layout_box(LayoutRules.hit_box(body, inset_x: 120, inset_y: 95)),
-              body:,
-              marker: layout_anchor(body, side: :right, gap: layout_config.fetch(:marker_gap))
+              width: layout_config[:guide_width],
+              height: layout_config[:guide_height],
+              rx: layout_config[:guide_radius],
+              marker_gap: layout_config.fetch(:marker_gap),
+              hit_inset_x: 120,
+              hit_inset_y: 95
             )
           end
 
           def build_fabric_layout(guide:)
-            body = layout_box(LayoutRules.below(
-              guide.body,
+            fabric_element(
+              variant: :pleated,
+              reference: guide.body,
+              preset: layout_config.fetch(:fabric_preset),
               gap: layout_config.fetch(:gap_guide_fabric),
               x: layout_config.fetch(:fabric_x),
-              width: layout_config.fetch(:fabric_width),
-              height: layout_config.fetch(:fabric_height),
-              rx: layout_config.fetch(:fabric_radius)
-            ))
-
-            FabricElement.pleated(
-              hit: layout_box(LayoutRules.hit_box(body, inset_x: 85, inset_y: 85)),
-              body:,
-              marker: layout_anchor(body, side: :top, gap: 175),
+              width: layout_config[:fabric_width],
+              height: layout_config[:fabric_height],
+              rx: layout_config[:fabric_radius],
+              marker_gap: 175,
+              hit_inset_x: 85,
+              hit_inset_y: 85,
               pleat_count: layout_config.fetch(:pleat_count),
               thread_offsets: [310, :center, -310]
             )
           end
 
           def build_profile_layout(fabric:)
+            profile_preset = layout_config.fetch(:profile_preset)
+            handle_preset = layout_config.fetch(:handle_preset)
             height = fabric.body.height + 320
             top = fabric.body.y - 160
-            left = layout_box(LayoutRules.left_of(
-              fabric.body,
-              gap: layout_config.fetch(:profile_gap),
-              y: top,
-              width: layout_config.fetch(:profile_width),
-              height:,
-              rx: layout_config.fetch(:profile_radius)
-            ))
-            right = layout_box(LayoutRules.right_of(
-              fabric.body,
-              gap: layout_config.fetch(:handle_gap) + layout_config.fetch(:handle_width) + 620,
-              y: top,
-              width: layout_config.fetch(:profile_width),
-              height:,
-              rx: layout_config.fetch(:profile_radius)
-            ))
+            right_gap = layout_gap(layout_config.fetch(:handle_gap)) +
+              standard_dimension(handle_preset, :width, override: layout_config[:handle_width]) +
+              620
 
-            slot_ys = RailGeometry.distributed_positions(start: top, finish: top + height, count: 4)
-
-            RailElement.vertical_pair(
-              hit: layout_box(LayoutRules.hit_box(left, inset_x: 80, inset_y: 75)),
-              left:,
-              right:,
-              marker: layout_anchor(left, side: :left, gap: layout_config.fetch(:marker_gap)),
-              slot_ys:,
+            vertical_rail_pair_element(
+              reference: fabric.body,
+              preset: profile_preset,
+              left_gap: layout_config.fetch(:profile_gap),
+              right_gap:,
+              y: top,
+              width: layout_config[:profile_width],
+              height:,
+              rx: layout_config[:profile_radius],
+              marker_gap: layout_config.fetch(:marker_gap),
+              hit_inset_x: 80,
+              hit_inset_y: 75,
+              slot_count: 4,
               inner_inset_x: 74,
               inner_top_inset: 90,
               inner_bottom_inset: 90
@@ -251,54 +235,53 @@ module PublicV2
           end
 
           def build_handle_layout(fabric:, profiles:)
-            body = layout_box(LayoutRules.right_of(
-              fabric.body,
-              gap: 0,
-              y: profiles.left.y + 90,
-              width: layout_config.fetch(:handle_width),
-              height: profiles.left.height - 180,
-              rx: layout_config.fetch(:handle_radius)
-            ))
+            handle_preset = layout_config.fetch(:handle_preset)
 
-            BarElement.vertical_handle(
-              hit: layout_box(LayoutRules.hit_box(body, inset_x: 80, inset_y: 85)),
-              body:,
-              marker: layout_anchor(body, side: :right, gap: layout_config.fetch(:marker_gap)),
-              grip: layout_box(BarGeometry.centered_box(center_x: body.center_x, center_y: body.center_y, width: 86, height: 250, rx: 28))
+            vertical_handle_bar_element(
+              reference: fabric.body,
+              preset: handle_preset,
+              gap: :attached,
+              y: profiles.left.y + 90,
+              width: layout_config[:handle_width],
+              height: profiles.left.height - 180,
+              rx: layout_config[:handle_radius],
+              marker_gap: layout_config.fetch(:marker_gap),
+              hit_inset_x: 80,
+              hit_inset_y: 85,
+              grip_width: 86,
+              grip_height: 250,
+              grip_rx: 28
             )
           end
 
           def build_threshold_layout(guide:, profiles:)
-            body = layout_box(LayoutRules.below(
-              profiles.left,
+            threshold_preset = layout_config.fetch(:threshold_preset)
+
+            threshold_bar_element(
+              reference: profiles.left,
+              preset: threshold_preset,
               gap: layout_config.fetch(:threshold_gap),
               x: guide.body.x + 160,
               width: guide.body.width - 320,
-              height: layout_config.fetch(:threshold_height),
-              rx: layout_config.fetch(:threshold_radius)
-            ))
-
-            BarElement.threshold(
-              hit: layout_box(LayoutRules.hit_box(body, inset_x: 110, inset_y: 90)),
-              body:,
-              marker: layout_anchor(body, side: :right, gap: layout_config.fetch(:marker_gap))
+              height: layout_config[:threshold_height],
+              rx: layout_config[:threshold_radius],
+              marker_gap: layout_config.fetch(:marker_gap),
+              hit_inset_x: 110,
+              hit_inset_y: 90
             )
           end
 
           def build_lock_layout(handle:, profiles:)
-            radius = 34
-            flat_x = handle.body.right
-            catch_step = handle.body.height / 5
-            catches = [
-              Point.new(x: flat_x, y: handle.body.y + catch_step),
-              Point.new(x: flat_x, y: handle.body.bottom - catch_step)
-            ]
-
-            ClosureElement.plissee_lock(
-              hit: layout_box(Box.new(x: flat_x - 42, y: handle.body.y - 85, width: 260, height: handle.body.height + 170)),
-              marker: layout_point(Point.new(x: flat_x + 390, y: handle.body.center_y - 230)),
-              catches:,
-              radius:
+            plissee_lock_element(
+              handle:,
+              radius: 34,
+              catch_divisions: 5,
+              catch_indexes: [1, 4],
+              hit_inset_left: 42,
+              hit_inset_y: 85,
+              hit_width: 260,
+              marker_offset_x: 390,
+              marker_offset_y: -230
             )
           end
         end

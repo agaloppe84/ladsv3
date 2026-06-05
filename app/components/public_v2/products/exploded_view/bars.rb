@@ -56,6 +56,45 @@ module PublicV2
           :tick_inset_y
         )
 
+        def self.build(variant:, **options)
+          case variant.to_sym
+          when :zipped_load_bar
+            zipped_load_bar(
+              hit: options.fetch(:hit),
+              top: options.fetch(:top),
+              height: options.fetch(:height),
+              marker: options.fetch(:marker)
+            )
+          when :vertical_handle
+            vertical_handle(
+              hit: options.fetch(:hit),
+              body: options.fetch(:body),
+              marker: options.fetch(:marker),
+              grip: options.fetch(:grip)
+            )
+          when :threshold
+            threshold(
+              hit: options.fetch(:hit),
+              body: options.fetch(:body),
+              marker: options.fetch(:marker),
+              detail_inset_x: options.fetch(:detail_inset_x, 180),
+              tick_inset_x: options.fetch(:tick_inset_x, 520),
+              tick_inset_y: options.fetch(:tick_inset_y, 24)
+            )
+          when :bottom_bar
+            bottom_bar(
+              hit: options.fetch(:hit),
+              body: options.fetch(:body),
+              marker: options.fetch(:marker),
+              grip: options.fetch(:grip),
+              magnet_points: options.fetch(:magnet_points),
+              detail_inset_x: options.fetch(:detail_inset_x, 190)
+            )
+          else
+            raise ArgumentError, "Unknown bar variant: #{variant}"
+          end
+        end
+
         def self.zipped_load_bar(hit:, top:, height:, marker:)
           new(
             variant: :zipped_load_bar,

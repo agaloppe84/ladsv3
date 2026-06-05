@@ -31,6 +31,41 @@ module PublicV2
           :edge_fastener_radius
         )
 
+        def self.build(variant:, hit:, body:, marker:, **options)
+          case variant.to_sym
+          when :zipped
+            zipped(
+              hit:,
+              body:,
+              marker:,
+              line_count: options.fetch(:line_count),
+              tick_step: options.fetch(:tick_step, 2),
+              tick_offset: options.fetch(:tick_offset, 0)
+            )
+          when :pleated
+            pleated(
+              hit:,
+              body:,
+              marker:,
+              pleat_count: options.fetch(:pleat_count),
+              thread_offsets: options.fetch(:thread_offsets),
+              pleat_amplitude: options.fetch(:pleat_amplitude, 34)
+            )
+          when :bordered_grid
+            bordered_grid(
+              hit:,
+              body:,
+              marker:,
+              vertical_count: options.fetch(:vertical_count),
+              horizontal_count: options.fetch(:horizontal_count),
+              edge_fastener_indexes: options.fetch(:edge_fastener_indexes),
+              edge_fastener_radius: options.fetch(:edge_fastener_radius)
+            )
+          else
+            raise ArgumentError, "Unknown fabric variant: #{variant}"
+          end
+        end
+
         def self.zipped(hit:, body:, marker:, line_count:, tick_step: 2, tick_offset: 0)
           new(
             variant: :zipped,

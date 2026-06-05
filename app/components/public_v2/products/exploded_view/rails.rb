@@ -71,6 +71,39 @@ module PublicV2
           :screw_side_inset
         )
 
+        def self.build(variant:, **options)
+          case variant.to_sym
+          when :zipped_coulisse
+            zipped_coulisse(
+              top: options.fetch(:top),
+              bottom: options.fetch(:bottom),
+              hit: options.fetch(:hit),
+              marker: options.fetch(:marker)
+            )
+          when :horizontal_guide
+            horizontal_guide(
+              hit: options.fetch(:hit),
+              body: options.fetch(:body),
+              marker: options.fetch(:marker),
+              inner_inset_y: options.fetch(:inner_inset_y, 58),
+              screw_side_inset: options.fetch(:screw_side_inset, 680)
+            )
+          when :vertical_pair
+            vertical_pair(
+              hit: options.fetch(:hit),
+              left: options.fetch(:left),
+              right: options.fetch(:right),
+              marker: options.fetch(:marker),
+              slot_ys: options.fetch(:slot_ys),
+              inner_inset_x: options.fetch(:inner_inset_x),
+              inner_top_inset: options.fetch(:inner_top_inset, 0),
+              inner_bottom_inset: options.fetch(:inner_bottom_inset, 0)
+            )
+          else
+            raise ArgumentError, "Unknown rail variant: #{variant}"
+          end
+        end
+
         def self.zipped_coulisse(top:, bottom:, hit:, marker:)
           new(
             variant: :zipped_coulisse,

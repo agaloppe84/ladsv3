@@ -37,28 +37,22 @@ module PublicV2
             marker_gap: 168,
             cassette_x: 980,
             cassette_y: 520,
-            cassette_width: 5_840,
-            cassette_height: 340,
-            cassette_radius: 86,
+            cassette_preset: :housing_kiss_50,
             roll_inset_x: 440,
             roll_y_offset: 108,
             roll_height: 124,
             roll_radius: 54,
-            gap_cassette_fabric: 500,
+            gap_cassette_fabric: :exploded_xl,
             fabric_x: 1_580,
-            fabric_width: 4_640,
-            fabric_height: 1_920,
-            fabric_radius: 18,
+            fabric_preset: :fabric_bordered,
             fabric_vertical_count: 59,
             fabric_horizontal_count: 25,
-            rail_gap: 310,
-            rail_width: 240,
+            rail_gap: :rail_to_fabric,
+            rail_preset: :rail_double_coulisse,
             rail_extra_top: 180,
             rail_extra_bottom: 250,
-            rail_radius: 42,
-            bottom_bar_gap: 300,
-            bottom_bar_height: 150,
-            bottom_bar_radius: 34
+            bottom_bar_gap: :exploded_md,
+            bottom_bar_preset: :bar_bottom_charge
           }.freeze
 
           DEFAULT_THEME = Theme.new(
@@ -169,12 +163,12 @@ module PublicV2
 
           def build_callouts(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:, groups:)
             {
-              "caisson" => callout("caisson", marker: cassette.marker, anchor_side: :top, label_side: :left, first_length: 230, second_length: :xl),
-              "double-coulisse" => callout("double-coulisse", marker: rails.marker, anchor_side: :top, label_side: :right, first_length: 260, second_length: 460),
-              "toile-bordee" => callout("toile-bordee", marker: fabric.marker, anchor_side: :top, label_side: :right, first_length: 230, second_length: :lg),
-              "barre-charge" => callout("barre-charge", marker: bottom_bar.marker, anchor_side: :bottom, label_side: :left, first_length: 160, second_length: :lg),
-              "fermeture-magnetique" => callout("fermeture-magnetique", marker: lock.marker, anchor_side: :left, first_length: 460),
-              "bavettes" => callout("bavettes", marker: bavettes.marker, anchor_side: :left, first_length: :lg)
+              "caisson" => callout("caisson", marker: cassette.marker, placement: :top_housing),
+              "double-coulisse" => callout("double-coulisse", marker: rails.marker, placement: :top_rail, label_side: :right, first_length: 260, second_length: 460),
+              "toile-bordee" => callout("toile-bordee", marker: fabric.marker, placement: :center_fabric, label_side: :right),
+              "barre-charge" => callout("barre-charge", marker: bottom_bar.marker, placement: :bottom_bar),
+              "fermeture-magnetique" => callout("fermeture-magnetique", marker: lock.marker, placement: :left_detail, first_length: 460),
+              "bavettes" => callout("bavettes", marker: bavettes.marker, placement: :left_detail)
             }
           end
 
@@ -182,48 +176,43 @@ module PublicV2
             {
               "caisson-toile" => LayoutGroup.new(id: "caisson-toile", boxes: [cassette.body, fabric.body]),
               "toile-coulisses" => LayoutGroup.new(id: "toile-coulisses", boxes: [fabric.body, rails.left, rails.right]),
-              "fermeture-barre" => LayoutGroup.new(id: "fermeture-barre", boxes: [bottom_bar.body, lock.hit]),
-              "coulisses-bavettes" => LayoutGroup.new(id: "coulisses-bavettes", boxes: [rails.left, rails.right, bavettes.left, bavettes.right])
+              "fermeture-barre" => LayoutGroup.attached(id: "fermeture-barre", boxes: [bottom_bar.body, lock.hit]),
+              "coulisses-bavettes" => LayoutGroup.attached(id: "coulisses-bavettes", boxes: [rails.left, rails.right, bavettes.left, bavettes.right])
             }
           end
 
           def build_cassette_layout
-            body = layout_box(Box.new(
+            cassette_housing_element(
+              preset: layout_config.fetch(:cassette_preset),
               x: layout_config.fetch(:cassette_x),
               y: layout_config.fetch(:cassette_y),
-              width: layout_config.fetch(:cassette_width),
-              height: layout_config.fetch(:cassette_height),
-              rx: layout_config.fetch(:cassette_radius)
-            ))
-
-            HousingElement.cassette(
-              hit: layout_box(HousingGeometry.expanded_box(body, inset_x: 100, inset_y: 85)),
-              body:,
-              roll: layout_box(HousingGeometry.inset_box(
-                body,
-                inset_x: layout_config.fetch(:roll_inset_x),
-                y_offset: layout_config.fetch(:roll_y_offset),
-                height: layout_config.fetch(:roll_height),
-                rx: layout_config.fetch(:roll_radius)
-              )),
-              marker: layout_anchor(body, side: :right, gap: layout_config.fetch(:marker_gap)),
-              screw_points: HousingGeometry.centered_screw_points(body, side_inset: 690)
+              width: layout_config[:cassette_width],
+              height: layout_config[:cassette_height],
+              rx: layout_config[:cassette_radius],
+              marker_gap: layout_config.fetch(:marker_gap),
+              hit_inset_x: 100,
+              hit_inset_y: 85,
+              roll_inset_x: layout_config.fetch(:roll_inset_x),
+              roll_y_offset: layout_config.fetch(:roll_y_offset),
+              roll_height: layout_config.fetch(:roll_height),
+              roll_radius: layout_config.fetch(:roll_radius),
+              screw_side_inset: 690
             )
           end
 
           def build_fabric_layout(cassette:)
-            body = layout_box(LayoutRules.below(
-              cassette.body,
+            fabric_element(
+              variant: :bordered_grid,
+              reference: cassette.body,
+              preset: layout_config.fetch(:fabric_preset),
               gap: layout_config.fetch(:gap_cassette_fabric),
               x: layout_config.fetch(:fabric_x),
-              width: layout_config.fetch(:fabric_width),
-              height: layout_config.fetch(:fabric_height),
-              rx: layout_config.fetch(:fabric_radius)
-            ))
-            FabricElement.bordered_grid(
-              hit: layout_box(LayoutRules.hit_box(body, inset_x: 90, inset_y: 75)),
-              body:,
-              marker: layout_anchor(body, side: :top, gap: 170),
+              width: layout_config[:fabric_width],
+              height: layout_config[:fabric_height],
+              rx: layout_config[:fabric_radius],
+              marker_gap: 170,
+              hit_inset_x: 90,
+              hit_inset_y: 75,
               vertical_count: layout_config.fetch(:fabric_vertical_count),
               horizontal_count: layout_config.fetch(:fabric_horizontal_count),
               edge_fastener_indexes: [6, 10, 14, 18],
@@ -232,86 +221,70 @@ module PublicV2
           end
 
           def build_rail_layout(fabric:)
-            top = fabric.body.y - layout_config.fetch(:rail_extra_top)
-            height = fabric.body.height + layout_config.fetch(:rail_extra_top) + layout_config.fetch(:rail_extra_bottom)
-            left = layout_box(LayoutRules.left_of(
-              fabric.body,
-              gap: layout_config.fetch(:rail_gap),
+            rail_preset = layout_config.fetch(:rail_preset)
+            top = fabric.body.y - layout_gap(layout_config.fetch(:rail_extra_top))
+            height = fabric.body.height + layout_gap(layout_config.fetch(:rail_extra_top)) + layout_gap(layout_config.fetch(:rail_extra_bottom))
+
+            vertical_rail_pair_element(
+              reference: fabric.body,
+              preset: rail_preset,
+              left_gap: layout_config.fetch(:rail_gap),
+              right_gap: layout_config.fetch(:rail_gap),
               y: top,
-              width: layout_config.fetch(:rail_width),
+              width: layout_config[:rail_width],
               height:,
-              rx: layout_config.fetch(:rail_radius)
-            ))
-            right = layout_box(LayoutRules.right_of(
-              fabric.body,
-              gap: layout_config.fetch(:rail_gap),
-              y: top,
-              width: layout_config.fetch(:rail_width),
-              height:,
-              rx: layout_config.fetch(:rail_radius)
-            ))
-            RailElement.vertical_pair(
-              hit: layout_box(LayoutRules.hit_box(left, inset_x: 80, inset_y: 75)),
-              left:,
-              right:,
-              marker: layout_anchor(left, side: :left, gap: layout_config.fetch(:marker_gap)),
-              slot_ys: RailGeometry.distributed_positions(start: left.y, finish: left.bottom, count: 5),
+              rx: layout_config[:rail_radius],
+              marker_gap: layout_config.fetch(:marker_gap),
+              hit_inset_x: 80,
+              hit_inset_y: 75,
+              slot_count: 5,
               inner_inset_x: 68
             )
           end
 
           def build_bottom_bar_layout(fabric:)
-            body = layout_box(LayoutRules.below(
-              fabric.body,
+            bottom_bar_preset = layout_config.fetch(:bottom_bar_preset)
+
+            bottom_bar_element(
+              reference: fabric.body,
+              preset: bottom_bar_preset,
               gap: layout_config.fetch(:bottom_bar_gap),
               x: fabric.body.x - 130,
               width: fabric.body.width + 260,
-              height: layout_config.fetch(:bottom_bar_height),
-              rx: layout_config.fetch(:bottom_bar_radius)
-            ))
-
-            BarElement.bottom_bar(
-              hit: layout_box(LayoutRules.hit_box(body, inset_x: 100, inset_y: 80)),
-              body:,
-              marker: layout_anchor(body, side: :right, gap: layout_config.fetch(:marker_gap)),
-              grip: layout_box(BarGeometry.centered_box(center_x: body.center_x, center_y: body.center_y, width: 340, height: 60, rx: 18)),
-              magnet_points: BarGeometry.side_center_points(body, inset_x: 610)
+              height: layout_config[:bottom_bar_height],
+              rx: layout_config[:bottom_bar_radius],
+              marker_gap: layout_config.fetch(:marker_gap),
+              hit_inset_x: 100,
+              hit_inset_y: 80,
+              grip_width: 340,
+              grip_height: 60,
+              grip_rx: 18,
+              magnet_inset_x: 610
             )
           end
 
           def build_lock_layout(bottom_bar:)
-            ClosureElement.magnetic_receivers(
-              hit: layout_box(Box.new(x: bottom_bar.body.x + 360, y: bottom_bar.body.bottom - 40, width: bottom_bar.body.width - 720, height: 330)),
-              marker: layout_point(Point.new(x: bottom_bar.body.center_x, y: bottom_bar.body.bottom + 285)),
-              receiver_points: BarGeometry.translate_points(bottom_bar.magnet_points, y: bottom_bar.body.bottom + 118),
+            magnetic_receiver_element(
+              bottom_bar:,
+              hit_inset_x: 360,
+              hit_y_offset: -40,
+              hit_height: 330,
+              marker_offset_y: 285,
+              receiver_offset_y: 118,
               radius: 42
             )
           end
 
           def build_bavette_layout(rails:)
-            inset_width = 52
-            inset_height = 142
-            bottom_gap = 56
-            left = layout_box(LayoutRules.inside_bottom_centered(
-              rails.left,
-              width: inset_width,
-              height: inset_height,
-              bottom_gap:,
-              rx: 18
-            ))
-            right = layout_box(LayoutRules.inside_bottom_centered(
-              rails.right,
-              width: inset_width,
-              height: inset_height,
-              bottom_gap:,
-              rx: 18
-            ))
-
-            ClosureElement.rail_bavettes(
-              hit: layout_box(LayoutRules.hit_box(right, inset_x: 70, inset_y: 70)),
-              left:,
-              right:,
-              marker: layout_point(Point.new(x: rails.right.right + layout_config.fetch(:marker_gap), y: right.center_y))
+            rail_bavettes_element(
+              rails:,
+              marker_gap: layout_config.fetch(:marker_gap),
+              width: 52,
+              height: 142,
+              bottom_gap: 56,
+              rx: 18,
+              hit_inset_x: 70,
+              hit_inset_y: 70
             )
           end
         end

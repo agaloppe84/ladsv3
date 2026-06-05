@@ -74,6 +74,28 @@ module PublicV2
           )
         end
 
+        def self.build(variant:, **options)
+          case variant.to_sym
+          when :zipped_coffre
+            zipped_coffre(
+              hit: options.fetch(:hit),
+              body: options.fetch(:body),
+              marker: options.fetch(:marker),
+              hole_pairs: options.fetch(:hole_pairs)
+            )
+          when :cassette
+            cassette(
+              hit: options.fetch(:hit),
+              body: options.fetch(:body),
+              roll: options.fetch(:roll),
+              marker: options.fetch(:marker),
+              screw_points: options.fetch(:screw_points)
+            )
+          else
+            raise ArgumentError, "Unknown housing variant: #{variant}"
+          end
+        end
+
         def initialize(
           variant:,
           hit:,

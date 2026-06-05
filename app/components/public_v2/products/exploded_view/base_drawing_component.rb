@@ -35,19 +35,21 @@ module PublicV2
           dot = callout.dot
           text = callout.text
 
-          tag.g(class: "pv2-product-exploded__callout", aria: { hidden: "true" }) do
+          tag.g(class: callout.css_class, aria: { hidden: "true" }) do
             safe_join(
               [
-                tag.path(d: callout.path, class: "pv2-product-exploded__callout-line"),
+                tag.path(d: callout.path, pathLength: 1, class: "pv2-product-exploded__callout-line"),
                 tag.circle(cx: dot.x, cy: dot.y, r: callout.dot_radius || 20, class: "pv2-product-exploded__callout-dot"),
-                tag.text(
-                  callout.label,
-                  x: text.x,
-                  y: text.y,
-                  class: "pv2-product-exploded__callout-label",
-                  "text-anchor": callout.resolved_text_anchor,
-                  "dominant-baseline": callout.resolved_dominant_baseline
-                )
+                tag.g(class: callout.label_reveal_class) do
+                  tag.text(
+                    callout.label,
+                    x: text.x,
+                    y: text.y,
+                    class: "pv2-product-exploded__callout-label",
+                    "text-anchor": callout.resolved_text_anchor,
+                    "dominant-baseline": callout.resolved_dominant_baseline
+                  )
+                end
               ]
             )
           end
