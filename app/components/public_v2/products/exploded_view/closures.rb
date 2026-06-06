@@ -14,7 +14,8 @@ module PublicV2
           :receiver_points,
           :radius,
           :left,
-          :right
+          :right,
+          :tone
         )
 
         def self.plissee_lock(hit:, marker:, catches:, radius:)
@@ -37,13 +38,14 @@ module PublicV2
           )
         end
 
-        def self.rail_bavettes(hit:, left:, right:, marker:)
+        def self.rail_bavettes(hit:, left:, right:, marker:, tone: :dark)
           new(
             variant: :rail_bavettes,
             hit:,
             marker:,
             left:,
-            right:
+            right:,
+            tone:
           )
         end
 
@@ -68,7 +70,8 @@ module PublicV2
               hit: options.fetch(:hit),
               left: options.fetch(:left),
               right: options.fetch(:right),
-              marker: options.fetch(:marker)
+              marker: options.fetch(:marker),
+              tone: options.fetch(:tone, :dark)
             )
           else
             raise ArgumentError, "Unknown closure variant: #{variant}"
@@ -83,7 +86,8 @@ module PublicV2
           receiver_points: [],
           radius: nil,
           left: nil,
-          right: nil
+          right: nil,
+          tone: nil
         )
           @variant = variant.to_sym
           raise ArgumentError, "Unknown closure variant: #{variant}" unless VARIANTS.include?(@variant)
@@ -95,6 +99,7 @@ module PublicV2
           @radius = radius
           @left = left
           @right = right
+          @tone = tone&.to_sym
         end
 
         def catch_path(point)

@@ -4,10 +4,12 @@ require_relative "exploded_view/moustiquaire_plissee_drawing_component"
 require_relative "exploded_view/moustiquaire_enroulable_verticale_drawing_component"
 require_relative "exploded_view/store_vertical_zippe_drawing_component"
 require_relative "exploded_view/store_venitien_drawing_component"
+require_relative "exploded_view/store_duette_drawing_component"
 require_relative "exploded_view/blueprints/moustiquaire_plissee"
 require_relative "exploded_view/blueprints/moustiquaire_enroulable_verticale"
 require_relative "exploded_view/blueprints/store_vertical_zippe"
 require_relative "exploded_view/blueprints/store_venitien"
+require_relative "exploded_view/blueprints/store_duette"
 
 class PublicV2::Products::ExplodedViewExperimentComponent < ViewComponent::Base
   include PublicV2::Debuggable
@@ -16,13 +18,15 @@ class PublicV2::Products::ExplodedViewExperimentComponent < ViewComponent::Base
     PublicV2::Products::ExplodedView::Blueprints::MoustiquairePlissee,
     PublicV2::Products::ExplodedView::Blueprints::MoustiquaireEnroulableVerticale,
     PublicV2::Products::ExplodedView::Blueprints::StoreVenitien,
+    PublicV2::Products::ExplodedView::Blueprints::StoreDuette,
     PublicV2::Products::ExplodedView::Blueprints::StoreVerticalZippe
   ].freeze
 
-  def initialize(product_page:, debug: false, blueprint: nil)
+  def initialize(product_page:, debug: false, blueprint: nil, show_layout_grid: true)
     @product_page = product_page
     @debug = debug
     @blueprint = blueprint || default_blueprint
+    @show_layout_grid = show_layout_grid
   end
 
   def render?
@@ -86,6 +90,10 @@ class PublicV2::Products::ExplodedViewExperimentComponent < ViewComponent::Base
 
   def svg_description
     blueprint.svg_description
+  end
+
+  def show_layout_grid
+    @show_layout_grid
   end
 
   def active_part_id

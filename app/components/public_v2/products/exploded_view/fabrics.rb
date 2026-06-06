@@ -12,7 +12,7 @@ module PublicV2
       end
 
       class FabricElement
-        VARIANTS = %i[zipped pleated bordered_grid].freeze
+        VARIANTS = %i[zipped pleated bordered_grid honeycomb].freeze
 
         attr_reader(
           :variant,
@@ -28,7 +28,9 @@ module PublicV2
           :grid_vertical_count,
           :grid_horizontal_count,
           :edge_fastener_indexes,
-          :edge_fastener_radius
+          :edge_fastener_radius,
+          :cell_count,
+          :cell_depth
         )
 
         def self.build(variant:, hit:, body:, marker:, **options)
@@ -60,6 +62,15 @@ module PublicV2
               horizontal_count: options.fetch(:horizontal_count),
               edge_fastener_indexes: options.fetch(:edge_fastener_indexes),
               edge_fastener_radius: options.fetch(:edge_fastener_radius)
+            )
+          when :honeycomb
+            honeycomb(
+              hit:,
+              body:,
+              marker:,
+              cell_count: options.fetch(:cell_count),
+              cell_depth: options.fetch(:cell_depth, 120),
+              thread_offsets: options.fetch(:thread_offsets, [])
             )
           else
             raise ArgumentError, "Unknown fabric variant: #{variant}"
@@ -111,6 +122,18 @@ module PublicV2
           )
         end
 
+        def self.honeycomb(hit:, body:, marker:, cell_count:, cell_depth: 120, thread_offsets: [])
+          new(
+            variant: :honeycomb,
+            hit:,
+            body:,
+            marker:,
+            cell_count:,
+            cell_depth:,
+            thread_offsets:
+          )
+        end
+
         def initialize(
           variant:,
           hit:,
@@ -125,7 +148,9 @@ module PublicV2
           grid_vertical_count: nil,
           grid_horizontal_count: nil,
           edge_fastener_indexes: [],
-          edge_fastener_radius: nil
+          edge_fastener_radius: nil,
+          cell_count: nil,
+          cell_depth: 120
         )
           @variant = variant.to_sym
           raise ArgumentError, "Unknown fabric variant: #{variant}" unless VARIANTS.include?(@variant)
@@ -143,6 +168,8 @@ module PublicV2
           @grid_horizontal_count = grid_horizontal_count
           @edge_fastener_indexes = edge_fastener_indexes
           @edge_fastener_radius = edge_fastener_radius
+          @cell_count = cell_count
+          @cell_depth = cell_depth
         end
 
         def line_ys
@@ -223,6 +250,39 @@ module PublicV2
           "M#{body.right} #{y - edge_fastener_radius}" \
             "A#{edge_fastener_radius} #{edge_fastener_radius} 0 0 0 #{body.right} #{y + edge_fastener_radius}" \
             "L#{body.right} #{y - edge_fastener_radius}Z"
+        end
+
+        def honeycomb_boundary_path
+          internal_cell_ys.map { |y| "M#{body.x} #{y}H#{body.right}" }.join
+        end
+
+        def honeycomb_recess_path
+          cell_bounds.map do |top, middle, bottom|
+            inset = [cell_depth, (bottom - top) * 1.4].min
+
+            "M#{body.x + inset} #{middle}H#{body.right - inset}"
+          end.join
+        end
+
+        def honeycomb_side_path
+          cell_bounds.map do |top, middle, bottom|
+            "M#{body.x} #{top}L#{body.x + cell_depth} #{middle}L#{body.x} #{bottom}" \
+              "M#{body.right} #{top}L#{body.right - cell_depth} #{middle}L#{body.right} #{bottom}"
+          end.join
+        end
+
+        def cell_ys
+          FabricGeometry.horizontal_lines(body:, count: require_option(:cell_count) + 1)
+        end
+
+        def internal_cell_ys
+          cell_ys[1...-1]
+        end
+
+        def cell_bounds
+          cell_ys.each_cons(2).map do |top, bottom|
+            [top, top + ((bottom - top) / 2), bottom]
+          end
         end
 
         private

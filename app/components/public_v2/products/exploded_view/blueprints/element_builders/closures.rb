@@ -69,38 +69,54 @@ module PublicV2
             def rail_bavettes_element(
               rails:,
               marker_gap:,
-              width:,
-              height:,
-              bottom_gap:,
-              rx:,
               hit_inset_x:,
-              hit_inset_y:
+              hit_inset_y:,
+              feature_id: nil,
+              width: nil,
+              height: nil,
+              bottom_gap: nil,
+              rx: nil
             )
-              left = layout_box(
-                LayoutRules.inside_bottom_centered(
-                  rails.left,
-                  width:,
-                  height:,
-                  bottom_gap:,
-                  rx:
-                )
-              )
-              right = layout_box(
-                LayoutRules.inside_bottom_centered(
-                  rails.right,
-                  width:,
-                  height:,
-                  bottom_gap:,
-                  rx:
-                )
-              )
+              feature = feature_id && rails.attached_feature(feature_id)
+              if feature_id && !feature
+                raise ArgumentError, "rails do not define attached feature #{feature_id.inspect}"
+              end
+
+              left, right = if feature
+                              [feature.left, feature.right]
+                            else
+                              [
+                                layout_box(
+                                  LayoutRules.inside_bottom_centered(
+                                    rails.left,
+                                    width:,
+                                    height:,
+                                    bottom_gap:,
+                                    rx:
+                                  )
+                                ),
+                                layout_box(
+                                  LayoutRules.inside_bottom_centered(
+                                    rails.right,
+                                    width:,
+                                    height:,
+                                    bottom_gap:,
+                                    rx:
+                                  )
+                                )
+                              ]
+                            end
+              unless left && right
+                raise ArgumentError, "rail_bavettes_element needs attached feature #{feature_id.inspect} or explicit geometry"
+              end
 
               ClosureElement.build(
                 variant: :rail_bavettes,
                 hit: layout_box(LayoutRules.hit_box(right, inset_x: hit_inset_x, inset_y: hit_inset_y)),
                 left:,
                 right:,
-                marker: layout_point(Point.new(x: rails.right.right + marker_gap, y: right.center_y))
+                marker: layout_point(Point.new(x: rails.right.right + marker_gap, y: right.center_y)),
+                tone: feature&.tone || :dark
               )
             end
           end

@@ -42,12 +42,7 @@
     aria-pressed="<%= aria_pressed("double-coulisse") %>"
     aria-label="Double coulisse gauche">
     <rect x="<%= layout.rails.hit.x %>" y="<%= layout.rails.hit.y %>" width="<%= layout.rails.hit.width %>" height="<%= layout.rails.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= surface_path(layout.rails.outline_path(layout.rails.left)) %>
-    <path d="<%= layout.rails.outline_path(layout.rails.left) %>" class="pv2-product-exploded__outline" />
-    <path d="<%= layout.rails.inner_path(layout.rails.left) %>" class="pv2-product-exploded__profile" />
-    <% layout.rails.slot_ys.each do |y| %>
-      <circle cx="<%= layout.rails.left.center_x %>" cy="<%= y %>" r="18" class="pv2-product-exploded__fill" />
-    <% end %>
+    <%= solid_profile(layout.rails.solid_profile_for(:left)) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.rails.marker.x %> <%= layout.rails.marker.y %>)">
       <circle r="68" />
       <text y="25">2</text>
@@ -65,12 +60,7 @@
     aria-pressed="<%= aria_pressed("double-coulisse") %>"
     aria-label="Double coulisse droite">
     <rect x="<%= layout.rails.right.x - 80 %>" y="<%= layout.rails.hit.y %>" width="<%= layout.rails.hit.width %>" height="<%= layout.rails.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= surface_path(layout.rails.outline_path(layout.rails.right)) %>
-    <path d="<%= layout.rails.outline_path(layout.rails.right) %>" class="pv2-product-exploded__outline" />
-    <path d="<%= layout.rails.inner_path(layout.rails.right) %>" class="pv2-product-exploded__profile" />
-    <% layout.rails.slot_ys.each do |y| %>
-      <circle cx="<%= layout.rails.right.center_x %>" cy="<%= y %>" r="18" class="pv2-product-exploded__fill" />
-    <% end %>
+    <%= solid_profile(layout.rails.solid_profile_for(:right)) %>
   </g>
 
   <g
@@ -148,9 +138,10 @@
     tabindex="0"
     aria-pressed="<%= aria_pressed("bavettes") %>"
     aria-label="Bavettes anti-intrusion">
+    <% bavette_class = solid_tone_class(layout.bavettes.tone) %>
     <rect x="<%= layout.bavettes.hit.x %>" y="<%= layout.bavettes.hit.y %>" width="<%= layout.bavettes.hit.width %>" height="<%= layout.bavettes.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <rect x="<%= layout.bavettes.left.x %>" y="<%= layout.bavettes.left.y %>" width="<%= layout.bavettes.left.width %>" height="<%= layout.bavettes.left.height %>" rx="<%= layout.bavettes.left.rx %>" class="pv2-product-exploded__fill" />
-    <rect x="<%= layout.bavettes.right.x %>" y="<%= layout.bavettes.right.y %>" width="<%= layout.bavettes.right.width %>" height="<%= layout.bavettes.right.height %>" rx="<%= layout.bavettes.right.rx %>" class="pv2-product-exploded__fill" />
+    <rect x="<%= layout.bavettes.left.x %>" y="<%= layout.bavettes.left.y %>" width="<%= layout.bavettes.left.width %>" height="<%= layout.bavettes.left.height %>" rx="<%= layout.bavettes.left.rx %>" class="<%= bavette_class %>" />
+    <rect x="<%= layout.bavettes.right.x %>" y="<%= layout.bavettes.right.y %>" width="<%= layout.bavettes.right.width %>" height="<%= layout.bavettes.right.height %>" rx="<%= layout.bavettes.right.rx %>" class="<%= bavette_class %>" />
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.bavettes.marker.x %> <%= layout.bavettes.marker.y %>)">
       <circle r="68" />
       <text y="25">6</text>

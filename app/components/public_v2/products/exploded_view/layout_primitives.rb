@@ -87,7 +87,9 @@ module PublicV2
           fabric_zipped: ElementSpec.new(family: :fabric, variant: :zipped, width: 5_300, height: 2_050, rx: 22),
           fabric_pleated: ElementSpec.new(family: :fabric, variant: :pleated, width: 4_050, height: 1_540, rx: 18),
           fabric_bordered: ElementSpec.new(family: :fabric, variant: :bordered, width: 4_640, height: 1_920, rx: 18),
+          fabric_honeycomb: ElementSpec.new(family: :fabric, variant: :honeycomb, width: 5_000, height: 1_560, rx: 20),
           rail_horizontal_guide: ElementSpec.new(family: :rail, variant: :horizontal_guide, width: 5_640, height: 260, rx: 42),
+          rail_duette_head: ElementSpec.new(family: :rail, variant: :duette_head, width: 5_560, height: 260, rx: 44),
           rail_venetian_head: ElementSpec.new(family: :rail, variant: :venetian_head, width: 5_460, height: 230, rx: 40),
           rail_profile_pair: ElementSpec.new(family: :rail, variant: :profile_pair, width: 190, rx: 34),
           rail_double_coulisse: ElementSpec.new(family: :rail, variant: :double_coulisse, width: 240, rx: 42),
@@ -109,6 +111,7 @@ module PublicV2
           guide_to_fabric: 520,
           fabric_to_load_bar: 280,
           rail_to_fabric: 310,
+          duette_rail_to_fabric: 460,
           profile_to_fabric: 470,
           handle_to_fabric: 340,
           headrail_to_slats: 420,
@@ -134,7 +137,7 @@ module PublicV2
         DEFAULT_CELL = 120
         DEFAULT_MARGIN = 60
         DEFAULT_MAJOR_EVERY = 4
-        DEFAULT_RADIUS = 118
+        DEFAULT_RADIUS = 72
         DEFAULT_SNAP_UNIT = 10
 
         attr_reader :columns, :rows, :cell, :margin, :major_every, :radius, :snap_unit

@@ -49,6 +49,7 @@ module PublicV2
             fabric_horizontal_count: 25,
             rail_gap: :rail_to_fabric,
             rail_preset: :rail_double_coulisse,
+            rail_radius: 26,
             rail_extra_top: 180,
             rail_extra_bottom: 250,
             bottom_bar_gap: :exploded_md,
@@ -238,7 +239,22 @@ module PublicV2
               hit_inset_x: 80,
               hit_inset_y: 75,
               slot_count: 5,
-              inner_inset_x: 68
+              inner_inset_x: 68,
+              solid_profile: {
+                id: "enroulable-double-coulisse",
+                cap_ratio: 0.29,
+                point_radius: 18
+              },
+              attached_features: {
+                bavettes: {
+                  slot: :inside_bottom_centered,
+                  width: 44,
+                  height: 108,
+                  bottom_gap: 28,
+                  rx: 16,
+                  tone: :dark
+                }
+              }
             )
           end
 
@@ -279,10 +295,7 @@ module PublicV2
             rail_bavettes_element(
               rails:,
               marker_gap: layout_config.fetch(:marker_gap),
-              width: 52,
-              height: 142,
-              bottom_gap: 56,
-              rx: 18,
+              feature_id: :bavettes,
               hit_inset_x: 70,
               hit_inset_y: 70
             )

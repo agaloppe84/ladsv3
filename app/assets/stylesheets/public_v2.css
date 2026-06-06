@@ -8991,9 +8991,18 @@
   --pv2-exploded-line-fine: #22272c;
   --pv2-exploded-guide: #171b1f;
   --pv2-exploded-echo: #9fa6ad;
-  --pv2-exploded-grid-surface: rgba(17, 20, 23, 0.012);
+  --pv2-exploded-grid-surface: transparent;
   --pv2-exploded-grid-line: rgba(17, 20, 23, 0.055);
   --pv2-exploded-grid-line-strong: rgba(17, 20, 23, 0.085);
+  --pv2-exploded-solid-light-hi: #edf1f5;
+  --pv2-exploded-solid-light: #d8dde4;
+  --pv2-exploded-solid-light-low: #cbd2da;
+  --pv2-exploded-solid-mid-hi: #b8c0ca;
+  --pv2-exploded-solid-mid: #a9b1bc;
+  --pv2-exploded-solid-mid-low: #939da9;
+  --pv2-exploded-solid-dark: #444d57;
+  --pv2-exploded-solid-shadow: rgba(17, 20, 23, 0.16);
+  --pv2-exploded-solid-edge-highlight: rgba(255, 255, 255, 0.62);
   --pv2-exploded-accent: #009e96;
   --pv2-exploded-accent-rgb: 0, 158, 150;
   --pv2-exploded-accent-ink: #ffffff;
@@ -9118,7 +9127,7 @@
 }
 
 .public-v2 .pv2-product-exploded__layout-grid-surface {
-  fill: var(--pv2-exploded-grid-surface);
+  fill: none;
   stroke: var(--pv2-exploded-grid-line-strong);
   stroke-width: 0.72;
   vector-effect: non-scaling-stroke;
@@ -9203,6 +9212,17 @@
   opacity: 0.96;
 }
 
+.public-v2 .pv2-product-exploded__duette-cord {
+  opacity: 0.7;
+  stroke: var(--pv2-exploded-faint);
+  stroke-width: 1.08;
+}
+
+.public-v2 .pv2-product-exploded__fill.pv2-product-exploded__duette-cord-dot {
+  fill: var(--pv2-exploded-faint);
+  opacity: 0.86;
+}
+
 .public-v2 .pv2-product-exploded__detail,
 .public-v2 .pv2-product-exploded__zip-track {
   stroke: var(--pv2-exploded-line-fine);
@@ -9254,6 +9274,26 @@
   transform-origin: center;
   transition: fill 180ms ease;
   vector-effect: non-scaling-stroke;
+}
+
+.public-v2 .pv2-product-exploded__solid-fill-light,
+.public-v2 .pv2-product-exploded__solid-fill-mid,
+.public-v2 .pv2-product-exploded__solid-fill-dark {
+  stroke: none;
+  transition: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.public-v2 .pv2-product-exploded__solid-fill-light {
+  fill: var(--pv2-exploded-solid-light);
+}
+
+.public-v2 .pv2-product-exploded__solid-fill-mid {
+  fill: var(--pv2-exploded-solid-mid);
+}
+
+.public-v2 .pv2-product-exploded__solid-fill-dark {
+  fill: var(--pv2-exploded-solid-dark);
 }
 
 .public-v2 .pv2-product-exploded__marker {
@@ -9377,7 +9417,9 @@
 }
 
 .public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__venetian-cord,
-.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__venetian-cord-dot {
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__venetian-cord-dot,
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__duette-cord,
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__duette-cord-dot {
   opacity: 1;
 }
 
@@ -9543,9 +9585,18 @@
   --pv2-exploded-line-fine: #dfe7e5;
   --pv2-exploded-guide: #eaf0ef;
   --pv2-exploded-echo: #7b828a;
-  --pv2-exploded-grid-surface: rgba(242, 245, 244, 0.018);
+  --pv2-exploded-grid-surface: transparent;
   --pv2-exploded-grid-line: rgba(242, 245, 244, 0.07);
   --pv2-exploded-grid-line-strong: rgba(242, 245, 244, 0.105);
+  --pv2-exploded-solid-light-hi: #f9fbfc;
+  --pv2-exploded-solid-light: #eef1f3;
+  --pv2-exploded-solid-light-low: #dfe5e9;
+  --pv2-exploded-solid-mid-hi: #aeb6bf;
+  --pv2-exploded-solid-mid: #9da5ae;
+  --pv2-exploded-solid-mid-low: #8c96a1;
+  --pv2-exploded-solid-dark: #3d444c;
+  --pv2-exploded-solid-shadow: rgba(0, 0, 0, 0.34);
+  --pv2-exploded-solid-edge-highlight: rgba(255, 255, 255, 0.72);
   --pv2-exploded-accent: #39d6ca;
   --pv2-exploded-accent-rgb: 57, 214, 202;
   --pv2-exploded-accent-ink: #061716;

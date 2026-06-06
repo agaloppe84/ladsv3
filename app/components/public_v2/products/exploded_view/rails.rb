@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "geometry"
+require_relative "solid_profiles"
 
 module PublicV2
   module Products
@@ -51,6 +52,16 @@ module PublicV2
         end
       end
 
+      RailAttachedFeature = Struct.new(:id, :slot, :left, :right, :tone, keyword_init: true) do
+        def tone
+          (self[:tone] || :dark).to_sym
+        end
+
+        def boxes
+          [left, right].compact
+        end
+      end
+
       class RailElement
         VARIANTS = %i[zipped_coulisse horizontal_guide vertical_pair].freeze
 
@@ -68,7 +79,10 @@ module PublicV2
           :inner_inset_y,
           :inner_top_inset,
           :inner_bottom_inset,
-          :screw_side_inset
+          :screw_side_inset,
+          :solid_profile,
+          :solid_profiles,
+          :attached_features
         )
 
         def self.build(variant:, **options)
@@ -86,7 +100,8 @@ module PublicV2
               body: options.fetch(:body),
               marker: options.fetch(:marker),
               inner_inset_y: options.fetch(:inner_inset_y, 58),
-              screw_side_inset: options.fetch(:screw_side_inset, 680)
+              screw_side_inset: options.fetch(:screw_side_inset, 680),
+              solid_profile: options.fetch(:solid_profile, nil)
             )
           when :vertical_pair
             vertical_pair(
@@ -97,7 +112,9 @@ module PublicV2
               slot_ys: options.fetch(:slot_ys),
               inner_inset_x: options.fetch(:inner_inset_x),
               inner_top_inset: options.fetch(:inner_top_inset, 0),
-              inner_bottom_inset: options.fetch(:inner_bottom_inset, 0)
+              inner_bottom_inset: options.fetch(:inner_bottom_inset, 0),
+              solid_profiles: options.fetch(:solid_profiles, nil),
+              attached_features: options.fetch(:attached_features, nil)
             )
           else
             raise ArgumentError, "Unknown rail variant: #{variant}"
@@ -114,14 +131,15 @@ module PublicV2
           )
         end
 
-        def self.horizontal_guide(hit:, body:, marker:, inner_inset_y: 58, screw_side_inset: 680)
+        def self.horizontal_guide(hit:, body:, marker:, inner_inset_y: 58, screw_side_inset: 680, solid_profile: nil)
           new(
             variant: :horizontal_guide,
             hit:,
             body:,
             marker:,
             inner_inset_y:,
-            screw_side_inset:
+            screw_side_inset:,
+            solid_profile:
           )
         end
 
@@ -133,7 +151,9 @@ module PublicV2
           slot_ys:,
           inner_inset_x:,
           inner_top_inset: 0,
-          inner_bottom_inset: 0
+          inner_bottom_inset: 0,
+          solid_profiles: nil,
+          attached_features: nil
         )
           new(
             variant: :vertical_pair,
@@ -144,7 +164,9 @@ module PublicV2
             slot_ys:,
             inner_inset_x:,
             inner_top_inset:,
-            inner_bottom_inset:
+            inner_bottom_inset:,
+            solid_profiles:,
+            attached_features:
           )
         end
 
@@ -162,7 +184,10 @@ module PublicV2
           inner_inset_y: nil,
           inner_top_inset: 0,
           inner_bottom_inset: 0,
-          screw_side_inset: nil
+          screw_side_inset: nil,
+          solid_profile: nil,
+          solid_profiles: nil,
+          attached_features: nil
         )
           @variant = variant.to_sym
           raise ArgumentError, "Unknown rail variant: #{variant}" unless VARIANTS.include?(@variant)
@@ -180,6 +205,65 @@ module PublicV2
           @inner_top_inset = inner_top_inset
           @inner_bottom_inset = inner_bottom_inset
           @screw_side_inset = screw_side_inset
+          @solid_profile = solid_profile
+          @solid_profiles = normalize_solid_profiles(solid_profiles || (solid_profile ? { body: solid_profile } : {}))
+          @attached_features = normalize_attached_features(attached_features || {})
+        end
+
+        def with_solid_profile(solid_profile)
+          with_solid_profiles({ body: solid_profile }, primary: solid_profile)
+        end
+
+        def with_solid_profiles(solid_profiles, primary: nil)
+          self.class.new(
+            variant:,
+            hit:,
+            marker:,
+            body:,
+            left:,
+            right:,
+            top:,
+            bottom:,
+            slot_ys:,
+            inner_inset_x:,
+            inner_inset_y:,
+            inner_top_inset:,
+            inner_bottom_inset:,
+            screw_side_inset:,
+            solid_profile: primary,
+            solid_profiles:,
+            attached_features:
+          )
+        end
+
+        def solid_profile_for(key)
+          solid_profiles[key.to_sym]
+        end
+
+        def with_attached_features(attached_features)
+          self.class.new(
+            variant:,
+            hit:,
+            marker:,
+            body:,
+            left:,
+            right:,
+            top:,
+            bottom:,
+            slot_ys:,
+            inner_inset_x:,
+            inner_inset_y:,
+            inner_top_inset:,
+            inner_bottom_inset:,
+            screw_side_inset:,
+            solid_profile:,
+            solid_profiles:,
+            attached_features:
+          )
+        end
+
+        def attached_feature(key)
+          attached_features[key.to_sym]
         end
 
         def outline_path(box = nil)
@@ -221,6 +305,14 @@ module PublicV2
         end
 
         private
+
+        def normalize_solid_profiles(profiles)
+          profiles.transform_keys(&:to_sym).freeze
+        end
+
+        def normalize_attached_features(features)
+          features.transform_keys(&:to_sym).freeze
+        end
 
         def zipped_coulisse_outline_path
           geometry = RailGeometry::ZIP_COULISSE

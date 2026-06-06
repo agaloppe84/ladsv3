@@ -80,6 +80,57 @@ module PublicV2
         keyword_init: true
       )
 
+      DuetteCordPair = Struct.new(
+        :hit,
+        :left_x,
+        :right_x,
+        :top_y,
+        :bottom_y,
+        :marker,
+        :dot_ys,
+        keyword_init: true
+      ) do
+        def path
+          "M#{left_x} #{top_y}V#{bottom_y}M#{right_x} #{top_y}V#{bottom_y}"
+        end
+
+        def dot_points
+          dot_ys.flat_map do |y|
+            [
+              Point.new(x: left_x, y:),
+              Point.new(x: right_x, y:)
+            ]
+          end
+        end
+      end
+
+      MountSupportPair = Struct.new(
+        :hit,
+        :left,
+        :right,
+        :marker,
+        keyword_init: true
+      )
+
+      DuetteDrawingLayout = Struct.new(
+        :svg_width,
+        :svg_height,
+        :grid,
+        :groups,
+        :top_rail,
+        :supports,
+        :fabric,
+        :intermediate_rail,
+        :bottom_rail,
+        :cords,
+        :callouts,
+        keyword_init: true
+      ) do
+        def callout(part_id)
+          callouts[part_id.to_s]
+        end
+      end
+
       VenetianDrawingLayout = Struct.new(
         :svg_width,
         :svg_height,

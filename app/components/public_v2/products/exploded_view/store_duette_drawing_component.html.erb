@@ -1,0 +1,139 @@
+<svg
+  class="pv2-product-exploded__svg"
+  viewBox="0 0 <%= layout.svg_width %> <%= layout.svg_height %>"
+  role="img"
+  aria-labelledby="<%= title_id %> <%= svg_description_id %>"
+  shape-rendering="geometricPrecision"
+  text-rendering="geometricPrecision">
+  <desc id="<%= svg_description_id %>"><%= svg_description %></desc>
+  <%= background_grid %>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--duette-rail-superieur <%= active_part_class("rail-superieur") %>"
+    data-exploded-view-target="part"
+    data-part-id="rail-superieur"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("rail-superieur") %>"
+    aria-label="Rail supérieur">
+    <rect x="<%= layout.top_rail.hit.x %>" y="<%= layout.top_rail.hit.y %>" width="<%= layout.top_rail.hit.width %>" height="<%= layout.top_rail.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <%= solid_profile(layout.top_rail.solid_profile) %>
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.top_rail.marker.x %> <%= layout.top_rail.marker.y %>)">
+      <circle r="68" />
+      <text y="25">1</text>
+    </g>
+    <%= callout_for("rail-superieur") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--duette-supports <%= active_part_class("supports-pose") %>"
+    data-exploded-view-target="part"
+    data-part-id="supports-pose"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("supports-pose") %>"
+    aria-label="Supports de pose">
+    <rect x="<%= layout.supports.hit.x %>" y="<%= layout.supports.hit.y %>" width="<%= layout.supports.hit.width %>" height="<%= layout.supports.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <% [layout.supports.left, layout.supports.right].each do |support| %>
+      <%= surface_rect(support) %>
+      <rect x="<%= support.x %>" y="<%= support.y %>" width="<%= support.width %>" height="<%= support.height %>" rx="<%= support.rx %>" class="pv2-product-exploded__outline" />
+      <path d="M<%= support.x + 42 %> <%= support.y + 62 %>H<%= support.right - 42 %>M<%= support.x + 42 %> <%= support.bottom - 62 %>H<%= support.right - 42 %>" class="pv2-product-exploded__detail" />
+      <circle cx="<%= support.x + 92 %>" cy="<%= support.center_y %>" r="20" class="pv2-product-exploded__fill" />
+      <circle cx="<%= support.right - 92 %>" cy="<%= support.center_y %>" r="20" class="pv2-product-exploded__fill" />
+    <% end %>
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.supports.marker.x %> <%= layout.supports.marker.y %>)">
+      <circle r="68" />
+      <text y="25">6</text>
+    </g>
+    <%= callout_for("supports-pose") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--duette-toile <%= active_part_class("toile-duette") %>"
+    data-exploded-view-target="part"
+    data-part-id="toile-duette"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("toile-duette") %>"
+    aria-label="Toile Duette alvéolaire">
+    <rect x="<%= layout.fabric.hit.x %>" y="<%= layout.fabric.hit.y %>" width="<%= layout.fabric.hit.width %>" height="<%= layout.fabric.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <%= surface_rect(layout.fabric.body) %>
+    <rect x="<%= layout.fabric.body.x %>" y="<%= layout.fabric.body.y %>" width="<%= layout.fabric.body.width %>" height="<%= layout.fabric.body.height %>" rx="<%= layout.fabric.body.rx %>" class="pv2-product-exploded__outline" />
+    <path d="<%= layout.fabric.honeycomb_boundary_path %>" class="pv2-product-exploded__fabric-line" />
+    <path d="<%= layout.fabric.honeycomb_side_path %>" class="pv2-product-exploded__profile" />
+    <path d="<%= layout.fabric.honeycomb_recess_path %>" class="pv2-product-exploded__fabric-thread" />
+    <% layout.fabric.thread_ys.each do |y| %>
+      <path d="M<%= layout.fabric.body.x %> <%= y %>H<%= layout.fabric.body.right %>" class="pv2-product-exploded__fabric-thread" />
+    <% end %>
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.fabric.marker.x %> <%= layout.fabric.marker.y %>)">
+      <circle r="68" />
+      <text y="25">2</text>
+    </g>
+    <%= callout_for("toile-duette") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--duette-rail-intermediaire <%= active_part_class("rail-intermediaire") %>"
+    data-exploded-view-target="part"
+    data-part-id="rail-intermediaire"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("rail-intermediaire") %>"
+    aria-label="Rail intermédiaire">
+    <rect x="<%= layout.intermediate_rail.hit.x %>" y="<%= layout.intermediate_rail.hit.y %>" width="<%= layout.intermediate_rail.hit.width %>" height="<%= layout.intermediate_rail.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <%= surface_rect(layout.intermediate_rail.body) %>
+    <rect x="<%= layout.intermediate_rail.body.x %>" y="<%= layout.intermediate_rail.body.y %>" width="<%= layout.intermediate_rail.body.width %>" height="<%= layout.intermediate_rail.body.height %>" rx="<%= layout.intermediate_rail.body.rx %>" class="pv2-product-exploded__outline" />
+    <path d="<%= layout.intermediate_rail.detail_path %>" class="pv2-product-exploded__detail" />
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.intermediate_rail.marker.x %> <%= layout.intermediate_rail.marker.y %>)">
+      <circle r="68" />
+      <text y="25">3</text>
+    </g>
+    <%= callout_for("rail-intermediaire") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--duette-rail-bas <%= active_part_class("rail-bas") %>"
+    data-exploded-view-target="part"
+    data-part-id="rail-bas"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("rail-bas") %>"
+    aria-label="Rail bas">
+    <rect x="<%= layout.bottom_rail.hit.x %>" y="<%= layout.bottom_rail.hit.y %>" width="<%= layout.bottom_rail.hit.width %>" height="<%= layout.bottom_rail.hit.height %>" class="pv2-product-exploded__hit-area" />
+    <%= surface_rect(layout.bottom_rail.body) %>
+    <rect x="<%= layout.bottom_rail.body.x %>" y="<%= layout.bottom_rail.body.y %>" width="<%= layout.bottom_rail.body.width %>" height="<%= layout.bottom_rail.body.height %>" rx="<%= layout.bottom_rail.body.rx %>" class="pv2-product-exploded__outline" />
+    <path d="<%= layout.bottom_rail.detail_path %>" class="pv2-product-exploded__detail" />
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.bottom_rail.marker.x %> <%= layout.bottom_rail.marker.y %>)">
+      <circle r="68" />
+      <text y="25">4</text>
+    </g>
+    <%= callout_for("rail-bas") %>
+  </g>
+
+  <g
+    class="pv2-product-exploded__part pv2-product-exploded__part--duette-cordons <%= active_part_class("cordons-guidage") %>"
+    data-exploded-view-target="part"
+    data-part-id="cordons-guidage"
+    data-action="click->exploded-view#select keydown->exploded-view#selectKey"
+    role="button"
+    tabindex="0"
+    aria-pressed="<%= aria_pressed("cordons-guidage") %>"
+    aria-label="Cordons de guidage">
+    <rect x="<%= layout.cords.left_x - 70 %>" y="<%= layout.cords.top_y - 80 %>" width="140" height="<%= layout.cords.bottom_y - layout.cords.top_y + 160 %>" class="pv2-product-exploded__hit-area" />
+    <rect x="<%= layout.cords.right_x - 70 %>" y="<%= layout.cords.top_y - 80 %>" width="140" height="<%= layout.cords.bottom_y - layout.cords.top_y + 160 %>" class="pv2-product-exploded__hit-area" />
+    <path d="<%= layout.cords.path %>" class="pv2-product-exploded__profile pv2-product-exploded__duette-cord" />
+    <% layout.cords.dot_points.each do |point| %>
+      <circle cx="<%= point.x %>" cy="<%= point.y %>" r="18" class="pv2-product-exploded__fill pv2-product-exploded__duette-cord-dot" />
+    <% end %>
+    <g class="pv2-product-exploded__marker" transform="translate(<%= layout.cords.marker.x %> <%= layout.cords.marker.y %>)">
+      <circle r="68" />
+      <text y="25">5</text>
+    </g>
+    <%= callout_for("cordons-guidage") %>
+  </g>
+</svg>
