@@ -18,13 +18,7 @@
     aria-pressed="<%= aria_pressed("caisson") %>"
     aria-label="Caisson KISS 50">
     <rect x="<%= layout.cassette.hit.x %>" y="<%= layout.cassette.hit.y %>" width="<%= layout.cassette.hit.width %>" height="<%= layout.cassette.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= surface_path(layout.cassette.outline_path) %>
-    <path d="<%= layout.cassette.outline_path %>" class="pv2-product-exploded__outline" />
-    <%= surface_path(layout.cassette.roll_path) %>
-    <path d="<%= layout.cassette.roll_path %>" class="pv2-product-exploded__profile" />
-    <% layout.cassette.screw_points.each do |point| %>
-      <circle cx="<%= point.x %>" cy="<%= point.y %>" r="22" class="pv2-product-exploded__fill" />
-    <% end %>
+    <%= solid_housing_profile(layout.cassette.solid_profile) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.cassette.marker.x %> <%= layout.cassette.marker.y %>)">
       <circle r="68" />
       <text y="25">1</text>
@@ -73,13 +67,8 @@
     aria-pressed="<%= aria_pressed("toile-bordee") %>"
     aria-label="Toile bordée">
     <rect x="<%= layout.fabric.hit.x %>" y="<%= layout.fabric.hit.y %>" width="<%= layout.fabric.hit.width %>" height="<%= layout.fabric.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= surface_rect(layout.fabric.body) %>
-    <path d="<%= layout.fabric.grid_path %>" class="pv2-product-exploded__fabric-grid" shape-rendering="crispEdges" />
-    <rect x="<%= layout.fabric.body.x %>" y="<%= layout.fabric.body.y %>" width="<%= layout.fabric.body.width %>" height="<%= layout.fabric.body.height %>" rx="<%= layout.fabric.body.rx %>" class="pv2-product-exploded__outline" />
-    <% layout.fabric.edge_fastener_ys.each do |y| %>
-      <path d="<%= layout.fabric.left_fastener_path(y) %>" class="pv2-product-exploded__fill" />
-      <path d="<%= layout.fabric.right_fastener_path(y) %>" class="pv2-product-exploded__fill" />
-    <% end %>
+    <%= fabric_pattern(layout.fabric.pattern, slot: :under_outline) %>
+    <%= fabric_pattern(layout.fabric.pattern, slot: :over_outline) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.fabric.marker.x %> <%= layout.fabric.marker.y %>)">
       <circle r="68" />
       <text y="25">3</text>

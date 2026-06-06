@@ -23,6 +23,28 @@ module PublicV2
           dark: "pv2-product-exploded__solid-fill-dark"
         }.freeze
 
+        FABRIC_PATTERN_ROLE_CLASSES = {
+          fill: "pv2-product-exploded__fill",
+          fabric_solid_edge: "pv2-product-exploded__fabric-solid-edge",
+          fabric_solid_edge_detail: "pv2-product-exploded__fabric-solid-edge-detail",
+          fabric_solid_grid: "pv2-product-exploded__fabric-solid-grid",
+          fabric_solid_surface: "pv2-product-exploded__fabric-solid-surface",
+          fabric_pleat_face_light: "pv2-product-exploded__fabric-pleat-face pv2-product-exploded__fabric-pleat-face--light",
+          fabric_pleat_face_mid: "pv2-product-exploded__fabric-pleat-face pv2-product-exploded__fabric-pleat-face--mid",
+          fabric_pleat_thread: "pv2-product-exploded__fabric-pleat-thread",
+          fabric_pleat_thread_point: "pv2-product-exploded__fabric-pleat-thread-point",
+          fabric_zip_teeth: "pv2-product-exploded__fabric-zip-teeth",
+          grid: "pv2-product-exploded__fabric-grid",
+          hairline: "pv2-product-exploded__hairline",
+          line: "pv2-product-exploded__fabric-line",
+          outline: "pv2-product-exploded__outline",
+          profile: "pv2-product-exploded__profile",
+          solid_dark: "pv2-product-exploded__solid-fill-dark",
+          solid_light: "pv2-product-exploded__solid-fill-light",
+          solid_mid: "pv2-product-exploded__solid-fill-mid",
+          thread: "pv2-product-exploded__fabric-thread"
+        }.freeze
+
         def initialize(layout:, title_id:, svg_description_id:, active_part_id:, svg_description:, show_layout_grid: true)
           @layout = layout
           @title_id = title_id
@@ -157,6 +179,58 @@ module PublicV2
           )
         end
 
+        def solid_housing_profile(profile)
+          return unless profile
+
+          id = "#{svg_description_id}-#{profile.id}"
+          clip_id = solid_clip_id(id)
+          safe_join(
+            [
+              solid_profile_defs(profile.body, clip_id:, id:, tones: profile.tones, axis: :horizontal),
+              solid_rect(profile.body, clip_id:, id:, tone: profile.body_tone),
+              *profile.features.map { |feature| solid_housing_feature(feature, clip_id:, id:) },
+              *profile.points.map { |point| solid_point(point.point, radius: point.radius, tone: point.tone) }
+            ]
+          )
+        end
+
+        def fabric_pattern(pattern, slot:)
+          return unless pattern
+
+          safe_join(pattern.layers_for(slot).map { |layer| fabric_pattern_layer(layer) })
+        end
+
+        def zip_edge_track(teeth_side:, step:, box: nil, x: nil, y: nil, width: nil, height: nil, rx: nil)
+          box ||= Box.new(x:, y:, width:, height:, rx:)
+
+          safe_join(
+            [
+              tag.rect(
+                x: box.x,
+                y: box.y,
+                width: box.width,
+                height: box.height,
+                rx: box.rx,
+                class: "pv2-product-exploded__fabric-solid-edge"
+              ),
+              tag.path(
+                d: FabricPatterns.zip_teeth_path(
+                  x: teeth_side.to_sym == :right ? box.right : box.x,
+                  top: box.y,
+                  bottom: box.bottom,
+                  step:,
+                  side: teeth_side
+                ),
+                class: "pv2-product-exploded__fabric-zip-teeth"
+              )
+            ]
+          )
+        end
+
+        def fabric_zip_tooth_step(fabric)
+          FabricPatterns.zip_tooth_step(body: fabric.body, line_count: fabric.line_count)
+        end
+
         def solid_profile_defs(box, clip_id:, id:, tones:, axis: :horizontal)
           tag.defs do
             safe_join(
@@ -168,6 +242,37 @@ module PublicV2
               ]
             )
           end
+        end
+
+        def fabric_pattern_layer(layer)
+          attrs = {
+            class: fabric_pattern_role_class(layer.role)
+          }
+          attrs["shape-rendering"] = layer.shape_rendering if layer.shape_rendering
+
+          if layer.box
+            tag.rect(
+              x: layer.box.x,
+              y: layer.box.y,
+              width: layer.box.width,
+              height: layer.box.height,
+              rx: layer.box.rx,
+              **attrs
+            )
+          elsif layer.point
+            tag.circle(
+              cx: layer.point.x,
+              cy: layer.point.y,
+              r: layer.radius,
+              **attrs
+            )
+          else
+            tag.path(d: layer.path, **attrs)
+          end
+        end
+
+        def fabric_pattern_role_class(role)
+          FABRIC_PATTERN_ROLE_CLASSES.fetch(role.to_sym)
         end
 
         def solid_linear_gradient(id, tone, axis: :horizontal)
@@ -205,6 +310,48 @@ module PublicV2
           attrs[:style] = "fill: url(##{solid_gradient_id(id, tone)})" if SOLID_GRADIENT_STOPS.key?(tone)
 
           tag.rect(**attrs)
+        end
+
+        def solid_rect(box, clip_id:, id:, tone:)
+          attrs = {
+            x: box.x,
+            y: box.y,
+            width: box.width,
+            height: box.height,
+            rx: box.rx,
+            class: solid_tone_class(tone),
+            "clip-path": "url(##{clip_id})"
+          }
+          attrs[:style] = "fill: url(##{solid_gradient_id(id, tone)})" if SOLID_GRADIENT_STOPS.key?(tone)
+
+          tag.rect(**attrs)
+        end
+
+        def solid_housing_feature(feature, clip_id:, id:)
+          return solid_rect(feature.box, clip_id:, id:, tone: feature.tone) unless feature.kind == :top_rounded_rect
+
+          attrs = {
+            d: solid_top_rounded_rect_path(feature.box, radius: feature.rx),
+            class: solid_tone_class(feature.tone),
+            "clip-path": "url(##{clip_id})"
+          }
+          attrs[:style] = "fill: url(##{solid_gradient_id(id, feature.tone)})" if SOLID_GRADIENT_STOPS.key?(feature.tone)
+
+          tag.path(**attrs)
+        end
+
+        def solid_top_rounded_rect_path(box, radius:)
+          radius = [radius, box.width / 2, box.height].min
+
+          [
+            "M#{box.x} #{box.bottom}",
+            "V#{box.y + radius}",
+            "Q#{box.x} #{box.y} #{box.x + radius} #{box.y}",
+            "H#{box.right - radius}",
+            "Q#{box.right} #{box.y} #{box.right} #{box.y + radius}",
+            "V#{box.bottom}",
+            "Z"
+          ].join
         end
 
         def solid_point(point, radius:, tone: :dark)

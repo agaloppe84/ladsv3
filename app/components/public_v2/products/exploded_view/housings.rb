@@ -3,6 +3,7 @@
 require_relative "geometry"
 require_relative "layout_primitives"
 require_relative "rails"
+require_relative "solid_profiles"
 
 module PublicV2
   module Products
@@ -50,16 +51,18 @@ module PublicV2
           :marker,
           :hole_pairs,
           :roll,
-          :screw_points
+          :screw_points,
+          :solid_profile
         )
 
-        def self.zipped_coffre(hit:, body:, marker:, hole_pairs:)
+        def self.zipped_coffre(hit:, body:, marker:, hole_pairs:, solid_profile: nil)
           new(
             variant: :zipped_coffre,
             hit:,
             body:,
             marker:,
-            hole_pairs:
+            hole_pairs:,
+            solid_profile:
           )
         end
 
@@ -81,7 +84,8 @@ module PublicV2
               hit: options.fetch(:hit),
               body: options.fetch(:body),
               marker: options.fetch(:marker),
-              hole_pairs: options.fetch(:hole_pairs)
+              hole_pairs: options.fetch(:hole_pairs),
+              solid_profile: options.fetch(:solid_profile, nil)
             )
           when :cassette
             cassette(
@@ -103,7 +107,8 @@ module PublicV2
           marker:,
           hole_pairs: [],
           roll: nil,
-          screw_points: []
+          screw_points: [],
+          solid_profile: nil
         )
           @variant = variant.to_sym
           raise ArgumentError, "Unknown housing variant: #{variant}" unless VARIANTS.include?(@variant)
@@ -114,6 +119,20 @@ module PublicV2
           @hole_pairs = hole_pairs
           @roll = roll
           @screw_points = screw_points
+          @solid_profile = solid_profile
+        end
+
+        def with_solid_profile(solid_profile)
+          self.class.new(
+            variant:,
+            hit:,
+            body:,
+            marker:,
+            hole_pairs:,
+            roll:,
+            screw_points:,
+            solid_profile:
+          )
         end
 
         def holes

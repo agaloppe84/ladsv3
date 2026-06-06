@@ -202,7 +202,9 @@ module PublicV2
               hit_inset_x: 85,
               hit_inset_y: 85,
               pleat_count: layout_config.fetch(:pleat_count),
-              thread_offsets: [310, :center, -310]
+              thread_offsets: [310, -310],
+              pattern_id: "plissee-toile",
+              pattern_style: :solid
             )
           end
 

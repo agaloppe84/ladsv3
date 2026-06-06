@@ -82,18 +82,8 @@
     aria-pressed="<%= aria_pressed("toile-plissee") %>"
     aria-label="Toile plissée">
     <rect x="<%= layout.fabric.hit.x %>" y="<%= layout.fabric.hit.y %>" width="<%= layout.fabric.hit.width %>" height="<%= layout.fabric.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= surface_path(layout.fabric.surface_path) %>
-    <path d="<%= layout.fabric.side_path %>" class="pv2-product-exploded__outline" />
-    <path d="<%= layout.fabric.top_pleat_path %>" class="pv2-product-exploded__outline" />
-    <path d="<%= layout.fabric.bottom_pleat_path %>" class="pv2-product-exploded__outline" />
-    <% layout.fabric.pleat_xs.each_with_index do |x, index| %>
-      <% unless index.zero? || index == layout.fabric.pleat_xs.length - 1 %>
-        <path d="M<%= x %> <%= layout.fabric.top_pleat_y(index) %>V<%= layout.fabric.bottom_pleat_y(index) %>" class="pv2-product-exploded__outline" />
-      <% end %>
-    <% end %>
-    <% layout.fabric.thread_ys.each do |y| %>
-      <path d="M<%= layout.fabric.body.x %> <%= y %>H<%= layout.fabric.body.right %>" class="pv2-product-exploded__fabric-thread" />
-    <% end %>
+    <%= fabric_pattern(layout.fabric.pattern, slot: :under_outline) %>
+    <%= fabric_pattern(layout.fabric.pattern, slot: :over_outline) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.fabric.marker.x %> <%= layout.fabric.marker.y %>)">
       <circle r="68" />
       <text y="25">3</text>

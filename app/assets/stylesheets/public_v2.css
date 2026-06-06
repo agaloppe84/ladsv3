@@ -8994,15 +8994,31 @@
   --pv2-exploded-grid-surface: transparent;
   --pv2-exploded-grid-line: rgba(17, 20, 23, 0.055);
   --pv2-exploded-grid-line-strong: rgba(17, 20, 23, 0.085);
-  --pv2-exploded-solid-light-hi: #edf1f5;
-  --pv2-exploded-solid-light: #d8dde4;
-  --pv2-exploded-solid-light-low: #cbd2da;
-  --pv2-exploded-solid-mid-hi: #b8c0ca;
-  --pv2-exploded-solid-mid: #a9b1bc;
-  --pv2-exploded-solid-mid-low: #939da9;
-  --pv2-exploded-solid-dark: #444d57;
-  --pv2-exploded-solid-shadow: rgba(17, 20, 23, 0.16);
-  --pv2-exploded-solid-edge-highlight: rgba(255, 255, 255, 0.62);
+  --pv2-exploded-solid-palette-light-hi: #edf1f5;
+  --pv2-exploded-solid-palette-light: #d8dde4;
+  --pv2-exploded-solid-palette-light-low: #cbd2da;
+  --pv2-exploded-solid-palette-mid-hi: #b8c0ca;
+  --pv2-exploded-solid-palette-mid: #a9b1bc;
+  --pv2-exploded-solid-palette-mid-low: #939da9;
+  --pv2-exploded-solid-palette-dark: #444d57;
+  --pv2-exploded-solid-palette-shadow: rgba(17, 20, 23, 0.16);
+  --pv2-exploded-solid-palette-edge-highlight: rgba(255, 255, 255, 0.62);
+  --pv2-exploded-solid-light-hi: var(--pv2-exploded-solid-palette-light-hi);
+  --pv2-exploded-solid-light: var(--pv2-exploded-solid-palette-light);
+  --pv2-exploded-solid-light-low: var(--pv2-exploded-solid-palette-light-low);
+  --pv2-exploded-solid-mid-hi: var(--pv2-exploded-solid-palette-mid-hi);
+  --pv2-exploded-solid-mid: var(--pv2-exploded-solid-palette-mid);
+  --pv2-exploded-solid-mid-low: var(--pv2-exploded-solid-palette-mid-low);
+  --pv2-exploded-solid-dark: var(--pv2-exploded-solid-palette-dark);
+  --pv2-exploded-solid-shadow: var(--pv2-exploded-solid-palette-shadow);
+  --pv2-exploded-solid-edge-highlight: var(--pv2-exploded-solid-palette-edge-highlight);
+  --pv2-exploded-fabric-solid-surface: color-mix(in srgb, var(--pv2-exploded-bg) 88%, var(--pv2-exploded-solid-light));
+  --pv2-exploded-fabric-solid-grid: color-mix(in srgb, var(--pv2-exploded-bg) 58%, var(--pv2-exploded-solid-mid));
+  --pv2-exploded-fabric-solid-edge: var(--pv2-exploded-solid-dark);
+  --pv2-exploded-fabric-edge-detail: #ffffff;
+  --pv2-exploded-fabric-pleat-face-light: color-mix(in srgb, var(--pv2-exploded-bg) 62%, var(--pv2-exploded-solid-mid-hi));
+  --pv2-exploded-fabric-pleat-face-mid: color-mix(in srgb, var(--pv2-exploded-bg) 48%, var(--pv2-exploded-solid-mid-low));
+  --pv2-exploded-fabric-pleat-thread: color-mix(in srgb, var(--pv2-exploded-bg) 22%, var(--pv2-exploded-solid-dark));
   --pv2-exploded-accent: #009e96;
   --pv2-exploded-accent-rgb: 0, 158, 150;
   --pv2-exploded-accent-ink: #ffffff;
@@ -9277,11 +9293,61 @@
 }
 
 .public-v2 .pv2-product-exploded__solid-fill-light,
+.public-v2 .pv2-product-exploded__fabric-solid-edge,
+.public-v2 .pv2-product-exploded__fabric-solid-grid,
+.public-v2 .pv2-product-exploded__fabric-solid-surface,
+.public-v2 .pv2-product-exploded__fabric-pleat-face,
+.public-v2 .pv2-product-exploded__fabric-pleat-thread,
+.public-v2 .pv2-product-exploded__fabric-pleat-thread-point,
 .public-v2 .pv2-product-exploded__solid-fill-mid,
 .public-v2 .pv2-product-exploded__solid-fill-dark {
   stroke: none;
   transition: none;
   vector-effect: non-scaling-stroke;
+}
+
+.public-v2 .pv2-product-exploded__fabric-solid-surface {
+  fill: var(--pv2-exploded-fabric-solid-surface);
+}
+
+.public-v2 .pv2-product-exploded__fabric-solid-grid {
+  fill: var(--pv2-exploded-fabric-solid-grid);
+}
+
+.public-v2 .pv2-product-exploded__fabric-solid-edge {
+  fill: var(--pv2-exploded-fabric-solid-edge);
+}
+
+.public-v2 .pv2-product-exploded__fabric-solid-edge-detail {
+  fill: none;
+  stroke: var(--pv2-exploded-fabric-edge-detail);
+  stroke-dasharray: 10 16;
+  stroke-linecap: round;
+  stroke-width: 1.35;
+  vector-effect: non-scaling-stroke;
+}
+
+.public-v2 .pv2-product-exploded__fabric-zip-teeth {
+  fill: var(--pv2-exploded-fabric-solid-edge);
+  shape-rendering: crispEdges;
+  stroke: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.public-v2 .pv2-product-exploded__fabric-pleat-face--light {
+  fill: var(--pv2-exploded-fabric-pleat-face-light);
+}
+
+.public-v2 .pv2-product-exploded__fabric-pleat-face--mid {
+  fill: var(--pv2-exploded-fabric-pleat-face-mid);
+}
+
+.public-v2 .pv2-product-exploded__fabric-pleat-thread {
+  fill: var(--pv2-exploded-fabric-pleat-thread);
+}
+
+.public-v2 .pv2-product-exploded__fabric-pleat-thread-point {
+  fill: var(--pv2-exploded-fabric-pleat-thread);
 }
 
 .public-v2 .pv2-product-exploded__solid-fill-light {
@@ -9588,18 +9654,25 @@
   --pv2-exploded-grid-surface: transparent;
   --pv2-exploded-grid-line: rgba(242, 245, 244, 0.07);
   --pv2-exploded-grid-line-strong: rgba(242, 245, 244, 0.105);
-  --pv2-exploded-solid-light-hi: #f9fbfc;
-  --pv2-exploded-solid-light: #eef1f3;
-  --pv2-exploded-solid-light-low: #dfe5e9;
-  --pv2-exploded-solid-mid-hi: #aeb6bf;
-  --pv2-exploded-solid-mid: #9da5ae;
-  --pv2-exploded-solid-mid-low: #8c96a1;
-  --pv2-exploded-solid-dark: #3d444c;
-  --pv2-exploded-solid-shadow: rgba(0, 0, 0, 0.34);
-  --pv2-exploded-solid-edge-highlight: rgba(255, 255, 255, 0.72);
+  --pv2-exploded-solid-palette-light-hi: #f9fbfc;
+  --pv2-exploded-solid-palette-light: #eef1f3;
+  --pv2-exploded-solid-palette-light-low: #dfe5e9;
+  --pv2-exploded-solid-palette-mid-hi: #aeb6bf;
+  --pv2-exploded-solid-palette-mid: #9da5ae;
+  --pv2-exploded-solid-palette-mid-low: #8c96a1;
+  --pv2-exploded-solid-palette-dark: #3d444c;
+  --pv2-exploded-solid-palette-shadow: rgba(0, 0, 0, 0.34);
+  --pv2-exploded-solid-palette-edge-highlight: rgba(255, 255, 255, 0.72);
   --pv2-exploded-accent: #39d6ca;
   --pv2-exploded-accent-rgb: 57, 214, 202;
   --pv2-exploded-accent-ink: #061716;
+  --pv2-exploded-fabric-solid-surface: color-mix(in srgb, var(--pv2-exploded-bg) 92%, var(--pv2-exploded-solid-dark));
+  --pv2-exploded-fabric-solid-grid: color-mix(in srgb, var(--pv2-exploded-bg) 22%, var(--pv2-exploded-solid-mid));
+  --pv2-exploded-fabric-solid-edge: color-mix(in srgb, var(--pv2-exploded-bg) 12%, var(--pv2-exploded-solid-mid-hi));
+  --pv2-exploded-fabric-edge-detail: #000000;
+  --pv2-exploded-fabric-pleat-face-light: color-mix(in srgb, var(--pv2-exploded-bg) 44%, var(--pv2-exploded-solid-mid-low));
+  --pv2-exploded-fabric-pleat-face-mid: color-mix(in srgb, var(--pv2-exploded-bg) 30%, var(--pv2-exploded-solid-mid-hi));
+  --pv2-exploded-fabric-pleat-thread: color-mix(in srgb, var(--pv2-exploded-bg) 18%, var(--pv2-exploded-solid-light-low));
 }
 
 @media (max-width: 1120px) {

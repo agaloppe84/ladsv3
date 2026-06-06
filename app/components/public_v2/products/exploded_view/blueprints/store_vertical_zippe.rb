@@ -39,12 +39,15 @@ module PublicV2
             motor_tube_preset: :motor_tubular_tube,
             motor_tube_cap_width: 180,
             gap_motor_coffre: :exploded_lg,
-            coffre_x: 850,
+            coffre_x: 1_020,
+            coffre_width: 5_760,
             coffre_preset: :housing_zipped_coffre,
             gap_coffre_fabric: :exploded_lg,
-            fabric_x: 1_250,
+            fabric_x: 1_260,
+            fabric_width: 5_280,
+            fabric_height: 2_040,
             fabric_preset: :fabric_zipped,
-            fabric_line_count: 17,
+            fabric_line_count: 35,
             gap_fabric_barre: :fabric_to_load_bar,
             barre_preset: :bar_zipped_load
           }.freeze
@@ -210,7 +213,12 @@ module PublicV2
               marker_gap: 160,
               hit_inset_x: 120,
               hit_inset_y: 75,
-              hole_offsets: [488, 712]
+              hole_offsets: [488, 712],
+              solid_profile: {
+                id: "vertical-zippe-coffre",
+                style: :front_coffre,
+                points: false
+              }
             )
           end
 
@@ -228,7 +236,9 @@ module PublicV2
               hit_inset_x: 85,
               hit_inset_y: 55,
               line_count: layout_config.fetch(:fabric_line_count),
-              tick_step: 2
+              tick_step: 2,
+              pattern_id: "vertical-zippe-toile",
+              pattern_style: :solid
             )
           end
 

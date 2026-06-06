@@ -85,11 +85,7 @@
     aria-pressed="<%= aria_pressed("coffre") %>"
     aria-label="Coffre extrudé">
     <rect x="<%= layout.coffre.hit.x %>" y="<%= layout.coffre.hit.y %>" width="<%= layout.coffre.hit.width %>" height="<%= layout.coffre.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= surface_rect(layout.coffre.body) %>
-    <rect x="<%= layout.coffre.body.x %>" y="<%= layout.coffre.body.y %>" width="<%= layout.coffre.body.width %>" height="<%= layout.coffre.body.height %>" rx="<%= layout.coffre.body.rx %>" class="pv2-product-exploded__outline" />
-    <% layout.coffre.holes.each do |hole| %>
-      <circle cx="<%= hole.x %>" cy="<%= hole.y %>" r="22" class="pv2-product-exploded__fill" />
-    <% end %>
+    <%= solid_housing_profile(layout.coffre.solid_profile) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.coffre.marker.x %> <%= layout.coffre.marker.y %>)">
       <circle r="68" />
       <text y="25">1</text>
@@ -109,15 +105,16 @@
     <rect x="<%= layout.coulisse.hit.x %>" y="<%= layout.coulisse.hit.y %>" width="<%= layout.coulisse.hit.width %>" height="<%= layout.coulisse.hit.height %>" class="pv2-product-exploded__hit-area" />
 
     <g class="pv2-product-exploded__mirror-unit">
-      <%= surface_path(layout.coulisse.outline_path) %>
-      <path d="<%= layout.coulisse.outline_path %>" class="pv2-product-exploded__outline" />
-      <path d="<%= layout.coulisse.profile_path %>" class="pv2-product-exploded__profile" />
-      <% layout.fabric.tick_ys.each do |y| %>
-        <rect x="748" y="<%= y - 16 %>" width="64" height="32" rx="7" class="pv2-product-exploded__fill" />
-      <% end %>
-      <% layout.fabric.tick_ys.each do |y| %>
-        <circle cx="658" cy="<%= y %>" r="16" class="pv2-product-exploded__fill" />
-      <% end %>
+      <path d="<%= layout.coulisse.outline_path %>" class="<%= solid_tone_class(:light) %>" />
+      <%= zip_edge_track(
+        x: 748,
+        y: layout.fabric.body.y,
+        width: 54,
+        height: layout.fabric.body.height,
+        rx: 8,
+        teeth_side: :right,
+        step: fabric_zip_tooth_step(layout.fabric)
+      ) %>
     </g>
 
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.coulisse.marker.x %> <%= layout.coulisse.marker.y %>)">
@@ -138,15 +135,16 @@
     aria-label="Coulisse latérale droite">
     <rect x="<%= layout.svg_width - layout.coulisse.hit.x - layout.coulisse.hit.width %>" y="<%= layout.coulisse.hit.y %>" width="<%= layout.coulisse.hit.width %>" height="<%= layout.coulisse.hit.height %>" class="pv2-product-exploded__hit-area" />
     <g class="pv2-product-exploded__mirror-unit" transform="translate(<%= layout.svg_width %> 0) scale(-1 1)">
-      <%= surface_path(layout.coulisse.outline_path) %>
-      <path d="<%= layout.coulisse.outline_path %>" class="pv2-product-exploded__outline" />
-      <path d="<%= layout.coulisse.profile_path %>" class="pv2-product-exploded__profile" />
-      <% layout.fabric.tick_ys.each do |y| %>
-        <rect x="748" y="<%= y - 16 %>" width="64" height="32" rx="7" class="pv2-product-exploded__fill" />
-      <% end %>
-      <% layout.fabric.tick_ys.each do |y| %>
-        <circle cx="658" cy="<%= y %>" r="16" class="pv2-product-exploded__fill" />
-      <% end %>
+      <path d="<%= layout.coulisse.outline_path %>" class="<%= solid_tone_class(:light) %>" />
+      <%= zip_edge_track(
+        x: 748,
+        y: layout.fabric.body.y,
+        width: 54,
+        height: layout.fabric.body.height,
+        rx: 8,
+        teeth_side: :right,
+        step: fabric_zip_tooth_step(layout.fabric)
+      ) %>
     </g>
   </g>
 
@@ -160,14 +158,8 @@
     aria-pressed="<%= aria_pressed("toile") %>"
     aria-label="Toile zippée">
     <rect x="<%= layout.fabric.hit.x %>" y="<%= layout.fabric.hit.y %>" width="<%= layout.fabric.hit.width %>" height="<%= layout.fabric.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= surface_rect(layout.fabric.body) %>
-    <rect x="<%= layout.fabric.body.x %>" y="<%= layout.fabric.body.y %>" width="<%= layout.fabric.body.width %>" height="<%= layout.fabric.body.height %>" rx="<%= layout.fabric.body.rx %>" class="pv2-product-exploded__outline" />
-    <% layout.fabric.line_ys.each do |y| %>
-      <path d="M<%= layout.fabric.body.x + 75 %> <%= y %>H<%= layout.fabric.body.right - 75 %>" class="pv2-product-exploded__fabric-line" />
-    <% end %>
-    <% layout.fabric.tick_ys.each do |y| %>
-      <path d="M<%= layout.fabric.body.x %> <%= y %>H<%= layout.fabric.body.x + 150 %>M<%= layout.fabric.body.right %> <%= y %>H<%= layout.fabric.body.right - 150 %>" class="pv2-product-exploded__hairline" />
-    <% end %>
+    <%= fabric_pattern(layout.fabric.pattern, slot: :under_outline) %>
+    <%= fabric_pattern(layout.fabric.pattern, slot: :over_outline) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.fabric.marker.x %> <%= layout.fabric.marker.y %>)">
       <circle r="68" />
       <text y="25">3</text>

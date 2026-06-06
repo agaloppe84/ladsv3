@@ -35,18 +35,22 @@ module PublicV2
             grid_cell: 120,
             grid_margin: 60,
             marker_gap: 168,
-            cassette_x: 980,
+            cassette_x: 1_020,
             cassette_y: 520,
+            cassette_width: 5_760,
+            cassette_height: 260,
+            cassette_radius: 38,
             cassette_preset: :housing_kiss_50,
-            roll_inset_x: 440,
+            roll_inset_x: 480,
             roll_y_offset: 108,
             roll_height: 124,
             roll_radius: 54,
-            gap_cassette_fabric: :exploded_xl,
-            fabric_x: 1_580,
+            gap_cassette_fabric: 480,
+            fabric_x: 1_500,
+            fabric_width: 4_800,
             fabric_preset: :fabric_bordered,
-            fabric_vertical_count: 59,
-            fabric_horizontal_count: 25,
+            fabric_vertical_count: 81,
+            fabric_horizontal_count: 33,
             rail_gap: :rail_to_fabric,
             rail_preset: :rail_double_coulisse,
             rail_radius: 26,
@@ -68,7 +72,7 @@ module PublicV2
               number: "1",
               label: "Caisson KISS 50",
               measurement: TECHNICAL_DATA.fetch(:cassette_hint_mm),
-              detail: "Caisson haut arrondi avec axe d'enroulement interieur. Le dessin isole le volume principal et les reperes de fixation sans remplir la piece."
+              detail: "Caisson haut arrondi avec volume principal plein, joues laterales fines et ouverture basse simplifiee."
             ),
             Part.new(
               id: "double-coulisse",
@@ -197,7 +201,15 @@ module PublicV2
               roll_y_offset: layout_config.fetch(:roll_y_offset),
               roll_height: layout_config.fetch(:roll_height),
               roll_radius: layout_config.fetch(:roll_radius),
-              screw_side_inset: 690
+              screw_side_inset: 690,
+              solid_profile: {
+                id: "enroulable-caisson-kiss-50",
+                style: :front_coffre,
+                points: false,
+                cheeks: {
+                  width: 80
+                }
+              }
             )
           end
 
@@ -216,8 +228,9 @@ module PublicV2
               hit_inset_y: 75,
               vertical_count: layout_config.fetch(:fabric_vertical_count),
               horizontal_count: layout_config.fetch(:fabric_horizontal_count),
-              edge_fastener_indexes: [6, 10, 14, 18],
-              edge_fastener_radius: 22
+              edge_fastener_indexes: [],
+              edge_fastener_radius: 0,
+              pattern_style: :solid
             )
           end
 
