@@ -43,9 +43,8 @@ module PublicV2
             fabric_preset: :fabric_honeycomb,
             fabric_cell_count: 12,
             fabric_cell_depth: 130,
-            intermediate_offset_y: 660,
             intermediate_height: 120,
-            bottom_rail_gap: :exploded_md,
+            bottom_rail_gap: :exploded_lg,
             bottom_rail_height: 150,
             rail_preset: :bar_threshold,
             support_width: 280,
@@ -194,14 +193,7 @@ module PublicV2
               rx: layout_config[:top_rail_radius],
               marker_gap: layout_config.fetch(:marker_gap),
               hit_inset_x: 120,
-              hit_inset_y: 95,
-              screw_side_inset: 820,
-              inner_inset_y: 64,
-              solid_profile: {
-                id: "duette-top-rail",
-                cap_ratio: 0.29,
-                point_radius: 24
-              }
+              hit_inset_y: 95
             )
           end
 
@@ -237,18 +229,21 @@ module PublicV2
               hit_inset_y: 85,
               cell_count: layout_config.fetch(:fabric_cell_count),
               cell_depth: layout_size(layout_config.fetch(:fabric_cell_depth)),
+              pattern_id: "duette-toile",
+              pattern_style: :solid,
               thread_offsets: [390, :center, -390]
             )
           end
 
           def build_intermediate_rail_layout(fabric:)
             rail_width = fabric.body.width + 180
+            rail_height = layout_size(layout_config.fetch(:intermediate_height))
             body = layout_box(
               Box.new(
                 x: fabric.body.x - 90,
-                y: fabric.body.y + layout_size(layout_config.fetch(:intermediate_offset_y)),
+                y: fabric.body.bottom - (rail_height / 2),
                 width: rail_width,
-                height: layout_size(layout_config.fetch(:intermediate_height)),
+                height: rail_height,
                 rx: 28
               )
             )

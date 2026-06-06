@@ -9016,9 +9016,18 @@
   --pv2-exploded-fabric-solid-grid: color-mix(in srgb, var(--pv2-exploded-bg) 58%, var(--pv2-exploded-solid-mid));
   --pv2-exploded-fabric-solid-edge: var(--pv2-exploded-solid-dark);
   --pv2-exploded-fabric-edge-detail: #ffffff;
+  --pv2-exploded-fabric-honeycomb-face-light: color-mix(in srgb, var(--pv2-exploded-bg) 66%, var(--pv2-exploded-solid-light-low));
+  --pv2-exploded-fabric-honeycomb-face-mid: color-mix(in srgb, var(--pv2-exploded-bg) 52%, var(--pv2-exploded-solid-mid-hi));
+  --pv2-exploded-fabric-honeycomb-face-deep: color-mix(in srgb, var(--pv2-exploded-bg) 42%, var(--pv2-exploded-solid-mid-low));
+  --pv2-exploded-fabric-honeycomb-edge: color-mix(in srgb, var(--pv2-exploded-bg) 38%, var(--pv2-exploded-solid-mid-low));
+  --pv2-exploded-fabric-honeycomb-recess: color-mix(in srgb, var(--pv2-exploded-bg) 24%, var(--pv2-exploded-solid-dark));
+  --pv2-exploded-fabric-honeycomb-thread: color-mix(in srgb, var(--pv2-exploded-bg) 34%, var(--pv2-exploded-solid-mid-low));
   --pv2-exploded-fabric-pleat-face-light: color-mix(in srgb, var(--pv2-exploded-bg) 62%, var(--pv2-exploded-solid-mid-hi));
   --pv2-exploded-fabric-pleat-face-mid: color-mix(in srgb, var(--pv2-exploded-bg) 48%, var(--pv2-exploded-solid-mid-low));
   --pv2-exploded-fabric-pleat-thread: color-mix(in srgb, var(--pv2-exploded-bg) 22%, var(--pv2-exploded-solid-dark));
+  --pv2-exploded-fabric-duo-sheer: color-mix(in srgb, var(--pv2-exploded-bg) 90%, var(--pv2-exploded-solid-light-low));
+  --pv2-exploded-fabric-duo-band-light: color-mix(in srgb, var(--pv2-exploded-bg) 48%, var(--pv2-exploded-solid-mid-hi));
+  --pv2-exploded-fabric-duo-band-mid: color-mix(in srgb, var(--pv2-exploded-bg) 36%, var(--pv2-exploded-solid-mid-low));
   --pv2-exploded-accent: #009e96;
   --pv2-exploded-accent-rgb: 0, 158, 150;
   --pv2-exploded-accent-ink: #ffffff;
@@ -9239,6 +9248,16 @@
   opacity: 0.86;
 }
 
+.public-v2 .pv2-product-exploded__duo-chain-line {
+  opacity: 0.78;
+  stroke: var(--pv2-exploded-faint);
+  stroke-width: 1.36;
+}
+
+.public-v2 .pv2-product-exploded__duo-chain-bead {
+  opacity: 0.92;
+}
+
 .public-v2 .pv2-product-exploded__detail,
 .public-v2 .pv2-product-exploded__zip-track {
   stroke: var(--pv2-exploded-line-fine);
@@ -9296,6 +9315,12 @@
 .public-v2 .pv2-product-exploded__fabric-solid-edge,
 .public-v2 .pv2-product-exploded__fabric-solid-grid,
 .public-v2 .pv2-product-exploded__fabric-solid-surface,
+.public-v2 .pv2-product-exploded__fabric-duo-band,
+.public-v2 .pv2-product-exploded__fabric-duo-sheer,
+.public-v2 .pv2-product-exploded__fabric-honeycomb-edge,
+.public-v2 .pv2-product-exploded__fabric-honeycomb-face,
+.public-v2 .pv2-product-exploded__fabric-honeycomb-recess,
+.public-v2 .pv2-product-exploded__fabric-honeycomb-thread,
 .public-v2 .pv2-product-exploded__fabric-pleat-face,
 .public-v2 .pv2-product-exploded__fabric-pleat-thread,
 .public-v2 .pv2-product-exploded__fabric-pleat-thread-point,
@@ -9327,11 +9352,47 @@
   vector-effect: non-scaling-stroke;
 }
 
+.public-v2 .pv2-product-exploded__fabric-duo-sheer {
+  fill: var(--pv2-exploded-fabric-duo-sheer);
+}
+
+.public-v2 .pv2-product-exploded__fabric-duo-band--light {
+  fill: var(--pv2-exploded-fabric-duo-band-light);
+}
+
+.public-v2 .pv2-product-exploded__fabric-duo-band--mid {
+  fill: var(--pv2-exploded-fabric-duo-band-mid);
+}
+
 .public-v2 .pv2-product-exploded__fabric-zip-teeth {
   fill: var(--pv2-exploded-fabric-solid-edge);
   shape-rendering: crispEdges;
   stroke: none;
   vector-effect: non-scaling-stroke;
+}
+
+.public-v2 .pv2-product-exploded__fabric-honeycomb-face--light {
+  fill: var(--pv2-exploded-fabric-honeycomb-face-light);
+}
+
+.public-v2 .pv2-product-exploded__fabric-honeycomb-face--mid {
+  fill: var(--pv2-exploded-fabric-honeycomb-face-mid);
+}
+
+.public-v2 .pv2-product-exploded__fabric-honeycomb-face--deep {
+  fill: var(--pv2-exploded-fabric-honeycomb-face-deep);
+}
+
+.public-v2 .pv2-product-exploded__fabric-honeycomb-edge {
+  fill: var(--pv2-exploded-fabric-honeycomb-edge);
+}
+
+.public-v2 .pv2-product-exploded__fabric-honeycomb-recess {
+  fill: var(--pv2-exploded-fabric-honeycomb-recess);
+}
+
+.public-v2 .pv2-product-exploded__fabric-honeycomb-thread {
+  fill: var(--pv2-exploded-fabric-honeycomb-thread);
 }
 
 .public-v2 .pv2-product-exploded__fabric-pleat-face--light {
@@ -9485,7 +9546,9 @@
 .public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__venetian-cord,
 .public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__venetian-cord-dot,
 .public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__duette-cord,
-.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__duette-cord-dot {
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__duette-cord-dot,
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__duo-chain-line,
+.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__duo-chain-bead {
   opacity: 1;
 }
 
@@ -9670,9 +9733,18 @@
   --pv2-exploded-fabric-solid-grid: color-mix(in srgb, var(--pv2-exploded-bg) 22%, var(--pv2-exploded-solid-mid));
   --pv2-exploded-fabric-solid-edge: color-mix(in srgb, var(--pv2-exploded-bg) 12%, var(--pv2-exploded-solid-mid-hi));
   --pv2-exploded-fabric-edge-detail: #000000;
+  --pv2-exploded-fabric-honeycomb-face-light: color-mix(in srgb, var(--pv2-exploded-bg) 46%, var(--pv2-exploded-solid-mid-low));
+  --pv2-exploded-fabric-honeycomb-face-mid: color-mix(in srgb, var(--pv2-exploded-bg) 31%, var(--pv2-exploded-solid-mid-hi));
+  --pv2-exploded-fabric-honeycomb-face-deep: color-mix(in srgb, var(--pv2-exploded-bg) 24%, var(--pv2-exploded-solid-light-low));
+  --pv2-exploded-fabric-honeycomb-edge: color-mix(in srgb, var(--pv2-exploded-bg) 22%, var(--pv2-exploded-solid-light-low));
+  --pv2-exploded-fabric-honeycomb-recess: color-mix(in srgb, var(--pv2-exploded-bg) 10%, var(--pv2-exploded-solid-light-hi));
+  --pv2-exploded-fabric-honeycomb-thread: color-mix(in srgb, var(--pv2-exploded-bg) 20%, var(--pv2-exploded-solid-light-low));
   --pv2-exploded-fabric-pleat-face-light: color-mix(in srgb, var(--pv2-exploded-bg) 44%, var(--pv2-exploded-solid-mid-low));
   --pv2-exploded-fabric-pleat-face-mid: color-mix(in srgb, var(--pv2-exploded-bg) 30%, var(--pv2-exploded-solid-mid-hi));
   --pv2-exploded-fabric-pleat-thread: color-mix(in srgb, var(--pv2-exploded-bg) 18%, var(--pv2-exploded-solid-light-low));
+  --pv2-exploded-fabric-duo-sheer: color-mix(in srgb, var(--pv2-exploded-bg) 84%, var(--pv2-exploded-solid-dark));
+  --pv2-exploded-fabric-duo-band-light: color-mix(in srgb, var(--pv2-exploded-bg) 38%, var(--pv2-exploded-solid-mid-hi));
+  --pv2-exploded-fabric-duo-band-mid: color-mix(in srgb, var(--pv2-exploded-bg) 24%, var(--pv2-exploded-solid-light-low));
 }
 
 @media (max-width: 1120px) {

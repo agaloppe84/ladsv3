@@ -3,6 +3,7 @@
 require_relative "moustiquaire_enroulable_verticale"
 require_relative "moustiquaire_plissee"
 require_relative "store_duette"
+require_relative "store_rouleau_duo"
 require_relative "store_venitien"
 require_relative "store_vertical_zippe"
 
@@ -16,7 +17,8 @@ module PublicV2
             MoustiquairePlissee,
             MoustiquaireEnroulableVerticale,
             StoreVenitien,
-            StoreDuette
+            StoreDuette,
+            StoreRouleauDuo
           ].freeze
 
           PRIMARY_BOX_METHODS = %i[

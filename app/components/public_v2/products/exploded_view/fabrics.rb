@@ -41,7 +41,7 @@ module PublicV2
       end
 
       class FabricElement
-        VARIANTS = %i[zipped pleated bordered_grid honeycomb].freeze
+        VARIANTS = %i[zipped pleated bordered_grid honeycomb duo_bands].freeze
 
         attr_reader(
           :variant,
@@ -60,6 +60,10 @@ module PublicV2
           :edge_fastener_radius,
           :cell_count,
           :cell_depth,
+          :band_count,
+          :opaque_ratio,
+          :layer_offset,
+          :band_radius,
           :pattern
         )
 
@@ -110,7 +114,22 @@ module PublicV2
               marker:,
               cell_count: options.fetch(:cell_count),
               cell_depth: options.fetch(:cell_depth, 120),
-              thread_offsets: options.fetch(:thread_offsets, [])
+              thread_offsets: options.fetch(:thread_offsets, []),
+              pattern_id: options.fetch(:pattern_id, nil),
+              pattern_style: options.fetch(:pattern_style, nil),
+              pattern_thread_width: options.fetch(:pattern_thread_width, FabricPatterns::HONEYCOMB_SOLID_THREAD_WIDTH)
+            )
+          when :duo_bands
+            duo_bands(
+              hit:,
+              body:,
+              marker:,
+              band_count: options.fetch(:band_count),
+              opaque_ratio: options.fetch(:opaque_ratio, FabricPatterns::DUO_OPAQUE_RATIO),
+              layer_offset: options.fetch(:layer_offset, FabricPatterns::DUO_LAYER_OFFSET),
+              band_radius: options.fetch(:band_radius, FabricPatterns::DUO_BAND_RADIUS),
+              pattern_id: options.fetch(:pattern_id, nil),
+              pattern_style: options.fetch(:pattern_style, nil)
             )
           else
             raise ArgumentError, "Unknown fabric variant: #{variant}"
@@ -223,7 +242,29 @@ module PublicV2
           )
         end
 
-        def self.honeycomb(hit:, body:, marker:, cell_count:, cell_depth: 120, thread_offsets: [])
+        def self.honeycomb(
+          hit:,
+          body:,
+          marker:,
+          cell_count:,
+          cell_depth: 120,
+          thread_offsets: [],
+          pattern_id: nil,
+          pattern_style: nil,
+          pattern_thread_width: FabricPatterns::HONEYCOMB_SOLID_THREAD_WIDTH
+        )
+          pattern = if pattern_style
+                      FabricPatterns.honeycomb(
+                        id: pattern_id || "honeycomb",
+                        body:,
+                        cell_count:,
+                        cell_depth:,
+                        thread_offsets:,
+                        style: pattern_style,
+                        thread_width: pattern_thread_width
+                      )
+                    end
+
           new(
             variant: :honeycomb,
             hit:,
@@ -231,7 +272,44 @@ module PublicV2
             marker:,
             cell_count:,
             cell_depth:,
-            thread_offsets:
+            thread_offsets:,
+            pattern:
+          )
+        end
+
+        def self.duo_bands(
+          hit:,
+          body:,
+          marker:,
+          band_count:,
+          opaque_ratio: FabricPatterns::DUO_OPAQUE_RATIO,
+          layer_offset: FabricPatterns::DUO_LAYER_OFFSET,
+          band_radius: FabricPatterns::DUO_BAND_RADIUS,
+          pattern_id: nil,
+          pattern_style: nil
+        )
+          pattern = if pattern_style
+                      FabricPatterns.duo_bands(
+                        id: pattern_id || "duo-bands",
+                        body:,
+                        band_count:,
+                        opaque_ratio:,
+                        layer_offset:,
+                        band_radius:,
+                        style: pattern_style
+                      )
+                    end
+
+          new(
+            variant: :duo_bands,
+            hit:,
+            body:,
+            marker:,
+            band_count:,
+            opaque_ratio:,
+            layer_offset:,
+            band_radius:,
+            pattern:
           )
         end
 
@@ -252,6 +330,10 @@ module PublicV2
           edge_fastener_radius: nil,
           cell_count: nil,
           cell_depth: 120,
+          band_count: nil,
+          opaque_ratio: FabricPatterns::DUO_OPAQUE_RATIO,
+          layer_offset: FabricPatterns::DUO_LAYER_OFFSET,
+          band_radius: FabricPatterns::DUO_BAND_RADIUS,
           pattern: nil
         )
           @variant = variant.to_sym
@@ -272,6 +354,10 @@ module PublicV2
           @edge_fastener_radius = edge_fastener_radius
           @cell_count = cell_count
           @cell_depth = cell_depth
+          @band_count = band_count
+          @opaque_ratio = opaque_ratio
+          @layer_offset = layer_offset
+          @band_radius = band_radius
           @pattern = pattern
         end
 
@@ -488,6 +574,12 @@ module PublicV2
         ZIP_TOOTH_HEIGHT_RATIO = 0.54
         PLEATED_SOLID_THREAD_WIDTH = 6
         PLEATED_SOLID_THREAD_POINT_RADIUS = 18
+        HONEYCOMB_SOLID_RECESS_WIDTH = 7
+        HONEYCOMB_SOLID_THREAD_WIDTH = 6
+        DUO_OPAQUE_RATIO = 0.52
+        DUO_LAYER_OFFSET = 0.5
+        DUO_BAND_RADIUS = 10
+        DUO_REAR_LAYER_INSET = 90
 
         SOLID_GRID_STROKE_WIDTH = 10
         SOLID_GRID_EDGE_CELLS = 2
@@ -552,6 +644,75 @@ module PublicV2
           end
         end
 
+        def honeycomb(
+          id:,
+          body:,
+          cell_count:,
+          cell_depth:,
+          thread_offsets:,
+          style:,
+          thread_width: HONEYCOMB_SOLID_THREAD_WIDTH
+        )
+          style = style.to_sym
+
+          FabricPattern.new(
+            id:,
+            variant: :honeycomb,
+            body:,
+            layers: honeycomb_layers(body:, cell_count:, cell_depth:, thread_offsets:, style:, thread_width:)
+          )
+        end
+
+        def honeycomb_layers(body:, cell_count:, cell_depth:, thread_offsets:, style:, thread_width:)
+          case style
+          when :solid
+            honeycomb_solid_layers(body:, cell_count:, cell_depth:, thread_offsets:, thread_width:)
+          else
+            raise ArgumentError, "Unknown honeycomb pattern style: #{style}"
+          end
+        end
+
+        def duo_bands(
+          id:,
+          body:,
+          band_count:,
+          opaque_ratio: DUO_OPAQUE_RATIO,
+          layer_offset: DUO_LAYER_OFFSET,
+          band_radius: DUO_BAND_RADIUS,
+          style:
+        )
+          style = style.to_sym
+
+          FabricPattern.new(
+            id:,
+            variant: :duo_bands,
+            body:,
+            layers: duo_band_layers(
+              body:,
+              band_count:,
+              opaque_ratio:,
+              layer_offset:,
+              band_radius:,
+              style:
+            )
+          )
+        end
+
+        def duo_band_layers(body:, band_count:, opaque_ratio:, layer_offset:, band_radius:, style:)
+          case style
+          when :solid
+            duo_solid_band_layers(
+              body:,
+              band_count:,
+              opaque_ratio:,
+              layer_offset:,
+              band_radius:
+            )
+          else
+            raise ArgumentError, "Unknown duo band pattern style: #{style}"
+          end
+        end
+
         def zipped_solid_layers(body:, line_count:, line_width:, edge_width:, edge_radius:)
           left_edge = Box.new(x: body.x, y: body.y, width: edge_width, height: body.height, rx: edge_radius)
           right_edge = Box.new(x: body.right - edge_width, y: body.y, width: edge_width, height: body.height, rx: edge_radius)
@@ -605,6 +766,58 @@ module PublicV2
             ),
             *pleated_face_layers(top_points:, bottom_points:),
             *pleated_thread_layers(body:, pleat_xs:, thread_offsets:, thread_width:)
+          ]
+        end
+
+        def honeycomb_solid_layers(body:, cell_count:, cell_depth:, thread_offsets:, thread_width:)
+          y_positions = honeycomb_zigzag_y_positions(body:, cell_count:)
+          depth = honeycomb_zigzag_depth(body:, cell_count:, cell_depth:)
+
+          [
+            FabricPatternLayer.new(
+              id: "surface",
+              slot: :under_outline,
+              role: :fabric_solid_surface,
+              path: honeycomb_surface_path(body:, y_positions:, depth:)
+            ),
+            *honeycomb_face_layers(body:, y_positions:, depth:)
+          ]
+        end
+
+        def duo_solid_band_layers(body:, band_count:, opaque_ratio:, layer_offset:, band_radius:)
+          step = body.height.to_f / band_count
+          band_height = step * opaque_ratio
+          rear_offset = step * layer_offset
+
+          [
+            FabricPatternLayer.new(
+              id: "surface",
+              slot: :under_outline,
+              role: :fabric_duo_sheer,
+              box: body
+            ),
+            *duo_band_boxes(
+              body:,
+              band_count: band_count + 1,
+              start_y: body.y + rear_offset,
+              step:,
+              height: band_height,
+              inset_x: DUO_REAR_LAYER_INSET,
+              radius: band_radius,
+              role: :fabric_duo_band_mid,
+              prefix: "rear-band"
+            ),
+            *duo_band_boxes(
+              body:,
+              band_count:,
+              start_y: body.y,
+              step:,
+              height: band_height,
+              inset_x: 0,
+              radius: band_radius,
+              role: :fabric_duo_band_light,
+              prefix: "front-band"
+            )
           ]
         end
 
@@ -766,6 +979,129 @@ module PublicV2
           FabricGeometry.interval(start: body.y, finish: body.bottom, count: line_count)
         end
 
+        def honeycomb_face_layers(body:, y_positions:, depth:)
+          y_positions.each_cons(2).with_index.map do |(top, bottom), index|
+            FabricPatternLayer.new(
+              id: "pleat-#{index}",
+              slot: :under_outline,
+              role: honeycomb_face_role(index),
+              path: honeycomb_face_path(body:, top:, bottom:, index:, depth:)
+            )
+          end
+        end
+
+        def honeycomb_face_role(index)
+          case index % 4
+          when 0 then :fabric_honeycomb_face_light
+          when 1 then :fabric_honeycomb_face_mid
+          when 2 then :fabric_honeycomb_face_deep
+          else :fabric_honeycomb_face_mid
+          end
+        end
+
+        def honeycomb_face_path(body:, top:, bottom:, index:, depth:)
+          left_top = honeycomb_left_x(body:, index:, depth:)
+          left_bottom = honeycomb_left_x(body:, index: index + 1, depth:)
+          right_top = honeycomb_right_x(body:, index:, depth:)
+          right_bottom = honeycomb_right_x(body:, index: index + 1, depth:)
+
+          "M#{left_top} #{top}H#{right_top}L#{right_bottom} #{bottom}H#{left_bottom}Z"
+        end
+
+        def honeycomb_surface_path(body:, y_positions:, depth:)
+          left_points = honeycomb_side_points(body:, y_positions:, depth:, side: :left)
+          right_points = honeycomb_side_points(body:, y_positions:, depth:, side: :right)
+
+          [
+            "M#{left_points.first.x} #{left_points.first.y}",
+            "H#{right_points.first.x}",
+            *right_points.drop(1).map { |point| "L#{point.x} #{point.y}" },
+            "H#{left_points.last.x}",
+            *left_points.reverse.drop(1).map { |point| "L#{point.x} #{point.y}" },
+            "Z"
+          ].join
+        end
+
+        def honeycomb_side_points(body:, y_positions:, depth:, side:)
+          y_positions.map.with_index do |y, index|
+            x = side.to_sym == :left ? honeycomb_left_x(body:, index:, depth:) : honeycomb_right_x(body:, index:, depth:)
+
+            Point.new(x:, y:)
+          end
+        end
+
+        def honeycomb_zigzag_y_positions(body:, cell_count:)
+          FabricGeometry.horizontal_lines(body:, count: (cell_count * 2) + 1)
+        end
+
+        def honeycomb_zigzag_depth(body:, cell_count:, cell_depth:)
+          segment_height = FabricGeometry.interval(start: body.y, finish: body.bottom, count: (cell_count * 2) + 1)
+
+          [cell_depth, (segment_height * 2).round].min
+        end
+
+        def honeycomb_left_x(body:, index:, depth:)
+          index.even? ? body.x : body.x + depth
+        end
+
+        def honeycomb_right_x(body:, index:, depth:)
+          index.even? ? body.right : body.right - depth
+        end
+
+        def honeycomb_thread_layers(body:, thread_offsets:, thread_width:)
+          thread_offsets.map.with_index do |offset, index|
+            y = honeycomb_vertical_offset(body:, offset:)
+            FabricPatternLayer.new(
+              id: "thread-#{index}",
+              slot: :over_outline,
+              role: :fabric_honeycomb_thread,
+              box: Box.new(
+                x: body.x,
+                y: y - (thread_width / 2),
+                width: body.width,
+                height: thread_width,
+                rx: thread_width / 2
+              )
+            )
+          end
+        end
+
+        def honeycomb_cell_bounds(body:, cell_count:)
+          FabricGeometry.horizontal_lines(body:, count: cell_count + 1).each_cons(2).map do |top, bottom|
+            [top, top + ((bottom - top) / 2), bottom]
+          end
+        end
+
+        def honeycomb_cell_inset(cell_depth:, top:, bottom:)
+          [cell_depth, (bottom - top) * 1.4].min
+        end
+
+        def honeycomb_top_face_path(body:, top:, middle:, inset:)
+          "M#{body.x} #{top}H#{body.right}L#{body.right - inset} #{middle}H#{body.x + inset}Z"
+        end
+
+        def honeycomb_bottom_face_path(body:, middle:, bottom:, inset:)
+          "M#{body.x + inset} #{middle}H#{body.right - inset}L#{body.right} #{bottom}H#{body.x}Z"
+        end
+
+        def honeycomb_left_edge_path(body:, top:, middle:, bottom:, inset:)
+          "M#{body.x} #{top}L#{body.x + inset} #{middle}L#{body.x} #{bottom}Z"
+        end
+
+        def honeycomb_right_edge_path(body:, top:, middle:, bottom:, inset:)
+          "M#{body.right} #{top}L#{body.right - inset} #{middle}L#{body.right} #{bottom}Z"
+        end
+
+        def honeycomb_vertical_offset(body:, offset:)
+          case offset
+          when :center then body.center_y
+          when Numeric
+            offset.negative? ? body.bottom + offset : body.y + offset
+          else
+            raise ArgumentError, "Unknown fabric vertical offset: #{offset}"
+          end
+        end
+
         def pleated_face_layers(top_points:, bottom_points:)
           top_points.each_cons(2).with_index.map do |(left_top, right_top), index|
             FabricPatternLayer.new(
@@ -862,6 +1198,37 @@ module PublicV2
           else
             raise ArgumentError, "Unknown fabric vertical offset: #{offset}"
           end
+        end
+
+        def duo_band_boxes(body:, band_count:, start_y:, step:, height:, inset_x:, radius:, role:, prefix:)
+          (0...band_count).filter_map do |index|
+            y = start_y + (index * step)
+            box = clamped_duo_band_box(body:, y:, height:, inset_x:, radius:)
+            next unless box
+
+            FabricPatternLayer.new(
+              id: "#{prefix}-#{index}",
+              slot: :under_outline,
+              role:,
+              box:
+            )
+          end
+        end
+
+        def clamped_duo_band_box(body:, y:, height:, inset_x:, radius:)
+          top = [y, body.y].max
+          bottom = [y + height, body.bottom].min
+          return if bottom <= top
+
+          resolved_height = bottom - top
+
+          Box.new(
+            x: body.x + inset_x,
+            y: top,
+            width: body.width - (inset_x * 2),
+            height: resolved_height,
+            rx: [radius, resolved_height / 2].min
+          )
         end
 
         def zip_teeth_path(x:, top:, bottom:, step:, side:, depth: ZIP_TEETH_DEPTH)

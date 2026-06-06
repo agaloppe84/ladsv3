@@ -88,6 +88,7 @@ module PublicV2
           fabric_pleated: ElementSpec.new(family: :fabric, variant: :pleated, width: 4_050, height: 1_540, rx: 18),
           fabric_bordered: ElementSpec.new(family: :fabric, variant: :bordered, width: 4_640, height: 1_920, rx: 18),
           fabric_honeycomb: ElementSpec.new(family: :fabric, variant: :honeycomb, width: 5_000, height: 1_560, rx: 20),
+          fabric_duo: ElementSpec.new(family: :fabric, variant: :duo, width: 5_040, height: 1_680, rx: 18),
           rail_horizontal_guide: ElementSpec.new(family: :rail, variant: :horizontal_guide, width: 5_640, height: 260, rx: 42),
           rail_duette_head: ElementSpec.new(family: :rail, variant: :duette_head, width: 5_560, height: 260, rx: 44),
           rail_venetian_head: ElementSpec.new(family: :rail, variant: :venetian_head, width: 5_460, height: 230, rx: 40),

@@ -5,11 +5,13 @@ require_relative "exploded_view/moustiquaire_enroulable_verticale_drawing_compon
 require_relative "exploded_view/store_vertical_zippe_drawing_component"
 require_relative "exploded_view/store_venitien_drawing_component"
 require_relative "exploded_view/store_duette_drawing_component"
+require_relative "exploded_view/store_rouleau_duo_drawing_component"
 require_relative "exploded_view/blueprints/moustiquaire_plissee"
 require_relative "exploded_view/blueprints/moustiquaire_enroulable_verticale"
 require_relative "exploded_view/blueprints/store_vertical_zippe"
 require_relative "exploded_view/blueprints/store_venitien"
 require_relative "exploded_view/blueprints/store_duette"
+require_relative "exploded_view/blueprints/store_rouleau_duo"
 
 class PublicV2::Products::ExplodedViewExperimentComponent < ViewComponent::Base
   include PublicV2::Debuggable
@@ -19,6 +21,7 @@ class PublicV2::Products::ExplodedViewExperimentComponent < ViewComponent::Base
     PublicV2::Products::ExplodedView::Blueprints::MoustiquaireEnroulableVerticale,
     PublicV2::Products::ExplodedView::Blueprints::StoreVenitien,
     PublicV2::Products::ExplodedView::Blueprints::StoreDuette,
+    PublicV2::Products::ExplodedView::Blueprints::StoreRouleauDuo,
     PublicV2::Products::ExplodedView::Blueprints::StoreVerticalZippe
   ].freeze
 

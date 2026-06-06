@@ -112,6 +112,13 @@ module PublicV2
         keyword_init: true
       )
 
+      DuoRollElement = Struct.new(
+        :hit,
+        :body,
+        :marker,
+        keyword_init: true
+      )
+
       DuetteDrawingLayout = Struct.new(
         :svg_width,
         :svg_height,
@@ -123,6 +130,25 @@ module PublicV2
         :intermediate_rail,
         :bottom_rail,
         :cords,
+        :callouts,
+        keyword_init: true
+      ) do
+        def callout(part_id)
+          callouts[part_id.to_s]
+        end
+      end
+
+      DuoDrawingLayout = Struct.new(
+        :svg_width,
+        :svg_height,
+        :grid,
+        :groups,
+        :headrail,
+        :roll,
+        :fabric,
+        :bottom_bar,
+        :control,
+        :supports,
         :callouts,
         keyword_init: true
       ) do

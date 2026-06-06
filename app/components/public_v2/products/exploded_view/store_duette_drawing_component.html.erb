@@ -17,8 +17,14 @@
     tabindex="0"
     aria-pressed="<%= aria_pressed("rail-superieur") %>"
     aria-label="Rail supérieur">
+    <% top_slot = duette_top_rail_slot %>
     <rect x="<%= layout.top_rail.hit.x %>" y="<%= layout.top_rail.hit.y %>" width="<%= layout.top_rail.hit.width %>" height="<%= layout.top_rail.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= solid_profile(layout.top_rail.solid_profile) %>
+    <rect x="<%= top_slot.x %>" y="<%= top_slot.y %>" width="<%= top_slot.width %>" height="<%= top_slot.height + DUETTE_CORD_TAB_HEIGHT %>" class="pv2-product-exploded__hit-area" />
+    <rect x="<%= layout.top_rail.body.x %>" y="<%= layout.top_rail.body.y %>" width="<%= layout.top_rail.body.width %>" height="<%= layout.top_rail.body.height %>" rx="<%= layout.top_rail.body.rx %>" class="<%= solid_tone_class(:light) %>" />
+    <path d="<%= duette_bottom_rounded_rect_path(top_slot, radius: top_slot.rx) %>" class="<%= solid_tone_class(:mid) %>" />
+    <% duette_cord_tabs(top_slot, direction: :down).each do |tab| %>
+      <rect x="<%= tab.x %>" y="<%= tab.y %>" width="<%= tab.width %>" height="<%= tab.height %>" rx="<%= tab.rx %>" class="<%= solid_tone_class(:dark) %>" />
+    <% end %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.top_rail.marker.x %> <%= layout.top_rail.marker.y %>)">
       <circle r="68" />
       <text y="25">1</text>
@@ -60,14 +66,8 @@
     aria-pressed="<%= aria_pressed("toile-duette") %>"
     aria-label="Toile Duette alvéolaire">
     <rect x="<%= layout.fabric.hit.x %>" y="<%= layout.fabric.hit.y %>" width="<%= layout.fabric.hit.width %>" height="<%= layout.fabric.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= surface_rect(layout.fabric.body) %>
-    <rect x="<%= layout.fabric.body.x %>" y="<%= layout.fabric.body.y %>" width="<%= layout.fabric.body.width %>" height="<%= layout.fabric.body.height %>" rx="<%= layout.fabric.body.rx %>" class="pv2-product-exploded__outline" />
-    <path d="<%= layout.fabric.honeycomb_boundary_path %>" class="pv2-product-exploded__fabric-line" />
-    <path d="<%= layout.fabric.honeycomb_side_path %>" class="pv2-product-exploded__profile" />
-    <path d="<%= layout.fabric.honeycomb_recess_path %>" class="pv2-product-exploded__fabric-thread" />
-    <% layout.fabric.thread_ys.each do |y| %>
-      <path d="M<%= layout.fabric.body.x %> <%= y %>H<%= layout.fabric.body.right %>" class="pv2-product-exploded__fabric-thread" />
-    <% end %>
+    <%= fabric_pattern(layout.fabric.pattern, slot: :under_outline) %>
+    <%= fabric_pattern(layout.fabric.pattern, slot: :over_outline) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.fabric.marker.x %> <%= layout.fabric.marker.y %>)">
       <circle r="68" />
       <text y="25">2</text>
@@ -84,10 +84,15 @@
     tabindex="0"
     aria-pressed="<%= aria_pressed("rail-intermediaire") %>"
     aria-label="Rail intermédiaire">
+    <% intermediate_line = duette_intermediate_line %>
+    <% intermediate_handle = duette_intermediate_handle %>
     <rect x="<%= layout.intermediate_rail.hit.x %>" y="<%= layout.intermediate_rail.hit.y %>" width="<%= layout.intermediate_rail.hit.width %>" height="<%= layout.intermediate_rail.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= surface_rect(layout.intermediate_rail.body) %>
-    <rect x="<%= layout.intermediate_rail.body.x %>" y="<%= layout.intermediate_rail.body.y %>" width="<%= layout.intermediate_rail.body.width %>" height="<%= layout.intermediate_rail.body.height %>" rx="<%= layout.intermediate_rail.body.rx %>" class="pv2-product-exploded__outline" />
-    <path d="<%= layout.intermediate_rail.detail_path %>" class="pv2-product-exploded__detail" />
+    <rect x="<%= layout.intermediate_rail.body.x %>" y="<%= layout.intermediate_rail.body.y %>" width="<%= layout.intermediate_rail.body.width %>" height="<%= layout.intermediate_rail.body.height %>" rx="<%= layout.intermediate_rail.body.rx %>" class="<%= solid_tone_class(:light) %>" />
+    <rect x="<%= intermediate_line.x %>" y="<%= intermediate_line.y %>" width="<%= intermediate_line.width %>" height="<%= intermediate_line.height %>" rx="<%= intermediate_line.rx %>" class="<%= solid_tone_class(:mid) %>" />
+    <% duette_intermediate_cord_points.each do |point| %>
+      <circle cx="<%= point.x %>" cy="<%= point.y %>" r="<%= DUETTE_INTERMEDIATE_POINT_RADIUS %>" class="<%= solid_tone_class(:dark) %>" />
+    <% end %>
+    <rect x="<%= intermediate_handle.x %>" y="<%= intermediate_handle.y %>" width="<%= intermediate_handle.width %>" height="<%= intermediate_handle.height %>" rx="<%= intermediate_handle.rx %>" class="<%= solid_tone_class(:dark) %>" />
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.intermediate_rail.marker.x %> <%= layout.intermediate_rail.marker.y %>)">
       <circle r="68" />
       <text y="25">3</text>
@@ -104,10 +109,14 @@
     tabindex="0"
     aria-pressed="<%= aria_pressed("rail-bas") %>"
     aria-label="Rail bas">
+    <% bottom_slot = duette_bottom_rail_slot %>
     <rect x="<%= layout.bottom_rail.hit.x %>" y="<%= layout.bottom_rail.hit.y %>" width="<%= layout.bottom_rail.hit.width %>" height="<%= layout.bottom_rail.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= surface_rect(layout.bottom_rail.body) %>
-    <rect x="<%= layout.bottom_rail.body.x %>" y="<%= layout.bottom_rail.body.y %>" width="<%= layout.bottom_rail.body.width %>" height="<%= layout.bottom_rail.body.height %>" rx="<%= layout.bottom_rail.body.rx %>" class="pv2-product-exploded__outline" />
-    <path d="<%= layout.bottom_rail.detail_path %>" class="pv2-product-exploded__detail" />
+    <rect x="<%= bottom_slot.x %>" y="<%= bottom_slot.y - DUETTE_CORD_TAB_HEIGHT %>" width="<%= bottom_slot.width %>" height="<%= bottom_slot.height + DUETTE_CORD_TAB_HEIGHT %>" class="pv2-product-exploded__hit-area" />
+    <path d="<%= solid_top_rounded_rect_path(bottom_slot, radius: bottom_slot.rx) %>" class="<%= solid_tone_class(:mid) %>" />
+    <% duette_cord_tabs(bottom_slot, direction: :up).each do |tab| %>
+      <rect x="<%= tab.x %>" y="<%= tab.y %>" width="<%= tab.width %>" height="<%= tab.height %>" rx="<%= tab.rx %>" class="<%= solid_tone_class(:dark) %>" />
+    <% end %>
+    <rect x="<%= layout.bottom_rail.body.x %>" y="<%= layout.bottom_rail.body.y %>" width="<%= layout.bottom_rail.body.width %>" height="<%= layout.bottom_rail.body.height %>" rx="<%= layout.bottom_rail.body.rx %>" class="<%= solid_tone_class(:light) %>" />
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.bottom_rail.marker.x %> <%= layout.bottom_rail.marker.y %>)">
       <circle r="68" />
       <text y="25">4</text>
