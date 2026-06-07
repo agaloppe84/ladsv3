@@ -34,6 +34,10 @@
     "coulisse_profile_mm": "52 x 41",
     "barre_charge_profile_mm": "114"
   },
+  "presets": {
+    "layout": "vertical-zipped-screen",
+    "callouts": "technical-exploded-default"
+  },
   "render_options": {
     "show_layout_grid": true,
     "callout_animation_profile": "draw",

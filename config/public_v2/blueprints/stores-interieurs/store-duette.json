@@ -26,6 +26,10 @@
     "reference_format": "2,40 x 2,20 m",
     "pose": "Fixation haute"
   },
+  "presets": {
+    "layout": "top-down-bottom-up-fabric",
+    "callouts": "technical-exploded-default"
+  },
   "render_options": {
     "show_layout_grid": false,
     "callout_animation_profile": "none",

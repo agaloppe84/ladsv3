@@ -63,6 +63,18 @@ module PublicV2
             spec.data.fetch("technical_data", {})
           end
 
+          def presets
+            spec.presets
+          end
+
+          def layout_preset
+            presets["layout"]
+          end
+
+          def callout_preset
+            presets["callouts"]
+          end
+
           def assembled_blueprint
             @assembled_blueprint ||= BlueprintSpecs::Assembler.new(spec).assemble
           end

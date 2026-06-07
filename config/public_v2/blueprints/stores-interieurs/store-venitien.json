@@ -27,6 +27,10 @@
     "finish_count": "70 coloris",
     "pose": "Fixation haute"
   },
+  "presets": {
+    "layout": "slatted-pack",
+    "callouts": "technical-exploded-default"
+  },
   "render_options": {
     "show_layout_grid": true,
     "callout_animation_profile": "draw",

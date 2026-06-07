@@ -28,6 +28,10 @@
     "reference_format": "2,40 x 2,20 m",
     "pose": "Fixation haute"
   },
+  "presets": {
+    "layout": "roller-duo",
+    "callouts": "technical-exploded-default"
+  },
   "render_options": {
     "show_layout_grid": true,
     "callout_animation_profile": "draw",

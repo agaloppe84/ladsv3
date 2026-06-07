@@ -52,6 +52,10 @@ module PublicV2
             data.fetch("render_options", {})
           end
 
+          def presets
+            data.fetch("presets", {})
+          end
+
           def canvas
             data.fetch("canvas", {})
           end

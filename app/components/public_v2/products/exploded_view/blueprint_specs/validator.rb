@@ -4,6 +4,7 @@ require "json"
 require_relative "../blueprints/data_blueprint"
 require_relative "element_registry"
 require_relative "loader"
+require_relative "preset_registry"
 
 module PublicV2
   module Products
@@ -163,10 +164,11 @@ module PublicV2
             return Result.new(name: "layout/#{name}", path: spec.path, errors:, warnings:)
           end
 
-          def initialize(spec, root: Loader::DEFAULT_ROOT, registry: ElementRegistry.default)
+          def initialize(spec, root: Loader::DEFAULT_ROOT, registry: ElementRegistry.default, preset_registry: PresetRegistry.default)
             @spec = spec
             @root = Pathname.new(root.to_s)
             @registry = registry
+            @preset_registry = preset_registry
             @errors = []
             @warnings = []
           end
@@ -174,6 +176,7 @@ module PublicV2
           def validate
             validate_top_level_contract
             validate_product_contract
+            validate_presets
             validate_render_options
             validate_canvas
             validate_parts
@@ -187,7 +190,7 @@ module PublicV2
 
           private
 
-          attr_reader :spec, :root, :registry, :errors, :warnings
+          attr_reader :spec, :root, :registry, :preset_registry, :errors, :warnings
 
           def name
             return spec.path.relative_path_from(root).to_s if spec.path
@@ -221,6 +224,31 @@ module PublicV2
             add_error("product.aliases contains duplicate slugs: #{duplicate_aliases.join(', ')}") unless duplicate_aliases.empty?
             spec.product_aliases.each do |product_alias|
               add_error("product alias must use kebab-case: #{product_alias.inspect}") unless valid_id?(product_alias)
+            end
+          end
+
+          def validate_presets
+            presets = spec.presets
+            return if presets.empty?
+
+            unless presets.is_a?(Hash)
+              add_error("presets must be an object")
+              return
+            end
+
+            unknown_keys = presets.keys - %w[layout callouts]
+            add_error("presets contains unknown keys: #{unknown_keys.join(', ')}") unless unknown_keys.empty?
+
+            layout = presets["layout"]
+            if layout
+              add_error("presets.layout must use kebab-case: #{layout.inspect}") unless valid_id?(layout)
+              add_error("presets.layout is unknown: #{layout.inspect}") if valid_id?(layout) && !preset_registry.layout?(layout)
+            end
+
+            callouts = presets["callouts"]
+            if callouts
+              add_error("presets.callouts must use kebab-case: #{callouts.inspect}") unless valid_id?(callouts)
+              add_error("presets.callouts is unknown: #{callouts.inspect}") if valid_id?(callouts) && !preset_registry.callouts?(callouts)
             end
           end
 

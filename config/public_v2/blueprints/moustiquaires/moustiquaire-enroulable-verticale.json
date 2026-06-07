@@ -35,6 +35,10 @@
     "rails": "Double coulisse",
     "anti_intrusion": "Bavettes anti-intrusion"
   },
+  "presets": {
+    "layout": "side-guided-fabric",
+    "callouts": "technical-exploded-default"
+  },
   "render_options": {
     "show_layout_grid": true,
     "callout_animation_profile": "draw",

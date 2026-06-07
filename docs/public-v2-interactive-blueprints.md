@@ -41,6 +41,7 @@ Fichiers centraux :
 - `app/components/public_v2/products/exploded_view/blueprint_specs/spec.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/loader.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/element_registry.rb`
+- `app/components/public_v2/products/exploded_view/blueprint_specs/preset_registry.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/assembler.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/assembled_blueprint.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/data_layout_builder.rb`
@@ -103,6 +104,7 @@ Contrat d'une spec JSON :
 - `product` : slug, categorie, aliases, fabricant et famille ;
 - `sources` : page officielle, PDF technique, fiche de pose, datasheet ;
 - `technical_data` : dimensions, references, contraintes documentees ;
+- `presets` : famille de layout et famille de callouts ;
 - `render_options` : grille visuelle, animation callout, accent ;
 - `canvas` : grille globale et snap ;
 - `parts` : legende et ordre d'affichage ;
@@ -131,6 +133,7 @@ Validation JSON :
 Assemblage JSON :
 
 - `BlueprintSpecs::ElementRegistry` declare les couples `type:variant` supportes ;
+- `BlueprintSpecs::PresetRegistry` declare les presets de layout/callouts supportes ;
 - `BlueprintSpecs::Assembler` transforme une spec JSON en objets normalises ;
 - `ElementDefinition` porte `id`, `part_id`, `type`, `variant`, `box`,
   `options`, `attached_features` et `renderer_family` ;
@@ -144,6 +147,22 @@ Assemblage JSON :
   `store-rouleau-duo` sont supportes.
 - `GenericDrawingComponent` sait rendre les layouts data-driven supportes
   en mode objet plein. Il est utilise par `product/show` via `blueprint_source: :json`.
+
+Presets JSON declares au stade actuel :
+
+- `store-vertical-zippe` -> layout `vertical-zipped-screen`, callouts `technical-exploded-default` ;
+- `moustiquaire-enroulable-verticale` -> layout `side-guided-fabric`, callouts `technical-exploded-default` ;
+- `moustiquaire-plissee` -> layout `pleated-lateral`, callouts `technical-exploded-default` ;
+- `store-duette` -> layout `top-down-bottom-up-fabric`, callouts `technical-exploded-default` ;
+- `store-venitien` -> layout `slatted-pack`, callouts `technical-exploded-default` ;
+- `store-rouleau-duo` -> layout `roller-duo`, callouts `technical-exploded-default`.
+
+Important :
+
+Au stade actuel, les presets sont declares et valides, mais les positions explicites
+des elements et des callouts restent la source de verite du rendu. Le prochain palier
+consiste a faire consommer progressivement ces presets par `DataLayoutBuilder`, sans
+modifier le rendu valide.
 
 Couples JSON supportes au stade actuel :
 
@@ -176,37 +195,30 @@ Couples JSON supportes au stade actuel :
 
 Prochaine migration technique :
 
-1. Convertir chaque blueprint existant en JSON sans modifier son rendu valide.
-   Les specs de reference actuelles sont `stores-exterieurs/store-vertical-zippe.json`,
-   `moustiquaires/moustiquaire-enroulable-verticale.json`,
-   `moustiquaires/moustiquaire-plissee.json`,
-   `stores-interieurs/store-duette.json`,
-   `stores-interieurs/store-venitien.json` et
-   `stores-interieurs/store-rouleau-duo.json`.
-2. Utiliser `DataBlueprint` pour lire les specs et exposer parts, metrics, technical
-   data, theme, render options, layout config, elements assembles, groups, callouts
-   et matching par slug/alias.
-3. Etendre `DataLayoutBuilder` produit par produit pour transformer les specs JSON
-   en layouts Ruby compatibles avec les primitives actuelles.
-4. Etendre `GenericDrawingComponent` pour remplacer progressivement les templates
-   produit specifiques.
-5. Comparer visuellement chaque rendu data-driven avec le rendu legacy valide.
-6. Supprimer les classes Ruby et templates produit quand les 6 blueprints existants
-   sont convertis.
+1. Faire consommer progressivement `presets.layout` par `DataLayoutBuilder`.
+2. Remplacer les positions recurrentes par des slots de layout reutilisables.
+3. Faire consommer progressivement `presets.callouts` pour proposer les routes
+   standards par slot.
+4. Garder les overrides JSON pour les collisions et cas produit particuliers.
+5. Supprimer les branches Ruby qui dispatchent uniquement par nom de produit quand
+   un preset peut generer le meme rendu.
+6. Supprimer les classes Ruby et templates produits legacy quand ils ne sont plus
+   appeles par le chemin JSON.
 
 Etat actuel :
 
 - les 6 blueprints POC existants disposent maintenant d'une spec JSON ;
+- les 6 specs declarent un preset de layout et un preset de callouts ;
 - les anciens fichiers Ruby et templates produits restent temporairement en place
   comme dette legacy explicite ;
-- la prochaine phase systeme consiste a extraire les presets et nettoyer le legacy,
+- la prochaine phase systeme consiste a faire porter le placement par les presets,
   pas a creer de nouveaux chemins specifiques produit.
 
 Important :
 
-La spec `StoreVerticalZippe` JSON est la premiere spec branchee sur `product/show`.
-Elle sert de contrat data pour preparer la bascule complete vers un renderer generique.
-Le composant public charge maintenant le chemin data-driven avec `blueprint_source: :json`.
+Les specs JSON servent de contrat data pour preparer la bascule complete vers un
+renderer generique. Le composant public charge maintenant le chemin data-driven
+avec `blueprint_source: :json`.
 Les blueprints Ruby historiques restent disponibles uniquement comme source legacy explicite
 pendant la migration.
 
@@ -221,9 +233,9 @@ Mode de chargement controle :
 
 Objectif du prochain basculement :
 
-1. verifier visuellement chaque blueprint JSON sur `product/show` ;
-2. corriger les ecarts visuels du renderer generique ;
-3. extraire les premiers presets de layout et de callouts depuis les 6 specs JSON ;
+1. remplacer les constantes de placement recurrentes par des slots de preset ;
+2. extraire les regles de callouts recurrentes vers le preset `technical-exploded-default` ;
+3. faire une premiere bascule sur un blueprint peu risque, puis comparer le rendu ;
 4. supprimer progressivement les fichiers Ruby et templates specifiques produits
    devenus inutiles ;
 5. nettoyer les helpers filaires, SVG code en dur et classes CSS legacy qui ne sont
@@ -291,18 +303,19 @@ Regles d'espacement :
 - Les objets symetriques doivent etre generes depuis une seule source de verite.
 - Ne pas regler separement gauche/droite sauf asymetrie reelle du produit.
 
-## Presets de layout cibles
+## Presets de layout et callouts
 
-Le systeme doit evoluer vers des presets de layout reutilisables.
+Le systeme evolue vers des presets reutilisables.
 L'objectif est d'eviter de recalculer manuellement les positions pour chaque produit.
 
-Familles de presets a construire progressivement :
+Familles de presets posees :
 
-- `top_housing_with_fabric` : coffre ou rail haut, toile centree, barre basse ;
-- `side_guided_fabric` : toile centrale avec coulisses/profils lateraux symetriques ;
-- `slatted_pack` : boitier haut, pack de lames, cordons/echelles, commande laterale ;
-- `pleated_lateral` : guide haut, profils lateraux, toile plissee, poignee, seuil ;
-- `roller_duo` : tube ou rail haut, toile double couche, barre de charge, commande.
+- `vertical-zipped-screen` : coffre, toile zippee, coulisses, barre de charge et options ;
+- `side-guided-fabric` : caisson, toile centrale, coulisses/profils lateraux et barre basse ;
+- `pleated-lateral` : guide haut, profils lateraux, toile plissee, poignee, seuil ;
+- `top-down-bottom-up-fabric` : rail haut, toile, rail intermediaire, rail bas, cordons ;
+- `slatted-pack` : boitier haut, pack de lames, cordons/echelles, commande laterale ;
+- `roller-duo` : tube ou rail haut, toile double couche, barre de charge, commande.
 
 Chaque preset doit definir :
 

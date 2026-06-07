@@ -69,6 +69,14 @@
     "technical_data": {
       "type": "object"
     },
+    "presets": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "layout": { "$ref": "#/$defs/id" },
+        "callouts": { "$ref": "#/$defs/id" }
+      }
+    },
     "render_options": {
       "type": "object",
       "additionalProperties": false,
