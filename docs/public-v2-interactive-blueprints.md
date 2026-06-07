@@ -126,7 +126,7 @@ Validation JSON :
 - `PublicV2::Products::ExplodedView::BlueprintSpecs::Validator.validate_all!`
   valide le schema et les specs JSON ;
 - `PublicV2::Products::ExplodedView::Blueprints::BlueprintValidator.validate_specs!`
-  expose le meme controle depuis le validator historique.
+  expose le meme controle via une facade de compatibilite JSON.
 - `PublicV2::Products::ExplodedView::Blueprints::BlueprintValidator.validate_spec_layouts!`
   valide que les specs dotees d'un builder data-driven produisent un layout exploitable.
 
