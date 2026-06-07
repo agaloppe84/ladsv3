@@ -32,7 +32,6 @@ Fichiers centraux :
 - `app/components/public_v2/products/exploded_view/base_drawing_component.rb`
 - `app/components/public_v2/products/exploded_view/generic_drawing_component.rb`
 - `app/components/public_v2/products/exploded_view/renderers/`
-- `app/components/public_v2/products/exploded_view/blueprints/base.rb`
 - `app/components/public_v2/products/exploded_view/layout_primitives.rb`
 - `app/components/public_v2/products/exploded_view/solid_profiles.rb`
 - `app/components/public_v2/products/exploded_view/fabrics.rb`
@@ -54,12 +53,10 @@ Les drawing components doivent rester fins et rendre les objets produits par le 
 
 ## Architecture JSON cible
 
-Le chantier migre progressivement vers un systeme data-driven.
+Le chantier est maintenant pilote par les specs JSON pour le front public v2.
 
 Objectif final :
 
-- aucun fichier Ruby specifique a un nom de produit ;
-- aucun template SVG specifique a un produit ;
 - un fichier JSON par blueprint ;
 - un renderer generique qui assemble les objets parametriques existants ;
 - affichage du composant sur `product/show` uniquement si une spec JSON existe pour le `product.slug`.
@@ -73,7 +70,7 @@ Architecture finale attendue :
 - les presets de layout reduisent les positions explicites au strict necessaire ;
 - les presets de callouts fournissent les routes standards par slot de layout ;
 - `GenericDrawingComponent` rend tous les produits avec les familles generiques ;
-- les fichiers Ruby produits et templates produits sont supprimes ;
+- aucun fichier Ruby ou template SVG specifique a un produit ne doit etre ajoute ;
 - les helpers filaires et classes CSS legacy sont retires ou limites au debug ;
 - les nouveaux produits enrichissent la librairie d'elements au lieu de creer un dessin one-shot.
 
@@ -163,10 +160,9 @@ Assemblage JSON :
   (`zipped_screen`, `side_guided_roller`, `pleated_lateral`, `honeycomb_shade`,
   `venetian_blind`, `roller_duo`) et au composant renderer dedie. Le composant
   principal garde le wrapper SVG, puis delegue le bloc interne aux renderers de
-  familles situes dans `exploded_view/renderers/`. Les anciens structs legacy
-  restent compatibles via aliases, mais le renderer ne depend plus de predicates
-  structurels nommes produit. Il est utilise par `product/show` via
-  `blueprint_source: :json`.
+  familles situes dans `exploded_view/renderers/`. Le renderer ne depend plus de
+  predicates structurels nommes produit. Il est utilise directement par
+  `product/show` via `ExplodedViewExperimentComponent`.
 
 Presets JSON declares au stade actuel :
 
@@ -216,17 +212,16 @@ Couples JSON supportes au stade actuel :
 - `slat:venetian-pack` -> `slat_pattern`
 - `support:mount-pair` -> `solid_support_profile`
 
-Prochaine migration technique :
+Migration technique en cours :
 
-1. Faire consommer progressivement `presets.layout` par `DataLayoutBuilder`.
-2. Remplacer les positions recurrentes par des slots de layout reutilisables.
-3. Faire consommer progressivement `presets.callouts` pour proposer les routes
-   standards par slot.
-4. Garder les overrides JSON pour les collisions et cas produit particuliers.
-5. Supprimer les branches Ruby qui dispatchent uniquement par nom de produit quand
-   un preset peut generer le meme rendu.
-6. Supprimer les classes Ruby et templates produits legacy quand ils ne sont plus
-   appeles par le chemin JSON.
+1. Enrichir les presets de layout pour reduire les boxes JSON explicites aux
+   vrais overrides.
+2. Enrichir les presets de callouts pour proposer les routes standards par slot.
+3. Garder les overrides JSON pour les collisions et cas produit particuliers.
+4. Factoriser progressivement les repetitions internes entre renderers de
+   familles, sans recreer de chemin produit.
+5. Nettoyer les helpers filaires et classes CSS legacy qui ne sont plus utilises
+   par la voie JSON.
 
 Etat actuel :
 
@@ -238,16 +233,13 @@ Etat actuel :
 - `moustiquaire-plissee` valide le meme principe sur `horizontal-product-layout` :
   guide haut, toile plissee et seuil bas sont generes par slots sans box JSON
   explicite ;
-- les anciens fichiers Ruby et templates produits restent temporairement en place
-  comme dette legacy explicite ;
+- les anciens fichiers Ruby blueprints produits et les templates/composants SVG
+  produits dedies ont ete retires du chemin public v2 ;
 - les structs de layout du chemin JSON portent des noms de familles generiques
   (`ZippedScreenLayout`, `SideGuidedRollerLayout`, `PleatedLateralLayout`,
-  `HoneycombShadeLayout`, `VenetianBlindLayout`, `RollerDuoLayout`) ; les anciens
-  constants produits restent aliases uniquement pour maintenir le legacy Ruby ;
+  `HoneycombShadeLayout`, `VenetianBlindLayout`, `RollerDuoLayout`) ;
 - les sous-objets partages du chemin JSON suivent aussi les noms de familles ou
   generiques (`MountSupportPair`, `HoneycombCordPair`, `RollerDuoRollElement`) ;
-  `VenetianSupportPair`, `DuetteCordPair` et `DuoRollElement` restent aliases
-  uniquement pour les anciens fichiers Ruby dedies ;
 - `GenericDrawingComponent` centralise le choix de renderer via la famille
   associee a la classe de layout, puis delegue le rendu SVG interne a un
   composant de famille dans `exploded_view/renderers/` sans recreer de chemin
@@ -258,18 +250,14 @@ Etat actuel :
 
 Important :
 
-Les specs JSON servent de contrat data pour preparer la bascule complete vers un
-renderer generique. Le composant public charge maintenant le chemin data-driven
-avec `blueprint_source: :json`.
-Les blueprints Ruby historiques restent disponibles uniquement comme source legacy explicite
-pendant la migration.
+Les specs JSON sont le contrat data du renderer generique. Le composant public
+charge uniquement `DataBlueprint.find_for_product`.
 
 Mode de chargement controle :
 
-- `ExplodedViewExperimentComponent` accepte `blueprint_source: :legacy` ou `:json` ;
-- `product/show` utilise explicitement `blueprint_source: :json` ;
-- `blueprint_source: :json` force le chargement via `DataBlueprint.find_for_product` ;
-- en mode `:json`, aucune fallback vers `StoreVerticalZippe` n'est appliquee ;
+- `product/show` rend `ExplodedViewExperimentComponent` sans option de source ;
+- `ExplodedViewExperimentComponent` charge uniquement un blueprint JSON ;
+- aucune fallback vers un blueprint Ruby produit n'est appliquee ;
 - si aucune spec JSON ne correspond au `product.slug`, le composant ne rend rien ;
 - un blueprint injecte explicitement reste prioritaire pour les smokes isoles.
 
@@ -277,14 +265,40 @@ Objectif du prochain basculement :
 
 1. completer les regles de generation de boxes par slot restantes sans masquer
    les overrides JSON utiles ;
-2. commencer a isoler puis retirer les fichiers Ruby/templates legacy une fois
-   le chemin JSON generique valide sur les 6 blueprints POC ;
-3. factoriser progressivement les repetitions internes entre renderers de
+2. factoriser progressivement les repetitions internes entre renderers de
    familles quand cela simplifie le systeme sans introduire de chemin produit ;
-4. supprimer progressivement les fichiers Ruby et templates specifiques produits
-   devenus inutiles ;
-5. nettoyer les helpers filaires, SVG code en dur et classes CSS legacy qui ne sont
+3. nettoyer les helpers filaires, SVG code en dur et classes CSS legacy qui ne sont
    plus utilises par la voie JSON.
+
+## Processus nouveau blueprint
+
+Pour ajouter un blueprint, la source finale doit etre un fichier JSON complet.
+On ne cree pas de fichier Ruby produit, pas de composant produit dedie et pas de
+template SVG produit dedie.
+
+Processus recommande :
+
+1. Analyser le produit sur `www.lesartisansdustore.com`, la documentation
+   officielle fabricant, les fiches techniques, notices de pose, PDF et toute
+   source pertinente.
+2. Identifier la famille visuelle et choisir le layout le plus adapte parmi les
+   presets existants.
+3. Si aucun layout ne convient, creer ou enrichir un preset de layout generique
+   avant de saisir le produit.
+4. Lister les pieces, groupes, contraintes techniques, metriques, sources et
+   callouts attendus.
+5. Verifier si les generateurs parametriques existants couvrent les objets
+   necessaires : rails, coffres, toiles, barres, supports, commandes, moteurs,
+   fermetures, accessoires.
+6. Si le produit a un besoin specifique, creer un nouvel objet parametrique ou
+   une nouvelle variante de famille dans la librairie commune. Le cas specifique
+   doit enrichir le systeme, pas devenir un dessin one-shot.
+7. Generer la spec JSON complete dans `config/public_v2/blueprints/`, avec
+   `sources`, `technical_data`, `presets`, `canvas`, `parts`, `metrics`,
+   `elements`, `groups`, `callouts` et `validation`.
+8. Valider le schema, les layouts et le smoke render du nouveau blueprint, puis
+   reduire les positions explicites au profit des slots/presets quand le rendu
+   reste equivalent.
 
 ## Options de rendu
 
@@ -444,7 +458,7 @@ Regle de chantier :
 - si un element est encore filaire, le convertir avec une famille parametrique ;
 - si aucune famille existante ne convient, creer une nouvelle variante generique ;
 - ne pas mettre de SVG code en dur dans un template pour corriger un produit ;
-- les templates specifiques produits sont temporaires et doivent disparaitre.
+- ne pas recreer de template ou composant specifique produit.
 
 Familles reutilisables actuelles :
 
@@ -475,7 +489,7 @@ ou une classe `outline` / `profile` / `detail` / `hairline`.
 ### Priorites de migration restantes
 
 1. **Accessoires restants** : languettes et details attaches.
-2. **Fallbacks legacy** : retirer les anciens chemins apres migration complete.
+2. **Fallbacks filaires** : retirer les anciens chemins techniques encore inutiles.
 
 ### Par blueprint
 
@@ -600,7 +614,8 @@ Classes/methodes a conserver temporairement, puis a retirer quand les migrations
 - `MotorElement#tube_path`, `MotorElement#head_path`, `MotorElement#detail_path`.
 
 Ces APIs ne doivent plus etre utilisees pour de nouveaux objets.
-Elles servent uniquement de transition pendant la migration des blueprints existants.
+Elles servent uniquement de transition pendant la migration des helpers et
+micro-details restants.
 
 ### Prochain ordre conseille
 

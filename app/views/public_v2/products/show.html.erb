@@ -3,7 +3,7 @@
 
 <main class="pv2-public-page pv2-product-page grid gap-12">
   <%= render PublicV2::Products::HeaderSectionComponent.new(product_page: @product_page) %>
-  <%= render PublicV2::Products::ExplodedViewExperimentComponent.new(product_page: @product_page, blueprint_source: :json) %>
+  <%= render PublicV2::Products::ExplodedViewExperimentComponent.new(product_page: @product_page) %>
   <%= render PublicV2::Products::DetailsSectionComponent.new(product_page: @product_page) %>
   <%= render PublicV2::Products::RelatedSectionComponent.new(product_page: @product_page) %>
 </main>

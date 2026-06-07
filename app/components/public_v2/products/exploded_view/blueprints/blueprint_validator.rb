@@ -1,11 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "moustiquaire_enroulable_verticale"
-require_relative "moustiquaire_plissee"
-require_relative "store_duette"
-require_relative "store_rouleau_duo"
-require_relative "store_venitien"
-require_relative "store_vertical_zippe"
 require_relative "../blueprint_specs/validator"
 
 module PublicV2
@@ -13,15 +7,6 @@ module PublicV2
     module ExplodedView
       module Blueprints
         class BlueprintValidator
-          DEFAULT_BLUEPRINT_CLASSES = [
-            StoreVerticalZippe,
-            MoustiquairePlissee,
-            MoustiquaireEnroulableVerticale,
-            StoreVenitien,
-            StoreDuette,
-            StoreRouleauDuo
-          ].freeze
-
           PRIMARY_BOX_METHODS = %i[
             hit
             body
@@ -55,22 +40,12 @@ module PublicV2
 
           class ValidationError < StandardError; end
 
-          def self.validate_all(blueprint_classes: DEFAULT_BLUEPRINT_CLASSES)
-            blueprint_classes.map { |blueprint_class| new(blueprint_class.new).validate }
+          def self.validate_all(root: BlueprintSpecs::Loader::DEFAULT_ROOT)
+            validate_specs(root:)
           end
 
-          def self.validate_all!(blueprint_classes: DEFAULT_BLUEPRINT_CLASSES, output: $stdout)
-            results = validate_all(blueprint_classes:)
-            results.each { |result| output.puts(result.summary) }
-
-            failing_results = results.reject(&:ok?)
-            return results if failing_results.empty?
-
-            details = failing_results.flat_map do |result|
-              result.errors.map { |error| "#{result.name}: #{error}" }
-            end.join("\n")
-
-            raise ValidationError, "Blueprint validation failed:\n#{details}"
+          def self.validate_all!(root: BlueprintSpecs::Loader::DEFAULT_ROOT, output: $stdout)
+            validate_specs!(root:, output:)
           end
 
           def self.validate_specs(root: BlueprintSpecs::Loader::DEFAULT_ROOT)

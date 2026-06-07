@@ -174,15 +174,6 @@ module PublicV2
         end
       end
 
-      DrawingLayout = ZippedScreenLayout
-      PlisseeDrawingLayout = PleatedLateralLayout
-      EnrollableDrawingLayout = SideGuidedRollerLayout
-      DuetteDrawingLayout = HoneycombShadeLayout
-      DuoDrawingLayout = RollerDuoLayout
-      VenetianDrawingLayout = VenetianBlindLayout
-      VenetianSupportPair = MountSupportPair
-      DuetteCordPair = HoneycombCordPair
-      DuoRollElement = RollerDuoRollElement
     end
   end
 end
