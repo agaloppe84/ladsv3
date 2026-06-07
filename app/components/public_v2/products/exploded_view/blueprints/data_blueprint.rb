@@ -2,6 +2,7 @@
 
 require_relative "../blueprint_specs/loader"
 require_relative "../blueprint_specs/assembler"
+require_relative "../blueprint_specs/data_layout_builder"
 require_relative "../schema"
 
 module PublicV2
@@ -121,7 +122,10 @@ module PublicV2
           end
 
           def css_style
-            theme.css_style
+            [
+              theme.css_style,
+              "--pv2-exploded-svg-ratio: #{layout.svg_width} / #{layout.svg_height}"
+            ].reject(&:empty?).join("; ")
           end
 
           def eyebrow
@@ -140,7 +144,7 @@ module PublicV2
           end
 
           def layout
-            raise NotImplementedError, "DataBlueprint does not build a drawing layout yet"
+            @layout ||= BlueprintSpecs::DataLayoutBuilder.new(self).build
           end
 
           def drawing_component

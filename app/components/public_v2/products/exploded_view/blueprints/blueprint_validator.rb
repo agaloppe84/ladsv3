@@ -81,6 +81,14 @@ module PublicV2
             BlueprintSpecs::Validator.validate_all!(root:, output:)
           end
 
+          def self.validate_spec_layouts(root: BlueprintSpecs::Loader::DEFAULT_ROOT)
+            BlueprintSpecs::Validator.validate_layouts(root:)
+          end
+
+          def self.validate_spec_layouts!(root: BlueprintSpecs::Loader::DEFAULT_ROOT, output: $stdout)
+            BlueprintSpecs::Validator.validate_layouts!(root:, output:)
+          end
+
           def initialize(blueprint)
             @blueprint = blueprint
             @layout = blueprint.layout

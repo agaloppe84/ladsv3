@@ -42,6 +42,7 @@ Fichiers centraux :
 - `app/components/public_v2/products/exploded_view/blueprint_specs/element_registry.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/assembler.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/assembled_blueprint.rb`
+- `app/components/public_v2/products/exploded_view/blueprint_specs/data_layout_builder.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/validator.rb`
 
 Les fichiers blueprint portent les donnees produit, le layout et les callouts.
@@ -110,6 +111,8 @@ Validation JSON :
   valide le schema et les specs JSON ;
 - `PublicV2::Products::ExplodedView::Blueprints::BlueprintValidator.validate_specs!`
   expose le meme controle depuis le validator historique.
+- `PublicV2::Products::ExplodedView::Blueprints::BlueprintValidator.validate_spec_layouts!`
+  valide que les specs dotees d'un builder data-driven produisent un layout exploitable.
 
 Assemblage JSON :
 
@@ -121,6 +124,8 @@ Assemblage JSON :
 - `CalloutDefinition` convertit les marqueurs en `Point` ;
 - `AssembledBlueprint` expose les index `element(id)`, `group(id)`,
   `callout(part_id)` et la liste des familles de rendu necessaires.
+- `BlueprintSpecs::DataLayoutBuilder` transforme la spec assemblee en layout Ruby.
+  Au stade actuel, seul `store-vertical-zippe` est supporte.
 
 Couples JSON supportes au stade actuel :
 
@@ -139,16 +144,19 @@ Prochaine migration technique :
    `Blueprints::DataBlueprint` expose deja parts, metrics, technical data, theme,
    render options, layout config, elements assembles, groups, callouts et matching
    par slug/alias.
-3. Creer un renderer generique qui remplace les templates produit.
-4. Supprimer les classes Ruby et templates produit quand les 6 blueprints existants
+3. Creer un `DataLayoutBuilder` pour produire un layout Ruby depuis la spec JSON.
+   `store-vertical-zippe` produit deja un `DrawingLayout` compatible avec les
+   primitives actuelles, sans etre branche au rendu public.
+4. Creer un renderer generique qui remplace les templates produit.
+5. Supprimer les classes Ruby et templates produit quand les 6 blueprints existants
    sont convertis.
 
 Important :
 
 La spec `StoreVerticalZippe` JSON ne remplace pas encore le rendu actuel.
 Elle sert de contrat data pour preparer la bascule vers un renderer generique.
-Tant que `DataBlueprint#layout` et `DataBlueprint#drawing_component` ne sont pas
-implementes, le composant public continue d'utiliser les blueprints Ruby historiques.
+Tant que `DataBlueprint#drawing_component` n'est pas implemente, le composant public
+continue d'utiliser les blueprints Ruby historiques.
 
 ## Options de rendu
 

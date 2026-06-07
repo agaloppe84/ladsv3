@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "json"
+require_relative "../blueprints/data_blueprint"
 require_relative "element_registry"
 require_relative "loader"
 
@@ -85,6 +86,28 @@ module PublicV2
             raise ValidationError, "Blueprint spec validation failed:\n#{details}"
           end
 
+          def self.validate_layouts(root: Loader::DEFAULT_ROOT)
+            loader = Loader.new(root:)
+            loader.spec_paths.map do |path|
+              spec = loader.load(path)
+              validate_layout(spec, root: loader.root)
+            end
+          end
+
+          def self.validate_layouts!(root: Loader::DEFAULT_ROOT, output: $stdout)
+            results = validate_layouts(root:)
+            results.each { |result| output.puts(result.summary) }
+
+            failing_results = results.reject(&:ok?)
+            return results if failing_results.empty?
+
+            details = failing_results.flat_map do |result|
+              result.errors.map { |error| "#{result.name}: #{error}" }
+            end.join("\n")
+
+            raise ValidationError, "Blueprint spec layout validation failed:\n#{details}"
+          end
+
           def self.validate_schema(loader)
             errors = []
             warnings = []
@@ -117,6 +140,27 @@ module PublicV2
             warnings << "no blueprint specs found yet" if specs.empty?
 
             Result.new(name: "catalog", path: root, errors:, warnings:)
+          end
+
+          def self.validate_layout(spec, root:)
+            errors = []
+            warnings = []
+            name = spec.path.relative_path_from(root).to_s
+            blueprint = Blueprints::DataBlueprint.new(spec)
+            layout = blueprint.layout
+
+            errors << "layout.svg_width must be positive" unless layout.svg_width.to_f.positive?
+            errors << "layout.svg_height must be positive" unless layout.svg_height.to_f.positive?
+            errors << "layout.grid is missing" unless layout.grid
+
+            spec.parts.each do |part|
+              part_id = part.fetch("id")
+              errors << "layout is missing callout #{part_id.inspect}" unless layout.callout(part_id)
+            end
+          rescue StandardError => error
+            errors << "#{error.class}: #{error.message}"
+          ensure
+            return Result.new(name: "layout/#{name}", path: spec.path, errors:, warnings:)
           end
 
           def initialize(spec, root: Loader::DEFAULT_ROOT, registry: ElementRegistry.default)

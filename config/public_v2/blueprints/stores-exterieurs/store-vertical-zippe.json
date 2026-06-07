@@ -128,7 +128,7 @@
       "part_id": "coffre",
       "type": "housing",
       "variant": "front-coffre",
-      "box": { "x": 1020, "y": 1060, "width": 5760, "height": 260, "rx": 38 },
+      "box": { "x": 1020, "y": 1310, "width": 5760, "height": 260, "rx": 38 },
       "options": {
         "preset": "housing_zipped_coffre",
         "solid_profile": "vertical-zippe-coffre",
@@ -141,7 +141,7 @@
       "part_id": "toile",
       "type": "fabric",
       "variant": "zipped-solid",
-      "box": { "x": 1260, "y": 1740, "width": 5280, "height": 2040, "rx": 22 },
+      "box": { "x": 1260, "y": 1990, "width": 5280, "height": 2040, "rx": 22 },
       "options": {
         "preset": "fabric_zipped",
         "line_count": 35,
@@ -166,7 +166,7 @@
       "part_id": "barre-charge",
       "type": "bar",
       "variant": "zipped-load",
-      "box": { "x": 1020, "y": 4060, "width": 5760, "height": 180, "rx": 34 },
+      "box": { "x": 1020, "y": 4310, "width": 5760, "height": 180, "rx": 34 },
       "options": {
         "preset": "bar_zipped_load",
         "solid_profile": "vertical-zippe-barre-charge",
@@ -203,7 +203,7 @@
   "callouts": [
     {
       "part_id": "coffre",
-      "marker": { "x": 6940, "y": 1190 },
+      "marker": { "x": 860, "y": 1440 },
       "placement": "top_housing",
       "label_side": "right",
       "first_length": 225,
@@ -212,14 +212,14 @@
     },
     {
       "part_id": "coulisses",
-      "marker": { "x": 410, "y": 2760 },
+      "marker": { "x": 410, "y": 2990 },
       "placement": "left_vertical_pair",
       "first_length": 285,
       "second_length": 190
     },
     {
       "part_id": "toile",
-      "marker": { "x": 3900, "y": 2760 },
+      "marker": { "x": 3900, "y": 1830 },
       "placement": "center_fabric",
       "label_side": "right",
       "first_length": 265,
@@ -228,7 +228,7 @@
     },
     {
       "part_id": "barre-charge",
-      "marker": { "x": 6900, "y": 4150 },
+      "marker": { "x": 6900, "y": 4400 },
       "placement": "bottom_bar",
       "first_length": 95,
       "second_length": 500,
@@ -237,7 +237,7 @@
     },
     {
       "part_id": "motorisation",
-      "marker": { "x": 6930, "y": 765 },
+      "marker": { "x": 6720, "y": 770 },
       "placement": "top_housing",
       "second_length": 380,
       "text_offset_x": -72,
@@ -245,7 +245,7 @@
     },
     {
       "part_id": "supports",
-      "marker": { "x": 6718, "y": 305 },
+      "marker": { "x": 6720, "y": 310 },
       "placement": "top_rail",
       "first_length": 180,
       "text_offset_x": -72,
