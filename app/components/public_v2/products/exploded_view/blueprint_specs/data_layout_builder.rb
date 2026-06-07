@@ -34,7 +34,7 @@ module PublicV2
               }
             ),
             LayoutStrategy.new(
-              name: :duette,
+              name: :honeycomb_shade,
               preset: "vertical-product-layout",
               required_slots: %w[top-rail top-supports fabric intermediate-rail bottom-rail guide-cords],
               slot_registry_keys: {
@@ -52,7 +52,7 @@ module PublicV2
               }
             ),
             LayoutStrategy.new(
-              name: :enroulable_verticale,
+              name: :side_guided_roller,
               preset: "vertical-product-layout",
               required_slots: %w[top-housing fabric side-guides bottom-bar closure attached-features],
               slot_registry_keys: {
@@ -61,7 +61,7 @@ module PublicV2
               }
             ),
             LayoutStrategy.new(
-              name: :vertical_zippe,
+              name: :zipped_screen,
               preset: "vertical-product-layout",
               required_slots: %w[motor top-supports top-housing fabric side-guides bottom-bar],
               slot_registry_keys: {
@@ -73,12 +73,12 @@ module PublicV2
           ].freeze
 
           STRATEGY_BUILDERS = {
-            roller_duo: :build_store_rouleau_duo,
-            venetian: :build_store_venitien,
-            duette: :build_store_duette,
-            pleated_lateral: :build_moustiquaire_plissee,
-            enroulable_verticale: :build_moustiquaire_enroulable_verticale,
-            vertical_zippe: :build_store_vertical_zippe
+            roller_duo: :build_roller_duo_layout,
+            venetian: :build_venetian_layout,
+            honeycomb_shade: :build_honeycomb_shade_layout,
+            pleated_lateral: :build_pleated_lateral_layout,
+            side_guided_roller: :build_side_guided_roller_layout,
+            zipped_screen: :build_zipped_screen_layout
           }.freeze
 
           attr_reader :blueprint, :assembled
@@ -120,15 +120,15 @@ module PublicV2
             end
           end
 
-          def build_store_rouleau_duo
-            headrail = build_duo_headrail
-            supports = build_duo_supports(headrail:)
-            roll = build_duo_roll(headrail:)
-            fabric = build_duo_fabric(roll:)
-            bottom_bar = build_duo_bottom_bar(fabric:)
-            control = build_duo_control(fabric:)
-            groups = build_duo_groups(headrail:, supports:, roll:, fabric:, bottom_bar:, control:)
-            callouts = build_duo_callouts(groups:)
+          def build_roller_duo_layout
+            headrail = build_roller_duo_headrail
+            supports = build_roller_duo_supports(headrail:)
+            roll = build_roller_duo_roll(headrail:)
+            fabric = build_roller_duo_fabric(roll:)
+            bottom_bar = build_roller_duo_bottom_bar(fabric:)
+            control = build_roller_duo_control(fabric:)
+            groups = build_roller_duo_groups(headrail:, supports:, roll:, fabric:, bottom_bar:, control:)
+            callouts = build_roller_duo_callouts(groups:)
 
             DuoDrawingLayout.new(
               svg_width: canvas_spec.svg_width,
@@ -145,7 +145,7 @@ module PublicV2
             )
           end
 
-          def build_duo_headrail
+          def build_roller_duo_headrail
             element = preset_slot_layout.element_for_slot("headrail", required: true)
             options = element.options
             box = preset_slot_layout.box_for_slot("headrail")
@@ -166,7 +166,7 @@ module PublicV2
             )
           end
 
-          def build_duo_supports(headrail:)
+          def build_roller_duo_supports(headrail:)
             element = preset_slot_layout.element_for_slot("top-supports", required: true)
             options = element.options
 
@@ -190,7 +190,7 @@ module PublicV2
             )
           end
 
-          def build_duo_roll(headrail:)
+          def build_roller_duo_roll(headrail:)
             element = preset_slot_layout.element_for_slot("roll", required: true)
             options = element.options
             box = preset_slot_layout.box_for_slot("roll")
@@ -217,14 +217,14 @@ module PublicV2
                 {
                   id: options.fetch("solid_profile"),
                   body_tone: options.fetch("body_tone"),
-                  detail: duo_roll_highlight_detail(options.fetch("highlight"), body:)
+                  detail: roller_duo_roll_highlight_detail(options.fetch("highlight"), body:)
                 },
                 bar: roll
               )
             )
           end
 
-          def duo_roll_highlight_detail(config, body:)
+          def roller_duo_roll_highlight_detail(config, body:)
             options = config.transform_keys(&:to_sym)
             height = options.fetch(:height)
             inset_x = options.fetch(:inset_x)
@@ -240,7 +240,7 @@ module PublicV2
             }
           end
 
-          def build_duo_fabric(roll:)
+          def build_roller_duo_fabric(roll:)
             element = preset_slot_layout.element_for_slot("fabric", required: true)
             options = element.options
             box = preset_slot_layout.box_for_slot("fabric")
@@ -266,7 +266,7 @@ module PublicV2
             )
           end
 
-          def build_duo_bottom_bar(fabric:)
+          def build_roller_duo_bottom_bar(fabric:)
             element = preset_slot_layout.element_for_slot("bottom-bar", required: true)
             options = element.options
             box = preset_slot_layout.box_for_slot("bottom-bar")
@@ -291,7 +291,7 @@ module PublicV2
             )
           end
 
-          def build_duo_control(fabric:)
+          def build_roller_duo_control(fabric:)
             element = preset_slot_layout.element_for_slot("controls", required: true)
             options = element.options
             body = layout_box(
@@ -327,7 +327,7 @@ module PublicV2
             )
           end
 
-          def build_duo_groups(headrail:, supports:, roll:, fabric:, bottom_bar:, control:)
+          def build_roller_duo_groups(headrail:, supports:, roll:, fabric:, bottom_bar:, control:)
             {
               "mecanisme-haut" => LayoutGroup.new(id: "mecanisme-haut", boxes: [headrail.body, roll.body, supports.left, supports.right]),
               "tablier-duo" => LayoutGroup.new(id: "tablier-duo", boxes: [roll.body, fabric.body, bottom_bar.body]),
@@ -336,13 +336,13 @@ module PublicV2
             }
           end
 
-          def build_duo_callouts(groups:)
+          def build_roller_duo_callouts(groups:)
             assembled.callouts.each_with_object({}) do |definition, callouts|
               callouts[definition.part_id] = callout_from_definition(definition, groups:)
             end
           end
 
-          def build_store_venitien
+          def build_venetian_layout
             headrail = build_venetian_headrail
             supports = build_venetian_supports(headrail:)
             slats = build_venetian_slats(headrail:)
@@ -528,18 +528,18 @@ module PublicV2
             end
           end
 
-          def build_store_duette
-            top_rail = build_duette_top_rail
-            supports = build_duette_supports(top_rail:)
-            fabric = build_duette_fabric(top_rail:)
-            intermediate_rail = build_duette_intermediate_rail(fabric:)
-            bottom_rail = build_duette_bottom_rail(fabric:)
-            cords = build_duette_cords(top_rail:, fabric:, intermediate_rail:, bottom_rail:)
-            top_rail = with_duette_slotted_rail_profile("rail-superieur", rail: top_rail, fabric:, cords:, slot_side: :bottom)
-            intermediate_rail = with_duette_intermediate_rail_profile(intermediate_rail:, cords:)
-            bottom_rail = with_duette_slotted_rail_profile("rail-bas", rail: bottom_rail, fabric:, cords:, slot_side: :top)
-            groups = build_duette_groups(top_rail:, supports:, fabric:, intermediate_rail:, bottom_rail:, cords:)
-            callouts = build_duette_callouts(groups:)
+          def build_honeycomb_shade_layout
+            top_rail = build_honeycomb_top_rail
+            supports = build_honeycomb_supports(top_rail:)
+            fabric = build_honeycomb_fabric(top_rail:)
+            intermediate_rail = build_honeycomb_intermediate_rail(fabric:)
+            bottom_rail = build_honeycomb_bottom_rail(fabric:)
+            cords = build_honeycomb_cords(top_rail:, fabric:, intermediate_rail:, bottom_rail:)
+            top_rail = with_honeycomb_slotted_rail_profile("rail-superieur", rail: top_rail, fabric:, cords:, slot_side: :bottom)
+            intermediate_rail = with_honeycomb_intermediate_rail_profile(intermediate_rail:, cords:)
+            bottom_rail = with_honeycomb_slotted_rail_profile("rail-bas", rail: bottom_rail, fabric:, cords:, slot_side: :top)
+            groups = build_honeycomb_groups(top_rail:, supports:, fabric:, intermediate_rail:, bottom_rail:, cords:)
+            callouts = build_honeycomb_callouts(groups:)
 
             DuetteDrawingLayout.new(
               svg_width: canvas_spec.svg_width,
@@ -556,7 +556,7 @@ module PublicV2
             )
           end
 
-          def build_duette_top_rail
+          def build_honeycomb_top_rail
             element = preset_slot_layout.element_for_slot("top-rail", required: true)
             options = element.options
             box = preset_slot_layout.box_for_slot("top-rail")
@@ -574,7 +574,7 @@ module PublicV2
             )
           end
 
-          def build_duette_supports(top_rail:)
+          def build_honeycomb_supports(top_rail:)
             element = preset_slot_layout.element_for_slot("top-supports", required: true)
             options = element.options
 
@@ -597,7 +597,7 @@ module PublicV2
             )
           end
 
-          def build_duette_fabric(top_rail:)
+          def build_honeycomb_fabric(top_rail:)
             element = preset_slot_layout.element_for_slot("fabric", required: true)
             options = element.options
             box = preset_slot_layout.box_for_slot("fabric")
@@ -623,7 +623,7 @@ module PublicV2
             )
           end
 
-          def build_duette_intermediate_rail(fabric:)
+          def build_honeycomb_intermediate_rail(fabric:)
             element = preset_slot_layout.element_for_slot("intermediate-rail", required: true)
             options = element.options
             body = if element.box
@@ -650,7 +650,7 @@ module PublicV2
             )
           end
 
-          def build_duette_bottom_rail(fabric:)
+          def build_honeycomb_bottom_rail(fabric:)
             element = preset_slot_layout.element_for_slot("bottom-rail", required: true)
             options = element.options
             box = preset_slot_layout.box_for_slot("bottom-rail")
@@ -672,14 +672,14 @@ module PublicV2
             )
           end
 
-          def build_duette_cords(top_rail:, fabric:, intermediate_rail:, bottom_rail:)
+          def build_honeycomb_cords(top_rail:, fabric:, intermediate_rail:, bottom_rail:)
             element = preset_slot_layout.element_for_slot("guide-cords", required: true)
             options = element.options
             left_x = layout_point(Point.new(x: fabric.body.x + options.fetch("offset_x"), y: fabric.body.y)).x
             right_x = layout_point(Point.new(x: fabric.body.right - options.fetch("offset_x"), y: fabric.body.y)).x
             top_y = layout_y(top_rail.body.bottom + options.fetch("top_gap"))
             bottom_y = layout_y(bottom_rail.body.y - options.fetch("bottom_gap"))
-            dot_ys = duette_cord_dot_ys(options.fetch("dot_y_offsets"), fabric:, intermediate_rail:)
+            dot_ys = honeycomb_cord_dot_ys(options.fetch("dot_y_offsets"), fabric:, intermediate_rail:)
             hit = layout_box(
               Box.new(
                 x: left_x - options.fetch("hit_inset_x"),
@@ -711,7 +711,7 @@ module PublicV2
             )
           end
 
-          def with_duette_slotted_rail_profile(element_id, rail:, fabric:, cords:, slot_side:)
+          def with_honeycomb_slotted_rail_profile(element_id, rail:, fabric:, cords:, slot_side:)
             options = assembled.element(element_id).options
             slot = options.fetch("slot")
             tabs = options.fetch("cord_tabs")
@@ -739,7 +739,7 @@ module PublicV2
                       id: tabs.fetch("id", "cord-tab"),
                       side: slot_side,
                       x_positions: [cords.left_x, cords.right_x],
-                      y: duette_tab_y(slot_y:, slot_height:, tabs:, side: slot_side),
+                      y: honeycomb_tab_y(slot_y:, slot_height:, tabs:, side: slot_side),
                       width: tabs.fetch("width"),
                       height: tabs.fetch("height"),
                       rx: tabs.fetch("rx"),
@@ -752,7 +752,7 @@ module PublicV2
             )
           end
 
-          def with_duette_intermediate_rail_profile(intermediate_rail:, cords:)
+          def with_honeycomb_intermediate_rail_profile(intermediate_rail:, cords:)
             options = assembled.element("rail-intermediaire").options
 
             intermediate_rail.with_solid_profile(
@@ -769,14 +769,14 @@ module PublicV2
             )
           end
 
-          def duette_tab_y(slot_y:, slot_height:, tabs:, side:)
+          def honeycomb_tab_y(slot_y:, slot_height:, tabs:, side:)
             overlap = tabs.fetch("overlap", 0)
             height = tabs.fetch("height")
 
             side == :bottom ? slot_y + slot_height - overlap : slot_y - height + overlap
           end
 
-          def duette_cord_dot_ys(values, fabric:, intermediate_rail:)
+          def honeycomb_cord_dot_ys(values, fabric:, intermediate_rail:)
             values.map do |value|
               case value
               when "intermediate_center"
@@ -789,7 +789,7 @@ module PublicV2
             end
           end
 
-          def build_duette_groups(top_rail:, supports:, fabric:, intermediate_rail:, bottom_rail:, cords:)
+          def build_honeycomb_groups(top_rail:, supports:, fabric:, intermediate_rail:, bottom_rail:, cords:)
             {
               "tablier-duette" => LayoutGroup.new(id: "tablier-duette", boxes: [top_rail.body, fabric.body, intermediate_rail.body, bottom_rail.body]),
               "pose-haute" => LayoutGroup.new(id: "pose-haute", boxes: [top_rail.body, supports.left, supports.right]),
@@ -798,21 +798,21 @@ module PublicV2
             }
           end
 
-          def build_duette_callouts(groups:)
+          def build_honeycomb_callouts(groups:)
             assembled.callouts.each_with_object({}) do |definition, callouts|
               callouts[definition.part_id] = callout_from_definition(definition, groups:)
             end
           end
 
-          def build_moustiquaire_plissee
-            guide = build_plissee_guide
-            fabric = build_plissee_fabric(guide:)
-            profiles = build_plissee_profiles(fabric:)
-            handle = build_plissee_handle(fabric:, profiles:)
-            threshold = build_plissee_threshold(guide:, profiles:)
-            lock = build_plissee_lock(handle:)
-            groups = build_plissee_groups(fabric:, handle:, lock:)
-            callouts = build_plissee_callouts(groups:)
+          def build_pleated_lateral_layout
+            guide = build_pleated_lateral_guide
+            fabric = build_pleated_lateral_fabric(guide:)
+            profiles = build_pleated_lateral_profiles(fabric:)
+            handle = build_pleated_lateral_handle(fabric:, profiles:)
+            threshold = build_pleated_lateral_threshold(guide:, profiles:)
+            lock = build_pleated_lateral_lock(handle:)
+            groups = build_pleated_lateral_groups(fabric:, handle:, lock:)
+            callouts = build_pleated_lateral_callouts(groups:)
 
             PlisseeDrawingLayout.new(
               svg_width: canvas_spec.svg_width,
@@ -829,7 +829,7 @@ module PublicV2
             )
           end
 
-          def build_plissee_guide
+          def build_pleated_lateral_guide
             element = preset_slot_layout.element_for_slot("top-guide", required: true)
             options = element.options
             box = preset_slot_layout.box_for_slot("top-guide")
@@ -850,7 +850,7 @@ module PublicV2
             )
           end
 
-          def build_plissee_fabric(guide:)
+          def build_pleated_lateral_fabric(guide:)
             element = preset_slot_layout.element_for_slot("fabric", required: true)
             options = element.options
             box = preset_slot_layout.box_for_slot("fabric")
@@ -876,7 +876,7 @@ module PublicV2
             )
           end
 
-          def build_plissee_profiles(fabric:)
+          def build_pleated_lateral_profiles(fabric:)
             element = preset_slot_layout.element_for_slot("side-profiles", required: true)
             options = element.options
             top = fabric.body.y - layout_gap(options.fetch("top_offset"))
@@ -904,7 +904,7 @@ module PublicV2
             )
           end
 
-          def build_plissee_handle(fabric:, profiles:)
+          def build_pleated_lateral_handle(fabric:, profiles:)
             element = preset_slot_layout.element_for_slot("handle", required: true)
             options = element.options
 
@@ -929,7 +929,7 @@ module PublicV2
             )
           end
 
-          def build_plissee_threshold(guide:, profiles:)
+          def build_pleated_lateral_threshold(guide:, profiles:)
             element = preset_slot_layout.element_for_slot("bottom-threshold", required: true)
             options = element.options
             box = preset_slot_layout.box_for_slot("bottom-threshold")
@@ -951,7 +951,7 @@ module PublicV2
             )
           end
 
-          def build_plissee_lock(handle:)
+          def build_pleated_lateral_lock(handle:)
             element = preset_slot_layout.element_for_slot("closure", required: true)
             options = element.options
 
@@ -969,28 +969,28 @@ module PublicV2
             )
           end
 
-          def build_plissee_groups(fabric:, handle:, lock:)
+          def build_pleated_lateral_groups(fabric:, handle:, lock:)
             {
               "toile-poignee" => LayoutGroup.attached(id: "toile-poignee", boxes: [fabric.body, handle.body]),
               "poignee-verrouillage" => LayoutGroup.attached(id: "poignee-verrouillage", boxes: [handle.body, lock.hit])
             }
           end
 
-          def build_plissee_callouts(groups:)
+          def build_pleated_lateral_callouts(groups:)
             assembled.callouts.each_with_object({}) do |definition, callouts|
               callouts[definition.part_id] = callout_from_definition(definition, groups:)
             end
           end
 
-          def build_moustiquaire_enroulable_verticale
-            cassette = build_enroulable_cassette
-            fabric = build_enroulable_fabric(cassette:)
-            rails = build_enroulable_rails(fabric:)
-            bottom_bar = build_enroulable_bottom_bar(fabric:)
-            lock = build_enroulable_lock(bottom_bar:)
-            bavettes = build_enroulable_bavettes(rails:)
-            groups = build_enroulable_groups(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:)
-            callouts = build_enroulable_callouts(groups:)
+          def build_side_guided_roller_layout
+            cassette = build_side_guided_roller_cassette
+            fabric = build_side_guided_roller_fabric(cassette:)
+            rails = build_side_guided_roller_rails(fabric:)
+            bottom_bar = build_side_guided_roller_bottom_bar(fabric:)
+            lock = build_side_guided_roller_lock(bottom_bar:)
+            bavettes = build_side_guided_roller_bavettes(rails:)
+            groups = build_side_guided_roller_groups(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:)
+            callouts = build_side_guided_roller_callouts(groups:)
 
             EnrollableDrawingLayout.new(
               svg_width: canvas_spec.svg_width,
@@ -1007,7 +1007,7 @@ module PublicV2
             )
           end
 
-          def build_enroulable_cassette
+          def build_side_guided_roller_cassette
             element = preset_slot_layout.element_for_slot("top-housing", required: true)
             options = element.options
             box = preset_slot_layout.box_for_slot("top-housing")
@@ -1036,7 +1036,7 @@ module PublicV2
             )
           end
 
-          def build_enroulable_fabric(cassette:)
+          def build_side_guided_roller_fabric(cassette:)
             element = preset_slot_layout.element_for_slot("fabric", required: true)
             options = element.options
             box = preset_slot_layout.box_for_slot("fabric")
@@ -1062,7 +1062,7 @@ module PublicV2
             )
           end
 
-          def build_enroulable_rails(fabric:)
+          def build_side_guided_roller_rails(fabric:)
             element = preset_slot_layout.element_for_slot("side-guides", required: true)
             options = element.options
             top = fabric.body.y - layout_gap(options.fetch("extra_top"))
@@ -1090,7 +1090,7 @@ module PublicV2
             )
           end
 
-          def build_enroulable_bottom_bar(fabric:)
+          def build_side_guided_roller_bottom_bar(fabric:)
             element = preset_slot_layout.element_for_slot("bottom-bar", required: true)
             options = element.options
             box = preset_slot_layout.box_for_slot("bottom-bar")
@@ -1117,7 +1117,7 @@ module PublicV2
             )
           end
 
-          def build_enroulable_lock(bottom_bar:)
+          def build_side_guided_roller_lock(bottom_bar:)
             element = preset_slot_layout.element_for_slot("closure", required: true)
             options = element.options
 
@@ -1137,7 +1137,7 @@ module PublicV2
             )
           end
 
-          def build_enroulable_bavettes(rails:)
+          def build_side_guided_roller_bavettes(rails:)
             element = preset_slot_layout.element_for_slot("attached-features", required: true)
             options = element.options
 
@@ -1151,7 +1151,7 @@ module PublicV2
             )
           end
 
-          def build_enroulable_groups(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:)
+          def build_side_guided_roller_groups(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:)
             {
               "caisson-toile" => LayoutGroup.new(id: "caisson-toile", boxes: [cassette.body, fabric.body]),
               "toile-coulisses" => LayoutGroup.new(id: "toile-coulisses", boxes: [fabric.body, rails.left, rails.right]),
@@ -1160,21 +1160,21 @@ module PublicV2
             }
           end
 
-          def build_enroulable_callouts(groups:)
+          def build_side_guided_roller_callouts(groups:)
             assembled.callouts.each_with_object({}) do |definition, callouts|
               callouts[definition.part_id] = callout_from_definition(definition, groups:)
             end
           end
 
-          def build_store_vertical_zippe
-            motor = build_vertical_zippe_motor
-            coffre = build_vertical_zippe_coffre(motor:)
-            fabric = build_vertical_zippe_fabric(coffre:)
-            coulisse = build_vertical_zippe_coulisse(fabric:)
-            barre = build_vertical_zippe_barre(coffre:, fabric:)
-            supports = build_vertical_zippe_supports
-            groups = build_vertical_zippe_groups(motor:, coffre:, fabric:, coulisse:, barre:)
-            callouts = build_vertical_zippe_callouts(groups:)
+          def build_zipped_screen_layout
+            motor = build_zipped_screen_motor
+            coffre = build_zipped_screen_coffre(motor:)
+            fabric = build_zipped_screen_fabric(coffre:)
+            coulisse = build_zipped_screen_coulisse(fabric:)
+            barre = build_zipped_screen_barre(coffre:, fabric:)
+            supports = build_zipped_screen_supports
+            groups = build_zipped_screen_groups(motor:, coffre:, fabric:, coulisse:, barre:)
+            callouts = build_zipped_screen_callouts(groups:)
 
             DrawingLayout.new(
               svg_width: canvas_spec.svg_width,
@@ -1192,7 +1192,7 @@ module PublicV2
             )
           end
 
-          def build_vertical_zippe_motor
+          def build_zipped_screen_motor
             element = preset_slot_layout.element_for_slot("motor", required: true)
             options = element.options
 
@@ -1213,7 +1213,7 @@ module PublicV2
             )
           end
 
-          def build_vertical_zippe_coffre(motor:)
+          def build_zipped_screen_coffre(motor:)
             element = preset_slot_layout.element_for_slot("top-housing", required: true)
             options = element.options
             box = preset_slot_layout.box_for_slot("top-housing")
@@ -1237,7 +1237,7 @@ module PublicV2
             )
           end
 
-          def build_vertical_zippe_fabric(coffre:)
+          def build_zipped_screen_fabric(coffre:)
             element = preset_slot_layout.element_for_slot("fabric", required: true)
             options = element.options
             box = preset_slot_layout.box_for_slot("fabric")
@@ -1261,7 +1261,7 @@ module PublicV2
             )
           end
 
-          def build_vertical_zippe_coulisse(fabric:)
+          def build_zipped_screen_coulisse(fabric:)
             element = preset_slot_layout.element_for_slot("side-guides", required: true)
             options = element.options
             top = fabric.body.y - 140
@@ -1276,7 +1276,7 @@ module PublicV2
             )
           end
 
-          def build_vertical_zippe_barre(coffre:, fabric:)
+          def build_zipped_screen_barre(coffre:, fabric:)
             element = preset_slot_layout.element_for_slot("bottom-bar", required: true)
             options = element.options
             box = preset_slot_layout.box_for_slot("bottom-bar")
@@ -1295,7 +1295,7 @@ module PublicV2
             )
           end
 
-          def build_vertical_zippe_supports
+          def build_zipped_screen_supports
             element = preset_slot_layout.element_for_slot("top-supports", required: true)
             left = layout_box(Box.new(x: 1_240, y: 140, width: 420, height: 320, rx: 42))
             right = layout_box(Box.new(x: canvas_spec.svg_width - left.right, y: left.y, width: left.width, height: left.height, rx: left.rx))
@@ -1326,7 +1326,7 @@ module PublicV2
             )
           end
 
-          def build_vertical_zippe_groups(motor:, coffre:, fabric:, coulisse:, barre:)
+          def build_zipped_screen_groups(motor:, coffre:, fabric:, coulisse:, barre:)
             {
               "motorisation" => LayoutGroup.attached(id: "motorisation", boxes: [motor.tube, motor.head]),
               "toile-coulisses" => LayoutGroup.new(id: "toile-coulisses", boxes: [fabric.body, coulisse.left, coulisse.right]),
@@ -1334,7 +1334,7 @@ module PublicV2
             }
           end
 
-          def build_vertical_zippe_callouts(groups:)
+          def build_zipped_screen_callouts(groups:)
             assembled.callouts.each_with_object({}) do |definition, callouts|
               callouts[definition.part_id] = callout_from_definition(definition, groups:)
             end

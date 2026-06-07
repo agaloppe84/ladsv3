@@ -151,7 +151,9 @@ Assemblage JSON :
 - `BlueprintSpecs::DataLayoutBuilder` transforme la spec assemblee en layout Ruby.
   Il choisit la strategie de layout depuis la signature JSON assemblee
   (`presets.layout`, slots requis et couples `type:variant`) plutot que depuis le
-  slug produit. Au stade actuel, `store-vertical-zippe`,
+  slug produit. Ses builders internes sont nommes par familles de layout
+  (`roller_duo`, `honeycomb_shade`, `pleated_lateral`, `side_guided_roller`,
+  `zipped_screen`, etc.). Au stade actuel, `store-vertical-zippe`,
   `moustiquaire-enroulable-verticale`, `moustiquaire-plissee`, `store-duette`,
   `store-venitien` et `store-rouleau-duo` sont supportes.
 - `GenericDrawingComponent` sait rendre les layouts data-driven supportes
@@ -254,8 +256,8 @@ Objectif du prochain basculement :
 
 1. completer les regles de generation de boxes par slot restantes sans masquer
    les overrides JSON utiles ;
-2. remplacer progressivement les branches internes encore nommees par produit
-   dans `DataLayoutBuilder` par des builders de familles de layout ;
+2. remplacer progressivement les classes/structs de layout encore nommees par
+   produits historiques par des familles de layout generiques ;
 3. faire converger `GenericDrawingComponent` vers un rendu par familles
    generiques plutot que par branches produit ;
 4. supprimer progressivement les fichiers Ruby et templates specifiques produits
