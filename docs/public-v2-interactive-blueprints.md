@@ -507,12 +507,11 @@ Elements deja en objet plein :
 
 Dette restante :
 
-- fallback filaire de `barre-charge` encore present dans le template et dans `BarElement`,
-  a supprimer quand tous les usages de barre zippee seront pleins.
+- aucune dette filaire prioritaire sur les elements principaux.
 
 Cible :
 
-- suppression du fallback `zipped_load_bar` filaire.
+- conserver la barre zippee comme `SolidBarProfile` avec embouts parametriques.
 
 #### Moustiquaire plissee
 
@@ -603,25 +602,30 @@ Dette restante :
 
 ### Dette transversale modele et helpers
 
-Classes/methodes a conserver temporairement, puis a retirer quand les migrations sont terminees :
+Supprime au stade actuel :
 
-- `BaseDrawingComponent#surface_path` ;
-- classes CSS principales `pv2-product-exploded__outline`,
-  `pv2-product-exploded__profile`, `pv2-product-exploded__detail`,
-  `pv2-product-exploded__hairline` ;
-- `RailElement#outline_path`, `RailElement#inner_path`, `RailElement#profile_path` ;
-- `BarElement#outline_path` et les branches `detail_path` legacy ;
-- `MotorElement#tube_path`, `MotorElement#head_path`, `MotorElement#detail_path`.
+- `BaseDrawingComponent#surface_rect` et `BaseDrawingComponent#surface_path` ;
+- roles de pattern filaires `outline`, `profile` et `hairline` ;
+- classes CSS principales `pv2-product-exploded__surface`,
+  `pv2-product-exploded__outline`, `pv2-product-exploded__profile`,
+  `pv2-product-exploded__detail` et `pv2-product-exploded__hairline` ;
+- `RailElement#outline_path`, `RailElement#inner_path` et
+  `RailElement#profile_path` ;
+- `BarElement#outline_path` et `BarElement#detail_path` ;
+- `HousingElement#outline_path` et `HousingElement#roll_path` ;
+- `MotorElement#tube_path`, `MotorElement#tube_cap_path`,
+  `MotorElement#head_path` et `MotorElement#detail_path`.
 
-Ces APIs ne doivent plus etre utilisees pour de nouveaux objets.
-Elles servent uniquement de transition pendant la migration des helpers et
-micro-details restants.
+Restent autorises dans le code Ruby : les paths internes generes par
+`FabricPattern`, parce qu'ils decrivent des surfaces parametriques et ne viennent
+pas du JSON. Le JSON, lui, continue d'interdire `outline_path`, `detail_path`,
+`surface_path`, `profile_path`, `raw_svg` et toute forme SVG brute.
 
 ### Prochain ordre conseille
 
-1. Supprimer les fallbacks legacy devenus inutiles.
-2. Continuer la migration des micro-details directs vers des familles pleines dediees.
-3. Enrichir les variantes `SolidAccessoryProfile` si un nouveau blueprint introduit un detail attache recurrent.
+1. Continuer la migration des micro-details directs vers des familles pleines dediees.
+2. Enrichir les variantes `SolidAccessoryProfile` si un nouveau blueprint introduit un detail attache recurrent.
+3. Supprimer les helpers ou styles restants des que `rg` confirme qu'ils ne sont plus emis par les renderers JSON.
 
 ## Lumiere, degradés et ombres
 

@@ -44,10 +44,7 @@ module PublicV2
           fabric_pleat_thread_point: "pv2-product-exploded__fabric-pleat-thread-point",
           fabric_zip_teeth: "pv2-product-exploded__fabric-zip-teeth",
           grid: "pv2-product-exploded__fabric-grid",
-          hairline: "pv2-product-exploded__hairline",
           line: "pv2-product-exploded__fabric-line",
-          outline: "pv2-product-exploded__outline",
-          profile: "pv2-product-exploded__profile",
           solid_dark: "pv2-product-exploded__solid-fill-dark",
           solid_light: "pv2-product-exploded__solid-fill-light",
           solid_mid: "pv2-product-exploded__solid-fill-mid",
@@ -157,21 +154,6 @@ module PublicV2
 
         def show_layout_grid?
           @show_layout_grid
-        end
-
-        def surface_rect(box)
-          tag.rect(
-            x: box.x,
-            y: box.y,
-            width: box.width,
-            height: box.height,
-            rx: box.rx,
-            class: "pv2-product-exploded__surface"
-          )
-        end
-
-        def surface_path(path)
-          tag.path(d: path, class: "pv2-product-exploded__surface")
         end
 
         def solid_profile(profile)

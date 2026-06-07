@@ -17,24 +17,6 @@ module PublicV2
           radius: 38
         }.freeze
 
-        def rounded_box_path(box)
-          "M#{box.x + box.rx} #{box.y}H#{box.right - box.rx}" \
-            "Q#{box.right} #{box.y} #{box.right} #{box.y + box.rx}" \
-            "V#{box.bottom - box.rx}Q#{box.right} #{box.bottom} #{box.right - box.rx} #{box.bottom}" \
-            "H#{box.x + box.rx}Q#{box.x} #{box.bottom} #{box.x} #{box.bottom - box.rx}" \
-            "V#{box.y + box.rx}Q#{box.x} #{box.y} #{box.x + box.rx} #{box.y}Z"
-        end
-
-        def horizontal_inner_path(box, inset_y:)
-          "M#{box.x} #{box.y + inset_y}H#{box.right}" \
-            "M#{box.x} #{box.bottom - inset_y}H#{box.right}"
-        end
-
-        def vertical_inner_path(box, inset_x:, top: box.y, bottom: box.bottom)
-          "M#{box.x + inset_x} #{top}V#{bottom}" \
-            "M#{box.right - inset_x} #{top}V#{bottom}"
-        end
-
         def distributed_positions(start:, finish:, count:)
           raise ArgumentError, "count must be greater than 0" if count.to_i < 1
 
@@ -286,38 +268,6 @@ module PublicV2
           normalize_side(side) == :right ? :left : :right
         end
 
-        def outline_path(box = nil)
-          return zipped_coulisse_outline_path if variant == :zipped_coulisse
-
-          RailGeometry.rounded_box_path(box || require_option(:body))
-        end
-
-        def profile_path
-          require_variant(:zipped_coulisse, "profile_path")
-
-          geometry = RailGeometry::ZIP_COULISSE
-
-          "M#{geometry.fetch(:inner_left_x)} #{top}V#{bottom}" \
-            "M#{geometry.fetch(:inner_right_x)} #{top}V#{bottom}"
-        end
-
-        def inner_path(box = nil, bottom_y = nil)
-          case variant
-          when :horizontal_guide
-            RailGeometry.horizontal_inner_path(body, inset_y: require_option(:inner_inset_y))
-          when :vertical_pair
-            rail = box || require_option(:left)
-            RailGeometry.vertical_inner_path(
-              rail,
-              inset_x: require_option(:inner_inset_x),
-              top: rail.y + inner_top_inset,
-              bottom: bottom_y || rail.bottom - inner_bottom_inset
-            )
-          else
-            raise ArgumentError, "#{variant} rail does not define inner_path"
-          end
-        end
-
         def screw_points
           require_variant(:horizontal_guide, "screw_points")
 
@@ -346,17 +296,6 @@ module PublicV2
           raise ArgumentError, "#{variant} rail requires #{side} rail box" unless rail
 
           rail
-        end
-
-        def zipped_coulisse_outline_path
-          geometry = RailGeometry::ZIP_COULISSE
-          radius = geometry.fetch(:radius)
-
-          "M#{geometry.fetch(:inner_left_x) + 2} #{top}H#{geometry.fetch(:inner_right_x) - 2}" \
-            "Q#{geometry.fetch(:outer_right_x)} #{top} #{geometry.fetch(:outer_right_x)} #{top + radius}" \
-            "V#{bottom - radius}Q#{geometry.fetch(:outer_right_x)} #{bottom} #{geometry.fetch(:inner_right_x) - 2} #{bottom}" \
-            "H#{geometry.fetch(:inner_left_x) + 2}Q#{geometry.fetch(:outer_left_x)} #{bottom} #{geometry.fetch(:outer_left_x)} #{bottom - radius}" \
-            "V#{top + radius}Q#{geometry.fetch(:outer_left_x)} #{top} #{geometry.fetch(:inner_left_x) + 2} #{top}Z"
         end
 
         def require_option(name)

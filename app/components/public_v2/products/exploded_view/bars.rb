@@ -14,20 +14,6 @@ module PublicV2
           LayoutRules.centered_on(center_x:, center_y:, width:, height:, rx:)
         end
 
-        def horizontal_center_line(box, inset_x:)
-          "M#{box.x + inset_x} #{box.center_y}H#{box.right - inset_x}"
-        end
-
-        def vertical_ticks(box, inset_x:, inset_y:)
-          "M#{box.x + inset_x} #{box.y + inset_y}V#{box.bottom - inset_y}" \
-            "M#{box.right - inset_x} #{box.y + inset_y}V#{box.bottom - inset_y}"
-        end
-
-        def threshold_detail_path(box, line_inset_x:, tick_inset_x:, tick_inset_y:)
-          horizontal_center_line(box, inset_x: line_inset_x) +
-            vertical_ticks(box, inset_x: tick_inset_x, inset_y: tick_inset_y)
-        end
-
         def side_center_points(box, inset_x:)
           [
             Point.new(x: box.x + inset_x, y: box.center_y),
@@ -206,37 +192,10 @@ module PublicV2
           require_option(:body).bottom
         end
 
-        def outline_path
-          require_variant(:zipped_load_bar, "outline_path")
-
-          "M1165 #{top}H6635Q6685 #{top} 6710 #{top + 48}" \
-            "L6740 #{top + 108}Q6762 #{top + 154} 6718 #{bottom}" \
-            "H1082Q1038 #{bottom} 1060 #{top + 108}" \
-            "L1090 #{top + 48}Q1115 #{top} 1165 #{top}Z"
-        end
-
         def handle
           require_variant(:zipped_load_bar, "handle")
 
           grip || BarGeometry.centered_box(center_x: 3_900, center_y: top + 85, width: 420, height: 50, rx: 18)
-        end
-
-        def detail_path
-          case variant
-          when :zipped_load_bar
-            "M1260 #{top}V#{bottom}M6540 #{top}V#{bottom}M1430 #{top + 50}V#{top + 136}M6370 #{top + 50}V#{top + 136}"
-          when :threshold
-            BarGeometry.threshold_detail_path(
-              body,
-              line_inset_x: require_option(:detail_inset_x),
-              tick_inset_x: require_option(:tick_inset_x),
-              tick_inset_y: require_option(:tick_inset_y)
-            )
-          when :bottom_bar
-            BarGeometry.horizontal_center_line(body, inset_x: require_option(:detail_inset_x))
-          else
-            raise ArgumentError, "#{variant} bar does not define detail_path"
-          end
         end
 
         private

@@ -9187,16 +9187,6 @@
   stroke: transparent;
 }
 
-.public-v2 .pv2-product-exploded__surface {
-  fill: var(--pv2-exploded-bg);
-  stroke: none;
-  vector-effect: non-scaling-stroke;
-}
-
-.public-v2 .pv2-product-exploded__outline,
-.public-v2 .pv2-product-exploded__profile,
-.public-v2 .pv2-product-exploded__detail,
-.public-v2 .pv2-product-exploded__hairline,
 .public-v2 .pv2-product-exploded__fabric-line,
 .public-v2 .pv2-product-exploded__fabric-grid,
 .public-v2 .pv2-product-exploded__fabric-thread,
@@ -9205,16 +9195,6 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
-}
-
-.public-v2 .pv2-product-exploded__outline {
-  stroke: var(--pv2-exploded-line);
-  stroke-width: 1.38;
-}
-
-.public-v2 .pv2-product-exploded__profile {
-  stroke: var(--pv2-exploded-line-mid);
-  stroke-width: 1.02;
 }
 
 .public-v2 .pv2-product-exploded__venetian-cord {
@@ -9258,19 +9238,9 @@
   opacity: 0.92;
 }
 
-.public-v2 .pv2-product-exploded__detail,
 .public-v2 .pv2-product-exploded__zip-track {
   stroke: var(--pv2-exploded-line-fine);
   stroke-width: 0.78;
-}
-
-.public-v2 .pv2-product-exploded__hairline {
-  stroke: var(--pv2-exploded-faint);
-  stroke-width: 0.64;
-}
-
-.public-v2 .pv2-product-exploded__hairline--quiet {
-  opacity: 0.52;
 }
 
 .public-v2 .pv2-product-exploded__fabric-line {
@@ -9520,14 +9490,6 @@
   transition: none;
 }
 
-.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__outline {
-  stroke: var(--pv2-exploded-accent);
-  stroke-width: 1.62;
-}
-
-.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__profile,
-.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__detail,
-.public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__hairline,
 .public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__fabric-line,
 .public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__fabric-grid,
 .public-v2 .pv2-product-exploded__part.is-active .pv2-product-exploded__fabric-thread,
@@ -9569,10 +9531,6 @@
   fill: var(--pv2-exploded-accent-ink);
 }
 
-.public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__outline,
-.public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__profile,
-.public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__detail,
-.public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__hairline,
 .public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__fabric-line,
 .public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__fabric-grid,
 .public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__fabric-thread,
@@ -9582,11 +9540,6 @@
 
 .public-v2 .pv2-product-exploded__part.is-related .pv2-product-exploded__fill {
   fill: rgba(var(--pv2-exploded-accent-rgb), 0.52);
-}
-
-.public-v2 .pv2-product-exploded__part:focus-visible .pv2-product-exploded__outline,
-.public-v2 .pv2-product-exploded__part:focus-visible .pv2-product-exploded__profile {
-  stroke: var(--pv2-exploded-accent);
 }
 
 .public-v2 .pv2-product-exploded__legend {

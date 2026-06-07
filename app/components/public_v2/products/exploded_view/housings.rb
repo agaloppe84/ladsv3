@@ -11,10 +11,6 @@ module PublicV2
       module HousingGeometry
         module_function
 
-        def rounded_box_path(box)
-          RailGeometry.rounded_box_path(box)
-        end
-
         def expanded_box(box, inset_x:, inset_y:)
           LayoutRules.expand(box, inset_x:, inset_y:)
         end
@@ -139,15 +135,6 @@ module PublicV2
           hole_pairs.flatten
         end
 
-        def outline_path
-          HousingGeometry.rounded_box_path(body)
-        end
-
-        def roll_path
-          raise ArgumentError, "#{variant} housing does not define roll_path" if roll.nil?
-
-          HousingGeometry.rounded_box_path(roll)
-        end
       end
     end
   end
