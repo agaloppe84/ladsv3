@@ -126,31 +126,38 @@ Assemblage JSON :
 - `AssembledBlueprint` expose les index `element(id)`, `group(id)`,
   `callout(part_id)` et la liste des familles de rendu necessaires.
 - `BlueprintSpecs::DataLayoutBuilder` transforme la spec assemblee en layout Ruby.
-  Au stade actuel, `store-vertical-zippe` et `moustiquaire-enroulable-verticale`
-  sont supportes.
+  Au stade actuel, `store-vertical-zippe`, `moustiquaire-enroulable-verticale`
+  et `moustiquaire-plissee` sont supportes.
 - `GenericDrawingComponent` sait rendre les layouts data-driven supportes
   en mode objet plein. Il est utilise par `product/show` via `blueprint_source: :json`.
 
 Couples JSON supportes au stade actuel :
 
 - `bar:bottom-charge` -> `solid_bar_profile`
+- `bar:threshold` -> `solid_bar_profile`
+- `bar:vertical-handle` -> `solid_bar_profile`
 - `bar:zipped-load` -> `solid_bar_profile`
 - `closure:magnetic-receivers` -> `solid_accessory_profile`
+- `closure:plissee-lock` -> `solid_accessory_profile`
 - `closure:rail-bavettes` -> `solid_accessory_profile`
 - `fabric:bordered-grid-solid` -> `fabric_pattern`
+- `fabric:pleated-solid` -> `fabric_pattern`
 - `fabric:zipped-solid` -> `fabric_pattern`
 - `housing:front-coffre` -> `solid_housing_profile`
 - `housing:kiss-50-cassette` -> `solid_housing_profile`
 - `motor:tubular` -> `solid_motor_profile`
 - `rail:double-coulisse-pair` -> `solid_profile`
+- `rail:horizontal-guide` -> `solid_profile`
+- `rail:profile-pair` -> `solid_profile`
 - `rail:zipped-coulisse-pair` -> `solid_profile`
 - `support:mount-pair` -> `solid_support_profile`
 
 Prochaine migration technique :
 
 1. Convertir chaque blueprint existant en JSON sans modifier son rendu valide.
-   Les specs de reference actuelles sont `stores-exterieurs/store-vertical-zippe.json`
-   et `moustiquaires/moustiquaire-enroulable-verticale.json`.
+   Les specs de reference actuelles sont `stores-exterieurs/store-vertical-zippe.json`,
+   `moustiquaires/moustiquaire-enroulable-verticale.json` et
+   `moustiquaires/moustiquaire-plissee.json`.
 2. Utiliser `DataBlueprint` pour lire les specs et exposer parts, metrics, technical
    data, theme, render options, layout config, elements assembles, groups, callouts
    et matching par slug/alias.

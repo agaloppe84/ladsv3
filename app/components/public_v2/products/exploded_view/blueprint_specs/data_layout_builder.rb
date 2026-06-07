@@ -20,6 +20,8 @@ module PublicV2
 
           def build
             case blueprint.spec.product_slug
+            when "moustiquaire-plissee"
+              build_moustiquaire_plissee
             when "moustiquaire-enroulable-verticale"
               build_moustiquaire_enroulable_verticale
             when "store-vertical-zippe"
@@ -30,6 +32,184 @@ module PublicV2
           end
 
           private
+
+          def build_moustiquaire_plissee
+            guide = build_plissee_guide
+            fabric = build_plissee_fabric(guide:)
+            profiles = build_plissee_profiles(fabric:)
+            handle = build_plissee_handle(fabric:, profiles:)
+            threshold = build_plissee_threshold(guide:, profiles:)
+            lock = build_plissee_lock(handle:)
+            groups = build_plissee_groups(fabric:, handle:, lock:)
+            callouts = build_plissee_callouts(groups:)
+
+            PlisseeDrawingLayout.new(
+              svg_width: canvas_spec.svg_width,
+              svg_height: canvas_spec.svg_height,
+              grid: layout_grid,
+              groups:,
+              guide:,
+              profiles:,
+              fabric:,
+              handle:,
+              threshold:,
+              lock:,
+              callouts:
+            )
+          end
+
+          def build_plissee_guide
+            element = assembled.element("guide-haut")
+            options = element.options
+            box = required_box(element)
+
+            horizontal_rail_element(
+              preset: option_symbol(options, "preset"),
+              x: box.x,
+              y: box.y,
+              width: box.width,
+              height: box.height,
+              rx: box.rx,
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              solid_profile: solid_profile_config(options).merge(
+                point_radius: options.fetch("point_radius")
+              )
+            )
+          end
+
+          def build_plissee_fabric(guide:)
+            element = assembled.element("toile-plissee")
+            options = element.options
+            box = required_box(element)
+
+            fabric_element(
+              variant: :pleated,
+              reference: guide.body,
+              preset: option_symbol(options, "preset"),
+              gap: box.y - guide.body.bottom,
+              x: box.x,
+              width: box.width,
+              height: box.height,
+              rx: box.rx,
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              pleat_count: options.fetch("pleat_count"),
+              pleat_amplitude: options.fetch("pleat_amplitude"),
+              thread_offsets: thread_offsets(options.fetch("thread_offsets")),
+              pattern_id: options.fetch("pattern_id"),
+              pattern_style: option_symbol(options, "pattern_style"),
+              pattern_thread_width: options.fetch("pattern_thread_width")
+            )
+          end
+
+          def build_plissee_profiles(fabric:)
+            element = assembled.element("profils-muraux")
+            options = element.options
+            top = fabric.body.y - layout_gap(options.fetch("top_offset"))
+            height = fabric.body.height + layout_gap(options.fetch("height_extra"))
+
+            vertical_rail_pair_element(
+              reference: fabric.body,
+              preset: option_symbol(options, "preset"),
+              left_gap: option_gap(options, "left_gap"),
+              right_gap: option_gap(options, "right_gap"),
+              y: top,
+              width: options.fetch("width"),
+              height:,
+              rx: options.fetch("rx"),
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              slot_count: options.fetch("slot_count"),
+              inner_inset_x: options.fetch("inner_inset_x"),
+              inner_top_inset: options.fetch("inner_top_inset"),
+              inner_bottom_inset: options.fetch("inner_bottom_inset"),
+              solid_profile: solid_profile_config(options).merge(
+                point_radius: options.fetch("point_radius")
+              )
+            )
+          end
+
+          def build_plissee_handle(fabric:, profiles:)
+            element = assembled.element("barre-poignee")
+            options = element.options
+
+            vertical_handle_bar_element(
+              reference: fabric.body,
+              preset: option_symbol(options, "preset"),
+              gap: option_gap(options, "gap"),
+              y: profiles.left.y + options.fetch("y_offset_from_profiles"),
+              width: options.fetch("width"),
+              height: profiles.left.height - options.fetch("height_inset"),
+              rx: options.fetch("rx"),
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              grip_width: options.fetch("grip_width"),
+              grip_height: options.fetch("grip_height"),
+              grip_rx: options.fetch("grip_rx"),
+              solid_profile: solid_profile_config(options).merge(
+                axis: option_symbol(options, "axis"),
+                grip: options.fetch("grip")
+              )
+            )
+          end
+
+          def build_plissee_threshold(guide:, profiles:)
+            element = assembled.element("seuil-bas")
+            options = element.options
+            box = required_box(element)
+
+            threshold_bar_element(
+              reference: profiles.left,
+              preset: option_symbol(options, "preset"),
+              gap: box.y - profiles.left.bottom,
+              x: box.x,
+              width: box.width,
+              height: box.height,
+              rx: box.rx,
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              solid_profile: solid_profile_config(options).merge(
+                detail: options.fetch("detail")
+              )
+            )
+          end
+
+          def build_plissee_lock(handle:)
+            element = assembled.element("verrouillage")
+            options = element.options
+
+            plissee_lock_element(
+              handle:,
+              radius: options.fetch("radius"),
+              catch_divisions: options.fetch("catch_divisions"),
+              catch_indexes: options.fetch("catch_indexes"),
+              hit_inset_left: options.fetch("hit_inset_left"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              hit_width: options.fetch("hit_width"),
+              marker_offset_x: options.fetch("marker_offset_x"),
+              marker_offset_y: options.fetch("marker_offset_y"),
+              solid_profile: solid_profile_config(options)
+            )
+          end
+
+          def build_plissee_groups(fabric:, handle:, lock:)
+            {
+              "toile-poignee" => LayoutGroup.attached(id: "toile-poignee", boxes: [fabric.body, handle.body]),
+              "poignee-verrouillage" => LayoutGroup.attached(id: "poignee-verrouillage", boxes: [handle.body, lock.hit])
+            }
+          end
+
+          def build_plissee_callouts(groups:)
+            assembled.callouts.each_with_object({}) do |definition, callouts|
+              callouts[definition.part_id] = callout_from_definition(definition, groups:)
+            end
+          end
 
           def build_moustiquaire_enroulable_verticale
             cassette = build_enroulable_cassette
@@ -424,6 +604,15 @@ module PublicV2
           def option_symbol(options, key, default: nil)
             value = options.fetch(key, default)
             value&.to_sym
+          end
+
+          def option_gap(options, key)
+            value = options.fetch(key)
+            value.is_a?(String) ? value.to_sym : value
+          end
+
+          def thread_offsets(values)
+            values.map { |value| value == "center" ? :center : value }
           end
 
           def canvas_spec

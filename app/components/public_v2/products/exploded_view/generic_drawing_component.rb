@@ -102,9 +102,13 @@ module PublicV2
           layout.respond_to?(:cassette) && layout.respond_to?(:rails)
         end
 
-        def right_vertical_pair_hit_box(rails)
+        def plissee_layout?
+          layout.respond_to?(:guide) && layout.respond_to?(:profiles)
+        end
+
+        def right_vertical_pair_hit_box(rails, hit_offset: 80)
           Box.new(
-            x: rails.right.x - 80,
+            x: rails.right.x - hit_offset,
             y: rails.hit.y,
             width: rails.hit.width,
             height: rails.hit.height,

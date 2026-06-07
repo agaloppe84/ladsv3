@@ -106,6 +106,46 @@
     <%= part_group("bavettes", class_suffix: "enroulable-bavettes", hit: layout.bavettes.hit, marker: layout.bavettes.marker) do %>
       <%= solid_accessory_profile(layout.bavettes.solid_profile) %>
     <% end %>
+  <% elsif plissee_layout? %>
+    <%= part_group("guide-haut", class_suffix: "plissee-guide-haut", hit: layout.guide.hit, marker: layout.guide.marker) do %>
+      <%= solid_profile(layout.guide.solid_profile) %>
+    <% end %>
+
+    <%= part_group(
+      "profils-muraux",
+      class_suffix: "plissee-profils pv2-product-exploded__part--plissee-profils-left",
+      hit: layout.profiles.hit,
+      marker: layout.profiles.marker,
+      aria_label: "#{part_label("profils-muraux")} gauche"
+    ) do %>
+      <%= solid_profile(layout.profiles.solid_profile_for(:left)) %>
+    <% end %>
+
+    <%= mirror_part_group(
+      "profils-muraux",
+      class_suffix: "plissee-profils pv2-product-exploded__part--plissee-profils-right",
+      hit: right_vertical_pair_hit_box(layout.profiles, hit_offset: 70),
+      aria_label: "#{part_label("profils-muraux")} droit"
+    ) do %>
+      <%= solid_profile(layout.profiles.solid_profile_for(:right)) %>
+    <% end %>
+
+    <%= part_group("toile-plissee", class_suffix: "plissee-toile", hit: layout.fabric.hit, marker: layout.fabric.marker) do %>
+      <%= fabric_pattern(layout.fabric.pattern, slot: :under_outline) %>
+      <%= fabric_pattern(layout.fabric.pattern, slot: :over_outline) %>
+    <% end %>
+
+    <%= part_group("barre-poignee", class_suffix: "plissee-barre-poignee", hit: layout.handle.hit, marker: layout.handle.marker) do %>
+      <%= solid_bar_profile(layout.handle.solid_profile) %>
+    <% end %>
+
+    <%= part_group("seuil-bas", class_suffix: "plissee-seuil-bas", hit: layout.threshold.hit, marker: layout.threshold.marker) do %>
+      <%= solid_bar_profile(layout.threshold.solid_profile) %>
+    <% end %>
+
+    <%= part_group("verrouillage", class_suffix: "plissee-verrouillage", hit: layout.lock.hit, marker: layout.lock.marker) do %>
+      <%= solid_accessory_profile(layout.lock.solid_profile) %>
+    <% end %>
   <% else %>
     <% unsupported_layout! %>
   <% end %>

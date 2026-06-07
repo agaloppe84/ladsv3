@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "product": {
+    "slug": "moustiquaire-plissee",
+    "category": "moustiquaires",
+    "manufacturer": "AMB",
+    "family": "PLISSE 31"
+  },
+  "sources": [
+    {
+      "label": "Fiche produit LADS",
+      "type": "catalog_page",
+      "publisher": "Les Artisans du Store",
+      "confidence": "medium",
+      "notes": "Route catalogue exacte a confirmer lors du prochain audit source."
+    },
+    {
+      "label": "PDF AMB PLISSE31_PLISSE22 + documentation publique AMB",
+      "type": "technical_pdf",
+      "publisher": "AMB",
+      "confidence": "medium",
+      "notes": "Source utilisee pour le POC actuel et les donnees principales."
+    }
+  ],
+  "technical_data": {
+    "source": "PDF AMB PLISSE31_PLISSE22 + documentation publique AMB",
+    "product_family": "PLISSE 31 laterale",
+    "depth_mm": 31,
+    "reference_format": "5 x 3 m",
+    "reference_width_mm": 5000,
+    "reference_height_mm": 3000,
+    "threshold_height_mm": 7,
+    "profile_hint_mm": "31 x 37",
+    "movement": "Tirage direct"
+  },
+  "render_options": {
+    "show_layout_grid": true,
+    "callout_animation_profile": "draw",
+    "accent": "#00a8a0"
+  },
+  "canvas": {
+    "columns": 64,
+    "rows": 30,
+    "cell": 120,
+    "margin": 60,
+    "major_every": 4,
+    "radius": 72,
+    "snap_unit": 10
+  },
+  "parts": [
+    {
+      "id": "guide-haut",
+      "number": "1",
+      "label": "Guide superieur",
+      "measurement": "Encombrement 31 mm",
+      "detail": "Rail haut reconstruit depuis la fiche AMB PLISSE 31. Il porte la lecture du coulissement et reste separe de la toile pour conserver l'effet eclate."
+    },
+    {
+      "id": "profils-muraux",
+      "number": "2",
+      "label": "Profils muraux",
+      "measurement": "31 x 37 mm",
+      "detail": "Profils verticaux lateraux avec points de fixation homogenes. Les deux cotes utilisent le meme dessin pour verifier la logique de miroir."
+    },
+    {
+      "id": "toile-plissee",
+      "number": "3",
+      "label": "Toile plissee",
+      "measurement": "Toile polyester grise ou noire",
+      "detail": "Surface plissee a plis reguliers. Le format POC reprend la limite documentee de 5 x 3 m pour tester les proportions."
+    },
+    {
+      "id": "barre-poignee",
+      "number": "4",
+      "label": "Barre poignee",
+      "measurement": "Tirage direct",
+      "detail": "Profil de tirage direct place en vue eclatee sur le cote mobile de la toile, avec zones de prise simplifiees mais lisibles."
+    },
+    {
+      "id": "seuil-bas",
+      "number": "5",
+      "label": "Seuil extra-plat",
+      "measurement": "7 mm",
+      "detail": "Guide au sol extra-plat documente sur la fiche AMB. Il sert de test pour les pieces longues, fines et tres sensibles a l'aliasing."
+    },
+    {
+      "id": "verrouillage",
+      "number": "6",
+      "label": "Verrouillage",
+      "measurement": "Fermeture magnetique",
+      "detail": "Points magnetiques et zones de reception isoles pour montrer le principe de fermeture sans alourdir le dessin principal."
+    }
+  ],
+  "metrics": [
+    {
+      "label": "Encombrement",
+      "value": "31 mm",
+      "note": "PDF AMB PLISSE31_PLISSE22 + documentation publique AMB"
+    },
+    {
+      "label": "Format max POC",
+      "value": "5 x 3 m",
+      "note": "PLISSE 31 laterale"
+    },
+    {
+      "label": "Seuil bas",
+      "value": "7 mm",
+      "note": "guide au sol extra-plat"
+    }
+  ],
+  "elements": [
+    {
+      "id": "guide-haut",
+      "part_id": "guide-haut",
+      "type": "rail",
+      "variant": "horizontal-guide",
+      "box": { "x": 1080, "y": 470, "width": 5640, "height": 260, "rx": 42 },
+      "options": {
+        "preset": "rail_horizontal_guide",
+        "marker_gap": 165,
+        "hit_inset_x": 120,
+        "hit_inset_y": 95,
+        "solid_profile": "plissee-guide-haut",
+        "point_radius": 23
+      }
+    },
+    {
+      "id": "toile-plissee",
+      "part_id": "toile-plissee",
+      "type": "fabric",
+      "variant": "pleated-solid",
+      "box": { "x": 1420, "y": 1250, "width": 4050, "height": 1540, "rx": 18 },
+      "options": {
+        "preset": "fabric_pleated",
+        "marker_gap": 175,
+        "hit_inset_x": 85,
+        "hit_inset_y": 85,
+        "pleat_count": 31,
+        "pleat_amplitude": 34,
+        "thread_offsets": [310, "center", -310],
+        "pattern_id": "plissee-toile",
+        "pattern_style": "solid",
+        "pattern_thread_width": 6
+      }
+    },
+    {
+      "id": "profils-muraux",
+      "part_id": "profils-muraux",
+      "type": "rail",
+      "variant": "profile-pair",
+      "options": {
+        "preset": "rail_profile_pair",
+        "left_gap": "profile_to_fabric",
+        "right_gap": 1260,
+        "top_offset": 160,
+        "height_extra": 320,
+        "width": 190,
+        "rx": 34,
+        "marker_gap": 165,
+        "hit_inset_x": 80,
+        "hit_inset_y": 75,
+        "slot_count": 4,
+        "inner_inset_x": 74,
+        "inner_top_inset": 90,
+        "inner_bottom_inset": 90,
+        "solid_profile": "plissee-profils-muraux",
+        "point_radius": 24
+      }
+    },
+    {
+      "id": "barre-poignee",
+      "part_id": "barre-poignee",
+      "type": "bar",
+      "variant": "vertical-handle",
+      "options": {
+        "preset": "bar_vertical_handle",
+        "gap": "attached",
+        "y_offset_from_profiles": 90,
+        "height_inset": 180,
+        "width": 300,
+        "rx": 42,
+        "marker_gap": 165,
+        "hit_inset_x": 80,
+        "hit_inset_y": 85,
+        "grip_width": 86,
+        "grip_height": 250,
+        "grip_rx": 28,
+        "solid_profile": "plissee-barre-poignee",
+        "axis": "vertical",
+        "grip": true
+      }
+    },
+    {
+      "id": "seuil-bas",
+      "part_id": "seuil-bas",
+      "type": "bar",
+      "variant": "threshold",
+      "box": { "x": 1240, "y": 3250, "width": 5320, "height": 105, "rx": 26 },
+      "options": {
+        "preset": "bar_threshold",
+        "marker_gap": 165,
+        "hit_inset_x": 110,
+        "hit_inset_y": 90,
+        "solid_profile": "plissee-seuil-bas",
+        "detail": {
+          "height": 8,
+          "inset_x": 170
+        }
+      }
+    },
+    {
+      "id": "verrouillage",
+      "part_id": "verrouillage",
+      "type": "closure",
+      "variant": "plissee-lock",
+      "options": {
+        "radius": 34,
+        "catch_divisions": 5,
+        "catch_indexes": [1, 4],
+        "hit_inset_left": 42,
+        "hit_inset_y": 85,
+        "hit_width": 260,
+        "marker_offset_x": 390,
+        "marker_offset_y": -230,
+        "solid_profile": "plissee-verrouillage"
+      }
+    }
+  ],
+  "groups": [
+    {
+      "id": "toile-poignee",
+      "element_ids": ["toile-plissee", "barre-poignee"],
+      "attached": true
+    },
+    {
+      "id": "poignee-verrouillage",
+      "element_ids": ["barre-poignee", "verrouillage"],
+      "attached": true
+    }
+  ],
+  "callouts": [
+    {
+      "part_id": "guide-haut",
+      "marker": { "x": 6890, "y": 600 },
+      "placement": "top_rail"
+    },
+    {
+      "part_id": "profils-muraux",
+      "marker": { "x": 600, "y": 2020 },
+      "placement": "left_vertical_pair"
+    },
+    {
+      "part_id": "toile-plissee",
+      "marker": { "x": 3450, "y": 1080 },
+      "placement": "side_fabric"
+    },
+    {
+      "part_id": "barre-poignee",
+      "marker": { "x": 5940, "y": 2020 },
+      "placement": "right_attached_panel"
+    },
+    {
+      "part_id": "seuil-bas",
+      "marker": { "x": 6730, "y": 3300 },
+      "placement": "bottom_rail"
+    },
+    {
+      "part_id": "verrouillage",
+      "marker": { "x": 6160, "y": 1790 },
+      "placement": "right_detail_up"
+    }
+  ],
+  "validation": {
+    "require_solid_renderers": true,
+    "forbid_raw_svg": true,
+    "snap_major_widths": true
+  }
+}
