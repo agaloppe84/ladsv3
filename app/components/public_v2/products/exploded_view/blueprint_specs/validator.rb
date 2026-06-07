@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "json"
+require_relative "element_registry"
 require_relative "loader"
 
 module PublicV2
@@ -118,9 +119,10 @@ module PublicV2
             Result.new(name: "catalog", path: root, errors:, warnings:)
           end
 
-          def initialize(spec, root: Loader::DEFAULT_ROOT)
+          def initialize(spec, root: Loader::DEFAULT_ROOT, registry: ElementRegistry.default)
             @spec = spec
             @root = Pathname.new(root.to_s)
+            @registry = registry
             @errors = []
             @warnings = []
           end
@@ -141,7 +143,7 @@ module PublicV2
 
           private
 
-          attr_reader :spec, :root, :errors, :warnings
+          attr_reader :spec, :root, :registry, :errors, :warnings
 
           def name
             return spec.path.relative_path_from(root).to_s if spec.path
@@ -221,15 +223,36 @@ module PublicV2
 
             spec.elements.each do |element|
               element_id = element["id"]
+              type = element["type"]
+              variant = element["variant"]
+
               add_error("element id must use kebab-case: #{element_id.inspect}") unless valid_id?(element_id)
-              add_error("element #{element_id.inspect} needs a valid type") unless valid_token?(element["type"])
-              add_error("element #{element_id.inspect} needs a valid variant") unless valid_token?(element["variant"])
+              add_error("element #{element_id.inspect} needs a valid type") unless valid_token?(type)
+              add_error("element #{element_id.inspect} needs a valid variant") unless valid_token?(variant)
+              validate_registry_entry(element_id, type, variant) if valid_token?(type) && valid_token?(variant)
 
               part_id = element["part_id"]
               add_error("element #{element_id.inspect} references unknown part #{part_id.inspect}") if part_id && !part_ids.include?(part_id)
 
               validate_box("element #{element_id.inspect}", element["box"]) if element["box"]
             end
+
+            return unless require_solid_renderers?
+
+            missing_element_part_ids = part_ids - spec.elements.filter_map { |element| element["part_id"] }
+            add_error("parts without renderable elements: #{missing_element_part_ids.join(', ')}") unless missing_element_part_ids.empty?
+          end
+
+          def validate_registry_entry(element_id, type, variant)
+            unless registry.registered?(type, variant)
+              add_error("element #{element_id.inspect} uses unknown type/variant #{ElementRegistry.key(type, variant).inspect}")
+              return
+            end
+
+            return unless require_solid_renderers?
+            return if registry.supported?(type, variant)
+
+            add_error("element #{element_id.inspect} does not have a supported solid renderer")
           end
 
           def validate_groups
@@ -334,6 +357,10 @@ module PublicV2
 
           def valid_token?(value)
             value.to_s.match?(TOKEN_PATTERN)
+          end
+
+          def require_solid_renderers?
+            !!spec.validation_rules.fetch("require_solid_renderers", false)
           end
 
           def numeric?(value)

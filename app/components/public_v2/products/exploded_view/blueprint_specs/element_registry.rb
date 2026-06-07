@@ -1,0 +1,62 @@
+# frozen_string_literal: true
+
+module PublicV2
+  module Products
+    module ExplodedView
+      module BlueprintSpecs
+        class ElementRegistry
+          Entry = Struct.new(:type, :variant, :renderer_family, :status, keyword_init: true) do
+            def key
+              ElementRegistry.key(type, variant)
+            end
+          end
+
+          DEFAULT_ENTRIES = [
+            Entry.new(type: "bar", variant: "zipped-load", renderer_family: "solid_bar_profile", status: "supported"),
+            Entry.new(type: "fabric", variant: "zipped-solid", renderer_family: "fabric_pattern", status: "supported"),
+            Entry.new(type: "housing", variant: "front-coffre", renderer_family: "solid_housing_profile", status: "supported"),
+            Entry.new(type: "motor", variant: "tubular", renderer_family: "solid_motor_profile", status: "supported"),
+            Entry.new(type: "rail", variant: "zipped-coulisse-pair", renderer_family: "solid_profile", status: "supported"),
+            Entry.new(type: "support", variant: "mount-pair", renderer_family: "solid_support_profile", status: "supported")
+          ].freeze
+
+          def self.default
+            new(DEFAULT_ENTRIES)
+          end
+
+          def self.key(type, variant)
+            "#{type}:#{variant}"
+          end
+
+          def initialize(entries = DEFAULT_ENTRIES)
+            @entries = entries.each_with_object({}) do |entry, index|
+              index[entry.key] = entry
+            end
+          end
+
+          def fetch(type, variant)
+            entries.fetch(self.class.key(type, variant))
+          end
+
+          def registered?(type, variant)
+            entries.key?(self.class.key(type, variant))
+          end
+
+          def supported?(type, variant)
+            entry = entries[self.class.key(type, variant)]
+
+            entry&.status == "supported"
+          end
+
+          def keys
+            entries.keys.sort
+          end
+
+          private
+
+          attr_reader :entries
+        end
+      end
+    end
+  end
+end

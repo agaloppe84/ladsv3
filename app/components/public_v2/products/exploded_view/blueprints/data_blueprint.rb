@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "../blueprint_specs/loader"
+require_relative "../blueprint_specs/assembler"
 require_relative "../schema"
 
 module PublicV2
@@ -58,6 +59,22 @@ module PublicV2
 
           def technical_data
             spec.data.fetch("technical_data", {})
+          end
+
+          def assembled_blueprint
+            @assembled_blueprint ||= BlueprintSpecs::Assembler.new(spec).assemble
+          end
+
+          def elements
+            assembled_blueprint.elements
+          end
+
+          def groups
+            assembled_blueprint.groups
+          end
+
+          def callouts
+            assembled_blueprint.callouts
           end
 
           def layout_config

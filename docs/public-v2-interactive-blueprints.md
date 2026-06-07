@@ -39,6 +39,9 @@ Fichiers centraux :
 - `config/public_v2/blueprints/schema/v1.json`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/spec.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/loader.rb`
+- `app/components/public_v2/products/exploded_view/blueprint_specs/element_registry.rb`
+- `app/components/public_v2/products/exploded_view/blueprint_specs/assembler.rb`
+- `app/components/public_v2/products/exploded_view/blueprint_specs/assembled_blueprint.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/validator.rb`
 
 Les fichiers blueprint portent les donnees produit, le layout et les callouts.
@@ -108,13 +111,34 @@ Validation JSON :
 - `PublicV2::Products::ExplodedView::Blueprints::BlueprintValidator.validate_specs!`
   expose le meme controle depuis le validator historique.
 
+Assemblage JSON :
+
+- `BlueprintSpecs::ElementRegistry` declare les couples `type:variant` supportes ;
+- `BlueprintSpecs::Assembler` transforme une spec JSON en objets normalises ;
+- `ElementDefinition` porte `id`, `part_id`, `type`, `variant`, `box`,
+  `options`, `attached_features` et `renderer_family` ;
+- `GroupDefinition` porte les groupes de layout ;
+- `CalloutDefinition` convertit les marqueurs en `Point` ;
+- `AssembledBlueprint` expose les index `element(id)`, `group(id)`,
+  `callout(part_id)` et la liste des familles de rendu necessaires.
+
+Couples JSON supportes au stade actuel :
+
+- `bar:zipped-load` -> `solid_bar_profile`
+- `fabric:zipped-solid` -> `fabric_pattern`
+- `housing:front-coffre` -> `solid_housing_profile`
+- `motor:tubular` -> `solid_motor_profile`
+- `rail:zipped-coulisse-pair` -> `solid_profile`
+- `support:mount-pair` -> `solid_support_profile`
+
 Prochaine migration technique :
 
 1. Convertir un blueprint existant en JSON sans modifier son rendu.
    `stores-exterieurs/store-vertical-zippe.json` est la premiere spec de reference.
 2. Creer un `DataBlueprint` qui lit cette spec.
    `Blueprints::DataBlueprint` expose deja parts, metrics, technical data, theme,
-   render options, layout config et matching par slug/alias.
+   render options, layout config, elements assembles, groups, callouts et matching
+   par slug/alias.
 3. Creer un renderer generique qui remplace les templates produit.
 4. Supprimer les classes Ruby et templates produit quand les 6 blueprints existants
    sont convertis.
