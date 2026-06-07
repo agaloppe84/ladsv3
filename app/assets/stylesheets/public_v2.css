@@ -9015,7 +9015,7 @@
   --pv2-exploded-fabric-solid-surface: color-mix(in srgb, var(--pv2-exploded-bg) 88%, var(--pv2-exploded-solid-light));
   --pv2-exploded-fabric-solid-grid: color-mix(in srgb, var(--pv2-exploded-bg) 58%, var(--pv2-exploded-solid-mid));
   --pv2-exploded-fabric-solid-edge: var(--pv2-exploded-solid-dark);
-  --pv2-exploded-fabric-edge-detail: #ffffff;
+  --pv2-exploded-fabric-edge-accent: #ffffff;
   --pv2-exploded-fabric-honeycomb-face-light: color-mix(in srgb, var(--pv2-exploded-bg) 66%, var(--pv2-exploded-solid-light-low));
   --pv2-exploded-fabric-honeycomb-face-mid: color-mix(in srgb, var(--pv2-exploded-bg) 52%, var(--pv2-exploded-solid-mid-hi));
   --pv2-exploded-fabric-honeycomb-face-deep: color-mix(in srgb, var(--pv2-exploded-bg) 42%, var(--pv2-exploded-solid-mid-low));
@@ -9313,9 +9313,9 @@
   fill: var(--pv2-exploded-fabric-solid-edge);
 }
 
-.public-v2 .pv2-product-exploded__fabric-solid-edge-detail {
+.public-v2 .pv2-product-exploded__fabric-solid-edge-accent {
   fill: none;
-  stroke: var(--pv2-exploded-fabric-edge-detail);
+  stroke: var(--pv2-exploded-fabric-edge-accent);
   stroke-dasharray: 10 16;
   stroke-linecap: round;
   stroke-width: 1.35;
@@ -9685,7 +9685,7 @@
   --pv2-exploded-fabric-solid-surface: color-mix(in srgb, var(--pv2-exploded-bg) 92%, var(--pv2-exploded-solid-dark));
   --pv2-exploded-fabric-solid-grid: color-mix(in srgb, var(--pv2-exploded-bg) 22%, var(--pv2-exploded-solid-mid));
   --pv2-exploded-fabric-solid-edge: color-mix(in srgb, var(--pv2-exploded-bg) 12%, var(--pv2-exploded-solid-mid-hi));
-  --pv2-exploded-fabric-edge-detail: #000000;
+  --pv2-exploded-fabric-edge-accent: #000000;
   --pv2-exploded-fabric-honeycomb-face-light: color-mix(in srgb, var(--pv2-exploded-bg) 46%, var(--pv2-exploded-solid-mid-low));
   --pv2-exploded-fabric-honeycomb-face-mid: color-mix(in srgb, var(--pv2-exploded-bg) 31%, var(--pv2-exploded-solid-mid-hi));
   --pv2-exploded-fabric-honeycomb-face-deep: color-mix(in srgb, var(--pv2-exploded-bg) 24%, var(--pv2-exploded-solid-light-low));

@@ -470,7 +470,7 @@ Familles reutilisables actuelles :
 - `SolidMotorProfile` : moteurs tubulaires avec tube, embout, tete moteur et trous ;
 - `SolidAccessoryProfile` : petits accessoires pleins, recepteurs, verrous et details attaches ;
 - `SlatPattern` : packs de lames repetitives avec tons pleins et profondeur legere ;
-- `FabricPattern` : surfaces de toile et patterns techniques.
+- `FabricPattern` : surfaces de toile, fills pleins, accents de bord et patterns techniques.
 
 Familles a enrichir ensuite :
 
@@ -615,11 +615,21 @@ Supprime au stade actuel :
 - `HousingElement#outline_path` et `HousingElement#roll_path` ;
 - `MotorElement#tube_path`, `MotorElement#tube_cap_path`,
   `MotorElement#head_path` et `MotorElement#detail_path`.
+- anciens helpers de geometrie directe de `FabricElement`
+  (`line_ys`, `tick_ys`, `pleat_xs`, `thread_ys`, `grid_path`,
+  `edge_fastener_ys`, `surface_path`, `top_pleat_path`,
+  `bottom_pleat_path`, `honeycomb_boundary_path`,
+  `honeycomb_recess_path`, `honeycomb_side_path`, etc.) ;
+- role/classe/variable CSS de bord de toile renommes de `edge-detail`
+  vers `edge-accent`.
 
 Restent autorises dans le code Ruby : les paths internes generes par
 `FabricPattern`, parce qu'ils decrivent des surfaces parametriques et ne viennent
-pas du JSON. Le JSON, lui, continue d'interdire `outline_path`, `detail_path`,
-`surface_path`, `profile_path`, `raw_svg` et toute forme SVG brute.
+pas du JSON. Les helpers actifs doivent toutefois utiliser des noms de generation
+orientee objet plein (`solid_fill`, `edge_accent`, `face`, `thread`, etc.) plutot
+que les anciens noms `surface_path` ou `detail_path`. Le JSON, lui, continue
+d'interdire `outline_path`, `detail_path`, `surface_path`, `profile_path`,
+`raw_svg` et toute forme SVG brute.
 
 ### Prochain ordre conseille
 

@@ -360,156 +360,6 @@ module PublicV2
           @band_radius = band_radius
           @pattern = pattern
         end
-
-        def line_ys
-          FabricGeometry.horizontal_lines(body:, count: require_option(:line_count))
-        end
-
-        def tick_ys
-          FabricGeometry.every(line_ys, step: tick_step, offset: tick_offset)
-        end
-
-        def pleat_xs
-          FabricGeometry.vertical_lines(body:, count: require_option(:pleat_count))
-        end
-
-        def thread_ys
-          thread_offsets.map { |offset| vertical_offset(offset) }
-        end
-
-        def grid
-          FabricGeometry.grid(
-            body:,
-            vertical_count: require_option(:grid_vertical_count),
-            horizontal_count: require_option(:grid_horizontal_count),
-            include_edges: false
-          )
-        end
-
-        def grid_path
-          grid.path
-        end
-
-        def edge_fastener_ys
-          FabricGeometry.indexed_positions(
-            start: body.y,
-            finish: body.bottom,
-            count: require_option(:grid_horizontal_count),
-            indexes: edge_fastener_indexes
-          )
-        end
-
-        def surface_path
-          top_points = pleat_points(body.y, pleat_amplitude).each_with_index.map do |point, index|
-            command = index.zero? ? "M" : "L"
-            "#{command}#{point.x} #{point.y}"
-          end
-          bottom_points = pleat_points(body.bottom, -pleat_amplitude).reverse.map { |point| "L#{point.x} #{point.y}" }
-
-          "#{top_points.join}#{bottom_points.join}Z"
-        end
-
-        def top_pleat_path
-          pleat_edge_path(body.y, pleat_amplitude)
-        end
-
-        def bottom_pleat_path
-          pleat_edge_path(body.bottom, -pleat_amplitude)
-        end
-
-        def side_path
-          "M#{body.x} #{body.y}V#{body.bottom}M#{body.right} #{body.y}V#{body.bottom}"
-        end
-
-        def top_pleat_y(index)
-          pleat_y(body.y, pleat_amplitude, index)
-        end
-
-        def bottom_pleat_y(index)
-          pleat_y(body.bottom, -pleat_amplitude, index)
-        end
-
-        def left_fastener_path(y)
-          "M#{body.x} #{y - edge_fastener_radius}" \
-            "A#{edge_fastener_radius} #{edge_fastener_radius} 0 0 1 #{body.x} #{y + edge_fastener_radius}" \
-            "L#{body.x} #{y - edge_fastener_radius}Z"
-        end
-
-        def right_fastener_path(y)
-          "M#{body.right} #{y - edge_fastener_radius}" \
-            "A#{edge_fastener_radius} #{edge_fastener_radius} 0 0 0 #{body.right} #{y + edge_fastener_radius}" \
-            "L#{body.right} #{y - edge_fastener_radius}Z"
-        end
-
-        def honeycomb_boundary_path
-          internal_cell_ys.map { |y| "M#{body.x} #{y}H#{body.right}" }.join
-        end
-
-        def honeycomb_recess_path
-          cell_bounds.map do |top, middle, bottom|
-            inset = [cell_depth, (bottom - top) * 1.4].min
-
-            "M#{body.x + inset} #{middle}H#{body.right - inset}"
-          end.join
-        end
-
-        def honeycomb_side_path
-          cell_bounds.map do |top, middle, bottom|
-            "M#{body.x} #{top}L#{body.x + cell_depth} #{middle}L#{body.x} #{bottom}" \
-              "M#{body.right} #{top}L#{body.right - cell_depth} #{middle}L#{body.right} #{bottom}"
-          end.join
-        end
-
-        def cell_ys
-          FabricGeometry.horizontal_lines(body:, count: require_option(:cell_count) + 1)
-        end
-
-        def internal_cell_ys
-          cell_ys[1...-1]
-        end
-
-        def cell_bounds
-          cell_ys.each_cons(2).map do |top, bottom|
-            [top, top + ((bottom - top) / 2), bottom]
-          end
-        end
-
-        private
-
-        def require_option(name)
-          value = public_send(name)
-          raise ArgumentError, "#{variant} fabric requires #{name}" if value.nil?
-
-          value
-        end
-
-        def vertical_offset(offset)
-          case offset
-          when :center then body.center_y
-          when Numeric
-            offset.negative? ? body.bottom + offset : body.y + offset
-          else
-            raise ArgumentError, "Unknown fabric vertical offset: #{offset}"
-          end
-        end
-
-        def pleat_points(origin_y, amplitude)
-          pleat_xs.each_with_index.map do |x, index|
-            Point.new(x:, y: pleat_y(origin_y, amplitude, index))
-          end
-        end
-
-        def pleat_edge_path(origin_y, amplitude)
-          pleat_points(origin_y, amplitude).each_with_index.map do |point, index|
-            command = index.zero? ? "M" : "L"
-
-            "#{command}#{point.x} #{point.y}"
-          end.join
-        end
-
-        def pleat_y(origin_y, amplitude, index)
-          origin_y + (index.even? ? 0 : amplitude)
-        end
       end
 
       module FabricGeometry
@@ -536,12 +386,6 @@ module PublicV2
           step = interval(start:, finish:, count:)
 
           indexes.map { |index| start + (index * step) }
-        end
-
-        def every(values, step:, offset: 0)
-          values.each_with_index.filter_map do |value, index|
-            value if index >= offset && ((index - offset) % step).zero?
-          end
         end
 
         def grid(body:, vertical_count:, horizontal_count:, include_edges: false)
@@ -762,7 +606,7 @@ module PublicV2
               id: "surface",
               slot: :under_outline,
               role: :fabric_solid_surface,
-              path: pleated_surface_path(top_points:, bottom_points:)
+              path: pleated_solid_fill_path(top_points:, bottom_points:)
             ),
             *pleated_face_layers(top_points:, bottom_points:),
             *pleated_thread_layers(body:, pleat_xs:, thread_offsets:, thread_width:)
@@ -778,7 +622,7 @@ module PublicV2
               id: "surface",
               slot: :under_outline,
               role: :fabric_solid_surface,
-              path: honeycomb_surface_path(body:, y_positions:, depth:)
+              path: honeycomb_solid_fill_path(body:, y_positions:, depth:)
             ),
             *honeycomb_face_layers(body:, y_positions:, depth:)
           ]
@@ -917,16 +761,16 @@ module PublicV2
               box: right_edge
             ),
             FabricPatternLayer.new(
-              id: "left-edge-detail",
+              id: "left-edge-accent",
               slot: :over_outline,
-              role: :fabric_solid_edge_detail,
-              path: vertical_edge_detail_path(left_edge)
+              role: :fabric_solid_edge_accent,
+              path: vertical_edge_accent_path(left_edge)
             ),
             FabricPatternLayer.new(
-              id: "right-edge-detail",
+              id: "right-edge-accent",
               slot: :over_outline,
-              role: :fabric_solid_edge_detail,
-              path: vertical_edge_detail_path(right_edge)
+              role: :fabric_solid_edge_accent,
+              path: vertical_edge_accent_path(right_edge)
             )
           ]
         end
@@ -971,7 +815,7 @@ module PublicV2
           values.each_cons(2).first&.yield_self { |left, right| right - left } || SOLID_GRID_FALLBACK_CELL_WIDTH
         end
 
-        def vertical_edge_detail_path(edge)
+        def vertical_edge_accent_path(edge)
           "M#{edge.center_x} #{edge.y}V#{edge.bottom}"
         end
 
@@ -1008,7 +852,7 @@ module PublicV2
           "M#{left_top} #{top}H#{right_top}L#{right_bottom} #{bottom}H#{left_bottom}Z"
         end
 
-        def honeycomb_surface_path(body:, y_positions:, depth:)
+        def honeycomb_solid_fill_path(body:, y_positions:, depth:)
           left_points = honeycomb_side_points(body:, y_positions:, depth:, side: :left)
           right_points = honeycomb_side_points(body:, y_positions:, depth:, side: :right)
 
@@ -1172,7 +1016,7 @@ module PublicV2
           end
         end
 
-        def pleated_surface_path(top_points:, bottom_points:)
+        def pleated_solid_fill_path(top_points:, bottom_points:)
           top = top_points.each_with_index.map do |point, index|
             command = index.zero? ? "M" : "L"
 

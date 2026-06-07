@@ -26,7 +26,7 @@ module PublicV2
         FABRIC_PATTERN_ROLE_CLASSES = {
           fill: "pv2-product-exploded__fill",
           fabric_solid_edge: "pv2-product-exploded__fabric-solid-edge",
-          fabric_solid_edge_detail: "pv2-product-exploded__fabric-solid-edge-detail",
+          fabric_solid_edge_accent: "pv2-product-exploded__fabric-solid-edge-accent",
           fabric_solid_grid: "pv2-product-exploded__fabric-solid-grid",
           fabric_solid_surface: "pv2-product-exploded__fabric-solid-surface",
           fabric_duo_band_light: "pv2-product-exploded__fabric-duo-band pv2-product-exploded__fabric-duo-band--light",
