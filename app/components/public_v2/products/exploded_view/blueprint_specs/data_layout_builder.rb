@@ -477,9 +477,9 @@ module PublicV2
           end
 
           def build_duette_top_rail
-            element = assembled.element("rail-superieur")
+            element = preset_slot_layout.element_for_slot("top-rail", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.box_for_slot("top-rail")
 
             horizontal_rail_element(
               preset: option_symbol(options, "preset"),
@@ -495,7 +495,7 @@ module PublicV2
           end
 
           def build_duette_supports(top_rail:)
-            element = assembled.element("supports-pose")
+            element = preset_slot_layout.element_for_slot("top-supports", required: true)
             options = element.options
 
             mount_support_pair_element(
@@ -518,9 +518,9 @@ module PublicV2
           end
 
           def build_duette_fabric(top_rail:)
-            element = assembled.element("toile-duette")
+            element = preset_slot_layout.element_for_slot("fabric", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.box_for_slot("fabric")
 
             fabric_element(
               variant: :honeycomb,
@@ -544,7 +544,7 @@ module PublicV2
           end
 
           def build_duette_intermediate_rail(fabric:)
-            element = assembled.element("rail-intermediaire")
+            element = preset_slot_layout.element_for_slot("intermediate-rail", required: true)
             options = element.options
             body = if element.box
                      required_box(element)
@@ -571,9 +571,9 @@ module PublicV2
           end
 
           def build_duette_bottom_rail(fabric:)
-            element = assembled.element("rail-bas")
+            element = preset_slot_layout.element_for_slot("bottom-rail", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.box_for_slot("bottom-rail")
 
             threshold_bar_element(
               reference: fabric.body,
@@ -593,7 +593,7 @@ module PublicV2
           end
 
           def build_duette_cords(top_rail:, fabric:, intermediate_rail:, bottom_rail:)
-            element = assembled.element("cordons-guidage")
+            element = preset_slot_layout.element_for_slot("guide-cords", required: true)
             options = element.options
             left_x = layout_point(Point.new(x: fabric.body.x + options.fetch("offset_x"), y: fabric.body.y)).x
             right_x = layout_point(Point.new(x: fabric.body.right - options.fetch("offset_x"), y: fabric.body.y)).x
@@ -750,9 +750,9 @@ module PublicV2
           end
 
           def build_plissee_guide
-            element = assembled.element("guide-haut")
+            element = preset_slot_layout.element_for_slot("top-guide", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.box_for_slot("top-guide")
 
             horizontal_rail_element(
               preset: option_symbol(options, "preset"),
@@ -771,9 +771,9 @@ module PublicV2
           end
 
           def build_plissee_fabric(guide:)
-            element = assembled.element("toile-plissee")
+            element = preset_slot_layout.element_for_slot("fabric", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.box_for_slot("fabric")
 
             fabric_element(
               variant: :pleated,
@@ -797,7 +797,7 @@ module PublicV2
           end
 
           def build_plissee_profiles(fabric:)
-            element = assembled.element("profils-muraux")
+            element = preset_slot_layout.element_for_slot("side-profiles", required: true)
             options = element.options
             top = fabric.body.y - layout_gap(options.fetch("top_offset"))
             height = fabric.body.height + layout_gap(options.fetch("height_extra"))
@@ -825,7 +825,7 @@ module PublicV2
           end
 
           def build_plissee_handle(fabric:, profiles:)
-            element = assembled.element("barre-poignee")
+            element = preset_slot_layout.element_for_slot("handle", required: true)
             options = element.options
 
             vertical_handle_bar_element(
@@ -850,9 +850,9 @@ module PublicV2
           end
 
           def build_plissee_threshold(guide:, profiles:)
-            element = assembled.element("seuil-bas")
+            element = preset_slot_layout.element_for_slot("bottom-threshold", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.box_for_slot("bottom-threshold")
 
             threshold_bar_element(
               reference: profiles.left,
@@ -872,7 +872,7 @@ module PublicV2
           end
 
           def build_plissee_lock(handle:)
-            element = assembled.element("verrouillage")
+            element = preset_slot_layout.element_for_slot("closure", required: true)
             options = element.options
 
             plissee_lock_element(

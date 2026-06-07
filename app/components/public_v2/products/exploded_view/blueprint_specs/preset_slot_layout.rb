@@ -51,6 +51,52 @@ module PublicV2
               side_extension: 240,
               height: :standard,
               rx: 34
+            },
+            {
+              element_preset: "bar_threshold",
+              slot: "bottom-rail",
+              reference_slot: "fabric",
+              gap: 420,
+              side_extension: 140,
+              height: 150,
+              rx: 32
+            }
+          ].freeze
+
+          GENERATED_HORIZONTAL_ANCHOR_RULES = [
+            {
+              element_preset: "rail_horizontal_guide",
+              slot: "top-guide",
+              x: :center_on_canvas,
+              y: 470,
+              width: :standard,
+              height: :standard,
+              rx: :standard
+            }
+          ].freeze
+
+          GENERATED_HORIZONTAL_FABRIC_RULES = [
+            {
+              element_preset: "fabric_pleated",
+              reference_slot: "top-guide",
+              gap: :guide_to_fabric,
+              offset_x: 340,
+              width: :standard,
+              height: :standard,
+              rx: :standard
+            }
+          ].freeze
+
+          GENERATED_HORIZONTAL_BOTTOM_BAR_RULES = [
+            {
+              element_preset: "bar_threshold",
+              slot: "bottom-threshold",
+              reference_slot: "fabric",
+              x_reference_slot: "top-guide",
+              gap: 460,
+              inset_x: 160,
+              height: :standard,
+              rx: :standard
             }
           ].freeze
 
@@ -114,19 +160,37 @@ module PublicV2
           end
 
           def generated_box_for(element)
-            return nil unless preset_id == "vertical-product-layout"
+            case preset_id
+            when "vertical-product-layout"
+              generated_vertical_box_for(element)
+            when "horizontal-product-layout"
+              generated_horizontal_box_for(element)
+            end
+          end
 
+          def generated_vertical_box_for(element)
             case element.slot
             when "fabric"
               generated_vertical_fabric_box(element)
-            when "bottom-bar"
+            when "bottom-bar", "bottom-rail"
               generated_vertical_bottom_bar_box(element)
+            end
+          end
+
+          def generated_horizontal_box_for(element)
+            case element.slot
+            when "top-guide"
+              generated_horizontal_anchor_box(element)
+            when "fabric"
+              generated_horizontal_fabric_box(element)
+            when "bottom-threshold"
+              generated_horizontal_bottom_bar_box(element)
             end
           end
 
           def generated_vertical_fabric_box(element)
             GENERATED_VERTICAL_FABRIC_RULES.each do |rule|
-              next unless element_preset(element) == rule.fetch(:element_preset)
+              next unless rule_matches_element?(rule, element)
 
               reference = box_for_slot(rule.fetch(:reference_slot), required: false)
               standard = element_standard(element)
@@ -140,7 +204,7 @@ module PublicV2
 
           def generated_vertical_bottom_bar_box(element)
             GENERATED_VERTICAL_BOTTOM_BAR_RULES.each do |rule|
-              next unless element_preset(element) == rule.fetch(:element_preset)
+              next unless rule_matches_element?(rule, element)
 
               reference = box_for_slot(rule.fetch(:reference_slot), required: false)
               standard = element_standard(element)
@@ -152,17 +216,87 @@ module PublicV2
             nil
           end
 
+          def generated_horizontal_anchor_box(element)
+            GENERATED_HORIZONTAL_ANCHOR_RULES.each do |rule|
+              next unless rule_matches_element?(rule, element)
+
+              standard = element_standard(element)
+              next unless standard
+
+              return snap_box(
+                Box.new(
+                  x: absolute_x(rule.fetch(:x), width: standard_dimension(standard, rule.fetch(:width), :width)),
+                  y: rule.fetch(:y),
+                  width: standard_dimension(standard, rule.fetch(:width), :width),
+                  height: standard_dimension(standard, rule.fetch(:height), :height),
+                  rx: standard_dimension(standard, rule.fetch(:rx), :rx)
+                )
+              )
+            end
+
+            nil
+          end
+
+          def generated_horizontal_fabric_box(element)
+            GENERATED_HORIZONTAL_FABRIC_RULES.each do |rule|
+              next unless rule_matches_element?(rule, element)
+
+              reference = box_for_slot(rule.fetch(:reference_slot), required: false)
+              standard = element_standard(element)
+              next unless reference && standard
+
+              return snap_box(box_from_reference(reference, standard:, rule:))
+            end
+
+            nil
+          end
+
+          def generated_horizontal_bottom_bar_box(element)
+            GENERATED_HORIZONTAL_BOTTOM_BAR_RULES.each do |rule|
+              next unless rule_matches_element?(rule, element)
+
+              reference = box_for_slot(rule.fetch(:reference_slot), required: false)
+              standard = element_standard(element)
+              next unless reference && standard
+
+              return snap_box(box_from_reference(reference, standard:, rule:))
+            end
+
+            nil
+          end
+
+          def rule_matches_element?(rule, element)
+            return false unless element_preset(element) == rule.fetch(:element_preset)
+
+            rule.fetch(:slot, element.slot) == element.slot
+          end
+
           def box_from_reference(reference, standard:, rule:)
-            width = box_width(reference, standard:, rule:)
-            x = box_x(reference, width:, rule:)
+            x_reference = rule[:x_reference_slot] ? box_for_slot(rule.fetch(:x_reference_slot), required: false) : reference
+            y_reference = rule[:y_reference_slot] ? box_for_slot(rule.fetch(:y_reference_slot), required: false) : reference
+            return nil unless x_reference && y_reference
+
+            width = box_width(x_reference, standard:, rule:)
+            x = box_x(x_reference, width:, rule:)
 
             Box.new(
               x:,
-              y: reference.bottom + resolved_gap(rule.fetch(:gap)),
+              y: y_reference.bottom + resolved_gap(rule.fetch(:gap)),
               width:,
               height: standard_dimension(standard, rule.fetch(:height), :height),
               rx: standard_dimension(standard, rule.fetch(:rx), :rx)
             )
+          end
+
+          def absolute_x(value, width:)
+            case value
+            when :center_on_canvas
+              (canvas_spec.svg_width - width) / 2
+            when Numeric
+              value
+            else
+              raise ArgumentError, "Unknown generated box x value: #{value.inspect}"
+            end
           end
 
           def box_width(reference, standard:, rule:)

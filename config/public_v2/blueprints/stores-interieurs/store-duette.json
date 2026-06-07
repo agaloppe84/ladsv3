@@ -212,7 +212,6 @@
       "type": "bar",
       "variant": "threshold",
       "slot": "bottom-rail",
-      "box": { "x": 1240, "y": 3240, "width": 5280, "height": 150, "rx": 32 },
       "options": {
         "preset": "bar_threshold",
         "marker_gap": 168,

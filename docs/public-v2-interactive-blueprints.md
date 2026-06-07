@@ -144,9 +144,10 @@ Assemblage JSON :
   de l'element lie quand le callout ne declare pas son propre slot ;
 - `AssembledBlueprint` expose les index `element(id)`, `group(id)`,
   `callout(part_id)` et la liste des familles de rendu necessaires.
-- `BlueprintSpecs::PresetSlotLayout` expose les elements par slot, les boxes
-  explicites de slot et les gaps entre slots pour amorcer le moteur de layout
-  parametrique.
+- `BlueprintSpecs::PresetSlotLayout` expose les elements par slot, garde les
+  boxes JSON explicites comme overrides prioritaires et genere deja une premiere
+  serie de boxes depuis les presets `vertical-product-layout` et
+  `horizontal-product-layout`.
 - `BlueprintSpecs::DataLayoutBuilder` transforme la spec assemblee en layout Ruby.
   Au stade actuel, `store-vertical-zippe`, `moustiquaire-enroulable-verticale`,
   `moustiquaire-plissee`, `store-duette`, `store-venitien` et
@@ -166,13 +167,12 @@ Presets JSON declares au stade actuel :
 Important :
 
 Au stade actuel, les deux presets structurants `vertical-product-layout` et
-`horizontal-product-layout` sont declares et valides. Les positions explicites des
-elements restent la source de verite du rendu, mais les callouts peuvent deja
-heriter d'options par defaut depuis `vertical-product-callouts` ou
+`horizontal-product-layout` sont declares et valides. Les boxes JSON explicites
+restent acceptees comme overrides, mais une premiere generation de boxes par slot
+porte deja des placements recurrents verticaux et horizontaux. Les callouts
+peuvent heriter d'options par defaut depuis `vertical-product-callouts` ou
 `horizontal-product-callouts` quand ils n'ont ni `placement`, ni route/longueur
-explicite. `moustiquaire-enroulable-verticale` est le premier blueprint dont le
-builder consomme les slots de `vertical-product-layout` via `PresetSlotLayout`,
-sans modifier le rendu valide.
+explicite.
 
 Couples JSON supportes au stade actuel :
 
@@ -219,8 +219,12 @@ Etat actuel :
 
 - les 6 blueprints POC existants disposent maintenant d'une spec JSON ;
 - les 6 specs declarent un preset de layout et un preset de callouts ;
-- `moustiquaire-enroulable-verticale` utilise deja ses slots pour construire le
-  caisson, la toile, les coulisses, la barre, la fermeture et les bavettes ;
+- `moustiquaire-enroulable-verticale`, `store-rouleau-duo`, `store-venitien`,
+  `store-vertical-zippe` et `store-duette` consomment progressivement les slots
+  verticaux pour leurs boxes principales recurrentes ;
+- `moustiquaire-plissee` valide le meme principe sur `horizontal-product-layout` :
+  guide haut, toile plissee et seuil bas sont generes par slots sans box JSON
+  explicite ;
 - les anciens fichiers Ruby et templates produits restent temporairement en place
   comme dette legacy explicite ;
 - la prochaine phase systeme consiste a faire porter le placement par les presets,
@@ -245,13 +249,15 @@ Mode de chargement controle :
 
 Objectif du prochain basculement :
 
-1. extraire une premiere generation de boxes par slot dans `PresetSlotLayout` ;
-2. reduire les `box` JSON explicites sur `moustiquaire-enroulable-verticale` ;
-3. etendre le meme mode de consommation a un deuxieme blueprint vertical ;
-4. remplacer les constantes de placement recurrentes par des slots de preset ;
-5. supprimer progressivement les fichiers Ruby et templates specifiques produits
+1. completer les regles de generation de boxes par slot restantes sans masquer
+   les overrides JSON utiles ;
+2. reduire le dispatch par slug dans `DataLayoutBuilder` quand un preset peut
+   produire la meme structure de layout ;
+3. faire converger `GenericDrawingComponent` vers un rendu par familles
+   generiques plutot que par branches produit ;
+4. supprimer progressivement les fichiers Ruby et templates specifiques produits
    devenus inutiles ;
-6. nettoyer les helpers filaires, SVG code en dur et classes CSS legacy qui ne sont
+5. nettoyer les helpers filaires, SVG code en dur et classes CSS legacy qui ne sont
    plus utilises par la voie JSON.
 
 ## Options de rendu

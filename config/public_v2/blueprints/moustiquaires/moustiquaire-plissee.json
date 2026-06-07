@@ -117,7 +117,6 @@
       "type": "rail",
       "variant": "horizontal-guide",
       "slot": "top-guide",
-      "box": { "x": 1080, "y": 470, "width": 5640, "height": 260, "rx": 42 },
       "options": {
         "preset": "rail_horizontal_guide",
         "marker_gap": 165,
@@ -133,7 +132,6 @@
       "type": "fabric",
       "variant": "pleated-solid",
       "slot": "fabric",
-      "box": { "x": 1420, "y": 1250, "width": 4050, "height": 1540, "rx": 18 },
       "options": {
         "preset": "fabric_pleated",
         "marker_gap": 175,
@@ -202,7 +200,6 @@
       "type": "bar",
       "variant": "threshold",
       "slot": "bottom-threshold",
-      "box": { "x": 1240, "y": 3250, "width": 5320, "height": 105, "rx": 26 },
       "options": {
         "preset": "bar_threshold",
         "marker_gap": 165,
