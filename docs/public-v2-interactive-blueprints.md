@@ -157,7 +157,11 @@ Assemblage JSON :
   `moustiquaire-enroulable-verticale`, `moustiquaire-plissee`, `store-duette`,
   `store-venitien` et `store-rouleau-duo` sont supportes.
 - `GenericDrawingComponent` sait rendre les layouts data-driven supportes
-  en mode objet plein. Il est utilise par `product/show` via `blueprint_source: :json`.
+  en mode objet plein. Ses branches de detection sont nommees par familles
+  generiques (`zipped_screen`, `side_guided_roller`, `pleated_lateral`,
+  `honeycomb_shade`, `venetian_blind`, `roller_duo`) et restent compatibles avec
+  les structs legacy via aliases. Il est utilise par `product/show` via
+  `blueprint_source: :json`.
 
 Presets JSON declares au stade actuel :
 
@@ -231,6 +235,10 @@ Etat actuel :
   explicite ;
 - les anciens fichiers Ruby et templates produits restent temporairement en place
   comme dette legacy explicite ;
+- les structs de layout du chemin JSON portent des noms de familles generiques
+  (`ZippedScreenLayout`, `SideGuidedRollerLayout`, `PleatedLateralLayout`,
+  `HoneycombShadeLayout`, `VenetianBlindLayout`, `RollerDuoLayout`) ; les anciens
+  constants produits restent aliases uniquement pour maintenir le legacy Ruby ;
 - la prochaine phase systeme consiste a faire converger les builders et le
   renderer generique vers ces signatures de presets, pas a creer de nouveaux
   chemins specifiques produit.
@@ -256,13 +264,15 @@ Objectif du prochain basculement :
 
 1. completer les regles de generation de boxes par slot restantes sans masquer
    les overrides JSON utiles ;
-2. remplacer progressivement les classes/structs de layout encore nommees par
-   produits historiques par des familles de layout generiques ;
-3. faire converger `GenericDrawingComponent` vers un rendu par familles
-   generiques plutot que par branches produit ;
-4. supprimer progressivement les fichiers Ruby et templates specifiques produits
+2. faire converger les sous-objets et helpers restants vers des noms de familles
+   generiques quand cela reduit la dette sans changer le rendu ;
+3. commencer a isoler puis retirer les fichiers Ruby/templates legacy une fois
+   le chemin JSON generique valide sur les 6 blueprints POC ;
+4. factoriser progressivement `GenericDrawingComponent` par familles de rendu
+   quand cela simplifie le renderer sans introduire de chemin produit ;
+5. supprimer progressivement les fichiers Ruby et templates specifiques produits
    devenus inutiles ;
-5. nettoyer les helpers filaires, SVG code en dur et classes CSS legacy qui ne sont
+6. nettoyer les helpers filaires, SVG code en dur et classes CSS legacy qui ne sont
    plus utilises par la voie JSON.
 
 ## Options de rendu

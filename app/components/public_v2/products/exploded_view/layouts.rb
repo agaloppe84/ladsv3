@@ -15,7 +15,7 @@ require_relative "slats"
 module PublicV2
   module Products
     module ExplodedView
-      DrawingLayout = Struct.new(
+      ZippedScreenLayout = Struct.new(
         :svg_width,
         :svg_height,
         :grid,
@@ -35,7 +35,7 @@ module PublicV2
         end
       end
 
-      PlisseeDrawingLayout = Struct.new(
+      PleatedLateralLayout = Struct.new(
         :svg_width,
         :svg_height,
         :grid,
@@ -54,7 +54,7 @@ module PublicV2
         end
       end
 
-      EnrollableDrawingLayout = Struct.new(
+      SideGuidedRollerLayout = Struct.new(
         :svg_width,
         :svg_height,
         :grid,
@@ -131,7 +131,7 @@ module PublicV2
         keyword_init: true
       )
 
-      DuetteDrawingLayout = Struct.new(
+      HoneycombShadeLayout = Struct.new(
         :svg_width,
         :svg_height,
         :grid,
@@ -150,7 +150,7 @@ module PublicV2
         end
       end
 
-      DuoDrawingLayout = Struct.new(
+      RollerDuoLayout = Struct.new(
         :svg_width,
         :svg_height,
         :grid,
@@ -169,7 +169,7 @@ module PublicV2
         end
       end
 
-      VenetianDrawingLayout = Struct.new(
+      VenetianBlindLayout = Struct.new(
         :svg_width,
         :svg_height,
         :grid,
@@ -186,6 +186,13 @@ module PublicV2
           callouts[part_id.to_s]
         end
       end
+
+      DrawingLayout = ZippedScreenLayout
+      PlisseeDrawingLayout = PleatedLateralLayout
+      EnrollableDrawingLayout = SideGuidedRollerLayout
+      DuetteDrawingLayout = HoneycombShadeLayout
+      DuoDrawingLayout = RollerDuoLayout
+      VenetianDrawingLayout = VenetianBlindLayout
     end
   end
 end

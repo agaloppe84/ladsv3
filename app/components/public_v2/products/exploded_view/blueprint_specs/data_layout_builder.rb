@@ -130,7 +130,7 @@ module PublicV2
             groups = build_roller_duo_groups(headrail:, supports:, roll:, fabric:, bottom_bar:, control:)
             callouts = build_roller_duo_callouts(groups:)
 
-            DuoDrawingLayout.new(
+            RollerDuoLayout.new(
               svg_width: canvas_spec.svg_width,
               svg_height: canvas_spec.svg_height,
               grid: layout_grid,
@@ -351,7 +351,7 @@ module PublicV2
             groups = build_venetian_groups(headrail:, supports:, slats:, bottom_bar:, control:)
             callouts = build_venetian_callouts(groups:)
 
-            VenetianDrawingLayout.new(
+            VenetianBlindLayout.new(
               svg_width: canvas_spec.svg_width,
               svg_height: canvas_spec.svg_height,
               grid: layout_grid,
@@ -541,7 +541,7 @@ module PublicV2
             groups = build_honeycomb_groups(top_rail:, supports:, fabric:, intermediate_rail:, bottom_rail:, cords:)
             callouts = build_honeycomb_callouts(groups:)
 
-            DuetteDrawingLayout.new(
+            HoneycombShadeLayout.new(
               svg_width: canvas_spec.svg_width,
               svg_height: canvas_spec.svg_height,
               grid: layout_grid,
@@ -814,7 +814,7 @@ module PublicV2
             groups = build_pleated_lateral_groups(fabric:, handle:, lock:)
             callouts = build_pleated_lateral_callouts(groups:)
 
-            PlisseeDrawingLayout.new(
+            PleatedLateralLayout.new(
               svg_width: canvas_spec.svg_width,
               svg_height: canvas_spec.svg_height,
               grid: layout_grid,
@@ -992,7 +992,7 @@ module PublicV2
             groups = build_side_guided_roller_groups(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:)
             callouts = build_side_guided_roller_callouts(groups:)
 
-            EnrollableDrawingLayout.new(
+            SideGuidedRollerLayout.new(
               svg_width: canvas_spec.svg_width,
               svg_height: canvas_spec.svg_height,
               grid: layout_grid,
@@ -1176,7 +1176,7 @@ module PublicV2
             groups = build_zipped_screen_groups(motor:, coffre:, fabric:, coulisse:, barre:)
             callouts = build_zipped_screen_callouts(groups:)
 
-            DrawingLayout.new(
+            ZippedScreenLayout.new(
               svg_width: canvas_spec.svg_width,
               svg_height: canvas_spec.svg_height,
               grid: layout_grid,

@@ -94,27 +94,27 @@ module PublicV2
           )
         end
 
-        def vertical_zippe_layout?
+        def zipped_screen_layout?
           layout.respond_to?(:coffre) && layout.respond_to?(:coulisse)
         end
 
-        def enroulable_verticale_layout?
+        def side_guided_roller_layout?
           layout.respond_to?(:cassette) && layout.respond_to?(:rails)
         end
 
-        def plissee_layout?
+        def pleated_lateral_layout?
           layout.respond_to?(:guide) && layout.respond_to?(:profiles)
         end
 
-        def duette_layout?
+        def honeycomb_shade_layout?
           layout.respond_to?(:top_rail) && layout.respond_to?(:intermediate_rail) && layout.respond_to?(:cords)
         end
 
-        def venetian_layout?
+        def venetian_blind_layout?
           layout.respond_to?(:headrail) && layout.respond_to?(:slats) && layout.respond_to?(:control)
         end
 
-        def duo_layout?
+        def roller_duo_layout?
           layout.respond_to?(:headrail) && layout.respond_to?(:roll) && layout.respond_to?(:fabric)
         end
 
