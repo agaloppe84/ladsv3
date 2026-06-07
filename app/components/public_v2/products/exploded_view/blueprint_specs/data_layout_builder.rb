@@ -20,6 +20,8 @@ module PublicV2
 
           def build
             case blueprint.spec.product_slug
+            when "moustiquaire-enroulable-verticale"
+              build_moustiquaire_enroulable_verticale
             when "store-vertical-zippe"
               build_store_vertical_zippe
             else
@@ -28,6 +30,190 @@ module PublicV2
           end
 
           private
+
+          def build_moustiquaire_enroulable_verticale
+            cassette = build_enroulable_cassette
+            fabric = build_enroulable_fabric(cassette:)
+            rails = build_enroulable_rails(fabric:)
+            bottom_bar = build_enroulable_bottom_bar(fabric:)
+            lock = build_enroulable_lock(bottom_bar:)
+            bavettes = build_enroulable_bavettes(rails:)
+            groups = build_enroulable_groups(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:)
+            callouts = build_enroulable_callouts(groups:)
+
+            EnrollableDrawingLayout.new(
+              svg_width: canvas_spec.svg_width,
+              svg_height: canvas_spec.svg_height,
+              grid: layout_grid,
+              groups:,
+              cassette:,
+              rails:,
+              fabric:,
+              bottom_bar:,
+              lock:,
+              bavettes:,
+              callouts:
+            )
+          end
+
+          def build_enroulable_cassette
+            element = assembled.element("caisson")
+            options = element.options
+            box = required_box(element)
+
+            cassette_housing_element(
+              preset: option_symbol(options, "preset"),
+              x: box.x,
+              y: box.y,
+              width: box.width,
+              height: box.height,
+              rx: box.rx,
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              roll_inset_x: options.fetch("roll_inset_x"),
+              roll_y_offset: options.fetch("roll_y_offset"),
+              roll_height: options.fetch("roll_height"),
+              roll_radius: options.fetch("roll_radius"),
+              screw_side_inset: options.fetch("screw_side_inset"),
+              solid_profile: solid_profile_config(options).merge(
+                style: option_symbol(options, "style", default: :front_coffre),
+                points: options.fetch("points", false),
+                opening: options.fetch("opening", {}),
+                cheeks: options.fetch("cheeks", {})
+              )
+            )
+          end
+
+          def build_enroulable_fabric(cassette:)
+            element = assembled.element("toile-bordee")
+            options = element.options
+            box = required_box(element)
+
+            fabric_element(
+              variant: :bordered_grid,
+              reference: cassette.body,
+              preset: option_symbol(options, "preset"),
+              gap: box.y - cassette.body.bottom,
+              x: box.x,
+              width: box.width,
+              height: box.height,
+              rx: box.rx,
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              vertical_count: options.fetch("vertical_count"),
+              horizontal_count: options.fetch("horizontal_count"),
+              edge_fastener_indexes: options.fetch("edge_fastener_indexes", []),
+              edge_fastener_radius: options.fetch("edge_fastener_radius", 0),
+              pattern_id: options.fetch("pattern_id"),
+              pattern_style: option_symbol(options, "pattern_style")
+            )
+          end
+
+          def build_enroulable_rails(fabric:)
+            element = assembled.element("double-coulisse")
+            options = element.options
+            top = fabric.body.y - layout_gap(options.fetch("extra_top"))
+            height = fabric.body.height + layout_gap(options.fetch("extra_top")) + layout_gap(options.fetch("extra_bottom"))
+
+            vertical_rail_pair_element(
+              reference: fabric.body,
+              preset: option_symbol(options, "preset"),
+              left_gap: option_symbol(options, "left_gap"),
+              right_gap: option_symbol(options, "right_gap"),
+              y: top,
+              width: options.fetch("width"),
+              height:,
+              rx: options.fetch("rx"),
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              slot_count: options.fetch("slot_count"),
+              inner_inset_x: options.fetch("inner_inset_x"),
+              solid_profile: solid_profile_config(options).merge(
+                cap_ratio: options.fetch("cap_ratio"),
+                point_radius: options.fetch("point_radius")
+              ),
+              attached_features: options.fetch("attached_features")
+            )
+          end
+
+          def build_enroulable_bottom_bar(fabric:)
+            element = assembled.element("barre-charge")
+            options = element.options
+            box = required_box(element)
+
+            bottom_bar_element(
+              reference: fabric.body,
+              preset: option_symbol(options, "preset"),
+              gap: box.y - fabric.body.bottom,
+              x: box.x,
+              width: box.width,
+              height: box.height,
+              rx: box.rx,
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              grip_width: options.fetch("grip_width"),
+              grip_height: options.fetch("grip_height"),
+              grip_rx: options.fetch("grip_rx"),
+              magnet_inset_x: options.fetch("magnet_inset_x"),
+              solid_profile: solid_profile_config(options).merge(
+                detail: options.fetch("detail"),
+                grip: options.fetch("grip")
+              )
+            )
+          end
+
+          def build_enroulable_lock(bottom_bar:)
+            element = assembled.element("fermeture-magnetique")
+            options = element.options
+
+            magnetic_receiver_element(
+              bottom_bar:,
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_y_offset: options.fetch("hit_y_offset"),
+              hit_height: options.fetch("hit_height"),
+              marker_offset_y: options.fetch("marker_offset_y"),
+              receiver_offset_y: options.fetch("receiver_offset_y"),
+              radius: options.fetch("radius"),
+              solid_profile: solid_profile_config(options).merge(
+                point_radius: options.fetch("point_radius"),
+                base_height: options.fetch("base_height"),
+                base_offset_y: options.fetch("base_offset_y")
+              )
+            )
+          end
+
+          def build_enroulable_bavettes(rails:)
+            element = assembled.element("bavettes")
+            options = element.options
+
+            rail_bavettes_element(
+              rails:,
+              marker_gap: options.fetch("marker_gap"),
+              feature_id: options.fetch("feature_id").to_sym,
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              solid_profile: solid_profile_config(options)
+            )
+          end
+
+          def build_enroulable_groups(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:)
+            {
+              "caisson-toile" => LayoutGroup.new(id: "caisson-toile", boxes: [cassette.body, fabric.body]),
+              "toile-coulisses" => LayoutGroup.new(id: "toile-coulisses", boxes: [fabric.body, rails.left, rails.right]),
+              "fermeture-barre" => LayoutGroup.attached(id: "fermeture-barre", boxes: [bottom_bar.body, lock.hit]),
+              "coulisses-bavettes" => LayoutGroup.attached(id: "coulisses-bavettes", boxes: [rails.left, rails.right, bavettes.left, bavettes.right])
+            }
+          end
+
+          def build_enroulable_callouts(groups:)
+            assembled.callouts.each_with_object({}) do |definition, callouts|
+              callouts[definition.part_id] = callout_from_definition(definition, groups:)
+            end
+          end
 
           def build_store_vertical_zippe
             motor = build_vertical_zippe_motor

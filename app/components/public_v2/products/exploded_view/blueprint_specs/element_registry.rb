@@ -12,10 +12,16 @@ module PublicV2
           end
 
           DEFAULT_ENTRIES = [
+            Entry.new(type: "bar", variant: "bottom-charge", renderer_family: "solid_bar_profile", status: "supported"),
             Entry.new(type: "bar", variant: "zipped-load", renderer_family: "solid_bar_profile", status: "supported"),
+            Entry.new(type: "closure", variant: "magnetic-receivers", renderer_family: "solid_accessory_profile", status: "supported"),
+            Entry.new(type: "closure", variant: "rail-bavettes", renderer_family: "solid_accessory_profile", status: "supported"),
+            Entry.new(type: "fabric", variant: "bordered-grid-solid", renderer_family: "fabric_pattern", status: "supported"),
             Entry.new(type: "fabric", variant: "zipped-solid", renderer_family: "fabric_pattern", status: "supported"),
             Entry.new(type: "housing", variant: "front-coffre", renderer_family: "solid_housing_profile", status: "supported"),
+            Entry.new(type: "housing", variant: "kiss-50-cassette", renderer_family: "solid_housing_profile", status: "supported"),
             Entry.new(type: "motor", variant: "tubular", renderer_family: "solid_motor_profile", status: "supported"),
+            Entry.new(type: "rail", variant: "double-coulisse-pair", renderer_family: "solid_profile", status: "supported"),
             Entry.new(type: "rail", variant: "zipped-coulisse-pair", renderer_family: "solid_profile", status: "supported"),
             Entry.new(type: "support", variant: "mount-pair", renderer_family: "solid_support_profile", status: "supported")
           ].freeze

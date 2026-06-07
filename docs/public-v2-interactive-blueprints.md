@@ -126,49 +126,54 @@ Assemblage JSON :
 - `AssembledBlueprint` expose les index `element(id)`, `group(id)`,
   `callout(part_id)` et la liste des familles de rendu necessaires.
 - `BlueprintSpecs::DataLayoutBuilder` transforme la spec assemblee en layout Ruby.
-  Au stade actuel, seul `store-vertical-zippe` est supporte.
-- `GenericDrawingComponent` sait rendre le layout data-driven `store-vertical-zippe`
-  en mode objet plein. Il n'est pas encore utilise par defaut dans `product/show`.
+  Au stade actuel, `store-vertical-zippe` et `moustiquaire-enroulable-verticale`
+  sont supportes.
+- `GenericDrawingComponent` sait rendre les layouts data-driven supportes
+  en mode objet plein. Il est utilise par `product/show` via `blueprint_source: :json`.
 
 Couples JSON supportes au stade actuel :
 
+- `bar:bottom-charge` -> `solid_bar_profile`
 - `bar:zipped-load` -> `solid_bar_profile`
+- `closure:magnetic-receivers` -> `solid_accessory_profile`
+- `closure:rail-bavettes` -> `solid_accessory_profile`
+- `fabric:bordered-grid-solid` -> `fabric_pattern`
 - `fabric:zipped-solid` -> `fabric_pattern`
 - `housing:front-coffre` -> `solid_housing_profile`
+- `housing:kiss-50-cassette` -> `solid_housing_profile`
 - `motor:tubular` -> `solid_motor_profile`
+- `rail:double-coulisse-pair` -> `solid_profile`
 - `rail:zipped-coulisse-pair` -> `solid_profile`
 - `support:mount-pair` -> `solid_support_profile`
 
 Prochaine migration technique :
 
-1. Convertir un blueprint existant en JSON sans modifier son rendu.
-   `stores-exterieurs/store-vertical-zippe.json` est la premiere spec de reference.
-2. Creer un `DataBlueprint` qui lit cette spec.
-   `Blueprints::DataBlueprint` expose deja parts, metrics, technical data, theme,
-   render options, layout config, elements assembles, groups, callouts et matching
-   par slug/alias.
-3. Creer un `DataLayoutBuilder` pour produire un layout Ruby depuis la spec JSON.
-   `store-vertical-zippe` produit deja un `DrawingLayout` compatible avec les
-   primitives actuelles, sans etre branche au rendu public.
-4. Creer un renderer generique qui remplace les templates produit.
-   `GenericDrawingComponent` rend deja le `DataBlueprint` quand il est injecte
-   explicitement dans le composant parent.
-5. Comparer visuellement le rendu data-driven isole avec le rendu legacy.
+1. Convertir chaque blueprint existant en JSON sans modifier son rendu valide.
+   Les specs de reference actuelles sont `stores-exterieurs/store-vertical-zippe.json`
+   et `moustiquaires/moustiquaire-enroulable-verticale.json`.
+2. Utiliser `DataBlueprint` pour lire les specs et exposer parts, metrics, technical
+   data, theme, render options, layout config, elements assembles, groups, callouts
+   et matching par slug/alias.
+3. Etendre `DataLayoutBuilder` produit par produit pour transformer les specs JSON
+   en layouts Ruby compatibles avec les primitives actuelles.
+4. Etendre `GenericDrawingComponent` pour remplacer progressivement les templates
+   produit specifiques.
+5. Comparer visuellement chaque rendu data-driven avec le rendu legacy valide.
 6. Supprimer les classes Ruby et templates produit quand les 6 blueprints existants
    sont convertis.
 
 Important :
 
-La spec `StoreVerticalZippe` JSON ne remplace pas encore le rendu actuel.
-Elle sert de contrat data pour preparer la bascule vers un renderer generique.
-Le composant public continue d'utiliser les blueprints Ruby historiques tant que
-`ExplodedViewExperimentComponent#default_blueprint` ne charge pas les specs JSON.
-Le chemin data-driven est disponible uniquement quand un `DataBlueprint` est injecte
-explicitement.
+La spec `StoreVerticalZippe` JSON est la premiere spec branchee sur `product/show`.
+Elle sert de contrat data pour preparer la bascule complete vers un renderer generique.
+Le composant public charge maintenant le chemin data-driven avec `blueprint_source: :json`.
+Les blueprints Ruby historiques restent disponibles uniquement comme source legacy explicite
+pendant la migration.
 
 Mode de chargement controle :
 
-- `ExplodedViewExperimentComponent` utilise `blueprint_source: :legacy` par defaut ;
+- `ExplodedViewExperimentComponent` accepte `blueprint_source: :legacy` ou `:json` ;
+- `product/show` utilise explicitement `blueprint_source: :json` ;
 - `blueprint_source: :json` force le chargement via `DataBlueprint.find_for_product` ;
 - en mode `:json`, aucune fallback vers `StoreVerticalZippe` n'est appliquee ;
 - si aucune spec JSON ne correspond au `product.slug`, le composant ne rend rien ;
@@ -176,9 +181,9 @@ Mode de chargement controle :
 
 Objectif du prochain basculement :
 
-1. comparer le rendu legacy et le rendu JSON isole sur `store-vertical-zippe` ;
+1. verifier visuellement `store-vertical-zippe` sur `product/show` en mode JSON ;
 2. corriger les ecarts visuels du renderer generique ;
-3. basculer `product/show` vers `blueprint_source: :json` seulement quand le rendu est valide.
+3. convertir le prochain blueprint en JSON sans reactiver de fallback legacy.
 
 ## Options de rendu
 

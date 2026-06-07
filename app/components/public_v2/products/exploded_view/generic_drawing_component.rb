@@ -94,6 +94,28 @@ module PublicV2
           )
         end
 
+        def vertical_zippe_layout?
+          layout.respond_to?(:coffre) && layout.respond_to?(:coulisse)
+        end
+
+        def enroulable_verticale_layout?
+          layout.respond_to?(:cassette) && layout.respond_to?(:rails)
+        end
+
+        def right_vertical_pair_hit_box(rails)
+          Box.new(
+            x: rails.right.x - 80,
+            y: rails.hit.y,
+            width: rails.hit.width,
+            height: rails.hit.height,
+            rx: rails.hit.rx
+          )
+        end
+
+        def unsupported_layout!
+          raise ArgumentError, "GenericDrawingComponent does not support #{layout.class.name}"
+        end
+
         def marker_for(part_id, marker:)
           tag.g(class: "pv2-product-exploded__marker", transform: "translate(#{marker.x} #{marker.y})") do
             safe_join(

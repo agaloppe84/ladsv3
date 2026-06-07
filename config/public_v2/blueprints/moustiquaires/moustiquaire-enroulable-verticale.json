@@ -1,0 +1,302 @@
+{
+  "schema_version": 1,
+  "product": {
+    "slug": "moustiquaire-enroulable-verticale",
+    "category": "moustiquaires",
+    "manufacturer": "AMB",
+    "family": "KISS 50"
+  },
+  "sources": [
+    {
+      "label": "Fiche produit LADS",
+      "type": "catalog_page",
+      "publisher": "Les Artisans du Store",
+      "confidence": "medium",
+      "notes": "Route catalogue exacte a confirmer lors du prochain audit source."
+    },
+    {
+      "label": "Page LADS + Documentation publique AMB 2026",
+      "type": "datasheet",
+      "publisher": "AMB",
+      "confidence": "medium",
+      "notes": "Source utilisee pour la famille KISS 50 et les elements techniques du POC actuel."
+    }
+  ],
+  "technical_data": {
+    "source": "Page LADS + Documentation publique AMB 2026",
+    "product_family": "KISS 50",
+    "reference_format": "L2000 x H2000 mm",
+    "reference_width_mm": 2000,
+    "reference_height_mm": 2000,
+    "cassette_hint_mm": "caisson compact 50/54 mm",
+    "movement": "Deplacement vertical",
+    "fabric": "Toile bouton / toile tendue",
+    "closure": "Fermeture magnetique",
+    "rails": "Double coulisse",
+    "anti_intrusion": "Bavettes anti-intrusion"
+  },
+  "render_options": {
+    "show_layout_grid": true,
+    "callout_animation_profile": "draw",
+    "accent": "#00a8a0"
+  },
+  "canvas": {
+    "columns": 64,
+    "rows": 35,
+    "cell": 120,
+    "margin": 60,
+    "major_every": 4,
+    "radius": 72,
+    "snap_unit": 10
+  },
+  "parts": [
+    {
+      "id": "caisson",
+      "number": "1",
+      "label": "Caisson KISS 50",
+      "measurement": "caisson compact 50/54 mm",
+      "detail": "Caisson haut arrondi avec volume principal plein, joues laterales fines et ouverture basse simplifiee."
+    },
+    {
+      "id": "double-coulisse",
+      "number": "2",
+      "label": "Double coulisse",
+      "measurement": "Double coulisse",
+      "detail": "Guidage vertical en deux profils lateraux, reconstruit en miroir pour verifier la symetrie et la lecture des tracks de toile."
+    },
+    {
+      "id": "toile-bordee",
+      "number": "3",
+      "label": "Toile bordee",
+      "measurement": "Toile bouton / toile tendue",
+      "detail": "Toile tendue a trame legere avec points de bordure. Le format POC reprend la limite documentaire L2000 x H2000 mm."
+    },
+    {
+      "id": "barre-charge",
+      "number": "4",
+      "label": "Barre de charge",
+      "measurement": "Deplacement vertical",
+      "detail": "Barre basse de tirage direct, separee de la toile pour garder la lecture eclatee du mouvement vertical."
+    },
+    {
+      "id": "fermeture-magnetique",
+      "number": "5",
+      "label": "Fermeture magnetique",
+      "measurement": "Fermeture magnetique",
+      "detail": "Recepteurs magnetiques simplifies sous la barre basse pour montrer le verrouillage sans alourdir le plan principal."
+    },
+    {
+      "id": "bavettes",
+      "number": "6",
+      "label": "Bavettes anti-intrusion",
+      "measurement": "Bavettes anti-intrusion",
+      "detail": "Petites levres souples representees en bas des coulisses, pour tester un detail technique fin et recurrent sur les moustiquaires."
+    }
+  ],
+  "metrics": [
+    {
+      "label": "Format documente",
+      "value": "L2000 x H2000 mm",
+      "note": "Page LADS + Documentation publique AMB 2026"
+    },
+    {
+      "label": "Famille",
+      "value": "KISS 50",
+      "note": "moustiquaire enroulable verticale"
+    },
+    {
+      "label": "Guidage",
+      "value": "Double coulisse",
+      "note": "Bavettes anti-intrusion"
+    }
+  ],
+  "elements": [
+    {
+      "id": "caisson",
+      "part_id": "caisson",
+      "type": "housing",
+      "variant": "kiss-50-cassette",
+      "box": { "x": 1020, "y": 520, "width": 5760, "height": 260, "rx": 38 },
+      "options": {
+        "preset": "housing_kiss_50",
+        "marker_gap": 168,
+        "hit_inset_x": 100,
+        "hit_inset_y": 85,
+        "roll_inset_x": 480,
+        "roll_y_offset": 108,
+        "roll_height": 124,
+        "roll_radius": 54,
+        "screw_side_inset": 690,
+        "solid_profile": "enroulable-caisson-kiss-50",
+        "style": "front_coffre",
+        "points": false,
+        "cheeks": { "width": 80 }
+      }
+    },
+    {
+      "id": "toile-bordee",
+      "part_id": "toile-bordee",
+      "type": "fabric",
+      "variant": "bordered-grid-solid",
+      "box": { "x": 1500, "y": 1260, "width": 4800, "height": 1920, "rx": 18 },
+      "options": {
+        "preset": "fabric_bordered",
+        "marker_gap": 170,
+        "hit_inset_x": 90,
+        "hit_inset_y": 75,
+        "vertical_count": 81,
+        "horizontal_count": 33,
+        "edge_fastener_indexes": [],
+        "edge_fastener_radius": 0,
+        "pattern_id": "enroulable-toile-bordee",
+        "pattern_style": "solid"
+      }
+    },
+    {
+      "id": "double-coulisse",
+      "part_id": "double-coulisse",
+      "type": "rail",
+      "variant": "double-coulisse-pair",
+      "options": {
+        "preset": "rail_double_coulisse",
+        "left_gap": "rail_to_fabric",
+        "right_gap": "rail_to_fabric",
+        "extra_top": 180,
+        "extra_bottom": 250,
+        "width": 240,
+        "rx": 26,
+        "marker_gap": 168,
+        "hit_inset_x": 80,
+        "hit_inset_y": 75,
+        "slot_count": 5,
+        "inner_inset_x": 68,
+        "solid_profile": "enroulable-double-coulisse",
+        "cap_ratio": 0.29,
+        "point_radius": 18,
+        "attached_features": {
+          "bavettes": {
+            "slot": "inside_bottom_centered",
+            "width": 44,
+            "height": 108,
+            "bottom_gap": 28,
+            "rx": 16,
+            "tone": "dark"
+          }
+        }
+      }
+    },
+    {
+      "id": "barre-charge",
+      "part_id": "barre-charge",
+      "type": "bar",
+      "variant": "bottom-charge",
+      "box": { "x": 1370, "y": 3480, "width": 5060, "height": 150, "rx": 34 },
+      "options": {
+        "preset": "bar_bottom_charge",
+        "marker_gap": 168,
+        "hit_inset_x": 100,
+        "hit_inset_y": 80,
+        "grip_width": 340,
+        "grip_height": 60,
+        "grip_rx": 18,
+        "magnet_inset_x": 610,
+        "solid_profile": "enroulable-barre-charge",
+        "detail": { "height": 8, "inset_x": 190 },
+        "grip": true
+      }
+    },
+    {
+      "id": "fermeture-magnetique",
+      "part_id": "fermeture-magnetique",
+      "type": "closure",
+      "variant": "magnetic-receivers",
+      "options": {
+        "hit_inset_x": 360,
+        "hit_y_offset": -40,
+        "hit_height": 330,
+        "marker_offset_y": 285,
+        "receiver_offset_y": 118,
+        "radius": 42,
+        "solid_profile": "enroulable-fermeture-magnetique",
+        "point_radius": 22,
+        "base_height": 16,
+        "base_offset_y": 58
+      }
+    },
+    {
+      "id": "bavettes",
+      "part_id": "bavettes",
+      "type": "closure",
+      "variant": "rail-bavettes",
+      "options": {
+        "marker_gap": 168,
+        "feature_id": "bavettes",
+        "hit_inset_x": 70,
+        "hit_inset_y": 70,
+        "solid_profile": "enroulable-bavettes-anti-intrusion"
+      }
+    }
+  ],
+  "groups": [
+    {
+      "id": "caisson-toile",
+      "element_ids": ["caisson", "toile-bordee"]
+    },
+    {
+      "id": "toile-coulisses",
+      "element_ids": ["toile-bordee", "double-coulisse"]
+    },
+    {
+      "id": "fermeture-barre",
+      "element_ids": ["barre-charge", "fermeture-magnetique"],
+      "attached": true
+    },
+    {
+      "id": "coulisses-bavettes",
+      "element_ids": ["double-coulisse", "bavettes"],
+      "attached": true
+    }
+  ],
+  "callouts": [
+    {
+      "part_id": "caisson",
+      "marker": { "x": 6950, "y": 650 },
+      "placement": "top_housing"
+    },
+    {
+      "part_id": "double-coulisse",
+      "marker": { "x": 780, "y": 2255 },
+      "placement": "top_rail",
+      "label_side": "right",
+      "first_length": 260,
+      "second_length": 460
+    },
+    {
+      "part_id": "toile-bordee",
+      "marker": { "x": 3900, "y": 1090 },
+      "placement": "center_fabric",
+      "label_side": "right"
+    },
+    {
+      "part_id": "barre-charge",
+      "marker": { "x": 6600, "y": 3555 },
+      "placement": "bottom_bar"
+    },
+    {
+      "part_id": "fermeture-magnetique",
+      "marker": { "x": 3900, "y": 3915 },
+      "placement": "left_detail",
+      "first_length": 460
+    },
+    {
+      "part_id": "bavettes",
+      "marker": { "x": 7020, "y": 3350 },
+      "placement": "left_detail"
+    }
+  ],
+  "validation": {
+    "require_solid_renderers": true,
+    "forbid_raw_svg": true,
+    "snap_major_widths": true
+  }
+}
