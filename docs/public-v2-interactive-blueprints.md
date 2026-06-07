@@ -109,9 +109,10 @@ Contrat d'une spec JSON :
 - `canvas` : grille globale et snap ;
 - `parts` : legende et ordre d'affichage ;
 - `metrics` : cartes de synthese ;
-- `elements` : objets semantiques a generer ;
+- `elements` : objets semantiques a generer, avec un `slot` de layout quand un
+  preset est declare ;
 - `groups` : groupes attaches ou groupes de layout ;
-- `callouts` : marqueurs et routes ;
+- `callouts` : marqueurs, routes et eventuel override de slot ;
 - `validation` : regles specifiques au blueprint.
 
 Regle importante :
@@ -135,10 +136,11 @@ Assemblage JSON :
 - `BlueprintSpecs::ElementRegistry` declare les couples `type:variant` supportes ;
 - `BlueprintSpecs::PresetRegistry` declare les presets de layout/callouts supportes ;
 - `BlueprintSpecs::Assembler` transforme une spec JSON en objets normalises ;
-- `ElementDefinition` porte `id`, `part_id`, `type`, `variant`, `box`,
+- `ElementDefinition` porte `id`, `part_id`, `type`, `variant`, `slot`, `box`,
   `options`, `attached_features` et `renderer_family` ;
 - `GroupDefinition` porte les groupes de layout ;
-- `CalloutDefinition` convertit les marqueurs en `Point` ;
+- `CalloutDefinition` convertit les marqueurs en `Point` et herite du `slot`
+  de l'element lie quand le callout ne declare pas son propre slot ;
 - `AssembledBlueprint` expose les index `element(id)`, `group(id)`,
   `callout(part_id)` et la liste des familles de rendu necessaires.
 - `BlueprintSpecs::DataLayoutBuilder` transforme la spec assemblee en layout Ruby.
@@ -159,9 +161,11 @@ Presets JSON declares au stade actuel :
 
 Important :
 
-Au stade actuel, les presets sont declares et valides, mais les positions explicites
-des elements et des callouts restent la source de verite du rendu. Le prochain palier
-consiste a faire consommer progressivement ces presets par `DataLayoutBuilder`, sans
+Au stade actuel, les presets et les slots sont declares et valides. Les positions
+explicites des elements restent la source de verite du rendu, mais les callouts
+peuvent deja heriter d'un placement par defaut depuis le preset `technical-exploded-default`
+quand ils n'ont ni `placement`, ni route/longueur explicite. Le prochain palier
+consiste a faire consommer progressivement les slots par `DataLayoutBuilder`, sans
 modifier le rendu valide.
 
 Couples JSON supportes au stade actuel :
@@ -325,6 +329,17 @@ Chaque preset doit definir :
 - les contraintes de snap sur grosse grille ;
 - les positions de callouts recommandees par slot ;
 - les overrides autorises pour les cas particuliers.
+
+Regles de slots :
+
+- le `slot` se declare au niveau de l'element, pas dans `options` ;
+- les noms de slots sont valides par le `layout` preset choisi ;
+- les slots requis du preset doivent etre couverts par les elements JSON ;
+- un callout herite du slot de son element via `part_id` ;
+- un callout peut declarer son propre `slot` si le marqueur vise un groupe ou un
+  detail attache different de l'element principal ;
+- si un callout conserve un `placement`, une `route` ou une longueur explicite, cet
+  override reste prioritaire sur le preset.
 
 Regle de progression :
 

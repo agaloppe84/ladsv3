@@ -183,6 +183,7 @@ module PublicV2
             validate_elements
             validate_groups
             validate_callouts
+            validate_layout_slot_contract
             validate_raw_svg_keys
 
             Result.new(name:, path: spec.path, errors:, warnings:)
@@ -303,6 +304,9 @@ module PublicV2
               add_error("element #{element_id.inspect} needs a valid variant") unless valid_token?(variant)
               validate_registry_entry(element_id, type, variant) if valid_token?(type) && valid_token?(variant)
 
+              slot = element["slot"]
+              add_error("element #{element_id.inspect} slot must use kebab-case: #{slot.inspect}") unless slot.nil? || valid_id?(slot)
+
               part_id = element["part_id"]
               add_error("element #{element_id.inspect} references unknown part #{part_id.inspect}") if part_id && !part_ids.include?(part_id)
 
@@ -353,11 +357,57 @@ module PublicV2
 
               placement = callout["placement"]
               add_error("callout #{part_id.inspect} has invalid placement #{placement.inspect}") unless placement.nil? || valid_token?(placement)
+
+              slot = callout["slot"]
+              add_error("callout #{part_id.inspect} slot must use kebab-case: #{slot.inspect}") unless slot.nil? || valid_id?(slot)
             end
 
             missing_callouts = part_ids - seen_part_ids
             add_error("missing callouts for parts: #{missing_callouts.join(', ')}") unless missing_callouts.empty?
             validate_unique_ids("callouts.part_id", seen_part_ids)
+          end
+
+          def validate_layout_slot_contract
+            layout_preset = spec.presets["layout"]
+            return if layout_preset.to_s.empty? || !preset_registry.layout?(layout_preset)
+
+            preset = preset_registry.layout(layout_preset)
+            element_slots = spec.elements.filter_map { |element| element["slot"] }
+
+            unknown_element_slots = element_slots.reject { |slot| preset.slots.include?(slot) }.uniq
+            add_error("elements use slots not declared by layout preset #{layout_preset.inspect}: #{unknown_element_slots.join(', ')}") unless unknown_element_slots.empty?
+
+            missing_required_slots = preset.required_slots - element_slots
+            add_error("layout preset #{layout_preset.inspect} is missing required slots: #{missing_required_slots.join(', ')}") unless missing_required_slots.empty?
+
+            unknown_callout_slots = spec.callouts.filter_map do |callout|
+              slot = callout["slot"] || element_slot_for_part(callout["part_id"])
+              slot if slot && !preset.slots.include?(slot)
+            end.uniq
+            add_error("callouts use slots not declared by layout preset #{layout_preset.inspect}: #{unknown_callout_slots.join(', ')}") unless unknown_callout_slots.empty?
+
+            validate_callout_preset_slots(preset)
+          end
+
+          def validate_callout_preset_slots(layout_preset)
+            callout_preset = spec.presets["callouts"]
+            return if callout_preset.to_s.empty? || !preset_registry.callouts?(callout_preset)
+
+            spec.callouts.each do |callout|
+              next if callout["placement"] || explicit_callout_route?(callout)
+
+              part_id = callout["part_id"]
+              slot = callout["slot"] || element_slot_for_part(part_id)
+              if slot.to_s.empty?
+                add_error("callout #{part_id.inspect} needs a slot or explicit placement")
+                next
+              end
+
+              next unless layout_preset.slots.include?(slot)
+
+              default_placement = preset_registry.default_callout_placement(callout_preset, slot)
+              add_error("callout #{part_id.inspect} slot #{slot.inspect} has no default placement in callout preset #{callout_preset.inspect}") if default_placement.to_s.empty?
+            end
           end
 
           def validate_raw_svg_keys
@@ -397,6 +447,22 @@ module PublicV2
 
           def element_ids
             @element_ids ||= spec.elements.map { |element| element["id"].to_s }
+          end
+
+          def element_slot_for_part(part_id)
+            slots_by_part_id[part_id.to_s]
+          end
+
+          def slots_by_part_id
+            @slots_by_part_id ||= spec.elements.each_with_object({}) do |element, slots|
+              slots[element["part_id"]] = element["slot"] if element["part_id"] && element["slot"]
+            end
+          end
+
+          def explicit_callout_route?(callout)
+            %w[route anchor_side start_direction turn_direction first_length second_length].any? do |key|
+              callout.key?(key)
+            end
           end
 
           def validate_unique_ids(label, values)

@@ -112,6 +112,7 @@
       "part_id": "boitier-haut",
       "type": "rail",
       "variant": "horizontal-guide",
+      "slot": "headrail",
       "box": { "x": 1040, "y": 500, "width": 5460, "height": 230, "rx": 40 },
       "options": {
         "preset": "rail_venetian_head",
@@ -129,6 +130,7 @@
       "part_id": "supports-pose",
       "type": "support",
       "variant": "mount-pair",
+      "slot": "top-supports",
       "options": {
         "gap": 150,
         "width": 300,
@@ -149,6 +151,7 @@
       "part_id": "lames-orientables",
       "type": "slat",
       "variant": "venetian-pack",
+      "slot": "slats",
       "box": { "x": 1320, "y": 1150, "width": 5080, "height": 1920, "rx": 14 },
       "options": {
         "preset": "slat_venetian_pack",
@@ -169,6 +172,7 @@
       "part_id": "cordons-echelles",
       "type": "control",
       "variant": "cord-pair",
+      "slot": "ladder-cords",
       "options": {
         "solid_profile": "venitien-cordons-echelles",
         "segment_width": 12,
@@ -180,6 +184,7 @@
       "part_id": "barre-finale",
       "type": "bar",
       "variant": "threshold",
+      "slot": "bottom-bar",
       "box": { "x": 1320, "y": 3370, "width": 5080, "height": 140, "rx": 30 },
       "options": {
         "preset": "bar_venetian_bottom",
@@ -201,6 +206,7 @@
       "part_id": "commande",
       "type": "control",
       "variant": "venetian-wand",
+      "slot": "controls",
       "options": {
         "preset": "control_venetian_wand",
         "gap": "exploded_lg",

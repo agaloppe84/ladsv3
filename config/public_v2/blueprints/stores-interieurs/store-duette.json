@@ -111,6 +111,7 @@
       "part_id": "rail-superieur",
       "type": "rail",
       "variant": "duette-head",
+      "slot": "top-rail",
       "box": { "x": 1020, "y": 540, "width": 5760, "height": 260, "rx": 26 },
       "options": {
         "preset": "rail_duette_head",
@@ -139,6 +140,7 @@
       "part_id": "supports-pose",
       "type": "support",
       "variant": "mount-pair",
+      "slot": "top-supports",
       "options": {
         "gap": 150,
         "width": 280,
@@ -159,6 +161,7 @@
       "part_id": "toile-duette",
       "type": "fabric",
       "variant": "honeycomb-solid",
+      "slot": "fabric",
       "box": { "x": 1380, "y": 1260, "width": 5000, "height": 1560, "rx": 20 },
       "options": {
         "preset": "fabric_honeycomb",
@@ -178,6 +181,7 @@
       "part_id": "rail-intermediaire",
       "type": "bar",
       "variant": "threshold",
+      "slot": "intermediate-rail",
       "options": {
         "x_offset_from_fabric": -90,
         "y_offset_from_fabric_bottom": -60,
@@ -209,6 +213,7 @@
       "part_id": "rail-bas",
       "type": "bar",
       "variant": "threshold",
+      "slot": "bottom-rail",
       "box": { "x": 1240, "y": 3240, "width": 5280, "height": 150, "rx": 32 },
       "options": {
         "preset": "bar_threshold",
@@ -240,6 +245,7 @@
       "part_id": "cordons-guidage",
       "type": "control",
       "variant": "cord-pair",
+      "slot": "guide-cords",
       "options": {
         "offset_x": 260,
         "top_gap": 180,

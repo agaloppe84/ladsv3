@@ -120,6 +120,7 @@
       "part_id": "caisson",
       "type": "housing",
       "variant": "kiss-50-cassette",
+      "slot": "top-housing",
       "box": { "x": 1020, "y": 520, "width": 5760, "height": 260, "rx": 38 },
       "options": {
         "preset": "housing_kiss_50",
@@ -142,6 +143,7 @@
       "part_id": "toile-bordee",
       "type": "fabric",
       "variant": "bordered-grid-solid",
+      "slot": "fabric",
       "box": { "x": 1500, "y": 1260, "width": 4800, "height": 1920, "rx": 18 },
       "options": {
         "preset": "fabric_bordered",
@@ -161,6 +163,7 @@
       "part_id": "double-coulisse",
       "type": "rail",
       "variant": "double-coulisse-pair",
+      "slot": "side-guides",
       "options": {
         "preset": "rail_double_coulisse",
         "left_gap": "rail_to_fabric",
@@ -194,6 +197,7 @@
       "part_id": "barre-charge",
       "type": "bar",
       "variant": "bottom-charge",
+      "slot": "bottom-bar",
       "box": { "x": 1370, "y": 3480, "width": 5060, "height": 150, "rx": 34 },
       "options": {
         "preset": "bar_bottom_charge",
@@ -214,6 +218,7 @@
       "part_id": "fermeture-magnetique",
       "type": "closure",
       "variant": "magnetic-receivers",
+      "slot": "closure",
       "options": {
         "hit_inset_x": 360,
         "hit_y_offset": -40,
@@ -232,6 +237,7 @@
       "part_id": "bavettes",
       "type": "closure",
       "variant": "rail-bavettes",
+      "slot": "attached-features",
       "options": {
         "marker_gap": 168,
         "feature_id": "bavettes",
@@ -264,8 +270,7 @@
   "callouts": [
     {
       "part_id": "caisson",
-      "marker": { "x": 6950, "y": 650 },
-      "placement": "top_housing"
+      "marker": { "x": 6950, "y": 650 }
     },
     {
       "part_id": "double-coulisse",

@@ -9,6 +9,7 @@ module PublicV2
           :part_id,
           :type,
           :variant,
+          :slot,
           :box,
           :options,
           :attached_features,
@@ -26,7 +27,7 @@ module PublicV2
 
         GroupDefinition = Struct.new(:id, :element_ids, :attached, keyword_init: true)
 
-        CalloutDefinition = Struct.new(:part_id, :marker, :placement, :options, keyword_init: true)
+        CalloutDefinition = Struct.new(:part_id, :marker, :placement, :slot, :options, keyword_init: true)
 
         class AssembledBlueprint
           attr_reader :spec, :elements, :groups, :callouts
@@ -50,6 +51,10 @@ module PublicV2
             callouts_by_part_id.fetch(part_id.to_s)
           end
 
+          def slot_for_part(part_id)
+            slots_by_part_id[part_id.to_s]
+          end
+
           def renderer_families
             elements.map(&:renderer_family).compact.uniq.sort
           end
@@ -66,6 +71,12 @@ module PublicV2
 
           def callouts_by_part_id
             @callouts_by_part_id ||= callouts.each_with_object({}) { |callout, index| index[callout.part_id] = callout }
+          end
+
+          def slots_by_part_id
+            @slots_by_part_id ||= elements.each_with_object({}) do |element, index|
+              index[element.part_id] = element.slot if element.part_id && element.slot
+            end
           end
         end
       end

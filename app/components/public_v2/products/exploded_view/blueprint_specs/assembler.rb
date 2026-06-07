@@ -17,11 +17,14 @@ module PublicV2
           end
 
           def assemble
+            elements = assemble_elements
+            groups = assemble_groups
+
             AssembledBlueprint.new(
               spec:,
-              elements: assemble_elements,
-              groups: assemble_groups,
-              callouts: assemble_callouts
+              elements:,
+              groups:,
+              callouts: assemble_callouts(elements:)
             )
           end
 
@@ -37,6 +40,7 @@ module PublicV2
                 part_id: element["part_id"],
                 type:,
                 variant:,
+                slot: element["slot"],
                 box: optional_box(element["box"]),
                 options: element.fetch("options", {}),
                 attached_features: Array(element["attached_features"]),
@@ -55,13 +59,20 @@ module PublicV2
             end
           end
 
-          def assemble_callouts
+          def assemble_callouts(elements:)
+            slots_by_part_id = elements.each_with_object({}) do |element, index|
+              index[element.part_id] = element.slot if element.part_id && element.slot
+            end
+
             spec.callouts.map do |callout|
+              part_id = callout.fetch("part_id")
+
               CalloutDefinition.new(
-                part_id: callout.fetch("part_id"),
+                part_id:,
                 marker: point(callout.fetch("marker")),
                 placement: callout["placement"],
-                options: callout.reject { |key, _| %w[part_id marker placement].include?(key) }
+                slot: callout["slot"] || slots_by_part_id[part_id],
+                options: callout.reject { |key, _| %w[part_id marker placement slot].include?(key) }
               )
             end
           end

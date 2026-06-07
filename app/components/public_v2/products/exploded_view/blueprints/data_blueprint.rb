@@ -3,6 +3,7 @@
 require_relative "../blueprint_specs/loader"
 require_relative "../blueprint_specs/assembler"
 require_relative "../blueprint_specs/data_layout_builder"
+require_relative "../blueprint_specs/preset_registry"
 require_relative "../generic_drawing_component"
 require_relative "../schema"
 
@@ -73,6 +74,18 @@ module PublicV2
 
           def callout_preset
             presets["callouts"]
+          end
+
+          def layout_preset_definition
+            layout_preset && preset_registry.layout(layout_preset)
+          end
+
+          def callout_preset_definition
+            callout_preset && preset_registry.callouts(callout_preset)
+          end
+
+          def callout_placement_for_slot(slot)
+            preset_registry.default_callout_placement(callout_preset, slot)
           end
 
           def assembled_blueprint
@@ -165,6 +178,10 @@ module PublicV2
           end
 
           private
+
+          def preset_registry
+            BlueprintSpecs::PresetRegistry.default
+          end
 
           def primary_source
             Array(spec.data["sources"]).first || {}

@@ -141,6 +141,7 @@
           "part_id": { "$ref": "#/$defs/id" },
           "type": { "$ref": "#/$defs/token" },
           "variant": { "$ref": "#/$defs/token" },
+          "slot": { "$ref": "#/$defs/id" },
           "box": { "$ref": "#/$defs/box" },
           "options": { "type": "object" },
           "attached_features": {
@@ -177,6 +178,7 @@
           "part_id": { "$ref": "#/$defs/id" },
           "marker": { "$ref": "#/$defs/point" },
           "placement": { "$ref": "#/$defs/token" },
+          "slot": { "$ref": "#/$defs/id" },
           "route": { "type": "string" },
           "label_side": { "type": "string" },
           "anchor_side": { "type": "string" },

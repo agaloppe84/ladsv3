@@ -119,6 +119,7 @@
       "part_id": "motorisation",
       "type": "motor",
       "variant": "tubular",
+      "slot": "motor",
       "options": {
         "head_preset": "motor_tubular_head",
         "tube_preset": "motor_tubular_tube",
@@ -132,6 +133,7 @@
       "part_id": "coffre",
       "type": "housing",
       "variant": "front-coffre",
+      "slot": "top-housing",
       "box": { "x": 1020, "y": 1310, "width": 5760, "height": 260, "rx": 38 },
       "options": {
         "preset": "housing_zipped_coffre",
@@ -145,6 +147,7 @@
       "part_id": "toile",
       "type": "fabric",
       "variant": "zipped-solid",
+      "slot": "fabric",
       "box": { "x": 1260, "y": 1990, "width": 5280, "height": 2040, "rx": 22 },
       "options": {
         "preset": "fabric_zipped",
@@ -159,6 +162,7 @@
       "part_id": "coulisses",
       "type": "rail",
       "variant": "zipped-coulisse-pair",
+      "slot": "side-guides",
       "options": {
         "solid_profile": "vertical-zippe-coulisses",
         "mirrored": true,
@@ -170,6 +174,7 @@
       "part_id": "barre-charge",
       "type": "bar",
       "variant": "zipped-load",
+      "slot": "bottom-bar",
       "box": { "x": 1020, "y": 4310, "width": 5760, "height": 180, "rx": 34 },
       "options": {
         "preset": "bar_zipped_load",
@@ -183,6 +188,7 @@
       "part_id": "supports",
       "type": "support",
       "variant": "mount-pair",
+      "slot": "top-supports",
       "options": {
         "solid_profile": "vertical-zippe-supports",
         "mirrored": true

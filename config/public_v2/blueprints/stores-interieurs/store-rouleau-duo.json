@@ -113,6 +113,7 @@
       "part_id": "rail-superieur",
       "type": "rail",
       "variant": "horizontal-guide",
+      "slot": "headrail",
       "box": { "x": 1020, "y": 540, "width": 5760, "height": 240, "rx": 34 },
       "options": {
         "preset": "rail_horizontal_guide",
@@ -128,6 +129,7 @@
       "part_id": "supports-pose",
       "type": "support",
       "variant": "mount-pair",
+      "slot": "top-supports",
       "options": {
         "gap": 150,
         "width": 280,
@@ -149,6 +151,7 @@
       "part_id": "tube-enroulement",
       "type": "bar",
       "variant": "roll-tube",
+      "slot": "roll",
       "box": { "x": 1260, "y": 1080, "width": 5280, "height": 170, "rx": 48 },
       "options": {
         "marker_gap": 168,
@@ -171,6 +174,7 @@
       "part_id": "toile-duo",
       "type": "fabric",
       "variant": "duo-bands-solid",
+      "slot": "fabric",
       "box": { "x": 1380, "y": 1430, "width": 5040, "height": 1680, "rx": 18 },
       "options": {
         "preset": "fabric_duo",
@@ -190,6 +194,7 @@
       "part_id": "barre-charge",
       "type": "bar",
       "variant": "threshold",
+      "slot": "bottom-bar",
       "box": { "x": 1260, "y": 3410, "width": 5280, "height": 120, "rx": 30 },
       "options": {
         "preset": "bar_threshold",
@@ -211,6 +216,7 @@
       "part_id": "commande",
       "type": "control",
       "variant": "bead-chain",
+      "slot": "controls",
       "options": {
         "gap": "exploded_md",
         "width": 110,

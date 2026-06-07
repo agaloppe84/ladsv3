@@ -1269,7 +1269,7 @@ module PublicV2
             callout(
               definition.part_id,
               marker:,
-              placement: definition.placement&.to_sym,
+              placement: resolved_callout_placement(definition)&.to_sym,
               route: options[:route]&.to_sym,
               anchor_side: options[:anchor_side]&.to_sym,
               label_side: options[:label_side]&.to_sym,
@@ -1281,6 +1281,19 @@ module PublicV2
               dominant_baseline: options[:dominant_baseline],
               animation_profile: options[:animation_profile]&.to_sym
             )
+          end
+
+          def resolved_callout_placement(definition)
+            return definition.placement unless definition.placement.to_s.empty?
+            return nil if explicit_callout_route?(definition.options)
+
+            blueprint.callout_placement_for_slot(definition.slot)
+          end
+
+          def explicit_callout_route?(options)
+            %w[route anchor_side start_direction turn_direction first_length second_length].any? do |key|
+              options.key?(key)
+            end
           end
 
           def required_box(element)

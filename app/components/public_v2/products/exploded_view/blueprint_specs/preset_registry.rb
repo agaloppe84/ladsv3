@@ -78,13 +78,24 @@ module PublicV2
               id: "technical-exploded-default",
               default_placement_by_slot: {
                 "top-housing" => "top_housing",
+                "top-supports" => "top_rail",
                 "top-rail" => "top_rail",
+                "top-guide" => "top_rail",
                 "headrail" => "top_rail",
+                "roll" => "top_rail",
+                "motor" => "top_housing",
                 "fabric" => "center_fabric",
+                "slats" => "side_fabric",
                 "side-guides" => "left_vertical_pair",
                 "side-profiles" => "left_vertical_pair",
                 "bottom-bar" => "bottom_bar",
                 "bottom-rail" => "bottom_rail",
+                "bottom-threshold" => "bottom_rail",
+                "intermediate-rail" => "right_detail_up",
+                "handle" => "right_attached_panel",
+                "closure" => "right_detail_up",
+                "guide-cords" => "left_detail",
+                "ladder-cords" => "left_detail",
                 "controls" => "right_detail_up",
                 "attached-features" => "right_detail_up"
               },
@@ -123,6 +134,20 @@ module PublicV2
 
           def callout_ids
             callout_presets.keys.sort
+          end
+
+          def slot?(layout_preset_id, slot)
+            return false if layout_preset_id.to_s.empty? || slot.to_s.empty?
+            return false unless layout?(layout_preset_id)
+
+            layout(layout_preset_id).slots.include?(slot.to_s)
+          end
+
+          def default_callout_placement(callout_preset_id, slot)
+            return nil if callout_preset_id.to_s.empty? || slot.to_s.empty?
+            return nil unless callouts?(callout_preset_id)
+
+            callouts(callout_preset_id).default_placement_by_slot[slot.to_s]
           end
 
           private
