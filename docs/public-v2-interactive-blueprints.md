@@ -36,9 +36,95 @@ Fichiers centraux :
 - `app/components/public_v2/products/exploded_view/fabrics.rb`
 - `app/components/public_v2/products/exploded_view/callouts.rb`
 - `app/components/public_v2/products/exploded_view/blueprints/blueprint_validator.rb`
+- `config/public_v2/blueprints/schema/v1.json`
+- `app/components/public_v2/products/exploded_view/blueprint_specs/spec.rb`
+- `app/components/public_v2/products/exploded_view/blueprint_specs/loader.rb`
+- `app/components/public_v2/products/exploded_view/blueprint_specs/validator.rb`
 
 Les fichiers blueprint portent les donnees produit, le layout et les callouts.
 Les drawing components doivent rester fins et rendre les objets produits par le systeme blueprint/layout.
+
+## Architecture JSON cible
+
+Le chantier migre progressivement vers un systeme data-driven.
+
+Objectif final :
+
+- aucun fichier Ruby specifique a un nom de produit ;
+- aucun template SVG specifique a un produit ;
+- un fichier JSON par blueprint ;
+- un renderer generique qui assemble les objets parametriques existants ;
+- affichage du composant sur `product/show` uniquement si une spec JSON existe pour le `product.slug`.
+
+Emplacement cible des specs :
+
+```text
+config/public_v2/blueprints/
+  schema/v1.json
+  stores-exterieurs/store-vertical-zippe.json
+  stores-interieurs/store-duette.json
+  stores-interieurs/store-venitien.json
+  stores-interieurs/store-rouleau-duo.json
+  moustiquaires/moustiquaire-plissee.json
+  moustiquaires/moustiquaire-enroulable-verticale.json
+```
+
+Categories catalogue autorisees :
+
+- `moustiquaires`
+- `pergolas`
+- `portes-de-garage`
+- `stores-exterieurs`
+- `stores-interieurs`
+- `volets-battants`
+- `volets-roulants`
+
+Contrat d'une spec JSON :
+
+- `schema_version` : version du contrat, actuellement `1` ;
+- `product` : slug, categorie, aliases, fabricant et famille ;
+- `sources` : page officielle, PDF technique, fiche de pose, datasheet ;
+- `technical_data` : dimensions, references, contraintes documentees ;
+- `render_options` : grille visuelle, animation callout, accent ;
+- `canvas` : grille globale et snap ;
+- `parts` : legende et ordre d'affichage ;
+- `metrics` : cartes de synthese ;
+- `elements` : objets semantiques a generer ;
+- `groups` : groupes attaches ou groupes de layout ;
+- `callouts` : marqueurs et routes ;
+- `validation` : regles specifiques au blueprint.
+
+Regle importante :
+
+Le JSON decrit les objets, il ne dessine pas les objets.
+Il ne doit pas contenir de SVG brut, de `d`, de `raw_svg`, de `outline_path`,
+de `detail_path`, de `surface_path` ou de `profile_path`.
+Les formes doivent etre generees par les familles parametriques Ruby.
+
+Validation JSON :
+
+- `PublicV2::Products::ExplodedView::BlueprintSpecs::Validator.validate_all!`
+  valide le schema et les specs JSON ;
+- `PublicV2::Products::ExplodedView::Blueprints::BlueprintValidator.validate_specs!`
+  expose le meme controle depuis le validator historique.
+
+Prochaine migration technique :
+
+1. Convertir un blueprint existant en JSON sans modifier son rendu.
+   `stores-exterieurs/store-vertical-zippe.json` est la premiere spec de reference.
+2. Creer un `DataBlueprint` qui lit cette spec.
+   `Blueprints::DataBlueprint` expose deja parts, metrics, technical data, theme,
+   render options, layout config et matching par slug/alias.
+3. Creer un renderer generique qui remplace les templates produit.
+4. Supprimer les classes Ruby et templates produit quand les 6 blueprints existants
+   sont convertis.
+
+Important :
+
+La spec `StoreVerticalZippe` JSON ne remplace pas encore le rendu actuel.
+Elle sert de contrat data pour preparer la bascule vers un renderer generique.
+Tant que `DataBlueprint#layout` et `DataBlueprint#drawing_component` ne sont pas
+implementes, le composant public continue d'utiliser les blueprints Ruby historiques.
 
 ## Options de rendu
 
@@ -152,7 +238,7 @@ ou une classe `outline` / `profile` / `detail` / `hairline`.
 
 ### Priorites de migration restantes
 
-1. **Accessoires restants** : verrouillage plissee, languettes et details attaches.
+1. **Accessoires restants** : languettes et details attaches.
 2. **Fallbacks legacy** : retirer les anciens chemins apres migration complete.
 
 ### Par blueprint
@@ -187,7 +273,7 @@ Elements deja en objet plein :
 - toile plissee via `FabricPattern` ;
 - barre poignee via `SolidBarProfile` ;
 - seuil extra-plat via `SolidBarProfile` ;
-- verrouillage rendu en formes pleines/echos.
+- verrouillage via `SolidAccessoryProfile`.
 
 Dette restante :
 
@@ -195,7 +281,7 @@ Dette restante :
 
 Cible :
 
-- rattacher le verrouillage a une famille `SolidAccessoryProfile` si on le reutilise.
+- enrichir `SolidAccessoryProfile` si de nouveaux verrous ou recepteurs doivent etre representes.
 
 #### Moustiquaire enroulable verticale
 
@@ -275,18 +361,16 @@ Classes/methodes a conserver temporairement, puis a retirer quand les migrations
   `pv2-product-exploded__hairline` ;
 - `RailElement#outline_path`, `RailElement#inner_path`, `RailElement#profile_path` ;
 - `BarElement#outline_path` et les branches `detail_path` legacy ;
-- `MotorElement#tube_path`, `MotorElement#head_path`, `MotorElement#detail_path` ;
-- `ControlElement#cord_path` ;
-- `ClosureElement#receiver_path`.
+- `MotorElement#tube_path`, `MotorElement#head_path`, `MotorElement#detail_path`.
 
 Ces APIs ne doivent plus etre utilisees pour de nouveaux objets.
 Elles servent uniquement de transition pendant la migration des blueprints existants.
 
 ### Prochain ordre conseille
 
-1. Migrer le verrouillage plissee vers `SolidAccessoryProfile` si on veut supprimer ses chemins directs.
-2. Supprimer les fallbacks legacy devenus inutiles.
-3. Continuer la migration des micro-details directs vers des familles pleines dediees.
+1. Supprimer les fallbacks legacy devenus inutiles.
+2. Continuer la migration des micro-details directs vers des familles pleines dediees.
+3. Enrichir les variantes `SolidAccessoryProfile` si un nouveau blueprint introduit un detail attache recurrent.
 
 ## Lumiere, degradés et ombres
 

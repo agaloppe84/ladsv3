@@ -482,6 +482,10 @@ module PublicV2
           case feature.kind
           when :rect
             solid_rect(feature.box, clip_id:, id:, tone: feature.tone)
+          when :path
+            solid_path(feature.path, clip_id:, id:, tone: feature.tone)
+          when :echo_path
+            tag.path(d: feature.path, class: "pv2-product-exploded__echo", "clip-path": "url(##{clip_id})")
           else
             raise ArgumentError, "Unknown solid accessory feature kind: #{feature.kind}"
           end

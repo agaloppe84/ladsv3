@@ -122,12 +122,7 @@
     aria-pressed="<%= aria_pressed("verrouillage") %>"
     aria-label="Verrouillage magnétique">
     <rect x="<%= layout.lock.hit.x %>" y="<%= layout.lock.hit.y %>" width="<%= layout.lock.hit.width %>" height="<%= layout.lock.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <% layout.lock.catches.each do |catch_point| %>
-      <path d="<%= layout.lock.catch_path(catch_point) %>" class="pv2-product-exploded__fill" />
-      <% layout.lock.echo_paths(catch_point).each do |echo_path| %>
-        <path d="<%= echo_path %>" class="pv2-product-exploded__echo" />
-      <% end %>
-    <% end %>
+    <%= solid_accessory_profile(layout.lock.solid_profile) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.lock.marker.x %> <%= layout.lock.marker.y %>)">
       <circle r="68" />
       <text y="25">6</text>

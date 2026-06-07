@@ -1,0 +1,366 @@
+# frozen_string_literal: true
+
+require "json"
+require_relative "loader"
+
+module PublicV2
+  module Products
+    module ExplodedView
+      module BlueprintSpecs
+        class Validator
+          CATEGORIES = %w[
+            moustiquaires
+            pergolas
+            portes-de-garage
+            stores-exterieurs
+            stores-interieurs
+            volets-battants
+            volets-roulants
+          ].freeze
+
+          REQUIRED_TOP_LEVEL_KEYS = %w[
+            schema_version
+            product
+            sources
+            technical_data
+            render_options
+            canvas
+            parts
+            metrics
+            elements
+            groups
+            callouts
+            validation
+          ].freeze
+
+          FORBIDDEN_RAW_SVG_KEYS = %w[
+            d
+            detail_path
+            outline_path
+            path_d
+            profile_path
+            raw_svg
+            surface_path
+            svg_path
+          ].freeze
+
+          ID_PATTERN = /\A[a-z0-9][a-z0-9-]*\z/
+          TOKEN_PATTERN = /\A[a-z0-9][a-z0-9_-]*\z/
+          VALID_ANIMATION_PROFILES = %w[draw none].freeze
+
+          Result = Struct.new(:name, :path, :errors, :warnings, keyword_init: true) do
+            def ok?
+              errors.empty?
+            end
+
+            def summary
+              status = ok? ? "OK" : "KO"
+              "#{name}: #{status} (#{errors.size} errors, #{warnings.size} warnings)"
+            end
+          end
+
+          class ValidationError < StandardError; end
+
+          def self.validate_all(root: Loader::DEFAULT_ROOT)
+            loader = Loader.new(root:)
+            specs = loader.spec_paths.map { |path| loader.load(path) }
+            results = [validate_schema(loader)]
+            results << validate_catalog(specs, root: loader.root)
+            results.concat(specs.map { |spec| new(spec, root: loader.root).validate })
+            results
+          end
+
+          def self.validate_all!(root: Loader::DEFAULT_ROOT, output: $stdout)
+            results = validate_all(root:)
+            results.each { |result| output.puts(result.summary) }
+
+            failing_results = results.reject(&:ok?)
+            return results if failing_results.empty?
+
+            details = failing_results.flat_map do |result|
+              result.errors.map { |error| "#{result.name}: #{error}" }
+            end.join("\n")
+
+            raise ValidationError, "Blueprint spec validation failed:\n#{details}"
+          end
+
+          def self.validate_schema(loader)
+            errors = []
+            warnings = []
+            path = loader.schema_path
+
+            if path.exist?
+              JSON.parse(path.read)
+            else
+              errors << "missing schema file"
+            end
+          rescue JSON::ParserError => error
+            errors << "invalid JSON schema: #{error.message}"
+          ensure
+            return Result.new(name: "schema/v1.json", path:, errors:, warnings:)
+          end
+
+          def self.validate_catalog(specs, root:)
+            errors = []
+            warnings = []
+            slug_paths = specs.each_with_object(Hash.new { |hash, key| hash[key] = [] }) do |spec, mapping|
+              ([spec.product_slug] + spec.product_aliases).reject(&:empty?).each do |slug|
+                mapping[slug] << spec.path.relative_path_from(root).to_s
+              end
+            end
+
+            slug_paths.each do |slug, paths|
+              errors << "slug #{slug.inspect} is declared by multiple specs: #{paths.join(', ')}" if paths.size > 1
+            end
+
+            warnings << "no blueprint specs found yet" if specs.empty?
+
+            Result.new(name: "catalog", path: root, errors:, warnings:)
+          end
+
+          def initialize(spec, root: Loader::DEFAULT_ROOT)
+            @spec = spec
+            @root = Pathname.new(root.to_s)
+            @errors = []
+            @warnings = []
+          end
+
+          def validate
+            validate_top_level_contract
+            validate_product_contract
+            validate_render_options
+            validate_canvas
+            validate_parts
+            validate_elements
+            validate_groups
+            validate_callouts
+            validate_raw_svg_keys
+
+            Result.new(name:, path: spec.path, errors:, warnings:)
+          end
+
+          private
+
+          attr_reader :spec, :root, :errors, :warnings
+
+          def name
+            return spec.path.relative_path_from(root).to_s if spec.path
+            return spec.product_slug unless spec.product_slug.empty?
+
+            "inline-spec"
+          rescue ArgumentError
+            spec.path.to_s
+          end
+
+          def validate_top_level_contract
+            missing_keys = REQUIRED_TOP_LEVEL_KEYS - spec.data.keys
+            add_error("missing top-level keys: #{missing_keys.join(', ')}") unless missing_keys.empty?
+            add_error("schema_version must be 1") unless spec.schema_version == 1
+          end
+
+          def validate_product_contract
+            add_error("product.slug is required") if spec.product_slug.empty?
+            add_error("product.slug must use kebab-case") if !spec.product_slug.empty? && !valid_id?(spec.product_slug)
+
+            category = spec.product_category
+            add_error("product.category is required") if category.empty?
+            add_error("product.category is not supported: #{category.inspect}") if !category.empty? && !CATEGORIES.include?(category)
+
+            if spec.path
+              add_error("file name must match product.slug") if !spec.source_file_name.empty? && spec.source_file_name != spec.product_slug
+              add_error("folder name must match product.category") if !spec.source_category.empty? && spec.source_category != category
+            end
+
+            duplicate_aliases = duplicates(spec.product_aliases)
+            add_error("product.aliases contains duplicate slugs: #{duplicate_aliases.join(', ')}") unless duplicate_aliases.empty?
+            spec.product_aliases.each do |product_alias|
+              add_error("product alias must use kebab-case: #{product_alias.inspect}") unless valid_id?(product_alias)
+            end
+          end
+
+          def validate_render_options
+            show_grid = spec.render_options["show_layout_grid"]
+            add_error("render_options.show_layout_grid must be a boolean") unless show_grid.nil? || [true, false].include?(show_grid)
+
+            animation = spec.render_options["callout_animation_profile"]
+            add_error("render_options.callout_animation_profile is invalid: #{animation.inspect}") unless animation.nil? || VALID_ANIMATION_PROFILES.include?(animation)
+          end
+
+          def validate_canvas
+            %w[columns rows].each do |key|
+              add_error("canvas.#{key} must be a positive integer") unless positive_integer?(spec.canvas[key])
+            end
+
+            %w[cell major_every snap_unit].each do |key|
+              value = spec.canvas[key]
+              add_error("canvas.#{key} must be a positive integer") unless value.nil? || positive_integer?(value)
+            end
+
+            %w[margin radius].each do |key|
+              value = spec.canvas[key]
+              add_error("canvas.#{key} must be a non-negative integer") unless value.nil? || non_negative_integer?(value)
+            end
+          end
+
+          def validate_parts
+            part_ids = spec.parts.map { |part| part["id"].to_s }
+            add_error("parts must not be empty") if part_ids.empty?
+            validate_unique_ids("parts", part_ids)
+
+            spec.parts.each do |part|
+              add_error("part id must use kebab-case: #{part['id'].inspect}") unless valid_id?(part["id"])
+              add_error("part #{part['id'].inspect} needs a number") if part["number"].to_s.empty?
+              add_error("part #{part['id'].inspect} needs a label") if part["label"].to_s.empty?
+            end
+          end
+
+          def validate_elements
+            element_ids = spec.elements.map { |element| element["id"].to_s }
+            add_error("elements must not be empty") if element_ids.empty?
+            validate_unique_ids("elements", element_ids)
+
+            spec.elements.each do |element|
+              element_id = element["id"]
+              add_error("element id must use kebab-case: #{element_id.inspect}") unless valid_id?(element_id)
+              add_error("element #{element_id.inspect} needs a valid type") unless valid_token?(element["type"])
+              add_error("element #{element_id.inspect} needs a valid variant") unless valid_token?(element["variant"])
+
+              part_id = element["part_id"]
+              add_error("element #{element_id.inspect} references unknown part #{part_id.inspect}") if part_id && !part_ids.include?(part_id)
+
+              validate_box("element #{element_id.inspect}", element["box"]) if element["box"]
+            end
+          end
+
+          def validate_groups
+            validate_unique_ids("groups", spec.groups.map { |group| group["id"].to_s })
+
+            spec.groups.each do |group|
+              group_id = group["id"]
+              add_error("group id must use kebab-case: #{group_id.inspect}") unless valid_id?(group_id)
+              Array(group["element_ids"]).each do |element_id|
+                add_error("group #{group_id.inspect} references unknown element #{element_id.inspect}") unless element_ids.include?(element_id)
+              end
+            end
+          end
+
+          def validate_callouts
+            seen_part_ids = []
+
+            spec.callouts.each do |callout|
+              part_id = callout["part_id"]
+              seen_part_ids << part_id
+              add_error("callout references unknown part #{part_id.inspect}") unless part_ids.include?(part_id)
+              validate_point("callout #{part_id.inspect} marker", callout["marker"])
+
+              animation = callout["animation_profile"]
+              add_error("callout #{part_id.inspect} has invalid animation_profile #{animation.inspect}") unless animation.nil? || VALID_ANIMATION_PROFILES.include?(animation)
+
+              placement = callout["placement"]
+              add_error("callout #{part_id.inspect} has invalid placement #{placement.inspect}") unless placement.nil? || valid_token?(placement)
+            end
+
+            missing_callouts = part_ids - seen_part_ids
+            add_error("missing callouts for parts: #{missing_callouts.join(', ')}") unless missing_callouts.empty?
+            validate_unique_ids("callouts.part_id", seen_part_ids)
+          end
+
+          def validate_raw_svg_keys
+            offenders = forbidden_key_paths(spec.data)
+            return if offenders.empty?
+
+            add_error("raw SVG/path keys are forbidden: #{offenders.join(', ')}")
+          end
+
+          def validate_box(label, box)
+            unless box.is_a?(Hash)
+              add_error("#{label} box must be an object")
+              return
+            end
+
+            %w[x y width height].each do |key|
+              add_error("#{label}.box.#{key} must be numeric") unless numeric?(box[key])
+            end
+            add_error("#{label}.box.width must be positive") unless positive_number?(box["width"])
+            add_error("#{label}.box.height must be positive") unless positive_number?(box["height"])
+          end
+
+          def validate_point(label, point)
+            unless point.is_a?(Hash)
+              add_error("#{label} must be an object")
+              return
+            end
+
+            %w[x y].each do |key|
+              add_error("#{label}.#{key} must be numeric") unless numeric?(point[key])
+            end
+          end
+
+          def part_ids
+            @part_ids ||= spec.parts.map { |part| part["id"].to_s }
+          end
+
+          def element_ids
+            @element_ids ||= spec.elements.map { |element| element["id"].to_s }
+          end
+
+          def validate_unique_ids(label, values)
+            duplicate_values = duplicates(values.reject(&:empty?))
+            add_error("#{label} contains duplicate ids: #{duplicate_values.join(', ')}") unless duplicate_values.empty?
+          end
+
+          def duplicates(values)
+            values.group_by(&:itself).select { |_, grouped_values| grouped_values.size > 1 }.keys
+          end
+
+          def forbidden_key_paths(value, prefix = nil)
+            case value
+            when Hash
+              value.flat_map do |key, child_value|
+                key_path = [prefix, key].compact.join(".")
+                nested = forbidden_key_paths(child_value, key_path)
+                FORBIDDEN_RAW_SVG_KEYS.include?(key.to_s) ? [key_path, *nested] : nested
+              end
+            when Array
+              value.each_with_index.flat_map { |child_value, index| forbidden_key_paths(child_value, "#{prefix}[#{index}]") }
+            else
+              []
+            end
+          end
+
+          def valid_id?(value)
+            value.to_s.match?(ID_PATTERN)
+          end
+
+          def valid_token?(value)
+            value.to_s.match?(TOKEN_PATTERN)
+          end
+
+          def numeric?(value)
+            value.is_a?(Numeric)
+          end
+
+          def positive_number?(value)
+            numeric?(value) && value.positive?
+          end
+
+          def positive_integer?(value)
+            value.is_a?(Integer) && value.positive?
+          end
+
+          def non_negative_integer?(value)
+            value.is_a?(Integer) && value >= 0
+          end
+
+          def add_error(message)
+            errors << message
+          end
+
+          def add_warning(message)
+            warnings << message
+          end
+        end
+      end
+    end
+  end
+end

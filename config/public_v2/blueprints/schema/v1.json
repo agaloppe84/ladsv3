@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lesartisansdustore.com/schemas/public-v2-blueprint/v1.json",
+  "title": "Public V2 Interactive Blueprint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "product",
+    "sources",
+    "technical_data",
+    "render_options",
+    "canvas",
+    "parts",
+    "metrics",
+    "elements",
+    "groups",
+    "callouts",
+    "validation"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "product": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slug", "category"],
+      "properties": {
+        "slug": { "$ref": "#/$defs/slug" },
+        "category": {
+          "enum": [
+            "moustiquaires",
+            "pergolas",
+            "portes-de-garage",
+            "stores-exterieurs",
+            "stores-interieurs",
+            "volets-battants",
+            "volets-roulants"
+          ]
+        },
+        "aliases": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/slug" },
+          "uniqueItems": true
+        },
+        "manufacturer": { "type": "string" },
+        "family": { "type": "string" }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "type"],
+        "properties": {
+          "label": { "type": "string" },
+          "type": {
+            "enum": ["official_page", "technical_pdf", "installation_pdf", "datasheet", "catalog_page", "internal_note"]
+          },
+          "url": { "type": "string" },
+          "publisher": { "type": "string" },
+          "confidence": { "enum": ["high", "medium", "low"] },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "technical_data": {
+      "type": "object"
+    },
+    "render_options": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "show_layout_grid": { "type": "boolean" },
+        "callout_animation_profile": { "enum": ["draw", "none"] },
+        "accent": { "type": "string" }
+      }
+    },
+    "canvas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["columns", "rows"],
+      "properties": {
+        "columns": { "type": "integer", "minimum": 1 },
+        "rows": { "type": "integer", "minimum": 1 },
+        "cell": { "type": "integer", "minimum": 1 },
+        "margin": { "type": "integer", "minimum": 0 },
+        "major_every": { "type": "integer", "minimum": 1 },
+        "radius": { "type": "integer", "minimum": 0 },
+        "snap_unit": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "parts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "number", "label"],
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "number": { "type": "string" },
+          "label": { "type": "string" },
+          "measurement": { "type": "string" },
+          "detail": { "type": "string" }
+        }
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "value"],
+        "properties": {
+          "label": { "type": "string" },
+          "value": { "type": "string" },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "elements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["id", "type", "variant"],
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "part_id": { "$ref": "#/$defs/id" },
+          "type": { "$ref": "#/$defs/token" },
+          "variant": { "$ref": "#/$defs/token" },
+          "box": { "$ref": "#/$defs/box" },
+          "options": { "type": "object" },
+          "attached_features": {
+            "type": "array",
+            "items": { "type": "object" }
+          }
+        }
+      }
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "element_ids"],
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "element_ids": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/id" },
+            "minItems": 1
+          },
+          "attached": { "type": "boolean" }
+        }
+      }
+    },
+    "callouts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["part_id", "marker"],
+        "properties": {
+          "part_id": { "$ref": "#/$defs/id" },
+          "marker": { "$ref": "#/$defs/point" },
+          "placement": { "$ref": "#/$defs/token" },
+          "route": { "type": "string" },
+          "label_side": { "type": "string" },
+          "anchor_side": { "type": "string" },
+          "animation_profile": { "enum": ["draw", "none"] }
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "require_solid_renderers": { "type": "boolean" },
+        "forbid_raw_svg": { "type": "boolean" },
+        "snap_major_widths": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "token": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "box": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "width", "height"],
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 },
+        "rx": { "type": "number", "minimum": 0 }
+      }
+    },
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y"],
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" }
+      }
+    }
+  }
+}

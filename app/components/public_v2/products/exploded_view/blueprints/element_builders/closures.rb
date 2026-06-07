@@ -19,7 +19,8 @@ module PublicV2
               hit_inset_y:,
               hit_width:,
               marker_offset_x:,
-              marker_offset_y:
+              marker_offset_y:,
+              solid_profile: nil
             )
               flat_x = handle.body.right
               catch_step = handle.body.height / catch_divisions
@@ -38,8 +39,7 @@ module PublicV2
                   )
                 ),
                 marker: layout_point(Point.new(x: flat_x + marker_offset_x, y: handle.body.center_y + marker_offset_y)),
-                catches:,
-                radius:
+                solid_profile: solid_profile && plissee_lock_solid_profile(solid_profile, catches:, radius:)
               )
             end
 
@@ -66,8 +66,6 @@ module PublicV2
                   )
                 ),
                 marker: layout_point(Point.new(x: bottom_bar.body.center_x, y: bottom_bar.body.bottom + marker_offset_y)),
-                receiver_points:,
-                radius:,
                 solid_profile: solid_profile && magnetic_receiver_solid_profile(solid_profile, receiver_points:, radius:)
               )
             end
@@ -158,6 +156,21 @@ module PublicV2
                 right:,
                 tone: options.fetch(:tone, tone),
                 variant: options.fetch(:variant, :rail_bavettes),
+                tones: options.fetch(:tones, {})
+              )
+            end
+
+            def plissee_lock_solid_profile(config, catches:, radius:)
+              return config if config.is_a?(SolidAccessoryProfile)
+
+              options = closure_solid_profile_options(config)
+
+              SolidProfiles.plissee_lock(
+                id: options.fetch(:id),
+                catches:,
+                radius:,
+                echo_offsets: options.fetch(:echo_offsets, [34, 74, 114]),
+                catch_tone: options.fetch(:catch_tone, :point),
                 tones: options.fetch(:tones, {})
               )
             end

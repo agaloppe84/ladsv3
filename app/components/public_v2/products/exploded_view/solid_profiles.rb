@@ -126,7 +126,7 @@ module PublicV2
         end
       end
 
-      SolidAccessoryFeature = Struct.new(:id, :kind, :box, :tone, :rx, keyword_init: true) do
+      SolidAccessoryFeature = Struct.new(:id, :kind, :box, :path, :tone, :rx, keyword_init: true) do
         def self.coerce(value)
           value.is_a?(self) ? value : new(**value)
         end
@@ -140,7 +140,7 @@ module PublicV2
         end
 
         def rx
-          self[:rx] || box.rx || 0
+          self[:rx] || box&.rx || 0
         end
       end
 
@@ -792,6 +792,36 @@ module PublicV2
           )
         end
 
+        def plissee_lock(id:, catches:, radius:, echo_offsets: [34, 74, 114], catch_tone: :point, tones: {})
+          resolved_tones = ACCESSORY_TONES.merge((tones || {}).transform_keys(&:to_sym))
+          resolved_catch_tone = resolved_tones.fetch(catch_tone.to_sym, catch_tone.to_sym)
+
+          SolidAccessoryProfile.new(
+            id:,
+            variant: :plissee_lock,
+            features: catches.flat_map.with_index do |point, index|
+              [
+                SolidAccessoryFeature.new(
+                  id: "catch-#{index + 1}",
+                  kind: :path,
+                  box: accessory_arc_box(point, radius),
+                  path: accessory_half_disc_path(point, radius),
+                  tone: resolved_catch_tone
+                ),
+                *echo_offsets.map.with_index do |offset, echo_index|
+                  echo_radius = radius + offset
+                  SolidAccessoryFeature.new(
+                    id: "echo-#{index + 1}-#{echo_index + 1}",
+                    kind: :echo_path,
+                    box: accessory_arc_box(point, echo_radius),
+                    path: accessory_echo_path(point, echo_radius)
+                  )
+                end
+              ]
+            end
+          )
+        end
+
         def front_housing(
           id:,
           box:,
@@ -950,6 +980,28 @@ module PublicV2
               rx:
             )
           ]
+        end
+
+        def accessory_half_disc_path(point, radius)
+          "M#{point.x} #{point.y - radius}" \
+            "A#{radius} #{radius} 0 0 1 #{point.x} #{point.y + radius}" \
+            "L#{point.x} #{point.y - radius}Z"
+        end
+
+        def accessory_echo_path(point, radius)
+          "M#{point.x} #{point.y - radius}" \
+            "A#{radius} #{radius} 0 0 1 #{point.x} #{point.y + radius}"
+        end
+
+        def accessory_arc_box(point, radius)
+          padding = 6
+
+          Box.new(
+            x: point.x - padding,
+            y: point.y - radius - padding,
+            width: radius + (padding * 2),
+            height: (radius * 2) + (padding * 2)
+          )
         end
 
         def bar_features(box:, detail:, embouts:, grip:, extensions:, tabs:, features:, tones:)

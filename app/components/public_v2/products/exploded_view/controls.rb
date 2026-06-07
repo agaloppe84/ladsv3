@@ -76,10 +76,6 @@ module PublicV2
           )
         end
 
-        def cord_path
-          "M#{cord_top.x} #{cord_top.y}V#{cord_bottom.y}"
-        end
-
         def bead_points
           step = (cord_bottom.y - cord_top.y) / (bead_count - 1)
 

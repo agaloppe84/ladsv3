@@ -6,6 +6,7 @@ require_relative "store_duette"
 require_relative "store_rouleau_duo"
 require_relative "store_venitien"
 require_relative "store_vertical_zippe"
+require_relative "../blueprint_specs/validator"
 
 module PublicV2
   module Products
@@ -70,6 +71,14 @@ module PublicV2
             end.join("\n")
 
             raise ValidationError, "Blueprint validation failed:\n#{details}"
+          end
+
+          def self.validate_specs(root: BlueprintSpecs::Loader::DEFAULT_ROOT)
+            BlueprintSpecs::Validator.validate_all(root:)
+          end
+
+          def self.validate_specs!(root: BlueprintSpecs::Loader::DEFAULT_ROOT, output: $stdout)
+            BlueprintSpecs::Validator.validate_all!(root:, output:)
           end
 
           def initialize(blueprint)

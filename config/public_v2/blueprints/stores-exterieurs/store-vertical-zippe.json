@@ -1,0 +1,260 @@
+{
+  "schema_version": 1,
+  "product": {
+    "slug": "store-vertical-zippe",
+    "category": "stores-exterieurs",
+    "aliases": ["store-vertical"],
+    "manufacturer": "Coublanc Espalis",
+    "family": "Store vertical zippe"
+  },
+  "sources": [
+    {
+      "label": "Fiche produit LADS",
+      "type": "catalog_page",
+      "url": "https://www.lesartisansdustore.com/products/5-store-vertical-zippe",
+      "publisher": "Les Artisans du Store",
+      "confidence": "high"
+    },
+    {
+      "label": "Fiche ADS + PDF Coublanc Espalis",
+      "type": "technical_pdf",
+      "publisher": "Coublanc Espalis",
+      "confidence": "high",
+      "notes": "Source utilisee pour les dimensions principales du POC actuel."
+    }
+  ],
+  "technical_data": {
+    "source": "Fiche ADS + PDF Coublanc Espalis",
+    "width_range": "0,84 a 6 m",
+    "max_surface": "15 m2",
+    "reference_format": "6 x 2,50 m",
+    "reference_width_mm": 6000,
+    "reference_height_mm": 2500,
+    "coffre_profile_mm": "123 x 171",
+    "coulisse_profile_mm": "52 x 41",
+    "barre_charge_profile_mm": "114"
+  },
+  "render_options": {
+    "show_layout_grid": true,
+    "callout_animation_profile": "draw",
+    "accent": "#009e96"
+  },
+  "canvas": {
+    "columns": 64,
+    "rows": 38,
+    "cell": 120,
+    "margin": 60,
+    "major_every": 4,
+    "radius": 72,
+    "snap_unit": 10
+  },
+  "parts": [
+    {
+      "id": "coffre",
+      "number": "1",
+      "label": "Coffre extrude",
+      "measurement": "123 x 171 mm",
+      "detail": "Profil haut compact reconstruit depuis la coupe cotee du PDF Espalis, avec enveloppe, levres de facade et reperes d'embouts."
+    },
+    {
+      "id": "coulisses",
+      "number": "2",
+      "label": "Coulisses laterales",
+      "measurement": "52 x 41 mm",
+      "detail": "Guidage vertical du zip textile. Les deux coulisses partagent le meme etat de surbrillance pour garder la lecture symetrique."
+    },
+    {
+      "id": "toile",
+      "number": "3",
+      "label": "Toile zippee",
+      "measurement": "PVC micro-perfore ou plein",
+      "detail": "Surface tendue entre les coulisses. Le format de reference utilise 6 x 2,50 m pour rester coherent avec les 15 m2 maximum."
+    },
+    {
+      "id": "barre-charge",
+      "number": "4",
+      "label": "Barre de charge",
+      "measurement": "Profil 114 mm",
+      "detail": "Profil bas qui stabilise la toile et ferme la descente. La cote est reprise comme repere de profil dans le dessin."
+    },
+    {
+      "id": "motorisation",
+      "number": "5",
+      "label": "Motorisation",
+      "measurement": "Somfy selon configuration",
+      "detail": "Moteur tubulaire isole en vue eclatee au-dessus du coffre, avec tete moteur et axe d'enroulement separes pour clarifier l'assemblage."
+    },
+    {
+      "id": "supports",
+      "number": "6",
+      "label": "Supports et pose",
+      "measurement": "Fixation facade",
+      "detail": "Platines de fixation placees hors du coffre pour montrer la logique de pose et les points d'ancrage principaux."
+    }
+  ],
+  "metrics": [
+    {
+      "label": "Largeur documentee",
+      "value": "0,84 a 6 m",
+      "note": "Fiche ADS + PDF Coublanc Espalis"
+    },
+    {
+      "label": "Surface maximale",
+      "value": "15 m2",
+      "note": "Fiche ADS + PDF Coublanc Espalis"
+    },
+    {
+      "label": "Format POC",
+      "value": "6 x 2,50 m",
+      "note": "reconstruction proportionnelle 15 m2"
+    }
+  ],
+  "elements": [
+    {
+      "id": "motorisation",
+      "part_id": "motorisation",
+      "type": "motor",
+      "variant": "tubular",
+      "options": {
+        "head_preset": "motor_tubular_head",
+        "tube_preset": "motor_tubular_tube",
+        "tube_x": 4400,
+        "tube_cap_width": 180,
+        "solid_profile": "vertical-zippe-motorisation"
+      }
+    },
+    {
+      "id": "coffre",
+      "part_id": "coffre",
+      "type": "housing",
+      "variant": "front-coffre",
+      "box": { "x": 1020, "y": 1060, "width": 5760, "height": 260, "rx": 38 },
+      "options": {
+        "preset": "housing_zipped_coffre",
+        "solid_profile": "vertical-zippe-coffre",
+        "style": "front_coffre",
+        "points": false
+      }
+    },
+    {
+      "id": "toile",
+      "part_id": "toile",
+      "type": "fabric",
+      "variant": "zipped-solid",
+      "box": { "x": 1260, "y": 1740, "width": 5280, "height": 2040, "rx": 22 },
+      "options": {
+        "preset": "fabric_zipped",
+        "line_count": 35,
+        "tick_step": 2,
+        "pattern_id": "vertical-zippe-toile",
+        "pattern_style": "solid"
+      }
+    },
+    {
+      "id": "coulisses",
+      "part_id": "coulisses",
+      "type": "rail",
+      "variant": "zipped-coulisse-pair",
+      "options": {
+        "solid_profile": "vertical-zippe-coulisses",
+        "mirrored": true,
+        "attached_to": "toile"
+      }
+    },
+    {
+      "id": "barre-charge",
+      "part_id": "barre-charge",
+      "type": "bar",
+      "variant": "zipped-load",
+      "box": { "x": 1020, "y": 4060, "width": 5760, "height": 180, "rx": 34 },
+      "options": {
+        "preset": "bar_zipped_load",
+        "solid_profile": "vertical-zippe-barre-charge",
+        "embouts": true,
+        "grip": true
+      }
+    },
+    {
+      "id": "supports",
+      "part_id": "supports",
+      "type": "support",
+      "variant": "mount-pair",
+      "options": {
+        "solid_profile": "vertical-zippe-supports",
+        "mirrored": true
+      }
+    }
+  ],
+  "groups": [
+    {
+      "id": "motorisation",
+      "element_ids": ["motorisation"],
+      "attached": true
+    },
+    {
+      "id": "toile-coulisses",
+      "element_ids": ["toile", "coulisses"]
+    },
+    {
+      "id": "coffre-toile-barre",
+      "element_ids": ["coffre", "toile", "barre-charge"]
+    }
+  ],
+  "callouts": [
+    {
+      "part_id": "coffre",
+      "marker": { "x": 6940, "y": 1190 },
+      "placement": "top_housing",
+      "label_side": "right",
+      "first_length": 225,
+      "second_length": 390,
+      "text_offset_x": 76
+    },
+    {
+      "part_id": "coulisses",
+      "marker": { "x": 410, "y": 2760 },
+      "placement": "left_vertical_pair",
+      "first_length": 285,
+      "second_length": 190
+    },
+    {
+      "part_id": "toile",
+      "marker": { "x": 3900, "y": 2760 },
+      "placement": "center_fabric",
+      "label_side": "right",
+      "first_length": 265,
+      "second_length": 390,
+      "text_offset_x": 76
+    },
+    {
+      "part_id": "barre-charge",
+      "marker": { "x": 6900, "y": 4150 },
+      "placement": "bottom_bar",
+      "first_length": 95,
+      "second_length": 500,
+      "text_offset_x": -72,
+      "text_anchor": "end"
+    },
+    {
+      "part_id": "motorisation",
+      "marker": { "x": 6930, "y": 765 },
+      "placement": "top_housing",
+      "second_length": 380,
+      "text_offset_x": -72,
+      "text_anchor": "end"
+    },
+    {
+      "part_id": "supports",
+      "marker": { "x": 6718, "y": 305 },
+      "placement": "top_rail",
+      "first_length": 180,
+      "text_offset_x": -72,
+      "text_anchor": "end"
+    }
+  ],
+  "validation": {
+    "require_solid_renderers": true,
+    "forbid_raw_svg": true,
+    "snap_major_widths": true
+  }
+}

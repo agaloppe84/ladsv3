@@ -303,7 +303,10 @@ module PublicV2
               hit_inset_y: 85,
               hit_width: 260,
               marker_offset_x: 390,
-              marker_offset_y: -230
+              marker_offset_y: -230,
+              solid_profile: {
+                id: "plissee-verrouillage"
+              }
             )
           end
         end

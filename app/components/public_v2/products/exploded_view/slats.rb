@@ -201,10 +201,6 @@ module PublicV2
           slat_bottom + 110
         end
 
-        def cord_path
-          cord_xs.map { |x| cord_segments_for(x).join }.join
-        end
-
         def cord_segment_boxes(segment_width: 12)
           half_width = segment_width / 2
 
@@ -231,10 +227,6 @@ module PublicV2
 
         def slat_corner_radius
           [16, slat_height / 4, tilt / 2].min
-        end
-
-        def cord_segments_for(x)
-          cord_segment_ranges.map { |top, bottom| "M#{x} #{top}V#{bottom}" }
         end
 
         def cord_segment_ranges
