@@ -177,6 +177,32 @@
     <%= part_group("cordons-guidage", class_suffix: "duette-cordons", hit: layout.cords.hit, marker: layout.cords.marker) do %>
       <%= solid_control_profile(layout.cords.solid_profile) %>
     <% end %>
+  <% elsif venetian_layout? %>
+    <%= part_group("boitier-haut", class_suffix: "venitien-boitier", hit: layout.headrail.hit, marker: layout.headrail.marker) do %>
+      <%= solid_profile(layout.headrail.solid_profile) %>
+    <% end %>
+
+    <%= part_group("supports-pose", class_suffix: "venitien-supports", hit: layout.supports.hit, marker: layout.supports.marker) do %>
+      <% %i[left right].each do |side| %>
+        <%= solid_support_profile(layout.supports.solid_profile_for(side)) %>
+      <% end %>
+    <% end %>
+
+    <%= part_group("lames-orientables", class_suffix: "venitien-lames", hit: layout.slats.hit, marker: layout.slats.marker) do %>
+      <%= slat_pattern(layout.slats.slat_pattern) %>
+    <% end %>
+
+    <%= part_group("cordons-echelles", class_suffix: "venitien-cordons", hit: venetian_cord_hit_box, marker: layout.callout("cordons-echelles").marker) do %>
+      <%= solid_control_profile(layout.slats.cord_solid_profile) %>
+    <% end %>
+
+    <%= part_group("barre-finale", class_suffix: "venitien-barre", hit: layout.bottom_bar.hit, marker: layout.bottom_bar.marker) do %>
+      <%= solid_bar_profile(layout.bottom_bar.solid_profile) %>
+    <% end %>
+
+    <%= part_group("commande", class_suffix: "venitien-commande", hit: layout.control.hit, marker: layout.control.marker) do %>
+      <%= solid_control_profile(layout.control.solid_profile) %>
+    <% end %>
   <% else %>
     <% unsupported_layout! %>
   <% end %>

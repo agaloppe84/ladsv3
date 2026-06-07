@@ -110,6 +110,10 @@ module PublicV2
           layout.respond_to?(:top_rail) && layout.respond_to?(:intermediate_rail) && layout.respond_to?(:cords)
         end
 
+        def venetian_layout?
+          layout.respond_to?(:headrail) && layout.respond_to?(:slats) && layout.respond_to?(:control)
+        end
+
         def right_vertical_pair_hit_box(rails, hit_offset: 80)
           Box.new(
             x: rails.right.x - hit_offset,
@@ -118,6 +122,16 @@ module PublicV2
             height: rails.hit.height,
             rx: rails.hit.rx
           )
+        end
+
+        def venetian_cord_hit_box
+          xs = layout.slats.cord_xs
+          left = xs.min - 74
+          right = xs.max + 74
+          top = layout.slats.cord_top - 90
+          bottom = layout.slats.cord_bottom + 90
+
+          Box.new(x: left, y: top, width: right - left, height: bottom - top, rx: 0)
         end
 
         def unsupported_layout!

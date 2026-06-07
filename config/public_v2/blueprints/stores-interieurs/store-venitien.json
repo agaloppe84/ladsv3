@@ -1,0 +1,280 @@
+{
+  "schema_version": 1,
+  "product": {
+    "slug": "store-venitien",
+    "category": "stores-interieurs",
+    "manufacturer": "Luxaflex",
+    "family": "Store venitien aluminium"
+  },
+  "sources": [
+    {
+      "label": "Page LADS + documentation publique Luxaflex",
+      "type": "catalog_page",
+      "publisher": "Luxaflex",
+      "confidence": "medium",
+      "notes": "Source reprise du POC Ruby legacy ; les fiches techniques fabricant devront etre consolidees lors d'une future passe source."
+    }
+  ],
+  "technical_data": {
+    "source": "Page LADS + documentation publique Luxaflex",
+    "manufacturer": "Luxaflex",
+    "product_family": "Store venitien aluminium",
+    "reference_format": "2,40 x 2,20 m",
+    "reference_width_mm": 2400,
+    "reference_height_mm": 2200,
+    "slat_widths_mm": "25 / 50 / 70",
+    "movement": "Cordon, tige, chainette, LiteRise ou PowerView",
+    "finish_count": "70 coloris",
+    "pose": "Fixation haute"
+  },
+  "render_options": {
+    "show_layout_grid": true,
+    "callout_animation_profile": "draw",
+    "accent": "#00a8a0"
+  },
+  "canvas": {
+    "columns": 64,
+    "rows": 33,
+    "cell": 120,
+    "margin": 60,
+    "major_every": 4,
+    "radius": 72,
+    "snap_unit": 10
+  },
+  "parts": [
+    {
+      "id": "boitier-haut",
+      "number": "1",
+      "label": "Boitier haut",
+      "measurement": "Luxaflex",
+      "detail": "Rail superieur de store venitien, reconstruit en volume simple avec points de fixation et lecture longitudinale."
+    },
+    {
+      "id": "lames-orientables",
+      "number": "2",
+      "label": "Lames orientables",
+      "measurement": "25 / 50 / 70 mm",
+      "detail": "Pack de lames aluminium incline, distribue regulierement pour tester les elements repetitifs et les variations d'orientation."
+    },
+    {
+      "id": "cordons-echelles",
+      "number": "3",
+      "label": "Cordons et echelles",
+      "measurement": "Inclinaison et levage",
+      "detail": "Cordons verticaux et echelles de maintien positionnes sur la grille des lames pour verifier la coherence du dessin technique."
+    },
+    {
+      "id": "barre-finale",
+      "number": "4",
+      "label": "Barre finale",
+      "measurement": "Profil bas",
+      "detail": "Barre basse separee du tablier pour garder une lecture eclatee nette et reutiliser la famille de barres horizontales."
+    },
+    {
+      "id": "commande",
+      "number": "5",
+      "label": "Commande",
+      "measurement": "Cordon, tige, chainette, LiteRise ou PowerView",
+      "detail": "Tige et cordon dessines a droite du tablier pour representer une commande manuelle simple sans figer les options motorisees."
+    },
+    {
+      "id": "supports-pose",
+      "number": "6",
+      "label": "Supports de pose",
+      "measurement": "Fixation haute",
+      "detail": "Supports hauts symetriques, isoles au-dessus du boitier pour expliciter la logique de pose sans surcharger le rail."
+    }
+  ],
+  "metrics": [
+    {
+      "label": "Fabricant",
+      "value": "Luxaflex",
+      "note": "Page LADS + documentation publique Luxaflex"
+    },
+    {
+      "label": "Largeurs de lames",
+      "value": "25 / 50 / 70 mm",
+      "note": "70 coloris"
+    },
+    {
+      "label": "Format POC",
+      "value": "2,40 x 2,20 m",
+      "note": "reconstruction proportionnelle"
+    }
+  ],
+  "elements": [
+    {
+      "id": "boitier-haut",
+      "part_id": "boitier-haut",
+      "type": "rail",
+      "variant": "horizontal-guide",
+      "box": { "x": 1040, "y": 500, "width": 5460, "height": 230, "rx": 40 },
+      "options": {
+        "preset": "rail_venetian_head",
+        "marker_gap": 168,
+        "hit_inset_x": 120,
+        "hit_inset_y": 95,
+        "screw_side_inset": 820,
+        "inner_inset_y": 64,
+        "solid_profile": "venitien-boitier-haut",
+        "point_radius": 24
+      }
+    },
+    {
+      "id": "supports-pose",
+      "part_id": "supports-pose",
+      "type": "support",
+      "variant": "mount-pair",
+      "options": {
+        "gap": 150,
+        "width": 300,
+        "height": 210,
+        "inset_x": 710,
+        "rx": 38,
+        "marker_gap": 90,
+        "hit_inset_x": 80,
+        "hit_inset_y": 80,
+        "solid_profile": "venitien-supports-pose",
+        "point_inset": 96,
+        "detail_inset_x": 40,
+        "detail_inset_y": 62
+      }
+    },
+    {
+      "id": "lames-orientables",
+      "part_id": "lames-orientables",
+      "type": "slat",
+      "variant": "venetian-pack",
+      "box": { "x": 1320, "y": 1150, "width": 5080, "height": 1920, "rx": 14 },
+      "options": {
+        "preset": "slat_venetian_pack",
+        "marker_gap": 168,
+        "hit_inset_x": 95,
+        "hit_inset_y": 95,
+        "slat_count": 14,
+        "slat_height": 80,
+        "tilt": 50,
+        "ladder_offsets": [760, "center", -760],
+        "lift_cord_offsets": [1300, -1300],
+        "pattern_id": "venitien-lames-orientables",
+        "tone_cycle": ["light", "mid", "light", "mid"]
+      }
+    },
+    {
+      "id": "cordons-echelles",
+      "part_id": "cordons-echelles",
+      "type": "control",
+      "variant": "cord-pair",
+      "options": {
+        "solid_profile": "venitien-cordons-echelles",
+        "segment_width": 12,
+        "point_radius": 17
+      }
+    },
+    {
+      "id": "barre-finale",
+      "part_id": "barre-finale",
+      "type": "bar",
+      "variant": "threshold",
+      "box": { "x": 1320, "y": 3370, "width": 5080, "height": 140, "rx": 30 },
+      "options": {
+        "preset": "bar_venetian_bottom",
+        "marker_gap": 168,
+        "hit_inset_x": 100,
+        "hit_inset_y": 90,
+        "detail_inset_x": 180,
+        "tick_inset_x": 690,
+        "tick_inset_y": 28,
+        "solid_profile": "venitien-barre-finale",
+        "detail": {
+          "height": 8,
+          "inset_x": 180
+        }
+      }
+    },
+    {
+      "id": "commande",
+      "part_id": "commande",
+      "type": "control",
+      "variant": "venetian-wand",
+      "options": {
+        "preset": "control_venetian_wand",
+        "gap": "exploded_lg",
+        "width": 64,
+        "rx": 26,
+        "marker_gap": 168,
+        "hit_inset_x": 90,
+        "hit_inset_y": 90,
+        "cord_offset_x": 210,
+        "cord_top_offset_y": 20,
+        "cord_bottom_offset_y": -20,
+        "bead_count": 11,
+        "solid_profile": "venitien-commande",
+        "segment_width": 12,
+        "bead_radius": 20
+      }
+    }
+  ],
+  "groups": [
+    {
+      "id": "tablier-venitien",
+      "element_ids": ["boitier-haut", "lames-orientables", "barre-finale"]
+    },
+    {
+      "id": "pose-haute",
+      "element_ids": ["boitier-haut", "supports-pose"]
+    },
+    {
+      "id": "lames-cordons",
+      "element_ids": ["lames-orientables", "cordons-echelles"],
+      "attached": true
+    },
+    {
+      "id": "commande-laterale",
+      "element_ids": ["commande"]
+    }
+  ],
+  "callouts": [
+    {
+      "part_id": "boitier-haut",
+      "marker": { "x": 6668, "y": 615 },
+      "placement": "top_rail"
+    },
+    {
+      "part_id": "lames-orientables",
+      "marker": { "x": 3860, "y": 982 },
+      "placement": "side_fabric",
+      "first_length": 430
+    },
+    {
+      "part_id": "cordons-echelles",
+      "marker": { "x": 1910, "y": 2110 },
+      "placement": "left_detail",
+      "first_length": 360
+    },
+    {
+      "part_id": "barre-finale",
+      "marker": { "x": 6568, "y": 3440 },
+      "placement": "bottom_rail"
+    },
+    {
+      "part_id": "commande",
+      "marker": { "x": 7230, "y": 2110 },
+      "placement": "right_detail_up",
+      "first_length": 360
+    },
+    {
+      "part_id": "supports-pose",
+      "marker": { "x": 5880, "y": 245 },
+      "route": "right",
+      "first_length": 360
+    }
+  ],
+  "validation": {
+    "require_solid_renderers": true,
+    "forbid_raw_svg": true,
+    "snap_to_grid": {
+      "major_width_elements": ["boitier-haut", "lames-orientables", "barre-finale"]
+    }
+  }
+}

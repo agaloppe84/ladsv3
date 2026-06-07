@@ -20,6 +20,8 @@ module PublicV2
 
           def build
             case blueprint.spec.product_slug
+            when "store-venitien"
+              build_store_venitien
             when "store-duette"
               build_store_duette
             when "moustiquaire-plissee"
@@ -34,6 +36,192 @@ module PublicV2
           end
 
           private
+
+          def build_store_venitien
+            headrail = build_venetian_headrail
+            supports = build_venetian_supports(headrail:)
+            slats = build_venetian_slats(headrail:)
+            bottom_bar = build_venetian_bottom_bar(slats:)
+            control = build_venetian_control(slats:)
+            groups = build_venetian_groups(headrail:, supports:, slats:, bottom_bar:, control:)
+            callouts = build_venetian_callouts(groups:)
+
+            VenetianDrawingLayout.new(
+              svg_width: canvas_spec.svg_width,
+              svg_height: canvas_spec.svg_height,
+              grid: layout_grid,
+              groups:,
+              headrail:,
+              slats:,
+              bottom_bar:,
+              control:,
+              supports:,
+              callouts:
+            )
+          end
+
+          def build_venetian_headrail
+            element = assembled.element("boitier-haut")
+            options = element.options
+            box = required_box(element)
+
+            horizontal_rail_element(
+              preset: option_symbol(options, "preset"),
+              x: box.x,
+              y: box.y,
+              width: box.width,
+              height: box.height,
+              rx: box.rx,
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              screw_side_inset: options.fetch("screw_side_inset"),
+              inner_inset_y: options.fetch("inner_inset_y"),
+              solid_profile: solid_profile_config(options).merge(
+                point_radius: options.fetch("point_radius")
+              )
+            )
+          end
+
+          def build_venetian_supports(headrail:)
+            element = assembled.element("supports-pose")
+            options = element.options
+
+            mount_support_pair_element(
+              reference: headrail.body,
+              gap: option_gap(options, "gap"),
+              width: options.fetch("width"),
+              height: options.fetch("height"),
+              inset_x: options.fetch("inset_x"),
+              marker_gap: options.fetch("marker_gap"),
+              pair_class: VenetianSupportPair,
+              rx: options.fetch("rx"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              solid_profile: {
+                id: options.fetch("solid_profile"),
+                point_inset: options.fetch("point_inset"),
+                detail_inset_x: options.fetch("detail_inset_x"),
+                detail_inset_y: options.fetch("detail_inset_y")
+              }
+            )
+          end
+
+          def build_venetian_slats(headrail:)
+            element = assembled.element("lames-orientables")
+            options = element.options
+            box = required_box(element)
+            slats = venetian_slat_pack_element(
+              reference: headrail.body,
+              preset: option_symbol(options, "preset"),
+              gap: box.y - headrail.body.bottom,
+              x: box.x,
+              width: box.width,
+              height: box.height,
+              rx: box.rx,
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              slat_count: options.fetch("slat_count"),
+              slat_height: options.fetch("slat_height"),
+              tilt: options.fetch("tilt"),
+              ladder_offsets: x_offsets(options.fetch("ladder_offsets")),
+              lift_cord_offsets: x_offsets(options.fetch("lift_cord_offsets"))
+            )
+
+            slats = slats.with_slat_pattern(
+              SlatPatterns.venetian_pack(
+                id: options.fetch("pattern_id"),
+                slats:,
+                tone_cycle: symbol_list(options.fetch("tone_cycle"))
+              )
+            )
+            cord_options = assembled.element("cordons-echelles").options
+
+            slats.with_cord_solid_profile(
+              SolidProfiles.control_segments(
+                id: cord_options.fetch("solid_profile"),
+                variant: :venetian_ladder_cords,
+                segment_boxes: slats.cord_segment_boxes(segment_width: cord_options.fetch("segment_width")),
+                points: slats.cord_points,
+                point_radius: cord_options.fetch("point_radius")
+              )
+            )
+          end
+
+          def build_venetian_bottom_bar(slats:)
+            element = assembled.element("barre-finale")
+            options = element.options
+            box = required_box(element)
+
+            threshold_bar_element(
+              reference: slats.body,
+              preset: option_symbol(options, "preset"),
+              gap: box.y - slats.body.bottom,
+              x: box.x,
+              width: box.width,
+              height: box.height,
+              rx: box.rx,
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              detail_inset_x: options.fetch("detail_inset_x"),
+              tick_inset_x: options.fetch("tick_inset_x"),
+              tick_inset_y: options.fetch("tick_inset_y"),
+              solid_profile: solid_profile_config(options).merge(
+                detail: options.fetch("detail")
+              )
+            )
+          end
+
+          def build_venetian_control(slats:)
+            element = assembled.element("commande")
+            options = element.options
+            control = venetian_control_element(
+              reference: slats.body,
+              preset: option_symbol(options, "preset"),
+              gap: option_gap(options, "gap"),
+              y: slats.slat_top,
+              width: options.fetch("width"),
+              height: slats.slat_bottom - slats.slat_top,
+              rx: options.fetch("rx"),
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              cord_offset_x: options.fetch("cord_offset_x"),
+              cord_top_offset_y: options.fetch("cord_top_offset_y"),
+              cord_bottom_offset_y: options.fetch("cord_bottom_offset_y"),
+              bead_count: options.fetch("bead_count")
+            )
+
+            control.with_solid_profile(
+              SolidProfiles.wand_control(
+                id: options.fetch("solid_profile"),
+                body: control.body,
+                cord_x: control.cord_top.x,
+                top: control.cord_top.y,
+                bottom: control.cord_bottom.y,
+                bead_ys: control.bead_points.map(&:y),
+                segment_width: options.fetch("segment_width"),
+                bead_radius: options.fetch("bead_radius")
+              )
+            )
+          end
+
+          def build_venetian_groups(headrail:, supports:, slats:, bottom_bar:, control:)
+            {
+              "tablier-venitien" => LayoutGroup.new(id: "tablier-venitien", boxes: [headrail.body, slats.body, bottom_bar.body]),
+              "pose-haute" => LayoutGroup.new(id: "pose-haute", boxes: [headrail.body, supports.left, supports.right]),
+              "lames-cordons" => LayoutGroup.attached(id: "lames-cordons", boxes: [slats.body]),
+              "commande-laterale" => LayoutGroup.new(id: "commande-laterale", boxes: [control.body])
+            }
+          end
+
+          def build_venetian_callouts(groups:)
+            assembled.callouts.each_with_object({}) do |definition, callouts|
+              callouts[definition.part_id] = callout_from_definition(definition, groups:)
+            end
+          end
 
           def build_store_duette
             top_rail = build_duette_top_rail
@@ -889,8 +1077,16 @@ module PublicV2
             value.is_a?(String) ? value.to_sym : value
           end
 
+          def x_offsets(values)
+            values.map { |value| value == "center" ? :center : value }
+          end
+
           def thread_offsets(values)
             values.map { |value| value == "center" ? :center : value }
+          end
+
+          def symbol_list(values)
+            values.map { |value| value.to_sym }
           end
 
           def canvas_spec

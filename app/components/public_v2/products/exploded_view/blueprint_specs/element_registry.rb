@@ -20,6 +20,7 @@ module PublicV2
             Entry.new(type: "closure", variant: "plissee-lock", renderer_family: "solid_accessory_profile", status: "supported"),
             Entry.new(type: "closure", variant: "rail-bavettes", renderer_family: "solid_accessory_profile", status: "supported"),
             Entry.new(type: "control", variant: "cord-pair", renderer_family: "solid_control_profile", status: "supported"),
+            Entry.new(type: "control", variant: "venetian-wand", renderer_family: "solid_control_profile", status: "supported"),
             Entry.new(type: "fabric", variant: "bordered-grid-solid", renderer_family: "fabric_pattern", status: "supported"),
             Entry.new(type: "fabric", variant: "honeycomb-solid", renderer_family: "fabric_pattern", status: "supported"),
             Entry.new(type: "fabric", variant: "pleated-solid", renderer_family: "fabric_pattern", status: "supported"),
@@ -32,6 +33,7 @@ module PublicV2
             Entry.new(type: "rail", variant: "horizontal-guide", renderer_family: "solid_profile", status: "supported"),
             Entry.new(type: "rail", variant: "profile-pair", renderer_family: "solid_profile", status: "supported"),
             Entry.new(type: "rail", variant: "zipped-coulisse-pair", renderer_family: "solid_profile", status: "supported"),
+            Entry.new(type: "slat", variant: "venetian-pack", renderer_family: "slat_pattern", status: "supported"),
             Entry.new(type: "support", variant: "mount-pair", renderer_family: "solid_support_profile", status: "supported")
           ].freeze
 

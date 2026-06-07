@@ -61,6 +61,19 @@ Objectif final :
 - un renderer generique qui assemble les objets parametriques existants ;
 - affichage du composant sur `product/show` uniquement si une spec JSON existe pour le `product.slug`.
 
+Architecture finale attendue :
+
+- `product/show` demande uniquement un blueprint JSON par slug produit ;
+- `DataBlueprint` lit la spec et expose les donnees front ;
+- `Assembler` normalise les elements, groupes et callouts ;
+- `DataLayoutBuilder` transforme la data en primitives de layout ;
+- les presets de layout reduisent les positions explicites au strict necessaire ;
+- les presets de callouts fournissent les routes standards par slot de layout ;
+- `GenericDrawingComponent` rend tous les produits avec les familles generiques ;
+- les fichiers Ruby produits et templates produits sont supprimes ;
+- les helpers filaires et classes CSS legacy sont retires ou limites au debug ;
+- les nouveaux produits enrichissent la librairie d'elements au lieu de creer un dessin one-shot.
+
 Emplacement cible des specs :
 
 ```text
@@ -127,7 +140,7 @@ Assemblage JSON :
   `callout(part_id)` et la liste des familles de rendu necessaires.
 - `BlueprintSpecs::DataLayoutBuilder` transforme la spec assemblee en layout Ruby.
   Au stade actuel, `store-vertical-zippe`, `moustiquaire-enroulable-verticale`,
-  `moustiquaire-plissee` et `store-duette` sont supportes.
+  `moustiquaire-plissee`, `store-duette` et `store-venitien` sont supportes.
 - `GenericDrawingComponent` sait rendre les layouts data-driven supportes
   en mode objet plein. Il est utilise par `product/show` via `blueprint_source: :json`.
 
@@ -141,6 +154,7 @@ Couples JSON supportes au stade actuel :
 - `closure:plissee-lock` -> `solid_accessory_profile`
 - `closure:rail-bavettes` -> `solid_accessory_profile`
 - `control:cord-pair` -> `solid_control_profile`
+- `control:venetian-wand` -> `solid_control_profile`
 - `fabric:bordered-grid-solid` -> `fabric_pattern`
 - `fabric:honeycomb-solid` -> `fabric_pattern`
 - `fabric:pleated-solid` -> `fabric_pattern`
@@ -153,6 +167,7 @@ Couples JSON supportes au stade actuel :
 - `rail:horizontal-guide` -> `solid_profile`
 - `rail:profile-pair` -> `solid_profile`
 - `rail:zipped-coulisse-pair` -> `solid_profile`
+- `slat:venetian-pack` -> `slat_pattern`
 - `support:mount-pair` -> `solid_support_profile`
 
 Prochaine migration technique :
@@ -160,8 +175,9 @@ Prochaine migration technique :
 1. Convertir chaque blueprint existant en JSON sans modifier son rendu valide.
    Les specs de reference actuelles sont `stores-exterieurs/store-vertical-zippe.json`,
    `moustiquaires/moustiquaire-enroulable-verticale.json`,
-   `moustiquaires/moustiquaire-plissee.json` et
-   `stores-interieurs/store-duette.json`.
+   `moustiquaires/moustiquaire-plissee.json`,
+   `stores-interieurs/store-duette.json` et
+   `stores-interieurs/store-venitien.json`.
 2. Utiliser `DataBlueprint` pour lire les specs et exposer parts, metrics, technical
    data, theme, render options, layout config, elements assembles, groups, callouts
    et matching par slug/alias.
@@ -192,9 +208,11 @@ Mode de chargement controle :
 
 Objectif du prochain basculement :
 
-1. verifier visuellement `store-vertical-zippe` sur `product/show` en mode JSON ;
+1. verifier visuellement chaque nouveau blueprint JSON sur `product/show` ;
 2. corriger les ecarts visuels du renderer generique ;
-3. convertir le prochain blueprint en JSON sans reactiver de fallback legacy.
+3. convertir le prochain blueprint en JSON sans reactiver de fallback legacy ;
+4. quand tous les blueprints existants sont convertis, supprimer les fichiers Ruby
+   et templates specifiques produits devenus inutiles.
 
 ## Options de rendu
 
@@ -258,6 +276,35 @@ Regles d'espacement :
 - Les objets symetriques doivent etre generes depuis une seule source de verite.
 - Ne pas regler separement gauche/droite sauf asymetrie reelle du produit.
 
+## Presets de layout cibles
+
+Le systeme doit evoluer vers des presets de layout reutilisables.
+L'objectif est d'eviter de recalculer manuellement les positions pour chaque produit.
+
+Familles de presets a construire progressivement :
+
+- `top_housing_with_fabric` : coffre ou rail haut, toile centree, barre basse ;
+- `side_guided_fabric` : toile centrale avec coulisses/profils lateraux symetriques ;
+- `slatted_pack` : boitier haut, pack de lames, cordons/echelles, commande laterale ;
+- `pleated_lateral` : guide haut, profils lateraux, toile plissee, poignee, seuil ;
+- `roller_duo` : tube ou rail haut, toile double couche, barre de charge, commande.
+
+Chaque preset doit definir :
+
+- les slots disponibles ;
+- les gaps nommes par defaut ;
+- les regles d'attachement entre elements ;
+- les contraintes de snap sur grosse grille ;
+- les positions de callouts recommandees par slot ;
+- les overrides autorises pour les cas particuliers.
+
+Regle de progression :
+
+- pendant la migration JSON, les positions explicites restent acceptees ;
+- apres migration complete, extraire les constantes recurrentes dans des presets ;
+- un nouveau blueprint doit d'abord choisir un preset global, puis ne declarer que
+  les variations produit necessaires.
+
 ## Regles de callouts
 
 Un callout est compose de :
@@ -276,9 +323,37 @@ Regles :
 - Eviter toute collision entre texte, callout et produit.
 - Le callout doit pointer vers l'objet visuel reel, pas vers une boite decorative.
 
+### Presets de callouts cibles
+
+Les callouts doivent etre lies aux presets de layout.
+
+Direction cible :
+
+- chaque slot global expose une position de marqueur recommandee ;
+- chaque slot expose une route recommandee : droite, gauche, haut, bas, auto,
+  ligne droite ou ligne coudee ;
+- les groupes attaches peuvent recevoir un callout sur le groupe plutot que sur
+  une seule piece ;
+- les elements tres proches doivent partager des regles de collision communes ;
+- les overrides JSON restent possibles, mais doivent rester rares et lisibles.
+
+Quand un nouveau callout est ajoute :
+
+- utiliser un preset existant si possible ;
+- si le placement revient sur plusieurs blueprints, creer un preset ;
+- si le placement est specifique a un produit, le laisser en override JSON.
+
 ## Rendu objet plein
 
 La direction finale est le rendu objet plein.
+
+Regle de chantier :
+
+- ne plus introduire de nouveau rendu filaire principal ;
+- si un element est encore filaire, le convertir avec une famille parametrique ;
+- si aucune famille existante ne convient, creer une nouvelle variante generique ;
+- ne pas mettre de SVG code en dur dans un template pour corriger un produit ;
+- les templates specifiques produits sont temporaires et doivent disparaitre.
 
 Familles reutilisables actuelles :
 
