@@ -51,13 +51,20 @@ module PublicV2
                 point_inset: options[:point_inset],
                 point_radius: options.fetch(:point_radius, 20),
                 point_specs: options[:point_specs],
-                detail_inset_x: options.fetch(:detail_inset_x, 42),
-                detail_inset_y: options.fetch(:detail_inset_y, 62),
-                detail_height: options.fetch(:detail_height, 10),
-                detail_rows: options[:detail_rows],
-                detail_style: options.fetch(:detail_style, :horizontal_pair),
+                accent_inset_x: support_option(options, :accent_inset_x, legacy_name: :detail_inset_x, default: 42),
+                accent_inset_y: support_option(options, :accent_inset_y, legacy_name: :detail_inset_y, default: 62),
+                accent_height: support_option(options, :accent_height, legacy_name: :detail_height, default: 10),
+                accent_rows: support_option(options, :accent_rows, legacy_name: :detail_rows),
+                accent_style: support_option(options, :accent_style, legacy_name: :detail_style, default: :horizontal_pair),
                 tones: options.fetch(:tones, {})
               )
+            end
+
+            def support_option(options, name, legacy_name:, default: nil)
+              return options.fetch(name) if options.key?(name)
+              return options.fetch(legacy_name) if options.key?(legacy_name)
+
+              default
             end
 
             def solid_support_profile_options(config)

@@ -378,7 +378,7 @@ module PublicV2
         }.freeze
         SUPPORT_TONES = {
           body: :light,
-          detail: :mid,
+          accent: :mid,
           point: :dark
         }.freeze
         CONTROL_TONES = {
@@ -502,11 +502,11 @@ module PublicV2
           point_inset: nil,
           point_radius: 20,
           point_specs: nil,
-          detail_inset_x: 42,
-          detail_inset_y: 62,
-          detail_height: 10,
-          detail_rows: nil,
-          detail_style: :horizontal_pair,
+          accent_inset_x: 42,
+          accent_inset_y: 62,
+          accent_height: 10,
+          accent_rows: nil,
+          accent_style: :horizontal_pair,
           tones: {}
         )
           {
@@ -516,11 +516,11 @@ module PublicV2
               point_inset:,
               point_radius:,
               point_specs:,
-              detail_inset_x:,
-              detail_inset_y:,
-              detail_height:,
-              detail_rows:,
-              detail_style:,
+              accent_inset_x:,
+              accent_inset_y:,
+              accent_height:,
+              accent_rows:,
+              accent_style:,
               tones:
             ),
             right: mount_support(
@@ -529,11 +529,11 @@ module PublicV2
               point_inset:,
               point_radius:,
               point_specs:,
-              detail_inset_x:,
-              detail_inset_y:,
-              detail_height:,
-              detail_rows:,
-              detail_style:,
+              accent_inset_x:,
+              accent_inset_y:,
+              accent_height:,
+              accent_rows:,
+              accent_style:,
               tones:
             )
           }
@@ -545,28 +545,30 @@ module PublicV2
           point_inset: nil,
           point_radius: 20,
           point_specs: nil,
-          detail_inset_x: 42,
-          detail_inset_y: 62,
-          detail_height: 10,
-          detail_rows: nil,
-          detail_style: :horizontal_pair,
+          accent_inset_x: 42,
+          accent_inset_y: 62,
+          accent_height: 10,
+          accent_rows: nil,
+          accent_style: :horizontal_pair,
           tones: {}
         )
-          resolved_tones = SUPPORT_TONES.merge((tones || {}).transform_keys(&:to_sym))
+          support_tones = (tones || {}).transform_keys(&:to_sym)
+          support_tones[:accent] ||= support_tones[:detail] if support_tones.key?(:detail)
+          resolved_tones = SUPPORT_TONES.merge(support_tones)
 
           SolidSupportProfile.new(
             id:,
             variant: :mount_support,
             body: box,
             body_tone: resolved_tones.fetch(:body),
-            features: support_detail_features(
+            features: support_accent_features(
               box:,
-              inset_x: detail_inset_x,
-              inset_y: detail_inset_y,
-              height: detail_height,
-              rows: detail_rows,
-              style: detail_style,
-              tone: resolved_tones.fetch(:detail)
+              inset_x: accent_inset_x,
+              inset_y: accent_inset_y,
+              height: accent_height,
+              rows: accent_rows,
+              style: accent_style,
+              tone: resolved_tones.fetch(:accent)
             ),
             points: support_points(
               box:,
@@ -870,23 +872,23 @@ module PublicV2
           )
         end
 
-        def support_detail_features(box:, inset_x:, inset_y:, height:, rows:, style:, tone:)
-          return support_row_detail_features(box:, rows:, default_height: height, tone:) if rows
-          return support_cross_detail_features(box:, inset_x:, inset_y:, height:, tone:) if style.to_sym == :center_cross
+        def support_accent_features(box:, inset_x:, inset_y:, height:, rows:, style:, tone:)
+          return support_row_accent_features(box:, rows:, default_height: height, tone:) if rows
+          return support_cross_accent_features(box:, inset_x:, inset_y:, height:, tone:) if style.to_sym == :center_cross
 
           width = box.width - (inset_x * 2)
           rx = height / 2
 
           [
             SolidSupportFeature.new(
-              id: "top-detail",
+              id: "top-accent",
               kind: :rect,
               box: Box.new(x: box.x + inset_x, y: box.y + inset_y, width:, height:, rx:),
               tone:,
               rx:
             ),
             SolidSupportFeature.new(
-              id: "bottom-detail",
+              id: "bottom-accent",
               kind: :rect,
               box: Box.new(x: box.x + inset_x, y: box.bottom - inset_y - height, width:, height:, rx:),
               tone:,
@@ -895,7 +897,7 @@ module PublicV2
           ]
         end
 
-        def support_row_detail_features(box:, rows:, default_height:, tone:)
+        def support_row_accent_features(box:, rows:, default_height:, tone:)
           rows.map.with_index do |row, index|
             options = row.transform_keys(&:to_sym)
             height = options.fetch(:height, default_height)
@@ -905,7 +907,7 @@ module PublicV2
             rx = options.fetch(:rx, height / 2)
 
             SolidSupportFeature.new(
-              id: options.fetch(:id, "row-detail-#{index + 1}"),
+              id: options.fetch(:id, "row-accent-#{index + 1}"),
               kind: :rect,
               box: Box.new(
                 x: options.fetch(:x, box.x + inset_x),
@@ -959,21 +961,21 @@ module PublicV2
           end
         end
 
-        def support_cross_detail_features(box:, inset_x:, inset_y:, height:, tone:)
+        def support_cross_accent_features(box:, inset_x:, inset_y:, height:, tone:)
           horizontal_width = box.width - (inset_x * 2)
           vertical_height = box.height - (inset_y * 2)
           rx = height / 2
 
           [
             SolidSupportFeature.new(
-              id: "center-horizontal-detail",
+              id: "center-horizontal-accent",
               kind: :rect,
               box: Box.new(x: box.x + inset_x, y: box.center_y - (height / 2), width: horizontal_width, height:, rx:),
               tone:,
               rx:
             ),
             SolidSupportFeature.new(
-              id: "center-vertical-detail",
+              id: "center-vertical-accent",
               kind: :rect,
               box: Box.new(x: box.center_x - (height / 2), y: box.y + inset_y, width: height, height: vertical_height, rx:),
               tone:,

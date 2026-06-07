@@ -139,9 +139,9 @@
         "hit_inset_y": 80,
         "solid_profile": "duo-supports-pose",
         "point_inset": 86,
-        "detail_style": "center_cross",
-        "detail_inset_x": 48,
-        "detail_inset_y": 38
+        "accent_style": "center_cross",
+        "accent_inset_x": 48,
+        "accent_inset_y": 38
       }
     },
     {

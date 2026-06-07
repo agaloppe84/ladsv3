@@ -150,8 +150,8 @@
         "hit_inset_y": 80,
         "solid_profile": "duette-supports-pose",
         "point_inset": 92,
-        "detail_inset_x": 42,
-        "detail_inset_y": 62
+        "accent_inset_x": 42,
+        "accent_inset_y": 62
       }
     },
     {

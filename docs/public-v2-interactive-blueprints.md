@@ -465,7 +465,7 @@ Familles reutilisables actuelles :
 - `SolidProfile` : rails/profils lineaires avec bandes de tons et points ;
 - `SolidHousingProfile` : coffres, caissons et cassettes ;
 - `SolidBarProfile` : barres horizontales pleines avec corps, detail central, poignee, points, extensions et onglets attaches optionnels ;
-- `SolidSupportProfile` : supports de pose rectangulaires avec details et points ;
+- `SolidSupportProfile` : supports de pose rectangulaires avec accents et points ;
 - `SolidControlProfile` : chainettes, cordons, tiges et points de commande en segments pleins ;
 - `SolidMotorProfile` : moteurs tubulaires avec tube, embout, tete moteur et trous ;
 - `SolidAccessoryProfile` : petits accessoires pleins, recepteurs, verrous et details attaches ;
@@ -614,14 +614,16 @@ Supprime au stade actuel :
 - `BarElement#outline_path` et `BarElement#detail_path` ;
 - `HousingElement#outline_path` et `HousingElement#roll_path` ;
 - `MotorElement#tube_path`, `MotorElement#tube_cap_path`,
-  `MotorElement#head_path` et `MotorElement#detail_path`.
+  `MotorElement#head_path` et `MotorElement#detail_path` ;
 - anciens helpers de geometrie directe de `FabricElement`
   (`line_ys`, `tick_ys`, `pleat_xs`, `thread_ys`, `grid_path`,
   `edge_fastener_ys`, `surface_path`, `top_pleat_path`,
   `bottom_pleat_path`, `honeycomb_boundary_path`,
   `honeycomb_recess_path`, `honeycomb_side_path`, etc.) ;
 - role/classe/variable CSS de bord de toile renommes de `edge-detail`
-  vers `edge-accent`.
+  vers `edge-accent` ;
+- options de rendu des supports de pose renommees de `detail_*` vers
+  `accent_*` dans les specs JSON et dans `SolidSupportProfile`.
 
 Restent autorises dans le code Ruby : les paths internes generes par
 `FabricPattern`, parce qu'ils decrivent des surfaces parametriques et ne viennent
@@ -633,7 +635,8 @@ d'interdire `outline_path`, `detail_path`, `surface_path`, `profile_path`,
 
 ### Prochain ordre conseille
 
-1. Continuer la migration des micro-details directs vers des familles pleines dediees.
+1. Clarifier le vocabulaire des barres pleines restantes (`detail_inset_x`,
+   option `detail`, feature `center-detail`) vers un contrat d'accent/feature.
 2. Enrichir les variantes `SolidAccessoryProfile` si un nouveau blueprint introduit un detail attache recurrent.
 3. Supprimer les helpers ou styles restants des que `rg` confirme qu'ils ne sont plus emis par les renderers JSON.
 

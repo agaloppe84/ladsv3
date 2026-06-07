@@ -140,8 +140,8 @@
         "hit_inset_y": 80,
         "solid_profile": "venitien-supports-pose",
         "point_inset": 96,
-        "detail_inset_x": 40,
-        "detail_inset_y": 62
+        "accent_inset_x": 40,
+        "accent_inset_y": 62
       }
     },
     {

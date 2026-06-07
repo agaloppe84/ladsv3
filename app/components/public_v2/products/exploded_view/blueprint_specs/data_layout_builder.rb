@@ -183,9 +183,9 @@ module PublicV2
               solid_profile: {
                 id: options.fetch("solid_profile"),
                 point_inset: options.fetch("point_inset"),
-                detail_style: option_symbol(options, "detail_style"),
-                detail_inset_x: options.fetch("detail_inset_x"),
-                detail_inset_y: options.fetch("detail_inset_y")
+                accent_style: option_value(options, "accent_style", legacy_key: "detail_style").to_sym,
+                accent_inset_x: option_value(options, "accent_inset_x", legacy_key: "detail_inset_x"),
+                accent_inset_y: option_value(options, "accent_inset_y", legacy_key: "detail_inset_y")
               }
             )
           end
@@ -405,8 +405,8 @@ module PublicV2
               solid_profile: {
                 id: options.fetch("solid_profile"),
                 point_inset: options.fetch("point_inset"),
-                detail_inset_x: options.fetch("detail_inset_x"),
-                detail_inset_y: options.fetch("detail_inset_y")
+                accent_inset_x: option_value(options, "accent_inset_x", legacy_key: "detail_inset_x"),
+                accent_inset_y: option_value(options, "accent_inset_y", legacy_key: "detail_inset_y")
               }
             )
           end
@@ -590,8 +590,8 @@ module PublicV2
               solid_profile: {
                 id: options.fetch("solid_profile"),
                 point_inset: options.fetch("point_inset"),
-                detail_inset_x: options.fetch("detail_inset_x"),
-                detail_inset_y: options.fetch("detail_inset_y")
+                accent_inset_x: option_value(options, "accent_inset_x", legacy_key: "detail_inset_x"),
+                accent_inset_y: option_value(options, "accent_inset_y", legacy_key: "detail_inset_y")
               }
             )
           end
@@ -1310,7 +1310,7 @@ module PublicV2
                 id: element.options.fetch("solid_profile"),
                 left:,
                 right:,
-                detail_rows: [
+                accent_rows: [
                   { y: 54, inset_x: 76, height: 10 },
                   { y: 100, inset_x: 98, height: 8 },
                   { y: -100, inset_x: 98, height: 8 },
@@ -1392,6 +1392,14 @@ module PublicV2
           def option_symbol(options, key, default: nil)
             value = options.fetch(key, default)
             value&.to_sym
+          end
+
+          def option_value(options, key, legacy_key: nil, default: nil)
+            return options.fetch(key) if options.key?(key)
+            return options.fetch(legacy_key) if legacy_key && options.key?(legacy_key)
+            return default unless default.nil?
+
+            options.fetch(key)
           end
 
           def option_gap(options, key)
