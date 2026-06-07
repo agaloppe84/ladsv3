@@ -20,6 +20,8 @@ module PublicV2
 
           def build
             case blueprint.spec.product_slug
+            when "store-duette"
+              build_store_duette
             when "moustiquaire-plissee"
               build_moustiquaire_plissee
             when "moustiquaire-enroulable-verticale"
@@ -32,6 +34,282 @@ module PublicV2
           end
 
           private
+
+          def build_store_duette
+            top_rail = build_duette_top_rail
+            supports = build_duette_supports(top_rail:)
+            fabric = build_duette_fabric(top_rail:)
+            intermediate_rail = build_duette_intermediate_rail(fabric:)
+            bottom_rail = build_duette_bottom_rail(fabric:)
+            cords = build_duette_cords(top_rail:, fabric:, intermediate_rail:, bottom_rail:)
+            top_rail = with_duette_slotted_rail_profile("rail-superieur", rail: top_rail, fabric:, cords:, slot_side: :bottom)
+            intermediate_rail = with_duette_intermediate_rail_profile(intermediate_rail:, cords:)
+            bottom_rail = with_duette_slotted_rail_profile("rail-bas", rail: bottom_rail, fabric:, cords:, slot_side: :top)
+            groups = build_duette_groups(top_rail:, supports:, fabric:, intermediate_rail:, bottom_rail:, cords:)
+            callouts = build_duette_callouts(groups:)
+
+            DuetteDrawingLayout.new(
+              svg_width: canvas_spec.svg_width,
+              svg_height: canvas_spec.svg_height,
+              grid: layout_grid,
+              groups:,
+              top_rail:,
+              supports:,
+              fabric:,
+              intermediate_rail:,
+              bottom_rail:,
+              cords:,
+              callouts:
+            )
+          end
+
+          def build_duette_top_rail
+            element = assembled.element("rail-superieur")
+            options = element.options
+            box = required_box(element)
+
+            horizontal_rail_element(
+              preset: option_symbol(options, "preset"),
+              x: box.x,
+              y: box.y,
+              width: box.width,
+              height: box.height,
+              rx: box.rx,
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y")
+            )
+          end
+
+          def build_duette_supports(top_rail:)
+            element = assembled.element("supports-pose")
+            options = element.options
+
+            mount_support_pair_element(
+              reference: top_rail.body,
+              gap: option_gap(options, "gap"),
+              width: options.fetch("width"),
+              height: options.fetch("height"),
+              inset_x: options.fetch("inset_x"),
+              marker_gap: options.fetch("marker_gap"),
+              rx: options.fetch("rx"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              solid_profile: {
+                id: options.fetch("solid_profile"),
+                point_inset: options.fetch("point_inset"),
+                detail_inset_x: options.fetch("detail_inset_x"),
+                detail_inset_y: options.fetch("detail_inset_y")
+              }
+            )
+          end
+
+          def build_duette_fabric(top_rail:)
+            element = assembled.element("toile-duette")
+            options = element.options
+            box = required_box(element)
+
+            fabric_element(
+              variant: :honeycomb,
+              reference: top_rail.body,
+              preset: option_symbol(options, "preset"),
+              gap: box.y - top_rail.body.bottom,
+              x: box.x,
+              width: box.width,
+              height: box.height,
+              rx: box.rx,
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              cell_count: options.fetch("cell_count"),
+              cell_depth: layout_size(options.fetch("cell_depth")),
+              pattern_id: options.fetch("pattern_id"),
+              pattern_style: option_symbol(options, "pattern_style"),
+              pattern_thread_width: options.fetch("pattern_thread_width"),
+              thread_offsets: thread_offsets(options.fetch("thread_offsets"))
+            )
+          end
+
+          def build_duette_intermediate_rail(fabric:)
+            element = assembled.element("rail-intermediaire")
+            options = element.options
+            body = if element.box
+                     required_box(element)
+                   else
+                     Box.new(
+                       x: fabric.body.x + options.fetch("x_offset_from_fabric"),
+                       y: fabric.body.bottom + options.fetch("y_offset_from_fabric_bottom"),
+                       width: fabric.body.width + options.fetch("width_extra"),
+                       height: options.fetch("height"),
+                       rx: options.fetch("rx")
+                     )
+                   end
+            body = layout_box(body)
+
+            BarElement.build(
+              variant: :threshold,
+              hit: layout_box(LayoutRules.hit_box(body, inset_x: options.fetch("hit_inset_x"), inset_y: options.fetch("hit_inset_y"))),
+              body:,
+              marker: layout_anchor(body, side: option_symbol(options, "marker_side", default: :right), gap: options.fetch("marker_gap")),
+              detail_inset_x: options.fetch("detail_inset_x"),
+              tick_inset_x: options.fetch("tick_inset_x"),
+              tick_inset_y: options.fetch("tick_inset_y")
+            )
+          end
+
+          def build_duette_bottom_rail(fabric:)
+            element = assembled.element("rail-bas")
+            options = element.options
+            box = required_box(element)
+
+            threshold_bar_element(
+              reference: fabric.body,
+              preset: option_symbol(options, "preset"),
+              gap: box.y - fabric.body.bottom,
+              x: box.x,
+              width: box.width,
+              height: box.height,
+              rx: box.rx,
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              detail_inset_x: options.fetch("detail_inset_x"),
+              tick_inset_x: options.fetch("tick_inset_x"),
+              tick_inset_y: options.fetch("tick_inset_y")
+            )
+          end
+
+          def build_duette_cords(top_rail:, fabric:, intermediate_rail:, bottom_rail:)
+            element = assembled.element("cordons-guidage")
+            options = element.options
+            left_x = layout_point(Point.new(x: fabric.body.x + options.fetch("offset_x"), y: fabric.body.y)).x
+            right_x = layout_point(Point.new(x: fabric.body.right - options.fetch("offset_x"), y: fabric.body.y)).x
+            top_y = layout_y(top_rail.body.bottom + options.fetch("top_gap"))
+            bottom_y = layout_y(bottom_rail.body.y - options.fetch("bottom_gap"))
+            dot_ys = duette_cord_dot_ys(options.fetch("dot_y_offsets"), fabric:, intermediate_rail:)
+            hit = layout_box(
+              Box.new(
+                x: left_x - options.fetch("hit_inset_x"),
+                y: top_y - options.fetch("hit_inset_y"),
+                width: right_x - left_x + (options.fetch("hit_inset_x") * 2),
+                height: bottom_y - top_y + (options.fetch("hit_inset_y") * 2),
+                rx: 0
+              ),
+              preserve_size: true
+            )
+
+            DuetteCordPair.new(
+              hit:,
+              left_x:,
+              right_x:,
+              top_y:,
+              bottom_y:,
+              marker: layout_point(Point.new(x: left_x - options.fetch("marker_gap"), y: fabric.body.center_y)),
+              dot_ys:,
+              solid_profile: SolidProfiles.control_pair(
+                id: options.fetch("solid_profile"),
+                xs: [left_x, right_x],
+                top: top_y,
+                bottom: bottom_y,
+                dot_ys:,
+                segment_width: options.fetch("segment_width"),
+                point_radius: options.fetch("point_radius")
+              )
+            )
+          end
+
+          def with_duette_slotted_rail_profile(element_id, rail:, fabric:, cords:, slot_side:)
+            options = assembled.element(element_id).options
+            slot = options.fetch("slot")
+            tabs = options.fetch("cord_tabs")
+            slot_height = slot.fetch("height")
+            slot_y = slot_side == :bottom ? rail.body.bottom : rail.body.y - slot_height
+
+            rail.with_solid_profile(
+              horizontal_bar_solid_profile(
+                {
+                  id: options.fetch("solid_profile"),
+                  extensions: [
+                    {
+                      id: slot.fetch("id", "toile-slot"),
+                      side: slot_side,
+                      x: fabric.body.x,
+                      y: slot_y,
+                      width: fabric.body.width,
+                      height: slot_height,
+                      rx: slot.fetch("rx"),
+                      tone: slot.fetch("tone", "mid")
+                    }
+                  ],
+                  tabs: [
+                    {
+                      id: tabs.fetch("id", "cord-tab"),
+                      side: slot_side,
+                      x_positions: [cords.left_x, cords.right_x],
+                      y: duette_tab_y(slot_y:, slot_height:, tabs:, side: slot_side),
+                      width: tabs.fetch("width"),
+                      height: tabs.fetch("height"),
+                      rx: tabs.fetch("rx"),
+                      tone: tabs.fetch("tone", "dark")
+                    }
+                  ]
+                },
+                bar: rail
+              )
+            )
+          end
+
+          def with_duette_intermediate_rail_profile(intermediate_rail:, cords:)
+            options = assembled.element("rail-intermediaire").options
+
+            intermediate_rail.with_solid_profile(
+              horizontal_bar_solid_profile(
+                {
+                  id: options.fetch("solid_profile"),
+                  detail: options.fetch("detail"),
+                  grip: options.fetch("grip"),
+                  points: [cords.left_x, cords.right_x].map { |x| Point.new(x:, y: intermediate_rail.body.center_y) },
+                  point_radius: options.fetch("point_radius")
+                },
+                bar: intermediate_rail
+              )
+            )
+          end
+
+          def duette_tab_y(slot_y:, slot_height:, tabs:, side:)
+            overlap = tabs.fetch("overlap", 0)
+            height = tabs.fetch("height")
+
+            side == :bottom ? slot_y + slot_height - overlap : slot_y - height + overlap
+          end
+
+          def duette_cord_dot_ys(values, fabric:, intermediate_rail:)
+            values.map do |value|
+              case value
+              when "intermediate_center"
+                layout_y(intermediate_rail.body.center_y)
+              when Numeric
+                layout_y(value.negative? ? fabric.body.bottom + value : fabric.body.y + value)
+              else
+                raise ArgumentError, "Unknown Duette cord y offset: #{value.inspect}"
+              end
+            end
+          end
+
+          def build_duette_groups(top_rail:, supports:, fabric:, intermediate_rail:, bottom_rail:, cords:)
+            {
+              "tablier-duette" => LayoutGroup.new(id: "tablier-duette", boxes: [top_rail.body, fabric.body, intermediate_rail.body, bottom_rail.body]),
+              "pose-haute" => LayoutGroup.new(id: "pose-haute", boxes: [top_rail.body, supports.left, supports.right]),
+              "toile-rail-intermediaire" => LayoutGroup.attached(id: "toile-rail-intermediaire", boxes: [fabric.body, intermediate_rail.body]),
+              "cordons-toile" => LayoutGroup.new(id: "cordons-toile", boxes: [cords.hit, fabric.body])
+            }
+          end
+
+          def build_duette_callouts(groups:)
+            assembled.callouts.each_with_object({}) do |definition, callouts|
+              callouts[definition.part_id] = callout_from_definition(definition, groups:)
+            end
+          end
 
           def build_moustiquaire_plissee
             guide = build_plissee_guide

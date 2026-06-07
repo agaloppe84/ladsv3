@@ -106,6 +106,10 @@ module PublicV2
           layout.respond_to?(:guide) && layout.respond_to?(:profiles)
         end
 
+        def duette_layout?
+          layout.respond_to?(:top_rail) && layout.respond_to?(:intermediate_rail) && layout.respond_to?(:cords)
+        end
+
         def right_vertical_pair_hit_box(rails, hit_offset: 80)
           Box.new(
             x: rails.right.x - hit_offset,

@@ -1,0 +1,315 @@
+{
+  "schema_version": 1,
+  "product": {
+    "slug": "store-duette",
+    "category": "stores-interieurs",
+    "manufacturer": "Luxaflex",
+    "family": "Store Duette"
+  },
+  "sources": [
+    {
+      "label": "Page LADS + documentation publique Luxaflex",
+      "type": "catalog_page",
+      "publisher": "Luxaflex",
+      "confidence": "medium",
+      "notes": "Source reprise du POC Ruby legacy ; a consolider lors du prochain audit fabricant."
+    }
+  ],
+  "technical_data": {
+    "source": "Page LADS + documentation publique Luxaflex",
+    "manufacturer": "Luxaflex",
+    "product_family": "Store Duette",
+    "fabric_structure": "structure nid d'abeille",
+    "pleat_widths_mm": "25 / 32",
+    "operation": "LiteRise, SmartCord ou PowerView",
+    "colors": "231 coloris",
+    "reference_format": "2,40 x 2,20 m",
+    "pose": "Fixation haute"
+  },
+  "render_options": {
+    "show_layout_grid": false,
+    "callout_animation_profile": "none",
+    "accent": "#00a8a0"
+  },
+  "canvas": {
+    "columns": 64,
+    "rows": 32,
+    "cell": 120,
+    "margin": 60,
+    "major_every": 4,
+    "radius": 72,
+    "snap_unit": 10
+  },
+  "parts": [
+    {
+      "id": "rail-superieur",
+      "number": "1",
+      "label": "Rail superieur",
+      "measurement": "Luxaflex",
+      "detail": "Rail haut de store Duette reconstruit comme un profil horizontal compact, avec logement de toile et sorties de cordons."
+    },
+    {
+      "id": "toile-duette",
+      "number": "2",
+      "label": "Toile Duette",
+      "measurement": "structure nid d'abeille",
+      "detail": "Toile alveolaire a cellules horizontales. Le dessin montre le principe nid d'abeille sans figer une coupe fabricant exhaustive."
+    },
+    {
+      "id": "rail-intermediaire",
+      "number": "3",
+      "label": "Rail intermediaire",
+      "measurement": "Top down / bottom up",
+      "detail": "Profil mobile intermediaire place sur la toile pour representer l'ouverture par le haut ou par le bas."
+    },
+    {
+      "id": "rail-bas",
+      "number": "4",
+      "label": "Rail bas",
+      "measurement": "Barre de lestage",
+      "detail": "Profil bas separe du tablier pour garder la lecture eclatee du produit et tester une barre horizontale fine."
+    },
+    {
+      "id": "cordons-guidage",
+      "number": "5",
+      "label": "Cordons de guidage",
+      "measurement": "LiteRise, SmartCord ou PowerView",
+      "detail": "Cordons lateraux simplifies, alignes sur les rails pour visualiser le guidage sans surcharger la toile alveolaire."
+    },
+    {
+      "id": "supports-pose",
+      "number": "6",
+      "label": "Supports de pose",
+      "measurement": "Fixation haute",
+      "detail": "Supports hauts symetriques, isoles du rail pour montrer la logique de pose et enrichir la famille des petites platines."
+    }
+  ],
+  "metrics": [
+    {
+      "label": "Fabricant",
+      "value": "Luxaflex",
+      "note": "Page LADS + documentation publique Luxaflex"
+    },
+    {
+      "label": "Plis documentes",
+      "value": "25 / 32 mm",
+      "note": "231 coloris"
+    },
+    {
+      "label": "Format POC",
+      "value": "2,40 x 2,20 m",
+      "note": "reconstruction proportionnelle"
+    }
+  ],
+  "elements": [
+    {
+      "id": "rail-superieur",
+      "part_id": "rail-superieur",
+      "type": "rail",
+      "variant": "duette-head",
+      "box": { "x": 1020, "y": 540, "width": 5760, "height": 260, "rx": 26 },
+      "options": {
+        "preset": "rail_duette_head",
+        "marker_gap": 168,
+        "hit_inset_x": 120,
+        "hit_inset_y": 95,
+        "solid_profile": "duette-rail-superieur",
+        "slot": {
+          "id": "toile-slot",
+          "height": 80,
+          "rx": 22,
+          "tone": "mid"
+        },
+        "cord_tabs": {
+          "id": "cord-tab",
+          "width": 34,
+          "height": 68,
+          "rx": 12,
+          "overlap": 8,
+          "tone": "dark"
+        }
+      }
+    },
+    {
+      "id": "supports-pose",
+      "part_id": "supports-pose",
+      "type": "support",
+      "variant": "mount-pair",
+      "options": {
+        "gap": 150,
+        "width": 280,
+        "height": 210,
+        "inset_x": 720,
+        "rx": 38,
+        "marker_gap": 90,
+        "hit_inset_x": 80,
+        "hit_inset_y": 80,
+        "solid_profile": "duette-supports-pose",
+        "point_inset": 92,
+        "detail_inset_x": 42,
+        "detail_inset_y": 62
+      }
+    },
+    {
+      "id": "toile-duette",
+      "part_id": "toile-duette",
+      "type": "fabric",
+      "variant": "honeycomb-solid",
+      "box": { "x": 1380, "y": 1260, "width": 5000, "height": 1560, "rx": 20 },
+      "options": {
+        "preset": "fabric_honeycomb",
+        "marker_gap": 175,
+        "hit_inset_x": 85,
+        "hit_inset_y": 85,
+        "cell_count": 12,
+        "cell_depth": 130,
+        "thread_offsets": [390, "center", -390],
+        "pattern_id": "duette-toile",
+        "pattern_style": "solid",
+        "pattern_thread_width": 6
+      }
+    },
+    {
+      "id": "rail-intermediaire",
+      "part_id": "rail-intermediaire",
+      "type": "bar",
+      "variant": "threshold",
+      "options": {
+        "x_offset_from_fabric": -90,
+        "y_offset_from_fabric_bottom": -60,
+        "width_extra": 180,
+        "height": 120,
+        "rx": 28,
+        "marker_gap": 168,
+        "marker_side": "right",
+        "hit_inset_x": 100,
+        "hit_inset_y": 80,
+        "detail_inset_x": 230,
+        "tick_inset_x": 720,
+        "tick_inset_y": 24,
+        "solid_profile": "duette-rail-intermediaire",
+        "detail": {
+          "height": 8,
+          "inset_x": 230
+        },
+        "grip": {
+          "width": 360,
+          "height": 48,
+          "rx": 20
+        },
+        "point_radius": 18
+      }
+    },
+    {
+      "id": "rail-bas",
+      "part_id": "rail-bas",
+      "type": "bar",
+      "variant": "threshold",
+      "box": { "x": 1240, "y": 3240, "width": 5280, "height": 150, "rx": 32 },
+      "options": {
+        "preset": "bar_threshold",
+        "marker_gap": 168,
+        "hit_inset_x": 100,
+        "hit_inset_y": 80,
+        "detail_inset_x": 210,
+        "tick_inset_x": 620,
+        "tick_inset_y": 28,
+        "solid_profile": "duette-rail-bas",
+        "slot": {
+          "id": "toile-slot",
+          "height": 80,
+          "rx": 22,
+          "tone": "mid"
+        },
+        "cord_tabs": {
+          "id": "cord-tab",
+          "width": 34,
+          "height": 68,
+          "rx": 12,
+          "overlap": 8,
+          "tone": "dark"
+        }
+      }
+    },
+    {
+      "id": "cordons-guidage",
+      "part_id": "cordons-guidage",
+      "type": "control",
+      "variant": "cord-pair",
+      "options": {
+        "offset_x": 260,
+        "top_gap": 180,
+        "bottom_gap": 90,
+        "marker_gap": 168,
+        "hit_inset_x": 80,
+        "hit_inset_y": 80,
+        "dot_y_offsets": [260, "intermediate_center", -260],
+        "segment_width": 14,
+        "point_radius": 18,
+        "solid_profile": "duette-cordons-guidage"
+      }
+    }
+  ],
+  "groups": [
+    {
+      "id": "tablier-duette",
+      "element_ids": ["rail-superieur", "toile-duette", "rail-intermediaire", "rail-bas"]
+    },
+    {
+      "id": "pose-haute",
+      "element_ids": ["rail-superieur", "supports-pose"]
+    },
+    {
+      "id": "toile-rail-intermediaire",
+      "element_ids": ["toile-duette", "rail-intermediaire"],
+      "attached": true
+    },
+    {
+      "id": "cordons-toile",
+      "element_ids": ["cordons-guidage", "toile-duette"]
+    }
+  ],
+  "callouts": [
+    {
+      "part_id": "rail-superieur",
+      "marker": { "x": 6950, "y": 670 },
+      "placement": "top_rail"
+    },
+    {
+      "part_id": "toile-duette",
+      "marker": { "x": 3880, "y": 1090 },
+      "placement": "center_fabric",
+      "label_side": "right"
+    },
+    {
+      "part_id": "rail-intermediaire",
+      "marker": { "x": 6640, "y": 2820 },
+      "route": "right",
+      "first_length": 390
+    },
+    {
+      "part_id": "rail-bas",
+      "marker": { "x": 6690, "y": 3320 },
+      "placement": "bottom_rail"
+    },
+    {
+      "part_id": "cordons-guidage",
+      "marker": { "x": 1470, "y": 2040 },
+      "placement": "left_detail",
+      "first_length": 380
+    },
+    {
+      "part_id": "supports-pose",
+      "marker": { "x": 6150, "y": 290 },
+      "route": "right",
+      "first_length": 360
+    }
+  ],
+  "validation": {
+    "require_solid_renderers": true,
+    "forbid_raw_svg": true,
+    "snap_to_grid": {
+      "major_width_elements": ["rail-superieur", "rail-bas"]
+    }
+  }
+}
