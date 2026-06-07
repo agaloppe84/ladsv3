@@ -203,6 +203,21 @@ module PublicV2
           )
         end
 
+        def solid_bar_profile(profile)
+          return unless profile
+
+          id = "#{svg_description_id}-#{profile.id}"
+          clip_id = solid_clip_id(id)
+          safe_join(
+            [
+              solid_profile_defs(profile.clip_box, clip_id:, id:, tones: profile.tones, axis: :horizontal),
+              solid_rect(profile.body, clip_id:, id:, tone: profile.body_tone),
+              *profile.features.map { |feature| solid_bar_feature(feature, clip_id:, id:) },
+              *profile.points.map { |point| solid_point(point.point, radius: point.radius, tone: point.tone) }
+            ]
+          )
+        end
+
         def fabric_pattern(pattern, slot:)
           return unless pattern
 
@@ -349,6 +364,30 @@ module PublicV2
           tag.path(**attrs)
         end
 
+        def solid_bar_feature(feature, clip_id:, id:)
+          case feature.kind
+          when :rect
+            solid_rect(feature.box, clip_id:, id:, tone: feature.tone)
+          when :top_rounded_rect
+            solid_path(solid_top_rounded_rect_path(feature.box, radius: feature.rx), clip_id:, id:, tone: feature.tone)
+          when :bottom_rounded_rect
+            solid_path(solid_bottom_rounded_rect_path(feature.box, radius: feature.rx), clip_id:, id:, tone: feature.tone)
+          else
+            raise ArgumentError, "Unknown solid bar feature kind: #{feature.kind}"
+          end
+        end
+
+        def solid_path(path, clip_id:, id:, tone:)
+          attrs = {
+            d: path,
+            class: solid_tone_class(tone),
+            "clip-path": "url(##{clip_id})"
+          }
+          attrs[:style] = "fill: url(##{solid_gradient_id(id, tone)})" if SOLID_GRADIENT_STOPS.key?(tone)
+
+          tag.path(**attrs)
+        end
+
         def solid_top_rounded_rect_path(box, radius:)
           radius = [radius, box.width / 2, box.height].min
 
@@ -359,6 +398,21 @@ module PublicV2
             "H#{box.right - radius}",
             "Q#{box.right} #{box.y} #{box.right} #{box.y + radius}",
             "V#{box.bottom}",
+            "Z"
+          ].join
+        end
+
+        def solid_bottom_rounded_rect_path(box, radius:)
+          radius = [radius, box.width / 2, box.height].min
+
+          [
+            "M#{box.x} #{box.y}",
+            "H#{box.right}",
+            "V#{box.bottom - radius}",
+            "Q#{box.right} #{box.bottom} #{box.right - radius} #{box.bottom}",
+            "H#{box.x + radius}",
+            "Q#{box.x} #{box.bottom} #{box.x} #{box.bottom - radius}",
+            "V#{box.y}",
             "Z"
           ].join
         end

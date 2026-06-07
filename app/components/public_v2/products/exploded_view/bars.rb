@@ -2,6 +2,7 @@
 
 require_relative "geometry"
 require_relative "layout_primitives"
+require_relative "solid_profiles"
 
 module PublicV2
   module Products
@@ -53,7 +54,8 @@ module PublicV2
           :magnet_points,
           :detail_inset_x,
           :tick_inset_x,
-          :tick_inset_y
+          :tick_inset_y,
+          :solid_profile
         )
 
         def self.build(variant:, **options)
@@ -61,9 +63,12 @@ module PublicV2
           when :zipped_load_bar
             zipped_load_bar(
               hit: options.fetch(:hit),
+              body: options.fetch(:body),
               top: options.fetch(:top),
               height: options.fetch(:height),
-              marker: options.fetch(:marker)
+              marker: options.fetch(:marker),
+              grip: options.fetch(:grip),
+              solid_profile: options.fetch(:solid_profile, nil)
             )
           when :vertical_handle
             vertical_handle(
@@ -79,7 +84,8 @@ module PublicV2
               marker: options.fetch(:marker),
               detail_inset_x: options.fetch(:detail_inset_x, 180),
               tick_inset_x: options.fetch(:tick_inset_x, 520),
-              tick_inset_y: options.fetch(:tick_inset_y, 24)
+              tick_inset_y: options.fetch(:tick_inset_y, 24),
+              solid_profile: options.fetch(:solid_profile, nil)
             )
           when :bottom_bar
             bottom_bar(
@@ -88,20 +94,24 @@ module PublicV2
               marker: options.fetch(:marker),
               grip: options.fetch(:grip),
               magnet_points: options.fetch(:magnet_points),
-              detail_inset_x: options.fetch(:detail_inset_x, 190)
+              detail_inset_x: options.fetch(:detail_inset_x, 190),
+              solid_profile: options.fetch(:solid_profile, nil)
             )
           else
             raise ArgumentError, "Unknown bar variant: #{variant}"
           end
         end
 
-        def self.zipped_load_bar(hit:, top:, height:, marker:)
+        def self.zipped_load_bar(hit:, body:, top:, height:, marker:, grip:, solid_profile: nil)
           new(
             variant: :zipped_load_bar,
             hit:,
+            body:,
             top:,
             height:,
-            marker:
+            marker:,
+            grip:,
+            solid_profile:
           )
         end
 
@@ -115,7 +125,7 @@ module PublicV2
           )
         end
 
-        def self.threshold(hit:, body:, marker:, detail_inset_x: 180, tick_inset_x: 520, tick_inset_y: 24)
+        def self.threshold(hit:, body:, marker:, detail_inset_x: 180, tick_inset_x: 520, tick_inset_y: 24, solid_profile: nil)
           new(
             variant: :threshold,
             hit:,
@@ -123,11 +133,12 @@ module PublicV2
             marker:,
             detail_inset_x:,
             tick_inset_x:,
-            tick_inset_y:
+            tick_inset_y:,
+            solid_profile:
           )
         end
 
-        def self.bottom_bar(hit:, body:, marker:, grip:, magnet_points:, detail_inset_x: 190)
+        def self.bottom_bar(hit:, body:, marker:, grip:, magnet_points:, detail_inset_x: 190, solid_profile: nil)
           new(
             variant: :bottom_bar,
             hit:,
@@ -135,7 +146,8 @@ module PublicV2
             marker:,
             grip:,
             magnet_points:,
-            detail_inset_x:
+            detail_inset_x:,
+            solid_profile:
           )
         end
 
@@ -150,7 +162,8 @@ module PublicV2
           magnet_points: [],
           detail_inset_x: nil,
           tick_inset_x: nil,
-          tick_inset_y: nil
+          tick_inset_y: nil,
+          solid_profile: nil
         )
           @variant = variant.to_sym
           raise ArgumentError, "Unknown bar variant: #{variant}" unless VARIANTS.include?(@variant)
@@ -165,6 +178,24 @@ module PublicV2
           @detail_inset_x = detail_inset_x
           @tick_inset_x = tick_inset_x
           @tick_inset_y = tick_inset_y
+          @solid_profile = solid_profile
+        end
+
+        def with_solid_profile(solid_profile)
+          self.class.new(
+            variant:,
+            hit:,
+            marker:,
+            body:,
+            top:,
+            height:,
+            grip:,
+            magnet_points:,
+            detail_inset_x:,
+            tick_inset_x:,
+            tick_inset_y:,
+            solid_profile:
+          )
         end
 
         def bottom
@@ -185,7 +216,7 @@ module PublicV2
         def handle
           require_variant(:zipped_load_bar, "handle")
 
-          BarGeometry.centered_box(center_x: 3_900, center_y: top + 85, width: 420, height: 50, rx: 18)
+          grip || BarGeometry.centered_box(center_x: 3_900, center_y: top + 85, width: 420, height: 50, rx: 18)
         end
 
         def detail_path

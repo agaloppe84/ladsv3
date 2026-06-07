@@ -35,6 +35,7 @@ module PublicV2
           PRIMARY_POINT_METHODS = %i[marker].freeze
           VALID_TEXT_ANCHORS = %w[start middle end].freeze
           VALID_BASELINES = %w[middle central hanging text-before-edge text-after-edge].freeze
+          VALID_ANIMATION_PROFILES = %i[draw none].freeze
 
           Result = Struct.new(:blueprint, :errors, :warnings, keyword_init: true) do
             def ok?
@@ -80,6 +81,7 @@ module PublicV2
 
           def validate
             validate_parts_contract
+            validate_render_options
             validate_grid_contract
             validate_primary_geometry
             validate_callouts
@@ -101,6 +103,13 @@ module PublicV2
 
             ids.each do |id|
               add_error("missing callout for part #{id.inspect}") unless layout.callout(id)
+            end
+          end
+
+          def validate_render_options
+            add_error("show_layout_grid? must return a boolean") unless [true, false].include?(blueprint.show_layout_grid?)
+            unless VALID_ANIMATION_PROFILES.include?(blueprint.callout_animation_profile)
+              add_error("invalid callout animation profile #{blueprint.callout_animation_profile.inspect}")
             end
           end
 
@@ -145,6 +154,7 @@ module PublicV2
 
             callout.path
             add_error("callout #{part_id} first_length must be positive") unless callout.first_length.to_f.positive?
+            add_error("callout #{part_id} has invalid animation profile #{callout.resolved_animation_profile.inspect}") unless VALID_ANIMATION_PROFILES.include?(callout.resolved_animation_profile)
             add_error("callout #{part_id} has invalid text anchor #{callout.resolved_text_anchor.inspect}") unless VALID_TEXT_ANCHORS.include?(callout.resolved_text_anchor.to_s)
             add_error("callout #{part_id} has invalid dominant baseline #{callout.resolved_dominant_baseline.inspect}") unless VALID_BASELINES.include?(callout.resolved_dominant_baseline.to_s)
           rescue ArgumentError => error

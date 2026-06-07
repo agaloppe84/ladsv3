@@ -10,12 +10,18 @@ module PublicV2
         class Base
           include ElementBuilderHelpers
 
-          attr_reader :layout_config, :part_order, :theme
+          DEFAULT_RENDER_OPTIONS = {
+            show_layout_grid: true,
+            callout_animation_profile: :draw
+          }.freeze
 
-          def initialize(layout_overrides: {}, part_order: self.class::DEFAULT_PART_ORDER, theme: self.class::DEFAULT_THEME)
+          attr_reader :layout_config, :part_order, :theme, :render_options
+
+          def initialize(layout_overrides: {}, part_order: self.class::DEFAULT_PART_ORDER, theme: self.class::DEFAULT_THEME, render_options: {})
             @layout_config = self.class::DEFAULT_LAYOUT.merge(layout_overrides)
             @part_order = part_order.map(&:to_s)
             @theme = theme
+            @render_options = default_render_options.merge(render_options.transform_keys(&:to_sym))
           end
 
           def parts
@@ -41,7 +47,19 @@ module PublicV2
             ].reject(&:empty?).join("; ")
           end
 
+          def show_layout_grid?
+            !!render_options.fetch(:show_layout_grid)
+          end
+
+          def callout_animation_profile
+            render_options.fetch(:callout_animation_profile).to_sym
+          end
+
           private
+
+          def default_render_options
+            DEFAULT_RENDER_OPTIONS.merge(self.class.const_defined?(:RENDER_OPTIONS, false) ? self.class.const_get(:RENDER_OPTIONS) : {})
+          end
 
           def part_definitions
             self.class::PART_DEFINITIONS
@@ -128,7 +146,7 @@ module PublicV2
               marker_radius: callout_options.fetch(:marker_radius, 58),
               corner_radius: callout_options.fetch(:corner_radius, 46),
               dot_radius: callout_options.fetch(:dot_radius, 18),
-              animation_profile: callout_options.fetch(:animation_profile, :draw),
+              animation_profile: callout_options.fetch(:animation_profile, callout_animation_profile),
               label_reveal_direction: callout_options.fetch(:label_reveal_direction, :left_to_right),
               **route_options.merge(direction_options)
             )

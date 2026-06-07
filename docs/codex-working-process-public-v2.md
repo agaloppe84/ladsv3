@@ -16,8 +16,9 @@ Documents a lire au debut d'un nouveau chat Codex sur Public V2 :
 
 1. `docs/codex-working-process-public-v2.md`
 2. `docs/public-v2-design-system.md`
-3. `docs/codex-working-process.md`
-4. `docs/admin-v2-design-system.md`
+3. `docs/public-v2-interactive-blueprints.md`
+4. `docs/codex-working-process.md`
+5. `docs/admin-v2-design-system.md`
 
 ## Decisions Actees
 

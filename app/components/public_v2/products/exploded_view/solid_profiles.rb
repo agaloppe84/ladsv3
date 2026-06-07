@@ -54,6 +54,24 @@ module PublicV2
         end
       end
 
+      SolidBarFeature = Struct.new(:id, :kind, :box, :tone, :rx, keyword_init: true) do
+        def self.coerce(value)
+          value.is_a?(self) ? value : new(**value)
+        end
+
+        def kind
+          (self[:kind] || :rect).to_sym
+        end
+
+        def tone
+          (self[:tone] || :mid).to_sym
+        end
+
+        def rx
+          self[:rx] || box.rx || 0
+        end
+      end
+
       class SolidHousingProfile
         attr_reader :id, :variant, :body, :body_tone, :features, :points
 
@@ -68,6 +86,46 @@ module PublicV2
 
         def tones
           ([body_tone] + features.map(&:tone) + points.map(&:tone)).uniq
+        end
+      end
+
+      class SolidBarProfile
+        attr_reader :id, :variant, :body, :clip_box, :body_tone, :features, :points
+
+        def initialize(id:, body:, features: [], points: [], variant: :horizontal_bar, body_tone: :light, clip_box: nil)
+          @id = id.to_s
+          @variant = variant.to_sym
+          @body = body
+          @body_tone = body_tone.to_sym
+          @features = features.map { |feature| SolidBarFeature.coerce(feature) }.freeze
+          @clip_box = solid_bar_clip_box(clip_box)
+          @points = points.map { |point| SolidPoint.coerce(point) }.freeze
+        end
+
+        def tones
+          ([body_tone] + features.map(&:tone) + points.map(&:tone)).uniq
+        end
+
+        private
+
+        def solid_bar_clip_box(clip_box)
+          raw_box = clip_box || Box.union(body, features.map(&:box))
+          Box.new(
+            x: raw_box.x,
+            y: raw_box.y,
+            width: raw_box.width,
+            height: raw_box.height,
+            rx: raw_box.rx || solid_bar_clip_radius(raw_box)
+          )
+        end
+
+        def solid_bar_clip_radius(raw_box)
+          return body.rx || 0 if raw_box.x == body.x &&
+                                 raw_box.y == body.y &&
+                                 raw_box.width == body.width &&
+                                 raw_box.height == body.height
+
+          0
         end
       end
 
@@ -123,6 +181,13 @@ module PublicV2
             bottom_gap: 0,
             rx: 24
           }
+        }.freeze
+        BAR_TONES = {
+          body: :light,
+          detail: :mid,
+          embout: :mid,
+          grip: :dark,
+          point: :dark
         }.freeze
 
         module_function
@@ -184,6 +249,43 @@ module PublicV2
           )
         end
 
+        def horizontal_bar(
+          id:,
+          box:,
+          body_tone: nil,
+          detail: nil,
+          embouts: nil,
+          grip: nil,
+          extensions: [],
+          tabs: [],
+          points: [],
+          point_radius: 18,
+          features: [],
+          tones: {}
+        )
+          resolved_tones = BAR_TONES.merge((tones || {}).transform_keys(&:to_sym))
+
+          SolidBarProfile.new(
+            id:,
+            variant: :horizontal_bar,
+            body: box,
+            body_tone: body_tone || resolved_tones.fetch(:body),
+            features: bar_features(
+              box:,
+              detail:,
+              embouts:,
+              grip:,
+              extensions:,
+              tabs:,
+              features:,
+              tones: resolved_tones
+            ),
+            points: points.map do |point|
+              SolidPoint.new(point:, radius: point_radius, tone: resolved_tones.fetch(:point))
+            end
+          )
+        end
+
         def front_housing(
           id:,
           box:,
@@ -230,6 +332,159 @@ module PublicV2
             features:,
             tones:
           )
+        end
+
+        def bar_features(box:, detail:, embouts:, grip:, extensions:, tabs:, features:, tones:)
+          [
+            *bar_extension_features(box:, extensions:, tone: tones.fetch(:detail)),
+            *bar_embout_features(box:, embouts:, tone: tones.fetch(:embout)),
+            bar_center_detail_feature(box:, detail:, tone: tones.fetch(:detail)),
+            bar_grip_feature(box:, grip:, tone: tones.fetch(:grip)),
+            *bar_tab_features(box:, tabs:, tone: tones.fetch(:grip)),
+            *features
+          ].compact
+        end
+
+        def bar_embout_features(box:, embouts:, tone:)
+          return [] unless embouts
+
+          options = embouts == true ? {} : embouts.transform_keys(&:to_sym)
+          width = options.fetch(:width, FRONT_COFFRE_DEFAULTS.fetch(:cheeks).fetch(:width))
+          height = options.fetch(:height, box.height)
+          y = options.fetch(:y, box.center_y - (height / 2))
+          rx = options.fetch(:rx, 0)
+          feature_tone = options.fetch(:tone, tone)
+
+          [
+            SolidBarFeature.new(
+              id: options.fetch(:left_id, "left-embout"),
+              kind: :rect,
+              box: Box.new(x: box.x, y:, width:, height:, rx:),
+              tone: feature_tone,
+              rx:
+            ),
+            SolidBarFeature.new(
+              id: options.fetch(:right_id, "right-embout"),
+              kind: :rect,
+              box: Box.new(x: box.right - width, y:, width:, height:, rx:),
+              tone: feature_tone,
+              rx:
+            )
+          ]
+        end
+
+        def bar_extension_features(box:, extensions:, tone:)
+          solid_feature_options_list(extensions).map do |options|
+            side = options.fetch(:side).to_sym
+            height = options.fetch(:height)
+            width = options.fetch(:width, box.width)
+            x = options.fetch(:x, box.center_x - (width / 2))
+            y = options.fetch(:y, side == :top ? box.y - height : box.bottom)
+            rx = options.fetch(:rx, 0)
+
+            SolidBarFeature.new(
+              id: options.fetch(:id, "#{side}-extension"),
+              kind: options.fetch(:kind, side == :top ? :top_rounded_rect : :bottom_rounded_rect),
+              box: Box.new(x:, y:, width:, height:, rx:),
+              tone: options.fetch(:tone, tone),
+              rx:
+            )
+          end
+        end
+
+        def bar_center_detail_feature(box:, detail:, tone:)
+          return unless detail
+
+          options = detail == true ? {} : detail.transform_keys(&:to_sym)
+          height = options.fetch(:height, 8)
+          inset_x = options.fetch(:inset_x, 0)
+          width = options.fetch(:width, box.width - (inset_x * 2))
+
+          SolidBarFeature.new(
+            id: options.fetch(:id, "center-detail"),
+            kind: :rect,
+            box: Box.new(
+              x: options.fetch(:x, box.x + inset_x),
+              y: options.fetch(:y, box.center_y - (height / 2)),
+              width:,
+              height:,
+              rx: options.fetch(:rx, height / 2)
+            ),
+            tone: options.fetch(:tone, tone),
+            rx: options.fetch(:rx, height / 2)
+          )
+        end
+
+        def bar_grip_feature(box:, grip:, tone:)
+          return unless grip
+
+          if grip.is_a?(Box)
+            grip_box = grip
+            options = {}
+          else
+            options = grip == true ? {} : grip.transform_keys(&:to_sym)
+            grip_box = options[:box]
+          end
+
+          unless grip_box
+            width = options.fetch(:width)
+            height = options.fetch(:height)
+            grip_box = Box.new(
+              x: options.fetch(:x, box.center_x - (width / 2)),
+              y: options.fetch(:y, box.center_y - (height / 2)),
+              width:,
+              height:,
+              rx: options.fetch(:rx, height / 2)
+            )
+          end
+
+          SolidBarFeature.new(
+            id: options.fetch(:id, "grip"),
+            kind: :rect,
+            box: grip_box,
+            tone: options.fetch(:tone, tone),
+            rx: options.fetch(:rx, grip_box.rx)
+          )
+        end
+
+        def bar_tab_features(box:, tabs:, tone:)
+          solid_feature_options_list(tabs).flat_map do |options|
+            side = options.fetch(:side).to_sym
+            width = options.fetch(:width)
+            height = options.fetch(:height)
+            overlap = options.fetch(:overlap, 0)
+            y = options.fetch(:y, side == :top ? box.y - height + overlap : box.bottom - overlap)
+            rx = options.fetch(:rx, 0)
+
+            options.fetch(:x_positions).each_with_index.map do |x_position, index|
+              SolidBarFeature.new(
+                id: "#{options.fetch(:id, "#{side}-tab")}-#{index + 1}",
+                kind: :rect,
+                box: Box.new(
+                  x: x_position - (width / 2),
+                  y:,
+                  width:,
+                  height:,
+                  rx:
+                ),
+                tone: options.fetch(:tone, tone),
+                rx:
+              )
+            end
+          end
+        end
+
+        def solid_feature_options_list(config)
+          case config
+          when nil, false
+            []
+          when Array
+            config.map { |options| options.transform_keys(&:to_sym) }
+          when Hash
+            [config.transform_keys(&:to_sym)]
+          else
+            raise ArgumentError, "solid feature config must be a Hash or an Array of Hashes"
+          end
         end
 
         def housing_features(box:, opening:, cheeks:, features:, tones:)

@@ -254,7 +254,14 @@ module PublicV2
               hit_inset_y: 90,
               detail_inset_x: 180,
               tick_inset_x: 690,
-              tick_inset_y: 28
+              tick_inset_y: 28,
+              solid_profile: {
+                id: "venitien-barre-finale",
+                detail: {
+                  height: 8,
+                  inset_x: 180
+                }
+              }
             )
           end
 

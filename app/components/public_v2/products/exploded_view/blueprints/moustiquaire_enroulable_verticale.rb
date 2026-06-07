@@ -288,7 +288,15 @@ module PublicV2
               grip_width: 340,
               grip_height: 60,
               grip_rx: 18,
-              magnet_inset_x: 610
+              magnet_inset_x: 610,
+              solid_profile: {
+                id: "enroulable-barre-charge",
+                detail: {
+                  height: 8,
+                  inset_x: 190
+                },
+                grip: true
+              }
             )
           end
 

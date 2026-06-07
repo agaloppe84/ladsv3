@@ -282,7 +282,14 @@ module PublicV2
               hit_inset_y: 80,
               detail_inset_x: 220,
               tick_inset_x: 620,
-              tick_inset_y: 28
+              tick_inset_y: 28,
+              solid_profile: {
+                id: "duo-barre-charge",
+                detail: {
+                  height: 8,
+                  inset_x: 260
+                }
+              }
             )
           end
 

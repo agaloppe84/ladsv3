@@ -8,7 +8,6 @@ module PublicV2
       class StoreRouleauDuoDrawingComponent < BaseDrawingComponent
         ROLL_HIGHLIGHT_HEIGHT = 36
         ROLL_HIGHLIGHT_INSET_X = 180
-        BOTTOM_BAR_LINE_HEIGHT = 8
 
         private
 
@@ -21,18 +20,6 @@ module PublicV2
             width: roll.width - (ROLL_HIGHLIGHT_INSET_X * 2),
             height: ROLL_HIGHLIGHT_HEIGHT,
             rx: ROLL_HIGHLIGHT_HEIGHT / 2
-          )
-        end
-
-        def duo_bottom_bar_line
-          bar = layout.bottom_bar.body
-
-          Box.new(
-            x: bar.x + 260,
-            y: bar.center_y - (BOTTOM_BAR_LINE_HEIGHT / 2),
-            width: bar.width - 520,
-            height: BOTTOM_BAR_LINE_HEIGHT,
-            rx: BOTTOM_BAR_LINE_HEIGHT / 2
           )
         end
 

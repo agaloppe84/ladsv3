@@ -160,7 +160,7 @@ module PublicV2
             coffre = build_coffre_layout(motor:)
             fabric = build_fabric_layout(coffre:)
             coulisse = build_coulisse_layout(fabric:)
-            barre = build_barre_layout(fabric:)
+            barre = build_barre_layout(fabric:, coffre:)
             support_marker = layout_point(Point.new(x: drawing_right + marker_gap, y: 305))
             groups = build_groups(motor:, coffre:, fabric:, coulisse:, barre:)
             callouts = build_callouts(support_marker:, motor:, coffre:, fabric:, coulisse:, barre:, groups:)
@@ -254,15 +254,22 @@ module PublicV2
             )
           end
 
-          def build_barre_layout(fabric:)
+          def build_barre_layout(fabric:, coffre:)
             top = layout_y(fabric.body.bottom + layout_gap(layout_config.fetch(:gap_fabric_barre)))
+            height = standard_dimension(layout_config.fetch(:barre_preset), :height, override: layout_config[:barre_height])
 
             zipped_load_bar_element(
               top:,
               preset: layout_config.fetch(:barre_preset),
-              hit: Box.new(x: 1_035, y: top - 85, width: 5_740, height: 265),
-              height: layout_config[:barre_height],
-              marker: Point.new(x: 6_900, y: top + 90)
+              hit: Box.new(x: coffre.body.x - 50, y: top - 85, width: coffre.body.width + 100, height: 265),
+              body: Box.new(x: coffre.body.x, y: top, width: coffre.body.width, height:, rx: 34),
+              height:,
+              marker: Point.new(x: 6_900, y: top + 90),
+              solid_profile: {
+                id: "vertical-zippe-barre-charge",
+                embouts: true,
+                grip: true
+              }
             )
           end
         end

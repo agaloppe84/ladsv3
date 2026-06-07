@@ -177,10 +177,14 @@
     aria-pressed="<%= aria_pressed("barre-charge") %>"
     aria-label="Barre de charge">
     <rect x="<%= layout.barre.hit.x %>" y="<%= layout.barre.hit.y %>" width="<%= layout.barre.hit.width %>" height="<%= layout.barre.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= surface_path(layout.barre.outline_path) %>
-    <path d="<%= layout.barre.outline_path %>" class="pv2-product-exploded__outline" />
-    <rect x="<%= layout.barre.handle.x %>" y="<%= layout.barre.handle.y %>" width="<%= layout.barre.handle.width %>" height="<%= layout.barre.handle.height %>" rx="<%= layout.barre.handle.rx %>" class="pv2-product-exploded__fill" />
-    <path d="<%= layout.barre.detail_path %>" class="pv2-product-exploded__detail" />
+    <% if layout.barre.solid_profile %>
+      <%= solid_bar_profile(layout.barre.solid_profile) %>
+    <% else %>
+      <%= surface_path(layout.barre.outline_path) %>
+      <path d="<%= layout.barre.outline_path %>" class="pv2-product-exploded__outline" />
+      <rect x="<%= layout.barre.handle.x %>" y="<%= layout.barre.handle.y %>" width="<%= layout.barre.handle.width %>" height="<%= layout.barre.handle.height %>" rx="<%= layout.barre.handle.rx %>" class="pv2-product-exploded__fill" />
+      <path d="<%= layout.barre.detail_path %>" class="pv2-product-exploded__detail" />
+    <% end %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.barre.marker.x %> <%= layout.barre.marker.y %>)">
       <circle r="68" />
       <text y="25">4</text>

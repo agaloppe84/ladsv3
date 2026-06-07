@@ -25,7 +25,7 @@ class PublicV2::Products::ExplodedViewExperimentComponent < ViewComponent::Base
     PublicV2::Products::ExplodedView::Blueprints::StoreVerticalZippe
   ].freeze
 
-  def initialize(product_page:, debug: false, blueprint: nil, show_layout_grid: true)
+  def initialize(product_page:, debug: false, blueprint: nil, show_layout_grid: nil)
     @product_page = product_page
     @debug = debug
     @blueprint = blueprint || default_blueprint
@@ -96,7 +96,9 @@ class PublicV2::Products::ExplodedViewExperimentComponent < ViewComponent::Base
   end
 
   def show_layout_grid
-    @show_layout_grid
+    return @show_layout_grid unless @show_layout_grid.nil?
+
+    blueprint.show_layout_grid?
   end
 
   def active_part_id

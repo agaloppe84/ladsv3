@@ -63,6 +63,23 @@ module PublicV2
             accent_ink: "#ffffff"
           ).freeze
 
+          SLOT_HEIGHT = 80
+          SLOT_RADIUS = 22
+          CORD_TAB_WIDTH = 34
+          CORD_TAB_HEIGHT = 68
+          CORD_TAB_RADIUS = 12
+          CORD_TAB_OVERLAP = 8
+          INTERMEDIATE_LINE_HEIGHT = 8
+          INTERMEDIATE_POINT_RADIUS = 18
+          INTERMEDIATE_HANDLE_WIDTH = 360
+          INTERMEDIATE_HANDLE_HEIGHT = 48
+          INTERMEDIATE_HANDLE_RADIUS = 20
+
+          RENDER_OPTIONS = {
+            show_layout_grid: false,
+            callout_animation_profile: :none
+          }.freeze
+
           PART_DEFINITIONS = [
             Part.new(
               id: "rail-superieur",
@@ -145,6 +162,9 @@ module PublicV2
             intermediate_rail = build_intermediate_rail_layout(fabric:)
             bottom_rail = build_bottom_rail_layout(fabric:)
             cords = build_cord_layout(top_rail:, fabric:, intermediate_rail:, bottom_rail:)
+            top_rail = with_top_rail_solid_profile(top_rail:, fabric:, cords:)
+            intermediate_rail = with_intermediate_rail_solid_profile(intermediate_rail:, cords:)
+            bottom_rail = with_bottom_rail_solid_profile(bottom_rail:, fabric:, cords:)
             groups = build_groups(top_rail:, supports:, fabric:, intermediate_rail:, bottom_rail:, cords:)
             callouts = build_callouts(top_rail:, supports:, fabric:, intermediate_rail:, bottom_rail:, cords:)
 
@@ -275,6 +295,108 @@ module PublicV2
               tick_inset_x: 620,
               tick_inset_y: 28
             )
+          end
+
+          def with_top_rail_solid_profile(top_rail:, fabric:, cords:)
+            slot_y = top_rail.body.bottom
+
+            top_rail.with_solid_profile(
+              horizontal_bar_solid_profile(
+                {
+                  id: "duette-rail-superieur",
+                  extensions: [
+                    {
+                      id: "toile-slot",
+                      side: :bottom,
+                      x: fabric.body.x,
+                      y: slot_y,
+                      width: fabric.body.width,
+                      height: SLOT_HEIGHT,
+                      rx: SLOT_RADIUS,
+                      tone: :mid
+                    }
+                  ],
+                  tabs: [
+                    {
+                      id: "cord-tab",
+                      side: :bottom,
+                      x_positions: cord_x_positions(cords),
+                      y: slot_y + SLOT_HEIGHT - CORD_TAB_OVERLAP,
+                      width: CORD_TAB_WIDTH,
+                      height: CORD_TAB_HEIGHT,
+                      rx: CORD_TAB_RADIUS,
+                      tone: :dark
+                    }
+                  ]
+                },
+                bar: top_rail
+              )
+            )
+          end
+
+          def with_intermediate_rail_solid_profile(intermediate_rail:, cords:)
+            rail = intermediate_rail.body
+
+            intermediate_rail.with_solid_profile(
+              horizontal_bar_solid_profile(
+                {
+                  id: "duette-rail-intermediaire",
+                  detail: {
+                    inset_x: 230,
+                    height: INTERMEDIATE_LINE_HEIGHT
+                  },
+                  grip: {
+                    width: INTERMEDIATE_HANDLE_WIDTH,
+                    height: INTERMEDIATE_HANDLE_HEIGHT,
+                    rx: INTERMEDIATE_HANDLE_RADIUS
+                  },
+                  points: cord_x_positions(cords).map { |x| Point.new(x:, y: rail.center_y) },
+                  point_radius: INTERMEDIATE_POINT_RADIUS
+                },
+                bar: intermediate_rail
+              )
+            )
+          end
+
+          def with_bottom_rail_solid_profile(bottom_rail:, fabric:, cords:)
+            slot_y = bottom_rail.body.y - SLOT_HEIGHT
+
+            bottom_rail.with_solid_profile(
+              horizontal_bar_solid_profile(
+                {
+                  id: "duette-rail-bas",
+                  extensions: [
+                    {
+                      id: "toile-slot",
+                      side: :top,
+                      x: fabric.body.x,
+                      y: slot_y,
+                      width: fabric.body.width,
+                      height: SLOT_HEIGHT,
+                      rx: SLOT_RADIUS,
+                      tone: :mid
+                    }
+                  ],
+                  tabs: [
+                    {
+                      id: "cord-tab",
+                      side: :top,
+                      x_positions: cord_x_positions(cords),
+                      y: slot_y - CORD_TAB_HEIGHT + CORD_TAB_OVERLAP,
+                      width: CORD_TAB_WIDTH,
+                      height: CORD_TAB_HEIGHT,
+                      rx: CORD_TAB_RADIUS,
+                      tone: :dark
+                    }
+                  ]
+                },
+                bar: bottom_rail
+              )
+            )
+          end
+
+          def cord_x_positions(cords)
+            [cords.left_x, cords.right_x]
           end
 
           def build_cord_layout(top_rail:, fabric:, intermediate_rail:, bottom_rail:)

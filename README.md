@@ -149,11 +149,13 @@ Documents de reference :
 - `docs/admin-v2-design-system.md` : references Admin V2.
 - `docs/codex-working-process-public-v2.md` : process Public V2.
 - `docs/public-v2-design-system.md` : design system Public V2.
+- `docs/public-v2-interactive-blueprints.md` : systeme des plans produits interactifs Public V2.
 
 Pour travailler sur Public V2, lire en priorite :
 
 1. `docs/codex-working-process-public-v2.md`
 2. `docs/public-v2-design-system.md`
+3. `docs/public-v2-interactive-blueprints.md`
 
 ## Public V2
 

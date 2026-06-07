@@ -98,10 +98,8 @@
     tabindex="0"
     aria-pressed="<%= aria_pressed("barre-charge") %>"
     aria-label="Barre de charge">
-    <% bottom_bar_line = duo_bottom_bar_line %>
     <rect x="<%= layout.bottom_bar.hit.x %>" y="<%= layout.bottom_bar.hit.y %>" width="<%= layout.bottom_bar.hit.width %>" height="<%= layout.bottom_bar.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <rect x="<%= layout.bottom_bar.body.x %>" y="<%= layout.bottom_bar.body.y %>" width="<%= layout.bottom_bar.body.width %>" height="<%= layout.bottom_bar.body.height %>" rx="<%= layout.bottom_bar.body.rx %>" class="<%= solid_tone_class(:light) %>" />
-    <rect x="<%= bottom_bar_line.x %>" y="<%= bottom_bar_line.y %>" width="<%= bottom_bar_line.width %>" height="<%= bottom_bar_line.height %>" rx="<%= bottom_bar_line.rx %>" class="<%= solid_tone_class(:mid) %>" />
+    <%= solid_bar_profile(layout.bottom_bar.solid_profile) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.bottom_bar.marker.x %> <%= layout.bottom_bar.marker.y %>)">
       <circle r="68" />
       <text y="25">4</text>
