@@ -7,15 +7,43 @@ module PublicV2
   module Products
     module ExplodedView
       class GenericDrawingComponent < BaseDrawingComponent
-        RendererFamily = Struct.new(:name, :layout_class, keyword_init: true)
+        RendererFamily = Struct.new(:name, :layout_class, :component_class_name, keyword_init: true) do
+          def component_class
+            component_class_name.split("::").inject(Object) { |constant, name| constant.const_get(name) }
+          end
+        end
 
         RENDERER_FAMILIES = [
-          RendererFamily.new(name: :zipped_screen, layout_class: ZippedScreenLayout),
-          RendererFamily.new(name: :side_guided_roller, layout_class: SideGuidedRollerLayout),
-          RendererFamily.new(name: :pleated_lateral, layout_class: PleatedLateralLayout),
-          RendererFamily.new(name: :honeycomb_shade, layout_class: HoneycombShadeLayout),
-          RendererFamily.new(name: :venetian_blind, layout_class: VenetianBlindLayout),
-          RendererFamily.new(name: :roller_duo, layout_class: RollerDuoLayout)
+          RendererFamily.new(
+            name: :zipped_screen,
+            layout_class: ZippedScreenLayout,
+            component_class_name: "PublicV2::Products::ExplodedView::Renderers::ZippedScreenComponent"
+          ),
+          RendererFamily.new(
+            name: :side_guided_roller,
+            layout_class: SideGuidedRollerLayout,
+            component_class_name: "PublicV2::Products::ExplodedView::Renderers::SideGuidedRollerComponent"
+          ),
+          RendererFamily.new(
+            name: :pleated_lateral,
+            layout_class: PleatedLateralLayout,
+            component_class_name: "PublicV2::Products::ExplodedView::Renderers::PleatedLateralComponent"
+          ),
+          RendererFamily.new(
+            name: :honeycomb_shade,
+            layout_class: HoneycombShadeLayout,
+            component_class_name: "PublicV2::Products::ExplodedView::Renderers::HoneycombShadeComponent"
+          ),
+          RendererFamily.new(
+            name: :venetian_blind,
+            layout_class: VenetianBlindLayout,
+            component_class_name: "PublicV2::Products::ExplodedView::Renderers::VenetianBlindComponent"
+          ),
+          RendererFamily.new(
+            name: :roller_duo,
+            layout_class: RollerDuoLayout,
+            component_class_name: "PublicV2::Products::ExplodedView::Renderers::RollerDuoComponent"
+          )
         ].freeze
 
         def initialize(parts:, **options)
@@ -107,7 +135,26 @@ module PublicV2
         end
 
         def layout_renderer_family
-          RENDERER_FAMILIES.find { |family| layout.is_a?(family.layout_class) }&.name
+          renderer_family&.name
+        end
+
+        def layout_renderer_component
+          family = renderer_family
+          return unless family
+
+          family.component_class.new(
+            layout:,
+            parts:,
+            title_id:,
+            svg_description_id:,
+            active_part_id:,
+            svg_description:,
+            show_layout_grid: show_layout_grid?
+          )
+        end
+
+        def renderer_family
+          @renderer_family ||= RENDERER_FAMILIES.find { |family| layout.is_a?(family.layout_class) }
         end
 
         def right_vertical_pair_hit_box(rails, hit_offset: 80)
@@ -170,3 +217,10 @@ module PublicV2
     end
   end
 end
+
+require_relative "renderers/zipped_screen_component"
+require_relative "renderers/side_guided_roller_component"
+require_relative "renderers/pleated_lateral_component"
+require_relative "renderers/honeycomb_shade_component"
+require_relative "renderers/venetian_blind_component"
+require_relative "renderers/roller_duo_component"

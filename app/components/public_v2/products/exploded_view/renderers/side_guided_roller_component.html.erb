@@ -1,0 +1,39 @@
+<%= part_group("caisson", class_suffix: "enroulable-caisson", hit: layout.cassette.hit, marker: layout.cassette.marker) do %>
+  <%= solid_housing_profile(layout.cassette.solid_profile) %>
+<% end %>
+
+<%= part_group(
+  "double-coulisse",
+  class_suffix: "enroulable-coulisse pv2-product-exploded__part--enroulable-coulisse-left",
+  hit: layout.rails.hit,
+  marker: layout.rails.marker,
+  aria_label: "#{part_label("double-coulisse")} gauche"
+) do %>
+  <%= solid_profile(layout.rails.solid_profile_for(:left)) %>
+<% end %>
+
+<%= mirror_part_group(
+  "double-coulisse",
+  class_suffix: "enroulable-coulisse pv2-product-exploded__part--enroulable-coulisse-right",
+  hit: right_vertical_pair_hit_box(layout.rails),
+  aria_label: "#{part_label("double-coulisse")} droite"
+) do %>
+  <%= solid_profile(layout.rails.solid_profile_for(:right)) %>
+<% end %>
+
+<%= part_group("toile-bordee", class_suffix: "enroulable-toile", hit: layout.fabric.hit, marker: layout.fabric.marker) do %>
+  <%= fabric_pattern(layout.fabric.pattern, slot: :under_outline) %>
+  <%= fabric_pattern(layout.fabric.pattern, slot: :over_outline) %>
+<% end %>
+
+<%= part_group("barre-charge", class_suffix: "enroulable-barre", hit: layout.bottom_bar.hit, marker: layout.bottom_bar.marker) do %>
+  <%= solid_bar_profile(layout.bottom_bar.solid_profile) %>
+<% end %>
+
+<%= part_group("fermeture-magnetique", class_suffix: "enroulable-lock", hit: layout.lock.hit, marker: layout.lock.marker) do %>
+  <%= solid_accessory_profile(layout.lock.solid_profile) %>
+<% end %>
+
+<%= part_group("bavettes", class_suffix: "enroulable-bavettes", hit: layout.bavettes.hit, marker: layout.bavettes.marker) do %>
+  <%= solid_accessory_profile(layout.bavettes.solid_profile) %>
+<% end %>

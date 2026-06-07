@@ -31,6 +31,7 @@ Fichiers centraux :
 - `app/components/public_v2/products/exploded_view_experiment_component.rb`
 - `app/components/public_v2/products/exploded_view/base_drawing_component.rb`
 - `app/components/public_v2/products/exploded_view/generic_drawing_component.rb`
+- `app/components/public_v2/products/exploded_view/renderers/`
 - `app/components/public_v2/products/exploded_view/blueprints/base.rb`
 - `app/components/public_v2/products/exploded_view/layout_primitives.rb`
 - `app/components/public_v2/products/exploded_view/solid_profiles.rb`
@@ -160,8 +161,10 @@ Assemblage JSON :
   en mode objet plein. Son dispatch passe par `RENDERER_FAMILIES`, une registry
   qui associe chaque classe de layout generique a une famille de rendu
   (`zipped_screen`, `side_guided_roller`, `pleated_lateral`, `honeycomb_shade`,
-  `venetian_blind`, `roller_duo`). Les anciens structs legacy restent
-  compatibles via aliases, mais le renderer ne depend plus de predicates
+  `venetian_blind`, `roller_duo`) et au composant renderer dedie. Le composant
+  principal garde le wrapper SVG, puis delegue le bloc interne aux renderers de
+  familles situes dans `exploded_view/renderers/`. Les anciens structs legacy
+  restent compatibles via aliases, mais le renderer ne depend plus de predicates
   structurels nommes produit. Il est utilise par `product/show` via
   `blueprint_source: :json`.
 
@@ -245,9 +248,10 @@ Etat actuel :
   generiques (`MountSupportPair`, `HoneycombCordPair`, `RollerDuoRollElement`) ;
   `VenetianSupportPair`, `DuetteCordPair` et `DuoRollElement` restent aliases
   uniquement pour les anciens fichiers Ruby dedies ;
-- `GenericDrawingComponent` centralise le choix de branche via la famille de
-  renderer associee a la classe de layout, ce qui prepare l'extraction des blocs
-  ERB par familles sans recreer de chemin produit ;
+- `GenericDrawingComponent` centralise le choix de renderer via la famille
+  associee a la classe de layout, puis delegue le rendu SVG interne a un
+  composant de famille dans `exploded_view/renderers/` sans recreer de chemin
+  produit ;
 - la prochaine phase systeme consiste a faire converger les builders et le
   renderer generique vers ces signatures de presets, pas a creer de nouveaux
   chemins specifiques produit.
@@ -275,8 +279,8 @@ Objectif du prochain basculement :
    les overrides JSON utiles ;
 2. commencer a isoler puis retirer les fichiers Ruby/templates legacy une fois
    le chemin JSON generique valide sur les 6 blueprints POC ;
-3. factoriser progressivement `GenericDrawingComponent` par familles de rendu
-   quand cela simplifie le renderer sans introduire de chemin produit ;
+3. factoriser progressivement les repetitions internes entre renderers de
+   familles quand cela simplifie le systeme sans introduire de chemin produit ;
 4. supprimer progressivement les fichiers Ruby et templates specifiques produits
    devenus inutiles ;
 5. nettoyer les helpers filaires, SVG code en dur et classes CSS legacy qui ne sont

@@ -1,0 +1,30 @@
+<%= part_group("rail-superieur", class_suffix: "duette-rail-superieur", hit: layout.top_rail.hit, marker: layout.top_rail.marker) do %>
+  <% top_rail_profile = layout.top_rail.solid_profile %>
+  <%= hit_rect(top_rail_profile.clip_box) %>
+  <%= solid_bar_profile(top_rail_profile) %>
+<% end %>
+
+<%= part_group("supports-pose", class_suffix: "duette-supports", hit: layout.supports.hit, marker: layout.supports.marker) do %>
+  <% %i[left right].each do |side| %>
+    <%= solid_support_profile(layout.supports.solid_profile_for(side)) %>
+  <% end %>
+<% end %>
+
+<%= part_group("toile-duette", class_suffix: "duette-toile", hit: layout.fabric.hit, marker: layout.fabric.marker) do %>
+  <%= fabric_pattern(layout.fabric.pattern, slot: :under_outline) %>
+  <%= fabric_pattern(layout.fabric.pattern, slot: :over_outline) %>
+<% end %>
+
+<%= part_group("rail-intermediaire", class_suffix: "duette-rail-intermediaire", hit: layout.intermediate_rail.hit, marker: layout.intermediate_rail.marker) do %>
+  <%= solid_bar_profile(layout.intermediate_rail.solid_profile) %>
+<% end %>
+
+<%= part_group("rail-bas", class_suffix: "duette-rail-bas", hit: layout.bottom_rail.hit, marker: layout.bottom_rail.marker) do %>
+  <% bottom_rail_profile = layout.bottom_rail.solid_profile %>
+  <%= hit_rect(bottom_rail_profile.clip_box) %>
+  <%= solid_bar_profile(bottom_rail_profile) %>
+<% end %>
+
+<%= part_group("cordons-guidage", class_suffix: "duette-cordons", hit: layout.cords.hit, marker: layout.cords.marker) do %>
+  <%= solid_control_profile(layout.cords.solid_profile) %>
+<% end %>
