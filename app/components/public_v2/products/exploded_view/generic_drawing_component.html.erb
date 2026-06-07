@@ -8,7 +8,8 @@
   <desc id="<%= svg_description_id %>"><%= svg_description %></desc>
   <%= background_grid %>
 
-  <% if zipped_screen_layout? %>
+  <% case layout_renderer_family %>
+  <% when :zipped_screen %>
     <%= part_group("supports", class_suffix: "supports", hit: layout.supports.hit, marker: layout.supports.marker) do %>
       <% %i[left right].each do |side| %>
         <%= solid_support_profile(layout.supports.solid_profile_for(side)) %>
@@ -66,7 +67,7 @@
     <%= part_group("barre-charge", class_suffix: "barre-charge", hit: layout.barre.hit, marker: layout.barre.marker) do %>
       <%= solid_bar_profile(layout.barre.solid_profile) %>
     <% end %>
-  <% elsif side_guided_roller_layout? %>
+  <% when :side_guided_roller %>
     <%= part_group("caisson", class_suffix: "enroulable-caisson", hit: layout.cassette.hit, marker: layout.cassette.marker) do %>
       <%= solid_housing_profile(layout.cassette.solid_profile) %>
     <% end %>
@@ -106,7 +107,7 @@
     <%= part_group("bavettes", class_suffix: "enroulable-bavettes", hit: layout.bavettes.hit, marker: layout.bavettes.marker) do %>
       <%= solid_accessory_profile(layout.bavettes.solid_profile) %>
     <% end %>
-  <% elsif pleated_lateral_layout? %>
+  <% when :pleated_lateral %>
     <%= part_group("guide-haut", class_suffix: "plissee-guide-haut", hit: layout.guide.hit, marker: layout.guide.marker) do %>
       <%= solid_profile(layout.guide.solid_profile) %>
     <% end %>
@@ -146,7 +147,7 @@
     <%= part_group("verrouillage", class_suffix: "plissee-verrouillage", hit: layout.lock.hit, marker: layout.lock.marker) do %>
       <%= solid_accessory_profile(layout.lock.solid_profile) %>
     <% end %>
-  <% elsif honeycomb_shade_layout? %>
+  <% when :honeycomb_shade %>
     <%= part_group("rail-superieur", class_suffix: "duette-rail-superieur", hit: layout.top_rail.hit, marker: layout.top_rail.marker) do %>
       <% top_rail_profile = layout.top_rail.solid_profile %>
       <%= hit_rect(top_rail_profile.clip_box) %>
@@ -177,7 +178,7 @@
     <%= part_group("cordons-guidage", class_suffix: "duette-cordons", hit: layout.cords.hit, marker: layout.cords.marker) do %>
       <%= solid_control_profile(layout.cords.solid_profile) %>
     <% end %>
-  <% elsif venetian_blind_layout? %>
+  <% when :venetian_blind %>
     <%= part_group("boitier-haut", class_suffix: "venitien-boitier", hit: layout.headrail.hit, marker: layout.headrail.marker) do %>
       <%= solid_profile(layout.headrail.solid_profile) %>
     <% end %>
@@ -203,7 +204,7 @@
     <%= part_group("commande", class_suffix: "venitien-commande", hit: layout.control.hit, marker: layout.control.marker) do %>
       <%= solid_control_profile(layout.control.solid_profile) %>
     <% end %>
-  <% elsif roller_duo_layout? %>
+  <% when :roller_duo %>
     <%= part_group("rail-superieur", class_suffix: "duo-rail", hit: layout.headrail.hit, marker: layout.headrail.marker) do %>
       <%= solid_profile(layout.headrail.solid_profile) %>
     <% end %>

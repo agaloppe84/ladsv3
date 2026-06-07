@@ -157,10 +157,12 @@ Assemblage JSON :
   `moustiquaire-enroulable-verticale`, `moustiquaire-plissee`, `store-duette`,
   `store-venitien` et `store-rouleau-duo` sont supportes.
 - `GenericDrawingComponent` sait rendre les layouts data-driven supportes
-  en mode objet plein. Ses branches de detection sont nommees par familles
-  generiques (`zipped_screen`, `side_guided_roller`, `pleated_lateral`,
-  `honeycomb_shade`, `venetian_blind`, `roller_duo`) et restent compatibles avec
-  les structs legacy via aliases. Il est utilise par `product/show` via
+  en mode objet plein. Son dispatch passe par `RENDERER_FAMILIES`, une registry
+  qui associe chaque classe de layout generique a une famille de rendu
+  (`zipped_screen`, `side_guided_roller`, `pleated_lateral`, `honeycomb_shade`,
+  `venetian_blind`, `roller_duo`). Les anciens structs legacy restent
+  compatibles via aliases, mais le renderer ne depend plus de predicates
+  structurels nommes produit. Il est utilise par `product/show` via
   `blueprint_source: :json`.
 
 Presets JSON declares au stade actuel :
@@ -243,6 +245,9 @@ Etat actuel :
   generiques (`MountSupportPair`, `HoneycombCordPair`, `RollerDuoRollElement`) ;
   `VenetianSupportPair`, `DuetteCordPair` et `DuoRollElement` restent aliases
   uniquement pour les anciens fichiers Ruby dedies ;
+- `GenericDrawingComponent` centralise le choix de branche via la famille de
+  renderer associee a la classe de layout, ce qui prepare l'extraction des blocs
+  ERB par familles sans recreer de chemin produit ;
 - la prochaine phase systeme consiste a faire converger les builders et le
   renderer generique vers ces signatures de presets, pas a creer de nouveaux
   chemins specifiques produit.
