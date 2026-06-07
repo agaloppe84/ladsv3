@@ -13,15 +13,18 @@ module PublicV2
 
           DEFAULT_ENTRIES = [
             Entry.new(type: "bar", variant: "bottom-charge", renderer_family: "solid_bar_profile", status: "supported"),
+            Entry.new(type: "bar", variant: "roll-tube", renderer_family: "solid_bar_profile", status: "supported"),
             Entry.new(type: "bar", variant: "threshold", renderer_family: "solid_bar_profile", status: "supported"),
             Entry.new(type: "bar", variant: "vertical-handle", renderer_family: "solid_bar_profile", status: "supported"),
             Entry.new(type: "bar", variant: "zipped-load", renderer_family: "solid_bar_profile", status: "supported"),
             Entry.new(type: "closure", variant: "magnetic-receivers", renderer_family: "solid_accessory_profile", status: "supported"),
             Entry.new(type: "closure", variant: "plissee-lock", renderer_family: "solid_accessory_profile", status: "supported"),
             Entry.new(type: "closure", variant: "rail-bavettes", renderer_family: "solid_accessory_profile", status: "supported"),
+            Entry.new(type: "control", variant: "bead-chain", renderer_family: "solid_control_profile", status: "supported"),
             Entry.new(type: "control", variant: "cord-pair", renderer_family: "solid_control_profile", status: "supported"),
             Entry.new(type: "control", variant: "venetian-wand", renderer_family: "solid_control_profile", status: "supported"),
             Entry.new(type: "fabric", variant: "bordered-grid-solid", renderer_family: "fabric_pattern", status: "supported"),
+            Entry.new(type: "fabric", variant: "duo-bands-solid", renderer_family: "fabric_pattern", status: "supported"),
             Entry.new(type: "fabric", variant: "honeycomb-solid", renderer_family: "fabric_pattern", status: "supported"),
             Entry.new(type: "fabric", variant: "pleated-solid", renderer_family: "fabric_pattern", status: "supported"),
             Entry.new(type: "fabric", variant: "zipped-solid", renderer_family: "fabric_pattern", status: "supported"),

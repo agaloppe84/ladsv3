@@ -140,22 +140,26 @@ Assemblage JSON :
   `callout(part_id)` et la liste des familles de rendu necessaires.
 - `BlueprintSpecs::DataLayoutBuilder` transforme la spec assemblee en layout Ruby.
   Au stade actuel, `store-vertical-zippe`, `moustiquaire-enroulable-verticale`,
-  `moustiquaire-plissee`, `store-duette` et `store-venitien` sont supportes.
+  `moustiquaire-plissee`, `store-duette`, `store-venitien` et
+  `store-rouleau-duo` sont supportes.
 - `GenericDrawingComponent` sait rendre les layouts data-driven supportes
   en mode objet plein. Il est utilise par `product/show` via `blueprint_source: :json`.
 
 Couples JSON supportes au stade actuel :
 
 - `bar:bottom-charge` -> `solid_bar_profile`
+- `bar:roll-tube` -> `solid_bar_profile`
 - `bar:threshold` -> `solid_bar_profile`
 - `bar:vertical-handle` -> `solid_bar_profile`
 - `bar:zipped-load` -> `solid_bar_profile`
 - `closure:magnetic-receivers` -> `solid_accessory_profile`
 - `closure:plissee-lock` -> `solid_accessory_profile`
 - `closure:rail-bavettes` -> `solid_accessory_profile`
+- `control:bead-chain` -> `solid_control_profile`
 - `control:cord-pair` -> `solid_control_profile`
 - `control:venetian-wand` -> `solid_control_profile`
 - `fabric:bordered-grid-solid` -> `fabric_pattern`
+- `fabric:duo-bands-solid` -> `fabric_pattern`
 - `fabric:honeycomb-solid` -> `fabric_pattern`
 - `fabric:pleated-solid` -> `fabric_pattern`
 - `fabric:zipped-solid` -> `fabric_pattern`
@@ -176,8 +180,9 @@ Prochaine migration technique :
    Les specs de reference actuelles sont `stores-exterieurs/store-vertical-zippe.json`,
    `moustiquaires/moustiquaire-enroulable-verticale.json`,
    `moustiquaires/moustiquaire-plissee.json`,
-   `stores-interieurs/store-duette.json` et
-   `stores-interieurs/store-venitien.json`.
+   `stores-interieurs/store-duette.json`,
+   `stores-interieurs/store-venitien.json` et
+   `stores-interieurs/store-rouleau-duo.json`.
 2. Utiliser `DataBlueprint` pour lire les specs et exposer parts, metrics, technical
    data, theme, render options, layout config, elements assembles, groups, callouts
    et matching par slug/alias.
@@ -188,6 +193,14 @@ Prochaine migration technique :
 5. Comparer visuellement chaque rendu data-driven avec le rendu legacy valide.
 6. Supprimer les classes Ruby et templates produit quand les 6 blueprints existants
    sont convertis.
+
+Etat actuel :
+
+- les 6 blueprints POC existants disposent maintenant d'une spec JSON ;
+- les anciens fichiers Ruby et templates produits restent temporairement en place
+  comme dette legacy explicite ;
+- la prochaine phase systeme consiste a extraire les presets et nettoyer le legacy,
+  pas a creer de nouveaux chemins specifiques produit.
 
 Important :
 
@@ -208,11 +221,13 @@ Mode de chargement controle :
 
 Objectif du prochain basculement :
 
-1. verifier visuellement chaque nouveau blueprint JSON sur `product/show` ;
+1. verifier visuellement chaque blueprint JSON sur `product/show` ;
 2. corriger les ecarts visuels du renderer generique ;
-3. convertir le prochain blueprint en JSON sans reactiver de fallback legacy ;
-4. quand tous les blueprints existants sont convertis, supprimer les fichiers Ruby
-   et templates specifiques produits devenus inutiles.
+3. extraire les premiers presets de layout et de callouts depuis les 6 specs JSON ;
+4. supprimer progressivement les fichiers Ruby et templates specifiques produits
+   devenus inutiles ;
+5. nettoyer les helpers filaires, SVG code en dur et classes CSS legacy qui ne sont
+   plus utilises par la voie JSON.
 
 ## Options de rendu
 

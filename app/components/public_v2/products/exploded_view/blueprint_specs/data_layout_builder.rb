@@ -20,6 +20,8 @@ module PublicV2
 
           def build
             case blueprint.spec.product_slug
+            when "store-rouleau-duo"
+              build_store_rouleau_duo
             when "store-venitien"
               build_store_venitien
             when "store-duette"
@@ -36,6 +38,228 @@ module PublicV2
           end
 
           private
+
+          def build_store_rouleau_duo
+            headrail = build_duo_headrail
+            supports = build_duo_supports(headrail:)
+            roll = build_duo_roll(headrail:)
+            fabric = build_duo_fabric(roll:)
+            bottom_bar = build_duo_bottom_bar(fabric:)
+            control = build_duo_control(fabric:)
+            groups = build_duo_groups(headrail:, supports:, roll:, fabric:, bottom_bar:, control:)
+            callouts = build_duo_callouts(groups:)
+
+            DuoDrawingLayout.new(
+              svg_width: canvas_spec.svg_width,
+              svg_height: canvas_spec.svg_height,
+              grid: layout_grid,
+              groups:,
+              headrail:,
+              roll:,
+              fabric:,
+              bottom_bar:,
+              control:,
+              supports:,
+              callouts:
+            )
+          end
+
+          def build_duo_headrail
+            element = assembled.element("rail-superieur")
+            options = element.options
+            box = required_box(element)
+
+            horizontal_rail_element(
+              preset: option_symbol(options, "preset"),
+              x: box.x,
+              y: box.y,
+              width: box.width,
+              height: box.height,
+              rx: box.rx,
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              solid_profile: solid_profile_config(options).merge(
+                point_radius: options.fetch("point_radius")
+              )
+            )
+          end
+
+          def build_duo_supports(headrail:)
+            element = assembled.element("supports-pose")
+            options = element.options
+
+            mount_support_pair_element(
+              reference: headrail.body,
+              gap: option_gap(options, "gap"),
+              width: options.fetch("width"),
+              height: options.fetch("height"),
+              inset_x: options.fetch("inset_x"),
+              marker_gap: options.fetch("marker_gap"),
+              rx: options.fetch("rx"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              solid_profile: {
+                id: options.fetch("solid_profile"),
+                point_inset: options.fetch("point_inset"),
+                detail_style: option_symbol(options, "detail_style"),
+                detail_inset_x: options.fetch("detail_inset_x"),
+                detail_inset_y: options.fetch("detail_inset_y")
+              }
+            )
+          end
+
+          def build_duo_roll(headrail:)
+            element = assembled.element("tube-enroulement")
+            options = element.options
+            box = required_box(element)
+            body = layout_box(
+              LayoutRules.below(
+                headrail.body,
+                gap: box.y - headrail.body.bottom,
+                x: box.x,
+                width: box.width,
+                height: box.height,
+                rx: box.rx
+              )
+            )
+            roll = BarElement.build(
+              variant: :threshold,
+              hit: layout_box(LayoutRules.hit_box(body, inset_x: options.fetch("hit_inset_x"), inset_y: options.fetch("hit_inset_y"))),
+              body:,
+              marker: layout_anchor(body, side: option_symbol(options, "marker_side", default: :right), gap: options.fetch("marker_gap")),
+              detail_inset_x: options.fetch("detail_inset_x", 0)
+            )
+
+            roll.with_solid_profile(
+              horizontal_bar_solid_profile(
+                {
+                  id: options.fetch("solid_profile"),
+                  body_tone: options.fetch("body_tone"),
+                  detail: duo_roll_highlight_detail(options.fetch("highlight"), body:)
+                },
+                bar: roll
+              )
+            )
+          end
+
+          def duo_roll_highlight_detail(config, body:)
+            options = config.transform_keys(&:to_sym)
+            height = options.fetch(:height)
+            inset_x = options.fetch(:inset_x)
+
+            {
+              id: options.fetch(:id, "roll-highlight"),
+              x: body.x + inset_x,
+              y: body.y + options.fetch(:offset_y),
+              width: body.width - (inset_x * 2),
+              height:,
+              rx: options.fetch(:rx, height / 2),
+              tone: options.fetch(:tone, "light")
+            }
+          end
+
+          def build_duo_fabric(roll:)
+            element = assembled.element("toile-duo")
+            options = element.options
+            box = required_box(element)
+
+            fabric_element(
+              variant: :duo_bands,
+              reference: roll.body,
+              preset: option_symbol(options, "preset"),
+              gap: box.y - roll.body.bottom,
+              x: box.x,
+              width: box.width,
+              height: box.height,
+              rx: box.rx,
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              band_count: options.fetch("band_count"),
+              opaque_ratio: options.fetch("opaque_ratio"),
+              layer_offset: options.fetch("layer_offset"),
+              band_radius: options.fetch("band_radius"),
+              pattern_id: options.fetch("pattern_id"),
+              pattern_style: option_symbol(options, "pattern_style")
+            )
+          end
+
+          def build_duo_bottom_bar(fabric:)
+            element = assembled.element("barre-charge")
+            options = element.options
+            box = required_box(element)
+
+            threshold_bar_element(
+              reference: fabric.body,
+              preset: option_symbol(options, "preset"),
+              gap: box.y - fabric.body.bottom,
+              x: box.x,
+              width: box.width,
+              height: box.height,
+              rx: box.rx,
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              detail_inset_x: options.fetch("detail_inset_x"),
+              tick_inset_x: options.fetch("tick_inset_x"),
+              tick_inset_y: options.fetch("tick_inset_y"),
+              solid_profile: solid_profile_config(options).merge(
+                detail: options.fetch("detail")
+              )
+            )
+          end
+
+          def build_duo_control(fabric:)
+            element = assembled.element("commande")
+            options = element.options
+            body = layout_box(
+              LayoutRules.right_of(
+                fabric.body,
+                gap: layout_gap(option_gap(options, "gap")),
+                y: fabric.body.y,
+                width: layout_size(options.fetch("width")),
+                height: fabric.body.height,
+                rx: options.fetch("rx")
+              )
+            )
+            control = ControlElement.build(
+              variant: :venetian_wand,
+              hit: layout_box(LayoutRules.hit_box(body, inset_x: options.fetch("hit_inset_x"), inset_y: options.fetch("hit_inset_y"))),
+              body:,
+              marker: layout_anchor(body, side: option_symbol(options, "marker_side", default: :right), gap: options.fetch("marker_gap")),
+              cord_top: layout_point(Point.new(x: body.center_x, y: body.y + options.fetch("cord_top_offset_y"))),
+              cord_bottom: layout_point(Point.new(x: body.center_x, y: body.bottom + options.fetch("cord_bottom_offset_y"))),
+              bead_count: options.fetch("bead_count")
+            )
+
+            control.with_solid_profile(
+              SolidProfiles.bead_chain(
+                id: options.fetch("solid_profile"),
+                x: control.cord_top.x,
+                top: control.cord_top.y,
+                bottom: control.cord_bottom.y,
+                bead_ys: control.bead_points.map(&:y),
+                segment_width: options.fetch("segment_width"),
+                bead_radius: options.fetch("bead_radius")
+              )
+            )
+          end
+
+          def build_duo_groups(headrail:, supports:, roll:, fabric:, bottom_bar:, control:)
+            {
+              "mecanisme-haut" => LayoutGroup.new(id: "mecanisme-haut", boxes: [headrail.body, roll.body, supports.left, supports.right]),
+              "tablier-duo" => LayoutGroup.new(id: "tablier-duo", boxes: [roll.body, fabric.body, bottom_bar.body]),
+              "commande-laterale" => LayoutGroup.new(id: "commande-laterale", boxes: [control.body]),
+              "toile-barre" => LayoutGroup.attached(id: "toile-barre", boxes: [fabric.body, bottom_bar.body])
+            }
+          end
+
+          def build_duo_callouts(groups:)
+            assembled.callouts.each_with_object({}) do |definition, callouts|
+              callouts[definition.part_id] = callout_from_definition(definition, groups:)
+            end
+          end
 
           def build_store_venitien
             headrail = build_venetian_headrail

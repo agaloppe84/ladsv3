@@ -1,0 +1,290 @@
+{
+  "schema_version": 1,
+  "product": {
+    "slug": "store-rouleau-duo",
+    "category": "stores-interieurs",
+    "manufacturer": "Luxaflex",
+    "family": "Store rouleau duo"
+  },
+  "sources": [
+    {
+      "label": "Page LADS prod + documentation publique Luxaflex",
+      "type": "catalog_page",
+      "publisher": "Luxaflex",
+      "confidence": "medium",
+      "notes": "Source reprise du POC Ruby legacy ; a consolider avec les fiches techniques fabricant lors d'une prochaine passe source."
+    }
+  ],
+  "technical_data": {
+    "source": "Page LADS prod + documentation publique Luxaflex",
+    "manufacturer": "Luxaflex",
+    "product_family": "Store rouleau duo",
+    "fabric_structure": "double panneau transparent / opaque",
+    "width_range_mm": "270 a 2750",
+    "height_range_mm": "400 a 2600",
+    "band_width_mm": 75,
+    "operation": "Chainette, cordon sans fin ou PowerView",
+    "colors": "120 coloris",
+    "reference_format": "2,40 x 2,20 m",
+    "pose": "Fixation haute"
+  },
+  "render_options": {
+    "show_layout_grid": true,
+    "callout_animation_profile": "draw",
+    "accent": "#00a8a0"
+  },
+  "canvas": {
+    "columns": 64,
+    "rows": 32,
+    "cell": 120,
+    "margin": 60,
+    "major_every": 4,
+    "radius": 72,
+    "snap_unit": 10
+  },
+  "parts": [
+    {
+      "id": "rail-superieur",
+      "number": "1",
+      "label": "Rail superieur",
+      "measurement": "Luxaflex",
+      "detail": "Profil haut plein, aligne sur la grille de fond et reconstruit dans la famille des rails horizontaux parametriques."
+    },
+    {
+      "id": "tube-enroulement",
+      "number": "2",
+      "label": "Tube d'enroulement",
+      "measurement": "Chainette, cordon sans fin ou PowerView",
+      "detail": "Tube horizontal separe du rail haut pour montrer la logique du store rouleau et preparer les variantes motorisees."
+    },
+    {
+      "id": "toile-duo",
+      "number": "3",
+      "label": "Toile duo",
+      "measurement": "75 mm par bande",
+      "detail": "Toile a deux couches avec bandes transparentes et opaques alternees. Le POC met l'accent sur le rythme de bandes et le decalage de couche."
+    },
+    {
+      "id": "barre-charge",
+      "number": "4",
+      "label": "Barre de charge",
+      "measurement": "Profil bas",
+      "detail": "Barre basse simple en mode plein, separee de la toile pour garder une lecture eclatee du store."
+    },
+    {
+      "id": "commande",
+      "number": "5",
+      "label": "Commande",
+      "measurement": "Chainette, cordon sans fin ou PowerView",
+      "detail": "Commande laterale a chainette, positionnee a droite du tablier pour representer le reglage des deux couches de tissu."
+    },
+    {
+      "id": "supports-pose",
+      "number": "6",
+      "label": "Supports de pose",
+      "measurement": "Fixation haute",
+      "detail": "Supports hauts symetriques, isoles du rail pour garder le dessin lisible et modulaire."
+    }
+  ],
+  "metrics": [
+    {
+      "label": "Fabricant",
+      "value": "Luxaflex",
+      "note": "Page LADS prod + documentation publique Luxaflex"
+    },
+    {
+      "label": "Dimensions",
+      "value": "270 a 2750 mm",
+      "note": "hauteur 400 a 2600 mm"
+    },
+    {
+      "label": "Bandes",
+      "value": "75 mm",
+      "note": "double panneau transparent / opaque"
+    }
+  ],
+  "elements": [
+    {
+      "id": "rail-superieur",
+      "part_id": "rail-superieur",
+      "type": "rail",
+      "variant": "horizontal-guide",
+      "box": { "x": 1020, "y": 540, "width": 5760, "height": 240, "rx": 34 },
+      "options": {
+        "preset": "rail_horizontal_guide",
+        "marker_gap": 168,
+        "hit_inset_x": 120,
+        "hit_inset_y": 95,
+        "solid_profile": "duo-rail-superieur",
+        "point_radius": 20
+      }
+    },
+    {
+      "id": "supports-pose",
+      "part_id": "supports-pose",
+      "type": "support",
+      "variant": "mount-pair",
+      "options": {
+        "gap": 150,
+        "width": 280,
+        "height": 210,
+        "inset_x": 720,
+        "rx": 38,
+        "marker_gap": 90,
+        "hit_inset_x": 80,
+        "hit_inset_y": 80,
+        "solid_profile": "duo-supports-pose",
+        "point_inset": 86,
+        "detail_style": "center_cross",
+        "detail_inset_x": 48,
+        "detail_inset_y": 38
+      }
+    },
+    {
+      "id": "tube-enroulement",
+      "part_id": "tube-enroulement",
+      "type": "bar",
+      "variant": "roll-tube",
+      "box": { "x": 1260, "y": 1080, "width": 5280, "height": 170, "rx": 48 },
+      "options": {
+        "marker_gap": 168,
+        "marker_side": "right",
+        "hit_inset_x": 100,
+        "hit_inset_y": 90,
+        "solid_profile": "duo-tube-enroulement",
+        "body_tone": "mid",
+        "highlight": {
+          "id": "roll-highlight",
+          "inset_x": 180,
+          "offset_y": 38,
+          "height": 36,
+          "tone": "light"
+        }
+      }
+    },
+    {
+      "id": "toile-duo",
+      "part_id": "toile-duo",
+      "type": "fabric",
+      "variant": "duo-bands-solid",
+      "box": { "x": 1380, "y": 1430, "width": 5040, "height": 1680, "rx": 18 },
+      "options": {
+        "preset": "fabric_duo",
+        "marker_gap": 175,
+        "hit_inset_x": 90,
+        "hit_inset_y": 85,
+        "band_count": 12,
+        "opaque_ratio": 0.52,
+        "layer_offset": 0.5,
+        "band_radius": 10,
+        "pattern_id": "duo-toile",
+        "pattern_style": "solid"
+      }
+    },
+    {
+      "id": "barre-charge",
+      "part_id": "barre-charge",
+      "type": "bar",
+      "variant": "threshold",
+      "box": { "x": 1260, "y": 3410, "width": 5280, "height": 120, "rx": 30 },
+      "options": {
+        "preset": "bar_threshold",
+        "marker_gap": 168,
+        "hit_inset_x": 100,
+        "hit_inset_y": 80,
+        "detail_inset_x": 220,
+        "tick_inset_x": 620,
+        "tick_inset_y": 28,
+        "solid_profile": "duo-barre-charge",
+        "detail": {
+          "height": 8,
+          "inset_x": 260
+        }
+      }
+    },
+    {
+      "id": "commande",
+      "part_id": "commande",
+      "type": "control",
+      "variant": "bead-chain",
+      "options": {
+        "gap": "exploded_md",
+        "width": 110,
+        "rx": 40,
+        "marker_gap": 168,
+        "marker_side": "right",
+        "hit_inset_x": 95,
+        "hit_inset_y": 75,
+        "cord_top_offset_y": 90,
+        "cord_bottom_offset_y": -90,
+        "bead_count": 14,
+        "solid_profile": "duo-commande-chainette",
+        "segment_width": 12,
+        "bead_radius": 22
+      }
+    }
+  ],
+  "groups": [
+    {
+      "id": "mecanisme-haut",
+      "element_ids": ["rail-superieur", "tube-enroulement", "supports-pose"]
+    },
+    {
+      "id": "tablier-duo",
+      "element_ids": ["tube-enroulement", "toile-duo", "barre-charge"]
+    },
+    {
+      "id": "commande-laterale",
+      "element_ids": ["commande"]
+    },
+    {
+      "id": "toile-barre",
+      "element_ids": ["toile-duo", "barre-charge"],
+      "attached": true
+    }
+  ],
+  "callouts": [
+    {
+      "part_id": "rail-superieur",
+      "marker": { "x": 6948, "y": 660 },
+      "placement": "top_rail"
+    },
+    {
+      "part_id": "tube-enroulement",
+      "marker": { "x": 6708, "y": 1165 },
+      "placement": "top_rail",
+      "first_length": 220,
+      "second_length": 380
+    },
+    {
+      "part_id": "toile-duo",
+      "marker": { "x": 3900, "y": 1255 },
+      "placement": "center_fabric",
+      "label_side": "right"
+    },
+    {
+      "part_id": "barre-charge",
+      "marker": { "x": 6708, "y": 3470 },
+      "placement": "bottom_bar"
+    },
+    {
+      "part_id": "commande",
+      "marker": { "x": 6998, "y": 2270 },
+      "placement": "right_detail_up",
+      "first_length": 340
+    },
+    {
+      "part_id": "supports-pose",
+      "marker": { "x": 6150, "y": 285 },
+      "route": "right",
+      "first_length": 360
+    }
+  ],
+  "validation": {
+    "require_solid_renderers": true,
+    "forbid_raw_svg": true,
+    "snap_to_grid": {
+      "major_width_elements": ["rail-superieur", "tube-enroulement", "toile-duo", "barre-charge"]
+    }
+  }
+}

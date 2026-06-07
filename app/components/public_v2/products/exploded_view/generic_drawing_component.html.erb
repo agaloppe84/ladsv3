@@ -203,6 +203,33 @@
     <%= part_group("commande", class_suffix: "venitien-commande", hit: layout.control.hit, marker: layout.control.marker) do %>
       <%= solid_control_profile(layout.control.solid_profile) %>
     <% end %>
+  <% elsif duo_layout? %>
+    <%= part_group("rail-superieur", class_suffix: "duo-rail", hit: layout.headrail.hit, marker: layout.headrail.marker) do %>
+      <%= solid_profile(layout.headrail.solid_profile) %>
+    <% end %>
+
+    <%= part_group("supports-pose", class_suffix: "duo-supports", hit: layout.supports.hit, marker: layout.supports.marker) do %>
+      <% %i[left right].each do |side| %>
+        <%= solid_support_profile(layout.supports.solid_profile_for(side)) %>
+      <% end %>
+    <% end %>
+
+    <%= part_group("tube-enroulement", class_suffix: "duo-roll", hit: layout.roll.hit, marker: layout.roll.marker) do %>
+      <%= solid_bar_profile(layout.roll.solid_profile) %>
+    <% end %>
+
+    <%= part_group("toile-duo", class_suffix: "duo-toile", hit: layout.fabric.hit, marker: layout.fabric.marker) do %>
+      <%= fabric_pattern(layout.fabric.pattern, slot: :under_outline) %>
+      <%= fabric_pattern(layout.fabric.pattern, slot: :over_outline) %>
+    <% end %>
+
+    <%= part_group("barre-charge", class_suffix: "duo-barre", hit: layout.bottom_bar.hit, marker: layout.bottom_bar.marker) do %>
+      <%= solid_bar_profile(layout.bottom_bar.solid_profile) %>
+    <% end %>
+
+    <%= part_group("commande", class_suffix: "duo-commande", hit: layout.control.hit, marker: layout.control.marker) do %>
+      <%= solid_control_profile(layout.control.solid_profile) %>
+    <% end %>
   <% else %>
     <% unsupported_layout! %>
   <% end %>

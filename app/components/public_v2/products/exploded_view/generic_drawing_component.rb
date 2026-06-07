@@ -114,6 +114,10 @@ module PublicV2
           layout.respond_to?(:headrail) && layout.respond_to?(:slats) && layout.respond_to?(:control)
         end
 
+        def duo_layout?
+          layout.respond_to?(:headrail) && layout.respond_to?(:roll) && layout.respond_to?(:fabric)
+        end
+
         def right_vertical_pair_hit_box(rails, hit_offset: 80)
           Box.new(
             x: rails.right.x - hit_offset,
