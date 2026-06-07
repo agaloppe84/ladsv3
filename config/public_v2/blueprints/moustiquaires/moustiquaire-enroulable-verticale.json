@@ -142,7 +142,6 @@
       "type": "fabric",
       "variant": "bordered-grid-solid",
       "slot": "fabric",
-      "box": { "x": 1500, "y": 1260, "width": 4800, "height": 1920, "rx": 18 },
       "options": {
         "preset": "fabric_bordered",
         "marker_gap": 170,
@@ -196,7 +195,6 @@
       "type": "bar",
       "variant": "bottom-charge",
       "slot": "bottom-bar",
-      "box": { "x": 1370, "y": 3480, "width": 5060, "height": 150, "rx": 34 },
       "options": {
         "preset": "bar_bottom_charge",
         "marker_gap": 168,

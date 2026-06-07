@@ -66,9 +66,9 @@ module PublicV2
           end
 
           def build_duo_headrail
-            element = assembled.element("rail-superieur")
+            element = preset_slot_layout.element_for_slot("headrail", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.box_for_slot("headrail")
 
             horizontal_rail_element(
               preset: option_symbol(options, "preset"),
@@ -87,7 +87,7 @@ module PublicV2
           end
 
           def build_duo_supports(headrail:)
-            element = assembled.element("supports-pose")
+            element = preset_slot_layout.element_for_slot("top-supports", required: true)
             options = element.options
 
             mount_support_pair_element(
@@ -111,9 +111,9 @@ module PublicV2
           end
 
           def build_duo_roll(headrail:)
-            element = assembled.element("tube-enroulement")
+            element = preset_slot_layout.element_for_slot("roll", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.box_for_slot("roll")
             body = layout_box(
               LayoutRules.below(
                 headrail.body,
@@ -161,9 +161,9 @@ module PublicV2
           end
 
           def build_duo_fabric(roll:)
-            element = assembled.element("toile-duo")
+            element = preset_slot_layout.element_for_slot("fabric", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.box_for_slot("fabric")
 
             fabric_element(
               variant: :duo_bands,
@@ -187,9 +187,9 @@ module PublicV2
           end
 
           def build_duo_bottom_bar(fabric:)
-            element = assembled.element("barre-charge")
+            element = preset_slot_layout.element_for_slot("bottom-bar", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.box_for_slot("bottom-bar")
 
             threshold_bar_element(
               reference: fabric.body,
@@ -212,7 +212,7 @@ module PublicV2
           end
 
           def build_duo_control(fabric:)
-            element = assembled.element("commande")
+            element = preset_slot_layout.element_for_slot("controls", required: true)
             options = element.options
             body = layout_box(
               LayoutRules.right_of(
@@ -286,9 +286,9 @@ module PublicV2
           end
 
           def build_venetian_headrail
-            element = assembled.element("boitier-haut")
+            element = preset_slot_layout.element_for_slot("headrail", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.box_for_slot("headrail")
 
             horizontal_rail_element(
               preset: option_symbol(options, "preset"),
@@ -309,7 +309,7 @@ module PublicV2
           end
 
           def build_venetian_supports(headrail:)
-            element = assembled.element("supports-pose")
+            element = preset_slot_layout.element_for_slot("top-supports", required: true)
             options = element.options
 
             mount_support_pair_element(
@@ -333,9 +333,9 @@ module PublicV2
           end
 
           def build_venetian_slats(headrail:)
-            element = assembled.element("lames-orientables")
+            element = preset_slot_layout.element_for_slot("fabric", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.box_for_slot("fabric")
             slats = venetian_slat_pack_element(
               reference: headrail.body,
               preset: option_symbol(options, "preset"),
@@ -361,7 +361,7 @@ module PublicV2
                 tone_cycle: symbol_list(options.fetch("tone_cycle"))
               )
             )
-            cord_options = assembled.element("cordons-echelles").options
+            cord_options = preset_slot_layout.element_for_slot("ladder-cords", required: true).options
 
             slats.with_cord_solid_profile(
               SolidProfiles.control_segments(
@@ -375,9 +375,9 @@ module PublicV2
           end
 
           def build_venetian_bottom_bar(slats:)
-            element = assembled.element("barre-finale")
+            element = preset_slot_layout.element_for_slot("bottom-bar", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.box_for_slot("bottom-bar")
 
             threshold_bar_element(
               reference: slats.body,
@@ -400,7 +400,7 @@ module PublicV2
           end
 
           def build_venetian_control(slats:)
-            element = assembled.element("commande")
+            element = preset_slot_layout.element_for_slot("controls", required: true)
             options = element.options
             control = venetian_control_element(
               reference: slats.body,
@@ -930,7 +930,7 @@ module PublicV2
           def build_enroulable_cassette
             element = preset_slot_layout.element_for_slot("top-housing", required: true)
             options = element.options
-            box = preset_slot_layout.explicit_box_for(element)
+            box = preset_slot_layout.box_for_slot("top-housing")
 
             cassette_housing_element(
               preset: option_symbol(options, "preset"),
@@ -959,7 +959,7 @@ module PublicV2
           def build_enroulable_fabric(cassette:)
             element = preset_slot_layout.element_for_slot("fabric", required: true)
             options = element.options
-            box = preset_slot_layout.explicit_box_for(element)
+            box = preset_slot_layout.box_for_slot("fabric")
 
             fabric_element(
               variant: :bordered_grid,
@@ -1013,7 +1013,7 @@ module PublicV2
           def build_enroulable_bottom_bar(fabric:)
             element = preset_slot_layout.element_for_slot("bottom-bar", required: true)
             options = element.options
-            box = preset_slot_layout.explicit_box_for(element)
+            box = preset_slot_layout.box_for_slot("bottom-bar")
 
             bottom_bar_element(
               reference: fabric.body,
@@ -1113,7 +1113,7 @@ module PublicV2
           end
 
           def build_vertical_zippe_motor
-            element = assembled.element("motorisation")
+            element = preset_slot_layout.element_for_slot("motor", required: true)
             options = element.options
 
             tubular_motor_element(
@@ -1134,9 +1134,9 @@ module PublicV2
           end
 
           def build_vertical_zippe_coffre(motor:)
-            element = assembled.element("coffre")
+            element = preset_slot_layout.element_for_slot("top-housing", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.box_for_slot("top-housing")
 
             zipped_coffre_element(
               reference: motor.head,
@@ -1158,9 +1158,9 @@ module PublicV2
           end
 
           def build_vertical_zippe_fabric(coffre:)
-            element = assembled.element("toile")
+            element = preset_slot_layout.element_for_slot("fabric", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.box_for_slot("fabric")
 
             fabric_element(
               variant: :zipped,
@@ -1182,7 +1182,7 @@ module PublicV2
           end
 
           def build_vertical_zippe_coulisse(fabric:)
-            element = assembled.element("coulisses")
+            element = preset_slot_layout.element_for_slot("side-guides", required: true)
             options = element.options
             top = fabric.body.y - 140
             bottom = layout_y(fabric.body.bottom + layout_gap(92))
@@ -1197,9 +1197,9 @@ module PublicV2
           end
 
           def build_vertical_zippe_barre(coffre:, fabric:)
-            element = assembled.element("barre-charge")
+            element = preset_slot_layout.element_for_slot("bottom-bar", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.box_for_slot("bottom-bar")
 
             zipped_load_bar_element(
               top: box.y,
@@ -1216,6 +1216,7 @@ module PublicV2
           end
 
           def build_vertical_zippe_supports
+            element = preset_slot_layout.element_for_slot("top-supports", required: true)
             left = layout_box(Box.new(x: 1_240, y: 140, width: 420, height: 320, rx: 42))
             right = layout_box(Box.new(x: canvas_spec.svg_width - left.right, y: left.y, width: left.width, height: left.height, rx: left.rx))
             hit = layout_box(Box.new(x: 1_120, y: 90, width: 5_560, height: 430, rx: 0), preserve_size: true)
@@ -1227,7 +1228,7 @@ module PublicV2
               right:,
               marker:,
               solid_profiles: SolidProfiles.mount_support_pair(
-                id: assembled.element("supports").options.fetch("solid_profile"),
+                id: element.options.fetch("solid_profile"),
                 left:,
                 right:,
                 detail_rows: [

@@ -183,7 +183,6 @@
       "type": "bar",
       "variant": "threshold",
       "slot": "bottom-bar",
-      "box": { "x": 1320, "y": 3370, "width": 5080, "height": 140, "rx": 30 },
       "options": {
         "preset": "bar_venetian_bottom",
         "marker_gap": 168,

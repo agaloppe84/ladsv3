@@ -173,7 +173,6 @@
       "type": "bar",
       "variant": "zipped-load",
       "slot": "bottom-bar",
-      "box": { "x": 1020, "y": 4310, "width": 5760, "height": 180, "rx": 34 },
       "options": {
         "preset": "bar_zipped_load",
         "solid_profile": "vertical-zippe-barre-charge",

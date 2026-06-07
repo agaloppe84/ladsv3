@@ -173,7 +173,6 @@
       "type": "fabric",
       "variant": "duo-bands-solid",
       "slot": "fabric",
-      "box": { "x": 1380, "y": 1430, "width": 5040, "height": 1680, "rx": 18 },
       "options": {
         "preset": "fabric_duo",
         "marker_gap": 175,
