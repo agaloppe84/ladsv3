@@ -21,6 +21,7 @@ module PublicV2
         :grid,
         :groups,
         :support_marker,
+        :supports,
         :motor,
         :coffre,
         :fabric,
@@ -77,8 +78,13 @@ module PublicV2
         :left,
         :right,
         :marker,
+        :solid_profiles,
         keyword_init: true
-      )
+      ) do
+        def solid_profile_for(side)
+          solid_profiles&.fetch(side.to_sym)
+        end
+      end
 
       DuetteCordPair = Struct.new(
         :hit,
@@ -88,6 +94,7 @@ module PublicV2
         :bottom_y,
         :marker,
         :dot_ys,
+        :solid_profile,
         keyword_init: true
       ) do
         def path
@@ -109,8 +116,13 @@ module PublicV2
         :left,
         :right,
         :marker,
+        :solid_profiles,
         keyword_init: true
-      )
+      ) do
+        def solid_profile_for(side)
+          solid_profiles&.fetch(side.to_sym)
+        end
+      end
 
       DuoRollElement = Struct.new(
         :hit,

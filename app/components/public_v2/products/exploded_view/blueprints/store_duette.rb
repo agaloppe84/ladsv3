@@ -218,19 +218,19 @@ module PublicV2
           end
 
           def build_support_layout(top_rail:)
-            width = layout_size(layout_config.fetch(:support_width))
-            height = layout_size(layout_config.fetch(:support_height))
-            y = top_rail.body.y - layout_gap(layout_config.fetch(:support_gap)) - height
-            inset_x = layout_size(layout_config.fetch(:support_inset_x))
-            left = layout_box(Box.new(x: top_rail.body.x + inset_x, y:, width:, height:, rx: 38))
-            right = layout_box(Box.new(x: top_rail.body.right - inset_x - width, y:, width:, height:, rx: 38))
-            hit = layout_box(LayoutRules.hit_box(Box.union([left, right]), inset_x: 80, inset_y: 80), preserve_size: true)
-
-            MountSupportPair.new(
-              hit:,
-              left:,
-              right:,
-              marker: layout_anchor(right, side: :right, gap: layout_config.fetch(:support_marker_gap))
+            mount_support_pair_element(
+              reference: top_rail.body,
+              gap: layout_config.fetch(:support_gap),
+              width: layout_config.fetch(:support_width),
+              height: layout_config.fetch(:support_height),
+              inset_x: layout_config.fetch(:support_inset_x),
+              marker_gap: layout_config.fetch(:support_marker_gap),
+              solid_profile: {
+                id: "duette-supports-pose",
+                point_inset: 92,
+                detail_inset_x: 42,
+                detail_inset_y: 62
+              }
             )
           end
 
@@ -427,7 +427,16 @@ module PublicV2
               top_y:,
               bottom_y:,
               marker: layout_point(Point.new(x: left_x - layout_config.fetch(:marker_gap), y: fabric.body.center_y)),
-              dot_ys:
+              dot_ys:,
+              solid_profile: SolidProfiles.control_pair(
+                id: "duette-cordons-guidage",
+                xs: [left_x, right_x],
+                top: top_y,
+                bottom: bottom_y,
+                dot_ys:,
+                segment_width: 14,
+                point_radius: 18
+              )
             )
           end
         end

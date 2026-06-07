@@ -203,6 +203,21 @@ module PublicV2
           )
         end
 
+        def solid_support_profile(profile)
+          return unless profile
+
+          id = "#{svg_description_id}-#{profile.id}"
+          clip_id = solid_clip_id(id)
+          safe_join(
+            [
+              solid_profile_defs(profile.body, clip_id:, id:, tones: profile.tones, axis: :horizontal),
+              solid_rect(profile.body, clip_id:, id:, tone: profile.body_tone),
+              *profile.features.map { |feature| solid_support_feature(feature, clip_id:, id:) },
+              *profile.points.map { |point| solid_point(point.point, radius: point.radius, tone: point.tone) }
+            ]
+          )
+        end
+
         def solid_bar_profile(profile)
           return unless profile
 
@@ -210,10 +225,65 @@ module PublicV2
           clip_id = solid_clip_id(id)
           safe_join(
             [
-              solid_profile_defs(profile.clip_box, clip_id:, id:, tones: profile.tones, axis: :horizontal),
+              solid_profile_defs(profile.clip_box, clip_id:, id:, tones: profile.tones, axis: profile.axis),
               solid_rect(profile.body, clip_id:, id:, tone: profile.body_tone),
               *profile.features.map { |feature| solid_bar_feature(feature, clip_id:, id:) },
               *profile.points.map { |point| solid_point(point.point, radius: point.radius, tone: point.tone) }
+            ]
+          )
+        end
+
+        def solid_control_profile(profile)
+          return unless profile
+
+          id = "#{svg_description_id}-#{profile.id}"
+          clip_id = solid_clip_id(id)
+          safe_join(
+            [
+              solid_profile_defs(profile.clip_box, clip_id:, id:, tones: profile.tones, axis: :horizontal),
+              *profile.features.map { |feature| solid_control_feature(feature, clip_id:, id:) },
+              *profile.points.map { |point| solid_point(point.point, radius: point.radius, tone: point.tone) }
+            ]
+          )
+        end
+
+        def solid_motor_profile(profile)
+          return unless profile
+
+          id = "#{svg_description_id}-#{profile.id}"
+          clip_id = solid_clip_id(id)
+          safe_join(
+            [
+              solid_profile_defs(profile.clip_box, clip_id:, id:, tones: profile.tones, axis: :horizontal),
+              *profile.features.map { |feature| solid_motor_feature(feature, clip_id:, id:) },
+              *profile.points.map { |point| solid_point(point.point, radius: point.radius, tone: point.tone) }
+            ]
+          )
+        end
+
+        def solid_accessory_profile(profile)
+          return unless profile
+
+          id = "#{svg_description_id}-#{profile.id}"
+          clip_id = solid_clip_id(id)
+          safe_join(
+            [
+              solid_profile_defs(profile.clip_box, clip_id:, id:, tones: profile.tones, axis: :horizontal),
+              *profile.features.map { |feature| solid_accessory_feature(feature, clip_id:, id:) },
+              *profile.points.map { |point| solid_point(point.point, radius: point.radius, tone: point.tone) }
+            ]
+          )
+        end
+
+        def slat_pattern(pattern)
+          return unless pattern
+
+          id = "#{svg_description_id}-#{pattern.id}"
+          clip_id = solid_clip_id(id)
+          safe_join(
+            [
+              solid_profile_defs(pattern.clip_box, clip_id:, id:, tones: pattern.tones, axis: pattern.axis),
+              *pattern.layers.map { |layer| solid_path(layer.path, clip_id:, id:, tone: layer.tone) }
             ]
           )
         end
@@ -364,6 +434,15 @@ module PublicV2
           tag.path(**attrs)
         end
 
+        def solid_support_feature(feature, clip_id:, id:)
+          case feature.kind
+          when :rect
+            solid_rect(feature.box, clip_id:, id:, tone: feature.tone)
+          else
+            raise ArgumentError, "Unknown solid support feature kind: #{feature.kind}"
+          end
+        end
+
         def solid_bar_feature(feature, clip_id:, id:)
           case feature.kind
           when :rect
@@ -374,6 +453,37 @@ module PublicV2
             solid_path(solid_bottom_rounded_rect_path(feature.box, radius: feature.rx), clip_id:, id:, tone: feature.tone)
           else
             raise ArgumentError, "Unknown solid bar feature kind: #{feature.kind}"
+          end
+        end
+
+        def solid_control_feature(feature, clip_id:, id:)
+          case feature.kind
+          when :rect
+            solid_rect(feature.box, clip_id:, id:, tone: feature.tone)
+          else
+            raise ArgumentError, "Unknown solid control feature kind: #{feature.kind}"
+          end
+        end
+
+        def solid_motor_feature(feature, clip_id:, id:)
+          case feature.kind
+          when :rect
+            solid_rect(feature.box, clip_id:, id:, tone: feature.tone)
+          when :left_rounded_rect
+            solid_path(solid_left_rounded_rect_path(feature.box, radius: feature.rx), clip_id:, id:, tone: feature.tone)
+          when :right_rounded_rect
+            solid_path(solid_right_rounded_rect_path(feature.box, radius: feature.rx), clip_id:, id:, tone: feature.tone)
+          else
+            raise ArgumentError, "Unknown solid motor feature kind: #{feature.kind}"
+          end
+        end
+
+        def solid_accessory_feature(feature, clip_id:, id:)
+          case feature.kind
+          when :rect
+            solid_rect(feature.box, clip_id:, id:, tone: feature.tone)
+          else
+            raise ArgumentError, "Unknown solid accessory feature kind: #{feature.kind}"
           end
         end
 
@@ -413,6 +523,35 @@ module PublicV2
             "H#{box.x + radius}",
             "Q#{box.x} #{box.bottom} #{box.x} #{box.bottom - radius}",
             "V#{box.y}",
+            "Z"
+          ].join
+        end
+
+        def solid_left_rounded_rect_path(box, radius:)
+          radius = [radius, box.width, box.height / 2].min
+
+          [
+            "M#{box.x + radius} #{box.y}",
+            "H#{box.right}",
+            "V#{box.bottom}",
+            "H#{box.x + radius}",
+            "Q#{box.x} #{box.bottom} #{box.x} #{box.bottom - radius}",
+            "V#{box.y + radius}",
+            "Q#{box.x} #{box.y} #{box.x + radius} #{box.y}",
+            "Z"
+          ].join
+        end
+
+        def solid_right_rounded_rect_path(box, radius:)
+          radius = [radius, box.width, box.height / 2].min
+
+          [
+            "M#{box.x} #{box.y}",
+            "H#{box.right - radius}",
+            "Q#{box.right} #{box.y} #{box.right} #{box.y + radius}",
+            "V#{box.bottom - radius}",
+            "Q#{box.right} #{box.bottom} #{box.right - radius} #{box.bottom}",
+            "H#{box.x}",
             "Z"
           ].join
         end

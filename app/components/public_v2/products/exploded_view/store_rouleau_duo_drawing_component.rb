@@ -22,11 +22,6 @@ module PublicV2
             rx: ROLL_HIGHLIGHT_HEIGHT / 2
           )
         end
-
-        def duo_support_detail_path(support)
-          "M#{support.x + 48} #{support.center_y}H#{support.right - 48}" \
-            "M#{support.center_x} #{support.y + 38}V#{support.bottom - 38}"
-        end
       end
     end
   end

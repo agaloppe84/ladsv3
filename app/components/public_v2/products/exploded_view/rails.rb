@@ -92,7 +92,10 @@ module PublicV2
               top: options.fetch(:top),
               bottom: options.fetch(:bottom),
               hit: options.fetch(:hit),
-              marker: options.fetch(:marker)
+              marker: options.fetch(:marker),
+              left: options.fetch(:left, nil),
+              right: options.fetch(:right, nil),
+              solid_profiles: options.fetch(:solid_profiles, nil)
             )
           when :horizontal_guide
             horizontal_guide(
@@ -121,13 +124,16 @@ module PublicV2
           end
         end
 
-        def self.zipped_coulisse(top:, bottom:, hit:, marker:)
+        def self.zipped_coulisse(top:, bottom:, hit:, marker:, left: nil, right: nil, solid_profiles: nil)
           new(
             variant: :zipped_coulisse,
             top:,
             bottom:,
             hit:,
-            marker:
+            marker:,
+            left:,
+            right:,
+            solid_profiles:
           )
         end
 
@@ -266,6 +272,20 @@ module PublicV2
           attached_features[key.to_sym]
         end
 
+        def zip_edge_box(side:, y:, height:, width: 54, rx: 8)
+          require_variant(:zipped_coulisse, "zip_edge_box")
+
+          side = normalize_side(side)
+          rail = solid_profile_side_box(side)
+          x = side == :right ? rail.x - width : rail.right
+
+          Box.new(x:, y:, width:, height:, rx:)
+        end
+
+        def zip_teeth_side(side)
+          normalize_side(side) == :right ? :left : :right
+        end
+
         def outline_path(box = nil)
           return zipped_coulisse_outline_path if variant == :zipped_coulisse
 
@@ -312,6 +332,20 @@ module PublicV2
 
         def normalize_attached_features(features)
           features.transform_keys(&:to_sym).freeze
+        end
+
+        def normalize_side(side)
+          side = side.to_sym
+          return side if %i[left right].include?(side)
+
+          raise ArgumentError, "Unknown rail side: #{side}"
+        end
+
+        def solid_profile_side_box(side)
+          rail = public_send(side)
+          raise ArgumentError, "#{variant} rail requires #{side} rail box" unless rail
+
+          rail
         end
 
         def zipped_coulisse_outline_path

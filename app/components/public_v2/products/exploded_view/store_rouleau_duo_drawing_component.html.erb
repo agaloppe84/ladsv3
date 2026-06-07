@@ -36,12 +36,8 @@
     aria-pressed="<%= aria_pressed("supports-pose") %>"
     aria-label="Supports de pose">
     <rect x="<%= layout.supports.hit.x %>" y="<%= layout.supports.hit.y %>" width="<%= layout.supports.hit.width %>" height="<%= layout.supports.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <% [layout.supports.left, layout.supports.right].each do |support| %>
-      <%= surface_rect(support) %>
-      <rect x="<%= support.x %>" y="<%= support.y %>" width="<%= support.width %>" height="<%= support.height %>" rx="<%= support.rx %>" class="pv2-product-exploded__outline" />
-      <path d="<%= duo_support_detail_path(support) %>" class="pv2-product-exploded__detail" />
-      <circle cx="<%= support.x + 86 %>" cy="<%= support.center_y %>" r="20" class="pv2-product-exploded__fill" />
-      <circle cx="<%= support.right - 86 %>" cy="<%= support.center_y %>" r="20" class="pv2-product-exploded__fill" />
+    <% %i[left right].each do |side| %>
+      <%= solid_support_profile(layout.supports.solid_profile_for(side)) %>
     <% end %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.supports.marker.x %> <%= layout.supports.marker.y %>)">
       <circle r="68" />
@@ -117,10 +113,7 @@
     aria-pressed="<%= aria_pressed("commande") %>"
     aria-label="Commande">
     <rect x="<%= layout.control.hit.x %>" y="<%= layout.control.hit.y %>" width="<%= layout.control.hit.width %>" height="<%= layout.control.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <path d="<%= layout.control.cord_path %>" class="pv2-product-exploded__profile pv2-product-exploded__duo-chain-line" />
-    <% layout.control.bead_points.each do |point| %>
-      <circle cx="<%= point.x %>" cy="<%= point.y %>" r="22" class="pv2-product-exploded__fill pv2-product-exploded__duo-chain-bead" />
-    <% end %>
+    <%= solid_control_profile(layout.control.solid_profile) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.control.marker.x %> <%= layout.control.marker.y %>)">
       <circle r="68" />
       <text y="25">5</text>

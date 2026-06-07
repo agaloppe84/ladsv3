@@ -120,7 +120,7 @@ module PublicV2
           end
 
           def introduction
-            "Reconstruction front à partir des cotes documentées : un format de référence 6 000 x 2 500 mm, des profils dessinés à l'échelle, et une lecture filaire qui sépare les pièces sans brouiller le plan technique."
+            "Reconstruction front à partir des cotes documentées : un format de référence 6 000 x 2 500 mm, des profils dessinés à l'échelle, et une lecture technique qui sépare les pièces sans brouiller le plan."
           end
 
           def svg_description
@@ -154,23 +154,27 @@ module PublicV2
               head_height: layout_config[:motor_head_height],
               head_rx: layout_config[:motor_head_radius],
               tube_height: layout_config[:motor_tube_height],
-              tube_rx: layout_config[:motor_tube_radius]
+              tube_rx: layout_config[:motor_tube_radius],
+              solid_profile: {
+                id: "vertical-zippe-motorisation"
+              }
             )
 
             coffre = build_coffre_layout(motor:)
             fabric = build_fabric_layout(coffre:)
             coulisse = build_coulisse_layout(fabric:)
             barre = build_barre_layout(fabric:, coffre:)
-            support_marker = layout_point(Point.new(x: drawing_right + marker_gap, y: 305))
+            supports = build_support_layout(drawing_right:, marker_gap:)
             groups = build_groups(motor:, coffre:, fabric:, coulisse:, barre:)
-            callouts = build_callouts(support_marker:, motor:, coffre:, fabric:, coulisse:, barre:, groups:)
+            callouts = build_callouts(supports:, motor:, coffre:, fabric:, coulisse:, barre:, groups:)
 
             DrawingLayout.new(
               svg_width: canvas_spec.svg_width,
               svg_height: canvas_spec.svg_height,
               grid: layout_grid,
               groups:,
-              support_marker:,
+              support_marker: supports.marker,
+              supports:,
               motor:,
               coffre:,
               fabric:,
@@ -180,23 +184,21 @@ module PublicV2
             )
           end
 
-          def build_callouts(support_marker:, motor:, coffre:, fabric:, coulisse:, barre:, groups:)
+          def build_callouts(supports:, motor:, coffre:, fabric:, coulisse:, barre:, groups:)
             {
               "coffre" => callout("coffre", marker: coffre.marker, placement: :top_housing, label_side: :right, first_length: 225, second_length: 390, text_offset_x: 76),
               "coulisses" => callout("coulisses", marker: coulisse.marker, placement: :left_vertical_pair, first_length: 285, second_length: 190),
               "toile" => callout("toile", marker: fabric.marker, placement: :center_fabric, label_side: :right, first_length: 265, second_length: 390, text_offset_x: 76),
               "barre-charge" => callout("barre-charge", marker: barre.marker, placement: :bottom_bar, first_length: 95, second_length: 500, text_offset_x: -72, text_anchor: "end"),
               "motorisation" => callout("motorisation", marker: groups.fetch("motorisation").outside_anchor(side: :right, gap: layout_config.fetch(:marker_gap)), placement: :top_housing, second_length: 380, text_offset_x: -72, text_anchor: "end"),
-              "supports" => callout("supports", marker: support_marker, placement: :top_rail, first_length: 180, text_offset_x: -72, text_anchor: "end")
+              "supports" => callout("supports", marker: supports.marker, placement: :top_rail, first_length: 180, text_offset_x: -72, text_anchor: "end")
             }
           end
 
           def build_groups(motor:, coffre:, fabric:, coulisse:, barre:)
-            right_coulisse_hit = LayoutRules.mirror_x(coulisse.hit, canvas_width: canvas_spec.svg_width)
-
             {
               "motorisation" => LayoutGroup.attached(id: "motorisation", boxes: [motor.tube, motor.head]),
-              "toile-coulisses" => LayoutGroup.new(id: "toile-coulisses", boxes: [fabric.body, coulisse.hit, right_coulisse_hit]),
+              "toile-coulisses" => LayoutGroup.new(id: "toile-coulisses", boxes: [fabric.body, coulisse.left, coulisse.right]),
               "coffre-toile-barre" => LayoutGroup.new(id: "coffre-toile-barre", boxes: [coffre.body, fabric.body, barre.hit])
             }
           end
@@ -219,6 +221,36 @@ module PublicV2
                 style: :front_coffre,
                 points: false
               }
+            )
+          end
+
+          def build_support_layout(drawing_right:, marker_gap:)
+            left = layout_box(Box.new(x: 1_240, y: 140, width: 420, height: 320, rx: 42))
+            right = layout_box(Box.new(x: canvas_spec.svg_width - left.right, y: left.y, width: left.width, height: left.height, rx: left.rx))
+            hit = layout_box(Box.new(x: 1_120, y: 90, width: 5_560, height: 430, rx: 0), preserve_size: true)
+            marker = layout_point(Point.new(x: drawing_right + marker_gap, y: 305))
+
+            MountSupportPair.new(
+              hit:,
+              left:,
+              right:,
+              marker:,
+              solid_profiles: SolidProfiles.mount_support_pair(
+                id: "vertical-zippe-supports",
+                left:,
+                right:,
+                detail_rows: [
+                  { y: 54, inset_x: 76, height: 10 },
+                  { y: 100, inset_x: 98, height: 8 },
+                  { y: -100, inset_x: 98, height: 8 },
+                  { y: -54, inset_x: 76, height: 10 }
+                ],
+                point_specs: [
+                  { x: :center, y: :center, radius: 54, tone: :mid },
+                  { x: 96, y: :center, radius: 22 },
+                  { x: -96, y: :center, radius: 22 }
+                ]
+              )
             )
           end
 
@@ -250,7 +282,10 @@ module PublicV2
               top:,
               bottom:,
               hit: Box.new(x: 470, y: top - 75, width: 300, height: (bottom - top) + 165),
-              marker: Point.new(x: 410, y: top + ((bottom - top) / 2))
+              marker: Point.new(x: 410, y: top + ((bottom - top) / 2)),
+              solid_profile: {
+                id: "vertical-zippe-coulisses"
+              }
             )
           end
 

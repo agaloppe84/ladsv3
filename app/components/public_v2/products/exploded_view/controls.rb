@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "geometry"
+require_relative "solid_profiles"
 
 module PublicV2
   module Products
@@ -15,7 +16,8 @@ module PublicV2
           :marker,
           :cord_top,
           :cord_bottom,
-          :bead_count
+          :bead_count,
+          :solid_profile
         )
 
         def self.build(variant:, **options)
@@ -27,14 +29,15 @@ module PublicV2
               marker: options.fetch(:marker),
               cord_top: options.fetch(:cord_top),
               cord_bottom: options.fetch(:cord_bottom),
-              bead_count: options.fetch(:bead_count)
+              bead_count: options.fetch(:bead_count),
+              solid_profile: options.fetch(:solid_profile, nil)
             )
           else
             raise ArgumentError, "Unknown control variant: #{variant}"
           end
         end
 
-        def self.venetian_wand(hit:, body:, marker:, cord_top:, cord_bottom:, bead_count:)
+        def self.venetian_wand(hit:, body:, marker:, cord_top:, cord_bottom:, bead_count:, solid_profile: nil)
           new(
             variant: :venetian_wand,
             hit:,
@@ -42,11 +45,12 @@ module PublicV2
             marker:,
             cord_top:,
             cord_bottom:,
-            bead_count:
+            bead_count:,
+            solid_profile:
           )
         end
 
-        def initialize(variant:, hit:, body:, marker:, cord_top:, cord_bottom:, bead_count:)
+        def initialize(variant:, hit:, body:, marker:, cord_top:, cord_bottom:, bead_count:, solid_profile: nil)
           @variant = variant.to_sym
           raise ArgumentError, "Unknown control variant: #{variant}" unless VARIANTS.include?(@variant)
 
@@ -56,6 +60,20 @@ module PublicV2
           @cord_top = cord_top
           @cord_bottom = cord_bottom
           @bead_count = bead_count
+          @solid_profile = solid_profile
+        end
+
+        def with_solid_profile(solid_profile)
+          self.class.new(
+            variant:,
+            hit:,
+            body:,
+            marker:,
+            cord_top:,
+            cord_bottom:,
+            bead_count:,
+            solid_profile:
+          )
         end
 
         def cord_path

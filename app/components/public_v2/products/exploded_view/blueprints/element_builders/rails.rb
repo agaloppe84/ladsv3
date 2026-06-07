@@ -104,15 +104,24 @@ module PublicV2
               top:,
               bottom:,
               hit:,
-              marker:
+              marker:,
+              solid_profile: nil
             )
-              RailElement.build(
+              left = zipped_coulisse_box(top:, bottom:)
+              right = layout_box(LayoutRules.mirror_x(left, canvas_width: canvas_spec.svg_width), preserve_size: true)
+
+              rail = RailElement.build(
                 variant: :zipped_coulisse,
-                top:,
-                bottom:,
+                top: left.y,
+                bottom: left.bottom,
                 hit: layout_box(hit),
+                left:,
+                right:,
                 marker: layout_point(marker)
               )
+              return rail unless solid_profile
+
+              rail.with_solid_profiles(zipped_coulisse_solid_profiles(solid_profile, rail:))
             end
 
             def horizontal_rail_solid_profile(config, rail:)
@@ -138,6 +147,20 @@ module PublicV2
                 left: rail.left,
                 right: rail.right,
                 slot_ys: options.fetch(:slot_ys, rail.slot_ys),
+                cap_ratio: options.fetch(:cap_ratio, 0.29),
+                point_radius: options.fetch(:point_radius, 18),
+                tones: options.fetch(:tones, {})
+              )
+            end
+
+            def zipped_coulisse_solid_profiles(config, rail:)
+              options = solid_profile_options(config)
+
+              SolidProfiles.vertical_rail_pair(
+                id: options.fetch(:id),
+                left: rail.left,
+                right: rail.right,
+                slot_ys: options.fetch(:slot_ys, []),
                 cap_ratio: options.fetch(:cap_ratio, 0.29),
                 point_radius: options.fetch(:point_radius, 18),
                 tones: options.fetch(:tones, {})
@@ -202,6 +225,20 @@ module PublicV2
               else
                 raise ArgumentError, "attached_features must be a Hash config"
               end
+            end
+
+            def zipped_coulisse_box(top:, bottom:)
+              geometry = RailGeometry::ZIP_COULISSE
+
+              layout_box(
+                Box.new(
+                  x: geometry.fetch(:outer_left_x),
+                  y: top,
+                  width: geometry.fetch(:outer_right_x) - geometry.fetch(:outer_left_x),
+                  height: bottom - top,
+                  rx: geometry.fetch(:radius)
+                )
+              )
             end
           end
         end

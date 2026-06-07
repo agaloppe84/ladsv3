@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "../../solid_profiles"
+
 module PublicV2
   module Products
     module ExplodedView
@@ -26,7 +28,8 @@ module PublicV2
               head_rx: nil,
               tube_height: nil,
               tube_rx: nil,
-              marker_side: :right
+              marker_side: :right,
+              solid_profile: nil
             )
               resolved_head_width = standard_dimension(head_preset, :width, override: head_width)
               head = standard_box(
@@ -48,7 +51,7 @@ module PublicV2
                 )
               )
 
-              MotorElement.build(
+              motor = MotorElement.build(
                 variant: :tubular,
                 hit: layout_box(Box.new(x: hit_x, y: head.y + hit_y_offset, width: hit_width, height: hit_height)),
                 tube:,
@@ -56,6 +59,36 @@ module PublicV2
                 head:,
                 marker: layout_anchor(head, side: marker_side, gap: marker_gap)
               )
+              return motor unless solid_profile
+
+              motor.with_solid_profile(tubular_motor_solid_profile(solid_profile, motor:))
+            end
+
+            def tubular_motor_solid_profile(config, motor:)
+              return config if config.is_a?(SolidMotorProfile)
+
+              options = solid_motor_profile_options(config)
+
+              SolidProfiles.tubular_motor(
+                id: options.fetch(:id),
+                tube: motor.tube,
+                head: motor.head,
+                cap_width: options.fetch(:cap_width, motor.tube_cap_width),
+                large_hole: options.fetch(:large_hole, motor.large_hole),
+                small_holes: options.fetch(:small_holes, motor.small_holes),
+                large_hole_radius: options.fetch(:large_hole_radius, 45),
+                small_hole_radius: options.fetch(:small_hole_radius, 18),
+                tones: options.fetch(:tones, {})
+              )
+            end
+
+            def solid_motor_profile_options(config)
+              case config
+              when Hash
+                config.transform_keys(&:to_sym)
+              else
+                raise ArgumentError, "solid_profile must be a SolidMotorProfile or a Hash config"
+              end
             end
           end
         end

@@ -308,7 +308,13 @@ module PublicV2
               hit_height: 330,
               marker_offset_y: 285,
               receiver_offset_y: 118,
-              radius: 42
+              radius: 42,
+              solid_profile: {
+                id: "enroulable-fermeture-magnetique",
+                point_radius: 22,
+                base_height: 16,
+                base_offset_y: 58
+              }
             )
           end
 
@@ -318,7 +324,10 @@ module PublicV2
               marker_gap: layout_config.fetch(:marker_gap),
               feature_id: :bavettes,
               hit_inset_x: 70,
-              hit_inset_y: 70
+              hit_inset_y: 70,
+              solid_profile: {
+                id: "enroulable-bavettes-anti-intrusion"
+              }
             )
           end
         end

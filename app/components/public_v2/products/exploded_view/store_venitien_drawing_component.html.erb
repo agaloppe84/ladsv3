@@ -18,12 +18,7 @@
     aria-pressed="<%= aria_pressed("boitier-haut") %>"
     aria-label="Boîtier haut">
     <rect x="<%= layout.headrail.hit.x %>" y="<%= layout.headrail.hit.y %>" width="<%= layout.headrail.hit.width %>" height="<%= layout.headrail.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= surface_rect(layout.headrail.body) %>
-    <rect x="<%= layout.headrail.body.x %>" y="<%= layout.headrail.body.y %>" width="<%= layout.headrail.body.width %>" height="<%= layout.headrail.body.height %>" rx="<%= layout.headrail.body.rx %>" class="pv2-product-exploded__outline" />
-    <path d="<%= layout.headrail.inner_path %>" class="pv2-product-exploded__detail" />
-    <% layout.headrail.screw_points.each do |point| %>
-      <circle cx="<%= point.x %>" cy="<%= point.y %>" r="24" class="pv2-product-exploded__fill" />
-    <% end %>
+    <%= solid_profile(layout.headrail.solid_profile) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.headrail.marker.x %> <%= layout.headrail.marker.y %>)">
       <circle r="68" />
       <text y="25">1</text>
@@ -41,12 +36,8 @@
     aria-pressed="<%= aria_pressed("supports-pose") %>"
     aria-label="Supports de pose">
     <rect x="<%= layout.supports.hit.x %>" y="<%= layout.supports.hit.y %>" width="<%= layout.supports.hit.width %>" height="<%= layout.supports.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <% [layout.supports.left, layout.supports.right].each do |support| %>
-      <%= surface_rect(support) %>
-      <rect x="<%= support.x %>" y="<%= support.y %>" width="<%= support.width %>" height="<%= support.height %>" rx="<%= support.rx %>" class="pv2-product-exploded__outline" />
-      <path d="M<%= support.x + 40 %> <%= support.y + 62 %>H<%= support.right - 40 %>M<%= support.x + 40 %> <%= support.bottom - 62 %>H<%= support.right - 40 %>" class="pv2-product-exploded__detail" />
-      <circle cx="<%= support.x + 96 %>" cy="<%= support.center_y %>" r="20" class="pv2-product-exploded__fill" />
-      <circle cx="<%= support.right - 96 %>" cy="<%= support.center_y %>" r="20" class="pv2-product-exploded__fill" />
+    <% %i[left right].each do |side| %>
+      <%= solid_support_profile(layout.supports.solid_profile_for(side)) %>
     <% end %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.supports.marker.x %> <%= layout.supports.marker.y %>)">
       <circle r="68" />
@@ -65,10 +56,7 @@
     aria-pressed="<%= aria_pressed("lames-orientables") %>"
     aria-label="Lames orientables">
     <rect x="<%= layout.slats.hit.x %>" y="<%= layout.slats.hit.y %>" width="<%= layout.slats.hit.width %>" height="<%= layout.slats.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <% layout.slats.slat_centers.each do |center_y| %>
-      <%= surface_path(layout.slats.slat_path(center_y)) %>
-      <path d="<%= layout.slats.slat_path(center_y) %>" class="pv2-product-exploded__outline" />
-    <% end %>
+    <%= slat_pattern(layout.slats.slat_pattern) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.slats.marker.x %> <%= layout.slats.marker.y %>)">
       <circle r="68" />
       <text y="25">2</text>
@@ -88,10 +76,7 @@
     <% layout.slats.cord_xs.each do |x| %>
       <rect x="<%= x - 74 %>" y="<%= layout.slats.cord_top - 90 %>" width="148" height="<%= layout.slats.cord_bottom - layout.slats.cord_top + 180 %>" class="pv2-product-exploded__hit-area" />
     <% end %>
-    <path d="<%= layout.slats.cord_path %>" class="pv2-product-exploded__profile pv2-product-exploded__venetian-cord" />
-    <% layout.slats.cord_points.each do |point| %>
-      <circle cx="<%= point.x %>" cy="<%= point.y %>" r="17" class="pv2-product-exploded__fill pv2-product-exploded__venetian-cord-dot" />
-    <% end %>
+    <%= solid_control_profile(layout.slats.cord_solid_profile) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.slats.cord_xs.first - 170 %> <%= layout.slats.body.center_y %>)">
       <circle r="68" />
       <text y="25">3</text>
@@ -127,11 +112,7 @@
     aria-pressed="<%= aria_pressed("commande") %>"
     aria-label="Commande">
     <rect x="<%= layout.control.hit.x %>" y="<%= layout.control.hit.y %>" width="<%= layout.control.hit.width %>" height="<%= layout.control.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <rect x="<%= layout.control.body.x %>" y="<%= layout.control.body.y %>" width="<%= layout.control.body.width %>" height="<%= layout.control.body.height %>" rx="<%= layout.control.body.rx %>" class="pv2-product-exploded__fill pv2-product-exploded__venetian-wand" />
-    <path d="<%= layout.control.cord_path %>" class="pv2-product-exploded__profile pv2-product-exploded__venetian-command-cord" />
-    <% layout.control.bead_points.each do |point| %>
-      <circle cx="<%= point.x %>" cy="<%= point.y %>" r="20" class="pv2-product-exploded__fill pv2-product-exploded__venetian-command-bead" />
-    <% end %>
+    <%= solid_control_profile(layout.control.solid_profile) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.control.marker.x %> <%= layout.control.marker.y %>)">
       <circle r="68" />
       <text y="25">5</text>

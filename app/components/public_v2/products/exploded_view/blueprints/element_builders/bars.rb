@@ -42,7 +42,8 @@ module PublicV2
               rx: nil,
               grip_width:,
               grip_height:,
-              grip_rx:
+              grip_rx:,
+              solid_profile: nil
             )
               body = layout_box(
                 LayoutRules.right_of(
@@ -55,21 +56,25 @@ module PublicV2
                 )
               )
 
-              BarElement.build(
+              grip = layout_box(
+                BarGeometry.centered_box(
+                  center_x: body.center_x,
+                  center_y: body.center_y,
+                  width: grip_width,
+                  height: grip_height,
+                  rx: grip_rx
+                )
+              )
+              bar = BarElement.build(
                 variant: :vertical_handle,
                 hit: layout_box(LayoutRules.hit_box(body, inset_x: hit_inset_x, inset_y: hit_inset_y)),
                 body:,
                 marker: layout_anchor(body, side: :right, gap: marker_gap),
-                grip: layout_box(
-                  BarGeometry.centered_box(
-                    center_x: body.center_x,
-                    center_y: body.center_y,
-                    width: grip_width,
-                    height: grip_height,
-                    rx: grip_rx
-                  )
-                )
+                grip:
               )
+              return bar unless solid_profile
+
+              bar.with_solid_profile(horizontal_bar_solid_profile(solid_profile, bar:))
             end
 
             def threshold_bar_element(
@@ -182,6 +187,7 @@ module PublicV2
                 points:,
                 point_radius: options.fetch(:point_radius, 18),
                 features: options.fetch(:features, []),
+                axis: options.fetch(:axis, :horizontal),
                 tones: options.fetch(:tones, {})
               )
             end

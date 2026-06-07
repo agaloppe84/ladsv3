@@ -199,29 +199,34 @@ module PublicV2
               hit_inset_x: 120,
               hit_inset_y: 95,
               screw_side_inset: 820,
-              inner_inset_y: 64
+              inner_inset_y: 64,
+              solid_profile: {
+                id: "venitien-boitier-haut",
+                point_radius: 24
+              }
             )
           end
 
           def build_support_layout(headrail:)
-            width = layout_size(layout_config.fetch(:support_width))
-            height = layout_size(layout_config.fetch(:support_height))
-            y = headrail.body.y - layout_gap(layout_config.fetch(:support_gap)) - height
-            inset_x = layout_size(layout_config.fetch(:support_inset_x))
-            left = layout_box(Box.new(x: headrail.body.x + inset_x, y:, width:, height:, rx: 38))
-            right = layout_box(Box.new(x: headrail.body.right - inset_x - width, y:, width:, height:, rx: 38))
-            hit = layout_box(LayoutRules.hit_box(Box.union([left, right]), inset_x: 80, inset_y: 80), preserve_size: true)
-
-            VenetianSupportPair.new(
-              hit:,
-              left:,
-              right:,
-              marker: layout_anchor(right, side: :right, gap: layout_config.fetch(:support_marker_gap))
+            mount_support_pair_element(
+              reference: headrail.body,
+              gap: layout_config.fetch(:support_gap),
+              width: layout_config.fetch(:support_width),
+              height: layout_config.fetch(:support_height),
+              inset_x: layout_config.fetch(:support_inset_x),
+              marker_gap: layout_config.fetch(:support_marker_gap),
+              pair_class: VenetianSupportPair,
+              solid_profile: {
+                id: "venitien-supports-pose",
+                point_inset: 96,
+                detail_inset_x: 40,
+                detail_inset_y: 62
+              }
             )
           end
 
           def build_slats_layout(headrail:)
-            venetian_slat_pack_element(
+            slats = venetian_slat_pack_element(
               reference: headrail.body,
               preset: layout_config.fetch(:slats_preset),
               gap: layout_config.fetch(:gap_headrail_slats),
@@ -237,6 +242,23 @@ module PublicV2
               tilt: layout_config.fetch(:slat_tilt),
               ladder_offsets: layout_config.fetch(:ladder_offsets),
               lift_cord_offsets: layout_config.fetch(:lift_cord_offsets)
+            )
+
+            slats = slats.with_slat_pattern(
+              SlatPatterns.venetian_pack(
+                id: "venitien-lames-orientables",
+                slats:
+              )
+            )
+
+            slats.with_cord_solid_profile(
+              SolidProfiles.control_segments(
+                id: "venitien-cordons-echelles",
+                variant: :venetian_ladder_cords,
+                segment_boxes: slats.cord_segment_boxes(segment_width: 12),
+                points: slats.cord_points,
+                point_radius: 17
+              )
             )
           end
 
@@ -266,7 +288,7 @@ module PublicV2
           end
 
           def build_control_layout(slats:)
-            venetian_control_element(
+            control = venetian_control_element(
               reference: slats.body,
               preset: layout_config.fetch(:control_preset),
               gap: layout_config.fetch(:control_gap),
@@ -281,6 +303,19 @@ module PublicV2
               cord_top_offset_y: 20,
               cord_bottom_offset_y: -20,
               bead_count: 11
+            )
+
+            control.with_solid_profile(
+              SolidProfiles.wand_control(
+                id: "venitien-commande",
+                body: control.body,
+                cord_x: control.cord_top.x,
+                top: control.cord_top.y,
+                bottom: control.cord_bottom.y,
+                bead_ys: control.bead_points.map(&:y),
+                segment_width: 12,
+                bead_radius: 20
+              )
             )
           end
 

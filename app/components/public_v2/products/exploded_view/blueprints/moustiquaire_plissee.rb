@@ -184,7 +184,11 @@ module PublicV2
               rx: layout_config[:guide_radius],
               marker_gap: layout_config.fetch(:marker_gap),
               hit_inset_x: 120,
-              hit_inset_y: 95
+              hit_inset_y: 95,
+              solid_profile: {
+                id: "plissee-guide-haut",
+                point_radius: 23
+              }
             )
           end
 
@@ -232,7 +236,11 @@ module PublicV2
               slot_count: 4,
               inner_inset_x: 74,
               inner_top_inset: 90,
-              inner_bottom_inset: 90
+              inner_bottom_inset: 90,
+              solid_profile: {
+                id: "plissee-profils-muraux",
+                point_radius: 24
+              }
             )
           end
 
@@ -252,7 +260,12 @@ module PublicV2
               hit_inset_y: 85,
               grip_width: 86,
               grip_height: 250,
-              grip_rx: 28
+              grip_rx: 28,
+              solid_profile: {
+                id: "plissee-barre-poignee",
+                axis: :vertical,
+                grip: true
+              }
             )
           end
 
@@ -269,7 +282,14 @@ module PublicV2
               rx: layout_config[:threshold_radius],
               marker_gap: layout_config.fetch(:marker_gap),
               hit_inset_x: 110,
-              hit_inset_y: 90
+              hit_inset_y: 90,
+              solid_profile: {
+                id: "plissee-seuil-bas",
+                detail: {
+                  height: 8,
+                  inset_x: 170
+                }
+              }
             )
           end
 

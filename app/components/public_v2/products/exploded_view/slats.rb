@@ -1,10 +1,65 @@
 # frozen_string_literal: true
 
 require_relative "geometry"
+require_relative "solid_profiles"
 
 module PublicV2
   module Products
     module ExplodedView
+      SlatPatternLayer = Struct.new(:id, :path, :tone, keyword_init: true) do
+        def self.coerce(value)
+          value.is_a?(self) ? value : new(**value)
+        end
+
+        def tone
+          (self[:tone] || :light).to_sym
+        end
+      end
+
+      class SlatPattern
+        attr_reader :id, :variant, :clip_box, :layers, :axis
+
+        def initialize(id:, variant:, clip_box:, layers:, axis: :horizontal)
+          @id = id.to_s
+          @variant = variant.to_sym
+          @clip_box = clip_box
+          @layers = layers.map { |layer| SlatPatternLayer.coerce(layer) }.freeze
+          @axis = axis.to_sym
+        end
+
+        def tones
+          layers.map(&:tone).uniq
+        end
+      end
+
+      module SlatPatterns
+        VENETIAN_TONE_CYCLE = %i[light mid light mid].freeze
+
+        module_function
+
+        def venetian_pack(id:, slats:, tone_cycle: VENETIAN_TONE_CYCLE)
+          SlatPattern.new(
+            id:,
+            variant: :venetian_pack,
+            clip_box: Box.new(
+              x: slats.body.x,
+              y: slats.slat_top,
+              width: slats.body.width,
+              height: slats.slat_bottom - slats.slat_top,
+              rx: 0
+            ),
+            axis: :horizontal,
+            layers: slats.slat_centers.map.with_index do |center_y, index|
+              SlatPatternLayer.new(
+                id: "slat-#{index + 1}",
+                path: slats.slat_path(center_y),
+                tone: tone_cycle[index % tone_cycle.length]
+              )
+            end
+          )
+        end
+      end
+
       class SlatElement
         VARIANTS = %i[venetian_pack].freeze
 
@@ -17,7 +72,9 @@ module PublicV2
           :slat_height,
           :tilt,
           :ladder_xs,
-          :lift_cord_xs
+          :lift_cord_xs,
+          :slat_pattern,
+          :cord_solid_profile
         )
 
         def self.build(variant:, **options)
@@ -31,14 +88,16 @@ module PublicV2
               slat_height: options.fetch(:slat_height),
               tilt: options.fetch(:tilt),
               ladder_xs: options.fetch(:ladder_xs),
-              lift_cord_xs: options.fetch(:lift_cord_xs)
+              lift_cord_xs: options.fetch(:lift_cord_xs),
+              slat_pattern: options.fetch(:slat_pattern, nil),
+              cord_solid_profile: options.fetch(:cord_solid_profile, nil)
             )
           else
             raise ArgumentError, "Unknown slat variant: #{variant}"
           end
         end
 
-        def self.venetian_pack(hit:, body:, marker:, slat_count:, slat_height:, tilt:, ladder_xs:, lift_cord_xs:)
+        def self.venetian_pack(hit:, body:, marker:, slat_count:, slat_height:, tilt:, ladder_xs:, lift_cord_xs:, slat_pattern: nil, cord_solid_profile: nil)
           new(
             variant: :venetian_pack,
             hit:,
@@ -48,11 +107,13 @@ module PublicV2
             slat_height:,
             tilt:,
             ladder_xs:,
-            lift_cord_xs:
+            lift_cord_xs:,
+            slat_pattern:,
+            cord_solid_profile:
           )
         end
 
-        def initialize(variant:, hit:, body:, marker:, slat_count:, slat_height:, tilt:, ladder_xs:, lift_cord_xs:)
+        def initialize(variant:, hit:, body:, marker:, slat_count:, slat_height:, tilt:, ladder_xs:, lift_cord_xs:, slat_pattern: nil, cord_solid_profile: nil)
           @variant = variant.to_sym
           raise ArgumentError, "Unknown slat variant: #{variant}" unless VARIANTS.include?(@variant)
 
@@ -64,6 +125,40 @@ module PublicV2
           @tilt = tilt
           @ladder_xs = ladder_xs
           @lift_cord_xs = lift_cord_xs
+          @slat_pattern = slat_pattern
+          @cord_solid_profile = cord_solid_profile
+        end
+
+        def with_cord_solid_profile(cord_solid_profile)
+          self.class.new(
+            variant:,
+            hit:,
+            body:,
+            marker:,
+            slat_count:,
+            slat_height:,
+            tilt:,
+            ladder_xs:,
+            lift_cord_xs:,
+            slat_pattern:,
+            cord_solid_profile:
+          )
+        end
+
+        def with_slat_pattern(slat_pattern)
+          self.class.new(
+            variant:,
+            hit:,
+            body:,
+            marker:,
+            slat_count:,
+            slat_height:,
+            tilt:,
+            ladder_xs:,
+            lift_cord_xs:,
+            slat_pattern:,
+            cord_solid_profile:
+          )
         end
 
         def slat_centers
@@ -110,6 +205,22 @@ module PublicV2
           cord_xs.map { |x| cord_segments_for(x).join }.join
         end
 
+        def cord_segment_boxes(segment_width: 12)
+          half_width = segment_width / 2
+
+          cord_xs.flat_map do |x|
+            cord_segment_ranges.map do |top, bottom|
+              Box.new(
+                x: x - half_width,
+                y: top,
+                width: segment_width,
+                height: bottom - top,
+                rx: half_width
+              )
+            end
+          end
+        end
+
         def cord_points
           cord_xs.flat_map do |x|
             slat_centers.map { |center_y| Point.new(x:, y: center_y) }
@@ -123,15 +234,19 @@ module PublicV2
         end
 
         def cord_segments_for(x)
+          cord_segment_ranges.map { |top, bottom| "M#{x} #{top}V#{bottom}" }
+        end
+
+        def cord_segment_ranges
           centers = slat_centers
-          segments = ["M#{x} #{cord_top}V#{centers.first}"]
+          ranges = [[cord_top, centers.first]]
 
           centers.each_cons(2) do |previous_center, center_y|
             previous_bottom = previous_center + (slat_height / 2)
-            segments << "M#{x} #{previous_bottom}V#{center_y}"
+            ranges << [previous_bottom, center_y]
           end
 
-          segments << "M#{x} #{slat_bottom}V#{cord_bottom}"
+          ranges << [slat_bottom, cord_bottom]
         end
 
         def rounded_polygon_path(points, radius:)

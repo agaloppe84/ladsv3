@@ -104,10 +104,7 @@
     aria-pressed="<%= aria_pressed("fermeture-magnetique") %>"
     aria-label="Fermeture magnétique">
     <rect x="<%= layout.lock.hit.x %>" y="<%= layout.lock.hit.y %>" width="<%= layout.lock.hit.width %>" height="<%= layout.lock.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <% layout.lock.receiver_points.each do |point| %>
-      <path d="<%= layout.lock.receiver_path(point) %>" class="pv2-product-exploded__profile" />
-      <circle cx="<%= point.x %>" cy="<%= point.y %>" r="22" class="pv2-product-exploded__fill" />
-    <% end %>
+    <%= solid_accessory_profile(layout.lock.solid_profile) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.lock.marker.x %> <%= layout.lock.marker.y %>)">
       <circle r="68" />
       <text y="25">5</text>
@@ -124,10 +121,8 @@
     tabindex="0"
     aria-pressed="<%= aria_pressed("bavettes") %>"
     aria-label="Bavettes anti-intrusion">
-    <% bavette_class = solid_tone_class(layout.bavettes.tone) %>
     <rect x="<%= layout.bavettes.hit.x %>" y="<%= layout.bavettes.hit.y %>" width="<%= layout.bavettes.hit.width %>" height="<%= layout.bavettes.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <rect x="<%= layout.bavettes.left.x %>" y="<%= layout.bavettes.left.y %>" width="<%= layout.bavettes.left.width %>" height="<%= layout.bavettes.left.height %>" rx="<%= layout.bavettes.left.rx %>" class="<%= bavette_class %>" />
-    <rect x="<%= layout.bavettes.right.x %>" y="<%= layout.bavettes.right.y %>" width="<%= layout.bavettes.right.width %>" height="<%= layout.bavettes.right.height %>" rx="<%= layout.bavettes.right.rx %>" class="<%= bavette_class %>" />
+    <%= solid_accessory_profile(layout.bavettes.solid_profile) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.bavettes.marker.x %> <%= layout.bavettes.marker.y %>)">
       <circle r="68" />
       <text y="25">6</text>

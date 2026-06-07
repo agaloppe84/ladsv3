@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "../../solid_profiles"
+
 module PublicV2
   module Products
     module ExplodedView
@@ -48,8 +50,11 @@ module PublicV2
               hit_height:,
               marker_offset_y:,
               receiver_offset_y:,
-              radius:
+              radius:,
+              solid_profile: nil
             )
+              receiver_points = BarGeometry.translate_points(bottom_bar.magnet_points, y: bottom_bar.body.bottom + receiver_offset_y)
+
               ClosureElement.build(
                 variant: :magnetic_receivers,
                 hit: layout_box(
@@ -61,8 +66,9 @@ module PublicV2
                   )
                 ),
                 marker: layout_point(Point.new(x: bottom_bar.body.center_x, y: bottom_bar.body.bottom + marker_offset_y)),
-                receiver_points: BarGeometry.translate_points(bottom_bar.magnet_points, y: bottom_bar.body.bottom + receiver_offset_y),
-                radius:
+                receiver_points:,
+                radius:,
+                solid_profile: solid_profile && magnetic_receiver_solid_profile(solid_profile, receiver_points:, radius:)
               )
             end
 
@@ -75,7 +81,8 @@ module PublicV2
               width: nil,
               height: nil,
               bottom_gap: nil,
-              rx: nil
+              rx: nil,
+              solid_profile: nil
             )
               feature = feature_id && rails.attached_feature(feature_id)
               if feature_id && !feature
@@ -109,6 +116,7 @@ module PublicV2
               unless left && right
                 raise ArgumentError, "rail_bavettes_element needs attached feature #{feature_id.inspect} or explicit geometry"
               end
+              tone = feature&.tone || :dark
 
               ClosureElement.build(
                 variant: :rail_bavettes,
@@ -116,8 +124,51 @@ module PublicV2
                 left:,
                 right:,
                 marker: layout_point(Point.new(x: rails.right.right + marker_gap, y: right.center_y)),
-                tone: feature&.tone || :dark
+                tone:,
+                solid_profile: solid_profile && rail_bavettes_solid_profile(solid_profile, left:, right:, tone:)
               )
+            end
+
+            def magnetic_receiver_solid_profile(config, receiver_points:, radius:)
+              return config if config.is_a?(SolidAccessoryProfile)
+
+              options = closure_solid_profile_options(config)
+
+              SolidProfiles.magnetic_receivers(
+                id: options.fetch(:id),
+                points: receiver_points,
+                radius:,
+                base_width: options[:base_width],
+                base_height: options.fetch(:base_height, 16),
+                base_offset_y: options.fetch(:base_offset_y, 58),
+                base_rx: options[:base_rx],
+                point_radius: options.fetch(:point_radius, 22),
+                tones: options.fetch(:tones, {})
+              )
+            end
+
+            def rail_bavettes_solid_profile(config, left:, right:, tone:)
+              return config if config.is_a?(SolidAccessoryProfile)
+
+              options = closure_solid_profile_options(config)
+
+              SolidProfiles.accessory_rect_pair(
+                id: options.fetch(:id),
+                left:,
+                right:,
+                tone: options.fetch(:tone, tone),
+                variant: options.fetch(:variant, :rail_bavettes),
+                tones: options.fetch(:tones, {})
+              )
+            end
+
+            def closure_solid_profile_options(config)
+              case config
+              when Hash
+                config.transform_keys(&:to_sym)
+              else
+                raise ArgumentError, "solid_profile must be a Hash config"
+              end
             end
           end
         end

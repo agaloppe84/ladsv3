@@ -75,7 +75,8 @@ module PublicV2
               hit: options.fetch(:hit),
               body: options.fetch(:body),
               marker: options.fetch(:marker),
-              grip: options.fetch(:grip)
+              grip: options.fetch(:grip),
+              solid_profile: options.fetch(:solid_profile, nil)
             )
           when :threshold
             threshold(
@@ -115,13 +116,14 @@ module PublicV2
           )
         end
 
-        def self.vertical_handle(hit:, body:, marker:, grip:)
+        def self.vertical_handle(hit:, body:, marker:, grip:, solid_profile: nil)
           new(
             variant: :vertical_handle,
             hit:,
             body:,
             marker:,
-            grip:
+            grip:,
+            solid_profile:
           )
         end
 

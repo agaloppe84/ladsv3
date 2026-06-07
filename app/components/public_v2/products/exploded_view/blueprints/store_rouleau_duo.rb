@@ -212,19 +212,20 @@ module PublicV2
           end
 
           def build_support_layout(headrail:)
-            width = layout_size(layout_config.fetch(:support_width))
-            height = layout_size(layout_config.fetch(:support_height))
-            y = headrail.body.y - layout_gap(layout_config.fetch(:support_gap)) - height
-            inset_x = layout_size(layout_config.fetch(:support_inset_x))
-            left = layout_box(Box.new(x: headrail.body.x + inset_x, y:, width:, height:, rx: 38))
-            right = layout_box(Box.new(x: headrail.body.right - inset_x - width, y:, width:, height:, rx: 38))
-            hit = layout_box(LayoutRules.hit_box(Box.union([left, right]), inset_x: 80, inset_y: 80), preserve_size: true)
-
-            MountSupportPair.new(
-              hit:,
-              left:,
-              right:,
-              marker: layout_anchor(right, side: :right, gap: layout_config.fetch(:support_marker_gap))
+            mount_support_pair_element(
+              reference: headrail.body,
+              gap: layout_config.fetch(:support_gap),
+              width: layout_config.fetch(:support_width),
+              height: layout_config.fetch(:support_height),
+              inset_x: layout_config.fetch(:support_inset_x),
+              marker_gap: layout_config.fetch(:support_marker_gap),
+              solid_profile: {
+                id: "duo-supports-pose",
+                point_inset: 86,
+                detail_style: :center_cross,
+                detail_inset_x: 48,
+                detail_inset_y: 38
+              }
             )
           end
 
@@ -305,7 +306,7 @@ module PublicV2
               )
             )
 
-            ControlElement.build(
+            control = ControlElement.build(
               variant: :venetian_wand,
               hit: layout_box(LayoutRules.hit_box(body, inset_x: 95, inset_y: 75)),
               body:,
@@ -313,6 +314,18 @@ module PublicV2
               cord_top: layout_point(Point.new(x: body.center_x, y: body.y + 90)),
               cord_bottom: layout_point(Point.new(x: body.center_x, y: body.bottom - 90)),
               bead_count: layout_config.fetch(:control_bead_count)
+            )
+
+            control.with_solid_profile(
+              SolidProfiles.bead_chain(
+                id: "duo-commande-chainette",
+                x: control.cord_top.x,
+                top: control.cord_top.y,
+                bottom: control.cord_bottom.y,
+                bead_ys: control.bead_points.map(&:y),
+                segment_width: 12,
+                bead_radius: 22
+              )
             )
           end
         end

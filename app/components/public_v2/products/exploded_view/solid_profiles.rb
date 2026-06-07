@@ -72,6 +72,78 @@ module PublicV2
         end
       end
 
+      SolidSupportFeature = Struct.new(:id, :kind, :box, :tone, :rx, keyword_init: true) do
+        def self.coerce(value)
+          value.is_a?(self) ? value : new(**value)
+        end
+
+        def kind
+          (self[:kind] || :rect).to_sym
+        end
+
+        def tone
+          (self[:tone] || :mid).to_sym
+        end
+
+        def rx
+          self[:rx] || box.rx || 0
+        end
+      end
+
+      SolidControlFeature = Struct.new(:id, :kind, :box, :tone, :rx, keyword_init: true) do
+        def self.coerce(value)
+          value.is_a?(self) ? value : new(**value)
+        end
+
+        def kind
+          (self[:kind] || :rect).to_sym
+        end
+
+        def tone
+          (self[:tone] || :dark).to_sym
+        end
+
+        def rx
+          self[:rx] || box.rx || 0
+        end
+      end
+
+      SolidMotorFeature = Struct.new(:id, :kind, :box, :tone, :rx, keyword_init: true) do
+        def self.coerce(value)
+          value.is_a?(self) ? value : new(**value)
+        end
+
+        def kind
+          (self[:kind] || :rect).to_sym
+        end
+
+        def tone
+          (self[:tone] || :light).to_sym
+        end
+
+        def rx
+          self[:rx] || box.rx || 0
+        end
+      end
+
+      SolidAccessoryFeature = Struct.new(:id, :kind, :box, :tone, :rx, keyword_init: true) do
+        def self.coerce(value)
+          value.is_a?(self) ? value : new(**value)
+        end
+
+        def kind
+          (self[:kind] || :rect).to_sym
+        end
+
+        def tone
+          (self[:tone] || :dark).to_sym
+        end
+
+        def rx
+          self[:rx] || box.rx || 0
+        end
+      end
+
       class SolidHousingProfile
         attr_reader :id, :variant, :body, :body_tone, :features, :points
 
@@ -89,12 +161,127 @@ module PublicV2
         end
       end
 
-      class SolidBarProfile
-        attr_reader :id, :variant, :body, :clip_box, :body_tone, :features, :points
+      class SolidSupportProfile
+        attr_reader :id, :variant, :body, :body_tone, :features, :points
 
-        def initialize(id:, body:, features: [], points: [], variant: :horizontal_bar, body_tone: :light, clip_box: nil)
+        def initialize(id:, body:, features: [], points: [], variant: :mount_support, body_tone: :light)
           @id = id.to_s
           @variant = variant.to_sym
+          @body = body
+          @body_tone = body_tone.to_sym
+          @features = features.map { |feature| SolidSupportFeature.coerce(feature) }.freeze
+          @points = points.map { |point| SolidPoint.coerce(point) }.freeze
+        end
+
+        def tones
+          ([body_tone] + features.map(&:tone) + points.map(&:tone)).uniq
+        end
+      end
+
+      class SolidControlProfile
+        attr_reader :id, :variant, :features, :points, :clip_box
+
+        def initialize(id:, features: [], points: [], variant: :control, clip_box: nil)
+          @id = id.to_s
+          @variant = variant.to_sym
+          @features = features.map { |feature| SolidControlFeature.coerce(feature) }.freeze
+          @points = points.map { |point| SolidPoint.coerce(point) }.freeze
+          @clip_box = clip_box || Box.union(@features.map(&:box), point_boxes(@points))
+        end
+
+        def tones
+          (features.map(&:tone) + points.map(&:tone)).uniq
+        end
+
+        private
+
+        def point_boxes(points)
+          points.map do |point|
+            radius = point.radius
+            Box.new(
+              x: point.point.x - radius,
+              y: point.point.y - radius,
+              width: radius * 2,
+              height: radius * 2,
+              rx: radius
+            )
+          end
+        end
+      end
+
+      class SolidMotorProfile
+        attr_reader :id, :variant, :features, :points, :clip_box
+
+        def initialize(id:, features: [], points: [], variant: :tubular_motor, clip_box: nil)
+          @id = id.to_s
+          @variant = variant.to_sym
+          @features = features.map { |feature| SolidMotorFeature.coerce(feature) }.freeze
+          @points = points.map { |point| SolidPoint.coerce(point) }.freeze
+          @clip_box = clip_box || Box.union(@features.map(&:box), point_boxes(@points))
+        end
+
+        def tones
+          (features.map(&:tone) + points.map(&:tone)).uniq
+        end
+
+        private
+
+        def point_boxes(points)
+          points.map do |point|
+            radius = point.radius
+            Box.new(
+              x: point.point.x - radius,
+              y: point.point.y - radius,
+              width: radius * 2,
+              height: radius * 2,
+              rx: radius
+            )
+          end
+        end
+      end
+
+      class SolidAccessoryProfile
+        attr_reader :id, :variant, :features, :points, :clip_box
+
+        def initialize(id:, features: [], points: [], variant: :accessory, clip_box: nil)
+          @id = id.to_s
+          @variant = variant.to_sym
+          @features = features.map { |feature| SolidAccessoryFeature.coerce(feature) }.freeze
+          @points = points.map { |point| SolidPoint.coerce(point) }.freeze
+          @clip_box = clip_box || Box.union(@features.map(&:box), point_boxes(@points))
+        end
+
+        def tones
+          (features.map(&:tone) + points.map(&:tone)).uniq
+        end
+
+        private
+
+        def point_boxes(points)
+          points.map do |point|
+            radius = point.radius
+            Box.new(
+              x: point.point.x - radius,
+              y: point.point.y - radius,
+              width: radius * 2,
+              height: radius * 2,
+              rx: radius
+            )
+          end
+        end
+      end
+
+      class SolidBarProfile
+        AXES = %i[horizontal vertical].freeze
+
+        attr_reader :id, :variant, :axis, :body, :clip_box, :body_tone, :features, :points
+
+        def initialize(id:, body:, features: [], points: [], variant: :horizontal_bar, axis: :horizontal, body_tone: :light, clip_box: nil)
+          @id = id.to_s
+          @variant = variant.to_sym
+          @axis = axis.to_sym
+          raise ArgumentError, "Unknown solid bar axis: #{axis}" unless AXES.include?(@axis)
+
           @body = body
           @body_tone = body_tone.to_sym
           @features = features.map { |feature| SolidBarFeature.coerce(feature) }.freeze
@@ -189,6 +376,26 @@ module PublicV2
           grip: :dark,
           point: :dark
         }.freeze
+        SUPPORT_TONES = {
+          body: :light,
+          detail: :mid,
+          point: :dark
+        }.freeze
+        CONTROL_TONES = {
+          segment: :dark,
+          point: :dark,
+          body: :dark
+        }.freeze
+        MOTOR_TONES = {
+          tube: :light,
+          cap: :mid,
+          head: :light,
+          hole: :dark
+        }.freeze
+        ACCESSORY_TONES = {
+          body: :dark,
+          point: :dark
+        }.freeze
 
         module_function
 
@@ -261,6 +468,7 @@ module PublicV2
           points: [],
           point_radius: 18,
           features: [],
+          axis: :horizontal,
           tones: {}
         )
           resolved_tones = BAR_TONES.merge((tones || {}).transform_keys(&:to_sym))
@@ -268,6 +476,7 @@ module PublicV2
           SolidBarProfile.new(
             id:,
             variant: :horizontal_bar,
+            axis:,
             body: box,
             body_tone: body_tone || resolved_tones.fetch(:body),
             features: bar_features(
@@ -283,6 +492,303 @@ module PublicV2
             points: points.map do |point|
               SolidPoint.new(point:, radius: point_radius, tone: resolved_tones.fetch(:point))
             end
+          )
+        end
+
+        def mount_support_pair(
+          id:,
+          left:,
+          right:,
+          point_inset: nil,
+          point_radius: 20,
+          point_specs: nil,
+          detail_inset_x: 42,
+          detail_inset_y: 62,
+          detail_height: 10,
+          detail_rows: nil,
+          detail_style: :horizontal_pair,
+          tones: {}
+        )
+          {
+            left: mount_support(
+              id: "#{id}-left",
+              box: left,
+              point_inset:,
+              point_radius:,
+              point_specs:,
+              detail_inset_x:,
+              detail_inset_y:,
+              detail_height:,
+              detail_rows:,
+              detail_style:,
+              tones:
+            ),
+            right: mount_support(
+              id: "#{id}-right",
+              box: right,
+              point_inset:,
+              point_radius:,
+              point_specs:,
+              detail_inset_x:,
+              detail_inset_y:,
+              detail_height:,
+              detail_rows:,
+              detail_style:,
+              tones:
+            )
+          }
+        end
+
+        def mount_support(
+          id:,
+          box:,
+          point_inset: nil,
+          point_radius: 20,
+          point_specs: nil,
+          detail_inset_x: 42,
+          detail_inset_y: 62,
+          detail_height: 10,
+          detail_rows: nil,
+          detail_style: :horizontal_pair,
+          tones: {}
+        )
+          resolved_tones = SUPPORT_TONES.merge((tones || {}).transform_keys(&:to_sym))
+
+          SolidSupportProfile.new(
+            id:,
+            variant: :mount_support,
+            body: box,
+            body_tone: resolved_tones.fetch(:body),
+            features: support_detail_features(
+              box:,
+              inset_x: detail_inset_x,
+              inset_y: detail_inset_y,
+              height: detail_height,
+              rows: detail_rows,
+              style: detail_style,
+              tone: resolved_tones.fetch(:detail)
+            ),
+            points: support_points(
+              box:,
+              point_inset:,
+              point_radius:,
+              point_specs:,
+              tones: resolved_tones
+            )
+          )
+        end
+
+        def control_pair(id:, xs:, top:, bottom:, dot_ys:, segment_width: 14, point_radius: 18, tones: {})
+          half_width = segment_width / 2
+
+          control_segments(
+            id:,
+            variant: :vertical_control_pair,
+            segment_boxes: xs.map { |x| Box.new(x: x - half_width, y: top, width: segment_width, height: bottom - top, rx: half_width) },
+            points: xs.flat_map { |x| dot_ys.map { |y| Point.new(x:, y:) } },
+            point_radius:,
+            tones:
+          )
+        end
+
+        def control_segments(id:, segment_boxes:, points: [], point_radius: 18, variant: :control_segments, tones: {})
+          resolved_tones = CONTROL_TONES.merge((tones || {}).transform_keys(&:to_sym))
+
+          SolidControlProfile.new(
+            id:,
+            variant:,
+            features: segment_boxes.map.with_index do |box, index|
+              SolidControlFeature.new(
+                id: "segment-#{index + 1}",
+                kind: :rect,
+                box:,
+                tone: resolved_tones.fetch(:segment),
+                rx: box.rx || 0
+              )
+            end,
+            points: points.map do |point|
+              SolidPoint.new(point:, radius: point_radius, tone: resolved_tones.fetch(:point))
+            end
+          )
+        end
+
+        def bead_chain(id:, x:, top:, bottom:, bead_ys:, segment_width: 12, bead_radius: 20, tones: {})
+          half_width = segment_width / 2
+
+          control_segments(
+            id:,
+            variant: :bead_chain,
+            segment_boxes: [Box.new(x: x - half_width, y: top, width: segment_width, height: bottom - top, rx: half_width)],
+            points: bead_ys.map { |y| Point.new(x:, y:) },
+            point_radius: bead_radius,
+            tones:
+          )
+        end
+
+        def wand_control(id:, body:, cord_x:, top:, bottom:, bead_ys:, segment_width: 12, bead_radius: 20, tones: {})
+          resolved_tones = CONTROL_TONES.merge((tones || {}).transform_keys(&:to_sym))
+          half_width = segment_width / 2
+
+          SolidControlProfile.new(
+            id:,
+            variant: :wand_control,
+            features: [
+              SolidControlFeature.new(
+                id: "body",
+                kind: :rect,
+                box: body,
+                tone: resolved_tones.fetch(:body),
+                rx: body.rx || 0
+              ),
+              SolidControlFeature.new(
+                id: "cord",
+                kind: :rect,
+                box: Box.new(x: cord_x - half_width, y: top, width: segment_width, height: bottom - top, rx: half_width),
+                tone: resolved_tones.fetch(:segment),
+                rx: half_width
+              )
+            ],
+            points: bead_ys.map do |y|
+              SolidPoint.new(point: Point.new(x: cord_x, y:), radius: bead_radius, tone: resolved_tones.fetch(:point))
+            end
+          )
+        end
+
+        def control_rect(id:, box:, tone: nil, tones: {})
+          resolved_tones = CONTROL_TONES.merge((tones || {}).transform_keys(&:to_sym))
+
+          SolidControlProfile.new(
+            id:,
+            variant: :control_rect,
+            features: [
+              SolidControlFeature.new(
+                id: "body",
+                kind: :rect,
+                box:,
+                tone: tone || resolved_tones.fetch(:body),
+                rx: box.rx || 0
+              )
+            ]
+          )
+        end
+
+        def tubular_motor(
+          id:,
+          tube:,
+          head:,
+          cap_width:,
+          large_hole:,
+          small_holes:,
+          large_hole_radius: 45,
+          small_hole_radius: 18,
+          tones: {}
+        )
+          resolved_tones = MOTOR_TONES.merge((tones || {}).transform_keys(&:to_sym))
+
+          SolidMotorProfile.new(
+            id:,
+            variant: :tubular_motor,
+            features: [
+              SolidMotorFeature.new(
+                id: "tube",
+                kind: :left_rounded_rect,
+                box: tube,
+                tone: resolved_tones.fetch(:tube),
+                rx: tube.rx || 0
+              ),
+              SolidMotorFeature.new(
+                id: "tube-cap",
+                kind: :left_rounded_rect,
+                box: Box.new(x: tube.x, y: tube.y, width: cap_width, height: tube.height, rx: tube.rx),
+                tone: resolved_tones.fetch(:cap),
+                rx: tube.rx || 0
+              ),
+              SolidMotorFeature.new(
+                id: "head",
+                kind: :right_rounded_rect,
+                box: head,
+                tone: resolved_tones.fetch(:head),
+                rx: head.rx || 0
+              )
+            ],
+            points: [
+              SolidPoint.new(point: large_hole, radius: large_hole_radius, tone: resolved_tones.fetch(:hole)),
+              *small_holes.map do |hole|
+                SolidPoint.new(point: hole, radius: small_hole_radius, tone: resolved_tones.fetch(:hole))
+              end
+            ]
+          )
+        end
+
+        def magnetic_receivers(
+          id:,
+          points:,
+          radius:,
+          base_width: nil,
+          base_height: 16,
+          base_offset_y: 58,
+          base_rx: nil,
+          point_radius: 22,
+          tones: {}
+        )
+          resolved_tones = ACCESSORY_TONES.merge((tones || {}).transform_keys(&:to_sym))
+          resolved_base_width = base_width || ((radius * 2) + 84)
+          resolved_base_rx = base_rx || (base_height / 2)
+
+          SolidAccessoryProfile.new(
+            id:,
+            variant: :magnetic_receivers,
+            features: points.map.with_index do |point, index|
+              SolidAccessoryFeature.new(
+                id: "receiver-base-#{index + 1}",
+                kind: :rect,
+                box: Box.new(
+                  x: point.x - (resolved_base_width / 2),
+                  y: point.y + base_offset_y - (base_height / 2),
+                  width: resolved_base_width,
+                  height: base_height,
+                  rx: resolved_base_rx
+                ),
+                tone: resolved_tones.fetch(:body),
+                rx: resolved_base_rx
+              )
+            end,
+            points: points.map do |point|
+              SolidPoint.new(point:, radius: point_radius, tone: resolved_tones.fetch(:point))
+            end
+          )
+        end
+
+        def accessory_rect_pair(
+          id:,
+          left:,
+          right:,
+          tone: :body,
+          variant: :accessory_rect_pair,
+          tones: {}
+        )
+          resolved_tones = ACCESSORY_TONES.merge((tones || {}).transform_keys(&:to_sym))
+          resolved_tone = resolved_tones.fetch(tone.to_sym, tone.to_sym)
+
+          SolidAccessoryProfile.new(
+            id:,
+            variant:,
+            features: [
+              SolidAccessoryFeature.new(
+                id: "left",
+                kind: :rect,
+                box: left,
+                tone: resolved_tone,
+                rx: left.rx || 0
+              ),
+              SolidAccessoryFeature.new(
+                id: "right",
+                kind: :rect,
+                box: right,
+                tone: resolved_tone,
+                rx: right.rx || 0
+              )
+            ]
           )
         end
 
@@ -332,6 +838,118 @@ module PublicV2
             features:,
             tones:
           )
+        end
+
+        def support_detail_features(box:, inset_x:, inset_y:, height:, rows:, style:, tone:)
+          return support_row_detail_features(box:, rows:, default_height: height, tone:) if rows
+          return support_cross_detail_features(box:, inset_x:, inset_y:, height:, tone:) if style.to_sym == :center_cross
+
+          width = box.width - (inset_x * 2)
+          rx = height / 2
+
+          [
+            SolidSupportFeature.new(
+              id: "top-detail",
+              kind: :rect,
+              box: Box.new(x: box.x + inset_x, y: box.y + inset_y, width:, height:, rx:),
+              tone:,
+              rx:
+            ),
+            SolidSupportFeature.new(
+              id: "bottom-detail",
+              kind: :rect,
+              box: Box.new(x: box.x + inset_x, y: box.bottom - inset_y - height, width:, height:, rx:),
+              tone:,
+              rx:
+            )
+          ]
+        end
+
+        def support_row_detail_features(box:, rows:, default_height:, tone:)
+          rows.map.with_index do |row, index|
+            options = row.transform_keys(&:to_sym)
+            height = options.fetch(:height, default_height)
+            center_y = support_relative_position(box, options.fetch(:y), axis: :y)
+            inset_x = options.fetch(:inset_x, 42)
+            width = options.fetch(:width, box.width - (inset_x * 2))
+            rx = options.fetch(:rx, height / 2)
+
+            SolidSupportFeature.new(
+              id: options.fetch(:id, "row-detail-#{index + 1}"),
+              kind: :rect,
+              box: Box.new(
+                x: options.fetch(:x, box.x + inset_x),
+                y: center_y - (height / 2),
+                width:,
+                height:,
+                rx:
+              ),
+              tone: options.fetch(:tone, tone),
+              rx:
+            )
+          end
+        end
+
+        def support_points(box:, point_inset:, point_radius:, point_specs:, tones:)
+          specs = if point_specs
+                    point_specs
+                  else
+                    resolved_point_inset = point_inset || (box.width * 0.32).round
+                    [
+                      { x: resolved_point_inset, y: :center, radius: point_radius },
+                      { x: -resolved_point_inset, y: :center, radius: point_radius }
+                    ]
+                  end
+
+          specs.map do |spec|
+            options = spec.transform_keys(&:to_sym)
+            SolidPoint.new(
+              point: Point.new(
+                x: support_relative_position(box, options.fetch(:x), axis: :x),
+                y: support_relative_position(box, options.fetch(:y, :center), axis: :y)
+              ),
+              radius: options.fetch(:radius, point_radius),
+              tone: options.fetch(:tone, tones.fetch(:point))
+            )
+          end
+        end
+
+        def support_relative_position(box, value, axis:)
+          case value
+          when :center
+            axis == :x ? box.center_x : box.center_y
+          when Numeric
+            if axis == :x
+              value.negative? ? box.right + value : box.x + value
+            else
+              value.negative? ? box.bottom + value : box.y + value
+            end
+          else
+            raise ArgumentError, "Unsupported support relative position: #{value.inspect}"
+          end
+        end
+
+        def support_cross_detail_features(box:, inset_x:, inset_y:, height:, tone:)
+          horizontal_width = box.width - (inset_x * 2)
+          vertical_height = box.height - (inset_y * 2)
+          rx = height / 2
+
+          [
+            SolidSupportFeature.new(
+              id: "center-horizontal-detail",
+              kind: :rect,
+              box: Box.new(x: box.x + inset_x, y: box.center_y - (height / 2), width: horizontal_width, height:, rx:),
+              tone:,
+              rx:
+            ),
+            SolidSupportFeature.new(
+              id: "center-vertical-detail",
+              kind: :rect,
+              box: Box.new(x: box.center_x - (height / 2), y: box.y + inset_y, width: height, height: vertical_height, rx:),
+              tone:,
+              rx:
+            )
+          ]
         end
 
         def bar_features(box:, detail:, embouts:, grip:, extensions:, tabs:, features:, tones:)

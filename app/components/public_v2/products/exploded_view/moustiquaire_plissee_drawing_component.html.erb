@@ -18,12 +18,7 @@
     aria-pressed="<%= aria_pressed("guide-haut") %>"
     aria-label="Guide supérieur">
     <rect x="<%= layout.guide.hit.x %>" y="<%= layout.guide.hit.y %>" width="<%= layout.guide.hit.width %>" height="<%= layout.guide.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= surface_rect(layout.guide.body) %>
-    <rect x="<%= layout.guide.body.x %>" y="<%= layout.guide.body.y %>" width="<%= layout.guide.body.width %>" height="<%= layout.guide.body.height %>" rx="<%= layout.guide.body.rx %>" class="pv2-product-exploded__outline" />
-    <path d="<%= layout.guide.inner_path %>" class="pv2-product-exploded__detail" />
-    <% layout.guide.screw_points.each do |point| %>
-      <circle cx="<%= point.x %>" cy="<%= point.y %>" r="23" class="pv2-product-exploded__fill" />
-    <% end %>
+    <%= solid_profile(layout.guide.solid_profile) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.guide.marker.x %> <%= layout.guide.marker.y %>)">
       <circle r="68" />
       <text y="25">1</text>
@@ -41,12 +36,7 @@
     aria-pressed="<%= aria_pressed("profils-muraux") %>"
     aria-label="Profil mural gauche">
     <rect x="<%= layout.profiles.hit.x %>" y="<%= layout.profiles.hit.y %>" width="<%= layout.profiles.hit.width %>" height="<%= layout.profiles.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= surface_path(layout.profiles.outline_path(layout.profiles.left)) %>
-    <path d="<%= layout.profiles.outline_path(layout.profiles.left) %>" class="pv2-product-exploded__outline" />
-    <path d="<%= layout.profiles.inner_path(layout.profiles.left) %>" class="pv2-product-exploded__profile" />
-    <% layout.profiles.slot_ys.each do |y| %>
-      <rect x="<%= layout.profiles.left.center_x - 24 %>" y="<%= y - 30 %>" width="48" height="60" rx="18" class="pv2-product-exploded__fill" />
-    <% end %>
+    <%= solid_profile(layout.profiles.solid_profile_for(:left)) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.profiles.marker.x %> <%= layout.profiles.marker.y %>)">
       <circle r="68" />
       <text y="25">2</text>
@@ -64,12 +54,7 @@
     aria-pressed="<%= aria_pressed("profils-muraux") %>"
     aria-label="Profil mural droit">
     <rect x="<%= layout.profiles.right.x - 70 %>" y="<%= layout.profiles.hit.y %>" width="<%= layout.profiles.hit.width %>" height="<%= layout.profiles.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= surface_path(layout.profiles.outline_path(layout.profiles.right)) %>
-    <path d="<%= layout.profiles.outline_path(layout.profiles.right) %>" class="pv2-product-exploded__outline" />
-    <path d="<%= layout.profiles.inner_path(layout.profiles.right) %>" class="pv2-product-exploded__profile" />
-    <% layout.profiles.slot_ys.each do |y| %>
-      <rect x="<%= layout.profiles.right.center_x - 24 %>" y="<%= y - 30 %>" width="48" height="60" rx="18" class="pv2-product-exploded__fill" />
-    <% end %>
+    <%= solid_profile(layout.profiles.solid_profile_for(:right)) %>
   </g>
 
   <g
@@ -101,9 +86,7 @@
     aria-pressed="<%= aria_pressed("barre-poignee") %>"
     aria-label="Barre poignée">
     <rect x="<%= layout.handle.hit.x %>" y="<%= layout.handle.hit.y %>" width="<%= layout.handle.hit.width %>" height="<%= layout.handle.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= surface_rect(layout.handle.body) %>
-    <rect x="<%= layout.handle.body.x %>" y="<%= layout.handle.body.y %>" width="<%= layout.handle.body.width %>" height="<%= layout.handle.body.height %>" rx="<%= layout.handle.body.rx %>" class="pv2-product-exploded__outline" />
-    <rect x="<%= layout.handle.grip.x %>" y="<%= layout.handle.grip.y %>" width="<%= layout.handle.grip.width %>" height="<%= layout.handle.grip.height %>" rx="<%= layout.handle.grip.rx %>" class="pv2-product-exploded__fill" />
+    <%= solid_bar_profile(layout.handle.solid_profile) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.handle.marker.x %> <%= layout.handle.marker.y %>)">
       <circle r="68" />
       <text y="25">4</text>
@@ -121,9 +104,7 @@
     aria-pressed="<%= aria_pressed("seuil-bas") %>"
     aria-label="Guide au sol extra-plat">
     <rect x="<%= layout.threshold.hit.x %>" y="<%= layout.threshold.hit.y %>" width="<%= layout.threshold.hit.width %>" height="<%= layout.threshold.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <%= surface_rect(layout.threshold.body) %>
-    <rect x="<%= layout.threshold.body.x %>" y="<%= layout.threshold.body.y %>" width="<%= layout.threshold.body.width %>" height="<%= layout.threshold.body.height %>" rx="<%= layout.threshold.body.rx %>" class="pv2-product-exploded__outline" />
-    <path d="<%= layout.threshold.detail_path %>" class="pv2-product-exploded__detail" />
+    <%= solid_bar_profile(layout.threshold.solid_profile) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.threshold.marker.x %> <%= layout.threshold.marker.y %>)">
       <circle r="68" />
       <text y="25">5</text>

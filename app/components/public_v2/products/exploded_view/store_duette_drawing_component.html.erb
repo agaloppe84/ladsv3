@@ -38,12 +38,8 @@
     aria-pressed="<%= aria_pressed("supports-pose") %>"
     aria-label="Supports de pose">
     <rect x="<%= layout.supports.hit.x %>" y="<%= layout.supports.hit.y %>" width="<%= layout.supports.hit.width %>" height="<%= layout.supports.hit.height %>" class="pv2-product-exploded__hit-area" />
-    <% [layout.supports.left, layout.supports.right].each do |support| %>
-      <%= surface_rect(support) %>
-      <rect x="<%= support.x %>" y="<%= support.y %>" width="<%= support.width %>" height="<%= support.height %>" rx="<%= support.rx %>" class="pv2-product-exploded__outline" />
-      <path d="M<%= support.x + 42 %> <%= support.y + 62 %>H<%= support.right - 42 %>M<%= support.x + 42 %> <%= support.bottom - 62 %>H<%= support.right - 42 %>" class="pv2-product-exploded__detail" />
-      <circle cx="<%= support.x + 92 %>" cy="<%= support.center_y %>" r="20" class="pv2-product-exploded__fill" />
-      <circle cx="<%= support.right - 92 %>" cy="<%= support.center_y %>" r="20" class="pv2-product-exploded__fill" />
+    <% %i[left right].each do |side| %>
+      <%= solid_support_profile(layout.supports.solid_profile_for(side)) %>
     <% end %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.supports.marker.x %> <%= layout.supports.marker.y %>)">
       <circle r="68" />
@@ -120,10 +116,7 @@
     aria-label="Cordons de guidage">
     <rect x="<%= layout.cords.left_x - 70 %>" y="<%= layout.cords.top_y - 80 %>" width="140" height="<%= layout.cords.bottom_y - layout.cords.top_y + 160 %>" class="pv2-product-exploded__hit-area" />
     <rect x="<%= layout.cords.right_x - 70 %>" y="<%= layout.cords.top_y - 80 %>" width="140" height="<%= layout.cords.bottom_y - layout.cords.top_y + 160 %>" class="pv2-product-exploded__hit-area" />
-    <path d="<%= layout.cords.path %>" class="pv2-product-exploded__profile pv2-product-exploded__duette-cord" />
-    <% layout.cords.dot_points.each do |point| %>
-      <circle cx="<%= point.x %>" cy="<%= point.y %>" r="18" class="pv2-product-exploded__fill pv2-product-exploded__duette-cord-dot" />
-    <% end %>
+    <%= solid_control_profile(layout.cords.solid_profile) %>
     <g class="pv2-product-exploded__marker" transform="translate(<%= layout.cords.marker.x %> <%= layout.cords.marker.y %>)">
       <circle r="68" />
       <text y="25">5</text>

@@ -129,17 +129,164 @@ Familles reutilisables actuelles :
 - `SolidProfile` : rails/profils lineaires avec bandes de tons et points ;
 - `SolidHousingProfile` : coffres, caissons et cassettes ;
 - `SolidBarProfile` : barres horizontales pleines avec corps, detail central, poignee, points, extensions et onglets attaches optionnels ;
+- `SolidSupportProfile` : supports de pose rectangulaires avec details et points ;
+- `SolidControlProfile` : chainettes, cordons, tiges et points de commande en segments pleins ;
+- `SolidMotorProfile` : moteurs tubulaires avec tube, embout, tete moteur et trous ;
+- `SolidAccessoryProfile` : petits accessoires pleins, recepteurs, verrous et details attaches ;
+- `SlatPattern` : packs de lames repetitives avec tons pleins et profondeur legere ;
 - `FabricPattern` : surfaces de toile et patterns techniques.
 
-Familles a creer ensuite :
+Familles a enrichir ensuite :
 
-- `SolidMotor` : moteurs tubulaires et tetes moteur ;
-- `SolidSupport` : supports de pose et petites platines ;
-- `SolidControl` : chainette, cordon, tige, poignee ;
-- `SolidAccessory` : bavettes, verrous, languettes, guides et petits details attaches.
+- variantes `SolidAccessoryProfile` pour languettes, guides, verrous et details attaches plus specifiques.
 
 Eviter `outline`, `profile`, `detail` et `hairline` comme rendu principal final.
 Ces classes peuvent rester temporairement pour debug ou micro-details tres subtils.
+
+## Inventaire dette filaire
+
+Cet inventaire sert de backlog pour supprimer progressivement tout rendu principal filaire.
+Une entree est consideree comme migree quand le template rend un objet plein parametrique
+et que la geometrie n'est plus decrite par un `outline_path`, `detail_path`, `surface_path`
+ou une classe `outline` / `profile` / `detail` / `hairline`.
+
+### Priorites de migration restantes
+
+1. **Accessoires restants** : verrouillage plissee, languettes et details attaches.
+2. **Fallbacks legacy** : retirer les anciens chemins apres migration complete.
+
+### Par blueprint
+
+#### Store vertical zippe
+
+Elements deja en objet plein :
+
+- coffre extrude via `SolidHousingProfile` ;
+- motorisation via `SolidMotorProfile` ;
+- supports de pose via `SolidSupportProfile` ;
+- coulisses laterales via `SolidProfile` vertical parametrique ;
+- toile zippee via `FabricPattern` ;
+- barre de charge via `SolidBarProfile` avec `embouts` ;
+- zip textile et bordures de toile en rendu plein.
+
+Dette restante :
+
+- fallback filaire de `barre-charge` encore present dans le template et dans `BarElement`,
+  a supprimer quand tous les usages de barre zippee seront pleins.
+
+Cible :
+
+- suppression du fallback `zipped_load_bar` filaire.
+
+#### Moustiquaire plissee
+
+Elements deja en objet plein :
+
+- guide superieur via `SolidProfile` ;
+- profils muraux via `SolidProfile` ;
+- toile plissee via `FabricPattern` ;
+- barre poignee via `SolidBarProfile` ;
+- seuil extra-plat via `SolidBarProfile` ;
+- verrouillage rendu en formes pleines/echos.
+
+Dette restante :
+
+- aucune dette filaire prioritaire sur les elements principaux.
+
+Cible :
+
+- rattacher le verrouillage a une famille `SolidAccessoryProfile` si on le reutilise.
+
+#### Moustiquaire enroulable verticale
+
+Elements deja en objet plein :
+
+- caisson KISS 50 via `SolidHousingProfile` ;
+- double coulisse via `SolidProfile` ;
+- toile bordee via `FabricPattern` ;
+- barre de charge via `SolidBarProfile` ;
+- fermeture magnetique via `SolidAccessoryProfile` ;
+- bavettes via `SolidAccessoryProfile`, avec geometrie attachee aux coulisses.
+
+Dette restante :
+
+- aucune dette filaire prioritaire sur les elements principaux.
+
+Cible :
+
+- conserver l'attachement physique des bavettes aux coulisses via `RailAttachedFeature`.
+
+#### Store venitien
+
+Elements deja en objet plein :
+
+- boitier haut via `SolidProfile` ;
+- lames orientables via `SlatPattern` ;
+- barre finale via `SolidBarProfile` ;
+- supports de pose via `SolidSupportProfile` ;
+- commande via `SolidControlProfile` ;
+- cordons/echelles via `SolidControlProfile`.
+
+Dette restante :
+
+- aucune dette filaire prioritaire sur les elements principaux.
+
+Cible :
+
+- enrichir `SlatPattern` si de nouvelles variantes de lames doivent etre representees.
+
+#### Store Duette
+
+Elements deja en objet plein :
+
+- rail superieur via `SolidBarProfile` ;
+- supports de pose via `SolidSupportProfile` ;
+- toile Duette via `FabricPattern` ;
+- rail intermediaire via `SolidBarProfile` ;
+- rail bas via `SolidBarProfile` ;
+- cordons de guidage via `SolidControlProfile`.
+
+Dette restante :
+
+- aucune dette filaire prioritaire sur les elements principaux.
+
+#### Store rouleau duo
+
+Elements deja en objet plein :
+
+- rail superieur via `SolidProfile` ;
+- supports de pose via `SolidSupportProfile` ;
+- tube d'enroulement en rectangles pleins ;
+- toile duo via `FabricPattern` ;
+- barre de charge via `SolidBarProfile` ;
+- commande/chainette via `SolidControlProfile`.
+
+Dette restante :
+
+- aucune dette filaire prioritaire sur les elements principaux.
+
+### Dette transversale modele et helpers
+
+Classes/methodes a conserver temporairement, puis a retirer quand les migrations sont terminees :
+
+- `BaseDrawingComponent#surface_path` ;
+- classes CSS principales `pv2-product-exploded__outline`,
+  `pv2-product-exploded__profile`, `pv2-product-exploded__detail`,
+  `pv2-product-exploded__hairline` ;
+- `RailElement#outline_path`, `RailElement#inner_path`, `RailElement#profile_path` ;
+- `BarElement#outline_path` et les branches `detail_path` legacy ;
+- `MotorElement#tube_path`, `MotorElement#head_path`, `MotorElement#detail_path` ;
+- `ControlElement#cord_path` ;
+- `ClosureElement#receiver_path`.
+
+Ces APIs ne doivent plus etre utilisees pour de nouveaux objets.
+Elles servent uniquement de transition pendant la migration des blueprints existants.
+
+### Prochain ordre conseille
+
+1. Migrer le verrouillage plissee vers `SolidAccessoryProfile` si on veut supprimer ses chemins directs.
+2. Supprimer les fallbacks legacy devenus inutiles.
+3. Continuer la migration des micro-details directs vers des familles pleines dediees.
 
 ## Lumiere, degradés et ombres
 

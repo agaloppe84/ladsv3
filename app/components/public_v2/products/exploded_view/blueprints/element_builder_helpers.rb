@@ -10,6 +10,7 @@ require_relative "element_builders/motors"
 require_relative "element_builders/rails"
 require_relative "element_builders/slats"
 require_relative "element_builders/standards"
+require_relative "element_builders/supports"
 
 module PublicV2
   module Products
@@ -25,6 +26,7 @@ module PublicV2
           include ElementBuilders::Closures
           include ElementBuilders::Slats
           include ElementBuilders::Controls
+          include ElementBuilders::Supports
         end
       end
     end

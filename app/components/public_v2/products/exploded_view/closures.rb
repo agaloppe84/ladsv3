@@ -15,7 +15,8 @@ module PublicV2
           :radius,
           :left,
           :right,
-          :tone
+          :tone,
+          :solid_profile
         )
 
         def self.plissee_lock(hit:, marker:, catches:, radius:)
@@ -28,24 +29,26 @@ module PublicV2
           )
         end
 
-        def self.magnetic_receivers(hit:, marker:, receiver_points:, radius:)
+        def self.magnetic_receivers(hit:, marker:, receiver_points:, radius:, solid_profile: nil)
           new(
             variant: :magnetic_receivers,
             hit:,
             marker:,
             receiver_points:,
-            radius:
+            radius:,
+            solid_profile:
           )
         end
 
-        def self.rail_bavettes(hit:, left:, right:, marker:, tone: :dark)
+        def self.rail_bavettes(hit:, left:, right:, marker:, tone: :dark, solid_profile: nil)
           new(
             variant: :rail_bavettes,
             hit:,
             marker:,
             left:,
             right:,
-            tone:
+            tone:,
+            solid_profile:
           )
         end
 
@@ -63,7 +66,8 @@ module PublicV2
               hit: options.fetch(:hit),
               marker: options.fetch(:marker),
               receiver_points: options.fetch(:receiver_points),
-              radius: options.fetch(:radius)
+              radius: options.fetch(:radius),
+              solid_profile: options.fetch(:solid_profile, nil)
             )
           when :rail_bavettes
             rail_bavettes(
@@ -71,7 +75,8 @@ module PublicV2
               left: options.fetch(:left),
               right: options.fetch(:right),
               marker: options.fetch(:marker),
-              tone: options.fetch(:tone, :dark)
+              tone: options.fetch(:tone, :dark),
+              solid_profile: options.fetch(:solid_profile, nil)
             )
           else
             raise ArgumentError, "Unknown closure variant: #{variant}"
@@ -87,7 +92,8 @@ module PublicV2
           radius: nil,
           left: nil,
           right: nil,
-          tone: nil
+          tone: nil,
+          solid_profile: nil
         )
           @variant = variant.to_sym
           raise ArgumentError, "Unknown closure variant: #{variant}" unless VARIANTS.include?(@variant)
@@ -100,6 +106,7 @@ module PublicV2
           @left = left
           @right = right
           @tone = tone&.to_sym
+          @solid_profile = solid_profile
         end
 
         def catch_path(point)
