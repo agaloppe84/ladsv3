@@ -399,7 +399,6 @@ module PublicV2
               height: options.fetch("height"),
               inset_x: options.fetch("inset_x"),
               marker_gap: options.fetch("marker_gap"),
-              pair_class: VenetianSupportPair,
               rx: options.fetch("rx"),
               hit_inset_x: options.fetch("hit_inset_x"),
               hit_inset_y: options.fetch("hit_inset_y"),
@@ -691,7 +690,7 @@ module PublicV2
               preserve_size: true
             )
 
-            DuetteCordPair.new(
+            HoneycombCordPair.new(
               hit:,
               left_x:,
               right_x:,
@@ -784,7 +783,7 @@ module PublicV2
               when Numeric
                 layout_y(value.negative? ? fabric.body.bottom + value : fabric.body.y + value)
               else
-                raise ArgumentError, "Unknown Duette cord y offset: #{value.inspect}"
+                raise ArgumentError, "Unknown honeycomb cord y offset: #{value.inspect}"
               end
             end
           end

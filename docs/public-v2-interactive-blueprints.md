@@ -239,6 +239,10 @@ Etat actuel :
   (`ZippedScreenLayout`, `SideGuidedRollerLayout`, `PleatedLateralLayout`,
   `HoneycombShadeLayout`, `VenetianBlindLayout`, `RollerDuoLayout`) ; les anciens
   constants produits restent aliases uniquement pour maintenir le legacy Ruby ;
+- les sous-objets partages du chemin JSON suivent aussi les noms de familles ou
+  generiques (`MountSupportPair`, `HoneycombCordPair`, `RollerDuoRollElement`) ;
+  `VenetianSupportPair`, `DuetteCordPair` et `DuoRollElement` restent aliases
+  uniquement pour les anciens fichiers Ruby dedies ;
 - la prochaine phase systeme consiste a faire converger les builders et le
   renderer generique vers ces signatures de presets, pas a creer de nouveaux
   chemins specifiques produit.
@@ -264,15 +268,13 @@ Objectif du prochain basculement :
 
 1. completer les regles de generation de boxes par slot restantes sans masquer
    les overrides JSON utiles ;
-2. faire converger les sous-objets et helpers restants vers des noms de familles
-   generiques quand cela reduit la dette sans changer le rendu ;
-3. commencer a isoler puis retirer les fichiers Ruby/templates legacy une fois
+2. commencer a isoler puis retirer les fichiers Ruby/templates legacy une fois
    le chemin JSON generique valide sur les 6 blueprints POC ;
-4. factoriser progressivement `GenericDrawingComponent` par familles de rendu
+3. factoriser progressivement `GenericDrawingComponent` par familles de rendu
    quand cela simplifie le renderer sans introduire de chemin produit ;
-5. supprimer progressivement les fichiers Ruby et templates specifiques produits
+4. supprimer progressivement les fichiers Ruby et templates specifiques produits
    devenus inutiles ;
-6. nettoyer les helpers filaires, SVG code en dur et classes CSS legacy qui ne sont
+5. nettoyer les helpers filaires, SVG code en dur et classes CSS legacy qui ne sont
    plus utilises par la voie JSON.
 
 ## Options de rendu

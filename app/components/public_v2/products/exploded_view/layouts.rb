@@ -73,7 +73,7 @@ module PublicV2
         end
       end
 
-      VenetianSupportPair = Struct.new(
+      MountSupportPair = Struct.new(
         :hit,
         :left,
         :right,
@@ -86,7 +86,7 @@ module PublicV2
         end
       end
 
-      DuetteCordPair = Struct.new(
+      HoneycombCordPair = Struct.new(
         :hit,
         :left_x,
         :right_x,
@@ -111,20 +111,7 @@ module PublicV2
         end
       end
 
-      MountSupportPair = Struct.new(
-        :hit,
-        :left,
-        :right,
-        :marker,
-        :solid_profiles,
-        keyword_init: true
-      ) do
-        def solid_profile_for(side)
-          solid_profiles&.fetch(side.to_sym)
-        end
-      end
-
-      DuoRollElement = Struct.new(
+      RollerDuoRollElement = Struct.new(
         :hit,
         :body,
         :marker,
@@ -193,6 +180,9 @@ module PublicV2
       DuetteDrawingLayout = HoneycombShadeLayout
       DuoDrawingLayout = RollerDuoLayout
       VenetianDrawingLayout = VenetianBlindLayout
+      VenetianSupportPair = MountSupportPair
+      DuetteCordPair = HoneycombCordPair
+      DuoRollElement = RollerDuoRollElement
     end
   end
 end
