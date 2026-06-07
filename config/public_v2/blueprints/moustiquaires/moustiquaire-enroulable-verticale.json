@@ -36,12 +36,10 @@
     "anti_intrusion": "Bavettes anti-intrusion"
   },
   "presets": {
-    "layout": "side-guided-fabric",
-    "callouts": "technical-exploded-default"
+    "layout": "vertical-product-layout",
+    "callouts": "vertical-product-callouts"
   },
   "render_options": {
-    "show_layout_grid": true,
-    "callout_animation_profile": "draw",
     "accent": "#00a8a0"
   },
   "canvas": {

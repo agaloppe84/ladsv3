@@ -34,12 +34,10 @@
     "movement": "Tirage direct"
   },
   "presets": {
-    "layout": "pleated-lateral",
-    "callouts": "technical-exploded-default"
+    "layout": "horizontal-product-layout",
+    "callouts": "horizontal-product-callouts"
   },
   "render_options": {
-    "show_layout_grid": true,
-    "callout_animation_profile": "draw",
     "accent": "#00a8a0"
   },
   "canvas": {

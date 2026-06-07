@@ -152,21 +152,22 @@ Assemblage JSON :
 
 Presets JSON declares au stade actuel :
 
-- `store-vertical-zippe` -> layout `vertical-zipped-screen`, callouts `technical-exploded-default` ;
-- `moustiquaire-enroulable-verticale` -> layout `side-guided-fabric`, callouts `technical-exploded-default` ;
-- `moustiquaire-plissee` -> layout `pleated-lateral`, callouts `technical-exploded-default` ;
-- `store-duette` -> layout `top-down-bottom-up-fabric`, callouts `technical-exploded-default` ;
-- `store-venitien` -> layout `slatted-pack`, callouts `technical-exploded-default` ;
-- `store-rouleau-duo` -> layout `roller-duo`, callouts `technical-exploded-default`.
+- `store-vertical-zippe` -> layout `vertical-product-layout`, callouts `vertical-product-callouts` ;
+- `moustiquaire-enroulable-verticale` -> layout `vertical-product-layout`, callouts `vertical-product-callouts` ;
+- `moustiquaire-plissee` -> layout `horizontal-product-layout`, callouts `horizontal-product-callouts` ;
+- `store-duette` -> layout `vertical-product-layout`, callouts `vertical-product-callouts` ;
+- `store-venitien` -> layout `vertical-product-layout`, callouts `vertical-product-callouts` ;
+- `store-rouleau-duo` -> layout `vertical-product-layout`, callouts `vertical-product-callouts`.
 
 Important :
 
-Au stade actuel, les presets et les slots sont declares et valides. Les positions
-explicites des elements restent la source de verite du rendu, mais les callouts
-peuvent deja heriter d'un placement par defaut depuis le preset `technical-exploded-default`
-quand ils n'ont ni `placement`, ni route/longueur explicite. Le prochain palier
-consiste a faire consommer progressivement les slots par `DataLayoutBuilder`, sans
-modifier le rendu valide.
+Au stade actuel, les deux presets structurants `vertical-product-layout` et
+`horizontal-product-layout` sont declares et valides. Les positions explicites des
+elements restent la source de verite du rendu, mais les callouts peuvent deja
+heriter d'options par defaut depuis `vertical-product-callouts` ou
+`horizontal-product-callouts` quand ils n'ont ni `placement`, ni route/longueur
+explicite. Le prochain palier consiste a faire consommer progressivement les slots
+par `DataLayoutBuilder`, sans modifier le rendu valide.
 
 Couples JSON supportes au stade actuel :
 
@@ -237,8 +238,8 @@ Mode de chargement controle :
 
 Objectif du prochain basculement :
 
-1. remplacer les constantes de placement recurrentes par des slots de preset ;
-2. extraire les regles de callouts recurrentes vers le preset `technical-exploded-default` ;
+1. faire consommer `vertical-product-layout` par un premier builder de layout ;
+2. remplacer les constantes de placement recurrentes par des slots de preset ;
 3. faire une premiere bascule sur un blueprint peu risque, puis comparer le rendu ;
 4. supprimer progressivement les fichiers Ruby et templates specifiques produits
    devenus inutiles ;
@@ -262,8 +263,8 @@ Cas d'usage :
 
 Comportement par defaut :
 
-- grille visible sauf override blueprint ;
-- animation des callouts active sauf override blueprint.
+- grille masquee sauf override blueprint ;
+- animation des callouts desactivee sauf override blueprint.
 
 ## Regles de grille
 
@@ -314,12 +315,14 @@ L'objectif est d'eviter de recalculer manuellement les positions pour chaque pro
 
 Familles de presets posees :
 
-- `vertical-zipped-screen` : coffre, toile zippee, coulisses, barre de charge et options ;
-- `side-guided-fabric` : caisson, toile centrale, coulisses/profils lateraux et barre basse ;
-- `pleated-lateral` : guide haut, profils lateraux, toile plissee, poignee, seuil ;
-- `top-down-bottom-up-fabric` : rail haut, toile, rail intermediaire, rail bas, cordons ;
-- `slatted-pack` : boitier haut, pack de lames, cordons/echelles, commande laterale ;
-- `roller-duo` : tube ou rail haut, toile double couche, barre de charge, commande.
+- `vertical-product-layout` : toile/lames/plis au centre, coffre/caisson/rail au-dessus,
+  supports optionnels au-dessus, coulisses optionnelles en miroir, barre basse sous la
+  toile et accessoires/commandes a droite du groupe central ;
+- `horizontal-product-layout` : toile/plis au centre, rail ou guide haut au-dessus,
+  supports optionnels, profils lateraux optionnels en miroir, barre de tirage verticale
+  attachee a droite quand elle existe ;
+- les anciens presets plus specifiques restent dans le registre uniquement comme
+  compatibilite de migration et ne doivent plus etre choisis pour un nouveau blueprint.
 
 Chaque preset doit definir :
 
@@ -375,6 +378,11 @@ Direction cible :
 - chaque slot global expose une position de marqueur recommandee ;
 - chaque slot expose une route recommandee : droite, gauche, haut, bas, auto,
   ligne droite ou ligne coudee ;
+- sur `vertical-product-callouts`, les slots principaux `top-housing`, `top-rail`,
+  `headrail`, `fabric`, `bottom-bar` et `bottom-rail` utilisent par defaut une ligne
+  droite vers la droite ;
+- sur `horizontal-product-callouts`, les slots principaux `top-guide`, `top-rail`,
+  `headrail` et `fabric` utilisent par defaut une ligne droite vers la droite ;
 - les groupes attaches peuvent recevoir un callout sur le groupe plutot que sur
   une seule piece ;
 - les elements tres proches doivent partager des regles de collision communes ;

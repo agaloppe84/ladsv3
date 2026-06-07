@@ -27,12 +27,10 @@
     "pose": "Fixation haute"
   },
   "presets": {
-    "layout": "top-down-bottom-up-fabric",
-    "callouts": "technical-exploded-default"
+    "layout": "vertical-product-layout",
+    "callouts": "vertical-product-callouts"
   },
   "render_options": {
-    "show_layout_grid": false,
-    "callout_animation_profile": "none",
     "accent": "#00a8a0"
   },
   "canvas": {

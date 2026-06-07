@@ -14,8 +14,8 @@ module PublicV2
         class DataBlueprint
           DEFAULT_ACCENT = "#009e96"
           DEFAULT_ACCENT_INK = "#ffffff"
-          DEFAULT_ANIMATION_PROFILE = "draw"
-          DEFAULT_SHOW_LAYOUT_GRID = true
+          DEFAULT_ANIMATION_PROFILE = "none"
+          DEFAULT_SHOW_LAYOUT_GRID = false
 
           attr_reader :spec
 
@@ -86,6 +86,10 @@ module PublicV2
 
           def callout_placement_for_slot(slot)
             preset_registry.default_callout_placement(callout_preset, slot)
+          end
+
+          def callout_options_for_slot(slot)
+            preset_registry.default_callout_options(callout_preset, slot)
           end
 
           def assembled_blueprint

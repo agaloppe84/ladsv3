@@ -1264,12 +1264,12 @@ module PublicV2
                      else
                        definition.marker
                      end
-            options = definition.options.transform_keys(&:to_sym)
+            options = resolved_callout_options(definition)
 
             callout(
               definition.part_id,
               marker:,
-              placement: resolved_callout_placement(definition)&.to_sym,
+              placement: options[:placement]&.to_sym,
               route: options[:route]&.to_sym,
               anchor_side: options[:anchor_side]&.to_sym,
               label_side: options[:label_side]&.to_sym,
@@ -1283,11 +1283,15 @@ module PublicV2
             )
           end
 
-          def resolved_callout_placement(definition)
-            return definition.placement unless definition.placement.to_s.empty?
-            return nil if explicit_callout_route?(definition.options)
+          def resolved_callout_options(definition)
+            preset_options = if definition.placement.to_s.empty? && !explicit_callout_route?(definition.options)
+                               blueprint.callout_options_for_slot(definition.slot)
+                             else
+                               {}
+                             end
+            explicit_options = definition.options.merge("placement" => definition.placement).compact
 
-            blueprint.callout_placement_for_slot(definition.slot)
+            preset_options.merge(explicit_options).transform_keys(&:to_sym)
           end
 
           def explicit_callout_route?(options)

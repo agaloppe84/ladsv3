@@ -380,6 +380,12 @@ module PublicV2
             missing_required_slots = preset.required_slots - element_slots
             add_error("layout preset #{layout_preset.inspect} is missing required slots: #{missing_required_slots.join(', ')}") unless missing_required_slots.empty?
 
+            Array(preset.required_slot_groups).each do |slot_group|
+              next if (slot_group & element_slots).any?
+
+              add_error("layout preset #{layout_preset.inspect} is missing one of required slots: #{slot_group.join(' or ')}")
+            end
+
             unknown_callout_slots = spec.callouts.filter_map do |callout|
               slot = callout["slot"] || element_slot_for_part(callout["part_id"])
               slot if slot && !preset.slots.include?(slot)
@@ -405,8 +411,8 @@ module PublicV2
 
               next unless layout_preset.slots.include?(slot)
 
-              default_placement = preset_registry.default_callout_placement(callout_preset, slot)
-              add_error("callout #{part_id.inspect} slot #{slot.inspect} has no default placement in callout preset #{callout_preset.inspect}") if default_placement.to_s.empty?
+              default_options = preset_registry.default_callout_options(callout_preset, slot)
+              add_error("callout #{part_id.inspect} slot #{slot.inspect} has no default options in callout preset #{callout_preset.inspect}") if default_options.empty?
             end
           end
 
