@@ -166,6 +166,20 @@ Le composant public continue d'utiliser les blueprints Ruby historiques tant que
 Le chemin data-driven est disponible uniquement quand un `DataBlueprint` est injecte
 explicitement.
 
+Mode de chargement controle :
+
+- `ExplodedViewExperimentComponent` utilise `blueprint_source: :legacy` par defaut ;
+- `blueprint_source: :json` force le chargement via `DataBlueprint.find_for_product` ;
+- en mode `:json`, aucune fallback vers `StoreVerticalZippe` n'est appliquee ;
+- si aucune spec JSON ne correspond au `product.slug`, le composant ne rend rien ;
+- un blueprint injecte explicitement reste prioritaire pour les smokes isoles.
+
+Objectif du prochain basculement :
+
+1. comparer le rendu legacy et le rendu JSON isole sur `store-vertical-zippe` ;
+2. corriger les ecarts visuels du renderer generique ;
+3. basculer `product/show` vers `blueprint_source: :json` seulement quand le rendu est valide.
+
 ## Options de rendu
 
 Les blueprints peuvent exposer des options de rendu.

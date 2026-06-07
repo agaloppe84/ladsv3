@@ -13,9 +13,12 @@ require_relative "exploded_view/blueprints/store_vertical_zippe"
 require_relative "exploded_view/blueprints/store_venitien"
 require_relative "exploded_view/blueprints/store_duette"
 require_relative "exploded_view/blueprints/store_rouleau_duo"
+require_relative "exploded_view/blueprints/data_blueprint"
 
 class PublicV2::Products::ExplodedViewExperimentComponent < ViewComponent::Base
   include PublicV2::Debuggable
+
+  BLUEPRINT_SOURCES = %i[legacy json].freeze
 
   DEFAULT_BLUEPRINTS = [
     PublicV2::Products::ExplodedView::Blueprints::MoustiquairePlissee,
@@ -26,24 +29,39 @@ class PublicV2::Products::ExplodedViewExperimentComponent < ViewComponent::Base
     PublicV2::Products::ExplodedView::Blueprints::StoreVerticalZippe
   ].freeze
 
-  def initialize(product_page:, debug: false, blueprint: nil, show_layout_grid: nil)
+  def initialize(product_page:, debug: false, blueprint: nil, show_layout_grid: nil, blueprint_source: :legacy)
     @product_page = product_page
     @debug = debug
+    @blueprint_source = blueprint_source.to_sym
     @blueprint = blueprint || default_blueprint
     @show_layout_grid = show_layout_grid
   end
 
   def render?
-    blueprint.render_for?(product_page)
+    blueprint&.render_for?(product_page) || false
   end
 
   private
 
-  attr_reader :product_page, :blueprint
+  attr_reader :product_page, :blueprint, :blueprint_source
 
   def default_blueprint
+    validate_blueprint_source!
+
+    return data_blueprint if blueprint_source == :json
+
     DEFAULT_BLUEPRINTS.map(&:new).find { |candidate| candidate.render_for?(product_page) } ||
       PublicV2::Products::ExplodedView::Blueprints::StoreVerticalZippe.new
+  end
+
+  def data_blueprint
+    PublicV2::Products::ExplodedView::Blueprints::DataBlueprint.find_for_product(product_page)
+  end
+
+  def validate_blueprint_source!
+    return if BLUEPRINT_SOURCES.include?(blueprint_source)
+
+    raise ArgumentError, "Unknown blueprint source: #{blueprint_source.inspect}"
   end
 
   def component_classes
