@@ -149,9 +149,11 @@ Assemblage JSON :
   serie de boxes depuis les presets `vertical-product-layout` et
   `horizontal-product-layout`.
 - `BlueprintSpecs::DataLayoutBuilder` transforme la spec assemblee en layout Ruby.
-  Au stade actuel, `store-vertical-zippe`, `moustiquaire-enroulable-verticale`,
-  `moustiquaire-plissee`, `store-duette`, `store-venitien` et
-  `store-rouleau-duo` sont supportes.
+  Il choisit la strategie de layout depuis la signature JSON assemblee
+  (`presets.layout`, slots requis et couples `type:variant`) plutot que depuis le
+  slug produit. Au stade actuel, `store-vertical-zippe`,
+  `moustiquaire-enroulable-verticale`, `moustiquaire-plissee`, `store-duette`,
+  `store-venitien` et `store-rouleau-duo` sont supportes.
 - `GenericDrawingComponent` sait rendre les layouts data-driven supportes
   en mode objet plein. Il est utilise par `product/show` via `blueprint_source: :json`.
 
@@ -227,8 +229,9 @@ Etat actuel :
   explicite ;
 - les anciens fichiers Ruby et templates produits restent temporairement en place
   comme dette legacy explicite ;
-- la prochaine phase systeme consiste a faire porter le placement par les presets,
-  pas a creer de nouveaux chemins specifiques produit.
+- la prochaine phase systeme consiste a faire converger les builders et le
+  renderer generique vers ces signatures de presets, pas a creer de nouveaux
+  chemins specifiques produit.
 
 Important :
 
@@ -251,8 +254,8 @@ Objectif du prochain basculement :
 
 1. completer les regles de generation de boxes par slot restantes sans masquer
    les overrides JSON utiles ;
-2. reduire le dispatch par slug dans `DataLayoutBuilder` quand un preset peut
-   produire la meme structure de layout ;
+2. remplacer progressivement les branches internes encore nommees par produit
+   dans `DataLayoutBuilder` par des builders de familles de layout ;
 3. faire converger `GenericDrawingComponent` vers un rendu par familles
    generiques plutot que par branches produit ;
 4. supprimer progressivement les fichiers Ruby et templates specifiques produits

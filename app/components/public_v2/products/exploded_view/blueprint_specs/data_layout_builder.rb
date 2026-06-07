@@ -12,6 +12,75 @@ module PublicV2
         class DataLayoutBuilder
           include Blueprints::ElementBuilderHelpers
 
+          LayoutStrategy = Struct.new(:name, :preset, :required_slots, :slot_registry_keys, keyword_init: true)
+
+          LAYOUT_STRATEGIES = [
+            LayoutStrategy.new(
+              name: :roller_duo,
+              preset: "vertical-product-layout",
+              required_slots: %w[headrail top-supports roll fabric bottom-bar controls],
+              slot_registry_keys: {
+                "roll" => "bar:roll-tube",
+                "fabric" => "fabric:duo-bands-solid"
+              }
+            ),
+            LayoutStrategy.new(
+              name: :venetian,
+              preset: "vertical-product-layout",
+              required_slots: %w[headrail top-supports fabric ladder-cords bottom-bar controls],
+              slot_registry_keys: {
+                "fabric" => "slat:venetian-pack",
+                "controls" => "control:venetian-wand"
+              }
+            ),
+            LayoutStrategy.new(
+              name: :duette,
+              preset: "vertical-product-layout",
+              required_slots: %w[top-rail top-supports fabric intermediate-rail bottom-rail guide-cords],
+              slot_registry_keys: {
+                "top-rail" => "rail:duette-head",
+                "fabric" => "fabric:honeycomb-solid"
+              }
+            ),
+            LayoutStrategy.new(
+              name: :pleated_lateral,
+              preset: "horizontal-product-layout",
+              required_slots: %w[top-guide fabric side-profiles handle bottom-threshold closure],
+              slot_registry_keys: {
+                "fabric" => "fabric:pleated-solid",
+                "handle" => "bar:vertical-handle"
+              }
+            ),
+            LayoutStrategy.new(
+              name: :enroulable_verticale,
+              preset: "vertical-product-layout",
+              required_slots: %w[top-housing fabric side-guides bottom-bar closure attached-features],
+              slot_registry_keys: {
+                "top-housing" => "housing:kiss-50-cassette",
+                "fabric" => "fabric:bordered-grid-solid"
+              }
+            ),
+            LayoutStrategy.new(
+              name: :vertical_zippe,
+              preset: "vertical-product-layout",
+              required_slots: %w[motor top-supports top-housing fabric side-guides bottom-bar],
+              slot_registry_keys: {
+                "top-housing" => "housing:front-coffre",
+                "fabric" => "fabric:zipped-solid",
+                "bottom-bar" => "bar:zipped-load"
+              }
+            )
+          ].freeze
+
+          STRATEGY_BUILDERS = {
+            roller_duo: :build_store_rouleau_duo,
+            venetian: :build_store_venitien,
+            duette: :build_store_duette,
+            pleated_lateral: :build_moustiquaire_plissee,
+            enroulable_verticale: :build_moustiquaire_enroulable_verticale,
+            vertical_zippe: :build_store_vertical_zippe
+          }.freeze
+
           attr_reader :blueprint, :assembled
 
           def initialize(blueprint)
@@ -20,25 +89,36 @@ module PublicV2
           end
 
           def build
-            case blueprint.spec.product_slug
-            when "store-rouleau-duo"
-              build_store_rouleau_duo
-            when "store-venitien"
-              build_store_venitien
-            when "store-duette"
-              build_store_duette
-            when "moustiquaire-plissee"
-              build_moustiquaire_plissee
-            when "moustiquaire-enroulable-verticale"
-              build_moustiquaire_enroulable_verticale
-            when "store-vertical-zippe"
-              build_store_vertical_zippe
-            else
-              raise NotImplementedError, "No data layout builder for #{blueprint.spec.product_slug.inspect}"
-            end
+            send(STRATEGY_BUILDERS.fetch(layout_strategy.name))
           end
 
           private
+
+          def layout_strategy
+            @layout_strategy ||= begin
+              matches = LAYOUT_STRATEGIES.select { |strategy| layout_strategy_match?(strategy) }
+              raise NotImplementedError, "No data layout strategy for #{blueprint.spec.product_slug.inspect}" if matches.empty?
+              raise ArgumentError, "Multiple data layout strategies match #{blueprint.spec.product_slug.inspect}: #{matches.map(&:name).join(', ')}" if matches.size > 1
+
+              matches.first
+            end
+          end
+
+          def layout_strategy_match?(strategy)
+            return false unless blueprint.layout_preset == strategy.preset
+            return false unless (strategy.required_slots - slots_by_name.keys).empty?
+
+            strategy.slot_registry_keys.all? do |slot, registry_key|
+              elements = slots_by_name[slot]
+              elements.size == 1 && elements.first.registry_key == registry_key
+            end
+          end
+
+          def slots_by_name
+            @slots_by_name ||= assembled.elements.each_with_object(Hash.new { |hash, key| hash[key] = [] }) do |element, slots|
+              slots[element.slot] << element if element.slot
+            end
+          end
 
           def build_store_rouleau_duo
             headrail = build_duo_headrail
