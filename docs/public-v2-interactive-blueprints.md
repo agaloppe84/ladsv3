@@ -42,6 +42,7 @@ Fichiers centraux :
 - `app/components/public_v2/products/exploded_view/blueprint_specs/loader.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/element_registry.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/preset_registry.rb`
+- `app/components/public_v2/products/exploded_view/blueprint_specs/preset_slot_layout.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/assembler.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/assembled_blueprint.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/data_layout_builder.rb`
@@ -143,6 +144,9 @@ Assemblage JSON :
   de l'element lie quand le callout ne declare pas son propre slot ;
 - `AssembledBlueprint` expose les index `element(id)`, `group(id)`,
   `callout(part_id)` et la liste des familles de rendu necessaires.
+- `BlueprintSpecs::PresetSlotLayout` expose les elements par slot, les boxes
+  explicites de slot et les gaps entre slots pour amorcer le moteur de layout
+  parametrique.
 - `BlueprintSpecs::DataLayoutBuilder` transforme la spec assemblee en layout Ruby.
   Au stade actuel, `store-vertical-zippe`, `moustiquaire-enroulable-verticale`,
   `moustiquaire-plissee`, `store-duette`, `store-venitien` et
@@ -166,8 +170,9 @@ Au stade actuel, les deux presets structurants `vertical-product-layout` et
 elements restent la source de verite du rendu, mais les callouts peuvent deja
 heriter d'options par defaut depuis `vertical-product-callouts` ou
 `horizontal-product-callouts` quand ils n'ont ni `placement`, ni route/longueur
-explicite. Le prochain palier consiste a faire consommer progressivement les slots
-par `DataLayoutBuilder`, sans modifier le rendu valide.
+explicite. `moustiquaire-enroulable-verticale` est le premier blueprint dont le
+builder consomme les slots de `vertical-product-layout` via `PresetSlotLayout`,
+sans modifier le rendu valide.
 
 Couples JSON supportes au stade actuel :
 
@@ -214,6 +219,8 @@ Etat actuel :
 
 - les 6 blueprints POC existants disposent maintenant d'une spec JSON ;
 - les 6 specs declarent un preset de layout et un preset de callouts ;
+- `moustiquaire-enroulable-verticale` utilise deja ses slots pour construire le
+  caisson, la toile, les coulisses, la barre, la fermeture et les bavettes ;
 - les anciens fichiers Ruby et templates produits restent temporairement en place
   comme dette legacy explicite ;
 - la prochaine phase systeme consiste a faire porter le placement par les presets,
@@ -238,12 +245,13 @@ Mode de chargement controle :
 
 Objectif du prochain basculement :
 
-1. faire consommer `vertical-product-layout` par un premier builder de layout ;
-2. remplacer les constantes de placement recurrentes par des slots de preset ;
-3. faire une premiere bascule sur un blueprint peu risque, puis comparer le rendu ;
-4. supprimer progressivement les fichiers Ruby et templates specifiques produits
+1. extraire une premiere generation de boxes par slot dans `PresetSlotLayout` ;
+2. reduire les `box` JSON explicites sur `moustiquaire-enroulable-verticale` ;
+3. etendre le meme mode de consommation a un deuxieme blueprint vertical ;
+4. remplacer les constantes de placement recurrentes par des slots de preset ;
+5. supprimer progressivement les fichiers Ruby et templates specifiques produits
    devenus inutiles ;
-5. nettoyer les helpers filaires, SVG code en dur et classes CSS legacy qui ne sont
+6. nettoyer les helpers filaires, SVG code en dur et classes CSS legacy qui ne sont
    plus utilises par la voie JSON.
 
 ## Options de rendu

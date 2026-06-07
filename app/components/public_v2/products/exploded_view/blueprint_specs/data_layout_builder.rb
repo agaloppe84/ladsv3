@@ -3,6 +3,7 @@
 require_relative "../blueprints/element_builder_helpers"
 require_relative "../layouts"
 require_relative "assembler"
+require_relative "preset_slot_layout"
 
 module PublicV2
   module Products
@@ -927,9 +928,9 @@ module PublicV2
           end
 
           def build_enroulable_cassette
-            element = assembled.element("caisson")
+            element = preset_slot_layout.element_for_slot("top-housing", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.explicit_box_for(element)
 
             cassette_housing_element(
               preset: option_symbol(options, "preset"),
@@ -956,15 +957,15 @@ module PublicV2
           end
 
           def build_enroulable_fabric(cassette:)
-            element = assembled.element("toile-bordee")
+            element = preset_slot_layout.element_for_slot("fabric", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.explicit_box_for(element)
 
             fabric_element(
               variant: :bordered_grid,
               reference: cassette.body,
               preset: option_symbol(options, "preset"),
-              gap: box.y - cassette.body.bottom,
+              gap: preset_slot_layout.gap_between("top-housing", "fabric"),
               x: box.x,
               width: box.width,
               height: box.height,
@@ -982,7 +983,7 @@ module PublicV2
           end
 
           def build_enroulable_rails(fabric:)
-            element = assembled.element("double-coulisse")
+            element = preset_slot_layout.element_for_slot("side-guides", required: true)
             options = element.options
             top = fabric.body.y - layout_gap(options.fetch("extra_top"))
             height = fabric.body.height + layout_gap(options.fetch("extra_top")) + layout_gap(options.fetch("extra_bottom"))
@@ -1010,14 +1011,14 @@ module PublicV2
           end
 
           def build_enroulable_bottom_bar(fabric:)
-            element = assembled.element("barre-charge")
+            element = preset_slot_layout.element_for_slot("bottom-bar", required: true)
             options = element.options
-            box = required_box(element)
+            box = preset_slot_layout.explicit_box_for(element)
 
             bottom_bar_element(
               reference: fabric.body,
               preset: option_symbol(options, "preset"),
-              gap: box.y - fabric.body.bottom,
+              gap: preset_slot_layout.gap_between("fabric", "bottom-bar"),
               x: box.x,
               width: box.width,
               height: box.height,
@@ -1037,7 +1038,7 @@ module PublicV2
           end
 
           def build_enroulable_lock(bottom_bar:)
-            element = assembled.element("fermeture-magnetique")
+            element = preset_slot_layout.element_for_slot("closure", required: true)
             options = element.options
 
             magnetic_receiver_element(
@@ -1057,7 +1058,7 @@ module PublicV2
           end
 
           def build_enroulable_bavettes(rails:)
-            element = assembled.element("bavettes")
+            element = preset_slot_layout.element_for_slot("attached-features", required: true)
             options = element.options
 
             rail_bavettes_element(
@@ -1348,6 +1349,10 @@ module PublicV2
 
           def layout_grid
             canvas_spec.grid
+          end
+
+          def preset_slot_layout
+            @preset_slot_layout ||= PresetSlotLayout.new(blueprint:, assembled:)
           end
 
           def layout_box(box, preserve_size: false)
