@@ -19,14 +19,7 @@
 
   <div class="pv2-product-exploded__body">
     <figure class="pv2-product-exploded__canvas">
-      <%= render drawing_component.new(
-        layout: exploded_layout,
-        title_id: title_id,
-        svg_description_id: svg_description_id,
-        active_part_id: active_part_id,
-        svg_description: svg_description,
-        show_layout_grid: show_layout_grid
-      ) %>
+      <%= render drawing_component.new(**drawing_component_options) %>
     </figure>
 
     <aside class="pv2-product-exploded__legend" aria-label="Légende de la vue éclatée">

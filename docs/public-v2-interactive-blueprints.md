@@ -30,6 +30,7 @@ Fichiers centraux :
 
 - `app/components/public_v2/products/exploded_view_experiment_component.rb`
 - `app/components/public_v2/products/exploded_view/base_drawing_component.rb`
+- `app/components/public_v2/products/exploded_view/generic_drawing_component.rb`
 - `app/components/public_v2/products/exploded_view/blueprints/base.rb`
 - `app/components/public_v2/products/exploded_view/layout_primitives.rb`
 - `app/components/public_v2/products/exploded_view/solid_profiles.rb`
@@ -126,6 +127,8 @@ Assemblage JSON :
   `callout(part_id)` et la liste des familles de rendu necessaires.
 - `BlueprintSpecs::DataLayoutBuilder` transforme la spec assemblee en layout Ruby.
   Au stade actuel, seul `store-vertical-zippe` est supporte.
+- `GenericDrawingComponent` sait rendre le layout data-driven `store-vertical-zippe`
+  en mode objet plein. Il n'est pas encore utilise par defaut dans `product/show`.
 
 Couples JSON supportes au stade actuel :
 
@@ -148,15 +151,20 @@ Prochaine migration technique :
    `store-vertical-zippe` produit deja un `DrawingLayout` compatible avec les
    primitives actuelles, sans etre branche au rendu public.
 4. Creer un renderer generique qui remplace les templates produit.
-5. Supprimer les classes Ruby et templates produit quand les 6 blueprints existants
+   `GenericDrawingComponent` rend deja le `DataBlueprint` quand il est injecte
+   explicitement dans le composant parent.
+5. Comparer visuellement le rendu data-driven isole avec le rendu legacy.
+6. Supprimer les classes Ruby et templates produit quand les 6 blueprints existants
    sont convertis.
 
 Important :
 
 La spec `StoreVerticalZippe` JSON ne remplace pas encore le rendu actuel.
 Elle sert de contrat data pour preparer la bascule vers un renderer generique.
-Tant que `DataBlueprint#drawing_component` n'est pas implemente, le composant public
-continue d'utiliser les blueprints Ruby historiques.
+Le composant public continue d'utiliser les blueprints Ruby historiques tant que
+`ExplodedViewExperimentComponent#default_blueprint` ne charge pas les specs JSON.
+Le chemin data-driven est disponible uniquement quand un `DataBlueprint` est injecte
+explicitement.
 
 ## Options de rendu
 

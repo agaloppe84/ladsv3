@@ -3,6 +3,7 @@
 require_relative "../blueprint_specs/loader"
 require_relative "../blueprint_specs/assembler"
 require_relative "../blueprint_specs/data_layout_builder"
+require_relative "../generic_drawing_component"
 require_relative "../schema"
 
 module PublicV2
@@ -148,7 +149,7 @@ module PublicV2
           end
 
           def drawing_component
-            raise NotImplementedError, "DataBlueprint does not have a generic drawing component yet"
+            GenericDrawingComponent
           end
 
           private

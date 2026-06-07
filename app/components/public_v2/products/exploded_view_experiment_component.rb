@@ -6,6 +6,7 @@ require_relative "exploded_view/store_vertical_zippe_drawing_component"
 require_relative "exploded_view/store_venitien_drawing_component"
 require_relative "exploded_view/store_duette_drawing_component"
 require_relative "exploded_view/store_rouleau_duo_drawing_component"
+require_relative "exploded_view/generic_drawing_component"
 require_relative "exploded_view/blueprints/moustiquaire_plissee"
 require_relative "exploded_view/blueprints/moustiquaire_enroulable_verticale"
 require_relative "exploded_view/blueprints/store_vertical_zippe"
@@ -81,6 +82,20 @@ class PublicV2::Products::ExplodedViewExperimentComponent < ViewComponent::Base
 
   def drawing_component
     blueprint.drawing_component
+  end
+
+  def drawing_component_options
+    options = {
+      layout: exploded_layout,
+      title_id: title_id,
+      svg_description_id: svg_description_id,
+      active_part_id: active_part_id,
+      svg_description: svg_description,
+      show_layout_grid: show_layout_grid
+    }
+    options[:parts] = parts if drawing_component <= PublicV2::Products::ExplodedView::GenericDrawingComponent
+
+    options
   end
 
   def eyebrow
