@@ -253,7 +253,7 @@
     {
       "part_id": "cordons-echelles",
       "marker": { "x": 1910, "y": 2110 },
-      "placement": "left_detail",
+      "placement": "left_outside",
       "first_length": 360
     },
     {
@@ -264,7 +264,7 @@
     {
       "part_id": "commande",
       "marker": { "x": 7230, "y": 2110 },
-      "placement": "right_detail_up",
+      "placement": "right_outside_up",
       "first_length": 360
     },
     {

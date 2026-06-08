@@ -74,10 +74,10 @@ class PublicV2::Products::ExplodedViewExperimentComponent < ViewComponent::Base
       svg_description_id: svg_description_id,
       active_part_id: active_part_id,
       svg_description: svg_description,
-      show_layout_grid: show_layout_grid
+      show_layout_grid: show_layout_grid,
+      parts:,
+      part_ids_by_slot: blueprint.part_ids_by_slot
     }
-    options[:parts] = parts if drawing_component <= PublicV2::Products::ExplodedView::GenericDrawingComponent
-    options[:part_ids_by_slot] = blueprint.part_ids_by_slot if drawing_component <= PublicV2::Products::ExplodedView::GenericDrawingComponent
 
     options
   end

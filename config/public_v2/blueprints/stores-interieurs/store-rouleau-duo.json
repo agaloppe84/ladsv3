@@ -274,7 +274,7 @@
     {
       "part_id": "commande",
       "marker": { "x": 6998, "y": 2270 },
-      "placement": "right_detail_up",
+      "placement": "right_outside_up",
       "first_length": 340
     },
     {

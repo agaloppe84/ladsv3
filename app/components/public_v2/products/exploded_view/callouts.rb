@@ -79,9 +79,9 @@ module PublicV2
         module_function
 
         def resolve(value)
-          return value unless value.is_a?(Symbol)
+          return LENGTHS.fetch(value.to_sym) if value.is_a?(Symbol) || value.is_a?(String)
 
-          LENGTHS.fetch(value)
+          value
         end
       end
 
@@ -136,13 +136,13 @@ module PublicV2
             first_length: 230,
             second_length: 330
           },
-          right_detail_up: {
+          right_outside_up: {
             anchor_side: :right,
             label_side: :top,
             first_length: 290,
             second_length: 170
           },
-          left_detail: {
+          left_outside: {
             anchor_side: :left,
             first_length: :lg
           }

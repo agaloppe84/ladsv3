@@ -205,12 +205,12 @@ module PublicV2
                 "top-supports" => { "placement" => "top_rail" },
                 "motor" => { "placement" => "top_housing" },
                 "roll" => { "placement" => "top_rail" },
-                "intermediate-rail" => { "placement" => "right_detail_up" },
-                "guide-cords" => { "placement" => "left_detail" },
-                "ladder-cords" => { "placement" => "left_detail" },
-                "controls" => { "placement" => "right_detail_up" },
-                "closure" => { "placement" => "right_detail_up" },
-                "attached-features" => { "placement" => "right_detail_up" }
+                "intermediate-rail" => { "placement" => "right_outside_up" },
+                "guide-cords" => { "placement" => "left_outside" },
+                "ladder-cords" => { "placement" => "left_outside" },
+                "controls" => { "placement" => "right_outside_up" },
+                "closure" => { "placement" => "right_outside_up" },
+                "attached-features" => { "placement" => "right_outside_up" }
               },
               rules: %w[
                 prefer-straight-right-callouts-for-main-horizontal-stack
@@ -232,9 +232,9 @@ module PublicV2
                 "bottom-threshold" => { "placement" => "bottom_rail" },
                 "bottom-rail" => { "placement" => "bottom_rail" },
                 "top-supports" => { "placement" => "top_rail" },
-                "controls" => { "placement" => "right_detail_up" },
-                "closure" => { "placement" => "right_detail_up" },
-                "attached-features" => { "placement" => "right_detail_up" }
+                "controls" => { "placement" => "right_outside_up" },
+                "closure" => { "placement" => "right_outside_up" },
+                "attached-features" => { "placement" => "right_outside_up" }
               },
               rules: %w[
                 treat-handle-and-fabric-as-one-center-group
@@ -260,13 +260,13 @@ module PublicV2
                 "bottom-bar" => "bottom_bar",
                 "bottom-rail" => "bottom_rail",
                 "bottom-threshold" => "bottom_rail",
-                "intermediate-rail" => "right_detail_up",
+                "intermediate-rail" => "right_outside_up",
                 "handle" => "right_attached_panel",
-                "closure" => "right_detail_up",
-                "guide-cords" => "left_detail",
-                "ladder-cords" => "left_detail",
-                "controls" => "right_detail_up",
-                "attached-features" => "right_detail_up"
+                "closure" => "right_outside_up",
+                "guide-cords" => "left_outside",
+                "ladder-cords" => "left_outside",
+                "controls" => "right_outside_up",
+                "attached-features" => "right_outside_up"
               },
               rules: %w[
                 prefer-straight-line-when-marker-and-label-share-axis

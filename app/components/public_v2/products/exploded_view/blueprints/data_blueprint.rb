@@ -52,7 +52,14 @@ module PublicV2
 
           def part_ids_by_slot
             @part_ids_by_slot ||= assembled_blueprint.elements.each_with_object({}) do |element, index|
-              index[element.slot] ||= element.part_id if element.slot && element.part_id
+              next unless element.slot && element.part_id
+
+              existing_part_id = index[element.slot]
+              if existing_part_id && existing_part_id != element.part_id
+                raise ArgumentError, "slot #{element.slot.inspect} maps to multiple part ids: #{existing_part_id.inspect}, #{element.part_id.inspect}"
+              end
+
+              index[element.slot] = element.part_id
             end
           end
 

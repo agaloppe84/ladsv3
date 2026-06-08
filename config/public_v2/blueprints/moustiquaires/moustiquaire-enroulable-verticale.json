@@ -290,13 +290,13 @@
     {
       "part_id": "fermeture-magnetique",
       "marker": { "x": 3900, "y": 3915 },
-      "placement": "left_detail",
+      "placement": "left_outside",
       "first_length": 460
     },
     {
       "part_id": "bavettes",
       "marker": { "x": 7020, "y": 3350 },
-      "placement": "left_detail"
+      "placement": "left_outside"
     }
   ],
   "validation": {

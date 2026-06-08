@@ -1,17 +1,17 @@
-<% guide_part_id = part_id_for_slot("top-guide", fallback: "guide-haut") %>
-<% profiles_part_id = part_id_for_slot("side-profiles", fallback: "profils-muraux") %>
-<% fabric_part_id = part_id_for_slot("fabric", fallback: "toile-plissee") %>
-<% handle_part_id = part_id_for_slot("handle", fallback: "barre-poignee") %>
-<% threshold_part_id = part_id_for_slot("bottom-threshold", fallback: "seuil-bas") %>
-<% closure_part_id = part_id_for_slot("closure", fallback: "verrouillage") %>
+<% guide_part_id = part_id_for_slot("top-guide") %>
+<% profiles_part_id = part_id_for_slot("side-profiles") %>
+<% fabric_part_id = part_id_for_slot("fabric") %>
+<% handle_part_id = part_id_for_slot("handle") %>
+<% threshold_part_id = part_id_for_slot("bottom-threshold") %>
+<% closure_part_id = part_id_for_slot("closure") %>
 
-<%= part_group(guide_part_id, class_suffix: "plissee-guide-haut", hit: layout.guide.hit, marker: layout.guide.marker) do %>
+<%= part_group(guide_part_id, class_suffix: slot_class_suffix("top-guide"), hit: layout.guide.hit, marker: layout.guide.marker) do %>
   <%= solid_profile(layout.guide.solid_profile) %>
 <% end %>
 
 <%= part_group(
   profiles_part_id,
-  class_suffix: "plissee-profils pv2-product-exploded__part--plissee-profils-left",
+  class_suffix: slot_class_suffix("side-profiles", side: "left"),
   hit: layout.profiles.hit,
   marker: layout.profiles.marker,
   aria_label: "#{part_label(profiles_part_id)} gauche"
@@ -21,26 +21,26 @@
 
 <%= mirror_part_group(
   profiles_part_id,
-  class_suffix: "plissee-profils pv2-product-exploded__part--plissee-profils-right",
+  class_suffix: slot_class_suffix("side-profiles", side: "right"),
   hit: right_vertical_pair_hit_box(layout.profiles, hit_offset: 70),
   aria_label: "#{part_label(profiles_part_id)} droit"
 ) do %>
   <%= solid_profile(layout.profiles.solid_profile_for(:right)) %>
 <% end %>
 
-<%= part_group(fabric_part_id, class_suffix: "plissee-toile", hit: layout.fabric.hit, marker: layout.fabric.marker) do %>
+<%= part_group(fabric_part_id, class_suffix: slot_class_suffix("fabric"), hit: layout.fabric.hit, marker: layout.fabric.marker) do %>
   <%= fabric_pattern(layout.fabric.pattern, slot: :under_outline) %>
   <%= fabric_pattern(layout.fabric.pattern, slot: :over_outline) %>
 <% end %>
 
-<%= part_group(handle_part_id, class_suffix: "plissee-barre-poignee", hit: layout.handle.hit, marker: layout.handle.marker) do %>
+<%= part_group(handle_part_id, class_suffix: slot_class_suffix("handle"), hit: layout.handle.hit, marker: layout.handle.marker) do %>
   <%= solid_bar_profile(layout.handle.solid_profile) %>
 <% end %>
 
-<%= part_group(threshold_part_id, class_suffix: "plissee-seuil-bas", hit: layout.threshold.hit, marker: layout.threshold.marker) do %>
+<%= part_group(threshold_part_id, class_suffix: slot_class_suffix("bottom-threshold"), hit: layout.threshold.hit, marker: layout.threshold.marker) do %>
   <%= solid_bar_profile(layout.threshold.solid_profile) %>
 <% end %>
 
-<%= part_group(closure_part_id, class_suffix: "plissee-verrouillage", hit: layout.lock.hit, marker: layout.lock.marker) do %>
+<%= part_group(closure_part_id, class_suffix: slot_class_suffix("closure"), hit: layout.lock.hit, marker: layout.lock.marker) do %>
   <%= solid_accessory_profile(layout.lock.solid_profile) %>
 <% end %>

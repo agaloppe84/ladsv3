@@ -1,33 +1,33 @@
-<% headrail_part_id = part_id_for_slot("headrail", fallback: "rail-superieur") %>
-<% supports_part_id = part_id_for_slot("top-supports", fallback: "supports-pose") %>
-<% roll_part_id = part_id_for_slot("roll", fallback: "tube-enroulement") %>
-<% fabric_part_id = part_id_for_slot("fabric", fallback: "toile-duo") %>
-<% bottom_bar_part_id = part_id_for_slot("bottom-bar", fallback: "barre-charge") %>
-<% controls_part_id = part_id_for_slot("controls", fallback: "commande") %>
+<% headrail_part_id = part_id_for_slot("headrail") %>
+<% supports_part_id = part_id_for_slot("top-supports") %>
+<% roll_part_id = part_id_for_slot("roll") %>
+<% fabric_part_id = part_id_for_slot("fabric") %>
+<% bottom_bar_part_id = part_id_for_slot("bottom-bar") %>
+<% controls_part_id = part_id_for_slot("controls") %>
 
-<%= part_group(headrail_part_id, class_suffix: "duo-rail", hit: layout.headrail.hit, marker: layout.headrail.marker) do %>
+<%= part_group(headrail_part_id, class_suffix: slot_class_suffix("headrail"), hit: layout.headrail.hit, marker: layout.headrail.marker) do %>
   <%= solid_profile(layout.headrail.solid_profile) %>
 <% end %>
 
-<%= part_group(supports_part_id, class_suffix: "duo-supports", hit: layout.supports.hit, marker: layout.supports.marker) do %>
+<%= part_group(supports_part_id, class_suffix: slot_class_suffix("top-supports"), hit: layout.supports.hit, marker: layout.supports.marker) do %>
   <% %i[left right].each do |side| %>
     <%= solid_support_profile(layout.supports.solid_profile_for(side)) %>
   <% end %>
 <% end %>
 
-<%= part_group(roll_part_id, class_suffix: "duo-roll", hit: layout.roll.hit, marker: layout.roll.marker) do %>
+<%= part_group(roll_part_id, class_suffix: slot_class_suffix("roll"), hit: layout.roll.hit, marker: layout.roll.marker) do %>
   <%= solid_bar_profile(layout.roll.solid_profile) %>
 <% end %>
 
-<%= part_group(fabric_part_id, class_suffix: "duo-toile", hit: layout.fabric.hit, marker: layout.fabric.marker) do %>
+<%= part_group(fabric_part_id, class_suffix: slot_class_suffix("fabric"), hit: layout.fabric.hit, marker: layout.fabric.marker) do %>
   <%= fabric_pattern(layout.fabric.pattern, slot: :under_outline) %>
   <%= fabric_pattern(layout.fabric.pattern, slot: :over_outline) %>
 <% end %>
 
-<%= part_group(bottom_bar_part_id, class_suffix: "duo-barre", hit: layout.bottom_bar.hit, marker: layout.bottom_bar.marker) do %>
+<%= part_group(bottom_bar_part_id, class_suffix: slot_class_suffix("bottom-bar"), hit: layout.bottom_bar.hit, marker: layout.bottom_bar.marker) do %>
   <%= solid_bar_profile(layout.bottom_bar.solid_profile) %>
 <% end %>
 
-<%= part_group(controls_part_id, class_suffix: "duo-commande", hit: layout.control.hit, marker: layout.control.marker) do %>
+<%= part_group(controls_part_id, class_suffix: slot_class_suffix("controls"), hit: layout.control.hit, marker: layout.control.marker) do %>
   <%= solid_control_profile(layout.control.solid_profile) %>
 <% end %>

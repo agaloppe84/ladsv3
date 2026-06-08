@@ -155,6 +155,11 @@ Validation JSON :
   discriminants.
 - la meme registry controle les slots autorises par strategie, les slots qui
   doivent rester mono-element et les groupes JSON attendus avec leurs slots.
+- le rendu generique exige aussi que chaque slot requis par la strategie expose
+  un `part_id` unique, afin que les renderers de familles n'aient pas de fallback
+  produit.
+- les `placement`, `route`, directions, cotes, longueurs et options avancees de
+  callouts sont valides contre les registres runtime avant le rendu.
 
 Assemblage JSON :
 
@@ -173,6 +178,8 @@ Assemblage JSON :
   de l'element lie quand le callout ne declare pas son propre slot ;
 - `AssembledBlueprint` expose les index `element(id)`, `group(id)`,
   `callout(part_id)` et la liste des familles de rendu necessaires.
+- `DataBlueprint#part_ids_by_slot` fournit le mapping strict utilise par les
+  renderers de familles pour relier chaque slot layout au `part_id` interactif.
 - `BlueprintSpecs::PresetSlotLayout` expose les elements par slot, garde les
   boxes JSON explicites comme overrides prioritaires et genere deja une premiere
   serie de boxes depuis les presets `vertical-product-layout` et
@@ -195,6 +202,9 @@ Assemblage JSON :
 - Un callout peut declarer `marker_anchor` pour calculer son marker depuis un
   groupe de layout (`group_id`, `side`, `gap`) au lieu de coder un cas special
   dans le builder.
+- Les overrides de callout restent possibles depuis le JSON (`placement`,
+  `route`, `anchor_side`, `label_side`, longueurs numeriques ou tokens `xs` a
+  `xl`, offsets texte, rayons et sens de revelation supporte).
 - `GenericDrawingComponent` sait rendre les layouts data-driven supportes
   en mode objet plein. Son dispatch passe par `RENDERER_FAMILIES`, une registry
   qui associe chaque classe de layout generique a une famille de rendu
@@ -204,6 +214,9 @@ Assemblage JSON :
   familles situes dans `exploded_view/renderers/`. Le renderer ne depend plus de
   predicates structurels nommes produit. Il est utilise directement par
   `product/show` via `ExplodedViewExperimentComponent`.
+- Les classes de parts emises par les renderers sont derivees des slots layout
+  (`slot-top-rail`, `slot-fabric`, `slot-side-guides-left`, etc.) et non de
+  noms produit.
 
 Presets JSON declares au stade actuel :
 
@@ -283,9 +296,16 @@ Etat actuel :
 - les coulisses zippees et les supports hauts de `store-vertical-zippe` sont
   maintenant parametres par le JSON et les supports passent par le helper
   generique `mount_support_pair_element` ;
-- les renderers de familles resolvent leurs `part_id` interactifs depuis les
-  slots JSON (`part_ids_by_slot`) avec fallback legacy, au lieu de dependre
-  uniquement des ids des 6 POC ;
+- les renderers de familles resolvent strictement leurs `part_id` interactifs
+  depuis les slots JSON (`part_ids_by_slot`) ; un slot manquant echoue au rendu
+  au lieu de retomber sur un id de POC ;
+- les classes CSS de parts dans les renderers de familles sont basees sur les
+  slots de layout, pas sur les slugs ou noms produit ;
+- les options runtime de callouts sont validees avant rendu et les tokens de
+  longueur JSON (`xs`, `sm`, `md`, `lg`, `xl`) utilisent le meme registre que les
+  presets internes ;
+- les placements de callouts lateraux utilisent maintenant le vocabulaire de
+  zone `left_outside` / `right_outside_up`, sans nom de rendu filaire ;
 - les anciens fichiers Ruby blueprints produits et les templates/composants SVG
   produits dedies ont ete retires du chemin public v2 ;
 - les structs de layout du chemin JSON portent des noms de familles generiques
@@ -693,10 +713,8 @@ d'interdire `outline_path`, `detail_path`, `surface_path`, `profile_path`,
 
 ### Prochain ordre conseille
 
-1. Clarifier si les placements de callouts `left_detail` / `right_detail_up`
-   doivent rester comme vocabulaire de routing ou passer vers des noms de zone.
-2. Enrichir les variantes `SolidAccessoryProfile` si un nouveau blueprint introduit un detail attache recurrent.
-3. Supprimer les helpers ou styles restants des que `rg` confirme qu'ils ne sont plus emis par les renderers JSON.
+1. Enrichir les variantes `SolidAccessoryProfile` si un nouveau blueprint introduit un detail attache recurrent.
+2. Supprimer les helpers ou styles restants des que `rg` confirme qu'ils ne sont plus emis par les renderers JSON.
 
 ## Lumiere, degradés et ombres
 

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "json"
+require_relative "../callouts"
 require_relative "../blueprints/data_blueprint"
 require_relative "element_registry"
 require_relative "layout_strategy_registry"
@@ -51,6 +52,22 @@ module PublicV2
           ID_PATTERN = /\A[a-z0-9][a-z0-9-]*\z/
           TOKEN_PATTERN = /\A[a-z0-9][a-z0-9_-]*\z/
           VALID_ANIMATION_PROFILES = %w[draw none].freeze
+          VALID_CALLOUT_PLACEMENTS = (
+            ExplodedView::CalloutPlacement::PRESETS.keys.map(&:to_s) + [ExplodedView::CalloutPlacement::AUTO.to_s]
+          ).freeze
+          VALID_CALLOUT_ROUTES = (
+            ExplodedView::CalloutRoute::PRESETS.keys.map(&:to_s) + [ExplodedView::CalloutPlacement::AUTO.to_s]
+          ).freeze
+          VALID_CALLOUT_ANCHOR_SIDES = (
+            ExplodedView::CalloutPlacement::ANCHOR_SIDES.map(&:to_s) + [ExplodedView::CalloutPlacement::AUTO.to_s]
+          ).freeze
+          VALID_CALLOUT_LABEL_SIDES = (
+            ExplodedView::CalloutRoute::SIDE_DIRECTIONS.keys.map(&:to_s) + [ExplodedView::CalloutPlacement::AUTO.to_s]
+          ).uniq.freeze
+          VALID_CALLOUT_DIRECTIONS = %w[up right down left].freeze
+          VALID_CALLOUT_LENGTH_TOKENS = ExplodedView::CalloutMeasure::LENGTHS.keys.map(&:to_s).freeze
+          VALID_CALLOUT_TEXT_ANCHORS = %w[start middle end].freeze
+          VALID_CALLOUT_LABEL_REVEAL_DIRECTIONS = %w[left_to_right right_to_left].freeze
 
           Result = Struct.new(:name, :path, :errors, :warnings, keyword_init: true) do
             def ok?
@@ -186,6 +203,7 @@ module PublicV2
             validate_callouts
             validate_layout_slot_contract
             validate_layout_strategy_contract
+            validate_render_slot_part_contract
             validate_raw_svg_keys
 
             Result.new(name:, path: spec.path, errors:, warnings:)
@@ -391,6 +409,25 @@ module PublicV2
 
               placement = callout["placement"]
               add_error("callout #{part_id.inspect} has invalid placement #{placement.inspect}") unless placement.nil? || valid_token?(placement)
+              add_error("callout #{part_id.inspect} has unknown placement #{placement.inspect}") if valid_token?(placement) && !VALID_CALLOUT_PLACEMENTS.include?(placement)
+
+              route = callout["route"]
+              add_error("callout #{part_id.inspect} has invalid route #{route.inspect}") unless route.nil? || valid_token?(route)
+              add_error("callout #{part_id.inspect} has unknown route #{route.inspect}") if valid_token?(route) && !VALID_CALLOUT_ROUTES.include?(route)
+
+              validate_callout_value(callout, part_id, "anchor_side", VALID_CALLOUT_ANCHOR_SIDES)
+              validate_callout_value(callout, part_id, "label_side", VALID_CALLOUT_LABEL_SIDES)
+              validate_callout_value(callout, part_id, "start_direction", VALID_CALLOUT_DIRECTIONS)
+              validate_callout_value(callout, part_id, "turn_direction", VALID_CALLOUT_DIRECTIONS)
+              validate_callout_value(callout, part_id, "text_anchor", VALID_CALLOUT_TEXT_ANCHORS)
+              validate_callout_value(callout, part_id, "label_reveal_direction", VALID_CALLOUT_LABEL_REVEAL_DIRECTIONS)
+              validate_callout_length(callout, part_id, "first_length")
+              validate_callout_length(callout, part_id, "second_length")
+              validate_callout_number(callout, part_id, "text_offset_x")
+              validate_callout_number(callout, part_id, "text_offset_y")
+              validate_callout_number(callout, part_id, "marker_radius", non_negative: true)
+              validate_callout_number(callout, part_id, "corner_radius", non_negative: true)
+              validate_callout_number(callout, part_id, "dot_radius", non_negative: true)
 
               slot = callout["slot"]
               add_error("callout #{part_id.inspect} slot must use kebab-case: #{slot.inspect}") unless slot.nil? || valid_id?(slot)
@@ -401,6 +438,33 @@ module PublicV2
             missing_callouts = part_ids - seen_part_ids
             add_error("missing callouts for parts: #{missing_callouts.join(', ')}") unless missing_callouts.empty?
             validate_unique_ids("callouts.part_id", seen_part_ids)
+          end
+
+          def validate_callout_value(callout, part_id, key, allowed_values)
+            value = callout[key]
+            return if value.nil?
+
+            add_error("callout #{part_id.inspect} has invalid #{key} #{value.inspect}") unless valid_token?(value)
+            add_error("callout #{part_id.inspect} has unknown #{key} #{value.inspect}") if valid_token?(value) && !allowed_values.include?(value)
+          end
+
+          def validate_callout_length(callout, part_id, key)
+            value = callout[key]
+            return if value.nil? || numeric?(value)
+            return if valid_token?(value) && VALID_CALLOUT_LENGTH_TOKENS.include?(value)
+
+            add_error("callout #{part_id.inspect} #{key} must be a number or length token")
+          end
+
+          def validate_callout_number(callout, part_id, key, non_negative: false)
+            value = callout[key]
+            return if value.nil?
+
+            if !numeric?(value)
+              add_error("callout #{part_id.inspect} #{key} must be a number")
+            elsif non_negative && value.negative?
+              add_error("callout #{part_id.inspect} #{key} must be a non-negative number")
+            end
           end
 
           def validate_marker_anchor(part_id, marker_anchor)
@@ -487,6 +551,25 @@ module PublicV2
             end
           end
 
+          def validate_render_slot_part_contract
+            layout_preset = spec.presets["layout"]
+            return if layout_preset.to_s.empty? || !preset_registry.layout?(layout_preset)
+
+            resolution = LayoutStrategyRegistry.default.resolve(
+              layout_preset:,
+              elements: spec.elements,
+              groups: spec.groups
+            )
+            return unless resolution.match?
+
+            part_ids_by_slot = element_part_ids_by_slot
+            resolution.strategy.required_slots.each do |slot|
+              part_ids = part_ids_by_slot.fetch(slot, [])
+              add_error("layout slot #{slot.inspect} needs an element part_id for generic rendering") if part_ids.empty?
+              add_error("layout slot #{slot.inspect} maps to multiple part ids: #{part_ids.join(', ')}") if part_ids.size > 1
+            end
+          end
+
           def validate_raw_svg_keys
             offenders = forbidden_key_paths(spec.data)
             return if offenders.empty?
@@ -538,6 +621,14 @@ module PublicV2
             @slots_by_part_id ||= spec.elements.each_with_object({}) do |element, slots|
               slots[element["part_id"]] = element["slot"] if element["part_id"] && element["slot"]
             end
+          end
+
+          def element_part_ids_by_slot
+            @element_part_ids_by_slot ||= spec.elements.each_with_object(Hash.new { |hash, key| hash[key] = [] }) do |element, slots|
+              slot = element["slot"].to_s
+              part_id = element["part_id"].to_s
+              slots[slot] << part_id if !slot.empty? && !part_id.empty?
+            end.transform_values { |values| values.uniq }
           end
 
           def explicit_callout_route?(callout)

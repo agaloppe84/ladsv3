@@ -1276,7 +1276,11 @@ module PublicV2
               text_offset_y: options[:text_offset_y],
               text_anchor: options[:text_anchor],
               dominant_baseline: options[:dominant_baseline],
-              animation_profile: options[:animation_profile]&.to_sym
+              marker_radius: options[:marker_radius],
+              corner_radius: options[:corner_radius],
+              dot_radius: options[:dot_radius],
+              animation_profile: options[:animation_profile]&.to_sym,
+              label_reveal_direction: options[:label_reveal_direction]&.to_sym
             )
           end
 

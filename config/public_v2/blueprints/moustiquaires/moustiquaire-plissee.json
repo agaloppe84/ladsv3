@@ -272,7 +272,7 @@
     {
       "part_id": "verrouillage",
       "marker": { "x": 6160, "y": 1790 },
-      "placement": "right_detail_up"
+      "placement": "right_outside_up"
     }
   ],
   "validation": {

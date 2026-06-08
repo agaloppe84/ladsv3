@@ -296,7 +296,7 @@
     {
       "part_id": "cordons-guidage",
       "marker": { "x": 1470, "y": 2040 },
-      "placement": "left_detail",
+      "placement": "left_outside",
       "first_length": 380
     },
     {

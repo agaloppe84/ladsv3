@@ -46,7 +46,7 @@ module PublicV2
           )
         ].freeze
 
-        def initialize(parts:, part_ids_by_slot: {}, **options)
+        def initialize(parts:, part_ids_by_slot:, **options)
           @parts = parts
           @part_ids_by_slot = part_ids_by_slot.to_h.transform_keys(&:to_s)
 
@@ -57,15 +57,17 @@ module PublicV2
 
         attr_reader :parts, :part_ids_by_slot
 
-        def part_id_for_slot(slot, fallback:)
-          part_ids_by_slot.fetch(slot.to_s, fallback)
+        def part_id_for_slot(slot)
+          part_ids_by_slot.fetch(slot.to_s) do
+            raise ArgumentError, "missing part id for blueprint slot #{slot.inspect}"
+          end
         end
 
         def part_group(part_id, class_suffix:, hit:, marker:, aria_label: nil, &block)
           tag.g(
             class: class_names(
               "pv2-product-exploded__part",
-              "pv2-product-exploded__part--#{class_suffix}",
+              *part_modifier_classes(class_suffix),
               active_part_class(part_id)
             ),
             data: {
@@ -95,7 +97,7 @@ module PublicV2
           tag.g(
             class: class_names(
               "pv2-product-exploded__part",
-              "pv2-product-exploded__part--#{class_suffix}",
+              *part_modifier_classes(class_suffix),
               active_part_class(part_id)
             ),
             data: {
@@ -136,6 +138,13 @@ module PublicV2
             width: box.width,
             height: box.height,
             rx: box.rx
+          )
+        end
+
+        def slot_class_suffix(slot, side: nil)
+          class_names(
+            "slot-#{css_token(slot)}",
+            side && "slot-#{css_token(slot)}-#{css_token(side)}"
           )
         end
 
@@ -218,6 +227,14 @@ module PublicV2
 
         def class_names(*values)
           values.compact.reject(&:empty?).join(" ")
+        end
+
+        def part_modifier_classes(class_suffix)
+          class_suffix.to_s.split.map { |suffix| "pv2-product-exploded__part--#{suffix}" }
+        end
+
+        def css_token(value)
+          value.to_s.tr("_", "-").gsub(/[^a-z0-9-]/i, "-").downcase
         end
       end
     end
