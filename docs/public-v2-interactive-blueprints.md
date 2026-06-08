@@ -277,6 +277,9 @@ Etat actuel :
 - `store-vertical-zippe` porte maintenant la geometrie de layout de sa
   motorisation `motor:tubular` dans le JSON, avec contrat d'options dans
   `ElementRegistry`, au lieu de constantes Ruby dans le builder ;
+- `store-vertical-zippe` porte aussi les offsets de rendu du coffre, de la toile
+  zippee et de la barre de charge dans le JSON, en gardant le builder sur la
+  composition generique depuis les slots ;
 - les anciens fichiers Ruby blueprints produits et les templates/composants SVG
   produits dedies ont ete retires du chemin public v2 ;
 - les structs de layout du chemin JSON portent des noms de familles generiques
@@ -740,7 +743,8 @@ Avant de considerer un blueprint stable :
 - options grille/callout intentionnelles ;
 - dette filaire restante listee ;
 - rendu Rails runner OK ;
-- `BlueprintValidator.validate_all!` OK.
+- `PublicV2::Products::ExplodedView::Blueprints::BlueprintValidator.validate_specs!`
+  OK.
 
 ## Directives agent
 

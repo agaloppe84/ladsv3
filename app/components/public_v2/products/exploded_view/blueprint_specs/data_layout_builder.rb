@@ -1115,10 +1115,10 @@ module PublicV2
               width: box.width,
               height: box.height,
               rx: box.rx,
-              marker_gap: 160,
-              hit_inset_x: 120,
-              hit_inset_y: 75,
-              hole_offsets: [488, 712],
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              hole_offsets: options.fetch("hole_offsets"),
               solid_profile: solid_profile_config(options).merge(
                 style: option_symbol(options, "style", default: :front_coffre),
                 points: options.fetch("points", false)
@@ -1140,9 +1140,9 @@ module PublicV2
               width: box.width,
               height: box.height,
               rx: box.rx,
-              marker_gap: 160,
-              hit_inset_x: 85,
-              hit_inset_y: 55,
+              marker_gap: options.fetch("marker_gap"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
               line_count: options.fetch("line_count"),
               tick_step: options.fetch("tick_step", 2),
               pattern_id: options.fetch("pattern_id"),
@@ -1173,10 +1173,15 @@ module PublicV2
             zipped_load_bar_element(
               top: box.y,
               preset: option_symbol(options, "preset"),
-              hit: Box.new(x: coffre.body.x - 50, y: box.y - 85, width: coffre.body.width + 100, height: 265),
+              hit: Box.new(
+                x: coffre.body.x - options.fetch("hit_inset_x"),
+                y: box.y + options.fetch("hit_y_offset"),
+                width: coffre.body.width + (options.fetch("hit_inset_x") * 2),
+                height: options.fetch("hit_height")
+              ),
               body: box,
               height: box.height,
-              marker: Point.new(x: 6_900, y: box.y + 90),
+              marker: Point.new(x: coffre.body.right + options.fetch("marker_offset_x"), y: box.y + options.fetch("marker_offset_y")),
               solid_profile: solid_profile_config(options).merge(
                 embouts: options.fetch("embouts", false),
                 grip: options.fetch("grip", false)

@@ -143,6 +143,10 @@
       "box": { "x": 1020, "y": 1310, "width": 5760, "height": 260, "rx": 38 },
       "options": {
         "preset": "housing_zipped_coffre",
+        "marker_gap": 160,
+        "hit_inset_x": 120,
+        "hit_inset_y": 75,
+        "hole_offsets": [488, 712],
         "solid_profile": "vertical-zippe-coffre",
         "style": "front_coffre",
         "points": false
@@ -157,6 +161,9 @@
       "box": { "x": 1260, "y": 1990, "width": 5280, "height": 2040, "rx": 22 },
       "options": {
         "preset": "fabric_zipped",
+        "marker_gap": 160,
+        "hit_inset_x": 85,
+        "hit_inset_y": 55,
         "line_count": 35,
         "tick_step": 2,
         "pattern_id": "vertical-zippe-toile",
@@ -183,6 +190,11 @@
       "slot": "bottom-bar",
       "options": {
         "preset": "bar_zipped_load",
+        "hit_inset_x": 50,
+        "hit_y_offset": -85,
+        "hit_height": 265,
+        "marker_offset_x": 120,
+        "marker_offset_y": 90,
         "solid_profile": "vertical-zippe-barre-charge",
         "embouts": true,
         "grip": true

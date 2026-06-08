@@ -69,7 +69,7 @@ module PublicV2
               renderer_family: "solid_bar_profile",
               status: "supported",
               option_keys: %w[
-                embouts grip preset solid_profile
+                embouts grip hit_height hit_inset_x hit_y_offset marker_offset_x marker_offset_y preset solid_profile
               ]
             ),
             Entry.new(
@@ -177,7 +177,7 @@ module PublicV2
               renderer_family: "fabric_pattern",
               status: "supported",
               option_keys: %w[
-                line_count pattern_id pattern_style preset tick_step
+                hit_inset_x hit_inset_y line_count marker_gap pattern_id pattern_style preset tick_step
               ]
             ),
             Entry.new(
@@ -186,7 +186,7 @@ module PublicV2
               renderer_family: "solid_housing_profile",
               status: "supported",
               option_keys: %w[
-                points preset solid_profile style
+                hit_inset_x hit_inset_y hole_offsets marker_gap points preset solid_profile style
               ]
             ),
             Entry.new(
@@ -329,6 +329,7 @@ module PublicV2
             "hit_inset_y" => :number,
             "hit_width" => :number,
             "hit_y_offset" => :number,
+            "hole_offsets" => :array,
             "horizontal_count" => :integer,
             "inner_bottom_inset" => :number,
             "inner_inset_x" => :number,
@@ -421,7 +422,9 @@ module PublicV2
               ]
             },
             "bar:zipped-load" => {
-              "bottom-bar" => %w[preset solid_profile]
+              "bottom-bar" => %w[
+                hit_height hit_inset_x hit_y_offset marker_offset_x marker_offset_y preset solid_profile
+              ]
             },
             "closure:magnetic-receivers" => {
               "closure" => %w[
@@ -486,11 +489,13 @@ module PublicV2
             },
             "fabric:zipped-solid" => {
               "fabric" => %w[
-                line_count pattern_id pattern_style preset
+                hit_inset_x hit_inset_y line_count marker_gap pattern_id pattern_style preset
               ]
             },
             "housing:front-coffre" => {
-              "top-housing" => %w[preset solid_profile]
+              "top-housing" => %w[
+                hit_inset_x hit_inset_y hole_offsets marker_gap preset solid_profile
+              ]
             },
             "housing:kiss-50-cassette" => {
               "top-housing" => %w[
