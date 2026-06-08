@@ -13,8 +13,6 @@ class PublicV2::HomePage
 
   HeroCategoryCard = Struct.new(:category, :index, :key, :label, :image, :alt, :kicker, :title, :accent_title, :accent, keyword_init: true)
 
-  HERO_CATEGORY_INITIAL_SLUG = "stores-interieurs"
-
   HERO_FALLBACK_ASSETS = [
     {
       image: "public_v2/hero-interior-blind-closeup-cgi.png",
@@ -149,7 +147,7 @@ class PublicV2::HomePage
   end
 
   def hero_category_initial_index
-    hero_category_cards.index { |card| card.key == HERO_CATEGORY_INITIAL_SLUG } || 0
+    0
   end
 
   def product_rows

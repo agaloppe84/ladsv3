@@ -3172,6 +3172,9 @@
   --pv2-hero-media-dot: rgba(17, 17, 17, 0.14);
   --pv2-hero-media-dot-active: #111111;
   --pv2-hero-media-dots-surface: rgba(255, 255, 255, 0.92);
+  --pv2-hero-media-image-shift-x: 10%;
+  --pv2-hero-media-image-shift-y: 8%;
+  --pv2-hero-media-image-scale: 0.84;
   --pv2-hero-media-ink: #111111;
   --pv2-hero-media-muted: rgba(17, 17, 17, 0.58);
   --pv2-hero-media-surface: #ffffff;
@@ -3414,9 +3417,10 @@
   box-sizing: border-box;
   display: block;
   height: 100%;
-  object-fit: contain;
-  object-position: center bottom;
-  padding: clamp(5.5rem, 10vw, 7.2rem) clamp(1.4rem, 3.2vw, 2.4rem) clamp(1.35rem, 3vw, 2.2rem);
+  object-fit: cover;
+  object-position: center;
+  transform: translate(var(--pv2-hero-media-image-shift-x), var(--pv2-hero-media-image-shift-y)) scale(var(--pv2-hero-media-image-scale));
+  transform-origin: center;
   width: 100%;
 }
 
@@ -3430,6 +3434,7 @@
   justify-items: start;
   padding: clamp(1.55rem, 3vw, 2.55rem);
   position: absolute;
+  z-index: 2;
 }
 
 .public-v2 .pv2-home-hero-v2__media-caption span {
@@ -3503,6 +3508,9 @@
   --pv2-hero-media-dot: rgba(255, 255, 255, 0.24);
   --pv2-hero-media-dot-active: #ffffff;
   --pv2-hero-media-dots-surface: rgba(28, 28, 31, 0.9);
+  --pv2-hero-media-image-shift-x: 10%;
+  --pv2-hero-media-image-shift-y: 8%;
+  --pv2-hero-media-image-scale: 0.84;
   --pv2-hero-media-ink: #f7f7f9;
   --pv2-hero-media-muted: rgba(247, 247, 249, 0.62);
   --pv2-hero-media-surface: #1b1b1f;
