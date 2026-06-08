@@ -41,6 +41,7 @@ Fichiers centraux :
 - `app/components/public_v2/products/exploded_view/blueprint_specs/spec.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/loader.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/element_registry.rb`
+- `app/components/public_v2/products/exploded_view/blueprint_specs/layout_strategy_registry.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/preset_registry.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/preset_slot_layout.rb`
 - `app/components/public_v2/products/exploded_view/blueprint_specs/assembler.rb`
@@ -148,12 +149,18 @@ Validation JSON :
 - ce contrat declare aussi des options requises par slot et des types simples
   (`string`, `number`, `integer`, `boolean`, `object`, `array`) pour attraper
   les erreurs de data avant le rendu Rails.
+- le matching de strategie layout est controle par
+  `BlueprintSpecs::LayoutStrategyRegistry` ; un blueprint doit matcher une seule
+  strategie depuis son preset, ses slots et les couples `type:variant`
+  discriminants.
 
 Assemblage JSON :
 
 - `BlueprintSpecs::ElementRegistry` declare les couples `type:variant` supportes,
   la famille de rendu solide associee, les cles d'options JSON acceptees, les
   options requises par slot et les types simples attendus ;
+- `BlueprintSpecs::LayoutStrategyRegistry` declare les signatures des strategies
+  data-driven supportees et fournit un diagnostic quand un JSON ne matche pas ;
 - `BlueprintSpecs::PresetRegistry` declare les presets de layout/callouts supportes ;
 - `BlueprintSpecs::Assembler` transforme une spec JSON en objets normalises ;
 - `ElementDefinition` porte `id`, `part_id`, `type`, `variant`, `slot`, `box`,
@@ -168,9 +175,10 @@ Assemblage JSON :
   serie de boxes depuis les presets `vertical-product-layout` et
   `horizontal-product-layout`.
 - `BlueprintSpecs::DataLayoutBuilder` transforme la spec assemblee en layout Ruby.
-  Il choisit la strategie de layout depuis la signature JSON assemblee
-  (`presets.layout`, slots requis et couples `type:variant`) plutot que depuis le
-  slug produit. Ses builders internes sont nommes par familles de layout
+  Il demande a `LayoutStrategyRegistry` la strategie de layout depuis la
+  signature JSON assemblee (`presets.layout`, slots requis et couples
+  `type:variant`) plutot que depuis le slug produit. Ses builders internes sont
+  nommes par familles de layout
   (`roller_duo`, `honeycomb_shade`, `pleated_lateral`, `side_guided_roller`,
   `zipped_screen`, etc.). Au stade actuel, `store-vertical-zippe`,
   `moustiquaire-enroulable-verticale`, `moustiquaire-plissee`, `store-duette`,

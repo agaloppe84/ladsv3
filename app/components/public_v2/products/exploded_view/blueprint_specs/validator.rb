@@ -3,6 +3,7 @@
 require "json"
 require_relative "../blueprints/data_blueprint"
 require_relative "element_registry"
+require_relative "layout_strategy_registry"
 require_relative "loader"
 require_relative "preset_registry"
 
@@ -184,6 +185,7 @@ module PublicV2
             validate_groups
             validate_callouts
             validate_layout_slot_contract
+            validate_layout_strategy_contract
             validate_raw_svg_keys
 
             Result.new(name:, path: spec.path, errors:, warnings:)
@@ -445,6 +447,23 @@ module PublicV2
 
               default_options = preset_registry.default_callout_options(callout_preset, slot)
               add_error("callout #{part_id.inspect} slot #{slot.inspect} has no default options in callout preset #{callout_preset.inspect}") if default_options.empty?
+            end
+          end
+
+          def validate_layout_strategy_contract
+            layout_preset = spec.presets["layout"]
+            return if layout_preset.to_s.empty? || !preset_registry.layout?(layout_preset)
+
+            resolution = LayoutStrategyRegistry.default.resolve(
+              layout_preset:,
+              elements: spec.elements
+            )
+            return if resolution.match?
+
+            if resolution.ambiguous?
+              add_error("layout strategy is ambiguous for preset #{layout_preset.inspect}: #{resolution.matches.map(&:name).join(', ')}")
+            else
+              add_error("no data layout strategy matches preset #{layout_preset.inspect}: #{resolution.failure_summary}")
             end
           end
 
