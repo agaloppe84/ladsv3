@@ -145,11 +145,15 @@ Validation JSON :
 - les options de chaque element JSON sont controlees par le contrat declare dans
   `BlueprintSpecs::ElementRegistry` ; une option inconnue sur un couple
   `type:variant` est une erreur de validation.
+- ce contrat declare aussi des options requises par slot et des types simples
+  (`string`, `number`, `integer`, `boolean`, `object`, `array`) pour attraper
+  les erreurs de data avant le rendu Rails.
 
 Assemblage JSON :
 
 - `BlueprintSpecs::ElementRegistry` declare les couples `type:variant` supportes,
-  la famille de rendu solide associee et les cles d'options JSON acceptees ;
+  la famille de rendu solide associee, les cles d'options JSON acceptees, les
+  options requises par slot et les types simples attendus ;
 - `BlueprintSpecs::PresetRegistry` declare les presets de layout/callouts supportes ;
 - `BlueprintSpecs::Assembler` transforme une spec JSON en objets normalises ;
 - `ElementDefinition` porte `id`, `part_id`, `type`, `variant`, `slot`, `box`,

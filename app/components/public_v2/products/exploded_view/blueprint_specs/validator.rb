@@ -310,7 +310,7 @@ module PublicV2
               part_id = element["part_id"]
               add_error("element #{element_id.inspect} references unknown part #{part_id.inspect}") if part_id && !part_ids.include?(part_id)
 
-              validate_element_options(element_id, element["options"], registry_entry)
+              validate_element_options(element_id, element["options"], registry_entry, slot:)
               validate_box("element #{element_id.inspect}", element["box"]) if element["box"]
             end
 
@@ -334,7 +334,7 @@ module PublicV2
             entry
           end
 
-          def validate_element_options(element_id, options, registry_entry)
+          def validate_element_options(element_id, options, registry_entry, slot:)
             return if options.nil? && !registry_entry
 
             unless options.nil? || options.is_a?(Hash)
@@ -343,8 +343,24 @@ module PublicV2
             end
             return unless registry_entry
 
-            unknown_keys = options.to_h.keys.map(&:to_s) - registry_entry.option_keys
+            option_values = options.to_h
+            option_keys = option_values.keys.map(&:to_s)
+
+            missing_keys = registry_entry.required_option_keys_for(slot) - option_keys
+            unless missing_keys.empty?
+              add_error("element #{element_id.inspect} is missing required options for slot #{slot.inspect}: #{missing_keys.join(', ')}")
+            end
+
+            unknown_keys = option_keys - registry_entry.option_keys
             add_error("element #{element_id.inspect} has unknown options: #{unknown_keys.sort.join(', ')}") unless unknown_keys.empty?
+
+            option_values.each do |key, value|
+              expected_type = registry_entry.option_type_for(key)
+              next unless expected_type
+              next if option_value_matches_type?(value, expected_type)
+
+              add_error("element #{element_id.inspect} option #{key.inspect} must be #{option_type_label(expected_type)}")
+            end
           end
 
           def validate_groups
@@ -537,6 +553,41 @@ module PublicV2
 
           def non_negative_integer?(value)
             value.is_a?(Integer) && value >= 0
+          end
+
+          def option_value_matches_type?(value, expected_type)
+            Array(expected_type).any? do |type|
+              case type.to_sym
+              when :array
+                value.is_a?(Array)
+              when :boolean
+                [true, false].include?(value)
+              when :integer
+                value.is_a?(Integer)
+              when :number
+                value.is_a?(Numeric)
+              when :object
+                value.is_a?(Hash)
+              when :string
+                value.is_a?(String)
+              else
+                false
+              end
+            end
+          end
+
+          def option_type_label(expected_type)
+            Array(expected_type).map do |type|
+              case type.to_sym
+              when :array then "an array"
+              when :boolean then "a boolean"
+              when :integer then "an integer"
+              when :number then "a number"
+              when :object then "an object"
+              when :string then "a string"
+              else type.to_s
+              end
+            end.join(" or ")
           end
 
           def add_error(message)
