@@ -77,6 +77,7 @@ class PublicV2::Products::ExplodedViewExperimentComponent < ViewComponent::Base
       show_layout_grid: show_layout_grid
     }
     options[:parts] = parts if drawing_component <= PublicV2::Products::ExplodedView::GenericDrawingComponent
+    options[:part_ids_by_slot] = blueprint.part_ids_by_slot if drawing_component <= PublicV2::Products::ExplodedView::GenericDrawingComponent
 
     options
   end

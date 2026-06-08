@@ -1,23 +1,30 @@
-<%= part_group("supports", class_suffix: "supports", hit: layout.supports.hit, marker: layout.supports.marker) do %>
+<% supports_part_id = part_id_for_slot("top-supports", fallback: "supports") %>
+<% motor_part_id = part_id_for_slot("motor", fallback: "motorisation") %>
+<% housing_part_id = part_id_for_slot("top-housing", fallback: "coffre") %>
+<% side_guides_part_id = part_id_for_slot("side-guides", fallback: "coulisses") %>
+<% fabric_part_id = part_id_for_slot("fabric", fallback: "toile") %>
+<% bottom_bar_part_id = part_id_for_slot("bottom-bar", fallback: "barre-charge") %>
+
+<%= part_group(supports_part_id, class_suffix: "supports", hit: layout.supports.hit, marker: layout.supports.marker) do %>
   <% %i[left right].each do |side| %>
     <%= solid_support_profile(layout.supports.solid_profile_for(side)) %>
   <% end %>
 <% end %>
 
-<%= part_group("motorisation", class_suffix: "motorisation", hit: layout.motor.hit, marker: layout.motor.marker) do %>
+<%= part_group(motor_part_id, class_suffix: "motorisation", hit: layout.motor.hit, marker: layout.motor.marker) do %>
   <%= solid_motor_profile(layout.motor.solid_profile) %>
 <% end %>
 
-<%= part_group("coffre", class_suffix: "coffre", hit: layout.coffre.hit, marker: layout.coffre.marker) do %>
+<%= part_group(housing_part_id, class_suffix: "coffre", hit: layout.coffre.hit, marker: layout.coffre.marker) do %>
   <%= solid_housing_profile(layout.coffre.solid_profile) %>
 <% end %>
 
 <%= part_group(
-  "coulisses",
+  side_guides_part_id,
   class_suffix: "coulisses pv2-product-exploded__part--coulisse-left",
   hit: layout.coulisse.hit,
   marker: layout.coulisse.marker,
-  aria_label: "#{part_label("coulisses")} gauche"
+  aria_label: "#{part_label(side_guides_part_id)} gauche"
 ) do %>
   <% left_zip = layout.coulisse.zip_edge_box(side: :left, y: layout.fabric.body.y, height: layout.fabric.body.height) %>
   <g class="pv2-product-exploded__mirror-unit">
@@ -31,10 +38,10 @@
 <% end %>
 
 <%= mirror_part_group(
-  "coulisses",
+  side_guides_part_id,
   class_suffix: "coulisses pv2-product-exploded__part--coulisse-right",
   hit: mirrored_hit_box(layout.coulisse.hit),
-  aria_label: "#{part_label("coulisses")} droite"
+  aria_label: "#{part_label(side_guides_part_id)} droite"
 ) do %>
   <% right_zip = layout.coulisse.zip_edge_box(side: :right, y: layout.fabric.body.y, height: layout.fabric.body.height) %>
   <g class="pv2-product-exploded__mirror-unit">
@@ -47,11 +54,11 @@
   </g>
 <% end %>
 
-<%= part_group("toile", class_suffix: "toile", hit: layout.fabric.hit, marker: layout.fabric.marker) do %>
+<%= part_group(fabric_part_id, class_suffix: "toile", hit: layout.fabric.hit, marker: layout.fabric.marker) do %>
   <%= fabric_pattern(layout.fabric.pattern, slot: :under_outline) %>
   <%= fabric_pattern(layout.fabric.pattern, slot: :over_outline) %>
 <% end %>
 
-<%= part_group("barre-charge", class_suffix: "barre-charge", hit: layout.barre.hit, marker: layout.barre.marker) do %>
+<%= part_group(bottom_bar_part_id, class_suffix: "barre-charge", hit: layout.barre.hit, marker: layout.barre.marker) do %>
   <%= solid_bar_profile(layout.barre.solid_profile) %>
 <% end %>

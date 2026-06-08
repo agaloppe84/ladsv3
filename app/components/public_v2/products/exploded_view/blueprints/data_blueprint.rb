@@ -50,6 +50,12 @@ module PublicV2
             @part_order ||= parts.map(&:id)
           end
 
+          def part_ids_by_slot
+            @part_ids_by_slot ||= assembled_blueprint.elements.each_with_object({}) do |element, index|
+              index[element.slot] ||= element.part_id if element.slot && element.part_id
+            end
+          end
+
           def metrics
             @metrics ||= Array(spec.data["metrics"]).map do |metric|
               Metric.new(

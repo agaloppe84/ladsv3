@@ -103,12 +103,26 @@ module PublicV2
             def zipped_coulisse_element(
               top:,
               bottom:,
-              hit:,
-              marker:,
+              hit: nil,
+              marker: nil,
+              marker_gap: nil,
+              hit_x: nil,
+              hit_y_offset: nil,
+              hit_width: nil,
+              hit_height_extra: nil,
               solid_profile: nil
             )
               left = zipped_coulisse_box(top:, bottom:)
               right = layout_box(LayoutRules.mirror_x(left, canvas_width: canvas_spec.svg_width), preserve_size: true)
+              hit ||= zipped_coulisse_hit_box(
+                top:,
+                bottom:,
+                x: hit_x,
+                y_offset: hit_y_offset,
+                width: hit_width,
+                height_extra: hit_height_extra
+              )
+              marker ||= Point.new(x: left.x - marker_gap, y: left.center_y)
 
               rail = RailElement.build(
                 variant: :zipped_coulisse,
@@ -238,6 +252,15 @@ module PublicV2
                   height: bottom - top,
                   rx: geometry.fetch(:radius)
                 )
+              )
+            end
+
+            def zipped_coulisse_hit_box(top:, bottom:, x:, y_offset:, width:, height_extra:)
+              Box.new(
+                x:,
+                y: top + y_offset,
+                width:,
+                height: (bottom - top) + height_extra
               )
             end
           end

@@ -177,6 +177,13 @@
       "variant": "zipped-coulisse-pair",
       "slot": "side-guides",
       "options": {
+        "extra_top": 140,
+        "extra_bottom": 92,
+        "marker_gap": 160,
+        "hit_x": 470,
+        "hit_y_offset": -75,
+        "hit_width": 300,
+        "hit_height_extra": 165,
         "solid_profile": "vertical-zippe-coulisses",
         "mirrored": true,
         "attached_to": "toile"
@@ -207,7 +214,30 @@
       "variant": "mount-pair",
       "slot": "top-supports",
       "options": {
+        "anchor_y": 460,
+        "gap": 0,
+        "width": 420,
+        "height": 320,
+        "inset_x": 1240,
+        "rx": 42,
+        "marker_gap": 158,
+        "marker_offset_y": 5,
+        "hit_inset_x": 120,
+        "hit_inset_y": 50,
+        "hit_inset_top": 50,
+        "hit_inset_bottom": 60,
         "solid_profile": "vertical-zippe-supports",
+        "accent_rows": [
+          { "y": 54, "inset_x": 76, "height": 10 },
+          { "y": 100, "inset_x": 98, "height": 8 },
+          { "y": -100, "inset_x": 98, "height": 8 },
+          { "y": -54, "inset_x": 76, "height": 10 }
+        ],
+        "point_specs": [
+          { "x": 210, "y": 160, "radius": 54, "tone": "mid" },
+          { "x": 96, "y": 160, "radius": 22 },
+          { "x": -96, "y": 160, "radius": 22 }
+        ],
         "mirrored": true
       }
     }

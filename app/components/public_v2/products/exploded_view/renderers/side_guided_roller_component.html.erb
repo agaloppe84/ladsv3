@@ -1,39 +1,46 @@
-<%= part_group("caisson", class_suffix: "enroulable-caisson", hit: layout.cassette.hit, marker: layout.cassette.marker) do %>
+<% housing_part_id = part_id_for_slot("top-housing", fallback: "caisson") %>
+<% side_guides_part_id = part_id_for_slot("side-guides", fallback: "double-coulisse") %>
+<% fabric_part_id = part_id_for_slot("fabric", fallback: "toile-bordee") %>
+<% bottom_bar_part_id = part_id_for_slot("bottom-bar", fallback: "barre-charge") %>
+<% closure_part_id = part_id_for_slot("closure", fallback: "fermeture-magnetique") %>
+<% attached_features_part_id = part_id_for_slot("attached-features", fallback: "bavettes") %>
+
+<%= part_group(housing_part_id, class_suffix: "enroulable-caisson", hit: layout.cassette.hit, marker: layout.cassette.marker) do %>
   <%= solid_housing_profile(layout.cassette.solid_profile) %>
 <% end %>
 
 <%= part_group(
-  "double-coulisse",
+  side_guides_part_id,
   class_suffix: "enroulable-coulisse pv2-product-exploded__part--enroulable-coulisse-left",
   hit: layout.rails.hit,
   marker: layout.rails.marker,
-  aria_label: "#{part_label("double-coulisse")} gauche"
+  aria_label: "#{part_label(side_guides_part_id)} gauche"
 ) do %>
   <%= solid_profile(layout.rails.solid_profile_for(:left)) %>
 <% end %>
 
 <%= mirror_part_group(
-  "double-coulisse",
+  side_guides_part_id,
   class_suffix: "enroulable-coulisse pv2-product-exploded__part--enroulable-coulisse-right",
   hit: right_vertical_pair_hit_box(layout.rails),
-  aria_label: "#{part_label("double-coulisse")} droite"
+  aria_label: "#{part_label(side_guides_part_id)} droite"
 ) do %>
   <%= solid_profile(layout.rails.solid_profile_for(:right)) %>
 <% end %>
 
-<%= part_group("toile-bordee", class_suffix: "enroulable-toile", hit: layout.fabric.hit, marker: layout.fabric.marker) do %>
+<%= part_group(fabric_part_id, class_suffix: "enroulable-toile", hit: layout.fabric.hit, marker: layout.fabric.marker) do %>
   <%= fabric_pattern(layout.fabric.pattern, slot: :under_outline) %>
   <%= fabric_pattern(layout.fabric.pattern, slot: :over_outline) %>
 <% end %>
 
-<%= part_group("barre-charge", class_suffix: "enroulable-barre", hit: layout.bottom_bar.hit, marker: layout.bottom_bar.marker) do %>
+<%= part_group(bottom_bar_part_id, class_suffix: "enroulable-barre", hit: layout.bottom_bar.hit, marker: layout.bottom_bar.marker) do %>
   <%= solid_bar_profile(layout.bottom_bar.solid_profile) %>
 <% end %>
 
-<%= part_group("fermeture-magnetique", class_suffix: "enroulable-lock", hit: layout.lock.hit, marker: layout.lock.marker) do %>
+<%= part_group(closure_part_id, class_suffix: "enroulable-lock", hit: layout.lock.hit, marker: layout.lock.marker) do %>
   <%= solid_accessory_profile(layout.lock.solid_profile) %>
 <% end %>
 
-<%= part_group("bavettes", class_suffix: "enroulable-bavettes", hit: layout.bavettes.hit, marker: layout.bavettes.marker) do %>
+<%= part_group(attached_features_part_id, class_suffix: "enroulable-bavettes", hit: layout.bavettes.hit, marker: layout.bavettes.marker) do %>
   <%= solid_accessory_profile(layout.bavettes.solid_profile) %>
 <% end %>

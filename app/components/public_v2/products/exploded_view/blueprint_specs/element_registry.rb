@@ -253,7 +253,7 @@ module PublicV2
               renderer_family: "solid_profile",
               status: "supported",
               option_keys: %w[
-                attached_to mirrored solid_profile
+                attached_to extra_bottom extra_top hit_height_extra hit_width hit_x hit_y_offset marker_gap mirrored solid_profile
               ]
             ),
             Entry.new(
@@ -272,8 +272,9 @@ module PublicV2
               renderer_family: "solid_support_profile",
               status: "supported",
               option_keys: %w[
-                accent_inset_x accent_inset_y accent_style gap height hit_inset_x hit_inset_y inset_x marker_gap mirrored
-                point_inset rx solid_profile width
+                accent_inset_x accent_inset_y accent_rows accent_style anchor_y gap height hit_inset_bottom hit_inset_top
+                hit_inset_x hit_inset_y inset_x marker_gap marker_offset_y mirrored point_inset point_specs rx solid_profile
+                width
               ]
             )
           ].freeze
@@ -282,9 +283,11 @@ module PublicV2
             "accent" => :object,
             "accent_inset_x" => :number,
             "accent_inset_y" => :number,
+            "accent_rows" => :array,
             "accent_style" => :string,
             "attached_features" => :object,
             "attached_to" => :string,
+            "anchor_y" => :number,
             "axis" => :string,
             "band_count" => :integer,
             "band_radius" => :number,
@@ -323,8 +326,11 @@ module PublicV2
             "height_inset" => :number,
             "highlight" => :object,
             "hit_height" => :number,
+            "hit_height_extra" => :number,
             "hit_x" => :number,
             "hit_inset_left" => :number,
+            "hit_inset_bottom" => :number,
+            "hit_inset_top" => :number,
             "hit_inset_x" => :number,
             "hit_inset_y" => :number,
             "hit_width" => :number,
@@ -357,6 +363,7 @@ module PublicV2
             "pleat_count" => :integer,
             "point_inset" => :number,
             "point_radius" => :number,
+            "point_specs" => :array,
             "points" => :boolean,
             "preset" => :string,
             "radius" => :number,
@@ -535,7 +542,9 @@ module PublicV2
               ]
             },
             "rail:zipped-coulisse-pair" => {
-              "side-guides" => %w[solid_profile]
+              "side-guides" => %w[
+                extra_bottom extra_top hit_height_extra hit_width hit_x hit_y_offset marker_gap solid_profile
+              ]
             },
             "slat:venetian-pack" => {
               "fabric" => %w[

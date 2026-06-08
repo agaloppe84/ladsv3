@@ -280,6 +280,12 @@ Etat actuel :
 - `store-vertical-zippe` porte aussi les offsets de rendu du coffre, de la toile
   zippee et de la barre de charge dans le JSON, en gardant le builder sur la
   composition generique depuis les slots ;
+- les coulisses zippees et les supports hauts de `store-vertical-zippe` sont
+  maintenant parametres par le JSON et les supports passent par le helper
+  generique `mount_support_pair_element` ;
+- les renderers de familles resolvent leurs `part_id` interactifs depuis les
+  slots JSON (`part_ids_by_slot`) avec fallback legacy, au lieu de dependre
+  uniquement des ids des 6 POC ;
 - les anciens fichiers Ruby blueprints produits et les templates/composants SVG
   produits dedies ont ete retires du chemin public v2 ;
 - les structs de layout du chemin JSON portent des noms de familles generiques

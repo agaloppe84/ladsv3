@@ -1153,14 +1153,17 @@ module PublicV2
           def build_zipped_screen_coulisse(fabric:)
             element = preset_slot_layout.element_for_slot("side-guides", required: true)
             options = element.options
-            top = fabric.body.y - 140
-            bottom = layout_y(fabric.body.bottom + layout_gap(92))
+            top = fabric.body.y - layout_gap(options.fetch("extra_top"))
+            bottom = layout_y(fabric.body.bottom + layout_gap(options.fetch("extra_bottom")))
 
             zipped_coulisse_element(
               top:,
               bottom:,
-              hit: Box.new(x: 470, y: top - 75, width: 300, height: (bottom - top) + 165),
-              marker: Point.new(x: 410, y: top + ((bottom - top) / 2)),
+              marker_gap: options.fetch("marker_gap"),
+              hit_x: options.fetch("hit_x"),
+              hit_y_offset: options.fetch("hit_y_offset"),
+              hit_width: options.fetch("hit_width"),
+              hit_height_extra: options.fetch("hit_height_extra"),
               solid_profile: solid_profile_config(options)
             )
           end
@@ -1191,31 +1194,25 @@ module PublicV2
 
           def build_zipped_screen_supports
             element = preset_slot_layout.element_for_slot("top-supports", required: true)
-            left = layout_box(Box.new(x: 1_240, y: 140, width: 420, height: 320, rx: 42))
-            right = layout_box(Box.new(x: canvas_spec.svg_width - left.right, y: left.y, width: left.width, height: left.height, rx: left.rx))
-            hit = layout_box(Box.new(x: 1_120, y: 90, width: 5_560, height: 430, rx: 0), preserve_size: true)
-            marker = layout_point(Point.new(x: 6_718, y: 305))
+            options = element.options
+            reference = Box.new(x: 0, y: options.fetch("anchor_y"), width: canvas_spec.svg_width, height: 0, rx: 0)
 
-            MountSupportPair.new(
-              hit:,
-              left:,
-              right:,
-              marker:,
-              solid_profiles: SolidProfiles.mount_support_pair(
-                id: element.options.fetch("solid_profile"),
-                left:,
-                right:,
-                accent_rows: [
-                  { y: 54, inset_x: 76, height: 10 },
-                  { y: 100, inset_x: 98, height: 8 },
-                  { y: -100, inset_x: 98, height: 8 },
-                  { y: -54, inset_x: 76, height: 10 }
-                ],
-                point_specs: [
-                  { x: :center, y: :center, radius: 54, tone: :mid },
-                  { x: 96, y: :center, radius: 22 },
-                  { x: -96, y: :center, radius: 22 }
-                ]
+            mount_support_pair_element(
+              reference:,
+              gap: option_gap(options, "gap"),
+              width: options.fetch("width"),
+              height: options.fetch("height"),
+              inset_x: options.fetch("inset_x"),
+              marker_gap: options.fetch("marker_gap"),
+              marker_offset_y: options.fetch("marker_offset_y", 0),
+              rx: options.fetch("rx"),
+              hit_inset_x: options.fetch("hit_inset_x"),
+              hit_inset_y: options.fetch("hit_inset_y"),
+              hit_inset_top: options["hit_inset_top"],
+              hit_inset_bottom: options["hit_inset_bottom"],
+              solid_profile: solid_profile_config(options).merge(
+                accent_rows: options.fetch("accent_rows"),
+                point_specs: options.fetch("point_specs")
               )
             )
           end

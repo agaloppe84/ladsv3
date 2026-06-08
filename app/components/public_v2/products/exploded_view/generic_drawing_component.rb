@@ -46,15 +46,20 @@ module PublicV2
           )
         ].freeze
 
-        def initialize(parts:, **options)
+        def initialize(parts:, part_ids_by_slot: {}, **options)
           @parts = parts
+          @part_ids_by_slot = part_ids_by_slot.to_h.transform_keys(&:to_s)
 
           super(**options)
         end
 
         private
 
-        attr_reader :parts
+        attr_reader :parts, :part_ids_by_slot
+
+        def part_id_for_slot(slot, fallback:)
+          part_ids_by_slot.fetch(slot.to_s, fallback)
+        end
 
         def part_group(part_id, class_suffix:, hit:, marker:, aria_label: nil, &block)
           tag.g(
@@ -149,7 +154,8 @@ module PublicV2
             svg_description_id:,
             active_part_id:,
             svg_description:,
-            show_layout_grid: show_layout_grid?
+            show_layout_grid: show_layout_grid?,
+            part_ids_by_slot:
           )
         end
 
