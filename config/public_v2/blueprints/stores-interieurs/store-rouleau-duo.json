@@ -198,11 +198,8 @@
         "marker_gap": 168,
         "hit_inset_x": 100,
         "hit_inset_y": 80,
-        "detail_inset_x": 220,
-        "tick_inset_x": 620,
-        "tick_inset_y": 28,
         "solid_profile": "duo-barre-charge",
-        "detail": {
+        "accent": {
           "height": 8,
           "inset_x": 260
         }

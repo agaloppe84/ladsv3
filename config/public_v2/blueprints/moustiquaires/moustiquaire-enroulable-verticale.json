@@ -205,7 +205,7 @@
         "grip_rx": 18,
         "magnet_inset_x": 610,
         "solid_profile": "enroulable-barre-charge",
-        "detail": { "height": 8, "inset_x": 190 },
+        "accent": { "height": 8, "inset_x": 190 },
         "grip": true
       }
     },

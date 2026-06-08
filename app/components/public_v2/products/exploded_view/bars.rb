@@ -38,9 +38,6 @@ module PublicV2
           :marker,
           :grip,
           :magnet_points,
-          :detail_inset_x,
-          :tick_inset_x,
-          :tick_inset_y,
           :solid_profile
         )
 
@@ -69,9 +66,6 @@ module PublicV2
               hit: options.fetch(:hit),
               body: options.fetch(:body),
               marker: options.fetch(:marker),
-              detail_inset_x: options.fetch(:detail_inset_x, 180),
-              tick_inset_x: options.fetch(:tick_inset_x, 520),
-              tick_inset_y: options.fetch(:tick_inset_y, 24),
               solid_profile: options.fetch(:solid_profile, nil)
             )
           when :bottom_bar
@@ -81,7 +75,6 @@ module PublicV2
               marker: options.fetch(:marker),
               grip: options.fetch(:grip),
               magnet_points: options.fetch(:magnet_points),
-              detail_inset_x: options.fetch(:detail_inset_x, 190),
               solid_profile: options.fetch(:solid_profile, nil)
             )
           else
@@ -113,20 +106,17 @@ module PublicV2
           )
         end
 
-        def self.threshold(hit:, body:, marker:, detail_inset_x: 180, tick_inset_x: 520, tick_inset_y: 24, solid_profile: nil)
+        def self.threshold(hit:, body:, marker:, solid_profile: nil)
           new(
             variant: :threshold,
             hit:,
             body:,
             marker:,
-            detail_inset_x:,
-            tick_inset_x:,
-            tick_inset_y:,
             solid_profile:
           )
         end
 
-        def self.bottom_bar(hit:, body:, marker:, grip:, magnet_points:, detail_inset_x: 190, solid_profile: nil)
+        def self.bottom_bar(hit:, body:, marker:, grip:, magnet_points:, solid_profile: nil)
           new(
             variant: :bottom_bar,
             hit:,
@@ -134,7 +124,6 @@ module PublicV2
             marker:,
             grip:,
             magnet_points:,
-            detail_inset_x:,
             solid_profile:
           )
         end
@@ -148,9 +137,6 @@ module PublicV2
           height: nil,
           grip: nil,
           magnet_points: [],
-          detail_inset_x: nil,
-          tick_inset_x: nil,
-          tick_inset_y: nil,
           solid_profile: nil
         )
           @variant = variant.to_sym
@@ -163,9 +149,6 @@ module PublicV2
           @marker = marker
           @grip = grip
           @magnet_points = magnet_points
-          @detail_inset_x = detail_inset_x
-          @tick_inset_x = tick_inset_x
-          @tick_inset_y = tick_inset_y
           @solid_profile = solid_profile
         end
 
@@ -179,9 +162,6 @@ module PublicV2
             height:,
             grip:,
             magnet_points:,
-            detail_inset_x:,
-            tick_inset_x:,
-            tick_inset_y:,
             solid_profile:
           )
         end

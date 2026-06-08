@@ -208,8 +208,7 @@ module PublicV2
               variant: :threshold,
               hit: layout_box(LayoutRules.hit_box(body, inset_x: options.fetch("hit_inset_x"), inset_y: options.fetch("hit_inset_y"))),
               body:,
-              marker: layout_anchor(body, side: option_symbol(options, "marker_side", default: :right), gap: options.fetch("marker_gap")),
-              detail_inset_x: options.fetch("detail_inset_x", 0)
+              marker: layout_anchor(body, side: option_symbol(options, "marker_side", default: :right), gap: options.fetch("marker_gap"))
             )
 
             roll.with_solid_profile(
@@ -217,14 +216,14 @@ module PublicV2
                 {
                   id: options.fetch("solid_profile"),
                   body_tone: options.fetch("body_tone"),
-                  detail: roller_duo_roll_highlight_detail(options.fetch("highlight"), body:)
+                  accent: roller_duo_roll_highlight_accent(options.fetch("highlight"), body:)
                 },
                 bar: roll
               )
             )
           end
 
-          def roller_duo_roll_highlight_detail(config, body:)
+          def roller_duo_roll_highlight_accent(config, body:)
             options = config.transform_keys(&:to_sym)
             height = options.fetch(:height)
             inset_x = options.fetch(:inset_x)
@@ -282,11 +281,8 @@ module PublicV2
               marker_gap: options.fetch("marker_gap"),
               hit_inset_x: options.fetch("hit_inset_x"),
               hit_inset_y: options.fetch("hit_inset_y"),
-              detail_inset_x: options.fetch("detail_inset_x"),
-              tick_inset_x: options.fetch("tick_inset_x"),
-              tick_inset_y: options.fetch("tick_inset_y"),
               solid_profile: solid_profile_config(options).merge(
-                detail: options.fetch("detail")
+                accent: option_value(options, "accent", legacy_key: "detail")
               )
             )
           end
@@ -469,11 +465,8 @@ module PublicV2
               marker_gap: options.fetch("marker_gap"),
               hit_inset_x: options.fetch("hit_inset_x"),
               hit_inset_y: options.fetch("hit_inset_y"),
-              detail_inset_x: options.fetch("detail_inset_x"),
-              tick_inset_x: options.fetch("tick_inset_x"),
-              tick_inset_y: options.fetch("tick_inset_y"),
               solid_profile: solid_profile_config(options).merge(
-                detail: options.fetch("detail")
+                accent: option_value(options, "accent", legacy_key: "detail")
               )
             )
           end
@@ -642,10 +635,7 @@ module PublicV2
               variant: :threshold,
               hit: layout_box(LayoutRules.hit_box(body, inset_x: options.fetch("hit_inset_x"), inset_y: options.fetch("hit_inset_y"))),
               body:,
-              marker: layout_anchor(body, side: option_symbol(options, "marker_side", default: :right), gap: options.fetch("marker_gap")),
-              detail_inset_x: options.fetch("detail_inset_x"),
-              tick_inset_x: options.fetch("tick_inset_x"),
-              tick_inset_y: options.fetch("tick_inset_y")
+              marker: layout_anchor(body, side: option_symbol(options, "marker_side", default: :right), gap: options.fetch("marker_gap"))
             )
           end
 
@@ -664,10 +654,7 @@ module PublicV2
               rx: box.rx,
               marker_gap: options.fetch("marker_gap"),
               hit_inset_x: options.fetch("hit_inset_x"),
-              hit_inset_y: options.fetch("hit_inset_y"),
-              detail_inset_x: options.fetch("detail_inset_x"),
-              tick_inset_x: options.fetch("tick_inset_x"),
-              tick_inset_y: options.fetch("tick_inset_y")
+              hit_inset_y: options.fetch("hit_inset_y")
             )
           end
 
@@ -758,7 +745,7 @@ module PublicV2
               horizontal_bar_solid_profile(
                 {
                   id: options.fetch("solid_profile"),
-                  detail: options.fetch("detail"),
+                  accent: option_value(options, "accent", legacy_key: "detail"),
                   grip: options.fetch("grip"),
                   points: [cords.left_x, cords.right_x].map { |x| Point.new(x:, y: intermediate_rail.body.center_y) },
                   point_radius: options.fetch("point_radius")
@@ -945,7 +932,7 @@ module PublicV2
               hit_inset_x: options.fetch("hit_inset_x"),
               hit_inset_y: options.fetch("hit_inset_y"),
               solid_profile: solid_profile_config(options).merge(
-                detail: options.fetch("detail")
+                accent: option_value(options, "accent", legacy_key: "detail")
               )
             )
           end
@@ -1110,7 +1097,7 @@ module PublicV2
               grip_rx: options.fetch("grip_rx"),
               magnet_inset_x: options.fetch("magnet_inset_x"),
               solid_profile: solid_profile_config(options).merge(
-                detail: options.fetch("detail"),
+                accent: option_value(options, "accent", legacy_key: "detail"),
                 grip: options.fetch("grip")
               )
             )

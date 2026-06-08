@@ -371,7 +371,7 @@ module PublicV2
         }.freeze
         BAR_TONES = {
           body: :light,
-          detail: :mid,
+          accent: :mid,
           embout: :mid,
           grip: :dark,
           point: :dark
@@ -460,7 +460,7 @@ module PublicV2
           id:,
           box:,
           body_tone: nil,
-          detail: nil,
+          accent: nil,
           embouts: nil,
           grip: nil,
           extensions: [],
@@ -469,9 +469,16 @@ module PublicV2
           point_radius: 18,
           features: [],
           axis: :horizontal,
-          tones: {}
+          tones: {},
+          **legacy_options
         )
-          resolved_tones = BAR_TONES.merge((tones || {}).transform_keys(&:to_sym))
+          unsupported_options = legacy_options.keys - [:detail]
+          raise ArgumentError, "Unsupported horizontal bar options: #{unsupported_options.join(', ')}" if unsupported_options.any?
+
+          accent ||= legacy_options[:detail]
+          bar_tones = (tones || {}).transform_keys(&:to_sym)
+          bar_tones[:accent] ||= bar_tones[:detail] if bar_tones.key?(:detail)
+          resolved_tones = BAR_TONES.merge(bar_tones)
 
           SolidBarProfile.new(
             id:,
@@ -481,7 +488,7 @@ module PublicV2
             body_tone: body_tone || resolved_tones.fetch(:body),
             features: bar_features(
               box:,
-              detail:,
+              accent:,
               embouts:,
               grip:,
               extensions:,
@@ -1006,11 +1013,11 @@ module PublicV2
           )
         end
 
-        def bar_features(box:, detail:, embouts:, grip:, extensions:, tabs:, features:, tones:)
+        def bar_features(box:, accent:, embouts:, grip:, extensions:, tabs:, features:, tones:)
           [
-            *bar_extension_features(box:, extensions:, tone: tones.fetch(:detail)),
+            *bar_extension_features(box:, extensions:, tone: tones.fetch(:accent)),
             *bar_embout_features(box:, embouts:, tone: tones.fetch(:embout)),
-            bar_center_detail_feature(box:, detail:, tone: tones.fetch(:detail)),
+            bar_center_accent_feature(box:, accent:, tone: tones.fetch(:accent)),
             bar_grip_feature(box:, grip:, tone: tones.fetch(:grip)),
             *bar_tab_features(box:, tabs:, tone: tones.fetch(:grip)),
             *features
@@ -1064,16 +1071,16 @@ module PublicV2
           end
         end
 
-        def bar_center_detail_feature(box:, detail:, tone:)
-          return unless detail
+        def bar_center_accent_feature(box:, accent:, tone:)
+          return unless accent
 
-          options = detail == true ? {} : detail.transform_keys(&:to_sym)
+          options = accent == true ? {} : accent.transform_keys(&:to_sym)
           height = options.fetch(:height, 8)
           inset_x = options.fetch(:inset_x, 0)
           width = options.fetch(:width, box.width - (inset_x * 2))
 
           SolidBarFeature.new(
-            id: options.fetch(:id, "center-detail"),
+            id: options.fetch(:id, "center-accent"),
             kind: :rect,
             box: Box.new(
               x: options.fetch(:x, box.x + inset_x),

@@ -206,7 +206,7 @@
         "hit_inset_x": 110,
         "hit_inset_y": 90,
         "solid_profile": "plissee-seuil-bas",
-        "detail": {
+        "accent": {
           "height": 8,
           "inset_x": 170
         }

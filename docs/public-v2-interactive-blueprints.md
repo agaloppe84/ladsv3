@@ -464,7 +464,7 @@ Familles reutilisables actuelles :
 
 - `SolidProfile` : rails/profils lineaires avec bandes de tons et points ;
 - `SolidHousingProfile` : coffres, caissons et cassettes ;
-- `SolidBarProfile` : barres horizontales pleines avec corps, detail central, poignee, points, extensions et onglets attaches optionnels ;
+- `SolidBarProfile` : barres horizontales pleines avec corps, accent central, poignee, points, extensions et onglets attaches optionnels ;
 - `SolidSupportProfile` : supports de pose rectangulaires avec accents et points ;
 - `SolidControlProfile` : chainettes, cordons, tiges et points de commande en segments pleins ;
 - `SolidMotorProfile` : moteurs tubulaires avec tube, embout, tete moteur et trous ;
@@ -623,7 +623,10 @@ Supprime au stade actuel :
 - role/classe/variable CSS de bord de toile renommes de `edge-detail`
   vers `edge-accent` ;
 - options de rendu des supports de pose renommees de `detail_*` vers
-  `accent_*` dans les specs JSON et dans `SolidSupportProfile`.
+  `accent_*` dans les specs JSON et dans `SolidSupportProfile` ;
+- options de rendu des barres pleines renommees de `detail` /
+  `detail_inset_x` vers `accent`, avec suppression des anciens
+  `tick_inset_x` / `tick_inset_y` devenus inutiles dans `BarElement`.
 
 Restent autorises dans le code Ruby : les paths internes generes par
 `FabricPattern`, parce qu'ils decrivent des surfaces parametriques et ne viennent
@@ -635,10 +638,11 @@ d'interdire `outline_path`, `detail_path`, `surface_path`, `profile_path`,
 
 ### Prochain ordre conseille
 
-1. Clarifier le vocabulaire des barres pleines restantes (`detail_inset_x`,
-   option `detail`, feature `center-detail`) vers un contrat d'accent/feature.
-2. Enrichir les variantes `SolidAccessoryProfile` si un nouveau blueprint introduit un detail attache recurrent.
-3. Supprimer les helpers ou styles restants des que `rg` confirme qu'ils ne sont plus emis par les renderers JSON.
+1. Supprimer les alias legacy `detail_*` -> `accent_*` dans les builders quand
+   toutes les specs JSON auront ete stabilisees et relues.
+2. Clarifier si les placements de callouts `left_detail` / `right_detail_up`
+   doivent rester comme vocabulaire de routing ou passer vers des noms de zone.
+3. Enrichir les variantes `SolidAccessoryProfile` si un nouveau blueprint introduit un detail attache recurrent.
 
 ## Lumiere, degradés et ombres
 

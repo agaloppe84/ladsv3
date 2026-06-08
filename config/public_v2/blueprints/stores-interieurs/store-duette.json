@@ -190,11 +190,8 @@
         "marker_side": "right",
         "hit_inset_x": 100,
         "hit_inset_y": 80,
-        "detail_inset_x": 230,
-        "tick_inset_x": 720,
-        "tick_inset_y": 24,
         "solid_profile": "duette-rail-intermediaire",
-        "detail": {
+        "accent": {
           "height": 8,
           "inset_x": 230
         },
@@ -217,9 +214,6 @@
         "marker_gap": 168,
         "hit_inset_x": 100,
         "hit_inset_y": 80,
-        "detail_inset_x": 210,
-        "tick_inset_x": 620,
-        "tick_inset_y": 28,
         "solid_profile": "duette-rail-bas",
         "slot": {
           "id": "toile-slot",
