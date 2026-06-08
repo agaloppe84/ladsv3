@@ -121,6 +121,19 @@ Il ne doit pas contenir de SVG brut, de `d`, de `raw_svg`, de `outline_path`,
 de `detail_path`, de `surface_path` ou de `profile_path`.
 Les formes doivent etre generees par les familles parametriques Ruby.
 
+Process nouveau blueprint :
+
+1. analyser le produit sur `www.lesartisansdustore.com`, dans la documentation
+   officielle fabricant, les PDF techniques et toute source pertinente ;
+2. choisir le layout le plus adapte parmi les presets existants ;
+3. creer un nouveau layout generique seulement si aucun preset ne couvre la
+   structure produit ;
+4. choisir les objets parametriques existants via `ElementRegistry` ;
+5. ajouter une nouvelle variante parametrique generique si l'objet manque, sans
+   creer de template ou composant dedie au produit ;
+6. generer le fichier JSON complet du produit ;
+7. valider les specs, les layouts et le smoke render avant validation visuelle.
+
 Validation JSON :
 
 - `PublicV2::Products::ExplodedView::BlueprintSpecs::Validator.validate_all!`
@@ -129,10 +142,14 @@ Validation JSON :
   expose le meme controle via une facade de compatibilite JSON.
 - `PublicV2::Products::ExplodedView::Blueprints::BlueprintValidator.validate_spec_layouts!`
   valide que les specs dotees d'un builder data-driven produisent un layout exploitable.
+- les options de chaque element JSON sont controlees par le contrat declare dans
+  `BlueprintSpecs::ElementRegistry` ; une option inconnue sur un couple
+  `type:variant` est une erreur de validation.
 
 Assemblage JSON :
 
-- `BlueprintSpecs::ElementRegistry` declare les couples `type:variant` supportes ;
+- `BlueprintSpecs::ElementRegistry` declare les couples `type:variant` supportes,
+  la famille de rendu solide associee et les cles d'options JSON acceptees ;
 - `BlueprintSpecs::PresetRegistry` declare les presets de layout/callouts supportes ;
 - `BlueprintSpecs::Assembler` transforme une spec JSON en objets normalises ;
 - `ElementDefinition` porte `id`, `part_id`, `type`, `variant`, `slot`, `box`,

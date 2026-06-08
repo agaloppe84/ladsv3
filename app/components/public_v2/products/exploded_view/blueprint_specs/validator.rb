@@ -302,7 +302,7 @@ module PublicV2
               add_error("element id must use kebab-case: #{element_id.inspect}") unless valid_id?(element_id)
               add_error("element #{element_id.inspect} needs a valid type") unless valid_token?(type)
               add_error("element #{element_id.inspect} needs a valid variant") unless valid_token?(variant)
-              validate_registry_entry(element_id, type, variant) if valid_token?(type) && valid_token?(variant)
+              registry_entry = validate_registry_entry(element_id, type, variant) if valid_token?(type) && valid_token?(variant)
 
               slot = element["slot"]
               add_error("element #{element_id.inspect} slot must use kebab-case: #{slot.inspect}") unless slot.nil? || valid_id?(slot)
@@ -310,6 +310,7 @@ module PublicV2
               part_id = element["part_id"]
               add_error("element #{element_id.inspect} references unknown part #{part_id.inspect}") if part_id && !part_ids.include?(part_id)
 
+              validate_element_options(element_id, element["options"], registry_entry)
               validate_box("element #{element_id.inspect}", element["box"]) if element["box"]
             end
 
@@ -322,13 +323,28 @@ module PublicV2
           def validate_registry_entry(element_id, type, variant)
             unless registry.registered?(type, variant)
               add_error("element #{element_id.inspect} uses unknown type/variant #{ElementRegistry.key(type, variant).inspect}")
-              return
+              return nil
             end
 
-            return unless require_solid_renderers?
-            return if registry.supported?(type, variant)
+            entry = registry.fetch(type, variant)
+            return entry unless require_solid_renderers?
+            return entry if registry.supported?(type, variant)
 
             add_error("element #{element_id.inspect} does not have a supported solid renderer")
+            entry
+          end
+
+          def validate_element_options(element_id, options, registry_entry)
+            return if options.nil? && !registry_entry
+
+            unless options.nil? || options.is_a?(Hash)
+              add_error("element #{element_id.inspect} options must be an object")
+              return
+            end
+            return unless registry_entry
+
+            unknown_keys = options.to_h.keys.map(&:to_s) - registry_entry.option_keys
+            add_error("element #{element_id.inspect} has unknown options: #{unknown_keys.sort.join(', ')}") unless unknown_keys.empty?
           end
 
           def validate_groups
