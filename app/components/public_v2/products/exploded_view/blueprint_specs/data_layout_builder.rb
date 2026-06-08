@@ -39,6 +39,7 @@ module PublicV2
             @layout_strategy ||= LayoutStrategyRegistry.default.resolve!(
               layout_preset: blueprint.layout_preset,
               elements: assembled.elements,
+              groups: assembled.groups,
               spec_name: blueprint.spec.product_slug
             )
           end

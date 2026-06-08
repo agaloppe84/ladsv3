@@ -456,7 +456,8 @@ module PublicV2
 
             resolution = LayoutStrategyRegistry.default.resolve(
               layout_preset:,
-              elements: spec.elements
+              elements: spec.elements,
+              groups: spec.groups
             )
             return if resolution.match?
 

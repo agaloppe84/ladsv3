@@ -7,13 +7,46 @@ module PublicV2
     module ExplodedView
       module BlueprintSpecs
         class LayoutStrategyRegistry
-          Strategy = Struct.new(:name, :preset, :required_slots, :slot_registry_keys, keyword_init: true) do
+          Strategy = Struct.new(
+            :name,
+            :preset,
+            :required_slots,
+            :slot_registry_keys,
+            :allowed_slots,
+            :single_element_slots,
+            :required_groups,
+            keyword_init: true
+          ) do
             def required_slots
               Array(self[:required_slots]).map(&:to_s)
             end
 
+            def allowed_slots
+              Array(self[:allowed_slots] || required_slots).map(&:to_s)
+            end
+
+            def single_element_slots
+              Array(self[:single_element_slots] || required_slots).map(&:to_s)
+            end
+
             def slot_registry_keys
               (self[:slot_registry_keys] || {}).transform_keys(&:to_s).transform_values(&:to_s)
+            end
+
+            def required_groups
+              Array(self[:required_groups]).map do |group|
+                GroupContract.new(
+                  id: group.fetch(:id).to_s,
+                  slots: Array(group.fetch(:slots)).map(&:to_s),
+                  attached: group.fetch(:attached)
+                )
+              end
+            end
+          end
+
+          GroupContract = Struct.new(:id, :slots, :attached, keyword_init: true) do
+            def attached?
+              !!attached
             end
           end
 
@@ -69,7 +102,13 @@ module PublicV2
               slot_registry_keys: {
                 "roll" => "bar:roll-tube",
                 "fabric" => "fabric:duo-bands-solid"
-              }
+              },
+              required_groups: [
+                { id: "mecanisme-haut", slots: %w[headrail roll top-supports], attached: false },
+                { id: "tablier-duo", slots: %w[roll fabric bottom-bar], attached: false },
+                { id: "commande-laterale", slots: %w[controls], attached: false },
+                { id: "toile-barre", slots: %w[fabric bottom-bar], attached: true }
+              ]
             ),
             Strategy.new(
               name: :venetian,
@@ -78,7 +117,13 @@ module PublicV2
               slot_registry_keys: {
                 "fabric" => "slat:venetian-pack",
                 "controls" => "control:venetian-wand"
-              }
+              },
+              required_groups: [
+                { id: "tablier-venitien", slots: %w[headrail fabric bottom-bar], attached: false },
+                { id: "pose-haute", slots: %w[headrail top-supports], attached: false },
+                { id: "lames-cordons", slots: %w[fabric ladder-cords], attached: true },
+                { id: "commande-laterale", slots: %w[controls], attached: false }
+              ]
             ),
             Strategy.new(
               name: :honeycomb_shade,
@@ -87,7 +132,13 @@ module PublicV2
               slot_registry_keys: {
                 "top-rail" => "rail:duette-head",
                 "fabric" => "fabric:honeycomb-solid"
-              }
+              },
+              required_groups: [
+                { id: "tablier-duette", slots: %w[top-rail fabric intermediate-rail bottom-rail], attached: false },
+                { id: "pose-haute", slots: %w[top-rail top-supports], attached: false },
+                { id: "toile-rail-intermediaire", slots: %w[fabric intermediate-rail], attached: true },
+                { id: "cordons-toile", slots: %w[guide-cords fabric], attached: false }
+              ]
             ),
             Strategy.new(
               name: :pleated_lateral,
@@ -96,7 +147,11 @@ module PublicV2
               slot_registry_keys: {
                 "fabric" => "fabric:pleated-solid",
                 "handle" => "bar:vertical-handle"
-              }
+              },
+              required_groups: [
+                { id: "toile-poignee", slots: %w[fabric handle], attached: true },
+                { id: "poignee-verrouillage", slots: %w[handle closure], attached: true }
+              ]
             ),
             Strategy.new(
               name: :side_guided_roller,
@@ -105,7 +160,13 @@ module PublicV2
               slot_registry_keys: {
                 "top-housing" => "housing:kiss-50-cassette",
                 "fabric" => "fabric:bordered-grid-solid"
-              }
+              },
+              required_groups: [
+                { id: "caisson-toile", slots: %w[top-housing fabric], attached: false },
+                { id: "toile-coulisses", slots: %w[fabric side-guides], attached: false },
+                { id: "fermeture-barre", slots: %w[bottom-bar closure], attached: true },
+                { id: "coulisses-bavettes", slots: %w[side-guides attached-features], attached: true }
+              ]
             ),
             Strategy.new(
               name: :zipped_screen,
@@ -115,7 +176,12 @@ module PublicV2
                 "top-housing" => "housing:front-coffre",
                 "fabric" => "fabric:zipped-solid",
                 "bottom-bar" => "bar:zipped-load"
-              }
+              },
+              required_groups: [
+                { id: "motorisation", slots: %w[motor], attached: true },
+                { id: "toile-coulisses", slots: %w[fabric side-guides], attached: false },
+                { id: "coffre-toile-barre", slots: %w[top-housing fabric bottom-bar], attached: false }
+              ]
             )
           ].freeze
 
@@ -127,11 +193,11 @@ module PublicV2
             @strategies = strategies
           end
 
-          def resolve(layout_preset:, elements:)
+          def resolve(layout_preset:, elements:, groups: nil)
             diagnostics = strategies.map do |strategy|
               Diagnostic.new(
                 strategy:,
-                errors: strategy_errors(strategy, layout_preset:, elements:)
+                errors: strategy_errors(strategy, layout_preset:, elements:, groups:)
               )
             end
 
@@ -141,8 +207,8 @@ module PublicV2
             )
           end
 
-          def resolve!(layout_preset:, elements:, spec_name:)
-            resolution = resolve(layout_preset:, elements:)
+          def resolve!(layout_preset:, elements:, groups: nil, spec_name:)
+            resolution = resolve(layout_preset:, elements:, groups:)
             return resolution.strategy if resolution.match?
 
             if resolution.ambiguous?
@@ -156,7 +222,7 @@ module PublicV2
 
           attr_reader :strategies
 
-          def strategy_errors(strategy, layout_preset:, elements:)
+          def strategy_errors(strategy, layout_preset:, elements:, groups:)
             slots = slots_by_name(elements)
             errors = []
 
@@ -167,7 +233,10 @@ module PublicV2
             missing_slots = strategy.required_slots - slots.keys
             errors << "missing slots: #{missing_slots.join(', ')}" unless missing_slots.empty?
 
-            strategy.required_slots.each do |slot|
+            unexpected_slots = slots.keys - strategy.allowed_slots
+            errors << "unexpected slots: #{unexpected_slots.join(', ')}" unless unexpected_slots.empty?
+
+            strategy.single_element_slots.each do |slot|
               next unless slots[slot]&.size.to_i > 1
 
               errors << "slot #{slot.inspect} maps to multiple elements: #{slots[slot].map { |element| element_id(element) }.join(', ')}"
@@ -183,6 +252,42 @@ module PublicV2
               errors << "slot #{slot.inspect} needs #{expected_registry_key.inspect}, got #{actual_registry_key.inspect}"
             end
 
+            errors.concat(group_errors(strategy, elements:, groups:)) if groups
+
+            errors
+          end
+
+          def group_errors(strategy, elements:, groups:)
+            elements_by_id = elements.each_with_object({}) do |element, index|
+              index[element_id(element)] = element
+            end
+            groups_by_id = groups.each_with_object({}) do |group, index|
+              index[group_id(group)] = group
+            end
+
+            strategy.required_groups.flat_map do |contract|
+              group = groups_by_id[contract.id]
+              if group.nil?
+                ["missing group #{contract.id.inspect}"]
+              else
+                group_contract_errors(contract, group:, elements_by_id:)
+              end
+            end
+          end
+
+          def group_contract_errors(contract, group:, elements_by_id:)
+            errors = []
+
+            actual_slots = group_element_ids(group).filter_map { |id| element_slot(elements_by_id[id]) }.sort
+            expected_slots = contract.slots.sort
+            if actual_slots != expected_slots
+              errors << "group #{contract.id.inspect} needs slots #{expected_slots.join(', ')}, got #{actual_slots.join(', ')}"
+            end
+
+            if group_attached?(group) != contract.attached?
+              errors << "group #{contract.id.inspect} attached must be #{contract.attached?}"
+            end
+
             errors
           end
 
@@ -194,6 +299,8 @@ module PublicV2
           end
 
           def element_slot(element)
+            return nil unless element
+
             element.respond_to?(:slot) ? element.slot : element["slot"]
           end
 
@@ -209,6 +316,18 @@ module PublicV2
 
           def element_id(element)
             element.respond_to?(:id) ? element.id : element["id"]
+          end
+
+          def group_id(group)
+            group.respond_to?(:id) ? group.id : group["id"]
+          end
+
+          def group_element_ids(group)
+            group.respond_to?(:element_ids) ? group.element_ids : Array(group["element_ids"])
+          end
+
+          def group_attached?(group)
+            group.respond_to?(:attached) ? !!group.attached : !!group["attached"]
           end
         end
       end

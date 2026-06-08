@@ -153,6 +153,8 @@ Validation JSON :
   `BlueprintSpecs::LayoutStrategyRegistry` ; un blueprint doit matcher une seule
   strategie depuis son preset, ses slots et les couples `type:variant`
   discriminants.
+- la meme registry controle les slots autorises par strategie, les slots qui
+  doivent rester mono-element et les groupes JSON attendus avec leurs slots.
 
 Assemblage JSON :
 
@@ -160,7 +162,8 @@ Assemblage JSON :
   la famille de rendu solide associee, les cles d'options JSON acceptees, les
   options requises par slot et les types simples attendus ;
 - `BlueprintSpecs::LayoutStrategyRegistry` declare les signatures des strategies
-  data-driven supportees et fournit un diagnostic quand un JSON ne matche pas ;
+  data-driven supportees, les slots rendus, les groupes attendus et fournit un
+  diagnostic quand un JSON ne matche pas ;
 - `BlueprintSpecs::PresetRegistry` declare les presets de layout/callouts supportes ;
 - `BlueprintSpecs::Assembler` transforme une spec JSON en objets normalises ;
 - `ElementDefinition` porte `id`, `part_id`, `type`, `variant`, `slot`, `box`,
