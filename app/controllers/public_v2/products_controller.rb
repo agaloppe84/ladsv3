@@ -31,11 +31,5 @@ class PublicV2::ProductsController < PublicV2::BaseController
   def canvas_selector
     @product = public_product_details.find_by!(slug: params[:slug])
     @canvas_selector_url = DICKSON_SELECTOR_URL
-    @canvas_selector_breadcrumb_items = [
-      { label: "Accueil", path: public_v2_home_path },
-      { label: "Produits", path: public_v2_categories_path },
-      { label: @product.name, path: public_v2_product_path(slug: @product.slug) },
-      { label: "Selecteur de toile" }
-    ]
   end
 end

@@ -10598,7 +10598,7 @@
 /* Public V2 canvas selector */
 
 .public-v2 .pv2-canvas-selector-page {
-  max-width: 1440px;
+  max-width: 1240px;
 }
 
 .public-v2 .pv2-canvas-selector__hero {
@@ -10614,22 +10614,18 @@
   min-width: 0;
 }
 
-.public-v2 .pv2-canvas-selector__copy > span {
-  color: #6b6d75;
-  font-size: 0.72rem;
-  font-weight: 720;
-  letter-spacing: 0;
-  line-height: 1.1;
-  text-transform: uppercase;
-}
-
 .public-v2 .pv2-canvas-selector__copy h1 {
   color: #111111;
-  font-size: clamp(2rem, 4.2vw, 4.2rem);
+  font-size: clamp(1.8rem, 3.4vw, 3.15rem);
   font-weight: 820;
   letter-spacing: 0;
-  line-height: 0.96;
+  line-height: 1;
   margin: 0;
+}
+
+.public-v2 .pv2-canvas-selector__copy h1 em {
+  color: var(--pv2-style-accent-fresh);
+  font-style: normal;
 }
 
 .public-v2 .pv2-canvas-selector__copy p {
@@ -10652,6 +10648,41 @@
   flex-wrap: wrap;
   gap: 0.6rem;
   justify-content: end;
+}
+
+.public-v2 .pv2-canvas-selector__button.pv2-ui-button {
+  box-shadow: none;
+  font-size: 0.82rem;
+  font-weight: 760;
+  min-height: 38px;
+  padding-inline: 1.08rem;
+}
+
+.public-v2 .pv2-canvas-selector__button.pv2-ui-button:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+.public-v2 .pv2-canvas-selector__button--primary.pv2-ui-button {
+  background: #111111;
+  border-color: #111111;
+  color: #ffffff;
+}
+
+.public-v2 .pv2-canvas-selector__button--primary.pv2-ui-button:hover {
+  background: #272729;
+  border-color: #272729;
+}
+
+.public-v2 .pv2-canvas-selector__button--secondary.pv2-ui-button {
+  background: #f1f1f3;
+  border-color: #f1f1f3;
+  color: #111111;
+}
+
+.public-v2 .pv2-canvas-selector__button--secondary.pv2-ui-button:hover {
+  background: #e3e3e8;
+  border-color: #e3e3e8;
 }
 
 .public-v2 .pv2-canvas-selector__workspace {
@@ -10717,8 +10748,6 @@
   margin: 0;
 }
 
-.public-v2[data-public-v2-mode="dark"] .pv2-canvas-selector__copy > span,
-.public-v2.dark .pv2-canvas-selector__copy > span,
 .public-v2[data-public-v2-mode="dark"] .pv2-canvas-selector__copy p,
 .public-v2.dark .pv2-canvas-selector__copy p,
 .public-v2[data-public-v2-mode="dark"] .pv2-canvas-selector__toolbar span,
@@ -10750,6 +10779,20 @@
 .public-v2[data-public-v2-mode="dark"] .pv2-canvas-selector__toolbar,
 .public-v2.dark .pv2-canvas-selector__toolbar {
   border-bottom-color: rgba(255, 255, 255, 0.09);
+}
+
+.public-v2[data-public-v2-mode="dark"] .pv2-canvas-selector__button--primary.pv2-ui-button,
+.public-v2.dark .pv2-canvas-selector__button--primary.pv2-ui-button {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #111111;
+}
+
+.public-v2[data-public-v2-mode="dark"] .pv2-canvas-selector__button--secondary.pv2-ui-button,
+.public-v2.dark .pv2-canvas-selector__button--secondary.pv2-ui-button {
+  background: #242428;
+  border-color: #242428;
+  color: #ffffff;
 }
 
 @media (max-width: 780px) {

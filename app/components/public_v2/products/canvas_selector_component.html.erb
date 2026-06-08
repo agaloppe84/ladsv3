@@ -1,16 +1,13 @@
 <%= tag.section class: component_classes, data: debug_data do %>
-  <%= render PublicV2::Ui::BreadcrumbComponent.new(items: breadcrumb_items, debug: debug?) %>
-
   <header class="pv2-canvas-selector__hero">
     <div class="pv2-canvas-selector__copy">
-      <span>Toiles Dickson</span>
-      <h1>Configurer la toile</h1>
+      <h1>Configurer la <em>toile</em></h1>
       <p>Comparez les tissus, les couleurs et les rendus avant de transmettre votre demande pour <strong><%= product.name %></strong>.</p>
     </div>
 
     <div class="pv2-canvas-selector__actions">
-      <%= render PublicV2::Ui::ButtonComponent.new(label: "Retour produit", path: return_path, variant: :secondary, shape: :pill, size: :sm, debug: debug?) %>
-      <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: quote_path, variant: :primary, shape: :pill, size: :sm, debug: debug?) %>
+      <%= render PublicV2::Ui::ButtonComponent.new(label: "Retour produit", path: return_path, variant: :secondary, shape: :pill, size: :sm, classes: "pv2-canvas-selector__button pv2-canvas-selector__button--secondary", debug: debug?) %>
+      <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: quote_path, variant: :primary, shape: :pill, size: :sm, classes: "pv2-canvas-selector__button pv2-canvas-selector__button--primary", debug: debug?) %>
     </div>
   </header>
 

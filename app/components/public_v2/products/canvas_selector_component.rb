@@ -3,18 +3,17 @@
 class PublicV2::Products::CanvasSelectorComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
-  def initialize(product:, selector_url:, return_path:, quote_path:, breadcrumb_items:, debug: false)
+  def initialize(product:, selector_url:, return_path:, quote_path:, debug: false)
     @product = product
     @selector_url = selector_url
     @return_path = return_path
     @quote_path = quote_path
-    @breadcrumb_items = breadcrumb_items
     @debug = debug
   end
 
   private
 
-  attr_reader :product, :selector_url, :return_path, :quote_path, :breadcrumb_items
+  attr_reader :product, :selector_url, :return_path, :quote_path
 
   def component_classes
     component_class_names(
