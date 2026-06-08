@@ -245,6 +245,7 @@
     {
       "part_id": "motorisation",
       "marker": { "x": 6720, "y": 770 },
+      "marker_anchor": { "group_id": "motorisation", "side": "right", "gap": 168 },
       "placement": "top_housing",
       "second_length": 380,
       "text_offset_x": -72,

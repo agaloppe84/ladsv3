@@ -394,11 +394,30 @@ module PublicV2
 
               slot = callout["slot"]
               add_error("callout #{part_id.inspect} slot must use kebab-case: #{slot.inspect}") unless slot.nil? || valid_id?(slot)
+
+              validate_marker_anchor(part_id, callout["marker_anchor"]) if callout["marker_anchor"]
             end
 
             missing_callouts = part_ids - seen_part_ids
             add_error("missing callouts for parts: #{missing_callouts.join(', ')}") unless missing_callouts.empty?
             validate_unique_ids("callouts.part_id", seen_part_ids)
+          end
+
+          def validate_marker_anchor(part_id, marker_anchor)
+            unless marker_anchor.is_a?(Hash)
+              add_error("callout #{part_id.inspect} marker_anchor must be an object")
+              return
+            end
+
+            group_id = marker_anchor["group_id"]
+            add_error("callout #{part_id.inspect} marker_anchor.group_id must use kebab-case: #{group_id.inspect}") unless valid_id?(group_id)
+            add_error("callout #{part_id.inspect} marker_anchor references unknown group #{group_id.inspect}") if valid_id?(group_id) && !group_ids.include?(group_id)
+
+            side = marker_anchor["side"]
+            add_error("callout #{part_id.inspect} marker_anchor.side is invalid: #{side.inspect}") unless %w[top right bottom left].include?(side)
+
+            gap = marker_anchor["gap"]
+            add_error("callout #{part_id.inspect} marker_anchor.gap must be a non-negative number") unless gap.nil? || (numeric?(gap) && gap >= 0)
           end
 
           def validate_layout_slot_contract
@@ -505,6 +524,10 @@ module PublicV2
 
           def element_ids
             @element_ids ||= spec.elements.map { |element| element["id"].to_s }
+          end
+
+          def group_ids
+            @group_ids ||= spec.groups.map { |group| group["id"].to_s }
           end
 
           def element_slot_for_part(part_id)

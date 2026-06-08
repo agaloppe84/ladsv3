@@ -177,6 +177,7 @@
         "properties": {
           "part_id": { "$ref": "#/$defs/id" },
           "marker": { "$ref": "#/$defs/point" },
+          "marker_anchor": { "$ref": "#/$defs/marker-anchor" },
           "placement": { "$ref": "#/$defs/token" },
           "slot": { "$ref": "#/$defs/id" },
           "route": { "type": "string" },
@@ -228,6 +229,16 @@
       "properties": {
         "x": { "type": "number" },
         "y": { "type": "number" }
+      }
+    },
+    "marker-anchor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["group_id", "side"],
+      "properties": {
+        "group_id": { "$ref": "#/$defs/id" },
+        "side": { "enum": ["top", "right", "bottom", "left"] },
+        "gap": { "type": "number", "minimum": 0 }
       }
     }
   }

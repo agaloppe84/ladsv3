@@ -192,6 +192,9 @@ Assemblage JSON :
 - Les callouts du chemin JSON sont construits par un helper commun depuis les
   definitions JSON assemblees et les presets de callouts ; les familles ne
   redefinissent plus une boucle de callouts dediee.
+- Un callout peut declarer `marker_anchor` pour calculer son marker depuis un
+  groupe de layout (`group_id`, `side`, `gap`) au lieu de coder un cas special
+  dans le builder.
 - `GenericDrawingComponent` sait rendre les layouts data-driven supportes
   en mode objet plein. Son dispatch passe par `RENDERER_FAMILIES`, une registry
   qui associe chaque classe de layout generique a une famille de rendu

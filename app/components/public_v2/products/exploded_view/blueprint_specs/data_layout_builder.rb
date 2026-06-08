@@ -1258,11 +1258,7 @@ module PublicV2
           end
 
           def callout_from_definition(definition, groups:)
-            marker = if definition.part_id == "motorisation"
-                       groups.fetch("motorisation").outside_anchor(side: :right, gap: 168)
-                     else
-                       definition.marker
-                     end
+            marker = callout_marker(definition, groups:)
             options = resolved_callout_options(definition)
 
             callout(
@@ -1279,6 +1275,16 @@ module PublicV2
               text_anchor: options[:text_anchor],
               dominant_baseline: options[:dominant_baseline],
               animation_profile: options[:animation_profile]&.to_sym
+            )
+          end
+
+          def callout_marker(definition, groups:)
+            anchor = definition.options["marker_anchor"]
+            return definition.marker unless anchor
+
+            groups.fetch(anchor.fetch("group_id")).outside_anchor(
+              side: anchor.fetch("side").to_sym,
+              gap: anchor.fetch("gap", 0)
             )
           end
 
