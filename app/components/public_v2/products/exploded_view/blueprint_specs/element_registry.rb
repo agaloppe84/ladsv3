@@ -205,7 +205,8 @@ module PublicV2
               renderer_family: "solid_motor_profile",
               status: "supported",
               option_keys: %w[
-                head_preset solid_profile tube_cap_width tube_preset tube_x
+                drawing_right head_preset hit_height hit_width hit_x hit_y_offset marker_gap solid_profile tube_cap_width
+                tube_preset tube_x tube_y_offset y
               ]
             ),
             Entry.new(
@@ -304,6 +305,7 @@ module PublicV2
             "cord_tabs" => :object,
             "cord_top_offset_y" => :number,
             "dot_y_offsets" => :array,
+            "drawing_right" => :number,
             "edge_fastener_indexes" => :array,
             "edge_fastener_radius" => :number,
             "embouts" => :boolean,
@@ -321,6 +323,7 @@ module PublicV2
             "height_inset" => :number,
             "highlight" => :object,
             "hit_height" => :number,
+            "hit_x" => :number,
             "hit_inset_left" => :number,
             "hit_inset_x" => :number,
             "hit_inset_y" => :number,
@@ -380,10 +383,12 @@ module PublicV2
             "tube_cap_width" => :number,
             "tube_preset" => :string,
             "tube_x" => :number,
+            "tube_y_offset" => :number,
             "vertical_count" => :integer,
             "width" => :number,
             "width_extra" => :number,
             "x_offset_from_fabric" => :number,
+            "y" => :number,
             "y_offset_from_fabric_bottom" => :number,
             "y_offset_from_profiles" => :number
           }.freeze
@@ -495,7 +500,8 @@ module PublicV2
             },
             "motor:tubular" => {
               "motor" => %w[
-                solid_profile tube_cap_width tube_x
+                drawing_right head_preset hit_height hit_width hit_x hit_y_offset marker_gap solid_profile tube_cap_width
+                tube_preset tube_x tube_y_offset y
               ]
             },
             "rail:duette-head" => {

@@ -1086,18 +1086,18 @@ module PublicV2
             options = element.options
 
             tubular_motor_element(
-              drawing_right: 6_550,
-              y: 640,
+              drawing_right: options.fetch("drawing_right"),
+              y: options.fetch("y"),
               head_preset: option_symbol(options, "head_preset"),
               tube_preset: option_symbol(options, "tube_preset"),
               tube_x: options.fetch("tube_x"),
               tube_cap_width: options.fetch("tube_cap_width"),
-              marker_gap: 168,
-              hit_x: 4_260,
-              hit_y_offset: -40,
-              hit_width: 2_580,
-              hit_height: 330,
-              tube_y_offset: 40,
+              marker_gap: options.fetch("marker_gap"),
+              hit_x: options.fetch("hit_x"),
+              hit_y_offset: options.fetch("hit_y_offset"),
+              hit_width: options.fetch("hit_width"),
+              hit_height: options.fetch("hit_height"),
+              tube_y_offset: options.fetch("tube_y_offset"),
               solid_profile: solid_profile_config(options)
             )
           end

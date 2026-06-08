@@ -274,6 +274,9 @@ Etat actuel :
 - `moustiquaire-plissee` valide le meme principe sur `horizontal-product-layout` :
   guide haut, toile plissee et seuil bas sont generes par slots sans box JSON
   explicite ;
+- `store-vertical-zippe` porte maintenant la geometrie de layout de sa
+  motorisation `motor:tubular` dans le JSON, avec contrat d'options dans
+  `ElementRegistry`, au lieu de constantes Ruby dans le builder ;
 - les anciens fichiers Ruby blueprints produits et les templates/composants SVG
   produits dedies ont ete retires du chemin public v2 ;
 - les structs de layout du chemin JSON portent des noms de familles generiques

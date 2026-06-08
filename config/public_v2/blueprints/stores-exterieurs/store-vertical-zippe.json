@@ -121,8 +121,16 @@
       "options": {
         "head_preset": "motor_tubular_head",
         "tube_preset": "motor_tubular_tube",
+        "drawing_right": 6550,
+        "y": 640,
         "tube_x": 4400,
         "tube_cap_width": 180,
+        "marker_gap": 168,
+        "hit_x": 4260,
+        "hit_y_offset": -40,
+        "hit_width": 2580,
+        "hit_height": 330,
+        "tube_y_offset": 40,
         "solid_profile": "vertical-zippe-motorisation"
       }
     },
