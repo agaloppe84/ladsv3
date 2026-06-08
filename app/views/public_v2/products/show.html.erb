@@ -1,5 +1,6 @@
 <% title @product_page.title %>
 <% description @product_page.description %>
+<% keywords @product_page.keywords %>
 
 <main class="pv2-public-page pv2-product-page grid gap-12">
   <%= render PublicV2::Products::HeaderSectionComponent.new(product_page: @product_page) %>

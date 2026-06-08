@@ -2,6 +2,8 @@
 <html lang="fr">
   <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="<%= public_v2_robots_meta_content %>">
+    <meta name="googlebot" content="<%= public_v2_robots_meta_content %>">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= favicon_link_tag "favicon.ico" %>
@@ -27,22 +29,12 @@
 
     <div
       id="top"
-      class="pv2-shell pv2-shell--warm-system"
+      class="pv2-shell pv2-shell--apple-like"
     >
       <%= render PublicV2::Layout::NavbarComponent.new(
         active_key: @public_v2_active_nav_key,
         show_mode_toggle: @public_v2_show_mode_toggle
       ) %>
-
-      <% if @event.present? %>
-        <aside class="pv2-public-event" aria-label="Information importante">
-          <div class="pv2-public-event__inner">
-            <span>Info</span>
-            <strong><%= @event.title.to_s.squish.presence || "Information importante" %></strong>
-            <p><%= @event.content.to_s.squish %></p>
-          </div>
-        </aside>
-      <% end %>
 
       <%= yield %>
 

@@ -18,7 +18,7 @@ class PublicV2::Content::PartnersComponent < ViewComponent::Base
 
   def initialize(
     title: "Nos partenaires",
-    text: "Un ecosysteme de marques techniques et durables pour comparer moteurs, toiles, fermetures et finitions au showroom.",
+    text: "Des fabricants retenus pour la fiabilite des moteurs, des toiles, des fermetures et des finitions visibles au showroom.",
     partners: DEFAULT_PARTNERS,
     classes: nil,
     debug: false
@@ -35,6 +35,6 @@ class PublicV2::Content::PartnersComponent < ViewComponent::Base
   attr_reader :title, :text, :partners, :classes
 
   def component_classes
-    component_class_names("pv2-partners", "grid w-full min-w-0 gap-6 p-[1.35rem]", debug_class, classes)
+    component_class_names("pv2-partners", "grid w-full min-w-0 gap-6", debug_class, classes)
   end
 end

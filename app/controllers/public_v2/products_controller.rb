@@ -1,4 +1,6 @@
 class PublicV2::ProductsController < PublicV2::BaseController
+  DICKSON_SELECTOR_URL = "https://www.dicksondesigner.com/fr/?code=fa20cd8b2281f8a585592eaab2e053b3".freeze
+
   def show
     product = public_product_details.find_by!(slug: params[:slug])
     color_parts = product.product_color_parts
@@ -22,7 +24,18 @@ class PublicV2::ProductsController < PublicV2::BaseController
       home_path: public_v2_home_path,
       catalog_path: public_v2_categories_path,
       quote_path: public_v2_new_quote_path(product_id: product.id),
-      dickson_configurator_path: canvas_selector_product_path(slug: product.slug)
+      dickson_configurator_path: public_v2_canvas_selector_product_path(slug: product.slug)
     )
+  end
+
+  def canvas_selector
+    @product = public_product_details.find_by!(slug: params[:slug])
+    @canvas_selector_url = DICKSON_SELECTOR_URL
+    @canvas_selector_breadcrumb_items = [
+      { label: "Accueil", path: public_v2_home_path },
+      { label: "Produits", path: public_v2_categories_path },
+      { label: @product.name, path: public_v2_product_path(slug: @product.slug) },
+      { label: "Selecteur de toile" }
+    ]
   end
 end

@@ -28,11 +28,23 @@ class PublicV2::ProductPage
   attr_reader :product, :category, :related_products, :catalog_path, :quote_path, :dickson_configurator_path
 
   def title
-    "#{product.name} - Public V2"
+    "#{product.name} - Les Artisans du Store"
   end
 
   def description
-    product.description.to_s.squish.presence || "Fiche produit Public V2 Les Artisans du Store."
+    product.description.to_s.squish.presence || "Fiche produit Les Artisans du Store : conseil, pose et devis sur mesure."
+  end
+
+  def keywords
+    [
+      product.name,
+      category&.name,
+      "stores",
+      "volets roulants",
+      "pergolas",
+      "moustiquaires",
+      "L'Arbresle"
+    ].compact.join(", ")
   end
 
   def gallery_images

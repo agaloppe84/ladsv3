@@ -1,0 +1,10 @@
+<%= tag.section class: component_classes, data: debug_data, aria: { label: "Information importante" } do %>
+  <%= render PublicV2::Ui::NotificationBannerComponent.new(
+    title: title_text,
+    message: message_text,
+    variant: :info,
+    icon: "i",
+    classes: "pv2-home-event-notification__banner",
+    debug: debug?
+  ) %>
+<% end %>

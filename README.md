@@ -31,9 +31,9 @@ Routes Public V2 utiles :
 - `/public-v2/home`
 - `/public-v2/categories`
 - `/public-v2/produits/:slug`
+- `/public-v2/produits/:slug/selecteur-toile`
 - `/public-v2/devis`
 - `/public-v2/contact`
-- `/public-v2/design-system`
 
 ## Architecture
 
@@ -149,13 +149,15 @@ Documents de reference :
 - `docs/admin-v2-design-system.md` : references Admin V2.
 - `docs/codex-working-process-public-v2.md` : process Public V2.
 - `docs/public-v2-design-system.md` : design system Public V2.
+- `docs/public-v2-production-migration-plan.md` : plan test noindex et bascule public v1 vers v2.
 - `docs/public-v2-interactive-blueprints.md` : systeme des plans produits interactifs Public V2.
 
 Pour travailler sur Public V2, lire en priorite :
 
 1. `docs/codex-working-process-public-v2.md`
 2. `docs/public-v2-design-system.md`
-3. `docs/public-v2-interactive-blueprints.md`
+3. `docs/public-v2-production-migration-plan.md`
+4. `docs/public-v2-interactive-blueprints.md`
 
 ## Public V2
 
@@ -170,7 +172,9 @@ Objectifs :
 - utiliser ViewComponent pour les sections et primitives stabilisees ;
 - garder le theme clair/sombre, les accents et la typo pilotables depuis la navbar.
 
-Le laboratoire `/public-v2/design-system` sert a documenter et tester les composants actifs.
+Public V2 suit maintenant une direction Apple-like documentee dans `docs/public-v2-design-system.md`.
+La page publique `/public-v2/design-system` est supprimee.
+Pendant la phase de test production, tout le namespace `/public-v2/*` doit rester en noindex.
 
 ## Contribution
 

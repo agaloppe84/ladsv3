@@ -55,11 +55,11 @@ Rails.application.routes.draw do
   namespace :public_v2, path: "public-v2" do
     get "home", to: "pages#home"
     get "categories", to: "categories#index", as: :categories
+    get "produits/:slug/selecteur-toile", to: "products#canvas_selector", as: :canvas_selector_product
     get "produits/:slug", to: "products#show", as: :product
     get "devis", to: "quotes#new", as: :new_quote
     post "devis", to: "quotes#create", as: :quotes
     get "contact", to: "pages#contact", as: :contact
-    get "design-system", to: "pages#design_system", as: :design_system
   end
 
   namespace :admin do

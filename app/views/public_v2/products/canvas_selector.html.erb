@@ -1,0 +1,13 @@
+<% title "#{@product.name} - Selecteur de toile Dickson" %>
+<% description "Selecteur de toile Dickson pour #{@product.name} : comparez les tissus et couleurs avant votre demande de devis." %>
+<% keywords [@product.name, "Dickson", "toile", "configurateur", "selecteur de toile", "store banne"].compact.join(", ") %>
+
+<main class="pv2-public-page pv2-canvas-selector-page">
+  <%= render PublicV2::Products::CanvasSelectorComponent.new(
+    product: @product,
+    selector_url: @canvas_selector_url,
+    return_path: public_v2_product_path(slug: @product.slug),
+    quote_path: public_v2_new_quote_path(product_id: @product.id),
+    breadcrumb_items: @canvas_selector_breadcrumb_items
+  ) %>
+</main>

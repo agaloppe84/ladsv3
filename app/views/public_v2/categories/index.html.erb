@@ -1,8 +1,8 @@
 <% title "Produits par catégorie - Les Artisans du Store" %>
 <% description "Catalogue Public V2 Les Artisans du Store : tous les produits visibles par catégorie, avec photos, garanties, options et fiches détaillées." %>
+<% keywords "stores, volets roulants, stores interieurs, stores exterieurs, pergolas, moustiquaires, portes de garage, volets battants" %>
 
 <main class="pv2-public-page pv2-public-index grid gap-12">
   <%= render PublicV2::Categories::HeroSectionComponent.new(category_index_page: @category_index_page) %>
   <%= render PublicV2::Categories::ListSectionComponent.new(sections: @category_index_page.sections, category_index_page: @category_index_page) %>
-  <%= render PublicV2::Categories::CtaSectionComponent.new(category_index_page: @category_index_page) %>
 </main>

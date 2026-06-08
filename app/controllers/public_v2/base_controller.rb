@@ -1,9 +1,12 @@
 class PublicV2::BaseController < ApplicationController
+  PUBLIC_V2_ROBOTS_DIRECTIVE = "noindex, nofollow, noarchive".freeze
+
   layout "public_v2"
 
   before_action :load_public_v2_shell_context
+  after_action :set_public_v2_robots_header
 
-  helper_method :public_v2_primary_image, :public_v2_debug?
+  helper_method :public_v2_primary_image, :public_v2_debug?, :public_v2_robots_meta_content
 
   private
 
@@ -83,6 +86,14 @@ class PublicV2::BaseController < ApplicationController
     @public_v2_footer_categories = public_categories.limit(5).to_a
     @public_v2_active_nav_key = public_v2_active_nav_key
     @public_v2_show_mode_toggle = true
+  end
+
+  def set_public_v2_robots_header
+    response.set_header("X-Robots-Tag", public_v2_robots_meta_content)
+  end
+
+  def public_v2_robots_meta_content
+    PUBLIC_V2_ROBOTS_DIRECTIVE
   end
 
   def public_v2_debug?

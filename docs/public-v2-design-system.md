@@ -1,754 +1,140 @@
-# Public V2 - Design System Warm System
+# Public V2 - Design System Apple-like
 
-Derniere mise a jour : 2026-05-07
+Derniere mise a jour : 2026-06-08
 
-Ce document decrit le design system actif pour les pages publiques V2.
-La direction validee est **Warm System V9** : une interface claire/sombre, premium, moderne, orientee devis, avec une base visuelle stable et facilement factorisable en ViewComponents.
+Ce document est la reference design system du chantier Public V2. Il remplace l'ancienne base Warm System et repart de zero autour de la direction **Apple-like**.
+
+Il n'y a plus de page publique `/public-v2/design-system`. Le design system vit dans cette documentation, les composants Public V2 et le CSS namespace `public_v2.css`.
 
 ## Perimetre
 
-Le design system concerne uniquement `Public V2`.
+Public V2 reste isole sous `/public-v2/*` pendant la phase de test.
 
-Pages reelles concernees :
+Routes applicatives Public V2 :
 
 - `/public-v2/home`
 - `/public-v2/categories`
 - `/public-v2/produits/:slug`
+- `/public-v2/produits/:slug/selecteur-toile`
 - `/public-v2/devis`
 - `/public-v2/contact`
-- `/public-v2/design-system`
 
 Hors perimetre :
 
-- public classique ;
-- admin-v2 ;
-- anciennes pages de test ;
-- laboratoires temporaires ;
-- themes avec selection dynamique de couleur ou de police.
+- public classique v1 ;
+- admin v1 ;
+- admin v2 ;
+- anciennes pages de laboratoire ;
+- anciennes explorations de design system.
 
-La page `/public-v2/design-system` est une reference UI Kit. Elle ne sert pas a tester des layouts de pages reelles. Les tests futurs doivent etre isoles dans des pages dediees et temporaires, avec un nom explicite contenant `test`.
+## Direction Apple-like
 
-## Direction Warm System
+Objectif : une interface claire, premium, calme, orientee produit et devis, avec une lecture immediate sur mobile et desktop.
 
-Objectifs visuels :
+Principes visuels :
 
-- ambiance premium, artisanale, moderne et chaude ;
-- photo presente mais jamais dominante par defaut ;
-- accents francs mais controles ;
-- contenus courts, utiles et orientes devis ;
-- hierarchie claire entre information, preuve, conseil et action ;
-- pages lisibles sur desktop comme sur mobile.
+- fonds sobres, beaucoup d'air, sections peu bruitees ;
+- typographie sans-serif nette, tailles genereuses uniquement pour les vrais titres de page ;
+- cartes produit visuelles, avec image utile et action lisible ;
+- boutons noirs/blancs ou accentues avec retenue ;
+- mode clair/sombre conserve ;
+- accents colores limites a l'orientation, jamais a une palette mono-teinte ;
+- textes courts, metier, utiles pour cadrer un projet ;
+- pas de blocs marketing explicatifs qui decrivent l'interface.
 
-Principes de construction :
+## Composants
 
-- composer les pages avec des sections reutilisables ;
-- composer les sections avec des micro composants ;
-- garder les primitives UI petites, previsibles et factorisables ;
-- eviter les variations cosmetiques non documentees ;
-- separer strictement pages reelles, UI Kit et pages de test.
+Les pages reelles composent des ViewComponents dedies Public V2 :
 
-## Fondations
-
-### Modes
-
-Le systeme ne garde que deux modes :
-
-- clair ;
-- sombre.
-
-Il n'y a plus de selection dynamique d'accent, de palette ou de police dans les vues publiques.
-
-Le changement clair/sombre est porte par le layout Public V2 et par le `NavbarComponent`.
-
-Implementation :
-
-- `config/tailwind.config.js` active `darkMode: "class"` pour rendre les variantes `dark:` disponibles ;
-- la classe `dark` est ajoutee uniquement sur le `<body class="public-v2">` par le controller Stimulus Public V2 ;
-- `data-public-v2-mode="light|dark"` reste conserve pour compatibilite avec les styles existants ;
-- les variables CSS de `public_v2.css` restent la source de verite des couleurs ;
-- les pages public classique et admin-v2 ne doivent pas dependre des tokens `pv2-*`.
-
-### Tokens Tailwind Public V2
-
-Tailwind expose des tokens semantiques `pv2-*` branches sur les variables CSS Public V2.
-
-Usage recommande :
-
-- `bg-pv2-bg`
-- `bg-pv2-bg-soft`
-- `bg-pv2-surface`
-- `bg-pv2-surface-strong`
-- `text-pv2-text`
-- `text-pv2-muted`
-- `text-pv2-subtle`
-- `text-pv2-accent`
-- `bg-pv2-accent-soft`
-- `border-pv2-accent-border`
-- `border-pv2-border`
-- `border-pv2-border-strong`
-- `rounded-pv2`
-- `rounded-pv2-lg`
-- `shadow-pv2`
-
-Variables CSS canoniques :
-
-- `--pv2-bg`
-- `--pv2-bg-soft`
-- `--pv2-surface`
-- `--pv2-surface-strong`
-- `--pv2-text`
-- `--pv2-muted`
-- `--pv2-subtle`
-- `--pv2-accent-soft`
-- `--pv2-accent-border`
-- `--pv2-border`
-- `--pv2-border-strong`
-- `--pv2-radius`
-- `--pv2-radius-lg`
-- `--pv2-shadow`
+- `PublicV2::Layout::*` pour le shell, navbar et footer ;
+- `PublicV2::Home::*` pour la home, l'Event et les sections metier ;
+- `PublicV2::Categories::*` pour le catalogue ;
+- `PublicV2::Products::*` pour la fiche produit et le selecteur de toile ;
+- `PublicV2::Quotes::*` pour le devis ;
+- `PublicV2::Contact::*` pour le showroom et l'acces ;
+- `PublicV2::Ui::*` pour les primitives reutilisables.
 
 Regles :
 
-- utiliser ces tokens dans les nouvelles vues et composants Public V2 ;
-- migrer progressivement les classes arbitraires `var(--pv2-*)` vers ces tokens quand le composant est stabilise ;
-- ne pas introduire de nouveaux tokens nommes pour une page specifique quand la valeur sert a tout le systeme ;
-- les anciens alias `--pv2-home-*` restent seulement une compatibilite pour les builds deja generes ;
-- garder le CSS custom pour les composants visuels complexes, gradients, overlays et etats specifiques ;
-- ne pas convertir massivement tout le CSS en utilitaires Tailwind.
+- garder les composants et styles dans le namespace Public V2 ;
+- ne pas appeler de composants public v1 ou admin dans Public V2 ;
+- ne pas mettre de requetes metier dans les vues ;
+- charger les donnees dans les controllers/presenters ;
+- conserver `PublicV2::Debuggable` sur les composants structurants.
 
-### Support Components
+## SEO Et Noindex
 
-Les composants Public V2 partagent un petit support commun via `PublicV2::ComponentSupport`.
+Pendant la mise en production de test, tout le namespace Public V2 doit rester non indexable :
 
-Responsabilites :
+- meta `robots` : `noindex, nofollow, noarchive` ;
+- meta `googlebot` : `noindex, nofollow, noarchive` ;
+- header `X-Robots-Tag` : `noindex, nofollow, noarchive`.
 
-- normaliser les options publiques (`variant`, `size`, `padding`, `shape`, etc.) avec fallback documente ;
-- composer les classes CSS via `component_class_names` pour eviter les tableaux `.compact.join(" ")` dupliques ;
-- rendre les composants tolerants aux valeurs `nil`, string ou symbol sans erreur.
+Chaque vue Public V2 doit quand meme porter les bases SEO :
 
-Regles :
+- `title` ;
+- `description` ;
+- `keywords` quand utile ;
+- wording propre, exploitable lors de la future bascule publique.
 
-- les composants UI doivent utiliser `normalize_option(value, ALLOWED_VALUES, fallback)` ;
-- une valeur inconnue doit retomber silencieusement sur le fallback ;
-- les variantes disponibles restent documentees dans la constante du composant ;
-- ne pas ajouter de logique metier dans ce support.
+Au moment de la bascule v1 -> v2, retirer le noindex Public V2 seulement quand les routes publiques finales, le sitemap, les canonicals et les controles de devis sont valides.
 
-### Accent
+## Pages Actuelles
 
-Accent principal :
+Home :
 
-- `#ff3d12`
-
-Son role :
-
-- attirer l'oeil sur les actions devis ;
-- signaler une information courte ;
-- soutenir les badges, rails, CTA et preuves ;
-- rester rare pour preserver le niveau premium.
-
-Utilisation recommandee :
-
-- 5 a 12% de la surface visible ;
-- plus fort sur les CTA et signaux courts ;
-- attenue sur les fonds, rails et tags secondaires.
-
-### Typographie
-
-Le systeme utilise une police unique pour simplifier la maintenance.
-
-Regles :
-
-- meme famille typographique sur toute l'interface ;
-- variation par graisse, taille et couleur ;
-- pas de textes hero trop grands dans les surfaces compactes ;
-- pas de textes longs dans les blocs accentues ;
-- titres courts, actionnables, avec une intention claire.
-
-### Surfaces
-
-Les surfaces principales sont portees par les variables `pv2-home-*`.
-
-Familles utiles :
-
-- background global ;
-- surface calme ;
-- surface elevee ;
-- surface accent attenue ;
-- border ;
-- muted text ;
-- accent ;
-- accent strong ;
-- accent soft.
-
-Les surfaces doivent aider a lire la page. Elles ne doivent pas devenir un decor lourd.
-
-### Rayons, bordures et densite
-
-Regles :
-
-- radius modere ;
-- pas de boutons trop ronds ;
-- pas de boutons trop gros ;
-- bordures fines et utiles ;
-- ombres discretes ;
-- densite moyenne par defaut ;
-- mobile : empilement propre, pas de blocs tres hauts.
-
-## Primitives UI
-
-### ButtonComponent
-
-Usage :
-
-- action principale ;
-- action secondaire ;
-- action fantome ;
-- action danger si besoin metier.
-
-Parametres attendus :
-
-- `label:`
-- `href:`
-- `variant:`
-- `size:`
-- `shape:`
-- `classes:`
-
-Variantes actives :
-
-- `primary`
-- `secondary`
-- `ghost`
-- `danger`
-
-Tailles :
-
-- `small`
-- `medium`
-- `large`
-
-Formes :
-
-- `soft`
-- `sharp`
-- `pill`
-
-Regle :
-
-- privilegier `soft` ou `sharp` pour Public V2 ;
-- reserver `pill` aux usages tres specifiques.
-
-### PanelComponent
-
-Usage :
-
-- surface de contenu ;
-- bloc metier ;
-- bloc conseil ;
-- bloc preuve ;
-- encart technique.
-
-Variantes actives :
-
-- `default`
-- `accent`
-- `soft`
-- `rail`
-- `elevated`
-- `outline`
-- `inset`
-- `flashy`
-
-Regles :
-
-- `flashy` reste compact ;
-- `outline` sert aux blocs calmes ou techniques ;
-- `soft` sert aux transitions ou contenus secondaires ;
-- `rail` sert a signaler sans saturer ;
-- `inset` sert aux details ou metadonnees.
-
-### BadgeComponent
-
-Usage :
-
-- statut ;
-- categorie ;
-- preuve courte ;
-- famille produit ;
-- contexte chantier.
-
-Variantes :
-
-- `default`
-- `accent`
-- `soft`
-- `outline`
-- `success`
-- `warning`
-- `danger`
-
-Tailles :
-
-- `small`
-- `medium`
-
-### StatCardComponent
-
-Usage :
-
-- preuve chiffree ;
-- temps de reponse ;
-- surface showroom ;
-- experience ;
-- certification.
-
-Variantes :
-
-- `default`
-- `accent`
-- `soft`
-- `outline`
-- `inset`
-
-Regles :
-
-- une stat doit rester lisible en 2 secondes ;
-- eviter les phrases longues ;
-- utiliser une valeur forte et un label court.
-
-### MediaFrame
-
-Usage :
-
-- photo chantier ;
+- hero Apple-like ;
+- notification Event dediee home ;
+- familles produits ;
 - showroom ;
-- produit ;
-- detail technique ;
-- mosaique media.
+- partenaires dans le nouveau style ;
+- plus de raccourci devis ancien design.
 
-Ratios recommandes :
+Categories :
 
-- `hero`
-- `wide`
-- `square`
-- `category`
-- `portrait`
+- hero catalogue ;
+- navigation par familles ;
+- sections produits Apple-like ;
+- plus de CTA ancien design `Un produit a cadrer ?` ;
+- CSS legacy categories retire des styles actifs.
 
-Regles :
+Product/show :
 
-- la photo soutient le layout ;
-- ne pas l'utiliser comme plein ecran par defaut ;
-- garder une hauteur controlee ;
-- toujours fournir `alt`.
+- fiche produit V2 ;
+- lien selecteur de toile vers la route Public V2 ;
+- composants produits dedies V2.
 
-## Composants De Layout
+Selecteur de toile :
 
-### NavbarComponent
+- page Public V2 dediee ;
+- iframe Dickson Designer ;
+- actions retour produit et devis ;
+- breadcrumb V2.
 
-Role :
+Devis :
 
-- navigation publique ;
-- signal de marque ;
-- acces contact ;
-- controle clair/sombre.
+- formulaire V2 ;
+- produits classiques et destockage conserves.
 
-Regles :
+Contact :
 
-- pas de selection de palette ;
-- pas de selection de police ;
-- CTA visible mais mesure ;
-- pression devis compacte avec signal `48h` ;
-- centre de navigation lisible sur desktop ;
-- mobile simple et stable.
+- showroom, acces, contact et preparation de visite.
 
-### FooterComponent
+## Validation
 
-Role :
+Ne pas lancer de serveur Rails si l'utilisateur indique qu'il teste lui-meme.
 
-- contact ;
-- reassurance ;
-- navigation secondaire ;
-- ancrage local.
-- relance devis en bas de page.
-
-Regles :
-
-- reutilisable en page reelle et dans la reference UI Kit ;
-- `id:` configurable pour eviter les doublons quand le footer est rendu dans une demo.
-- garder une zone devis, une zone preuves, une zone familles et une zone contact.
-
-### BreadcrumbComponent
-
-Role :
-
-- orientation ;
-- retour categorie ;
-- contexte produit.
-
-Usage prioritaire :
-
-- categories ;
-- product/show ;
-- devis si parcours etendu.
-
-### DropdownComponent
-
-Role :
-
-- navigation secondaire ;
-- tri ;
-- filtres ;
-- choix d'options.
-
-Regle :
-
-- rester lisible sans JavaScript critique.
-
-## Composants De Section
-
-### HeroComponent
-
-Role :
-
-- premiere intention de page ;
-- promesse courte ;
-- action devis ;
-- support photo ou preuve.
-
-Regles :
-
-- pas de hero trop haut par defaut ;
-- texte court ;
-- CTA devis clair ;
-- photo presente mais maitrisee.
-
-### SectionShellComponent
-
-Role :
-
-- standardiser les sections ;
-- gerer kicker, titre, texte et actions ;
-- garder une structure de page coherente.
-
-Variantes :
-
-- `default`
-- `muted`
-- `accent`
-- `split`
-
-### CtaBandComponent
-
-Role :
-
-- relance devis ;
-- fin de section ;
-- transition vers contact.
-
-Regles :
-
-- court ;
-- action claire ;
-- preuve ou contexte utile.
-
-### InfoCardComponent
-
-Role :
-
-- bloc conseil ;
-- bloc technique ;
-- engagement ;
-- information metier.
-
-## Composants Metier
-
-### ActionDockComponent
-
-Role :
-
-- action devis compacte ;
-- contact rapide ;
-- rappel de preuve.
-
-Usage :
-
-- home ;
-- product/show ;
-- devis ;
-- footer contextuel.
-
-### QuoteIntakeComponent
-
-Role :
-
-- mini parcours devis ;
-- cadrage rapide ;
-- reduction de friction.
-
-Regles :
-
-- 3 a 4 etapes maximum ;
-- intitules courts ;
-- action claire.
-
-### ProofRailComponent
-
-Role :
-
-- preuves rapides ;
-- experience ;
-- certification ;
-- showroom ;
-- delai.
-
-Items attendus :
-
-- `value`
-- `label`
-- `text`
-
-### StepRailComponent
-
-Role :
-
-- expliquer un processus ;
-- cadrer le parcours client ;
-- rassurer sur les etapes.
-
-### TrustClusterComponent
-
-Role :
-
-- regrouper plusieurs signaux de confiance ;
-- soutenir les pages devis et produit.
-
-### ProductFamilyGridComponent
-
-Role :
-
-- presenter les familles produit ;
-- orienter vers categories ;
-- composer une entree catalogue premium.
-
-### ShowcaseCarouselComponent
-
-Role :
-
-- afficher une collection media ou produit avec une lecture premium ;
-- laisser voir les elements voisins pour inciter au scroll ;
-- supporter des slides cliquables, non cliquables ou ouvrant une modale ;
-- garder une pagination compacte centree.
-
-Contraintes :
-
-- scroll horizontal natif avec snap ;
-- controller Stimulus limite aux dots, a l'etat actif, au clavier et a la modale ;
-- pas de bouton play ;
-- responsive mobile obligatoire avec hauteur contenue ;
-- contenu de slide court et lisible.
-
-### ComparisonStripComponent
-
-Role :
-
-- comparer des usages ;
-- aider au choix ;
-- synthese technique accessible.
-
-## Composants Produit
-
-### CategoryBlockComponent
-
-Role :
-
-- afficher une categorie ;
-- relier produits et besoin client ;
-- enrichir la page categories.
-
-### ProductCardComponent
-
-Role :
-
-- carte produit ;
-- acces fiche produit ;
-- contexte court.
-
-### OptionListComponent
-
-Role :
-
-- details techniques ;
-- options ;
-- finitions ;
-- aide au choix.
-
-Les concepts d'affichage doivent rester factorisables avant d'etre integres dans les pages reelles.
-
-## Formulaires
-
-### QuoteFormComponent
-
-Role :
-
-- demande de devis ;
-- contact qualifie ;
-- collecte courte.
-
-Regles :
-
-- labels explicites ;
-- champs utiles seulement ;
-- messages d'aide courts ;
-- parcours mobile confortable.
-- ne pas POSTer automatiquement la page devis pendant les validations techniques.
-
-### FieldComponent
-
-Role :
-
-- champ de formulaire standard ;
-- textarea ;
-- select ;
-- erreurs ;
-- aide.
-
-## Feedback Et Etats
-
-### NotificationBannerComponent
-
-Role :
-
-- information ;
-- succes ;
-- alerte ;
-- erreur.
-
-### EmptyStateComponent
-
-Role :
-
-- etat vide ;
-- resultat absent ;
-- redirection vers action.
-
-### FaqAccordionComponent
-
-Role :
-
-- questions courtes ;
-- informations de reassurance ;
-- details produit ou devis.
-
-### MediaMosaicComponent
-
-Role :
-
-- ambiance showroom ;
-- preuves visuelles ;
-- details produit.
-
-## Debug Components
-
-Le mode debug doit rester disponible sur toutes les pages Public V2, mais il est desactive par defaut sur les vues integrees.
-
-Objectif :
-
-- visualiser les limites des composants ;
-- verifier les layouts ;
-- faciliter la factorisation ;
-- inspecter rapidement les sections et micro composants.
-
-Regle d'usage :
-
-- activation en une ligne de code quand on travaille sur une page ;
-- pas de logique dupliquee par composant ;
-- le comportement est porte par `PublicV2::Debuggable`.
-
-Les composants doivent accepter `debug:` quand ils sont structurants ou utiles a inspecter.
-
-## Page Design System
-
-La page `/public-v2/design-system` doit contenir :
-
-- fondations visuelles ;
-- primitives UI ;
-- navigation ;
-- sections ;
-- composants metier ;
-- composants produit ;
-- formulaires ;
-- feedback ;
-- inventaire ViewComponents.
-
-Elle ne doit pas contenir :
-
-- tests de layouts complets ;
-- versions temporaires de home ;
-- prototypes de page ;
-- anciennes experimentations ;
-- selection dynamique de theme, couleur ou typo.
-
-Cette page est la boite de briques propre du Public V2.
-
-## Regles Pour Les Futures Pages
-
-Pour construire une page reelle :
-
-1. synthetiser les donnees metier de la page ;
-2. choisir une structure de page ;
-3. composer avec des sections reutilisables ;
-4. utiliser les micro composants du UI Kit ;
-5. verifier mobile et desktop ;
-6. activer le debug pendant la construction ;
-7. retirer les artifices de test avant validation.
-
-Pour tester une idee :
-
-1. creer une page dediee temporaire avec `test` dans le nom ;
-2. ne pas polluer `design-system` ;
-3. ne pas modifier une page reelle tant que la direction n'est pas validee ;
-4. supprimer la page de test apres integration ou abandon.
-
-## Validation Technique
-
-Avant de considerer le design system stable :
-
-- verifier que les routes Public V2 reelles rendent en 200 ;
-- verifier que `/public-v2/design-system` rend en 200 ;
-- chercher les traces d'anciens labs ou anciennes directions ;
-- verifier que le debug fonctionne ;
-- verifier que la doc est alignee avec le code ;
-- garder public classique et admin-v2 intacts.
-
-Recherches utiles :
+Checks statiques utiles :
 
 ```sh
-rg -n "ANCIEN_NOM_DE_LAB|ANCIENNE_DIRECTION|ANCIEN_HELPER_THEME" app config docs
-```
-
-```sh
+bin/rails routes -g public-v2
 git diff --check
+ruby -c app/controllers/public_v2/base_controller.rb
 ```
 
-## Etat Actuel
+Pour une validation visuelle, verifier au minimum :
 
-Le design system actif est maintenant Warm System V9.
-
-La page `/public-v2/design-system` est la reference UI Kit propre.
-
-Les pages reelles Public V2 doivent progressivement etre reconstruites avec :
-
-- composants de layout ;
-- composants de section ;
-- micro composants ;
-- mode clair/sombre uniquement ;
-- debug factorise ;
-- wording premium, metier et oriente devis.
-
-Pages deja reconstruites sur Warm System :
-
-- home ;
-- categories/index ;
-- product/show ;
-- devis ;
-- contact.
+- desktop et mobile ;
+- light et dark mode ;
+- home, categories, product/show, selecteur de toile, devis, contact ;
+- absence de retour des anciens blocs de design.

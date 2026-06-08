@@ -1,0 +1,34 @@
+<%= tag.section class: component_classes, data: debug_data do %>
+  <%= render PublicV2::Ui::BreadcrumbComponent.new(items: breadcrumb_items, debug: debug?) %>
+
+  <header class="pv2-canvas-selector__hero">
+    <div class="pv2-canvas-selector__copy">
+      <span>Toiles Dickson</span>
+      <h1>Configurer la toile</h1>
+      <p>Comparez les tissus, les couleurs et les rendus avant de transmettre votre demande pour <strong><%= product.name %></strong>.</p>
+    </div>
+
+    <div class="pv2-canvas-selector__actions">
+      <%= render PublicV2::Ui::ButtonComponent.new(label: "Retour produit", path: return_path, variant: :secondary, shape: :pill, size: :sm, debug: debug?) %>
+      <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: quote_path, variant: :primary, shape: :pill, size: :sm, debug: debug?) %>
+    </div>
+  </header>
+
+  <div class="pv2-canvas-selector__workspace">
+    <div class="pv2-canvas-selector__toolbar">
+      <span>Dickson Designer</span>
+      <strong><%= product.name %></strong>
+    </div>
+
+    <iframe
+      src="<%= selector_url %>"
+      title="Selecteur de toile Dickson pour <%= product.name %>"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+
+  <aside class="pv2-canvas-selector__note" aria-label="Conseil showroom">
+    <strong>Besoin de valider en vrai ?</strong>
+    <p>Le showroom permet de comparer les toiles, la texture, la transparence et les finitions avec l'equipe avant le devis final.</p>
+  </aside>
+<% end %>

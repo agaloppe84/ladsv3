@@ -113,10 +113,6 @@ class PublicV2::CategoryIndexPage
     "Un acces direct aux gammes posees et conseillees par Les Artisans du Store."
   end
 
-  def cta_title
-    "Un produit a cadrer ?"
-  end
-
   def hero_proof_items
     [
       { value: product_total, label: "Produits", text: "Toutes les references visibles." },
