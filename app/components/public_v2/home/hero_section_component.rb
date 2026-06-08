@@ -18,6 +18,11 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
       variant: :plain,
       value: "RGE",
       text: "Expert"
+    },
+    {
+      variant: :orange,
+      value: "SAV",
+      text: "Pose"
     }
   ].freeze
 

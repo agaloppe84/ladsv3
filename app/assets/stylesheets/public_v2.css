@@ -3285,7 +3285,7 @@
   background: var(--pv2-hero-surface);
   display: grid;
   gap: clamp(0.62rem, 1.15vw, 0.9rem);
-  grid-template-columns: repeat(3, max-content);
+  grid-template-columns: repeat(4, max-content);
   justify-content: start;
   justify-items: start;
   min-height: 0;
@@ -3323,6 +3323,11 @@
 .public-v2 .pv2-home-hero-v2__fact-card--plain {
   background: var(--pv2-hero-soft);
   color: #111111;
+}
+
+.public-v2 .pv2-home-hero-v2__fact-card--orange {
+  background: var(--pv2-style-accent-orange);
+  color: var(--pv2-style-accent-orange-ink);
 }
 
 .public-v2 .pv2-home-hero-v2__fact-card strong {
@@ -7383,7 +7388,7 @@
 
   .public-v2 .pv2-home-hero-v2__facts-card {
     gap: 0.58rem;
-    grid-template-columns: repeat(3, max-content);
+    grid-template-columns: repeat(4, max-content);
     padding: 1.1rem;
   }
 
@@ -7392,7 +7397,7 @@
     border-radius: 0.78rem;
     min-height: 0;
     padding: 0.45rem;
-    width: 4.85rem;
+    width: clamp(4rem, 20vw, 4.85rem);
   }
 
   .public-v2 .pv2-home-showroom-story__head {
