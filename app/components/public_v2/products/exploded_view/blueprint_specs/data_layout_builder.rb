@@ -52,7 +52,7 @@ module PublicV2
             bottom_bar = build_roller_duo_bottom_bar(fabric:)
             control = build_roller_duo_control(fabric:)
             groups = build_roller_duo_groups(headrail:, supports:, roll:, fabric:, bottom_bar:, control:)
-            callouts = build_roller_duo_callouts(groups:)
+            callouts = build_callouts(groups:)
 
             RollerDuoLayout.new(
               svg_width: canvas_spec.svg_width,
@@ -258,12 +258,6 @@ module PublicV2
             )
           end
 
-          def build_roller_duo_callouts(groups:)
-            assembled.callouts.each_with_object({}) do |definition, callouts|
-              callouts[definition.part_id] = callout_from_definition(definition, groups:)
-            end
-          end
-
           def build_venetian_layout
             headrail = build_venetian_headrail
             supports = build_venetian_supports(headrail:)
@@ -271,7 +265,7 @@ module PublicV2
             bottom_bar = build_venetian_bottom_bar(slats:)
             control = build_venetian_control(slats:)
             groups = build_venetian_groups(headrail:, supports:, slats:, bottom_bar:, control:)
-            callouts = build_venetian_callouts(groups:)
+            callouts = build_callouts(groups:)
 
             VenetianBlindLayout.new(
               svg_width: canvas_spec.svg_width,
@@ -442,12 +436,6 @@ module PublicV2
             )
           end
 
-          def build_venetian_callouts(groups:)
-            assembled.callouts.each_with_object({}) do |definition, callouts|
-              callouts[definition.part_id] = callout_from_definition(definition, groups:)
-            end
-          end
-
           def build_honeycomb_shade_layout
             top_rail = build_honeycomb_top_rail
             supports = build_honeycomb_supports(top_rail:)
@@ -459,7 +447,7 @@ module PublicV2
             intermediate_rail = with_honeycomb_intermediate_rail_profile(intermediate_rail:, cords:)
             bottom_rail = with_honeycomb_slotted_rail_profile("rail-bas", rail: bottom_rail, fabric:, cords:, slot_side: :top)
             groups = build_honeycomb_groups(top_rail:, supports:, fabric:, intermediate_rail:, bottom_rail:, cords:)
-            callouts = build_honeycomb_callouts(groups:)
+            callouts = build_callouts(groups:)
 
             HoneycombShadeLayout.new(
               svg_width: canvas_spec.svg_width,
@@ -714,12 +702,6 @@ module PublicV2
             )
           end
 
-          def build_honeycomb_callouts(groups:)
-            assembled.callouts.each_with_object({}) do |definition, callouts|
-              callouts[definition.part_id] = callout_from_definition(definition, groups:)
-            end
-          end
-
           def build_pleated_lateral_layout
             guide = build_pleated_lateral_guide
             fabric = build_pleated_lateral_fabric(guide:)
@@ -728,7 +710,7 @@ module PublicV2
             threshold = build_pleated_lateral_threshold(guide:, profiles:)
             lock = build_pleated_lateral_lock(handle:)
             groups = build_pleated_lateral_groups(fabric:, handle:, lock:)
-            callouts = build_pleated_lateral_callouts(groups:)
+            callouts = build_callouts(groups:)
 
             PleatedLateralLayout.new(
               svg_width: canvas_spec.svg_width,
@@ -893,12 +875,6 @@ module PublicV2
             )
           end
 
-          def build_pleated_lateral_callouts(groups:)
-            assembled.callouts.each_with_object({}) do |definition, callouts|
-              callouts[definition.part_id] = callout_from_definition(definition, groups:)
-            end
-          end
-
           def build_side_guided_roller_layout
             cassette = build_side_guided_roller_cassette
             fabric = build_side_guided_roller_fabric(cassette:)
@@ -907,7 +883,7 @@ module PublicV2
             lock = build_side_guided_roller_lock(bottom_bar:)
             bavettes = build_side_guided_roller_bavettes(rails:)
             groups = build_side_guided_roller_groups(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:)
-            callouts = build_side_guided_roller_callouts(groups:)
+            callouts = build_callouts(groups:)
 
             SideGuidedRollerLayout.new(
               svg_width: canvas_spec.svg_width,
@@ -1079,12 +1055,6 @@ module PublicV2
             )
           end
 
-          def build_side_guided_roller_callouts(groups:)
-            assembled.callouts.each_with_object({}) do |definition, callouts|
-              callouts[definition.part_id] = callout_from_definition(definition, groups:)
-            end
-          end
-
           def build_zipped_screen_layout
             motor = build_zipped_screen_motor
             coffre = build_zipped_screen_coffre(motor:)
@@ -1093,7 +1063,7 @@ module PublicV2
             barre = build_zipped_screen_barre(coffre:, fabric:)
             supports = build_zipped_screen_supports
             groups = build_zipped_screen_groups(motor:, coffre:, fabric:, coulisse:, barre:)
-            callouts = build_zipped_screen_callouts(groups:)
+            callouts = build_callouts(groups:)
 
             ZippedScreenLayout.new(
               svg_width: canvas_spec.svg_width,
@@ -1255,12 +1225,6 @@ module PublicV2
             )
           end
 
-          def build_zipped_screen_callouts(groups:)
-            assembled.callouts.each_with_object({}) do |definition, callouts|
-              callouts[definition.part_id] = callout_from_definition(definition, groups:)
-            end
-          end
-
           def groups_from_strategy(slot_boxes)
             normalized_slot_boxes = normalized_group_slot_boxes(slot_boxes)
 
@@ -1284,6 +1248,12 @@ module PublicV2
           def normalized_group_slot_boxes(slot_boxes)
             slot_boxes.each_with_object({}) do |(slot, boxes), normalized|
               normalized[slot.to_s] = boxes.is_a?(Array) ? boxes.compact : [boxes].compact
+            end
+          end
+
+          def build_callouts(groups:)
+            assembled.callouts.each_with_object({}) do |definition, callouts|
+              callouts[definition.part_id] = callout_from_definition(definition, groups:)
             end
           end
 

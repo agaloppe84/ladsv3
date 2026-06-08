@@ -189,6 +189,9 @@ Assemblage JSON :
 - Les groupes de layout du chemin JSON sont construits depuis les contrats
   `required_groups` de `LayoutStrategyRegistry` ; les builders fournissent
   seulement les boxes associees aux slots deja generes.
+- Les callouts du chemin JSON sont construits par un helper commun depuis les
+  definitions JSON assemblees et les presets de callouts ; les familles ne
+  redefinissent plus une boucle de callouts dediee.
 - `GenericDrawingComponent` sait rendre les layouts data-driven supportes
   en mode objet plein. Son dispatch passe par `RENDERER_FAMILIES`, une registry
   qui associe chaque classe de layout generique a une famille de rendu
