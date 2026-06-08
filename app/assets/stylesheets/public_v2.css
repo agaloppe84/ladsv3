@@ -3351,11 +3351,15 @@
 }
 
 .public-v2[data-public-v2-mode="dark"] .pv2-home-hero-v2__fact-card--contrast,
-.public-v2.dark .pv2-home-hero-v2__fact-card--contrast,
-.public-v2[data-public-v2-mode="dark"] .pv2-home-hero-v2__fact-card--plain,
-.public-v2.dark .pv2-home-hero-v2__fact-card--plain {
+.public-v2.dark .pv2-home-hero-v2__fact-card--contrast {
   background: #ffffff;
   color: #111111;
+}
+
+.public-v2[data-public-v2-mode="dark"] .pv2-home-hero-v2__fact-card--plain,
+.public-v2.dark .pv2-home-hero-v2__fact-card--plain {
+  background: #111111;
+  color: #ffffff;
 }
 
 .public-v2 .pv2-home-hero-v2__media-card {
