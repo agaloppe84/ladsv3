@@ -179,7 +179,7 @@ module PublicV2
                 id: options.fetch(:id),
                 box: bar.body,
                 body_tone: options[:body_tone],
-                accent: bar_profile_option(options, :accent, legacy_name: :detail),
+                accent: options[:accent],
                 embouts: options[:embouts],
                 grip: solid_bar_grip_options(options[:grip], bar:),
                 extensions: options.fetch(:extensions, []),
@@ -190,11 +190,6 @@ module PublicV2
                 axis: options.fetch(:axis, :horizontal),
                 tones: options.fetch(:tones, {})
               )
-            end
-
-            def bar_profile_option(options, name, legacy_name:)
-              return options.fetch(name) if options.key?(name)
-              return options.fetch(legacy_name) if options.key?(legacy_name)
             end
 
             def solid_bar_grip_options(config, bar:)

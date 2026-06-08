@@ -183,9 +183,9 @@ module PublicV2
               solid_profile: {
                 id: options.fetch("solid_profile"),
                 point_inset: options.fetch("point_inset"),
-                accent_style: option_value(options, "accent_style", legacy_key: "detail_style").to_sym,
-                accent_inset_x: option_value(options, "accent_inset_x", legacy_key: "detail_inset_x"),
-                accent_inset_y: option_value(options, "accent_inset_y", legacy_key: "detail_inset_y")
+                accent_style: option_symbol(options, "accent_style"),
+                accent_inset_x: options.fetch("accent_inset_x"),
+                accent_inset_y: options.fetch("accent_inset_y")
               }
             )
           end
@@ -282,7 +282,7 @@ module PublicV2
               hit_inset_x: options.fetch("hit_inset_x"),
               hit_inset_y: options.fetch("hit_inset_y"),
               solid_profile: solid_profile_config(options).merge(
-                accent: option_value(options, "accent", legacy_key: "detail")
+                accent: options.fetch("accent")
               )
             )
           end
@@ -401,8 +401,8 @@ module PublicV2
               solid_profile: {
                 id: options.fetch("solid_profile"),
                 point_inset: options.fetch("point_inset"),
-                accent_inset_x: option_value(options, "accent_inset_x", legacy_key: "detail_inset_x"),
-                accent_inset_y: option_value(options, "accent_inset_y", legacy_key: "detail_inset_y")
+                accent_inset_x: options.fetch("accent_inset_x"),
+                accent_inset_y: options.fetch("accent_inset_y")
               }
             )
           end
@@ -466,7 +466,7 @@ module PublicV2
               hit_inset_x: options.fetch("hit_inset_x"),
               hit_inset_y: options.fetch("hit_inset_y"),
               solid_profile: solid_profile_config(options).merge(
-                accent: option_value(options, "accent", legacy_key: "detail")
+                accent: options.fetch("accent")
               )
             )
           end
@@ -583,8 +583,8 @@ module PublicV2
               solid_profile: {
                 id: options.fetch("solid_profile"),
                 point_inset: options.fetch("point_inset"),
-                accent_inset_x: option_value(options, "accent_inset_x", legacy_key: "detail_inset_x"),
-                accent_inset_y: option_value(options, "accent_inset_y", legacy_key: "detail_inset_y")
+                accent_inset_x: options.fetch("accent_inset_x"),
+                accent_inset_y: options.fetch("accent_inset_y")
               }
             )
           end
@@ -745,7 +745,7 @@ module PublicV2
               horizontal_bar_solid_profile(
                 {
                   id: options.fetch("solid_profile"),
-                  accent: option_value(options, "accent", legacy_key: "detail"),
+                  accent: options.fetch("accent"),
                   grip: options.fetch("grip"),
                   points: [cords.left_x, cords.right_x].map { |x| Point.new(x:, y: intermediate_rail.body.center_y) },
                   point_radius: options.fetch("point_radius")
@@ -932,7 +932,7 @@ module PublicV2
               hit_inset_x: options.fetch("hit_inset_x"),
               hit_inset_y: options.fetch("hit_inset_y"),
               solid_profile: solid_profile_config(options).merge(
-                accent: option_value(options, "accent", legacy_key: "detail")
+                accent: options.fetch("accent")
               )
             )
           end
@@ -1097,7 +1097,7 @@ module PublicV2
               grip_rx: options.fetch("grip_rx"),
               magnet_inset_x: options.fetch("magnet_inset_x"),
               solid_profile: solid_profile_config(options).merge(
-                accent: option_value(options, "accent", legacy_key: "detail"),
+                accent: options.fetch("accent"),
                 grip: options.fetch("grip")
               )
             )
@@ -1379,14 +1379,6 @@ module PublicV2
           def option_symbol(options, key, default: nil)
             value = options.fetch(key, default)
             value&.to_sym
-          end
-
-          def option_value(options, key, legacy_key: nil, default: nil)
-            return options.fetch(key) if options.key?(key)
-            return options.fetch(legacy_key) if legacy_key && options.key?(legacy_key)
-            return default unless default.nil?
-
-            options.fetch(key)
           end
 
           def option_gap(options, key)

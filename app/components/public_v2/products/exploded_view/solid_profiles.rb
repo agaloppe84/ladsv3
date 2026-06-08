@@ -469,15 +469,9 @@ module PublicV2
           point_radius: 18,
           features: [],
           axis: :horizontal,
-          tones: {},
-          **legacy_options
+          tones: {}
         )
-          unsupported_options = legacy_options.keys - [:detail]
-          raise ArgumentError, "Unsupported horizontal bar options: #{unsupported_options.join(', ')}" if unsupported_options.any?
-
-          accent ||= legacy_options[:detail]
           bar_tones = (tones || {}).transform_keys(&:to_sym)
-          bar_tones[:accent] ||= bar_tones[:detail] if bar_tones.key?(:detail)
           resolved_tones = BAR_TONES.merge(bar_tones)
 
           SolidBarProfile.new(
@@ -559,9 +553,7 @@ module PublicV2
           accent_style: :horizontal_pair,
           tones: {}
         )
-          support_tones = (tones || {}).transform_keys(&:to_sym)
-          support_tones[:accent] ||= support_tones[:detail] if support_tones.key?(:detail)
-          resolved_tones = SUPPORT_TONES.merge(support_tones)
+          resolved_tones = SUPPORT_TONES.merge((tones || {}).transform_keys(&:to_sym))
 
           SolidSupportProfile.new(
             id:,

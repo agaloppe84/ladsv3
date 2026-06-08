@@ -626,7 +626,9 @@ Supprime au stade actuel :
   `accent_*` dans les specs JSON et dans `SolidSupportProfile` ;
 - options de rendu des barres pleines renommees de `detail` /
   `detail_inset_x` vers `accent`, avec suppression des anciens
-  `tick_inset_x` / `tick_inset_y` devenus inutiles dans `BarElement`.
+  `tick_inset_x` / `tick_inset_y` devenus inutiles dans `BarElement` ;
+- alias legacy `detail_*` -> `accent_*` retires des builders et des profils
+  solides apres stabilisation des specs JSON.
 
 Restent autorises dans le code Ruby : les paths internes generes par
 `FabricPattern`, parce qu'ils decrivent des surfaces parametriques et ne viennent
@@ -638,11 +640,10 @@ d'interdire `outline_path`, `detail_path`, `surface_path`, `profile_path`,
 
 ### Prochain ordre conseille
 
-1. Supprimer les alias legacy `detail_*` -> `accent_*` dans les builders quand
-   toutes les specs JSON auront ete stabilisees et relues.
-2. Clarifier si les placements de callouts `left_detail` / `right_detail_up`
+1. Clarifier si les placements de callouts `left_detail` / `right_detail_up`
    doivent rester comme vocabulaire de routing ou passer vers des noms de zone.
-3. Enrichir les variantes `SolidAccessoryProfile` si un nouveau blueprint introduit un detail attache recurrent.
+2. Enrichir les variantes `SolidAccessoryProfile` si un nouveau blueprint introduit un detail attache recurrent.
+3. Supprimer les helpers ou styles restants des que `rg` confirme qu'ils ne sont plus emis par les renderers JSON.
 
 ## Lumiere, degradés et ombres
 
