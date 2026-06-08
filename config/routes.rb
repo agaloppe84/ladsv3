@@ -41,6 +41,7 @@ Rails.application.routes.draw do
       resource :details, only: [:update], controller: "category_details"
       resource :appearance, only: [:update], controller: "category_appearance"
       resource :publication, only: [:update], controller: "category_publications"
+      resource :hero_image, path: "hero-image", only: [:create, :destroy], controller: "category_hero_images"
     end
 
     resources :quotes, path: "devis", only: [:index, :show] do

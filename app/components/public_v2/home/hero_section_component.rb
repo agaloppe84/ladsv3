@@ -3,49 +3,6 @@
 class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
   include PublicV2::Debuggable
 
-  HERO_PRODUCT_CARDS = [
-    {
-      key: "interior-blind",
-      label: "Store intérieur",
-      image: "public_v2/hero-interior-blind-closeup-cgi.png",
-      alt: "Store intérieur premium type Duette en gros plan sur fond blanc",
-      kicker: "Store intérieur",
-      title: "Lumière",
-      accent_title: "maîtrisée",
-      accent: "var(--pv2-style-accent-fresh)"
-    },
-    {
-      key: "pergola",
-      label: "Pergola",
-      image: "public_v2/hero-pergola-closeup-cgi.png",
-      alt: "Pergola bioclimatique premium en gros plan vue de dessus sur fond blanc",
-      kicker: "Pergola",
-      title: "Ombre",
-      accent_title: "précise",
-      accent: "var(--pv2-style-accent-orange)"
-    },
-    {
-      key: "mosquito-screen",
-      label: "Moustiquaire",
-      image: "public_v2/hero-mosquito-screen-closeup-cgi.png",
-      alt: "Moustiquaire premium en gros plan vue de face sur fond blanc",
-      kicker: "Moustiquaire",
-      title: "Air frais",
-      accent_title: "protégé",
-      accent: "var(--pv2-style-accent-3)"
-    },
-    {
-      key: "awning-box",
-      label: "Store coffre",
-      image: "public_v2/hero-awning-box-closeup-cgi.png",
-      alt: "Store banne coffre premium en gros plan vue de dessus sur fond blanc",
-      kicker: "Store coffre",
-      title: "Terrasse",
-      accent_title: "ombragée",
-      accent: "var(--pv2-style-accent-orange)"
-    }
-  ].freeze
-  HERO_PRODUCT_INITIAL_KEY = "interior-blind"
   HERO_FACT_ITEMS = [
     {
       variant: :accent,
@@ -74,20 +31,28 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
 
   attr_reader :home_page, :event
 
-  def hero_product_cards
-    HERO_PRODUCT_CARDS
+  def hero_category_cards
+    home_page.hero_category_cards
   end
 
-  def hero_product_initial_index
-    HERO_PRODUCT_CARDS.index { |card| card[:key] == HERO_PRODUCT_INITIAL_KEY } || 0
+  def hero_category_initial_index
+    home_page.hero_category_initial_index
   end
 
-  def hero_product_initial_card
-    HERO_PRODUCT_CARDS[hero_product_initial_index]
+  def hero_category_initial_card
+    hero_category_cards[hero_category_initial_index]
+  end
+
+  def hero_category_initial_accent
+    hero_category_initial_card&.accent || "var(--pv2-style-accent-fresh)"
   end
 
   def hero_fact_items
     HERO_FACT_ITEMS
+  end
+
+  def cloudinary_image?(image)
+    image.present? && image.respond_to?(:key)
   end
 
   def component_classes

@@ -1,0 +1,72 @@
+<% upload_input_id = "admin_v2_category_#{category.id}_hero_image_upload" %>
+
+<%= render AdminV2::Ui::PanelComponent.new(
+  id: "admin_v2_category_hero_image",
+  title: "Image hero",
+  subtitle: "Visuel WEBP détouré pour le slider public v2",
+  data: {
+    controller: "upload",
+    upload_create_url_value: admin_v2_category_hero_image_path(category),
+    upload_field_value: "category_hero_image",
+    upload_max_size_mb_value: AdminV2::UploadPolicy.max_size_mb(:category_hero_image),
+    upload_accepted_types_value: AdminV2::UploadPolicy.accept(:category_hero_image)
+  }
+) do |panel| %>
+  <% panel.with_actions do %>
+    <span
+      data-upload-target="status"
+      class="hidden h-8 items-center gap-2 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-2.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--g-accent)]">
+      <svg
+        data-upload-target="spinner"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        class="h-3.5 w-3.5 animate-spin"
+        fill="none">
+        <circle class="opacity-20" cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" />
+        <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+      </svg>
+      <span data-upload-target="statusLabel">uploading</span>
+      <span data-upload-target="progress" class="hidden h-1 w-14 overflow-hidden rounded-full bg-white/[0.1]">
+        <span data-upload-target="progressBar" class="block h-full w-2 rounded-full bg-[var(--g-accent)] transition-[width] duration-150"></span>
+      </span>
+    </span>
+
+    <label
+      for="<%= upload_input_id %>"
+      title="Upload WEBP"
+      class="admin-v2-focus inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[var(--g-accent)] transition hover:bg-[var(--g-accent-hover)]">
+      <span class="sr-only">Upload WEBP</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 16V4" />
+        <path d="m7 9 5-5 5 5" />
+        <path d="M20 16.5v1.75A1.75 1.75 0 0 1 18.25 20H5.75A1.75 1.75 0 0 1 4 18.25V16.5" />
+      </svg>
+    </label>
+  <% end %>
+
+  <input id="<%= upload_input_id %>" type="file" direct_upload="true" accept="<%= AdminV2::UploadPolicy.accept(:category_hero_image) %>" class="hidden" data-upload-target="input" data-action="change->upload#upload">
+
+  <% if category.hero_image.attached? %>
+    <article class="overflow-hidden rounded-xl border border-white/[0.075] bg-white/[0.035]">
+      <div class="aspect-square bg-[var(--g-surface-inset)] p-5">
+        <%= cl_image_tag(category.hero_image.key, crop: :scale, class: "h-full w-full object-contain") %>
+      </div>
+      <div class="flex items-center justify-between gap-3 px-4 py-3">
+        <div class="min-w-0">
+          <p class="truncate text-[10px] font-semibold text-[var(--g-text)]"><%= category.hero_image.blob.filename %></p>
+          <p class="mt-1 text-[9px] text-[var(--g-subtle)]">
+            <%= "#{(category.hero_image.blob.byte_size.to_f / 1_000_000.0).round(1)} MB · #{category.hero_image.blob.content_type}" %>
+          </p>
+        </div>
+        <%= button_to "×", admin_v2_category_hero_image_path(category), method: :delete, class: "admin-v2-focus rounded-md border border-red-300/20 px-2 py-1 text-[11px] font-bold text-[var(--g-red)]", form: { data: { turbo_stream: true } } %>
+      </div>
+    </article>
+  <% else %>
+    <div class="flex min-h-44 items-center justify-center rounded-xl border border-dashed border-white/[0.1] bg-white/[0.025]">
+      <div class="text-center">
+        <p class="text-sm font-medium text-[var(--g-subtle)]">Aucune image hero attachée.</p>
+        <p class="mt-1 text-[11px] text-[var(--g-faint)]">Format attendu : WEBP optimisé avec fond transparent.</p>
+      </div>
+    </div>
+  <% end %>
+<% end %>

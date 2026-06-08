@@ -57,7 +57,7 @@ export default class extends Controller {
     let closestDistance = Infinity
 
     this.slideTargets.forEach((slide, index) => {
-      const slideCenter = slide.offsetLeft + slide.offsetWidth / 2
+      const slideCenter = this.slideLeft(slide) + slide.offsetWidth / 2
       const distance = Math.abs(trackCenter - slideCenter)
 
       if (distance < closestDistance) {
@@ -78,9 +78,16 @@ export default class extends Controller {
 
     this.setActive(boundedIndex)
     this.trackTarget.scrollTo({
-      left: slide.offsetLeft,
+      left: this.slideLeft(slide),
       behavior: options.behavior || (this.motionAllowed ? "smooth" : "auto")
     })
+  }
+
+  slideLeft(slide) {
+    const slideRect = slide.getBoundingClientRect()
+    const trackRect = this.trackTarget.getBoundingClientRect()
+
+    return slideRect.left - trackRect.left + this.trackTarget.scrollLeft
   }
 
   setActive(index) {

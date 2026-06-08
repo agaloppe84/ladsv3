@@ -10,7 +10,7 @@ class PublicV2::PagesController < PublicV2::BaseController
   private
 
   def build_home_page
-    categories = public_categories.limit(8).to_a
+    categories = public_categories.with_attached_hero_image.limit(8).to_a
     category_ids = categories.map(&:id)
     products = public_product_cards.order(updated_at: :desc).limit(8).to_a
     destock_products = public_destock_products.includes(:category, :options, images_attachments: :blob)

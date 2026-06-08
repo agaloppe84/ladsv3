@@ -12,6 +12,12 @@ class AdminV2::UploadPolicy
       content_types: %w[image/jpeg image/png image/webp],
       formats: "JPG, PNG ou WEBP"
     },
+    category_hero_image: {
+      label: "Image hero catégorie",
+      max_bytes: 6.megabytes,
+      content_types: %w[image/webp],
+      formats: "WEBP"
+    },
     documentation: {
       label: "Documentation",
       max_bytes: 25.megabytes,

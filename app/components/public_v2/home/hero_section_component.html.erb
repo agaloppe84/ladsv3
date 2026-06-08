@@ -34,47 +34,51 @@
     <div
       class="pv2-home-hero-v2__media-card"
       data-controller="hero-product-slider"
-      data-hero-product-slider-initial-index-value="<%= hero_product_initial_index %>"
+      data-hero-product-slider-initial-index-value="<%= hero_category_initial_index %>"
       data-action="keydown.left->hero-product-slider#previous keydown.right->hero-product-slider#next"
       role="region"
-      aria-label="Produits en situation"
+      aria-label="Catégories en situation"
       tabindex="0"
-      style="--pv2-hero-media-accent: <%= hero_product_initial_card[:accent] %>;"
+      style="--pv2-hero-media-accent: <%= hero_category_initial_accent %>;"
     >
       <div class="pv2-home-hero-v2__media-viewport">
         <div
           class="pv2-home-hero-v2__media-track"
           data-hero-product-slider-target="track"
         >
-          <% hero_product_cards.each_with_index do |card, index| %>
-            <% is_active = index == hero_product_initial_index %>
+          <% hero_category_cards.each_with_index do |card, index| %>
+            <% is_active = index == hero_category_initial_index %>
             <article
               class="pv2-home-hero-v2__product-slide <%= "is-active" if is_active %>"
               data-hero-product-slider-target="slide"
-              aria-label="<%= card[:label] %>"
+              aria-label="<%= card.label %>"
               aria-current="<%= is_active ? "true" : "false" %>"
               aria-hidden="<%= is_active ? "false" : "true" %>"
-              style="--pv2-hero-media-accent: <%= card[:accent] %>;"
+              style="--pv2-hero-media-accent: <%= card.accent %>;"
             >
-              <%= image_tag(
-                card[:image],
-                alt: card[:alt],
+              <% image_options = {
+                alt: card.alt,
                 loading: is_active ? "eager" : "lazy",
                 decoding: "async",
-                class: "pv2-cover-image"
-              ) %>
+                class: "pv2-cover-image pv2-home-hero-v2__category-image"
+              } %>
+              <% if cloudinary_image?(card.image) %>
+                <%= cl_image_tag(card.image.key, crop: :scale, **image_options) %>
+              <% else %>
+                <%= image_tag(card.image, **image_options) %>
+              <% end %>
               <div class="pv2-home-hero-v2__media-caption">
-                <span><%= card[:kicker] %></span>
-                <strong><%= card[:title] %> <em><%= card[:accent_title] %></em></strong>
+                <span><%= card.kicker %></span>
+                <strong><%= card.title %> <em><%= card.accent_title %></em></strong>
               </div>
             </article>
           <% end %>
         </div>
       </div>
 
-      <nav class="pv2-home-hero-v2__media-dots" aria-label="Changer de produit">
-        <% hero_product_cards.each_with_index do |card, index| %>
-          <% is_active = index == hero_product_initial_index %>
+      <nav class="pv2-home-hero-v2__media-dots" aria-label="Changer de catégorie">
+        <% hero_category_cards.each_with_index do |card, index| %>
+          <% is_active = index == hero_category_initial_index %>
           <button
             type="button"
             class="pv2-home-hero-v2__media-dot <%= "is-active" if is_active %>"
@@ -82,7 +86,7 @@
             data-action="hero-product-slider#goTo"
             data-hero-product-slider-index-param="<%= index %>"
             aria-current="<%= is_active ? "true" : "false" %>"
-            aria-label="Afficher <%= card[:label] %>"
+            aria-label="Afficher <%= card.label %>"
           ></button>
         <% end %>
       </nav>
