@@ -1,7 +1,16 @@
 # Public V2 - Plans produits interactifs
 
-Ce document decrit le systeme de plans interactifs utilise sur les fiches produits Public V2.
-Il sert de reference de travail pour les prochaines sessions Codex/ChatGPT sur ce chantier.
+Ce document decrit le systeme POC de plans interactifs Public V2.
+Il sert de reference de reprise pour une future phase Blueprint.
+
+Statut au terme du chantier POC :
+
+- architecture Blueprint JSON stabilisee et validee ;
+- composant, renderers, specs JSON, presets, validators et documentation conserves ;
+- aucun Blueprint n'est rendu sur les pages publiques Public V2 a ce stade ;
+- `product/show` ne charge plus `ExplodedViewExperimentComponent` ;
+- le systeme est mis en pause volontairement et ne doit pas etre rebranche sans
+  demande explicite.
 
 ## Perimetre
 
@@ -12,9 +21,10 @@ Il sert de reference de travail pour les prochaines sessions Codex/ChatGPT sur c
 - Pas de tests Rails, composants ou unitaires tant que le systeme visuel n'est pas stabilise.
 - Verifications acceptees : lecture du code, `rg`, `ruby -c`, blueprint validator, Rails runner de rendu, `git diff --check`.
 
-## Objectif courant
+## Objectif POC valide
 
-Le systeme passe progressivement du dessin technique filaire a un rendu "objet plein".
+Le systeme a valide le passage du dessin technique filaire a un rendu "objet
+plein" data-driven.
 
 Objectifs :
 
@@ -52,19 +62,22 @@ Fichiers centraux :
 Les fichiers blueprint portent les donnees produit, le layout et les callouts.
 Les drawing components doivent rester fins et rendre les objets produits par le systeme blueprint/layout.
 
-## Architecture JSON cible
+## Architecture JSON validee
 
-Le chantier est maintenant pilote par les specs JSON pour le front public v2.
+Le POC est pilote par les specs JSON pour le front public v2, mais il n'est plus
+branche sur une page publique.
 
 Objectif final :
 
 - un fichier JSON par blueprint ;
 - un renderer generique qui assemble les objets parametriques existants ;
-- affichage du composant sur `product/show` uniquement si une spec JSON existe pour le `product.slug`.
+- conservation du composant Blueprint hors rendu public jusqu'a reprise du chantier.
 
-Architecture finale attendue :
+Architecture validee :
 
-- `product/show` demande uniquement un blueprint JSON par slug produit ;
+- `product/show` ne rend plus de Blueprint ;
+- la reprise future consistera a rebrancher explicitement le composant si le
+  besoin produit est confirme ;
 - `DataBlueprint` lit la spec et expose les donnees front ;
 - `Assembler` normalise les elements, groupes et callouts ;
 - `DataLayoutBuilder` transforme la data en primitives de layout ;
@@ -73,7 +86,8 @@ Architecture finale attendue :
 - `GenericDrawingComponent` rend tous les produits avec les familles generiques ;
 - aucun fichier Ruby ou template SVG specifique a un produit ne doit etre ajoute ;
 - les helpers filaires et classes CSS legacy sont retires ou limites au debug ;
-- les nouveaux produits enrichissent la librairie d'elements au lieu de creer un dessin one-shot.
+- les nouveaux produits devront enrichir la librairie d'elements au lieu de creer
+  un dessin one-shot.
 
 Emplacement cible des specs :
 
@@ -212,8 +226,9 @@ Assemblage JSON :
   `venetian_blind`, `roller_duo`) et au composant renderer dedie. Le composant
   principal garde le wrapper SVG, puis delegue le bloc interne aux renderers de
   familles situes dans `exploded_view/renderers/`. Le renderer ne depend plus de
-  predicates structurels nommes produit. Il est utilise directement par
-  `product/show` via `ExplodedViewExperimentComponent`.
+  predicates structurels nommes produit. Il reste disponible via
+  `ExplodedViewExperimentComponent`, mais ce composant n'est plus rendu par
+  `product/show`.
 - Les classes de parts emises par les renderers sont derivees des slots layout
   (`slot-top-rail`, `slot-fabric`, `slot-side-guides-left`, etc.) et non de
   noms produit.
@@ -317,35 +332,34 @@ Etat actuel :
   associee a la classe de layout, puis delegue le rendu SVG interne a un
   composant de famille dans `exploded_view/renderers/` sans recreer de chemin
   produit ;
-- la prochaine phase systeme consiste a faire converger les builders et le
-  renderer generique vers ces signatures de presets, pas a creer de nouveaux
-  chemins specifiques produit.
+- le POC est considere comme stabilise et conserve hors rendu public.
 
 Important :
 
-Les specs JSON sont le contrat data du renderer generique. Le composant public
-charge uniquement `DataBlueprint.find_for_product`.
+Les specs JSON restent le contrat data du renderer generique. Le composant public
+existe toujours, mais il n'est plus appele par les pages Public V2.
 
-Mode de chargement controle :
+Mode de chargement suspendu :
 
-- `product/show` rend `ExplodedViewExperimentComponent` sans option de source ;
-- `ExplodedViewExperimentComponent` charge uniquement un blueprint JSON ;
+- `product/show` ne rend plus `ExplodedViewExperimentComponent` ;
+- aucune autre page Public V2 ne doit rendre le composant Blueprint pour l'instant ;
+- si le composant est instancie manuellement en smoke isole, il charge uniquement
+  un blueprint JSON ;
 - aucune fallback vers un blueprint Ruby produit n'est appliquee ;
-- si aucune spec JSON ne correspond au `product.slug`, le composant ne rend rien ;
 - un blueprint injecte explicitement reste prioritaire pour les smokes isoles.
 
-Objectif du prochain basculement :
+Chantier clos cote POC :
 
-1. completer les regles de generation de boxes par slot restantes sans masquer
-   les overrides JSON utiles ;
-2. factoriser progressivement les repetitions internes entre renderers de
-   familles quand cela simplifie le systeme sans introduire de chemin produit ;
-3. nettoyer les helpers filaires, SVG code en dur et classes CSS legacy qui ne sont
-   plus utilises par la voie JSON.
+- l'architecture est conservee pour reprise future ;
+- les prochaines modifications Blueprint doivent repartir d'une demande explicite
+  de reactivation ou d'un nouveau POC produit ;
+- ne pas creer de nouveau template ou composant dedie produit ;
+- ne pas rebrancher le composant sur `product/show` sans validation produit/design.
 
 ## Processus nouveau blueprint
 
-Pour ajouter un blueprint, la source finale doit etre un fichier JSON complet.
+Ce processus est conserve comme documentation de reprise future. Pour ajouter un
+blueprint, la source finale doit etre un fichier JSON complet.
 On ne cree pas de fichier Ruby produit, pas de composant produit dedie et pas de
 template SVG produit dedie.
 
