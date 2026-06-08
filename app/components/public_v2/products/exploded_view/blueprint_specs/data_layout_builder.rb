@@ -248,12 +248,14 @@ module PublicV2
           end
 
           def build_roller_duo_groups(headrail:, supports:, roll:, fabric:, bottom_bar:, control:)
-            {
-              "mecanisme-haut" => LayoutGroup.new(id: "mecanisme-haut", boxes: [headrail.body, roll.body, supports.left, supports.right]),
-              "tablier-duo" => LayoutGroup.new(id: "tablier-duo", boxes: [roll.body, fabric.body, bottom_bar.body]),
-              "commande-laterale" => LayoutGroup.new(id: "commande-laterale", boxes: [control.body]),
-              "toile-barre" => LayoutGroup.attached(id: "toile-barre", boxes: [fabric.body, bottom_bar.body])
-            }
+            groups_from_strategy(
+              "headrail" => headrail.body,
+              "top-supports" => [supports.left, supports.right],
+              "roll" => roll.body,
+              "fabric" => fabric.body,
+              "bottom-bar" => bottom_bar.body,
+              "controls" => control.body
+            )
           end
 
           def build_roller_duo_callouts(groups:)
@@ -430,12 +432,14 @@ module PublicV2
           end
 
           def build_venetian_groups(headrail:, supports:, slats:, bottom_bar:, control:)
-            {
-              "tablier-venitien" => LayoutGroup.new(id: "tablier-venitien", boxes: [headrail.body, slats.body, bottom_bar.body]),
-              "pose-haute" => LayoutGroup.new(id: "pose-haute", boxes: [headrail.body, supports.left, supports.right]),
-              "lames-cordons" => LayoutGroup.attached(id: "lames-cordons", boxes: [slats.body]),
-              "commande-laterale" => LayoutGroup.new(id: "commande-laterale", boxes: [control.body])
-            }
+            groups_from_strategy(
+              "headrail" => headrail.body,
+              "top-supports" => [supports.left, supports.right],
+              "fabric" => slats.body,
+              "ladder-cords" => [],
+              "bottom-bar" => bottom_bar.body,
+              "controls" => control.body
+            )
           end
 
           def build_venetian_callouts(groups:)
@@ -700,12 +704,14 @@ module PublicV2
           end
 
           def build_honeycomb_groups(top_rail:, supports:, fabric:, intermediate_rail:, bottom_rail:, cords:)
-            {
-              "tablier-duette" => LayoutGroup.new(id: "tablier-duette", boxes: [top_rail.body, fabric.body, intermediate_rail.body, bottom_rail.body]),
-              "pose-haute" => LayoutGroup.new(id: "pose-haute", boxes: [top_rail.body, supports.left, supports.right]),
-              "toile-rail-intermediaire" => LayoutGroup.attached(id: "toile-rail-intermediaire", boxes: [fabric.body, intermediate_rail.body]),
-              "cordons-toile" => LayoutGroup.new(id: "cordons-toile", boxes: [cords.hit, fabric.body])
-            }
+            groups_from_strategy(
+              "top-rail" => top_rail.body,
+              "top-supports" => [supports.left, supports.right],
+              "fabric" => fabric.body,
+              "intermediate-rail" => intermediate_rail.body,
+              "bottom-rail" => bottom_rail.body,
+              "guide-cords" => cords.hit
+            )
           end
 
           def build_honeycomb_callouts(groups:)
@@ -880,10 +886,11 @@ module PublicV2
           end
 
           def build_pleated_lateral_groups(fabric:, handle:, lock:)
-            {
-              "toile-poignee" => LayoutGroup.attached(id: "toile-poignee", boxes: [fabric.body, handle.body]),
-              "poignee-verrouillage" => LayoutGroup.attached(id: "poignee-verrouillage", boxes: [handle.body, lock.hit])
-            }
+            groups_from_strategy(
+              "fabric" => fabric.body,
+              "handle" => handle.body,
+              "closure" => lock.hit
+            )
           end
 
           def build_pleated_lateral_callouts(groups:)
@@ -1062,12 +1069,14 @@ module PublicV2
           end
 
           def build_side_guided_roller_groups(cassette:, rails:, fabric:, bottom_bar:, lock:, bavettes:)
-            {
-              "caisson-toile" => LayoutGroup.new(id: "caisson-toile", boxes: [cassette.body, fabric.body]),
-              "toile-coulisses" => LayoutGroup.new(id: "toile-coulisses", boxes: [fabric.body, rails.left, rails.right]),
-              "fermeture-barre" => LayoutGroup.attached(id: "fermeture-barre", boxes: [bottom_bar.body, lock.hit]),
-              "coulisses-bavettes" => LayoutGroup.attached(id: "coulisses-bavettes", boxes: [rails.left, rails.right, bavettes.left, bavettes.right])
-            }
+            groups_from_strategy(
+              "top-housing" => cassette.body,
+              "fabric" => fabric.body,
+              "side-guides" => [rails.left, rails.right],
+              "bottom-bar" => bottom_bar.body,
+              "closure" => lock.hit,
+              "attached-features" => [bavettes.left, bavettes.right]
+            )
           end
 
           def build_side_guided_roller_callouts(groups:)
@@ -1237,16 +1246,44 @@ module PublicV2
           end
 
           def build_zipped_screen_groups(motor:, coffre:, fabric:, coulisse:, barre:)
-            {
-              "motorisation" => LayoutGroup.attached(id: "motorisation", boxes: [motor.tube, motor.head]),
-              "toile-coulisses" => LayoutGroup.new(id: "toile-coulisses", boxes: [fabric.body, coulisse.left, coulisse.right]),
-              "coffre-toile-barre" => LayoutGroup.new(id: "coffre-toile-barre", boxes: [coffre.body, fabric.body, barre.hit])
-            }
+            groups_from_strategy(
+              "motor" => [motor.tube, motor.head],
+              "top-housing" => coffre.body,
+              "fabric" => fabric.body,
+              "side-guides" => [coulisse.left, coulisse.right],
+              "bottom-bar" => barre.hit
+            )
           end
 
           def build_zipped_screen_callouts(groups:)
             assembled.callouts.each_with_object({}) do |definition, callouts|
               callouts[definition.part_id] = callout_from_definition(definition, groups:)
+            end
+          end
+
+          def groups_from_strategy(slot_boxes)
+            normalized_slot_boxes = normalized_group_slot_boxes(slot_boxes)
+
+            layout_strategy.required_groups.each_with_object({}) do |contract, groups|
+              boxes = contract.slots.flat_map do |slot|
+                unless normalized_slot_boxes.key?(slot)
+                  raise ArgumentError, "layout strategy #{layout_strategy.name} group #{contract.id.inspect} needs slot boxes for #{slot.inspect}"
+                end
+
+                normalized_slot_boxes.fetch(slot)
+              end
+
+              groups[contract.id] = if contract.attached?
+                                      LayoutGroup.attached(id: contract.id, boxes:)
+                                    else
+                                      LayoutGroup.new(id: contract.id, boxes:)
+                                    end
+            end
+          end
+
+          def normalized_group_slot_boxes(slot_boxes)
+            slot_boxes.each_with_object({}) do |(slot, boxes), normalized|
+              normalized[slot.to_s] = boxes.is_a?(Array) ? boxes.compact : [boxes].compact
             end
           end
 

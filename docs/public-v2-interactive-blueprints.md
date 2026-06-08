@@ -186,6 +186,9 @@ Assemblage JSON :
   `zipped_screen`, etc.). Au stade actuel, `store-vertical-zippe`,
   `moustiquaire-enroulable-verticale`, `moustiquaire-plissee`, `store-duette`,
   `store-venitien` et `store-rouleau-duo` sont supportes.
+- Les groupes de layout du chemin JSON sont construits depuis les contrats
+  `required_groups` de `LayoutStrategyRegistry` ; les builders fournissent
+  seulement les boxes associees aux slots deja generes.
 - `GenericDrawingComponent` sait rendre les layouts data-driven supportes
   en mode objet plein. Son dispatch passe par `RENDERER_FAMILIES`, une registry
   qui associe chaque classe de layout generique a une famille de rendu
