@@ -6,13 +6,13 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
   HERO_PRODUCT_CARDS = [
     {
       key: "interior-blind",
-      label: "Store interieur",
+      label: "Store intérieur",
       image: "public_v2/hero-interior-blind-closeup-cgi.png",
-      alt: "Store interieur premium type Duette en gros plan sur fond blanc",
-      kicker: "Store interieur",
-      title: "Lumiere",
-      accent_title: "maitrisee",
-      accent: "var(--pv2-style-accent-4)"
+      alt: "Store intérieur premium type Duette en gros plan sur fond blanc",
+      kicker: "Store intérieur",
+      title: "Lumière",
+      accent_title: "maîtrisée",
+      accent: "var(--pv2-style-accent-fresh)"
     },
     {
       key: "pergola",
@@ -21,8 +21,8 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
       alt: "Pergola bioclimatique premium en gros plan vue de dessus sur fond blanc",
       kicker: "Pergola",
       title: "Ombre",
-      accent_title: "precise",
-      accent: "var(--pv2-style-accent-1)"
+      accent_title: "précise",
+      accent: "var(--pv2-style-accent-orange)"
     },
     {
       key: "mosquito-screen",
@@ -31,7 +31,7 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
       alt: "Moustiquaire premium en gros plan vue de face sur fond blanc",
       kicker: "Moustiquaire",
       title: "Air frais",
-      accent_title: "protege",
+      accent_title: "protégé",
       accent: "var(--pv2-style-accent-3)"
     },
     {
@@ -41,8 +41,8 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
       alt: "Store banne coffre premium en gros plan vue de dessus sur fond blanc",
       kicker: "Store coffre",
       title: "Terrasse",
-      accent_title: "ombragee",
-      accent: "var(--pv2-style-accent-6)"
+      accent_title: "ombragée",
+      accent: "var(--pv2-style-accent-orange)"
     }
   ].freeze
   HERO_PRODUCT_INITIAL_KEY = "interior-blind"
@@ -50,7 +50,7 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
     {
       variant: :accent,
       value: "48h",
-      text: "Premier retour"
+      text: "Devis gratuit"
     },
     {
       variant: :contrast,
@@ -64,14 +64,15 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
     }
   ].freeze
 
-  def initialize(home_page:, debug: false)
+  def initialize(home_page:, event: nil, debug: false)
     @home_page = home_page
+    @event = event
     @debug = debug
   end
 
   private
 
-  attr_reader :home_page
+  attr_reader :home_page, :event
 
   def hero_product_cards
     HERO_PRODUCT_CARDS
@@ -92,6 +93,7 @@ class PublicV2::Home::HeroSectionComponent < ViewComponent::Base
   def component_classes
     component_class_names(
       "pv2-home-warm__hero pv2-home-hero-v2",
+      ("pv2-home-hero-v2--with-event" if event.present?),
       "grid w-full min-w-0 gap-4",
       debug_class
     )

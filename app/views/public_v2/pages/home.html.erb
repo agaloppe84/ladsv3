@@ -3,9 +3,9 @@
 <% keywords "stores, volets roulants, pergolas, moustiquaires, portes de garage, protections solaires, L'Arbresle, Lyon Ouest" %>
 
 <main class="pv2-home-page pv2-home-warm grid gap-14 pb-20 pt-8 min-[821px]:gap-20">
-  <%= render PublicV2::Home::HeroSectionComponent.new(home_page: @home_page) %>
-  <%= render PublicV2::Home::EventNotificationComponent.new(event: @event) %>
+  <%= render PublicV2::Home::HeroSectionComponent.new(home_page: @home_page, event: @event) %>
   <%= render PublicV2::Home::CategoryGridSectionComponent.new(category_cards: @home_page.category_cards) %>
   <%= render PublicV2::Home::ShowroomSectionComponent.new(home_page: @home_page) %>
   <%= render PublicV2::Content::PartnersComponent.new %>
+  <%= render PublicV2::Content::RecommendationsComponent.new %>
 </main>

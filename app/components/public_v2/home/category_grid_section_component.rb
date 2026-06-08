@@ -7,7 +7,7 @@ class PublicV2::Home::CategoryGridSectionComponent < ViewComponent::Base
     "moustiquaires" => {
       eyebrow: "PROTECTION INVISIBLE",
       title: "Moustiquaires",
-      title_suffix: "aérez tranquille.",
+      title_suffix: "aérez tranquille",
       text: "Une toile fine pour profiter de l’air frais. Elle protège sans alourdir vos ouvertures.",
       accent: "#008F86",
       size: :wide
@@ -15,7 +15,7 @@ class PublicV2::Home::CategoryGridSectionComponent < ViewComponent::Base
     "pergolas" => {
       eyebrow: "CONFORT EXTÉRIEUR",
       title: "Pergolas",
-      title_suffix: "vivez dehors.",
+      title_suffix: "vivez dehors",
       text: "Ombre maîtrisée, confort et lignes épurées. Votre terrasse devient un vrai espace de vie.",
       accent: "#C98646",
       size: :md
@@ -23,7 +23,7 @@ class PublicV2::Home::CategoryGridSectionComponent < ViewComponent::Base
     "portes-de-garage" => {
       eyebrow: "ACCÈS SÉCURISÉ",
       title: "Portes de garage",
-      title_suffix: "sécurisez l’accès.",
+      title_suffix: "sécurisez l’accès",
       text: "Des panneaux robustes et une ouverture fluide. Une finition moderne pour votre façade.",
       accent: "#5B718F",
       size: :wide
@@ -31,7 +31,7 @@ class PublicV2::Home::CategoryGridSectionComponent < ViewComponent::Base
     "stores-exterieurs" => {
       eyebrow: "OMBRE & TERRASSE",
       title: "Stores extérieurs",
-      title_suffix: "maîtrisez le soleil.",
+      title_suffix: "maîtrisez le soleil",
       text: "Store banne, toile technique et ombre élégante. Prolongez les beaux jours sur la terrasse.",
       accent: "#E57919",
       size: :wide
@@ -39,7 +39,7 @@ class PublicV2::Home::CategoryGridSectionComponent < ViewComponent::Base
     "stores-interieurs" => {
       eyebrow: "LUMIÈRE SUR MESURE",
       title: "Stores intérieurs",
-      title_suffix: "dosez la lumière.",
+      title_suffix: "dosez la lumière",
       text: "Vénitiens, enrouleurs, plissés ou voilages. Chaque pièce trouve son équilibre.",
       accent: "#E94F6A",
       size: :md
@@ -47,7 +47,7 @@ class PublicV2::Home::CategoryGridSectionComponent < ViewComponent::Base
     "volets-battants" => {
       eyebrow: "CHARME & DURABILITÉ",
       title: "Volets battants",
-      title_suffix: "gardez le caractère.",
+      title_suffix: "gardez le caractère",
       text: "Des battants résistants et personnalisables. Le style de la maison, sans compromis.",
       accent: "#4F9A63",
       size: :compact
@@ -55,7 +55,7 @@ class PublicV2::Home::CategoryGridSectionComponent < ViewComponent::Base
     "volets-roulants" => {
       eyebrow: "ISOLATION & SÉCURITÉ",
       title: "Volets roulants",
-      title_suffix: "gagnez en confort.",
+      title_suffix: "gagnez en confort",
       text: "Un tablier compact, motorisable et protecteur. Plus de confort, toute l’année.",
       accent: "#7468F0",
       size: :md
@@ -63,7 +63,7 @@ class PublicV2::Home::CategoryGridSectionComponent < ViewComponent::Base
     "pergostores" => {
       eyebrow: "OMBRE TECHNIQUE",
       title: "Pergostores",
-      title_suffix: "modulez l’abri.",
+      title_suffix: "modulez l’abri",
       text: "Une solution hybride pour terrasse exposée. Le confort d’un store avec une tenue plus structurée.",
       accent: "#B8773E",
       size: :compact
@@ -72,7 +72,7 @@ class PublicV2::Home::CategoryGridSectionComponent < ViewComponent::Base
 
   FALLBACK_CONTENT = {
     eyebrow: "SOLUTION SUR MESURE",
-    title_suffix: "à cadrer ensemble.",
+    title_suffix: "à cadrer ensemble",
     accent: "#ff3d12",
     size: :md
   }.freeze

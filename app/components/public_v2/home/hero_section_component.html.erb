@@ -6,15 +6,13 @@
     </h1>
   </header>
 
+  <%= render PublicV2::Home::EventNotificationComponent.new(event: event, debug: debug?) %>
+
   <div class="pv2-home-hero-v2__stage">
     <div class="pv2-home-hero-v2__left-stack">
       <article class="pv2-home-hero-v2__card">
-        <strong>Devis clair <span>Vite</span></strong>
-        <p>On verifie l'usage, l'exposition, les dimensions et les contraintes avant de chiffrer.</p>
-
-        <div class="pv2-home-hero-v2__actions">
-          <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: public_v2_new_quote_path, variant: :primary, size: :md, shape: :pill, classes: "pv2-home-hero-v2__quote-button", debug: debug?) %>
-        </div>
+        <strong>35 ans d'expérience</strong>
+        <p>Les Artisans du Store dans le Rhône, c'est plus de 35 ans d'expérience à votre service. Nous proposons toute une gamme de produits pour la fermeture et la protection solaire : stores extérieurs et intérieurs, pergostores, pergolas, moustiquaires, volets roulants et battants, portes de garage.</p>
       </article>
 
       <aside class="pv2-home-hero-v2__facts-card" aria-label="Preuves utiles">

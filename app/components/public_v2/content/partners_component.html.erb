@@ -1,6 +1,5 @@
 <section class="<%= component_classes %>" aria-labelledby="public-v2-partners-title" <%= debug_attributes %>>
   <div class="pv2-partners__head">
-    <p class="pv2-partners__kicker">Marques techniques</p>
     <h2 id="public-v2-partners-title"><%= title %></h2>
     <p><%= text %></p>
   </div>
@@ -9,7 +8,6 @@
     <% partners.each do |partner| %>
       <figure class="pv2-partners__item" title="<%= partner[:name] %>" aria-label="<%= partner[:name] %>">
         <%= inline_svg_tag("logos/#{partner[:logo]}", class: "pv2-partners__logo") %>
-        <figcaption><%= partner[:name] %></figcaption>
       </figure>
     <% end %>
   </div>

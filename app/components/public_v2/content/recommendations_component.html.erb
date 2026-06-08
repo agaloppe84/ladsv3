@@ -1,0 +1,23 @@
+<section class="<%= component_classes %>" aria-labelledby="public-v2-recommendations-title" <%= debug_attributes %>>
+  <div class="pv2-recommendations__head">
+    <div>
+      <h2 id="public-v2-recommendations-title">Ils nous recommandent</h2>
+    </div>
+
+    <%= link_to reviews_url, class: "pv2-recommendations__summary", target: "_blank", rel: "noopener", aria: { label: "Voir plus d'avis sur Google Maps" } do %>
+      <%= inline_svg_tag("icons/five-stars-inline.svg", class: "pv2-recommendations__stars") %>
+      <span>Voir plus d'avis</span>
+    <% end %>
+  </div>
+
+  <div class="pv2-recommendations__grid">
+    <% reviews.each do |review| %>
+      <figure class="pv2-recommendations__card">
+        <blockquote><%= review[:quote] %></blockquote>
+        <figcaption>
+          <strong><%= review[:author] %></strong>
+        </figcaption>
+      </figure>
+    <% end %>
+  </div>
+</section>

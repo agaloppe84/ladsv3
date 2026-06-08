@@ -58,7 +58,7 @@ class PublicV2::HomePage
     [
       { value: "48h", label: "Premier retour devis", text: "Un cadrage rapide pour avancer." },
       { value: "200m2", label: "Showroom technique", text: "Comparer toiles, moteurs et finitions." },
-      { value: "Local", label: "Conseil + pose", text: "Une equipe terrain dans le Rhone." }
+      { value: "Local", label: "Conseil + pose", text: "Une équipe terrain dans le Rhône." }
     ]
   end
 
@@ -66,7 +66,7 @@ class PublicV2::HomePage
     [
       { kicker: "01", title: "Cadrer", text: "Produit, exposition, contraintes." },
       { kicker: "02", title: "Comparer", text: "Options utiles, finitions, pose." },
-      { kicker: "03", title: "Chiffrer", text: "Retour clair avant decision." }
+      { kicker: "03", title: "Chiffrer", text: "Retour clair avant décision." }
     ]
   end
 
@@ -80,9 +80,9 @@ class PublicV2::HomePage
 
   def trust_items
     [
-      { value: "35 ans", label: "Experience metier", text: "Des projets suivis localement." },
+      { value: "35 ans", label: "Expérience métier", text: "Des projets suivis localement." },
       { value: "RGE", label: "Expertise visible", text: "Un signal clair de confiance." },
-      { value: "SAV", label: "Suivi apres pose", text: "Une equipe joignable." }
+      { value: "SAV", label: "Suivi après pose", text: "Une équipe joignable." }
     ]
   end
 
