@@ -11,7 +11,7 @@
         <% @product.options.each do |option| %>
           <li class="flex gap-2 items-center">
             <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-orange-400 mr-2"></span>
-            <span><%= option.content %></span>
+            <span><%= helpers.formatted_option_content(option.content) %></span>
           </li>
         <% end %>
       </ul>

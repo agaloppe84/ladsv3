@@ -44,7 +44,26 @@
             method: :patch,
             data: { controller: "autosave-field inline-form", action: autosave_actions },
             class: "flex items-center gap-2" do |f| %>
-            <%= f.text_field :content, value: option.content, data: { action: blur_autosave_action }, class: "w-full rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] px-3 py-2 text-sm text-[var(--g-text)] focus:border-[var(--g-accent-border)] focus:ring-0" %>
+            <div
+              data-controller="option-format"
+              class="flex min-w-0 flex-1 items-center rounded-lg border border-white/[0.09] bg-[var(--g-surface-inset)] focus-within:border-[var(--g-accent-border)]">
+              <%= f.text_field :content,
+                value: option.content,
+                data: {
+                  action: blur_autosave_action,
+                  option_format_target: "input"
+                },
+                class: "min-w-0 flex-1 border-0 bg-transparent px-3 py-2 text-sm text-[var(--g-text)] focus:ring-0" %>
+
+              <button
+                type="button"
+                title="Mettre la sélection en gras"
+                aria-label="Mettre la sélection en gras"
+                data-action="pointerdown->option-format#bold"
+                class="admin-v2-focus mr-1 inline-flex h-7 w-7 items-center justify-center rounded-md border border-white/[0.075] bg-white/[0.035] text-[11px] font-bold text-[var(--g-text)] transition hover:border-[var(--g-accent-border)] hover:bg-[var(--g-accent-soft)]">
+                B
+              </button>
+            </div>
           <% end %>
 
           <%= button_to admin_v2_product_option_path(product, option), method: :delete, title: "Supprimer l’option", class: "admin-v2-focus inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red-300/20 bg-red-300/10 text-[var(--g-red)] transition hover:bg-red-300/15", form: { data: { turbo_stream: true, turbo_confirm: "Supprimer cette option ?" } } do %>

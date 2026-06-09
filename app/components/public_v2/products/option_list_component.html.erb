@@ -19,7 +19,7 @@
       <% option_items.each do |item| %>
         <li>
           <span><%= item[:number] %></span>
-          <p><%= item[:content] %></p>
+          <p><%= helpers.formatted_option_content(item[:content]) %></p>
         </li>
       <% end %>
     </ol>
@@ -28,7 +28,7 @@
       <% option_items.each do |item| %>
         <li>
           <span><%= item[:number] %></span>
-          <p><%= item[:content] %></p>
+          <p><%= helpers.formatted_option_content(item[:content]) %></p>
         </li>
       <% end %>
     </ol>
@@ -55,7 +55,7 @@
             role="tabpanel"
             <%= "hidden" unless active_panel?(index) %>>
             <span><%= item[:number] %></span>
-            <p><%= item[:content] %></p>
+            <p><%= helpers.formatted_option_content(item[:content]) %></p>
           </article>
         <% end %>
       </div>
@@ -71,7 +71,7 @@
         <% option_items.each do |item| %>
           <li>
             <span><%= item[:number] %></span>
-            <p><%= item[:content] %></p>
+            <p><%= helpers.formatted_option_content(item[:content]) %></p>
           </li>
         <% end %>
       </ol>
@@ -81,7 +81,7 @@
       <% option_items.each do |item| %>
         <li>
           <span aria-hidden="true"></span>
-          <p><%= item[:content] %></p>
+          <p><%= helpers.formatted_option_content(item[:content]) %></p>
         </li>
       <% end %>
     </ol>
@@ -96,13 +96,13 @@
             data-option-list-index-param="<%= index %>"
             data-action="option-list#toggle">
             <span><%= item[:number] %></span>
-            <strong><%= truncate(item[:content], length: 54) %></strong>
+            <strong><%= truncate(helpers.option_content_plain_text(item[:content]), length: 54) %></strong>
           </button>
           <p
             data-option-list-target="accordionPanel"
             data-option-list-index="<%= index %>"
             <%= "hidden" unless active_panel?(index) %>>
-            <%= item[:content] %>
+            <%= helpers.formatted_option_content(item[:content]) %>
           </p>
         </li>
       <% end %>

@@ -22,7 +22,7 @@
         <div class="prose prose-sm text-gray-500 px-6">
           <ul role="list">
             <% @product.options.each do |option| %>
-              <li class="text-[12px] text-slate-500"><%= option.content %></li>
+              <li class="text-[12px] text-slate-500"><%= formatted_option_content(option.content) %></li>
             <% end %>
           </ul>
         </div>

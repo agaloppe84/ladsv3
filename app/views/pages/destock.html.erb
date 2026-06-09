@@ -13,7 +13,7 @@
           <p class="text-violet-500 text-[12px] font-medium"><%= "Dimensions: #{product.dimensions}" %></p>
           <ul class="list-disc list-inside text-gray-500 mt-3 text-xs font-medium">
             <% product.options.each do |option| %>
-              <li><%= option.content %></li>
+              <li><%= formatted_option_content(option.content) %></li>
             <% end %>
           </ul>
           <div class="flex items-center mt-4">
