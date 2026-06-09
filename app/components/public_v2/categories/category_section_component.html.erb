@@ -1,4 +1,4 @@
-<%= tag.article id: section.anchor_id, class: component_classes, data: debug_data do %>
+<%= tag.article id: section.anchor_id, class: component_classes, data: with_debug_data(category_scrollspy_target: "section") do %>
   <header class="pv2-category-catalog-section__head">
     <div class="pv2-category-catalog-section__copy">
       <h2><%= section.title %></h2>

@@ -6,14 +6,7 @@
           <span><%= line %></span>
         <% end %>
       </h1>
-      <p><%= category_index_page.hero_text %></p>
     </header>
 
   </div>
-
-  <nav class="pv2-category-anchor-strip" aria-label="Aller a une categorie">
-    <% category_index_page.anchor_items.each do |item| %>
-      <%= link_to item.label, item.href, class: "pv2-category-anchor-strip__item" %>
-    <% end %>
-  </nav>
 <% end %>

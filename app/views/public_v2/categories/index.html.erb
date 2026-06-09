@@ -2,7 +2,33 @@
 <% description "Catalogue Public V2 Les Artisans du Store : tous les produits visibles par catégorie, avec photos, garanties, options et fiches détaillées." %>
 <% keywords "stores, volets roulants, stores interieurs, stores exterieurs, pergolas, moustiquaires, portes de garage, volets battants" %>
 
-<main class="pv2-public-page pv2-public-index grid gap-12">
+<main class="pv2-public-page pv2-public-index grid gap-12" data-controller="category-scrollspy back-to-top">
   <%= render PublicV2::Categories::HeroSectionComponent.new(category_index_page: @category_index_page) %>
+
+  <nav class="pv2-category-anchor-strip pv2-category-anchor-strip--sticky" aria-label="Aller a une categorie" data-category-scrollspy-target="track">
+    <% @category_index_page.anchor_items.each_with_index do |item, index| %>
+      <%= link_to item.label,
+        item.href,
+        class: "pv2-category-anchor-strip__item#{' is-active' if index.zero?}",
+        aria: { current: ("location" if index.zero?) },
+        data: {
+          action: "category-scrollspy#activateFromClick",
+          category_scrollspy_target: "link"
+        } %>
+    <% end %>
+  </nav>
+
   <%= render PublicV2::Categories::ListSectionComponent.new(sections: @category_index_page.sections, category_index_page: @category_index_page) %>
+
+  <button
+    type="button"
+    class="pv2-category-back-to-top"
+    aria-label="Remonter en haut de page"
+    aria-hidden="true"
+    tabindex="-1"
+    data-back-to-top-target="button"
+    data-action="back-to-top#scrollToTop"
+  >
+    <%= inline_svg_tag("icons/chevron-up.svg", class: "pv2-category-back-to-top__icon", aria: { hidden: true }) %>
+  </button>
 </main>

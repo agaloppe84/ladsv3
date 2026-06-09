@@ -1,6 +1,12 @@
 <section class="<%= component_classes %>" aria-labelledby="public-v2-partners-title" <%= debug_attributes %>>
   <div class="pv2-partners__head">
-    <h2 id="public-v2-partners-title"><%= title %></h2>
+    <h2 id="public-v2-partners-title">
+      <% if title == "Nos partenaires" %>
+        Nos <em>partenaires</em>
+      <% else %>
+        <%= title %>
+      <% end %>
+    </h2>
     <p><%= text %></p>
   </div>
 

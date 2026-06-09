@@ -3,7 +3,13 @@
     <div class="pv2-public-footer__hero grid gap-4 min-[1021px]:grid-cols-2">
       <div class="pv2-public-footer__intro grid w-full min-w-0">
         <p class="pv2-public-footer__kicker"><%= eyebrow %></p>
-        <h2><%= title %></h2>
+        <h2>
+          <% if title == "Parlons de votre projet" %>
+            Parlons de votre <em>projet</em>
+          <% else %>
+            <%= title %>
+          <% end %>
+        </h2>
         <p><%= text %></p>
         <div class="pv2-public-footer__actions flex flex-wrap gap-2">
           <%= render PublicV2::Ui::ButtonComponent.new(label: "Demander un devis", path: public_v2_new_quote_path, variant: :primary, size: :md, shape: :pill, classes: "pv2-public-footer__button pv2-public-footer__button--primary", debug: debug?) %>

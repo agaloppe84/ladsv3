@@ -12,7 +12,7 @@ class PublicV2::Categories::ProductCardComponent < ViewComponent::Base
 
   attr_reader :card
 
-  delegate :product, :path, :image, :eyebrow, to: :card
+  delegate :product, :path, :image, to: :card
 
   def component_classes
     component_class_names(
@@ -27,7 +27,7 @@ class PublicV2::Categories::ProductCardComponent < ViewComponent::Base
   end
 
   def description_text
-    helpers.truncate(card.description.to_s.squish, length: 96)
+    card.description.to_s.squish
   end
 
   def link_label
