@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resource :category, only: [:update], controller: "product_categories"
       resource :associations, only: [:update], controller: "product_associations"
       resource :service, only: [:update], controller: "product_services"
+      resource :front_image, path: "front-image", only: [:create, :destroy], controller: "product_front_images"
 
       resources :media_items, path: "media", only: [:create, :destroy], controller: "product_media" do
         get :drawer, on: :collection

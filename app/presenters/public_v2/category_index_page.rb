@@ -23,7 +23,7 @@ class PublicV2::CategoryIndexPage
     end
   end
 
-  ProductCard = Struct.new(:product, :path, :image, :eyebrow, :description, keyword_init: true)
+  ProductCard = Struct.new(:product, :path, :image, :description, keyword_init: true)
   AnchorItem = Struct.new(:anchor_id, :href, :label, :product_count, :accent_role, keyword_init: true)
 
   CATEGORY_CONTENT = {
@@ -181,19 +181,14 @@ class PublicV2::CategoryIndexPage
       ProductCard.new(
         product: product,
         path: product_path_builder.call(product),
-        image: product_placeholder_image,
-        eyebrow: product_eyebrow(product),
+        image: product_front_image_for(product),
         description: product_description(product)
       )
     end
   end
 
-  def product_placeholder_image
-    "public_v2/product-placeholder.png"
-  end
-
-  def product_eyebrow(product)
-    product.manufacturers.map(&:name).to_sentence.presence || "Les Artisans du Store"
+  def product_front_image_for(product)
+    return product.front_image if product.front_image.attached?
   end
 
   def product_description(product)

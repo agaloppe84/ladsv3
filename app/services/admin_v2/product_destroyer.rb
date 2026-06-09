@@ -5,6 +5,7 @@ module AdminV2
     Result = Struct.new(
       :product_id,
       :product_name,
+      :front_image_purged,
       :images_purged,
       :documentations_purged,
       :options_destroyed,
@@ -20,6 +21,7 @@ module AdminV2
     def destroy!
       product_id = product.id
       product_name = product.name
+      front_image_attachments = product.front_image.attached? ? [product.front_image.attachment] : []
       image_attachments = product.images.attachments.includes(:blob).to_a
       documentation_attachments = product.documentations.attachments.includes(:blob).to_a
       color_palettes = product.color_palettes.distinct.to_a
@@ -27,6 +29,7 @@ module AdminV2
       result = Result.new(
         product_id: product_id,
         product_name: product_name,
+        front_image_purged: front_image_attachments.size,
         images_purged: image_attachments.size,
         documentations_purged: documentation_attachments.size,
         options_destroyed: product.options.count,
@@ -34,7 +37,7 @@ module AdminV2
         color_palettes_destroyed: 0
       )
 
-      purge_attachments(image_attachments + documentation_attachments)
+      purge_attachments(front_image_attachments + image_attachments + documentation_attachments)
       product.destroy!
       result.color_palettes_destroyed = destroy_orphan_color_palettes(color_palettes)
       result

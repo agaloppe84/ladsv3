@@ -166,7 +166,7 @@ class AdminV2::ProductsController < AdminV2::BaseController
   end
 
   def product_deleted_message(result)
-    "Product##{result.product_id} deleted images=#{result.images_purged} docs=#{result.documentations_purged} options=#{result.options_destroyed} palettes=#{result.color_palettes_destroyed}"
+    "Product##{result.product_id} deleted front_image=#{result.front_image_purged} images=#{result.images_purged} docs=#{result.documentations_purged} options=#{result.options_destroyed} palettes=#{result.color_palettes_destroyed}"
   end
 
   def products_results_frame_request?

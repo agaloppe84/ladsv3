@@ -1,0 +1,72 @@
+<% upload_input_id = "admin_v2_product_#{product.id}_front_image_upload" %>
+
+<%= render AdminV2::Ui::PanelComponent.new(
+  id: "admin_v2_product_front_image",
+  title: "Image front",
+  subtitle: "Visuel WEBP pour les cards produits Public V2",
+  data: {
+    controller: "upload",
+    upload_create_url_value: admin_v2_product_front_image_path(product),
+    upload_field_value: "product_front_image",
+    upload_max_size_mb_value: AdminV2::UploadPolicy.max_size_mb(:product_front_image),
+    upload_accepted_types_value: AdminV2::UploadPolicy.accept(:product_front_image)
+  }
+) do |panel| %>
+  <% panel.with_actions do %>
+    <span
+      data-upload-target="status"
+      class="hidden h-8 items-center gap-2 rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] px-2.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--g-accent)]">
+      <svg
+        data-upload-target="spinner"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        class="h-3.5 w-3.5 animate-spin"
+        fill="none">
+        <circle class="opacity-20" cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" />
+        <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+      </svg>
+      <span data-upload-target="statusLabel">uploading</span>
+      <span data-upload-target="progress" class="hidden h-1 w-14 overflow-hidden rounded-full bg-white/[0.1]">
+        <span data-upload-target="progressBar" class="block h-full w-2 rounded-full bg-[var(--g-accent)] transition-[width] duration-150"></span>
+      </span>
+    </span>
+
+    <label
+      for="<%= upload_input_id %>"
+      title="Upload WEBP"
+      class="admin-v2-focus inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg border border-[var(--g-accent-border)] bg-[var(--g-accent-soft)] text-[var(--g-accent)] transition hover:bg-[var(--g-accent-hover)]">
+      <span class="sr-only">Upload WEBP</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 16V4" />
+        <path d="m7 9 5-5 5 5" />
+        <path d="M20 16.5v1.75A1.75 1.75 0 0 1 18.25 20H5.75A1.75 1.75 0 0 1 4 18.25V16.5" />
+      </svg>
+    </label>
+  <% end %>
+
+  <input id="<%= upload_input_id %>" type="file" direct_upload="true" accept="<%= AdminV2::UploadPolicy.accept(:product_front_image) %>" class="hidden" data-upload-target="input" data-action="change->upload#upload">
+
+  <% if product.front_image.attached? %>
+    <article class="overflow-hidden rounded-xl border border-white/[0.075] bg-white/[0.035]">
+      <div class="aspect-[4/3] bg-[var(--g-surface-inset)] p-5">
+        <%= cl_image_tag(product.front_image.key, crop: :scale, class: "h-full w-full object-contain") %>
+      </div>
+      <div class="flex items-center justify-between gap-3 px-4 py-3">
+        <div class="min-w-0">
+          <p class="truncate text-[10px] font-semibold text-[var(--g-text)]"><%= product.front_image.blob.filename %></p>
+          <p class="mt-1 text-[9px] text-[var(--g-subtle)]">
+            <%= "#{(product.front_image.blob.byte_size.to_f / 1_000_000.0).round(1)} MB · #{product.front_image.blob.content_type}" %>
+          </p>
+        </div>
+        <%= button_to "×", admin_v2_product_front_image_path(product), method: :delete, class: "admin-v2-focus rounded-md border border-red-300/20 px-2 py-1 text-[11px] font-bold text-[var(--g-red)]", form: { data: { turbo_stream: true } } %>
+      </div>
+    </article>
+  <% else %>
+    <div class="flex min-h-36 items-center justify-center rounded-xl border border-dashed border-white/[0.1] bg-white/[0.025]">
+      <div class="text-center">
+        <p class="text-sm font-medium text-[var(--g-subtle)]">Aucune image front attachée.</p>
+        <p class="mt-1 text-[11px] text-[var(--g-faint)]">Format attendu : WEBP optimisé pour les cards Public V2.</p>
+      </div>
+    </div>
+  <% end %>
+<% end %>

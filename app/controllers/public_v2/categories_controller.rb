@@ -24,7 +24,7 @@ class PublicV2::CategoriesController < PublicV2::BaseController
   def public_category_index_products
     public_products.includes(
       :category,
-      :manufacturers,
+      { front_image_attachment: :blob },
       { images_attachments: :blob }
     )
   end

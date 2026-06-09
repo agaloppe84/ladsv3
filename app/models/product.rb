@@ -7,6 +7,7 @@ class Product < ApplicationRecord
   has_many :color_palettes, -> { distinct }, through: :product_color_parts
   has_and_belongs_to_many :motorists
   has_and_belongs_to_many :manufacturers
+  has_one_attached :front_image
   has_many_attached :images
   has_many_attached :documentations
 
