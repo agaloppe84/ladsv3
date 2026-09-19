@@ -1,12 +1,12 @@
 <footer class="bg-white border-t border-gray-100 w-full">
 
-  <div class="w-full flex px-4 justify-between">
+  <div class="w-full flex flex-col gap-4 px-4 py-4 md:flex-row md:items-center md:justify-between">
     <div class="flex items-center">
       <p class="text-xs leading-6 font-medium text-gray-600 text-center">&copy; 2025 Les artisans du store</p>
     </div>
 
-    <div class="flex justify-center space-x-6">
-      <div class="flex items-center border-x px-3 py-4">
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+      <div class="flex items-center">
         <%= link_to "04 74 01 05 11", "tel:0474010511", class: "text-xs text-gray-500 font-medium hover:underline" %>
       </div>
 
@@ -16,5 +16,10 @@
     </div>
 
   </div>
+
+  <nav aria-label="Informations légales" class="flex flex-wrap gap-x-6 gap-y-3 border-t border-gray-100 px-4 py-4 text-xs font-medium text-gray-600">
+    <%= link_to "Mentions légales", legal_path, class: "hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-500", aria: { current: ("page" if current_page?(legal_path)) } %>
+    <%= link_to "Politique de confidentialité", privacy_path, class: "hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-500", aria: { current: ("page" if current_page?(privacy_path)) } %>
+  </nav>
 
 </footer>

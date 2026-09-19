@@ -100,6 +100,8 @@ Rails.application.routes.draw do
   get 'services', to: 'pages#services'
   get 'destock', to: 'pages#destock'
   get 'contact', to: 'pages#contact'
+  get 'mentions-legales', to: 'pages#legal', as: :legal
+  get 'politique-de-confidentialite', to: 'pages#privacy', as: :privacy
   resources :categories, only: [:index, :show]
   resources :products, only: [:show], path: 'produits', param: :slug do
     member do

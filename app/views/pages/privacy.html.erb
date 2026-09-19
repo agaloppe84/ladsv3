@@ -1,0 +1,129 @@
+<%= render layout: "legal_document", locals: { title: "Politique de confidentialité" } do %>
+  <p>Cette politique décrit l’utilisation des données personnelles lors de votre navigation sur le site et de vos demandes auprès de Les Artisans du Store.</p>
+
+  <nav aria-label="Sommaire de la politique de confidentialité">
+    <ul>
+      <li><a href="#responsable">Responsable du traitement</a></li>
+      <li><a href="#donnees">Données collectées et utilisation</a></li>
+      <li><a href="#destinataires">Destinataires</a></li>
+      <li><a href="#conservation">Conservation</a></li>
+      <li><a href="#navigation">Navigation et services tiers</a></li>
+      <li><a href="#droits">Vos droits</a></li>
+    </ul>
+  </nav>
+
+  <h2 id="responsable" class="scroll-mt-32">Responsable du traitement</h2>
+  <p>
+    LES ARTISANS DU STORE, EURL au capital de 5 000 euros, immatriculée sous le numéro
+    493 711 204 RCS Lyon, dont le siège social est situé au 35 rue des Martinets, 69210 L’Arbresle, France,
+    est responsable des traitements décrits dans cette politique.
+  </p>
+  <p>
+    Pour toute question relative à vos données : <%= mail_to "ads.pascale@lesartisansdustore.com" %>,
+    par courrier à l’adresse du siège ou par téléphone au <%= link_to "04 74 01 05 11", "tel:0474010511" %>.
+  </p>
+
+  <h2 id="donnees" class="scroll-mt-32">Données collectées et utilisation</h2>
+  <h3>Demandes de devis</h3>
+  <p>Le formulaire de devis recueille votre nom, votre adresse électronique, votre téléphone, votre adresse, votre ville, le produit concerné et votre message.</p>
+  <p>
+    Ces informations servent uniquement à étudier votre projet, vous recontacter et préparer votre devis.
+    Le traitement repose sur les mesures précontractuelles prises à votre demande, conformément à l’article 6, paragraphe 1, point b du RGPD.
+    Les champs du formulaire sont obligatoires ; sans ces informations, nous ne pouvons pas traiter votre demande.
+    Aucun fichier joint n’est demandé dans ce formulaire. Merci de ne pas inclure de données sensibles ou sans rapport avec votre projet dans votre message.
+  </p>
+  <h3>Autres demandes</h3>
+  <p>
+    Lorsque vous nous contactez directement, notamment par e-mail ou par téléphone, nous utilisons vos coordonnées et le contenu de votre demande pour vous répondre.
+    Ce traitement repose sur notre intérêt légitime à répondre aux demandes adressées à l’entreprise, conformément à l’article 6, paragraphe 1, point f du RGPD.
+    Les informations transmises pour un devis ne sont pas utilisées pour des campagnes publicitaires ou des newsletters.
+  </p>
+
+  <h2 id="destinataires" class="scroll-mt-32">Destinataires</h2>
+  <p>
+    Les demandes de devis sont enregistrées dans l’administration du site et transmises par e-mail en interne pour leur traitement.
+    Cette notification n’est pas un e-mail automatique adressé au visiteur.
+    Les données sont destinées aux personnes habilitées de LES ARTISANS DU STORE et, dans la mesure nécessaire à leurs missions, aux personnes chargées de la maintenance du site.
+  </p>
+  <p>
+    Les prestataires techniques interviennent pour fournir leurs services : Heroku (groupe Salesforce) pour l’hébergement,
+    Google pour le service d’envoi d’e-mails et Cloudinary pour le stockage et la diffusion des médias du site.
+    Le chargement d’une ressource externe peut transmettre des informations techniques, notamment votre adresse IP, à son fournisseur.
+  </p>
+
+  <h2 id="conservation" class="scroll-mt-32">Conservation</h2>
+  <p>
+    La durée de conservation retenue pour une demande de devis sans suite est de <strong>12 mois à compter du dernier échange relatif à cette demande</strong>.
+    Pour une question générale, cette durée est de 12 mois après sa clôture.
+    Cette règle concerne les demandes enregistrées dans l’administration ainsi que leurs copies dans les messageries.
+    À l’échéance, ces données doivent être supprimées ou rendues anonymes de manière irréversible.
+  </p>
+  <p>
+    Lorsqu’une demande aboutit à un contrat, les informations nécessaires au dossier client sont conservées pour l’exécution du contrat,
+    le suivi des garanties et le respect des obligations légales applicables.
+    Les documents nécessaires à la gestion d’un litige peuvent être conservés pendant la durée nécessaire à la défense des droits de l’entreprise.
+  </p>
+
+  <h2 id="navigation" class="scroll-mt-32">Navigation et services tiers</h2>
+  <p>
+    Des données techniques, telles que l’adresse IP, la date et l’heure des requêtes et des informations sur le navigateur,
+    peuvent être traitées pour assurer le fonctionnement, la maintenance et la sécurité du site.
+    Ces usages reposent sur l’intérêt légitime à fournir et sécuriser le service.
+  </p>
+  <h3>Cookies et contenus intégrés</h3>
+  <p>
+    Le fonctionnement du site peut nécessiter des cookies de session, notamment pour la sécurité des formulaires et l’authentification à l’administration.
+    Le site n’intègre pas Google Analytics.
+  </p>
+  <p>
+    La page de contact intègre une carte Google Maps et le sélecteur de toile intègre Dickson Designer.
+    Ces services sont fournis par des tiers et peuvent traiter des données de navigation ou utiliser des traceurs lors de leur chargement.
+    Des ressources techniques et des images sont également chargées depuis des fournisseurs externes, notamment Cloudinary et JSPM.
+  </p>
+  <p>
+    Pour en savoir plus sur leurs pratiques, consultez les informations de confidentialité de
+    <%= link_to "Google", "https://policies.google.com/privacy?hl=fr" %>,
+    de <%= link_to "Salesforce et Heroku", "https://www.salesforce.com/company/privacy/" %>
+    et de <%= link_to "Cloudinary", "https://cloudinary.com/privacy" %>.
+  </p>
+  <h3>Localisation des traitements</h3>
+  <p>
+    Certains prestataires sont établis hors de l’Espace économique européen et leurs services peuvent impliquer des traitements à l’étranger.
+    L’adresse du siège d’un prestataire ne correspond pas nécessairement au lieu d’hébergement des données.
+    Pour toute question sur les lieux de traitement et les garanties applicables, vous pouvez écrire à
+    <%= mail_to "ads.pascale@lesartisansdustore.com" %>.
+  </p>
+
+  <h2 id="droits" class="scroll-mt-32">Vos droits</h2>
+  <p>
+    Dans les conditions prévues par la réglementation, vous disposez de droits d’accès, de rectification,
+    d’effacement et de limitation du traitement de vos données.
+    Vous pouvez obtenir la portabilité des données que vous avez fournies lorsque le traitement automatisé repose sur le consentement ou sur un contrat, y compris les mesures précontractuelles.
+  </p>
+  <p>
+    Vous pouvez vous opposer, pour des raisons tenant à votre situation particulière, aux traitements fondés sur notre intérêt légitime.
+    Lorsqu’un traitement repose sur le consentement, vous pouvez le retirer à tout moment, sans remettre en cause les traitements déjà réalisés.
+    Vous pouvez également définir des directives relatives au sort de vos données après votre décès, dans les conditions prévues par la loi française.
+  </p>
+  <p>
+    Pour exercer vos droits, écrivez à <%= mail_to "ads.pascale@lesartisansdustore.com" %>
+    ou à LES ARTISANS DU STORE, 35 rue des Martinets, 69210 L’Arbresle,
+    en précisant votre demande et les informations utiles pour retrouver votre dossier.
+    En cas de doute raisonnable sur votre identité, un justificatif approprié pourra être demandé ; l’envoi systématique d’une pièce d’identité n’est pas requis.
+  </p>
+  <p>
+    Nous vous répondons dans un délai d’un mois à compter de la réception de votre demande.
+    Ce délai peut être prolongé de deux mois en cas de complexité ou de demandes nombreuses ; vous en êtes alors informé dans le premier mois.
+    Certains droits peuvent être limités par des obligations légales ou par la nécessité de constater, exercer ou défendre des droits en justice.
+  </p>
+  <p>
+    Vous pouvez introduire une réclamation auprès de la
+    <%= link_to "Commission nationale de l’informatique et des libertés (CNIL)", "https://www.cnil.fr/fr/plaintes" %>,
+    ou par courrier au 3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07.
+  </p>
+
+  <h2>Évolution de cette politique</h2>
+  <p>Cette politique peut évoluer pour refléter les modifications du site et des traitements. En cas de nouvelle utilisation de vos données, l’information nécessaire vous est fournie avant sa mise en œuvre.</p>
+  <p>Version du <time datetime="2026-09-19">19 septembre 2026</time>.</p>
+  <p>Consultez également nos <%= link_to "mentions légales", legal_path %>.</p>
+<% end %>

@@ -18,4 +18,12 @@ class PagesController < ApplicationController
 
   def services
   end
+
+  def legal
+    set_meta_tags title: "Mentions légales"
+  end
+
+  def privacy
+    set_meta_tags title: "Politique de confidentialité"
+  end
 end

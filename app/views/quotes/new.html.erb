@@ -73,7 +73,12 @@
           <div class="mt-2">
             <%= f.button :submit, "Envoyer", class: "w-full" %>
           </div>
-          <p class="mt-2 text-[9px] leading-6 font-semibold text-gray-600 text-center">En soumettant ce formulaire, j'accepte la <small class="font-semibold text-violet-600 text-[9px]">politique de confidentialité</small>.</p>
+          <p class="mt-4 text-xs leading-6 text-gray-600">
+            Les Artisans du Store utilise les informations saisies pour étudier votre projet, vous recontacter et préparer votre devis, sur le fondement des mesures précontractuelles prises à votre demande.
+            Tous les champs sont nécessaires au traitement de votre demande.
+            Pour connaître les destinataires, les durées de conservation et vos droits, consultez notre
+            <%= link_to "politique de confidentialité", privacy_path, class: "font-medium text-violet-700 underline underline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-600" %>.
+          </p>
         <% end %>
 
       </div>

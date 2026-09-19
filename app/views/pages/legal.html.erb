@@ -1,0 +1,47 @@
+<%= render layout: "legal_document", locals: { title: "Mentions légales" } do %>
+  <h2>Éditeur du site</h2>
+  <p>
+    Le site www.lesartisansdustore.com est édité par <strong>LES ARTISANS DU STORE</strong>,
+    société à responsabilité limitée à associé unique (EURL), au capital de 5 000 euros,
+    dont le siège social est situé au 35 rue des Martinets, 69210 L’Arbresle, France.
+  </p>
+  <ul>
+    <li>SIREN : 493 711 204</li>
+    <li>Immatriculation : 493 711 204 RCS Lyon</li>
+    <li>Numéro de TVA intracommunautaire : FR78493711204</li>
+    <li>Téléphone : <%= link_to "04 74 01 05 11", "tel:0474010511" %></li>
+    <li>Adresse électronique : <%= mail_to "ads.pascale@lesartisansdustore.com" %></li>
+  </ul>
+
+  <h2>Direction de la publication</h2>
+  <p>La directrice de la publication est Pascale Muzel Deal, en qualité de gérante de LES ARTISANS DU STORE.</p>
+
+  <h2>Hébergement</h2>
+  <p>Le site est hébergé sur la plateforme Heroku, du groupe Salesforce.</p>
+  <p>
+    Coordonnées publiques de Heroku : Salesforce, 415 Mission Street, Suite 300,
+    San Francisco, CA 94105, États-Unis.<br>
+    Téléphone du siège Salesforce : <%= link_to "+1 415 901 7000", "tel:+14159017000" %>.<br>
+    Site de l’hébergeur : <%= link_to "www.heroku.com", "https://www.heroku.com/" %>.
+  </p>
+
+  <h2>Objet du site</h2>
+  <p>
+    Le site présente les produits et services de LES ARTISANS DU STORE et permet de transmettre une demande de devis.
+    Il ne permet ni de passer commande ni de payer en ligne. L’envoi d’une demande de devis ne constitue pas une commande.
+    Les caractéristiques, prix et conditions de la prestation sont précisés dans les documents remis avant tout engagement contractuel.
+  </p>
+
+  <h2>Réclamations</h2>
+  <p>
+    Pour toute réclamation, vous pouvez écrire à LES ARTISANS DU STORE, 35 rue des Martinets,
+    69210 L’Arbresle, ou à <%= mail_to "ads.pascale@lesartisansdustore.com" %>.
+  </p>
+
+  <h2>Données personnelles</h2>
+  <p>
+    Les informations relatives au traitement de vos données et à l’exercice de vos droits figurent dans notre
+    <%= link_to "politique de confidentialité", privacy_path %>.
+    Pour toute demande concernant vos données, écrivez à <%= mail_to "ads.pascale@lesartisansdustore.com" %>.
+  </p>
+<% end %>
